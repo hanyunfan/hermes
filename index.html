@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>School Calendar Portal</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #f0f2f5;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .container {
+      text-align: center;
+      padding: 2rem;
+    }
+    h1 { font-size: 2rem; color: #1a1a2e; margin-bottom: 0.5rem; }
+    p.sub { color: #666; margin-bottom: 2.5rem; font-size: 1.05rem; }
+    .cards {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .card {
+      background: white;
+      border-radius: 16px;
+      padding: 2rem 2.5rem;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      min-width: 240px;
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.14);
+    }
+    .card h2 { font-size: 1.3rem; margin-bottom: 0.5rem; }
+    .card p { color: #888; font-size: 0.9rem; }
+    .card.espo { border-top: 4px solid #3b82f6; }
+    .card.espo h2 { color: #3b82f6; }
+    .card.spo  { border-top: 4px solid #10b981; }
+    .card.spo  h2 { color: #10b981; }
+    .card.all  { border-top: 4px solid #8b5cf6; }
+    .card.all  h2 { color: #8b5cf6; }
+    footer { margin-top: 3rem; color: #aaa; font-size: 0.8rem; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🏫 School Calendar Portal</h1>
+    <p class="sub">RRISD 2025–2026 Co-Parenting Custody Calendar · Austin, TX</p>
+    <div class="cards">
+      <a class="card espo" href="output/espo-calendar-preview.html">
+        <h2>📘 ESPO Calendar</h2>
+        <p>Extended Standard Possession Order<br/>Dad's alternating schedule</p>
+      </a>
+      <a class="card spo" href="output/spo-calendar-preview.html">
+        <h2>📗 SPO Calendar</h2>
+        <p>Standard Possession Order<br/>Possessory conservator schedule</p>
+      </a>
+      <a class="card all" href="output/custody_school_calendar.html">
+        <h2>📙 Full Calendar</h2>
+        <p>Combined view<br/>ESPO + SPO + school events</p>
+      </a>
+    </div>
+    <footer>
+      District: Round Rock ISD · Texas Family Code §153.310–§153.317<br/>
+      Generated automatically · <a href="https://github.com/hanyunfan/school-calendar-portal">View on GitHub</a>
+    </footer>
+  </div>
+</body>
+</html>
