@@ -3,7 +3,7 @@
   "schoolYears": [
     {
       "year": "2025-2026",
-      "start": "2025-08-18",
+      "start": "2025-08-12",
       "end": "2026-05-21",
       "breaks": {
         "thanksgiving": {
@@ -11,36 +11,36 @@
           "end": "2025-11-28",
           "label": {
             "en": "Thanksgiving Break",
-            "cn": "感恩节假期"
+            "cn": "\u611f\u6069\u8282\u5047\u671f"
           }
         },
         "christmas": {
-          "start": "2025-12-19",
-          "end": "2026-01-05",
+          "start": "2025-12-18",
+          "end": "2026-01-02",
           "label": {
-            "en": "Christmas Break",
-            "cn": "圣诞假期"
+            "en": "Christmas/Winter Break",
+            "cn": "\u5723\u8bde\u5047\u671f"
           }
         },
         "spring": {
-          "start": "2026-03-16",
+          "start": "2026-03-14",
           "end": "2026-03-20",
           "label": {
             "en": "Spring Break",
-            "cn": "春假"
+            "cn": "\u6625\u5047"
           }
         },
         "summer": {
           "start": "2026-05-22",
-          "end": "2026-08-17",
+          "end": "2026-07-31",
           "label": {
             "en": "Summer Break",
-            "cn": "暑假"
+            "cn": "\u6691\u5047"
           }
         },
         "summer_pre_school": {
           "start": "2025-05-22",
-          "end": "2025-08-17",
+          "end": "2025-08-11",
           "label": {
             "en": "Pre-School Summer",
             "cn": ""
@@ -48,83 +48,21 @@
         }
       },
       "noschool_days": [
-        {
-          "date": "2025-09-01",
-          "label": {
-            "en": "Labor Day",
-            "cn": "劳动节"
-          }
-        },
-        {
-          "date": "2025-09-22",
-          "label": {
-            "en": "Rosh Hashanah (Student & Staff Holiday)",
-            "cn": "犹太新年"
-          }
-        },
-        {
-          "date": "2025-09-23",
-          "label": {
-            "en": "Rosh Hashanah (Student & Staff Holiday)",
-            "cn": "犹太新年"
-          }
-        },
-        {
-          "date": "2025-10-13",
-          "label": {
-            "en": "Indigenous Peoples' Day / Columbus Day (Student Holiday)",
-            "cn": "原住民日/哥伦布日"
-          }
-        },
-        {
-          "date": "2025-10-20",
-          "label": {
-            "en": "Diwali (Student & Staff Holiday)",
-            "cn": "排灯节"
-          }
-        },
-        {
-          "date": "2025-11-07",
-          "label": {
-            "en": "Staff Dev / Student Holiday",
-            "cn": "教师培训/学生假日"
-          }
-        },
-        {
-          "date": "2026-01-05",
-          "label": {
-            "en": "Martin Luther King Jr. Day (Student & Staff Holiday)",
-            "cn": "马丁路德金日"
-          }
-        },
-        {
-          "date": "2026-02-16",
-          "label": {
-            "en": "Presidents' Day (Student & Staff Holiday)",
-            "cn": "总统日"
-          }
-        },
-        {
-          "date": "2026-02-17",
-          "label": {
-            "en": "Lunar New Year (Student Holiday/Staff Dev)",
-            "cn": "农历新年"
-          }
-        },
-        {
-          "date": "2026-04-03",
-          "label": {
-            "en": "Good Friday (Student & Staff Holiday)",
-            "cn": "耶稣受难日"
-          }
-        },
-        {
-          "date": "2026-06-19",
-          "label": {
-            "en": "Juneteenth (Student Holiday)",
-            "cn": "六月节"
-          }
-        }
+        {"date": "2025-08-19", "label": {"en": "Student Holiday/Teacher Work Day", "cn": ""}},
+        {"date": "2025-09-01", "label": {"en": "Labor Day", "cn": "\u52b3\u52a8\u8282"}},
+        {"date": "2025-09-22", "label": {"en": "Rosh Hashanah (Student & Staff Holiday)", "cn": ""}},
+        {"date": "2025-09-23", "label": {"en": "Rosh Hashanah (Student & Staff Holiday)", "cn": ""}},
+        {"date": "2025-10-13", "label": {"en": "Indigenous Peoples' Day / Columbus Day (Student Holiday)", "cn": ""}},
+        {"date": "2025-10-22", "label": {"en": "Staff Development Day", "cn": ""}},
+        {"date": "2025-10-23", "label": {"en": "Staff Development Day", "cn": ""}},
+        {"date": "2025-11-07", "label": {"en": "Staff Dev / Student Holiday", "cn": ""}},
+        {"date": "2025-11-17", "label": {"en": "Student Holiday/Staff Dev.", "cn": ""}},
+        {"date": "2026-01-19", "label": {"en": "Martin Luther King Jr. Day (Student & Staff Holiday)", "cn": ""}},
+        {"date": "2026-01-21", "label": {"en": "Last Day Second Semester/Teacher Work Day", "cn": ""}},
+        {"date": "2026-02-16", "label": {"en": "Presidents' Day (Student & Staff Holiday)", "cn": ""}},
+        {"date": "2026-04-07", "label": {"en": "Student Holiday/Staff Dev.", "cn": ""}},
+        {"date": "2026-04-17", "label": {"en": "Student Holiday/Staff Dev.", "cn": ""}},
+        {"date": "2026-05-19", "label": {"en": "Teacher Work Day", "cn": ""}}
       ]
     },
     {
@@ -137,7 +75,7 @@
           "end": "2026-11-27",
           "label": {
             "en": "Thanksgiving Break",
-            "cn": "感恩节假期"
+            "cn": "\u611f\u6069\u8282\u5047\u671f"
           }
         },
         "christmas": {
@@ -145,7 +83,7 @@
           "end": "2027-01-05",
           "label": {
             "en": "Christmas Break",
-            "cn": "圣诞假期"
+            "cn": "\u5723\u8bde\u5047\u671f"
           }
         },
         "spring": {
@@ -153,7 +91,7 @@
           "end": "2027-03-19",
           "label": {
             "en": "Spring Break",
-            "cn": "春假"
+            "cn": "\u6625\u5047"
           }
         },
         "summer": {
@@ -161,173 +99,34 @@
           "end": "2027-08-16",
           "label": {
             "en": "Summer Break",
-            "cn": "暑假"
+            "cn": "\u6691\u5047"
+          }
+        },
+        "summer_pre_school": {
+          "start": "2026-05-22",
+          "end": "2026-08-17",
+          "label": {
+            "en": "Pre-School Summer",
+            "cn": ""
           }
         }
       },
       "noschool_days": [
-        {
-          "date": "2026-09-04",
-          "label": {
-            "en": "Staff Dev / Student Holiday",
-            "cn": "教师培训/学生假日"
-          }
-        },
-        {
-          "date": "2026-09-07",
-          "label": {
-            "en": "Labor Day (Student & Staff Holiday)",
-            "cn": "劳动节"
-          }
-        },
-        {
-          "date": "2026-09-21",
-          "label": {
-            "en": "Yom Kippur (Student Holiday/Staff Dev)",
-            "cn": "赎罪日"
-          }
-        },
-        {
-          "date": "2026-10-12",
-          "label": {
-            "en": "Indigenous Peoples' Day / Columbus Day (Student Holiday)",
-            "cn": "原住民日/哥伦布日"
-          }
-        },
-        {
-          "date": "2026-10-19",
-          "label": {
-            "en": "Student & Staff Holiday",
-            "cn": "学生/教师假日"
-          }
-        },
-        {
-          "date": "2026-11-09",
-          "label": {
-            "en": "Diwali (Student Holiday/Staff Dev)",
-            "cn": "排灯节"
-          }
-        },
-        {
-          "date": "2027-01-18",
-          "label": {
-            "en": "Martin Luther King Jr. Day (Student & Staff Holiday)",
-            "cn": "马丁路德金日"
-          }
-        },
-        {
-          "date": "2027-02-05",
-          "label": {
-            "en": "Lunar New Year (Student Holiday/Staff Dev)",
-            "cn": "农历新年"
-          }
-        },
-        {
-          "date": "2027-02-15",
-          "label": {
-            "en": "Presidents' Day (Student & Staff Holiday)",
-            "cn": "总统日"
-          }
-        },
-        {
-          "date": "2027-03-10",
-          "label": {
-            "en": "Eid al-Fitr (Student Holiday/Staff Dev)",
-            "cn": "开斋节"
-          }
-        },
-        {
-          "date": "2027-03-26",
-          "label": {
-            "en": "Good Friday (Student & Staff Holiday)",
-            "cn": "耶稣受难日"
-          }
-        },
-        {
-          "date": "2027-05-31",
-          "label": {
-            "en": "Memorial Day (Staff Holiday/Student Holiday)",
-            "cn": "阵亡将士纪念日"
-          }
-        },
-        {
-          "date": "2027-06-19",
-          "label": {
-            "en": "Juneteenth (Student Holiday)",
-            "cn": "六月节"
-          }
-        }
+        {"date": "2026-09-04", "label": {"en": "Staff Dev / Student Holiday", "cn": ""}},
+        {"date": "2026-09-07", "label": {"en": "Labor Day (Student & Staff Holiday)", "cn": ""}},
+        {"date": "2026-09-21", "label": {"en": "Yom Kippur (Student Holiday/Staff Dev)", "cn": ""}},
+        {"date": "2026-10-12", "label": {"en": "Indigenous Peoples' Day / Columbus Day (Student Holiday)", "cn": ""}},
+        {"date": "2026-10-19", "label": {"en": "Student & Staff Holiday", "cn": ""}},
+        {"date": "2026-11-09", "label": {"en": "Diwali (Student Holiday/Staff Dev)", "cn": ""}},
+        {"date": "2027-01-18", "label": {"en": "Martin Luther King Jr. Day (Student & Staff Holiday)", "cn": ""}},
+        {"date": "2027-02-15", "label": {"en": "Presidents' Day (Student & Staff Holiday)", "cn": ""}},
+        {"date": "2027-03-10", "label": {"en": "Eid al-Fitr (Student Holiday/Staff Dev)", "cn": ""}},
+        {"date": "2027-03-26", "label": {"en": "Good Friday (Student & Staff Holiday)", "cn": ""}},
+        {"date": "2027-05-31", "label": {"en": "Memorial Day (Staff Holiday/Student Holiday)", "cn": ""}},
+        {"date": "2027-06-19", "label": {"en": "Juneteenth (Student Holiday)", "cn": ""}}
       ]
     }
   ],
   "source": "RRISD official calendar 2025-26 / 2026-27",
-  "collected_at": "2026-04-20T09:05:57.904076",
-  "custody_rules": {
-    "espo": {
-      "weekend": {
-        "pattern": "1st_3rd_5th_friday",
-        "parent": "dad"
-      },
-      "thursday": {
-        "parent": "dad"
-      },
-      "holidays": {
-        "thanksgiving": {
-          "odd_year_parent": "dad",
-          "even_year_parent": "mom"
-        },
-        "christmas": {
-          "split": "first_second_half",
-          "odd_year_parent": "dad",
-          "even_year_parent": "mom",
-          "split_day": 28
-        },
-        "spring_break": {
-          "odd_year_parent": "mom",
-          "even_year_parent": "dad"
-        }
-      },
-      "summer": {
-        "parent": "dad",
-        "default_30_days": "july_1_30"
-      },
-      "noschool_days": {
-        "odd_year_parent": "dad",
-        "even_year_parent": "mom"
-      }
-    },
-    "spo": {
-      "weekend": {
-        "pattern": "1st_3rd_5th_friday",
-        "parent": "dad"
-      },
-      "thursday": {
-        "parent": "dad"
-      },
-      "holidays": {
-        "thanksgiving": {
-          "odd_year_parent": "dad",
-          "even_year_parent": "mom"
-        },
-        "christmas": {
-          "split": "first_second_half",
-          "odd_year_parent": "dad",
-          "even_year_parent": "mom",
-          "split_day": 28
-        },
-        "spring_break": {
-          "odd_year_parent": "mom",
-          "even_year_parent": "dad"
-        }
-      },
-      "summer": {
-        "parent": "dad",
-        "default_30_days": "july_1_30"
-      },
-      "noschool_days": {
-        "odd_year_parent": "dad",
-        "even_year_parent": "mom"
-      }
-    }
-  }
+  "collected_at": "2026-04-20T09:05:57.904076"
 }

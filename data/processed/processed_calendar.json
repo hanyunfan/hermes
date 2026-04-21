@@ -3,7 +3,7 @@
   "schoolYears": [{
     "year": "2025-2026",
     "start": "2025-08-12",
-    "end": "2026-05-25",
+    "end": "2026-05-21",
     "breaks": {
       "thanksgiving": {
         "start": "2025-11-24",
@@ -11,14 +11,19 @@
         "label": {"en": "Thanksgiving Break", "cn": ""}
       },
       "christmas": {
-        "start": "2025-12-19",
+        "start": "2025-12-18",
         "end": "2026-01-02",
         "label": {"en": "Christmas/Winter Break", "cn": ""}
       },
       "spring": {
-        "start": "2026-03-16",
+        "start": "2026-03-14",
         "end": "2026-03-20",
         "label": {"en": "Spring Break", "cn": ""}
+      },
+      "summer": {
+        "start": "2026-05-22",
+        "end": "2026-07-31",
+        "label": {"en": "Summer Break", "cn": ""}
       }
     },
     "noschool_days": [

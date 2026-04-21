@@ -1,5 +1,5 @@
 {
-  "count": 476,
+  "count": 554,
   "intervals": [
     {
       "start": "2023-05-22",
@@ -15,6 +15,12 @@
     },
     {
       "start": "2023-05-26",
+      "end": "2023-05-28",
+      "custodian": "dad",
+      "reason": "weekend"
+    },
+    {
+      "start": "2023-05-29",
       "end": "2023-05-31",
       "custodian": "mom",
       "reason": "default_custody"
@@ -27,12 +33,12 @@
     },
     {
       "start": "2023-06-02",
-      "end": "2023-06-02",
+      "end": "2023-06-04",
       "custodian": "dad",
       "reason": "weekend"
     },
     {
-      "start": "2023-06-03",
+      "start": "2023-06-05",
       "end": "2023-06-07",
       "custodian": "mom",
       "reason": "default_custody"
@@ -45,6 +51,12 @@
     },
     {
       "start": "2023-06-09",
+      "end": "2023-06-11",
+      "custodian": "dad",
+      "reason": "weekend"
+    },
+    {
+      "start": "2023-06-12",
       "end": "2023-06-14",
       "custodian": "mom",
       "reason": "default_custody"
@@ -75,6 +87,12 @@
     },
     {
       "start": "2023-06-23",
+      "end": "2023-06-25",
+      "custodian": "dad",
+      "reason": "weekend"
+    },
+    {
+      "start": "2023-06-26",
       "end": "2023-06-28",
       "custodian": "mom",
       "reason": "default_custody"
@@ -87,12 +105,12 @@
     },
     {
       "start": "2023-06-30",
-      "end": "2023-06-30",
+      "end": "2023-07-02",
       "custodian": "dad",
       "reason": "weekend"
     },
     {
-      "start": "2023-07-01",
+      "start": "2023-07-03",
       "end": "2023-07-05",
       "custodian": "mom",
       "reason": "default_custody"
@@ -105,12 +123,12 @@
     },
     {
       "start": "2023-07-07",
-      "end": "2023-07-07",
+      "end": "2023-07-09",
       "custodian": "dad",
       "reason": "weekend"
     },
     {
-      "start": "2023-07-08",
+      "start": "2023-07-10",
       "end": "2023-07-12",
       "custodian": "mom",
       "reason": "default_custody"
@@ -123,6 +141,12 @@
     },
     {
       "start": "2023-07-14",
+      "end": "2023-07-16",
+      "custodian": "dad",
+      "reason": "weekend"
+    },
+    {
+      "start": "2023-07-17",
       "end": "2023-07-19",
       "custodian": "mom",
       "reason": "default_custody"
@@ -135,12 +159,12 @@
     },
     {
       "start": "2023-07-21",
-      "end": "2023-07-21",
+      "end": "2023-07-23",
       "custodian": "dad",
       "reason": "weekend"
     },
     {
-      "start": "2023-07-22",
+      "start": "2023-07-24",
       "end": "2023-07-26",
       "custodian": "mom",
       "reason": "default_custody"
@@ -153,6 +177,12 @@
     },
     {
       "start": "2023-07-28",
+      "end": "2023-07-30",
+      "custodian": "dad",
+      "reason": "weekend"
+    },
+    {
+      "start": "2023-07-31",
       "end": "2023-08-02",
       "custodian": "mom",
       "reason": "default_custody"
@@ -165,12 +195,12 @@
     },
     {
       "start": "2023-08-04",
-      "end": "2023-08-04",
+      "end": "2023-08-06",
       "custodian": "dad",
       "reason": "weekend"
     },
     {
-      "start": "2023-08-05",
+      "start": "2023-08-07",
       "end": "2023-08-09",
       "custodian": "mom",
       "reason": "default_custody"
@@ -183,6 +213,12 @@
     },
     {
       "start": "2023-08-11",
+      "end": "2023-08-13",
+      "custodian": "dad",
+      "reason": "weekend"
+    },
+    {
+      "start": "2023-08-14",
       "end": "2023-08-16",
       "custodian": "mom",
       "reason": "default_custody"
@@ -195,12 +231,12 @@
     },
     {
       "start": "2023-08-18",
-      "end": "2023-08-18",
+      "end": "2023-08-20",
       "custodian": "dad",
       "reason": "weekend"
     },
     {
-      "start": "2023-08-19",
+      "start": "2023-08-21",
       "end": "2023-08-23",
       "custodian": "mom",
       "reason": "default_custody"
@@ -213,6 +249,12 @@
     },
     {
       "start": "2023-08-25",
+      "end": "2023-08-27",
+      "custodian": "dad",
+      "reason": "weekend"
+    },
+    {
+      "start": "2023-08-28",
       "end": "2023-08-30",
       "custodian": "mom",
       "reason": "default_custody"
@@ -225,12 +267,12 @@
     },
     {
       "start": "2023-09-01",
-      "end": "2023-09-01",
+      "end": "2023-09-03",
       "custodian": "dad",
       "reason": "weekend"
     },
     {
-      "start": "2023-09-02",
+      "start": "2023-09-04",
       "end": "2023-09-06",
       "custodian": "mom",
       "reason": "default_custody"
@@ -243,6 +285,12 @@
     },
     {
       "start": "2023-09-08",
+      "end": "2023-09-10",
+      "custodian": "dad",
+      "reason": "weekend"
+    },
+    {
+      "start": "2023-09-11",
       "end": "2023-09-13",
       "custodian": "mom",
       "reason": "default_custody"
@@ -255,12 +303,12 @@
     },
     {
       "start": "2023-09-15",
-      "end": "2023-09-15",
+      "end": "2023-09-17",
       "custodian": "dad",
       "reason": "weekend"
     },
     {
-      "start": "2023-09-16",
+      "start": "2023-09-18",
       "end": "2023-09-20",
       "custodian": "mom",
       "reason": "default_custody"
@@ -273,6 +321,12 @@
     },
     {
       "start": "2023-09-22",
+      "end": "2023-09-24",
+      "custodian": "dad",
+      "reason": "weekend"
+    },
+    {
+      "start": "2023-09-25",
       "end": "2023-09-27",
       "custodian": "mom",
       "reason": "default_custody"
@@ -285,12 +339,12 @@
     },
     {
       "start": "2023-09-29",
-      "end": "2023-09-29",
+      "end": "2023-10-01",
       "custodian": "dad",
       "reason": "weekend"
     },
     {
-      "start": "2023-09-30",
+      "start": "2023-10-02",
       "end": "2023-10-04",
       "custodian": "mom",
       "reason": "default_custody"
@@ -303,12 +357,12 @@
     },
     {
       "start": "2023-10-06",
-      "end": "2023-10-06",
+      "end": "2023-10-08",
       "custodian": "dad",
       "reason": "weekend"
     },
     {
-      "start": "2023-10-07",
+      "start": "2023-10-09",
       "end": "2023-10-11",
       "custodian": "mom",
       "reason": "default_custody"
@@ -321,6 +375,12 @@
     },
     {
       "start": "2023-10-13",
+      "end": "2023-10-15",
+      "custodian": "dad",
+      "reason": "weekend"
+    },
+    {
+      "start": "2023-10-16",
       "end": "2023-10-18",
       "custodian": "mom",
       "reason": "default_custody"
@@ -333,12 +393,12 @@
     },
     {
       "start": "2023-10-20",
-      "end": "2023-10-20",
+      "end": "2023-10-22",
       "custodian": "dad",
       "reason": "weekend"
     },
     {
-      "start": "2023-10-21",
+      "start": "2023-10-23",
       "end": "2023-10-25",
       "custodian": "mom",
       "reason": "default_custody"
@@ -351,6 +411,12 @@
     },
     {
       "start": "2023-10-27",
+      "end": "2023-10-29",
+      "custodian": "dad",
+      "reason": "weekend"
+    },
+    {
+      "start": "2023-10-30",
       "end": "2023-11-01",
       "custodian": "mom",
       "reason": "default_custody"
@@ -363,12 +429,12 @@
     },
     {
       "start": "2023-11-03",
-      "end": "2023-11-03",
+      "end": "2023-11-05",
       "custodian": "dad",
       "reason": "weekend"
     },
     {
-      "start": "2023-11-04",
+      "start": "2023-11-06",
       "end": "2023-11-08",
       "custodian": "mom",
       "reason": "default_custody"
@@ -381,6 +447,12 @@
     },
     {
       "start": "2023-11-10",
+      "end": "2023-11-12",
+      "custodian": "dad",
+      "reason": "weekend"
+    },
+    {
+      "start": "2023-11-13",
       "end": "2023-11-15",
       "custodian": "mom",
       "reason": "default_custody"
@@ -393,12 +465,12 @@
     },
     {
       "start": "2023-11-17",
-      "end": "2023-11-17",
+      "end": "2023-11-19",
       "custodian": "dad",
       "reason": "weekend"
     },
     {
-      "start": "2023-11-18",
+      "start": "2023-11-20",
       "end": "2023-11-22",
       "custodian": "mom",
       "reason": "default_custody"
@@ -411,6 +483,12 @@
     },
     {
       "start": "2023-11-24",
+      "end": "2023-11-26",
+      "custodian": "dad",
+      "reason": "weekend"
+    },
+    {
+      "start": "2023-11-27",
       "end": "2023-11-29",
       "custodian": "mom",
       "reason": "default_custody"
@@ -423,12 +501,12 @@
     },
     {
       "start": "2023-12-01",
-      "end": "2023-12-01",
+      "end": "2023-12-03",
       "custodian": "dad",
       "reason": "weekend"
     },
     {
-      "start": "2023-12-02",
+      "start": "2023-12-04",
       "end": "2023-12-06",
       "custodian": "mom",
       "reason": "default_custody"
@@ -441,6 +519,12 @@
     },
     {
       "start": "2023-12-08",
+      "end": "2023-12-10",
+      "custodian": "dad",
+      "reason": "weekend"
+    },
+    {
+      "start": "2023-12-11",
       "end": "2023-12-13",
       "custodian": "mom",
       "reason": "default_custody"
@@ -453,12 +537,12 @@
     },
     {
       "start": "2023-12-15",
-      "end": "2023-12-15",
+      "end": "2023-12-17",
       "custodian": "dad",
       "reason": "weekend"
     },
     {
-      "start": "2023-12-16",
+      "start": "2023-12-18",
       "end": "2023-12-20",
       "custodian": "mom",
       "reason": "default_custody"
@@ -471,6 +555,12 @@
     },
     {
       "start": "2023-12-22",
+      "end": "2023-12-24",
+      "custodian": "dad",
+      "reason": "weekend"
+    },
+    {
+      "start": "2023-12-25",
       "end": "2023-12-27",
       "custodian": "mom",
       "reason": "default_custody"
@@ -483,12 +573,12 @@
     },
     {
       "start": "2023-12-29",
-      "end": "2023-12-29",
+      "end": "2023-12-31",
       "custodian": "dad",
       "reason": "weekend"
     },
     {
-      "start": "2023-12-30",
+      "start": "2024-01-01",
       "end": "2024-01-03",
       "custodian": "mom",
       "reason": "default_custody"
@@ -501,12 +591,12 @@
     },
     {
       "start": "2024-01-05",
-      "end": "2024-01-05",
+      "end": "2024-01-07",
       "custodian": "dad",
       "reason": "weekend"
     },
     {
-      "start": "2024-01-06",
+      "start": "2024-01-08",
       "end": "2024-01-10",
       "custodian": "mom",
       "reason": "default_custody"
@@ -519,6 +609,12 @@
     },
     {
       "start": "2024-01-12",
+      "end": "2024-01-14",
+      "custodian": "dad",
+      "reason": "weekend"
+    },
+    {
+      "start": "2024-01-15",
       "end": "2024-01-17",
       "custodian": "mom",
       "reason": "default_custody"
@@ -531,12 +627,12 @@
     },
     {
       "start": "2024-01-19",
-      "end": "2024-01-19",
+      "end": "2024-01-21",
       "custodian": "dad",
       "reason": "weekend"
     },
     {
-      "start": "2024-01-20",
+      "start": "2024-01-22",
       "end": "2024-01-24",
       "custodian": "mom",
       "reason": "default_custody"
@@ -549,6 +645,12 @@
     },
     {
       "start": "2024-01-26",
+      "end": "2024-01-28",
+      "custodian": "dad",
+      "reason": "weekend"
+    },
+    {
+      "start": "2024-01-29",
       "end": "2024-01-31",
       "custodian": "mom",
       "reason": "default_custody"
@@ -561,12 +663,12 @@
     },
     {
       "start": "2024-02-02",
-      "end": "2024-02-02",
+      "end": "2024-02-04",
       "custodian": "dad",
       "reason": "weekend"
     },
     {
-      "start": "2024-02-03",
+      "start": "2024-02-05",
       "end": "2024-02-07",
       "custodian": "mom",
       "reason": "default_custody"
@@ -579,6 +681,12 @@
     },
     {
       "start": "2024-02-09",
+      "end": "2024-02-11",
+      "custodian": "dad",
+      "reason": "weekend"
+    },
+    {
+      "start": "2024-02-12",
       "end": "2024-02-14",
       "custodian": "mom",
       "reason": "default_custody"
@@ -591,12 +699,12 @@
     },
     {
       "start": "2024-02-16",
-      "end": "2024-02-16",
+      "end": "2024-02-18",
       "custodian": "dad",
       "reason": "weekend"
     },
     {
-      "start": "2024-02-17",
+      "start": "2024-02-19",
       "end": "2024-02-21",
       "custodian": "mom",
       "reason": "default_custody"
@@ -609,6 +717,12 @@
     },
     {
       "start": "2024-02-23",
+      "end": "2024-02-25",
+      "custodian": "dad",
+      "reason": "weekend"
+    },
+    {
+      "start": "2024-02-26",
       "end": "2024-02-28",
       "custodian": "mom",
       "reason": "default_custody"
@@ -621,12 +735,12 @@
     },
     {
       "start": "2024-03-01",
-      "end": "2024-03-01",
+      "end": "2024-03-03",
       "custodian": "dad",
       "reason": "weekend"
     },
     {
-      "start": "2024-03-02",
+      "start": "2024-03-04",
       "end": "2024-03-06",
       "custodian": "mom",
       "reason": "default_custody"
@@ -639,6 +753,12 @@
     },
     {
       "start": "2024-03-08",
+      "end": "2024-03-10",
+      "custodian": "dad",
+      "reason": "weekend"
+    },
+    {
+      "start": "2024-03-11",
       "end": "2024-03-13",
       "custodian": "mom",
       "reason": "default_custody"
@@ -651,12 +771,12 @@
     },
     {
       "start": "2024-03-15",
-      "end": "2024-03-15",
+      "end": "2024-03-17",
       "custodian": "dad",
       "reason": "weekend"
     },
     {
-      "start": "2024-03-16",
+      "start": "2024-03-18",
       "end": "2024-03-20",
       "custodian": "mom",
       "reason": "default_custody"
@@ -669,6 +789,12 @@
     },
     {
       "start": "2024-03-22",
+      "end": "2024-03-24",
+      "custodian": "dad",
+      "reason": "weekend"
+    },
+    {
+      "start": "2024-03-25",
       "end": "2024-03-27",
       "custodian": "mom",
       "reason": "default_custody"
@@ -681,12 +807,12 @@
     },
     {
       "start": "2024-03-29",
-      "end": "2024-03-29",
+      "end": "2024-03-31",
       "custodian": "dad",
       "reason": "weekend"
     },
     {
-      "start": "2024-03-30",
+      "start": "2024-04-01",
       "end": "2024-04-03",
       "custodian": "mom",
       "reason": "default_custody"
@@ -699,12 +825,12 @@
     },
     {
       "start": "2024-04-05",
-      "end": "2024-04-05",
+      "end": "2024-04-07",
       "custodian": "dad",
       "reason": "weekend"
     },
     {
-      "start": "2024-04-06",
+      "start": "2024-04-08",
       "end": "2024-04-10",
       "custodian": "mom",
       "reason": "default_custody"
@@ -717,6 +843,12 @@
     },
     {
       "start": "2024-04-12",
+      "end": "2024-04-14",
+      "custodian": "dad",
+      "reason": "weekend"
+    },
+    {
+      "start": "2024-04-15",
       "end": "2024-04-17",
       "custodian": "mom",
       "reason": "default_custody"
@@ -729,12 +861,12 @@
     },
     {
       "start": "2024-04-19",
-      "end": "2024-04-19",
+      "end": "2024-04-21",
       "custodian": "dad",
       "reason": "weekend"
     },
     {
-      "start": "2024-04-20",
+      "start": "2024-04-22",
       "end": "2024-04-24",
       "custodian": "mom",
       "reason": "default_custody"
@@ -747,6 +879,12 @@
     },
     {
       "start": "2024-04-26",
+      "end": "2024-04-28",
+      "custodian": "dad",
+      "reason": "weekend"
+    },
+    {
+      "start": "2024-04-29",
       "end": "2024-05-01",
       "custodian": "mom",
       "reason": "default_custody"
@@ -759,12 +897,12 @@
     },
     {
       "start": "2024-05-03",
-      "end": "2024-05-03",
+      "end": "2024-05-05",
       "custodian": "dad",
       "reason": "weekend"
     },
     {
-      "start": "2024-05-04",
+      "start": "2024-05-06",
       "end": "2024-05-08",
       "custodian": "mom",
       "reason": "default_custody"
@@ -795,12 +933,12 @@
     },
     {
       "start": "2024-05-17",
-      "end": "2024-05-17",
+      "end": "2024-05-19",
       "custodian": "dad",
       "reason": "weekend"
     },
     {
-      "start": "2024-05-18",
+      "start": "2024-05-20",
       "end": "2024-05-22",
       "custodian": "mom",
       "reason": "default_custody"
@@ -813,6 +951,12 @@
     },
     {
       "start": "2024-05-24",
+      "end": "2024-05-26",
+      "custodian": "dad",
+      "reason": "weekend"
+    },
+    {
+      "start": "2024-05-27",
       "end": "2024-05-29",
       "custodian": "mom",
       "reason": "default_custody"
@@ -825,12 +969,12 @@
     },
     {
       "start": "2024-05-31",
-      "end": "2024-05-31",
+      "end": "2024-06-02",
       "custodian": "dad",
       "reason": "weekend"
     },
     {
-      "start": "2024-06-01",
+      "start": "2024-06-03",
       "end": "2024-06-05",
       "custodian": "mom",
       "reason": "default_custody"
@@ -843,12 +987,12 @@
     },
     {
       "start": "2024-06-07",
-      "end": "2024-06-07",
+      "end": "2024-06-09",
       "custodian": "dad",
       "reason": "weekend"
     },
     {
-      "start": "2024-06-08",
+      "start": "2024-06-10",
       "end": "2024-06-12",
       "custodian": "mom",
       "reason": "default_custody"
@@ -879,12 +1023,12 @@
     },
     {
       "start": "2024-06-21",
-      "end": "2024-06-21",
+      "end": "2024-06-23",
       "custodian": "dad",
       "reason": "weekend"
     },
     {
-      "start": "2024-06-22",
+      "start": "2024-06-24",
       "end": "2024-06-26",
       "custodian": "mom",
       "reason": "default_custody"
@@ -897,6 +1041,12 @@
     },
     {
       "start": "2024-06-28",
+      "end": "2024-06-30",
+      "custodian": "dad",
+      "reason": "weekend"
+    },
+    {
+      "start": "2024-07-01",
       "end": "2024-07-03",
       "custodian": "mom",
       "reason": "default_custody"
@@ -909,12 +1059,12 @@
     },
     {
       "start": "2024-07-05",
-      "end": "2024-07-05",
+      "end": "2024-07-07",
       "custodian": "dad",
       "reason": "weekend"
     },
     {
-      "start": "2024-07-06",
+      "start": "2024-07-08",
       "end": "2024-07-10",
       "custodian": "mom",
       "reason": "default_custody"
@@ -927,6 +1077,12 @@
     },
     {
       "start": "2024-07-12",
+      "end": "2024-07-14",
+      "custodian": "dad",
+      "reason": "weekend"
+    },
+    {
+      "start": "2024-07-15",
       "end": "2024-07-17",
       "custodian": "mom",
       "reason": "default_custody"
@@ -939,12 +1095,12 @@
     },
     {
       "start": "2024-07-19",
-      "end": "2024-07-19",
+      "end": "2024-07-21",
       "custodian": "dad",
       "reason": "weekend"
     },
     {
-      "start": "2024-07-20",
+      "start": "2024-07-22",
       "end": "2024-07-24",
       "custodian": "mom",
       "reason": "default_custody"
@@ -957,6 +1113,12 @@
     },
     {
       "start": "2024-07-26",
+      "end": "2024-07-28",
+      "custodian": "dad",
+      "reason": "weekend"
+    },
+    {
+      "start": "2024-07-29",
       "end": "2024-07-31",
       "custodian": "mom",
       "reason": "default_custody"
@@ -969,12 +1131,12 @@
     },
     {
       "start": "2024-08-02",
-      "end": "2024-08-02",
+      "end": "2024-08-04",
       "custodian": "dad",
       "reason": "weekend"
     },
     {
-      "start": "2024-08-03",
+      "start": "2024-08-05",
       "end": "2024-08-07",
       "custodian": "mom",
       "reason": "default_custody"
@@ -987,6 +1149,12 @@
     },
     {
       "start": "2024-08-09",
+      "end": "2024-08-11",
+      "custodian": "dad",
+      "reason": "weekend"
+    },
+    {
+      "start": "2024-08-12",
       "end": "2024-08-14",
       "custodian": "mom",
       "reason": "default_custody"
@@ -999,12 +1167,12 @@
     },
     {
       "start": "2024-08-16",
-      "end": "2024-08-16",
+      "end": "2024-08-18",
       "custodian": "dad",
       "reason": "weekend"
     },
     {
-      "start": "2024-08-17",
+      "start": "2024-08-19",
       "end": "2024-08-21",
       "custodian": "mom",
       "reason": "default_custody"
@@ -1017,6 +1185,12 @@
     },
     {
       "start": "2024-08-23",
+      "end": "2024-08-25",
+      "custodian": "dad",
+      "reason": "weekend"
+    },
+    {
+      "start": "2024-08-26",
       "end": "2024-08-28",
       "custodian": "mom",
       "reason": "default_custody"
@@ -1029,12 +1203,12 @@
     },
     {
       "start": "2024-08-30",
-      "end": "2024-08-30",
+      "end": "2024-09-01",
       "custodian": "dad",
       "reason": "weekend"
     },
     {
-      "start": "2024-08-31",
+      "start": "2024-09-02",
       "end": "2024-09-04",
       "custodian": "mom",
       "reason": "default_custody"
@@ -1047,12 +1221,12 @@
     },
     {
       "start": "2024-09-06",
-      "end": "2024-09-06",
+      "end": "2024-09-08",
       "custodian": "dad",
       "reason": "weekend"
     },
     {
-      "start": "2024-09-07",
+      "start": "2024-09-09",
       "end": "2024-09-11",
       "custodian": "mom",
       "reason": "default_custody"
@@ -1065,6 +1239,12 @@
     },
     {
       "start": "2024-09-13",
+      "end": "2024-09-15",
+      "custodian": "dad",
+      "reason": "weekend"
+    },
+    {
+      "start": "2024-09-16",
       "end": "2024-09-18",
       "custodian": "mom",
       "reason": "default_custody"
@@ -1077,12 +1257,12 @@
     },
     {
       "start": "2024-09-20",
-      "end": "2024-09-20",
+      "end": "2024-09-22",
       "custodian": "dad",
       "reason": "weekend"
     },
     {
-      "start": "2024-09-21",
+      "start": "2024-09-23",
       "end": "2024-09-25",
       "custodian": "mom",
       "reason": "default_custody"
@@ -1095,6 +1275,12 @@
     },
     {
       "start": "2024-09-27",
+      "end": "2024-09-29",
+      "custodian": "dad",
+      "reason": "weekend"
+    },
+    {
+      "start": "2024-09-30",
       "end": "2024-10-02",
       "custodian": "mom",
       "reason": "default_custody"
@@ -1107,12 +1293,12 @@
     },
     {
       "start": "2024-10-04",
-      "end": "2024-10-04",
+      "end": "2024-10-06",
       "custodian": "dad",
       "reason": "weekend"
     },
     {
-      "start": "2024-10-05",
+      "start": "2024-10-07",
       "end": "2024-10-09",
       "custodian": "mom",
       "reason": "default_custody"
@@ -1125,6 +1311,12 @@
     },
     {
       "start": "2024-10-11",
+      "end": "2024-10-13",
+      "custodian": "dad",
+      "reason": "weekend"
+    },
+    {
+      "start": "2024-10-14",
       "end": "2024-10-16",
       "custodian": "mom",
       "reason": "default_custody"
@@ -1137,12 +1329,12 @@
     },
     {
       "start": "2024-10-18",
-      "end": "2024-10-18",
+      "end": "2024-10-20",
       "custodian": "dad",
       "reason": "weekend"
     },
     {
-      "start": "2024-10-19",
+      "start": "2024-10-21",
       "end": "2024-10-23",
       "custodian": "mom",
       "reason": "default_custody"
@@ -1155,6 +1347,12 @@
     },
     {
       "start": "2024-10-25",
+      "end": "2024-10-27",
+      "custodian": "dad",
+      "reason": "weekend"
+    },
+    {
+      "start": "2024-10-28",
       "end": "2024-10-30",
       "custodian": "mom",
       "reason": "default_custody"
@@ -1167,12 +1365,12 @@
     },
     {
       "start": "2024-11-01",
-      "end": "2024-11-01",
+      "end": "2024-11-03",
       "custodian": "dad",
       "reason": "weekend"
     },
     {
-      "start": "2024-11-02",
+      "start": "2024-11-04",
       "end": "2024-11-06",
       "custodian": "mom",
       "reason": "default_custody"
@@ -1185,6 +1383,12 @@
     },
     {
       "start": "2024-11-08",
+      "end": "2024-11-10",
+      "custodian": "dad",
+      "reason": "weekend"
+    },
+    {
+      "start": "2024-11-11",
       "end": "2024-11-13",
       "custodian": "mom",
       "reason": "default_custody"
@@ -1197,12 +1401,12 @@
     },
     {
       "start": "2024-11-15",
-      "end": "2024-11-15",
+      "end": "2024-11-17",
       "custodian": "dad",
       "reason": "weekend"
     },
     {
-      "start": "2024-11-16",
+      "start": "2024-11-18",
       "end": "2024-11-20",
       "custodian": "mom",
       "reason": "default_custody"
@@ -1215,6 +1419,12 @@
     },
     {
       "start": "2024-11-22",
+      "end": "2024-11-24",
+      "custodian": "dad",
+      "reason": "weekend"
+    },
+    {
+      "start": "2024-11-25",
       "end": "2024-11-27",
       "custodian": "mom",
       "reason": "default_custody"
@@ -1227,12 +1437,12 @@
     },
     {
       "start": "2024-11-29",
-      "end": "2024-11-29",
+      "end": "2024-12-01",
       "custodian": "dad",
       "reason": "weekend"
     },
     {
-      "start": "2024-11-30",
+      "start": "2024-12-02",
       "end": "2024-12-04",
       "custodian": "mom",
       "reason": "default_custody"
@@ -1245,12 +1455,12 @@
     },
     {
       "start": "2024-12-06",
-      "end": "2024-12-06",
+      "end": "2024-12-08",
       "custodian": "dad",
       "reason": "weekend"
     },
     {
-      "start": "2024-12-07",
+      "start": "2024-12-09",
       "end": "2024-12-11",
       "custodian": "mom",
       "reason": "default_custody"
@@ -1263,6 +1473,12 @@
     },
     {
       "start": "2024-12-13",
+      "end": "2024-12-15",
+      "custodian": "dad",
+      "reason": "weekend"
+    },
+    {
+      "start": "2024-12-16",
       "end": "2024-12-18",
       "custodian": "mom",
       "reason": "default_custody"
@@ -1275,12 +1491,12 @@
     },
     {
       "start": "2024-12-20",
-      "end": "2024-12-20",
+      "end": "2024-12-22",
       "custodian": "dad",
       "reason": "weekend"
     },
     {
-      "start": "2024-12-21",
+      "start": "2024-12-23",
       "end": "2024-12-25",
       "custodian": "mom",
       "reason": "default_custody"
@@ -1293,6 +1509,12 @@
     },
     {
       "start": "2024-12-27",
+      "end": "2024-12-29",
+      "custodian": "dad",
+      "reason": "weekend"
+    },
+    {
+      "start": "2024-12-30",
       "end": "2025-01-01",
       "custodian": "mom",
       "reason": "default_custody"
@@ -1305,12 +1527,12 @@
     },
     {
       "start": "2025-01-03",
-      "end": "2025-01-03",
+      "end": "2025-01-05",
       "custodian": "dad",
       "reason": "weekend"
     },
     {
-      "start": "2025-01-04",
+      "start": "2025-01-06",
       "end": "2025-01-08",
       "custodian": "mom",
       "reason": "default_custody"
@@ -1323,6 +1545,12 @@
     },
     {
       "start": "2025-01-10",
+      "end": "2025-01-12",
+      "custodian": "dad",
+      "reason": "weekend"
+    },
+    {
+      "start": "2025-01-13",
       "end": "2025-01-15",
       "custodian": "mom",
       "reason": "default_custody"
@@ -1335,12 +1563,12 @@
     },
     {
       "start": "2025-01-17",
-      "end": "2025-01-17",
+      "end": "2025-01-19",
       "custodian": "dad",
       "reason": "weekend"
     },
     {
-      "start": "2025-01-18",
+      "start": "2025-01-20",
       "end": "2025-01-22",
       "custodian": "mom",
       "reason": "default_custody"
@@ -1353,6 +1581,12 @@
     },
     {
       "start": "2025-01-24",
+      "end": "2025-01-26",
+      "custodian": "dad",
+      "reason": "weekend"
+    },
+    {
+      "start": "2025-01-27",
       "end": "2025-01-29",
       "custodian": "mom",
       "reason": "default_custody"
@@ -1365,12 +1599,12 @@
     },
     {
       "start": "2025-01-31",
-      "end": "2025-01-31",
+      "end": "2025-02-02",
       "custodian": "dad",
       "reason": "weekend"
     },
     {
-      "start": "2025-02-01",
+      "start": "2025-02-03",
       "end": "2025-02-05",
       "custodian": "mom",
       "reason": "default_custody"
@@ -1383,12 +1617,12 @@
     },
     {
       "start": "2025-02-07",
-      "end": "2025-02-07",
+      "end": "2025-02-09",
       "custodian": "dad",
       "reason": "weekend"
     },
     {
-      "start": "2025-02-08",
+      "start": "2025-02-10",
       "end": "2025-02-12",
       "custodian": "mom",
       "reason": "default_custody"
@@ -1401,6 +1635,12 @@
     },
     {
       "start": "2025-02-14",
+      "end": "2025-02-16",
+      "custodian": "dad",
+      "reason": "weekend"
+    },
+    {
+      "start": "2025-02-17",
       "end": "2025-02-19",
       "custodian": "mom",
       "reason": "default_custody"
@@ -1413,12 +1653,12 @@
     },
     {
       "start": "2025-02-21",
-      "end": "2025-02-21",
+      "end": "2025-02-23",
       "custodian": "dad",
       "reason": "weekend"
     },
     {
-      "start": "2025-02-22",
+      "start": "2025-02-24",
       "end": "2025-02-26",
       "custodian": "mom",
       "reason": "default_custody"
@@ -1431,6 +1671,12 @@
     },
     {
       "start": "2025-02-28",
+      "end": "2025-03-02",
+      "custodian": "dad",
+      "reason": "weekend"
+    },
+    {
+      "start": "2025-03-03",
       "end": "2025-03-05",
       "custodian": "mom",
       "reason": "default_custody"
@@ -1443,12 +1689,12 @@
     },
     {
       "start": "2025-03-07",
-      "end": "2025-03-07",
+      "end": "2025-03-09",
       "custodian": "dad",
       "reason": "weekend"
     },
     {
-      "start": "2025-03-08",
+      "start": "2025-03-10",
       "end": "2025-03-12",
       "custodian": "mom",
       "reason": "default_custody"
@@ -1461,6 +1707,12 @@
     },
     {
       "start": "2025-03-14",
+      "end": "2025-03-16",
+      "custodian": "dad",
+      "reason": "weekend"
+    },
+    {
+      "start": "2025-03-17",
       "end": "2025-03-19",
       "custodian": "mom",
       "reason": "default_custody"
@@ -1473,12 +1725,12 @@
     },
     {
       "start": "2025-03-21",
-      "end": "2025-03-21",
+      "end": "2025-03-23",
       "custodian": "dad",
       "reason": "weekend"
     },
     {
-      "start": "2025-03-22",
+      "start": "2025-03-24",
       "end": "2025-03-26",
       "custodian": "mom",
       "reason": "default_custody"
@@ -1491,6 +1743,12 @@
     },
     {
       "start": "2025-03-28",
+      "end": "2025-03-30",
+      "custodian": "dad",
+      "reason": "weekend"
+    },
+    {
+      "start": "2025-03-31",
       "end": "2025-04-02",
       "custodian": "mom",
       "reason": "default_custody"
@@ -1503,12 +1761,12 @@
     },
     {
       "start": "2025-04-04",
-      "end": "2025-04-04",
+      "end": "2025-04-06",
       "custodian": "dad",
       "reason": "weekend"
     },
     {
-      "start": "2025-04-05",
+      "start": "2025-04-07",
       "end": "2025-04-09",
       "custodian": "mom",
       "reason": "default_custody"
@@ -1521,6 +1779,12 @@
     },
     {
       "start": "2025-04-11",
+      "end": "2025-04-13",
+      "custodian": "dad",
+      "reason": "weekend"
+    },
+    {
+      "start": "2025-04-14",
       "end": "2025-04-16",
       "custodian": "mom",
       "reason": "default_custody"
@@ -1533,12 +1797,12 @@
     },
     {
       "start": "2025-04-18",
-      "end": "2025-04-18",
+      "end": "2025-04-20",
       "custodian": "dad",
       "reason": "weekend"
     },
     {
-      "start": "2025-04-19",
+      "start": "2025-04-21",
       "end": "2025-04-23",
       "custodian": "mom",
       "reason": "default_custody"
@@ -1551,6 +1815,12 @@
     },
     {
       "start": "2025-04-25",
+      "end": "2025-04-27",
+      "custodian": "dad",
+      "reason": "weekend"
+    },
+    {
+      "start": "2025-04-28",
       "end": "2025-04-30",
       "custodian": "mom",
       "reason": "default_custody"
@@ -1563,12 +1833,12 @@
     },
     {
       "start": "2025-05-02",
-      "end": "2025-05-02",
+      "end": "2025-05-04",
       "custodian": "dad",
       "reason": "weekend"
     },
     {
-      "start": "2025-05-03",
+      "start": "2025-05-05",
       "end": "2025-05-07",
       "custodian": "mom",
       "reason": "default_custody"
@@ -1599,15 +1869,21 @@
     },
     {
       "start": "2025-05-16",
-      "end": "2025-05-16",
+      "end": "2025-05-18",
       "custodian": "dad",
       "reason": "weekend"
     },
     {
-      "start": "2025-05-17",
-      "end": "2025-05-21",
+      "start": "2025-05-19",
+      "end": "2025-05-20",
       "custodian": "mom",
       "reason": "default_custody"
+    },
+    {
+      "start": "2025-05-21",
+      "end": "2025-05-21",
+      "custodian": "mom",
+      "reason": "summer_pre_school"
     },
     {
       "start": "2025-05-22",
@@ -1635,9 +1911,27 @@
     },
     {
       "start": "2025-07-31",
-      "end": "2025-08-17",
+      "end": "2025-08-11",
       "custodian": "mom",
       "reason": "summer_remainder"
+    },
+    {
+      "start": "2025-08-12",
+      "end": "2025-08-13",
+      "custodian": "mom",
+      "reason": "default_custody"
+    },
+    {
+      "start": "2025-08-14",
+      "end": "2025-08-14",
+      "custodian": "dad",
+      "reason": "thursday"
+    },
+    {
+      "start": "2025-08-15",
+      "end": "2025-08-17",
+      "custodian": "dad",
+      "reason": "weekend"
     },
     {
       "start": "2025-08-18",
@@ -1653,6 +1947,12 @@
     },
     {
       "start": "2025-08-22",
+      "end": "2025-08-24",
+      "custodian": "dad",
+      "reason": "weekend"
+    },
+    {
+      "start": "2025-08-25",
       "end": "2025-08-27",
       "custodian": "mom",
       "reason": "default_custody"
@@ -1665,12 +1965,12 @@
     },
     {
       "start": "2025-08-29",
-      "end": "2025-08-29",
+      "end": "2025-08-31",
       "custodian": "dad",
       "reason": "weekend"
     },
     {
-      "start": "2025-08-30",
+      "start": "2025-09-01",
       "end": "2025-09-03",
       "custodian": "mom",
       "reason": "default_custody"
@@ -1683,12 +1983,12 @@
     },
     {
       "start": "2025-09-05",
-      "end": "2025-09-05",
+      "end": "2025-09-07",
       "custodian": "dad",
       "reason": "weekend"
     },
     {
-      "start": "2025-09-06",
+      "start": "2025-09-08",
       "end": "2025-09-10",
       "custodian": "mom",
       "reason": "default_custody"
@@ -1701,6 +2001,12 @@
     },
     {
       "start": "2025-09-12",
+      "end": "2025-09-14",
+      "custodian": "dad",
+      "reason": "weekend"
+    },
+    {
+      "start": "2025-09-15",
       "end": "2025-09-17",
       "custodian": "mom",
       "reason": "default_custody"
@@ -1713,12 +2019,12 @@
     },
     {
       "start": "2025-09-19",
-      "end": "2025-09-19",
+      "end": "2025-09-21",
       "custodian": "dad",
       "reason": "weekend"
     },
     {
-      "start": "2025-09-20",
+      "start": "2025-09-22",
       "end": "2025-09-24",
       "custodian": "mom",
       "reason": "default_custody"
@@ -1731,6 +2037,12 @@
     },
     {
       "start": "2025-09-26",
+      "end": "2025-09-28",
+      "custodian": "dad",
+      "reason": "weekend"
+    },
+    {
+      "start": "2025-09-29",
       "end": "2025-10-01",
       "custodian": "mom",
       "reason": "default_custody"
@@ -1743,12 +2055,12 @@
     },
     {
       "start": "2025-10-03",
-      "end": "2025-10-03",
+      "end": "2025-10-05",
       "custodian": "dad",
       "reason": "weekend"
     },
     {
-      "start": "2025-10-04",
+      "start": "2025-10-06",
       "end": "2025-10-08",
       "custodian": "mom",
       "reason": "default_custody"
@@ -1761,6 +2073,12 @@
     },
     {
       "start": "2025-10-10",
+      "end": "2025-10-12",
+      "custodian": "dad",
+      "reason": "weekend"
+    },
+    {
+      "start": "2025-10-13",
       "end": "2025-10-15",
       "custodian": "mom",
       "reason": "default_custody"
@@ -1773,12 +2091,12 @@
     },
     {
       "start": "2025-10-17",
-      "end": "2025-10-17",
+      "end": "2025-10-19",
       "custodian": "dad",
       "reason": "weekend"
     },
     {
-      "start": "2025-10-18",
+      "start": "2025-10-20",
       "end": "2025-10-22",
       "custodian": "mom",
       "reason": "default_custody"
@@ -1791,6 +2109,12 @@
     },
     {
       "start": "2025-10-24",
+      "end": "2025-10-26",
+      "custodian": "dad",
+      "reason": "weekend"
+    },
+    {
+      "start": "2025-10-27",
       "end": "2025-10-29",
       "custodian": "mom",
       "reason": "default_custody"
@@ -1803,12 +2127,12 @@
     },
     {
       "start": "2025-10-31",
-      "end": "2025-10-31",
+      "end": "2025-11-02",
       "custodian": "dad",
       "reason": "weekend"
     },
     {
-      "start": "2025-11-01",
+      "start": "2025-11-03",
       "end": "2025-11-05",
       "custodian": "mom",
       "reason": "default_custody"
@@ -1821,12 +2145,12 @@
     },
     {
       "start": "2025-11-07",
-      "end": "2025-11-07",
+      "end": "2025-11-09",
       "custodian": "dad",
       "reason": "weekend"
     },
     {
-      "start": "2025-11-08",
+      "start": "2025-11-10",
       "end": "2025-11-12",
       "custodian": "mom",
       "reason": "default_custody"
@@ -1839,6 +2163,12 @@
     },
     {
       "start": "2025-11-14",
+      "end": "2025-11-16",
+      "custodian": "dad",
+      "reason": "weekend"
+    },
+    {
+      "start": "2025-11-17",
       "end": "2025-11-19",
       "custodian": "mom",
       "reason": "default_custody"
@@ -1853,13 +2183,13 @@
       "start": "2025-11-21",
       "end": "2025-11-21",
       "custodian": "dad",
-      "reason": "weekend"
+      "reason": "thanksgiving"
     },
     {
       "start": "2025-11-22",
       "end": "2025-11-23",
-      "custodian": "mom",
-      "reason": "default_custody"
+      "custodian": "dad",
+      "reason": "weekend"
     },
     {
       "start": "2025-11-24",
@@ -1869,6 +2199,12 @@
     },
     {
       "start": "2025-11-29",
+      "end": "2025-11-30",
+      "custodian": "dad",
+      "reason": "weekend"
+    },
+    {
+      "start": "2025-12-01",
       "end": "2025-12-03",
       "custodian": "mom",
       "reason": "default_custody"
@@ -1881,12 +2217,12 @@
     },
     {
       "start": "2025-12-05",
-      "end": "2025-12-05",
+      "end": "2025-12-07",
       "custodian": "dad",
       "reason": "weekend"
     },
     {
-      "start": "2025-12-06",
+      "start": "2025-12-08",
       "end": "2025-12-10",
       "custodian": "mom",
       "reason": "default_custody"
@@ -1899,18 +2235,18 @@
     },
     {
       "start": "2025-12-12",
-      "end": "2025-12-17",
+      "end": "2025-12-14",
+      "custodian": "dad",
+      "reason": "weekend"
+    },
+    {
+      "start": "2025-12-15",
+      "end": "2025-12-16",
       "custodian": "mom",
       "reason": "default_custody"
     },
     {
-      "start": "2025-12-18",
-      "end": "2025-12-18",
-      "custodian": "dad",
-      "reason": "thursday"
-    },
-    {
-      "start": "2025-12-19",
+      "start": "2025-12-17",
       "end": "2025-12-28",
       "custodian": "dad",
       "reason": "christmas_first_half"
@@ -1923,12 +2259,18 @@
     },
     {
       "start": "2026-01-01",
-      "end": "2026-01-05",
+      "end": "2026-01-02",
       "custodian": "dad",
       "reason": "christmas_second_half"
     },
     {
-      "start": "2026-01-06",
+      "start": "2026-01-03",
+      "end": "2026-01-04",
+      "custodian": "dad",
+      "reason": "weekend"
+    },
+    {
+      "start": "2026-01-05",
       "end": "2026-01-07",
       "custodian": "mom",
       "reason": "default_custody"
@@ -1941,6 +2283,12 @@
     },
     {
       "start": "2026-01-09",
+      "end": "2026-01-11",
+      "custodian": "dad",
+      "reason": "weekend"
+    },
+    {
+      "start": "2026-01-12",
       "end": "2026-01-14",
       "custodian": "mom",
       "reason": "default_custody"
@@ -1953,12 +2301,12 @@
     },
     {
       "start": "2026-01-16",
-      "end": "2026-01-16",
+      "end": "2026-01-18",
       "custodian": "dad",
       "reason": "weekend"
     },
     {
-      "start": "2026-01-17",
+      "start": "2026-01-19",
       "end": "2026-01-21",
       "custodian": "mom",
       "reason": "default_custody"
@@ -1971,6 +2319,12 @@
     },
     {
       "start": "2026-01-23",
+      "end": "2026-01-25",
+      "custodian": "dad",
+      "reason": "weekend"
+    },
+    {
+      "start": "2026-01-26",
       "end": "2026-01-28",
       "custodian": "mom",
       "reason": "default_custody"
@@ -1983,12 +2337,12 @@
     },
     {
       "start": "2026-01-30",
-      "end": "2026-01-30",
+      "end": "2026-02-01",
       "custodian": "dad",
       "reason": "weekend"
     },
     {
-      "start": "2026-01-31",
+      "start": "2026-02-02",
       "end": "2026-02-04",
       "custodian": "mom",
       "reason": "default_custody"
@@ -2001,12 +2355,12 @@
     },
     {
       "start": "2026-02-06",
-      "end": "2026-02-06",
+      "end": "2026-02-08",
       "custodian": "dad",
       "reason": "weekend"
     },
     {
-      "start": "2026-02-07",
+      "start": "2026-02-09",
       "end": "2026-02-11",
       "custodian": "mom",
       "reason": "default_custody"
@@ -2019,6 +2373,12 @@
     },
     {
       "start": "2026-02-13",
+      "end": "2026-02-15",
+      "custodian": "dad",
+      "reason": "weekend"
+    },
+    {
+      "start": "2026-02-16",
       "end": "2026-02-18",
       "custodian": "mom",
       "reason": "default_custody"
@@ -2031,12 +2391,12 @@
     },
     {
       "start": "2026-02-20",
-      "end": "2026-02-20",
+      "end": "2026-02-22",
       "custodian": "dad",
       "reason": "weekend"
     },
     {
-      "start": "2026-02-21",
+      "start": "2026-02-23",
       "end": "2026-02-25",
       "custodian": "mom",
       "reason": "default_custody"
@@ -2049,6 +2409,12 @@
     },
     {
       "start": "2026-02-27",
+      "end": "2026-03-01",
+      "custodian": "dad",
+      "reason": "weekend"
+    },
+    {
+      "start": "2026-03-02",
       "end": "2026-03-04",
       "custodian": "mom",
       "reason": "default_custody"
@@ -2061,12 +2427,12 @@
     },
     {
       "start": "2026-03-06",
-      "end": "2026-03-06",
+      "end": "2026-03-08",
       "custodian": "dad",
       "reason": "weekend"
     },
     {
-      "start": "2026-03-07",
+      "start": "2026-03-09",
       "end": "2026-03-11",
       "custodian": "mom",
       "reason": "default_custody"
@@ -2079,18 +2445,18 @@
     },
     {
       "start": "2026-03-13",
-      "end": "2026-03-15",
-      "custodian": "mom",
-      "reason": "default_custody"
-    },
-    {
-      "start": "2026-03-16",
       "end": "2026-03-20",
       "custodian": "dad",
       "reason": "spring_break"
     },
     {
       "start": "2026-03-21",
+      "end": "2026-03-22",
+      "custodian": "dad",
+      "reason": "weekend"
+    },
+    {
+      "start": "2026-03-23",
       "end": "2026-03-25",
       "custodian": "mom",
       "reason": "default_custody"
@@ -2103,6 +2469,12 @@
     },
     {
       "start": "2026-03-27",
+      "end": "2026-03-29",
+      "custodian": "dad",
+      "reason": "weekend"
+    },
+    {
+      "start": "2026-03-30",
       "end": "2026-04-01",
       "custodian": "mom",
       "reason": "default_custody"
@@ -2115,12 +2487,12 @@
     },
     {
       "start": "2026-04-03",
-      "end": "2026-04-03",
+      "end": "2026-04-05",
       "custodian": "dad",
       "reason": "weekend"
     },
     {
-      "start": "2026-04-04",
+      "start": "2026-04-06",
       "end": "2026-04-08",
       "custodian": "mom",
       "reason": "default_custody"
@@ -2133,6 +2505,12 @@
     },
     {
       "start": "2026-04-10",
+      "end": "2026-04-12",
+      "custodian": "dad",
+      "reason": "weekend"
+    },
+    {
+      "start": "2026-04-13",
       "end": "2026-04-15",
       "custodian": "mom",
       "reason": "default_custody"
@@ -2145,12 +2523,12 @@
     },
     {
       "start": "2026-04-17",
-      "end": "2026-04-17",
+      "end": "2026-04-19",
       "custodian": "dad",
       "reason": "weekend"
     },
     {
-      "start": "2026-04-18",
+      "start": "2026-04-20",
       "end": "2026-04-22",
       "custodian": "mom",
       "reason": "default_custody"
@@ -2163,6 +2541,12 @@
     },
     {
       "start": "2026-04-24",
+      "end": "2026-04-26",
+      "custodian": "dad",
+      "reason": "weekend"
+    },
+    {
+      "start": "2026-04-27",
       "end": "2026-04-29",
       "custodian": "mom",
       "reason": "default_custody"
@@ -2175,12 +2559,12 @@
     },
     {
       "start": "2026-05-01",
-      "end": "2026-05-01",
+      "end": "2026-05-03",
       "custodian": "dad",
       "reason": "weekend"
     },
     {
-      "start": "2026-05-02",
+      "start": "2026-05-04",
       "end": "2026-05-06",
       "custodian": "mom",
       "reason": "default_custody"
@@ -2211,24 +2595,18 @@
     },
     {
       "start": "2026-05-15",
-      "end": "2026-05-15",
+      "end": "2026-05-17",
       "custodian": "dad",
       "reason": "weekend"
     },
     {
-      "start": "2026-05-16",
+      "start": "2026-05-18",
       "end": "2026-05-20",
       "custodian": "mom",
       "reason": "default_custody"
     },
     {
       "start": "2026-05-21",
-      "end": "2026-05-21",
-      "custodian": "dad",
-      "reason": "thursday"
-    },
-    {
-      "start": "2026-05-22",
       "end": "2026-06-18",
       "custodian": "mom",
       "reason": "summer_remainder"
@@ -2271,12 +2649,12 @@
     },
     {
       "start": "2026-08-21",
-      "end": "2026-08-21",
+      "end": "2026-08-23",
       "custodian": "dad",
       "reason": "weekend"
     },
     {
-      "start": "2026-08-22",
+      "start": "2026-08-24",
       "end": "2026-08-26",
       "custodian": "mom",
       "reason": "default_custody"
@@ -2289,6 +2667,12 @@
     },
     {
       "start": "2026-08-28",
+      "end": "2026-08-30",
+      "custodian": "dad",
+      "reason": "weekend"
+    },
+    {
+      "start": "2026-08-31",
       "end": "2026-09-02",
       "custodian": "mom",
       "reason": "default_custody"
@@ -2301,12 +2685,12 @@
     },
     {
       "start": "2026-09-04",
-      "end": "2026-09-04",
+      "end": "2026-09-06",
       "custodian": "dad",
       "reason": "weekend"
     },
     {
-      "start": "2026-09-05",
+      "start": "2026-09-07",
       "end": "2026-09-09",
       "custodian": "mom",
       "reason": "default_custody"
@@ -2319,6 +2703,12 @@
     },
     {
       "start": "2026-09-11",
+      "end": "2026-09-13",
+      "custodian": "dad",
+      "reason": "weekend"
+    },
+    {
+      "start": "2026-09-14",
       "end": "2026-09-16",
       "custodian": "mom",
       "reason": "default_custody"
@@ -2331,12 +2721,12 @@
     },
     {
       "start": "2026-09-18",
-      "end": "2026-09-18",
+      "end": "2026-09-20",
       "custodian": "dad",
       "reason": "weekend"
     },
     {
-      "start": "2026-09-19",
+      "start": "2026-09-21",
       "end": "2026-09-23",
       "custodian": "mom",
       "reason": "default_custody"
@@ -2349,6 +2739,12 @@
     },
     {
       "start": "2026-09-25",
+      "end": "2026-09-27",
+      "custodian": "dad",
+      "reason": "weekend"
+    },
+    {
+      "start": "2026-09-28",
       "end": "2026-09-30",
       "custodian": "mom",
       "reason": "default_custody"
@@ -2361,12 +2757,12 @@
     },
     {
       "start": "2026-10-02",
-      "end": "2026-10-02",
+      "end": "2026-10-04",
       "custodian": "dad",
       "reason": "weekend"
     },
     {
-      "start": "2026-10-03",
+      "start": "2026-10-05",
       "end": "2026-10-07",
       "custodian": "mom",
       "reason": "default_custody"
@@ -2379,6 +2775,12 @@
     },
     {
       "start": "2026-10-09",
+      "end": "2026-10-11",
+      "custodian": "dad",
+      "reason": "weekend"
+    },
+    {
+      "start": "2026-10-12",
       "end": "2026-10-14",
       "custodian": "mom",
       "reason": "default_custody"
@@ -2391,12 +2793,12 @@
     },
     {
       "start": "2026-10-16",
-      "end": "2026-10-16",
+      "end": "2026-10-18",
       "custodian": "dad",
       "reason": "weekend"
     },
     {
-      "start": "2026-10-17",
+      "start": "2026-10-19",
       "end": "2026-10-21",
       "custodian": "mom",
       "reason": "default_custody"
@@ -2409,6 +2811,12 @@
     },
     {
       "start": "2026-10-23",
+      "end": "2026-10-25",
+      "custodian": "dad",
+      "reason": "weekend"
+    },
+    {
+      "start": "2026-10-26",
       "end": "2026-10-28",
       "custodian": "mom",
       "reason": "default_custody"
@@ -2421,12 +2829,12 @@
     },
     {
       "start": "2026-10-30",
-      "end": "2026-10-30",
+      "end": "2026-11-01",
       "custodian": "dad",
       "reason": "weekend"
     },
     {
-      "start": "2026-10-31",
+      "start": "2026-11-02",
       "end": "2026-11-04",
       "custodian": "mom",
       "reason": "default_custody"
@@ -2439,12 +2847,12 @@
     },
     {
       "start": "2026-11-06",
-      "end": "2026-11-06",
+      "end": "2026-11-08",
       "custodian": "dad",
       "reason": "weekend"
     },
     {
-      "start": "2026-11-07",
+      "start": "2026-11-09",
       "end": "2026-11-11",
       "custodian": "mom",
       "reason": "default_custody"
@@ -2457,6 +2865,12 @@
     },
     {
       "start": "2026-11-13",
+      "end": "2026-11-15",
+      "custodian": "dad",
+      "reason": "weekend"
+    },
+    {
+      "start": "2026-11-16",
       "end": "2026-11-18",
       "custodian": "mom",
       "reason": "default_custody"
@@ -2470,14 +2884,14 @@
     {
       "start": "2026-11-20",
       "end": "2026-11-20",
-      "custodian": "dad",
-      "reason": "weekend"
+      "custodian": "mom",
+      "reason": "thanksgiving"
     },
     {
       "start": "2026-11-21",
       "end": "2026-11-22",
-      "custodian": "mom",
-      "reason": "default_custody"
+      "custodian": "dad",
+      "reason": "weekend"
     },
     {
       "start": "2026-11-23",
@@ -2499,12 +2913,12 @@
     },
     {
       "start": "2026-12-04",
-      "end": "2026-12-04",
+      "end": "2026-12-06",
       "custodian": "dad",
       "reason": "weekend"
     },
     {
-      "start": "2026-12-05",
+      "start": "2026-12-07",
       "end": "2026-12-09",
       "custodian": "mom",
       "reason": "default_custody"
@@ -2517,18 +2931,18 @@
     },
     {
       "start": "2026-12-11",
+      "end": "2026-12-13",
+      "custodian": "dad",
+      "reason": "weekend"
+    },
+    {
+      "start": "2026-12-14",
       "end": "2026-12-16",
       "custodian": "mom",
       "reason": "default_custody"
     },
     {
       "start": "2026-12-17",
-      "end": "2026-12-17",
-      "custodian": "dad",
-      "reason": "thursday"
-    },
-    {
-      "start": "2026-12-18",
       "end": "2026-12-28",
       "custodian": "mom",
       "reason": "christmas_first_half"
@@ -2559,6 +2973,12 @@
     },
     {
       "start": "2027-01-08",
+      "end": "2027-01-10",
+      "custodian": "dad",
+      "reason": "weekend"
+    },
+    {
+      "start": "2027-01-11",
       "end": "2027-01-13",
       "custodian": "mom",
       "reason": "default_custody"
@@ -2571,12 +2991,12 @@
     },
     {
       "start": "2027-01-15",
-      "end": "2027-01-15",
+      "end": "2027-01-17",
       "custodian": "dad",
       "reason": "weekend"
     },
     {
-      "start": "2027-01-16",
+      "start": "2027-01-18",
       "end": "2027-01-20",
       "custodian": "mom",
       "reason": "default_custody"
@@ -2589,6 +3009,12 @@
     },
     {
       "start": "2027-01-22",
+      "end": "2027-01-24",
+      "custodian": "dad",
+      "reason": "weekend"
+    },
+    {
+      "start": "2027-01-25",
       "end": "2027-01-27",
       "custodian": "mom",
       "reason": "default_custody"
@@ -2601,12 +3027,12 @@
     },
     {
       "start": "2027-01-29",
-      "end": "2027-01-29",
+      "end": "2027-01-31",
       "custodian": "dad",
       "reason": "weekend"
     },
     {
-      "start": "2027-01-30",
+      "start": "2027-02-01",
       "end": "2027-02-03",
       "custodian": "mom",
       "reason": "default_custody"
@@ -2619,12 +3045,12 @@
     },
     {
       "start": "2027-02-05",
-      "end": "2027-02-05",
+      "end": "2027-02-07",
       "custodian": "dad",
       "reason": "weekend"
     },
     {
-      "start": "2027-02-06",
+      "start": "2027-02-08",
       "end": "2027-02-10",
       "custodian": "mom",
       "reason": "default_custody"
@@ -2637,6 +3063,12 @@
     },
     {
       "start": "2027-02-12",
+      "end": "2027-02-14",
+      "custodian": "dad",
+      "reason": "weekend"
+    },
+    {
+      "start": "2027-02-15",
       "end": "2027-02-17",
       "custodian": "mom",
       "reason": "default_custody"
@@ -2649,12 +3081,12 @@
     },
     {
       "start": "2027-02-19",
-      "end": "2027-02-19",
+      "end": "2027-02-21",
       "custodian": "dad",
       "reason": "weekend"
     },
     {
-      "start": "2027-02-20",
+      "start": "2027-02-22",
       "end": "2027-02-24",
       "custodian": "mom",
       "reason": "default_custody"
@@ -2667,6 +3099,12 @@
     },
     {
       "start": "2027-02-26",
+      "end": "2027-02-28",
+      "custodian": "dad",
+      "reason": "weekend"
+    },
+    {
+      "start": "2027-03-01",
       "end": "2027-03-03",
       "custodian": "mom",
       "reason": "default_custody"
@@ -2679,12 +3117,12 @@
     },
     {
       "start": "2027-03-05",
-      "end": "2027-03-05",
+      "end": "2027-03-07",
       "custodian": "dad",
       "reason": "weekend"
     },
     {
-      "start": "2027-03-06",
+      "start": "2027-03-08",
       "end": "2027-03-10",
       "custodian": "mom",
       "reason": "default_custody"
@@ -2697,9 +3135,15 @@
     },
     {
       "start": "2027-03-12",
-      "end": "2027-03-14",
+      "end": "2027-03-12",
       "custodian": "mom",
-      "reason": "default_custody"
+      "reason": "spring_break"
+    },
+    {
+      "start": "2027-03-13",
+      "end": "2027-03-14",
+      "custodian": "dad",
+      "reason": "weekend"
     },
     {
       "start": "2027-03-15",
@@ -2721,6 +3165,12 @@
     },
     {
       "start": "2027-03-26",
+      "end": "2027-03-28",
+      "custodian": "dad",
+      "reason": "weekend"
+    },
+    {
+      "start": "2027-03-29",
       "end": "2027-03-31",
       "custodian": "mom",
       "reason": "default_custody"
@@ -2733,12 +3183,12 @@
     },
     {
       "start": "2027-04-02",
-      "end": "2027-04-02",
+      "end": "2027-04-04",
       "custodian": "dad",
       "reason": "weekend"
     },
     {
-      "start": "2027-04-03",
+      "start": "2027-04-05",
       "end": "2027-04-07",
       "custodian": "mom",
       "reason": "default_custody"
@@ -2751,6 +3201,12 @@
     },
     {
       "start": "2027-04-09",
+      "end": "2027-04-11",
+      "custodian": "dad",
+      "reason": "weekend"
+    },
+    {
+      "start": "2027-04-12",
       "end": "2027-04-14",
       "custodian": "mom",
       "reason": "default_custody"
@@ -2763,12 +3219,12 @@
     },
     {
       "start": "2027-04-16",
-      "end": "2027-04-16",
+      "end": "2027-04-18",
       "custodian": "dad",
       "reason": "weekend"
     },
     {
-      "start": "2027-04-17",
+      "start": "2027-04-19",
       "end": "2027-04-21",
       "custodian": "mom",
       "reason": "default_custody"
@@ -2781,6 +3237,12 @@
     },
     {
       "start": "2027-04-23",
+      "end": "2027-04-25",
+      "custodian": "dad",
+      "reason": "weekend"
+    },
+    {
+      "start": "2027-04-26",
       "end": "2027-04-28",
       "custodian": "mom",
       "reason": "default_custody"
@@ -2793,12 +3255,12 @@
     },
     {
       "start": "2027-04-30",
-      "end": "2027-04-30",
+      "end": "2027-05-02",
       "custodian": "dad",
       "reason": "weekend"
     },
     {
-      "start": "2027-05-01",
+      "start": "2027-05-03",
       "end": "2027-05-05",
       "custodian": "mom",
       "reason": "default_custody"
@@ -2829,6 +3291,12 @@
     },
     {
       "start": "2027-05-14",
+      "end": "2027-05-16",
+      "custodian": "dad",
+      "reason": "weekend"
+    },
+    {
+      "start": "2027-05-17",
       "end": "2027-05-19",
       "custodian": "mom",
       "reason": "default_custody"
@@ -2841,12 +3309,12 @@
     },
     {
       "start": "2027-05-21",
-      "end": "2027-05-21",
+      "end": "2027-05-23",
       "custodian": "dad",
       "reason": "weekend"
     },
     {
-      "start": "2027-05-22",
+      "start": "2027-05-24",
       "end": "2027-05-26",
       "custodian": "mom",
       "reason": "default_custody"
@@ -2854,8 +3322,8 @@
     {
       "start": "2027-05-27",
       "end": "2027-05-27",
-      "custodian": "dad",
-      "reason": "thursday"
+      "custodian": "mom",
+      "reason": "summer_remainder"
     }
   ]
 }
