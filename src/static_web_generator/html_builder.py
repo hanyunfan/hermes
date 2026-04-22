@@ -203,15 +203,36 @@ function fmtDate(d) {{ return d.toISOString().slice(0, 10); }}
 function displayAllMonths() {{
   const container = document.getElementById('calendar');
   container.innerHTML = '';
+
+  // Determine the display range: from Aug of the prior school year through Dec after current school year
+  // This ensures we see Aug previous year → current month → Aug next year
   const now = new Date();
-  const startMonth = now.getMonth();
-  const startYear = now.getFullYear();
-  // Show from current month through August of next school year
-  for (let m = startMonth; m <= 19; m++) {{
-    const year = startYear + Math.floor(m / 12);
-    const month = m % 12;
-    renderMonth(year, month);
+  const nowYear = now.getFullYear();
+  const nowMonth = now.getMonth(); // 0-indexed (March = 2)
+
+  // School years run Aug–Jul. Figure out which school year we're in.
+  // If nowMonth >= 7 (Aug–Dec), current school year started this August
+  // If nowMonth < 7 (Jan–Jul), current school year started last August
+  let currentSchoolYearStart;
+  if (nowMonth >= 7) {{
+    currentSchoolYearStart = nowYear;
+  }} else {{
+    currentSchoolYearStart = nowYear - 1;
   }}
+
+  // Show: Aug of the school year BEFORE current + all of current school year
+  // e.g., if current SY starts Aug 2025, show Aug 2024 through Aug 2026
+  const displayStart = new Date(currentSchoolYearStart - 1, 7, 1);   // Aug of prior year
+  const displayEnd   = new Date(currentSchoolYearStart + 1, 11, 31); // Dec of following year
+
+  const monthsToShow = [];
+  let cur = new Date(displayStart);
+  while (cur <= displayEnd) {{
+    monthsToShow.push({{ year: cur.getFullYear(), month: cur.getMonth() }});
+    cur.setMonth(cur.getMonth() + 1);
+  }}
+
+  monthsToShow.forEach({{ {{ year, month }} => renderMonth(year, month); }});
 }}
 
 function renderMonth(year, month) {{
