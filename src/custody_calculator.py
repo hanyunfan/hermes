@@ -274,8 +274,9 @@ class CustodyCalculator:
         # Extended through the weekend until school resumes.
         if d.weekday() == 4:  # Friday no-school
             thu = d - timedelta(days=1)  # preceding Thursday
+            fri_is_ns = self._is_noschool_day(d)
             thu_was_school = thu.weekday() == 3 and not self._is_noschool_day(thu)
-            if thu_was_school:
+            if fri_is_ns and thu_was_school:
                 # Dad had Thu school day; Fri no-school — possession rolls forward
                 return "dad", "no_school_day"
 
