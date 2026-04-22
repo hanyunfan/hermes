@@ -230,19 +230,23 @@ class CustodyCalculator:
             return self._break_custodian(break_name, break_data, d, is_odd_year)
 
         # 4. Extended Weekend Rule (per §153.314(e))
-        # If Thu is dad's, Fri-Sat-Sun form one continuous weekend belonging to dad
+        # Only applies on 1st/3rd/5th Fridays — the "weekend" belongs to dad,
+        # and the Thu overnight extends to cover Fri-Sat-Sun as one block.
         if d.weekday() == 4:  # Friday
-            thu = d - timedelta(days=1)
-            thu_custodian, _ = self._no_extended_weekend(thu)
-            if thu_custodian == "dad":
-                return "dad", "weekend"
+            fridays = sorted(self._all_fridays(d.year, d.month))
+            if d in fridays:
+                fri_rank = fridays.index(d) + 1
+                if fri_rank in [1, 3, 5]:
+                    # This is a dad weekend — Thu overnight extends to cover it
+                    return "dad", "weekend"
 
         if d.weekday() in (5, 6):  # Saturday or Sunday
             fri = d - timedelta(days=d.weekday() - 4)  # preceding Friday
-            thu = fri - timedelta(days=1)
-            thu_custodian, _ = self._no_extended_weekend(thu)
-            if thu_custodian == "dad":
-                return "dad", "weekend"
+            fridays = sorted(self._all_fridays(fri.year, fri.month))
+            if fri in fridays:
+                fri_rank = fridays.index(fri) + 1
+                if fri_rank in [1, 3, 5]:
+                    return "dad", "weekend"
 
         # 5. Regular school day rules: Thursday + 1st-3rd-5th Friday
         if d.weekday() == 3:  # Thursday
