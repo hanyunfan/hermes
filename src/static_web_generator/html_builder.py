@@ -232,7 +232,7 @@ function displayAllMonths() {{
     cur.setMonth(cur.getMonth() + 1);
   }}
 
-  monthsToShow.forEach({{ {{ year, month }} => renderMonth(year, month); }});
+  for (const m of monthsToShow) {{ renderMonth(m.year, m.month); }}
 }}
 
 function renderMonth(year, month) {{
