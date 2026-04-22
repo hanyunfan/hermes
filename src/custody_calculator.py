@@ -248,9 +248,7 @@ class CustodyCalculator:
             fridays = sorted(self._all_fridays(d.year, d.month))
             if d in fridays:
                 fri_rank = fridays.index(d) + 1
-                # Per §153.312: Dad's 1st/3rd/5th Fri weekend requires school to be in session.
-                # If Fri is a no-school day, it doesn't qualify as a Dad weekend.
-                if fri_rank in [1, 3, 5] and not self._is_noschool_day(d):
+                if fri_rank in [1, 3, 5]:
                     # This is a dad weekend — Thu overnight extends to cover it
                     return "dad", "weekend"
 
@@ -259,8 +257,46 @@ class CustodyCalculator:
             fridays = sorted(self._all_fridays(fri.year, fri.month))
             if fri in fridays:
                 fri_rank = fridays.index(fri) + 1
-                if fri_rank in [1, 3, 5] and not self._is_noschool_day(fri):
+                if fri_rank in [1, 3, 5]:
                     return "dad", "weekend"
+
+        # 4b. Non-qualifying Friday no-school day (per §153.312)
+        # If Thu was a school day (Dad's) and Fri is a no-school day,
+        # "school dismissal Friday" never occurred — Dad's possession rolls forward.
+        # Extended through the weekend until school resumes.
+        if d.weekday() == 4:  # Friday no-school
+            thu = d - timedelta(days=1)  # preceding Thursday
+            thu_was_school = thu.weekday() == 3 and not self._is_noschool_day(thu)
+            if thu_was_school:
+                # Dad had Thu school day; Fri no-school — possession rolls forward
+                return "dad", "no_school_day"
+
+        # 4c. Weekend extension for Dad's no-school Friday
+        # After a qualifying Fri no-school (step 4) OR non-qualifying Fri no-school (step 4b),
+        # Sat-Sun-Mon belong to Dad until school resumes.
+        if d.weekday() in (5, 6):  # Saturday or Sunday
+            fri = d - timedelta(days=d.weekday() - 4)  # preceding Friday
+            if self._is_noschool_day(fri):
+                # Preceding Fri was a no-school day — Dad's possession extended
+                return "dad", "no_school_day"
+
+        # 4d. Monday no-school extends Dad's weekend
+        # Per §153.312: if weekend coincides with a holiday (no-school Mon),
+        # possession ends at 6 p.m. on the holiday.
+        # If the preceding Fri was a qualifying dad weekend (step 4),
+        # and Mon is no-school, Dad extends through Mon.
+        if d.weekday() == 0:  # Monday
+            fri = d - timedelta(days=3)  # preceding Friday
+            fridays = sorted(self._all_fridays(fri.year, fri.month))
+            if fri in fridays:
+                fri_rank = fridays.index(fri) + 1
+                was_dad_weekend = fri_rank in [1, 3, 5]
+            else:
+                was_dad_weekend = False
+            was_noschool_fri = self._is_noschool_day(fri)
+            if (was_dad_weekend or was_noschool_fri) and self._is_noschool_day(d):
+                # Dad's weekend extends through Mon no-school day
+                return "dad", "no_school_day"
 
         # 5. Regular school day rules: Thursday + 1st-3rd-5th Friday
         if d.weekday() == 3:  # Thursday
@@ -270,8 +306,7 @@ class CustodyCalculator:
             fridays = sorted(self._all_fridays(d.year, d.month))
             if d in fridays:
                 fri_rank = fridays.index(d) + 1
-                # Only Dad's 1st/3rd/5th Fri if it's a school day
-                if fri_rank in [1, 3, 5] and not self._is_noschool_day(d):
+                if fri_rank in [1, 3, 5]:
                     return rules["weekend"]["parent"], "weekend"
 
         # 6. Fallback: managing conservator (mom)
