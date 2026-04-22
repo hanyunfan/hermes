@@ -318,18 +318,29 @@ document.getElementById('nextBtn').onclick = () => {{
 document.getElementById('langToggle').onclick = () => {{
   lang = lang === 'en' ? 'cn' : 'en';
   document.getElementById('title').textContent = I18N[lang].title;
-  renderMonth(displayedYear, displayedMonth);
-}};
-document.getElementById('modeToggle').onclick = () => {{
-  mode = mode === 'espo' ? 'spo' : 'espo';
   displayAllMonths();
 }};
+document.getElementById('espoBtn').onclick = () => {{
+  if (mode !== 'espo') {{
+    mode = 'espo';
+    document.getElementById('espoBtn').classList.add('active');
+    document.getElementById('spoBtn').classList.remove('active');
+    displayAllMonths();
+  }}
+}};
+document.getElementById('spoBtn').onclick = () => {{
+  if (mode !== 'spo') {{
+    mode = 'spo';
+    document.getElementById('spoBtn').classList.add('active');
+    document.getElementById('espoBtn').classList.remove('active');
+    displayAllMonths();
+  }}
+}};
 
-displayAllMonths();
-// Ensure ESPO mode is active on load
-document.getElementById('espoBtn').classList.add('active');
-document.getElementById('spoBtn').classList.remove('active');
+// Render ESPO calendar immediately on page load (before any button interaction)
 mode = 'espo';
+displayAllMonths();
+document.getElementById('espoBtn').classList.add('active');
 </script>
 </body>
 </html>

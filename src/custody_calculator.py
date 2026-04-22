@@ -1,5 +1,5 @@
 """
-custody_calculator.py — Compute day-by-day custody intervals.
+custody_calculator.py - Compute day-by-day custody intervals.
 Inputs: custody_rules.json + standard_calendar.json
 Output: custody_intervals.json (array of {start, end, custodian, reason})
 
@@ -77,6 +77,18 @@ class CustodyCalculator:
             if day[0] != 0 and day[1] == 4
         ])
 
+    def _is_noschool_day(self, d: date) -> bool:
+        """Return True if d is a no-school day (teacher work day, holiday not in a break, etc.)."""
+        for sy in self.school_years:
+            sy_start = date.fromisoformat(sy["start"])
+            sy_end = date.fromisoformat(sy["end"])
+            if not (sy_start <= d <= sy_end):
+                continue
+            noschool = {date.fromisoformat(n["date"]) for n in sy.get("noschool_days", [])}
+            if d in noschool:
+                return True
+        return False
+
     # ─── Break detection ─────────────────────────────────────────────────────
 
     def _in_which_break(self, d: date) -> tuple:
@@ -84,7 +96,7 @@ class CustodyCalculator:
         Return (break_name, break_data) or (None, None).
         Checks ALL breaks in all school years regardless of the school year date range.
         Also handles pre-school summer gaps: May 22 through the day before
-        each school year starts (Aug 13-17 for 2025-2026) — kids not yet in
+        each school year starts (Aug 13-17 for 2025-2026) - kids not yet in
         school, so treated as summer for custody purposes.
         """
         for sy in self.school_years:
@@ -169,7 +181,7 @@ class CustodyCalculator:
         """
         Determine custodian for a single date.
         Priority order (per §153.314):
-          1. Parents day — checked FIRST, overrides everything
+          1. Parents day - checked FIRST, overrides everything
           2. Last school day BEFORE a break = that break day 1
           3. School breaks (thanksgiving, christmas, spring, summer)
           4. Extended Weekend Rule: if Thu is dad's, Fri-Sat-Sun also belong to dad
@@ -220,7 +232,7 @@ class CustodyCalculator:
                     prev = br_start - timedelta(days=1)
 
                 if d == prev:
-                    # d is the last school day before this break — it's break day 1
+                    # d is the last school day before this break - it's break day 1
                     br_data = {"start": br["start"], "end": br["end"], "label": br.get("label", {})}
                     return self._break_custodian(br_name, br_data, d, is_odd_year)
 
@@ -230,13 +242,15 @@ class CustodyCalculator:
             return self._break_custodian(break_name, break_data, d, is_odd_year)
 
         # 4. Extended Weekend Rule (per §153.314(e))
-        # Only applies on 1st/3rd/5th Fridays — the "weekend" belongs to dad,
+        # Only applies on 1st/3rd/5th Fridays - the "weekend" belongs to dad,
         # and the Thu overnight extends to cover Fri-Sat-Sun as one block.
         if d.weekday() == 4:  # Friday
             fridays = sorted(self._all_fridays(d.year, d.month))
             if d in fridays:
                 fri_rank = fridays.index(d) + 1
-                if fri_rank in [1, 3, 5]:
+                # Per §153.312: Dad's 1st/3rd/5th Fri weekend requires school to be in session.
+                # If Fri is a no-school day, it doesn't qualify as a Dad weekend.
+                if fri_rank in [1, 3, 5] and not self._is_noschool_day(d):
                     # This is a dad weekend — Thu overnight extends to cover it
                     return "dad", "weekend"
 
@@ -245,7 +259,7 @@ class CustodyCalculator:
             fridays = sorted(self._all_fridays(fri.year, fri.month))
             if fri in fridays:
                 fri_rank = fridays.index(fri) + 1
-                if fri_rank in [1, 3, 5]:
+                if fri_rank in [1, 3, 5] and not self._is_noschool_day(fri):
                     return "dad", "weekend"
 
         # 5. Regular school day rules: Thursday + 1st-3rd-5th Friday
@@ -256,7 +270,8 @@ class CustodyCalculator:
             fridays = sorted(self._all_fridays(d.year, d.month))
             if d in fridays:
                 fri_rank = fridays.index(d) + 1
-                if fri_rank in [1, 3, 5]:
+                # Only Dad's 1st/3rd/5th Fri if it's a school day
+                if fri_rank in [1, 3, 5] and not self._is_noschool_day(d):
                     return rules["weekend"]["parent"], "weekend"
 
         # 6. Fallback: managing conservator (mom)

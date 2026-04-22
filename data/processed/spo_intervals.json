@@ -1,5 +1,5 @@
 {
-  "count": 480,
+  "count": 477,
   "intervals": [
     {
       "start": "2023-05-22",
@@ -1845,12 +1845,6 @@
     },
     {
       "start": "2025-11-07",
-      "end": "2025-11-09",
-      "custodian": "dad",
-      "reason": "weekend"
-    },
-    {
-      "start": "2025-11-10",
       "end": "2025-11-12",
       "custodian": "mom",
       "reason": "default_custody"
@@ -2169,12 +2163,6 @@
     },
     {
       "start": "2026-04-17",
-      "end": "2026-04-19",
-      "custodian": "dad",
-      "reason": "weekend"
-    },
-    {
-      "start": "2026-04-20",
       "end": "2026-04-22",
       "custodian": "mom",
       "reason": "default_custody"
@@ -2319,12 +2307,6 @@
     },
     {
       "start": "2026-09-04",
-      "end": "2026-09-06",
-      "custodian": "dad",
-      "reason": "weekend"
-    },
-    {
-      "start": "2026-09-07",
       "end": "2026-09-09",
       "custodian": "mom",
       "reason": "default_custody"
