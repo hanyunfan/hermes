@@ -1,5 +1,5 @@
 {
-  "count": 561,
+  "count": 563,
   "intervals": [
     {
       "start": "2023-05-22",
@@ -2205,6 +2205,12 @@
     },
     {
       "start": "2025-11-29",
+      "end": "2025-11-30",
+      "custodian": "dad",
+      "reason": "no_school_day"
+    },
+    {
+      "start": "2025-12-01",
       "end": "2025-12-03",
       "custodian": "mom",
       "reason": "default_custody"
@@ -2931,6 +2937,12 @@
     },
     {
       "start": "2026-11-28",
+      "end": "2026-11-29",
+      "custodian": "dad",
+      "reason": "no_school_day"
+    },
+    {
+      "start": "2026-11-30",
       "end": "2026-12-02",
       "custodian": "mom",
       "reason": "default_custody"

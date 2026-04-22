@@ -78,15 +78,23 @@ class CustodyCalculator:
         ])
 
     def _is_noschool_day(self, d: date) -> bool:
-        """Return True if d is a no-school day (teacher work day, holiday not in a break, etc.)."""
+        """Return True if d is a no-school day for students.
+        Checks both standalone noschool_days AND days within school breaks."""
         for sy in self.school_years:
             sy_start = date.fromisoformat(sy["start"])
             sy_end = date.fromisoformat(sy["end"])
             if not (sy_start <= d <= sy_end):
                 continue
+            # Check standalone noschool days
             noschool = {date.fromisoformat(n["date"]) for n in sy.get("noschool_days", [])}
             if d in noschool:
                 return True
+            # Check if d is inside a school break (students off during break)
+            for br_name, br in sy.get("breaks", {}).items():
+                br_start = date.fromisoformat(br["start"])
+                br_end = date.fromisoformat(br["end"])
+                if br_start <= d <= br_end:
+                    return True
         return False
 
     # ─── Break detection ─────────────────────────────────────────────────────
