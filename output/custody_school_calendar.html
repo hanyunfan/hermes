@@ -115,23 +115,23 @@ function displayAllMonths() {
   const nowYear = now.getFullYear();
   const nowMonth = now.getMonth(); // 0-indexed (March = 2)
 
-  // Show Aug of the next school year through its May end.
-  // School years: Aug of start year through May of following year.
-  // Data covers: 2025-2026 (Aug 2025-May 2026) and 2026-2027 (Aug 2026-May 2027).
-  // Always show the UPCOMING school year, capped at May 2027.
+  // Show current school year (containing today) + next school year.
+  // School years run Aug-Jul. Data covers 2025-2026 and 2026-2027.
+  // Cap at May 2027 (last month with school data).
   let displayStart, displayEnd;
   if (nowMonth >= 7) {
-    // In Aug-Dec: next SY started this Aug (nowYear), ends May nowYear+1
-    // Show Aug nowYear+1 through May nowYear+2 (cap at May 2027)
-    displayStart = new Date(nowYear + 1, 7, 1);
-    displayEnd   = new Date(nowYear + 2, 5, 1);  // June 1 = end of May
-  } else {
-    // In Jan-Jul: next SY starts Aug this year, ends May next year
+    // In Aug-Dec: current SY started Aug nowYear, ends May nowYear+1
+    // Show Aug nowYear (current) through May nowYear+2 (next SY)
     displayStart = new Date(nowYear, 7, 1);
-    displayEnd   = new Date(nowYear + 1, 5, 1);  // June 1 = end of May
+    displayEnd   = new Date(nowYear + 2, 5, 1);
+  } else {
+    // In Jan-Jul: current SY started Aug nowYear-1, ends May nowYear
+    // Show Aug nowYear-1 (current) through May nowYear+1 (next SY)
+    displayStart = new Date(nowYear - 1, 7, 1);
+    displayEnd   = new Date(nowYear + 1, 5, 1);
   }
-  // Cap at June 1 2027 so we show through May 2027 (last month with school data)
-  const DATA_END = new Date(2027, 5, 1);  // June 1 2027 = end of May 2027
+  // Cap at May 2027 (last month with school data)
+  const DATA_END = new Date(2027, 5, 1);
   if (displayEnd > DATA_END) { displayEnd = DATA_END; }
 
   const monthsToShow = [];
