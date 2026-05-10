@@ -133,6 +133,10 @@
     <h3>GPU Power (W)</h3>
     <div class="chart-wrapper"><canvas id="chart-power"></canvas></div>
   </div>
+  <div class="chart-card" id="temp-chart-card">
+    <h3>GPU Temperature (°C)</h3>
+    <div class="chart-wrapper"><canvas id="chart-temp"></canvas></div>
+  </div>
   <div class="chart-card" id="net-chart-card">
     <h3>Network RX/TX (MB/s)</h3>
     <div class="chart-wrapper"><canvas id="chart-net"></canvas></div>
@@ -207,6 +211,8 @@ function initCharts() {
   });
   // Network chart (up to 8 interfaces × 2 = 16 datasets: RX/TX per iface)
   charts.net = buildNetworkChart('chart-net');
+  // GPU Temperature chart (one dataset per GPU + optional Tlimit annotation)
+  charts.temp = buildTempChart('chart-temp');
 }
 
 const IO_COLORS = {
@@ -275,6 +281,31 @@ function buildIoChart(canvasId) {
       scales: {
         ...chartOptions().scales,
         y: { min: 0, grid: { color: '#252a3a' }, ticks: { color: '#666' } }
+      }
+    }
+  });
+  return chart;
+}
+
+function buildTempChart(canvasId) {
+  // One dataset per GPU (solid lines) + one Tlimit annotation dataset (dashed)
+  const datasets = Array.from({ length: 8 }, (_, i) => {
+    const color = GPU_COLORS[i % GPU_COLORS.length];
+    const grad = document.getElementById(canvasId).getContext('2d').createLinearGradient(0, 0, 0, 220);
+    grad.addColorStop(0, '#' + color + '55');
+    grad.addColorStop(1, '#' + color + '00');
+    return { label: 'GPU' + i, data: [], borderColor: '#' + color, backgroundColor: grad, fill: true, borderWidth: 1.5, hidden: i > 0 };
+  });
+  // Tlimit reference line (dashed red, hidden until data exists)
+  datasets.push({ label: 'Tlimit', data: [], borderColor: '#ff6b6b', backgroundColor: 'transparent', borderWidth: 1.5, borderDash: [6, 4], hidden: true, pointRadius: 0 });
+  const chart = new Chart(document.getElementById(canvasId), {
+    type: 'line',
+    data: { datasets },
+    options: {
+      ...chartOptions(),
+      scales: {
+        ...chartOptions().scales,
+        y: { min: 0, max: 110, grid: { color: '#252a3a' }, ticks: { color: '#666' } }
       }
     }
   });
@@ -403,6 +434,7 @@ async function refresh() {
   document.getElementById('gpu-stat-card').style.opacity    = gpuOpacity;
   document.getElementById('gpu-mem-stat-card').style.opacity = gpuOpacity;
   document.getElementById('io-chart-card').style.opacity     = hasGpu ? '1' : '0.4';
+  document.getElementById('temp-chart-card').style.opacity  = hasGpu ? '1' : '0.4';
   document.getElementById('power-chart-card').style.opacity  = hasGpu ? '1' : '0.4';
   document.getElementById('power-stat-card').style.opacity   = hasGpu ? '1' : '0.4';
 
@@ -566,6 +598,9 @@ async function refresh() {
   // ── Update GPU Power chart (one dataset per GPU)
   if (hasGpu) updatePowerChart(allData, gpuCount);
 
+  // ── Update GPU Temperature chart (one dataset per GPU + Tlimit annotation)
+  if (hasGpu) updateTempChart(allData, gpuCount);
+
   // ── Update Network chart (all ifaces, RX + TX)
   updateNetworkChart(allData);
 
@@ -657,6 +692,39 @@ function updatePowerChart(allData, gpuCount) {
     return y != null ? { x: new Date(d.timestamp), y } : { x: new Date(d.timestamp), y: null };
   });
   charts.power.update();
+}
+
+function updateTempChart(allData, gpuCount) {
+  // gpu_power entries: [{id, power_w, power_limit_w, temp_c, temp_limit}, ...]
+  const TLIMIT_DSIDX = 8;
+
+  charts.temp.data.datasets.forEach((ds, i) => {
+    if (i < 8) ds.hidden = i >= gpuCount;
+  });
+
+  for (let i = 0; i < gpuCount; i++) {
+    charts.temp.data.datasets[i].data = allData.map(d => {
+      const gp = (d.gpu_power || [])[i];
+      const y  = (gp && gp.temp_c != null) ? gp.temp_c : null;
+      return y != null ? { x: new Date(d.timestamp), y } : { x: new Date(d.timestamp), y: null };
+    });
+  }
+
+  // Tlimit annotation (dashed): show only when temp_limit data exists
+  const tlimitDs = charts.temp.data.datasets[TLIMIT_DSIDX];
+  const tlimitHasData = allData.some(d => (d.gpu_power || []).some(gp => gp.temp_limit != null));
+  tlimitDs.hidden = !tlimitHasData;
+  tlimitDs.data = allData.map(d => {
+    const y = (d.gpu_power || [])[0]?.temp_limit ?? null;
+    return y != null ? { x: new Date(d.timestamp), y } : { x: new Date(d.timestamp), y: null };
+  });
+
+  // Dynamic y-axis max
+  const allTemps = allData.flatMap(d => (d.gpu_power || []).map(gp => gp.temp_c).filter(t => t != null));
+  const maxTemp = allTemps.length ? Math.max(...allTemps) : 0;
+  charts.temp.options.scales.y.max = Math.max(110, Math.ceil(maxTemp / 10) * 10 + 10);
+
+  charts.temp.update();
 }
 
 function updateNetworkChart(allData) {

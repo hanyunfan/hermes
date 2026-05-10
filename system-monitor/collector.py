@@ -356,19 +356,21 @@ def _query_gpu_util_mem(gpu_id):
 
 
 def _query_gpu_power(gpu_id):
-    """Query power for one GPU. Returns (gpu_id, dict) or (gpu_id, None)."""
+    """Query power + temperature for one GPU. Returns (gpu_id, dict) or (gpu_id, None)."""
     try:
         result = subprocess.run(
             ["nvidia-smi", "--id=" + str(gpu_id),
-             "--query-gpu=power.draw,power.limit",
+             "--query-gpu=power.draw,power.limit,temperature.gpu,temperature.gpu.tlimit",
              "--format=csv,noheader,nounits"],
             capture_output=True, text=True, check=True, timeout=8
         )
-        power_draw, power_limit = result.stdout.strip().split(", ")
+        power_draw, power_limit, temp_c, temp_limit = result.stdout.strip().split(", ")
         return (gpu_id, {
             "id": gpu_id,
             "power_w": float(power_draw),
-            "power_limit_w": float(power_limit)
+            "power_limit_w": float(power_limit),
+            "temp_c": float(temp_c),
+            "temp_limit": float(temp_limit)
         })
     except Exception as e:
         return (gpu_id, {"id": gpu_id, "error": str(e)})
