@@ -12,6 +12,12 @@
     "gpu_count": 4
   },
   {
+    "hostname": "node004",
+    "display_name": "XE9712_flux_4nodes",
+    "gpu_type": "GB300",
+    "gpu_count": 4
+  },
+  {
     "hostname": "mlperf1",
     "display_name": null,
     "gpu_type": "B300_SXM6_AC",
