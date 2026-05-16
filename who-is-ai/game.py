@@ -1,0 +1,298 @@
+#!/usr/bin/env python3
+"""Game logic — room management, chat, voting, win/loss conditions."""
+
+import json, uuid, time, random
+from dataclasses import dataclass, field, asdict
+from typing import Optional
+from enum import Enum
+
+
+class GamePhase(Enum):
+    WAITING = "waiting"          # waiting for players
+    CHATTING = "chatting"         # active chat round
+    VOTING = "voting"             # voting in progress
+    ELIMINATING = "eliminating"  # eliminating player
+    ENDED = "ended"              # game over
+
+
+class GameMode(Enum):
+    LIGHT = "light"   # 3 humans + 1 AI = 4
+    STANDARD = "standard"  # 7 humans + 2 AI = 9
+
+
+@dataclass
+class Player:
+    seat: int           # 1-9
+    is_ai: bool = False
+    is_alive: bool = True
+    voted_for: Optional[int] = None
+    ws_id: Optional[str] = None  # WebSocket client id
+
+
+@dataclass
+class RoundRecord:
+    round_num: int
+    phase: str
+    messages: list = field(default_factory=list)
+    votes: dict = field(default_factory=dict)
+    eliminated: Optional[int] = None
+
+
+class Game:
+    # ── static config ──────────────────────────────────────────────
+    MODE_SEATS = {GameMode.LIGHT: 4, GameMode.STANDARD: 9}
+    MODE_HUMANS = {GameMode.LIGHT: 3, GameMode.STANDARD: 7}
+    MODE_AI = {GameMode.LIGHT: 1, GameMode.STANDARD: 2}
+    CHAT_DURATIONS = [300, 480, 600]  # 5/8/10 min in seconds
+
+    def __init__(self, room_id: str, mode: GameMode, host_ws_id: str,
+                 chat_duration: int = 480,
+                 is_public: bool = True,
+                 password: str = "",
+                 spectator_on: bool = True,
+                 god_view: bool = False,
+                 ai_independent: bool = False,
+                 max_spectators: int = 50):
+        self.room_id = room_id
+        self.mode = mode
+        self.host_ws_id = host_ws_id
+        self.chat_duration = chat_duration
+        self.is_public = is_public
+        self.password = password
+        self.spectator_on = spectator_on
+        self.god_view = god_view
+        self.ai_independent = ai_independent
+        self.max_spectators = max_spectators
+
+        self.seats: dict[int, Player] = {}   # seat -> Player
+        self.phase = GamePhase.WAITING
+        self.round_num = 0
+        self.created_at = time.time()
+        self.phase_start: float = 0
+
+        self.chat_log: list[dict] = []       # {"seat": int, "text": str, "ts": float}
+        self.round_records: list[RoundRecord] = []
+        self.spectators: set[str] = set()    # ws_ids
+
+        # pending AI generation tasks
+        self._pending_ai_tasks: dict[int, str] = {}  # seat -> message text
+
+    # ── seat helpers ────────────────────────────────────────────────
+    def available_seat(self) -> Optional[int]:
+        for i in range(1, self.MODE_SEATS[self.mode] + 1):
+            if i not in self.seats:
+                return i
+        return None
+
+    def add_player(self, seat: int, ws_id: str) -> Player:
+        p = Player(seat=seat, ws_id=ws_id)
+        self.seats[seat] = p
+        return p
+
+    def add_ai(self, seat: int) -> Player:
+        p = Player(seat=seat, ws_id=None, is_ai=True)
+        self.seats[seat] = p
+        return p
+
+    def fill_ai_slots(self):
+        """Fill remaining seats with AI players once human count is达标."""
+        total = self.MODE_SEATS[self.mode]
+        humans_needed = self.MODE_HUMANS[self.mode]
+        current_humans = sum(1 for p in self.seats.values() if not p.is_ai)
+        for _ in range(humans_needed - current_humans):
+            seat = self.available_seat()
+            if seat:
+                self.add_ai(seat)
+
+    @property
+    def alive_players(self) -> list[Player]:
+        return [p for p in self.seats.values() if p.is_alive]
+
+    @property
+    def alive_human_count(self) -> int:
+        return sum(1 for p in self.alive_players if not p.is_ai)
+
+    @property
+    def alive_ai_count(self) -> int:
+        return sum(1 for p in self.alive_players if p.is_ai)
+
+    def is_full(self) -> bool:
+        return all(
+            self.seats.get(i) is not None
+            for i in range(1, self.MODE_SEATS[self.mode] + 1)
+        )
+
+    def ready_to_start(self) -> bool:
+        human_count = sum(1 for p in self.seats.values() if not p.is_ai)
+        return human_count >= self.MODE_HUMANS[self.mode] and self.is_full()
+
+    # ── state transitions ───────────────────────────────────────────
+    def start_game(self):
+        self.phase = GamePhase.CHATTING
+        self.round_num = 1
+        self.phase_start = time.time()
+
+    def lock_chat_start_vote(self):
+        self.phase = GamePhase.VOTING
+        self.phase_start = time.time()
+        # clear previous votes
+        for p in self.seats.values():
+            p.voted_for = None
+
+    def apply_vote(self, seat: int, vote_for: int) -> bool:
+        """Returns True if voting is now complete."""
+        voter = self.seats.get(seat)
+        target = self.seats.get(vote_for)
+        if not voter or not target or not voter.is_alive or not target.is_alive:
+            return False
+        if vote_for == seat:
+            return False
+        voter.voted_for = vote_for
+
+        # check if all alive non-spectators have voted
+        alive = self.alive_players
+        if len(alive) > 0 and all(p.voted_for is not None for p in alive):
+            self._resolve_vote()
+            return True
+        return False
+
+    def _resolve_vote(self):
+        votes: dict[int, int] = {}
+        for p in self.alive_players:
+            v = p.voted_for
+            votes[v] = votes.get(v, 0) + 1
+
+        max_votes = max(votes.values())
+        tied = [s for s, c in votes.items() if c == max_votes]
+
+        # simple tie-break: lowest seat number eliminated (or random)
+        eliminated_seat = tied[0] if len(tied) == 1 else random.choice(tied)
+        self._eliminate(eliminated_seat)
+
+    def _eliminate(self, seat: int):
+        player = self.seats.get(seat)
+        if not player:
+            return
+        player.is_alive = False
+
+        self.phase = GamePhase.ELIMINATING
+        self.phase_start = time.time()
+
+        # record elimination
+        rec = RoundRecord(round_num=self.round_num, phase="elimination", eliminated=seat)
+        self.round_records.append(rec)
+
+        # ── win/loss check ──────────────────────────────────────────
+        winner = self._check_winner()
+        if winner:
+            self.phase = GamePhase.ENDED
+            self._record_final(winner)
+        else:
+            # next round
+            self.round_num += 1
+            self.phase = GamePhase.CHATTING
+            self.phase_start = time.time()
+
+    def _check_winner(self) -> Optional[str]:
+        """Returns 'human' or 'ai' or None."""
+        alive = self.alive_players
+        ai_alive = sum(1 for p in alive if p.is_ai)
+        human_alive = sum(1 for p in alive if not p.is_ai)
+
+        if ai_alive == 0 and len(alive) > 4:
+            return "human"
+        if len(alive) <= 4 and ai_alive >= 1:
+            return "ai"
+        return None
+
+    def _record_final(self, winner: str):
+        self.final_winner = winner
+
+    # ── chat ────────────────────────────────────────────────────────
+    def add_message(self, seat: int, text: str):
+        self.chat_log.append({"seat": seat, "text": text, "ts": time.time()})
+
+    # ── spectators ──────────────────────────────────────────────────
+    def add_spectator(self, ws_id: str) -> bool:
+        if len(self.spectators) >= self.max_spectators:
+            return False
+        self.spectators.add(ws_id)
+        return True
+
+    # ── serialization ──────────────────────────────────────────────
+    def public_state(self, viewer_ws_id: str) -> dict:
+        alive = self.alive_players
+        players_out = []
+        for i in range(1, self.MODE_SEATS[self.mode] + 1):
+            p = self.seats.get(i)
+            if p:
+                info = {
+                    "seat": i,
+                    "is_alive": p.is_alive,
+                    "is_you": p.ws_id == viewer_ws_id,
+                    "is_host": self.host_ws_id == p.ws_id,
+                }
+                if self.god_view and self.host_ws_id == viewer_ws_id:
+                    info["is_ai"] = p.is_ai
+                players_out.append(info)
+
+        return {
+            "room_id": self.room_id,
+            "mode": self.mode.value,
+            "phase": self.phase.value,
+            "round_num": self.round_num,
+            "chat_duration": self.chat_duration,
+            "players": players_out,
+            "spectator_count": len(self.spectators),
+            "chat_log": self.chat_log[-50:],   # last 50 messages
+            "chat_seconds_left": max(0, int(self.chat_duration - (time.time() - self.phase_start)))
+                                 if self.phase == GamePhase.CHATTING else 0,
+            "vote_seconds_left": max(0, int(60 - (time.time() - self.phase_start)))
+                                 if self.phase == GamePhase.VOTING else 0,
+        }
+
+    def voting_state(self, viewer_ws_id: str) -> dict:
+        """Full voting detail — only sent to voters, not spectators."""
+        state = self.public_state(viewer_ws_id)
+        if self.phase == GamePhase.VOTING:
+            # who has voted already
+            voted = [p.seat for p in self.alive_players if p.voted_for is not None]
+            state["voted_seats"] = voted
+        return state
+
+
+# ── room manager ─────────────────────────────────────────────────
+class RoomManager:
+    def __init__(self):
+        self.rooms: dict[str, Game] = {}
+
+    def create(self, mode: GameMode, host_ws_id: str,
+               chat_duration: int = 480,
+               is_public: bool = True,
+               password: str = "",
+               spectator_on: bool = True,
+               god_view: bool = False,
+               ai_independent: bool = False,
+               max_spectators: int = 50) -> Game:
+        room_id = str(uuid.uuid8())[:6].upper()
+        while room_id in self.rooms:
+            room_id = str(uuid.uuid8())[:6].upper()
+        game = Game(
+            room_id=room_id, mode=mode, host_ws_id=host_ws_id,
+            chat_duration=chat_duration,
+            is_public=is_public, password=password,
+            spectator_on=spectator_on, god_view=god_view,
+            ai_independent=ai_independent, max_spectators=max_spectators,
+        )
+        self.rooms[room_id] = game
+        return game
+
+    def get(self, room_id: str) -> Optional[Game]:
+        return self.rooms.get(room_id.upper())
+
+    def delete(self, room_id: str):
+        self.rooms.pop(room_id.upper(), None)
+
+
+# singleton
+rooms = RoomManager()
