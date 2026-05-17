@@ -625,11 +625,13 @@ function renderPlayerList() {
   list.innerHTML = STATE.players.map(p => {
     const isMe = p.is_you;
     const isHost = p.is_host;
+    const isAI = p.is_ai;
     const aliveClass = p.is_alive ? '' : 'dead';
     return `
       <div class="player-row ${aliveClass}">
         <span class="p-num">${p.seat}号</span>
         <span class="p-label">
+          ${isAI ? '<span class="p-tag tag-ai">🤖 AI</span>' : ''}
           ${isMe ? '<span class="p-tag tag-you">你</span>' : ''}
           ${isHost && !isMe ? '<span class="p-tag tag-host">房主</span>' : ''}
         </span>
