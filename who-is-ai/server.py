@@ -217,6 +217,19 @@ class GameApplication(WebSocketApplication):
                 "mode": mode.value,
             }))
 
+            # ── Pre-fill all AI seats immediately on room creation ────────
+            ai_seats = [i for i in range(1, Game.MODE_SEATS[game.mode] + 1)]
+            ai_mgr = AIManager(llm_cfg, independent=game.ai_independent)
+            ai_mgr.spawn_ais(ai_seats)
+            ai_managers[game.room_id] = ai_mgr
+            for s in ai_seats:
+                game.add_ai(s)
+            # Send full room state so host sees all AI already seated
+            self.ws.send(json.dumps({
+                "type": "room_state",
+                **game.public_state(ws_id),
+            }))
+
         # ── join_room ─────────────────────────────────────────────
         elif msg_type == "join_room":
             room_id = msg.get("room_id", "").strip().upper()
