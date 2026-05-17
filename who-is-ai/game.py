@@ -169,6 +169,13 @@ class Game:
         eliminated_seat = tied[0] if len(tied) == 1 else random.choice(tied)
         self._eliminate(eliminated_seat)
 
+    def force_resolve_vote(self):
+        """Force-resolve after 60s timeout: mark unvoted connected players as abstain (0)."""
+        for p in self.alive_players:
+            if p.voted_for is None:
+                p.voted_for = 0  # abstain
+        self._resolve_vote()
+
     def _eliminate(self, seat: int):
         player = self.seats.get(seat)
         if not player:
@@ -249,6 +256,8 @@ class Game:
                                  if self.phase == GamePhase.CHATTING else 0,
             "vote_seconds_left": max(0, int(60 - (time.time() - self.phase_start)))
                                  if self.phase == GamePhase.VOTING else 0,
+            "voted_seats": [p.seat for p in self.alive_players if p.voted_for is not None]
+                           if self.phase == GamePhase.VOTING else [],
         }
 
     def voting_state(self, viewer_ws_id: str) -> dict:

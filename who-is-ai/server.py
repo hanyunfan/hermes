@@ -67,6 +67,9 @@ async def chat_timer(game: Game, ai_mgr: AIManager):
         "phase": "voting",
         "message": "聊天结束，开始投票",
     })
+    t = threading.Thread(target=run_vote_timer, args=(game, ai_mgr), daemon=True)
+    vote_timer_threads[game.room_id] = t
+    t.start()
 
 
 async def generate_ai_round(game: Game, ai_mgr: AIManager):
@@ -80,6 +83,7 @@ async def generate_ai_round(game: Game, ai_mgr: AIManager):
         text = await ai.generate()
         if text:
             delay = ai.typing_delay() + random.uniform(0.5, 2.0)
+            broadcast(game.room_id, {"type": "typing_start", "seat": seat})
             await asyncio.sleep(delay)
             game.add_message(seat, text)
             broadcast(game.room_id, {
@@ -88,6 +92,7 @@ async def generate_ai_round(game: Game, ai_mgr: AIManager):
                 "text": text,
                 "is_ai": True,
             })
+            broadcast(game.room_id, {"type": "typing_end", "seat": seat})
 
 
 def run_chat_timer(game: Game, ai_mgr: AIManager):
@@ -97,9 +102,67 @@ def run_chat_timer(game: Game, ai_mgr: AIManager):
     loop.close()
 
 
+async def vote_timer_task(game: Game, ai_mgr: AIManager):
+    """Hard 60-second vote timeout."""
+    await asyncio.sleep(60)
+    if game.phase != GamePhase.VOTING:
+        return
+    game.force_resolve_vote()
+
+    eliminated_seat = next(
+        (s for s, p in game.seats.items()
+         if not p.is_alive and
+         any(r.eliminated == s for r in game.round_records)),
+        None
+    )
+    broadcast(game.room_id, {
+        "type": "elimination",
+        "seat": eliminated_seat,
+        "message": f"{eliminated_seat}号已被淘汰",
+    })
+
+    if game.phase == GamePhase.ENDED:
+        if ai_mgr:
+            ai_mgr.finalize_game(game.seats)
+        all_identities = {
+            s: ("AI" if p.is_ai else "真人")
+            for s, p in game.seats.items()
+        }
+        broadcast(game.room_id, {
+            "type": "game_end",
+            "winner": game.final_winner,
+            "identities": all_identities,
+            "chat_log": game.chat_log,
+            "message": f"游戏结束，{'人类' if game.final_winner == 'human' else 'AI'}获胜！",
+        })
+    else:
+        game.round_num += 1
+        game.phase = GamePhase.CHATTING
+        game.phase_start = time.time()
+        for p in game.seats.values():
+            p.voted_for = None
+        broadcast(game.room_id, {
+            "type": "phase_change",
+            "phase": "chatting",
+            "round": game.round_num,
+            "message": f"第{game.round_num}轮开始，聊天进行中...",
+        })
+        t2 = threading.Thread(target=run_chat_timer, args=(game, ai_mgr), daemon=True)
+        timer_threads[game.room_id] = t2
+        t2.start()
+
+
+def run_vote_timer(game: Game, ai_mgr: AIManager):
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
+    loop.run_until_complete(vote_timer_task(game, ai_mgr))
+    loop.close()
+
+
 # ── AI game manager map ────────────────────────────────────────────
 ai_managers: dict[str, AIManager] = {}
 timer_threads: dict[str, threading.Thread] = {}
+vote_timer_threads: dict[str, threading.Thread] = {}
 
 
 # ── WebSocket Application ──────────────────────────────────────────
@@ -208,21 +271,24 @@ class GameApplication(WebSocketApplication):
                 **game.public_state(ws_id),
             }))
 
-            # Auto-start when full
-            if game.ready_to_start():
+            # ── Auto-start when minimum humans are reached ─────────────
+            min_humans = Game.MODE_HUMANS[game.mode]
+            current_humans = sum(1 for p in game.seats.values() if not p.is_ai)
+            if current_humans >= min_humans:
+                # Fill remaining seats with AI
                 ai_seats = [i for i in range(1, Game.MODE_SEATS[game.mode] + 1)
                             if i not in game.seats]
                 ai_mgr = AIManager(llm_cfg, independent=game.ai_independent)
                 ai_mgr.spawn_ais(ai_seats)
                 ai_managers[game.room_id] = ai_mgr
+                for s in ai_seats:
+                    game.add_ai(s)
 
                 game.start_game()
                 broadcast(game.room_id, {
                     "type": "game_start",
                     "message": f"游戏开始！共{Game.MODE_SEATS[game.mode]}人",
-                }, exclude=ws_id)
-                self.ws.send(json.dumps({"type": "game_start", "message": "游戏开始！"}))
-
+                })
                 t = threading.Thread(target=run_chat_timer, args=(game, ai_mgr), daemon=True)
                 timer_threads[game.room_id] = t
                 t.start()

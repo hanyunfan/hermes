@@ -228,6 +228,8 @@ const STATE = {
   winner: null,
   identities: {},
   wsConnected: false,
+  typingSeats: new Set(),
+  votedSeats: [],
 };
 
 let timerInterval = null;
@@ -340,6 +342,17 @@ function handleMsg(msg) {
       // Another player voted — update progress (viewer doesn't know who for)
       break;
 
+    case 'typing_start': {
+      STATE.typingSeats.add(msg.seat);
+      renderTypingIndicator();
+      break;
+    }
+    case 'typing_end': {
+      STATE.typingSeats.delete(msg.seat);
+      renderTypingIndicator();
+      break;
+    }
+
     case 'elimination':
       STATE.eliminated = msg.seat;
       STATE.phase = 'eliminating';
@@ -368,6 +381,11 @@ function applyRoomState(msg) {
   STATE.chatLog = msg.chat_log || [];
   STATE.chatSecLeft = msg.chat_seconds_left || 0;
   STATE.voteSecLeft = msg.vote_seconds_left || 0;
+
+  // Sync voted seats from server state
+  if (msg.voted_seats) {
+    STATE.votedSeats = msg.voted_seats;
+  }
 
   // Set my seat if not already set
   const me = STATE.players.find(p => p.is_you);
@@ -583,6 +601,7 @@ function startTimer(type) {
       STATE.voteSecLeft = Math.max(0, STATE.voteSecLeft - 1);
       updateTimerDisplay('chat-timer', STATE.voteSecLeft);
       updateTimerDisplay('timer-display', STATE.voteSecLeft);
+      if (STATE.phase === 'voting') updateVotingProgress();
     }
   }, 1000);
 }
@@ -650,6 +669,27 @@ function escHtml(s) {
   return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
+function renderTypingIndicator() {
+  const container = document.getElementById('chat-messages');
+  if (!container) return;
+  let existing = document.getElementById('typing-indicator');
+  if (!STATE.typingSeats || STATE.typingSeats.size === 0) {
+    if (existing) existing.remove();
+    return;
+  }
+  const seats = Array.from(STATE.typingSeats).sort((a, b) => a - b);
+  const names = seats.map(s => `${s}号`).join(' ');
+  const html = `<span class="seat-tag" style="color:var(--muted)">${names} 正在输入<span class="anim-dots">...</span></span>`;
+  if (!existing) {
+    existing = document.createElement('div');
+    existing.id = 'typing-indicator';
+    existing.className = 'typing-indicator';
+    container.appendChild(existing);
+  }
+  existing.innerHTML = html;
+  container.scrollTop = container.scrollHeight;
+}
+
 // ── Chat input ──────────────────────────────────────────────────
 document.getElementById('btn-send')?.addEventListener('click', sendChat);
 document.getElementById('chat-input')?.addEventListener('keydown', e => {
@@ -680,34 +720,26 @@ function showVotingUI() {
   panel.style.display = 'block';
   grid.innerHTML = '';
 
-  const alivePlayers = STATE.players.filter(p => p.is_alive && p.seat !== STATE.mySeat);
-  alivePlayers.forEach(p => {
+  // Anonymous voting: show all alive targets, no counts
+  const aliveTargets = STATE.players.filter(p => p.is_alive && p.seat !== STATE.mySeat);
+  aliveTargets.forEach(p => {
     const btn = document.createElement('button');
     btn.className = 'vote-btn';
     btn.dataset.seat = p.seat;
-    btn.innerHTML = `${p.seat}号<span class="vote-count-badge" id="vc-${p.seat}"></span>`;
+    btn.innerHTML = `${p.seat}号`;
     btn.addEventListener('click', () => castVote(p.seat));
     grid.appendChild(btn);
   });
 
-  // Show votes progress
-  const progress = document.getElementById('votes-progress');
-  progress.innerHTML = alivePlayers.map(p => `
-    <div class="vote-progress-row">
-      <span>${p.seat}号</span>
-      <div class="vp-bar"><div class="vp-fill" id="vpb-${p.seat}" style="width:0%"></div></div>
-      <span id="vpc-${p.seat}">0</span>
-    </div>
-  `).join('');
+  updateVotingProgress();
 
   updateVoteButtonStates();
 }
 
 function updateVoteButtonStates() {
-  const alivePlayers = STATE.players.filter(p => p.is_alive && p.seat !== STATE.mySeat);
-  alivePlayers.forEach(p => {
-    const btn = document.querySelector(`.vote-btn[data-seat="${p.seat}"]`);
-    if (btn) btn.disabled = STATE.votesCast.has(STATE.mySeat);
+  const alreadyVoted = STATE.votesCast.has(STATE.mySeat);
+  document.querySelectorAll('.vote-btn').forEach(btn => {
+    btn.disabled = alreadyVoted;
   });
 }
 
@@ -716,19 +748,32 @@ function castVote(seat) {
   wsSend({ type: 'vote', vote_for: seat });
   STATE.votesCast.add(STATE.mySeat);
   updateVoteButtonStates();
-  // Update local vote count
-  STATE.votesReceived[seat] = (STATE.votesReceived[seat] || 0) + 1;
-  updateVoteProgressUI();
+  updateVotingProgress();
 }
 
-function updateVoteProgressUI() {
-  const total = STATE.players.filter(p => p.is_alive && p.seat !== STATE.mySeat).length;
-  Object.entries(STATE.votesReceived).forEach(([s, cnt]) => {
-    const fill = document.getElementById(`vpb-${s}`);
-    const txt = document.getElementById(`vpc-${s}`);
-    if (fill) fill.style.width = `${(cnt / Math.max(total, 1)) * 100}%`;
-    if (txt) txt.textContent = cnt;
-  });
+function updateVotingProgress() {
+  const aliveAll = STATE.players.filter(p => p.is_alive);
+  const votedCount = STATE.players.filter(p => p.is_alive && STATE.votesCast.has(p.seat)).length;
+  // Also include voted_seats from server state
+  const serverVotedCount = (STATE.votedSeats || []).length;
+  const total = aliveAll.length;
+  const progress = document.getElementById('votes-progress');
+  progress.innerHTML = `
+    <div class="vote-progress-summary">
+      <span class="vp-check-icon">✓</span>
+      <span>已投票: ${Math.max(votedCount, serverVotedCount)}/${total}</span>
+    </div>
+    <div class="vote-players-status">
+      ${aliveAll.map(p => `
+        <div class="vp-player-row ${p.seat === STATE.mySeat ? 'you' : ''}">
+          <span class="vp-seat">${p.seat}号${p.seat === STATE.mySeat ? '(你)' : ''}</span>
+          <span class="vp-status ${STATE.votesCast.has(p.seat) ? 'voted' : 'pending'}">
+            ${STATE.votesCast.has(p.seat) || (STATE.votedSeats && STATE.votedSeats.includes(p.seat)) ? '✓ 已投' : '○ 待投'}
+          </span>
+        </div>
+      `).join('')}
+    </div>
+  `;
 }
 
 function hideVotingUI() {

@@ -246,6 +246,49 @@ body {
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
 
+/* ── typing indicator ─────────────────────────────────────────── */
+.typing-indicator {
+  padding: 6px 12px;
+  font-size: 0.82rem;
+  color: var(--muted);
+  font-style: italic;
+}
+.anim-dots {
+  display: inline-block;
+  animation: typingDotAnim 1.4s infinite;
+}
+@keyframes typingDotAnim {
+  0%, 20% { content: '.'; }
+  40% { content: '..'; }
+  60%, 100% { content: '...'; }
+}
+
+/* ── voting progress ──────────────────────────────────────────── */
+.vote-progress-summary {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.88rem;
+  color: var(--text);
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+.vp-check-icon { color: var(--green); font-size: 1rem; }
+.vote-players-status { display: flex; flex-direction: column; gap: 5px; }
+.vp-player-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.82rem;
+  padding: 4px 8px;
+  border-radius: 6px;
+  background: var(--surface2);
+}
+.vp-player-row.you { border: 1px solid var(--blue); }
+.vp-seat { color: var(--text); }
+.vp-status { color: var(--muted); }
+.vp-status.voted { color: var(--green); font-weight: 600; }
+.vp-status.pending { color: var(--muted); }
+
 /* ── mobile ─────────────────────────────────────────────────── */
 @media (max-width: 700px) {
   .cards { grid-template-columns: 1fr; width: 100%; }
