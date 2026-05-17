@@ -405,6 +405,7 @@ function applyRoomState(msg) {
   if (me) {
     STATE.mySeat = me.seat;
     STATE.isSpectator = false;
+    STATE.isHost = me.is_host;
   }
 
   renderChatLog();
