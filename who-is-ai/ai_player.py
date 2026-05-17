@@ -5,7 +5,7 @@ and conversational差异化.
 """
 
 import os, json, time, random, asyncio
-from typing import Optional
+from typing import List, Optional, ClassVar
 from dataclasses import dataclass, field
 
 
@@ -91,6 +91,26 @@ class LLMConfig:
     temperature: float = 0.8
     max_tokens: int = 150
     persona: str = "casual"
+
+    _instance: ClassVar[Optional["LLMConfig"]] = None
+
+    @classmethod
+    def get(cls) -> "LLMConfig":
+        if cls._instance is None:
+            cls._instance = load_llm_config()
+        return cls._instance
+
+    @classmethod
+    def update(cls, api_url=None, model_name=None, temperature=None, max_tokens=None):
+        cfg = cls.get()
+        if api_url is not None:
+            cfg.api_url = api_url
+        if model_name is not None:
+            cfg.model_name = model_name
+        if temperature is not None:
+            cfg.temperature = temperature
+        if max_tokens is not None:
+            cfg.max_tokens = max_tokens
 
 
 def load_llm_config() -> LLMConfig:

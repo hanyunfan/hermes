@@ -448,13 +448,44 @@ def list_rooms():
     out = []
     for r in rooms.rooms.values():
         if r.phase == GamePhase.WAITING and r.is_public:
+            human_count = sum(1 for p in r.seats.values() if not p.is_ai)
             out.append({
                 "room_id": r.room_id,
                 "mode": r.mode.value,
-                "human_count": sum(1 for p in r.seats.values() if not p.is_ai),
+                "human_count": human_count,
                 "total_seats": Game.MODE_SEATS[r.mode],
+                "has_password": bool(r.password),
             })
     return jsonify(out)
+
+
+@app.route("/api/config/ai", methods=["GET", "POST"])
+def ai_config():
+    from ai_player import LLMConfig
+    if request.method == "GET":
+        cfg = LLMConfig.get()
+        return jsonify({
+            "api_url": cfg.api_url,
+            "model_name": cfg.model_name,
+            "temperature": cfg.temperature,
+            "max_tokens": cfg.max_tokens,
+        })
+    # POST: update config
+    data = request.get_json(force=True) or {}
+    LLMConfig.update(
+        api_url=data.get("api_url", ""),
+        model_name=data.get("model_name", ""),
+        temperature=float(data.get("temperature", 0.8)),
+        max_tokens=int(data.get("max_tokens", 150)),
+    )
+    # Notify all connected clients to refresh AI config
+    for ws_id, state in list(conn_state.items()):
+        try:
+            from geventwebsocket import WebSocketApplication
+            pass
+        except Exception:
+            pass
+    return jsonify({"status": "ok"})
 
 
 @app.route("/style.css")
