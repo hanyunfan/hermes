@@ -488,8 +488,8 @@ async function refreshPublicRooms() {
     list.innerHTML = rooms.map(r => `
       <div class="room-list-item" data-rid="${r.room_id}">
         <div>
-          <div class="rl-id">${r.room_id}</div>
-          <div class="rl-info">${r.mode === 'standard' ? '9人标准局' : '4人轻量局'}</div>
+          <div class="rl-id">${r.has_password ? '🔒 ' : ''}${r.room_id}</div>
+          <div class="rl-info">${r.mode === 'standard' ? '9人标准局' : '4人轻量局'}${r.has_password ? ' 🔑' : ''}</div>
         </div>
         <div class="rl-players">${r.human_count}/${r.total_seats} 人</div>
       </div>
