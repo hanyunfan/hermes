@@ -5,6 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Who is AI — 人机鉴别群聊游戏</title>
 <link rel="stylesheet" href="style.css">
+<!-- Base path: /hermes/who-is-ai/ on github.io, / on local dev -->
+<script>
+  // Set __WHOISA_BASE__ before any other scripts run
+  window.__WHOISA_BASE__ = location.hostname === 'hanyunfan.github.io'
+    ? '/hermes/who-is-ai' : '';
+</script>
+<script>document.write('<base href="' + window.__WHOISA_BASE__ + '/">');</script>
 </head>
 <body>
 
@@ -244,7 +251,8 @@ let timerInterval = null;
 // ═══════════════════════════════════════════════════════════════════
 function wsConnect() {
   const proto = location.protocol === 'https:' ? 'wss:' : 'ws:';
-  const ws = new WebSocket(`${proto}//${location.host}/ws`);
+  const base = window.__WHOISA_BASE__ || '';
+  const ws = new WebSocket(`${proto}//${location.host}${base}/ws`);
   STATE.ws = ws;
 
   ws.onopen = () => {
@@ -478,7 +486,8 @@ function initLobby() {
 
 async function refreshPublicRooms() {
   try {
-    const resp = await fetch('/api/rooms');
+    const base = window.__WHOISA_BASE__ || '';
+    const resp = await fetch(`${base}/api/rooms`);
     const rooms = await resp.json();
     const list = document.getElementById('public-rooms-list');
     if (!rooms || rooms.length === 0) {

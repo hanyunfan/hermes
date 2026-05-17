@@ -1,0 +1,50 @@
+name: Deploy Who-is-AI to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+    paths: ['who-is-ai/**']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages-who-is-ai
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      # Static files only — no server needed for GitHub Pages
+      # The game requires a live WebSocket server, so we serve a static landing page
+      - name: Copy static files
+        run: |
+          mkdir -p who-is-ai/
+          # index.html, style.css are already there
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: 'who-is-ai/'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

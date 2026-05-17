@@ -433,6 +433,9 @@ class GameApplication(WebSocketApplication):
 
 
 # ── HTTP routes ────────────────────────────────────────────────────
+base = os.environ.get("SCRIPT_NAME", "")
+
+
 @app.route("/")
 def index():
     return send_from_directory(".", "index.html")
