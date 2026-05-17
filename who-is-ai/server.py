@@ -271,24 +271,35 @@ class GameApplication(WebSocketApplication):
                 **game.public_state(ws_id),
             }))
 
-            # ── Auto-start when minimum humans are reached ─────────────
+            # ── Auto-fill AI seats once minimum humans are reached ────────
             min_humans = Game.MODE_HUMANS[game.mode]
             current_humans = sum(1 for p in game.seats.values() if not p.is_ai)
-            if current_humans >= min_humans:
-                # Fill remaining seats with AI
+            if current_humans >= min_humans and not game.is_full():
+                # Fill remaining seats with AI immediately (before game starts)
                 ai_seats = [i for i in range(1, Game.MODE_SEATS[game.mode] + 1)
                             if i not in game.seats]
-                ai_mgr = AIManager(llm_cfg, independent=game.ai_independent)
-                ai_mgr.spawn_ais(ai_seats)
-                ai_managers[game.room_id] = ai_mgr
+                if not ai_seats:
+                    return
+                if game.room_id not in ai_managers:
+                    ai_mgr = AIManager(llm_cfg, independent=game.ai_independent)
+                    ai_mgr.spawn_ais(ai_seats)
+                    ai_managers[game.room_id] = ai_mgr
                 for s in ai_seats:
                     game.add_ai(s)
+                # Broadcast updated room state so everyone sees AI players seated
+                broadcast(game.room_id, {
+                    "type": "room_state",
+                    **game.public_state(ws_id),
+                })
 
+            # ── Start game only when all seats are filled ────────────────
+            if game.is_full() and game.phase == GamePhase.WAITING:
                 game.start_game()
                 broadcast(game.room_id, {
                     "type": "game_start",
                     "message": f"游戏开始！共{Game.MODE_SEATS[game.mode]}人",
                 })
+                ai_mgr = ai_managers.get(game.room_id)
                 t = threading.Thread(target=run_chat_timer, args=(game, ai_mgr), daemon=True)
                 timer_threads[game.room_id] = t
                 t.start()
