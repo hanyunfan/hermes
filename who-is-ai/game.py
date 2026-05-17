@@ -160,7 +160,16 @@ class Game:
         votes: dict[int, int] = {}
         for p in self.alive_players:
             v = p.voted_for
-            votes[v] = votes.get(v, 0) + 1
+            if v and v > 0:  # skip abstain (0) from timeout
+                votes[v] = votes.get(v, 0) + 1
+
+        if not votes:
+            # Everyone abstained — random elimination among tied
+            alive_seats = [s for s, p in self.seats.items() if p.is_alive]
+            if alive_seats:
+                eliminated_seat = random.choice(alive_seats)
+                self._eliminate(eliminated_seat)
+            return
 
         max_votes = max(votes.values())
         tied = [s for s, c in votes.items() if c == max_votes]

@@ -392,9 +392,11 @@ class GameApplication(WebSocketApplication):
             game = state.get("game")
             if not game or game.phase != GamePhase.ENDED or not state.get("is_host"):
                 return
+            # Stop existing timers
+            timer_threads.pop(game.room_id, None)
+            vote_timer_threads.pop(game.room_id, None)
             rooms.delete(game.room_id)
             ai_managers.pop(game.room_id, None)
-            timer_threads.pop(game.room_id, None)
             new_game = rooms.create(
                 mode=game.mode, host_ws_id=ws_id,
                 chat_duration=game.chat_duration,
