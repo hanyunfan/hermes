@@ -501,18 +501,16 @@ async function refreshPublicRooms() {
 //  WAITING ROOM
 // ═══════════════════════════════════════════════════════════════════
 function refreshWaitingRoom() {
-  const game = STATE;
-  document.getElementById('wait-room-id').textContent = game.roomId || '------';
-  const modeLabel = game.phase === 'waiting' && game.players.length > 0
-    ? (game.players.length >= 9 ? 'standard' : 'light')
-    : 'light';
+  document.getElementById('wait-room-id').textContent = STATE.roomId || '------';
+  // Determine mode from player count or default to light
+  const totalSeats = STATE.players.length >= 7 ? 9 : 4;
+  const modeLabel = totalSeats === 9 ? 'standard' : 'light';
   document.getElementById('wait-room-mode').textContent = modeLabel === 'standard' ? '9人标准局' : '4人轻量局';
 
-  const totalSeats = modeLabel === 'standard' ? 9 : 4;
   const seatGrid = document.getElementById('wait-seats');
   seatGrid.innerHTML = '';
   for (let i = 1; i <= totalSeats; i++) {
-    const player = game.players.find(p => p.seat === i);
+    const player = STATE.players.find(p => p.seat === i);
     const div = document.createElement('div');
     div.className = 'seat-slot ' + (player ? 'filled' : 'empty');
     div.innerHTML = `
@@ -523,13 +521,13 @@ function refreshWaitingRoom() {
   }
 
   const hint = document.getElementById('wait-hint');
-  if (game.isHost) {
-    const ready = game.players.length >= (modeLabel === 'standard' ? 7 : 3);
-    hint.textContent = ready
-      ? `${game.players.length}/${totalSeats} 人已就位，等待开局...`
-      : `等待更多玩家... (${game.players.length}/${modeLabel === 'standard' ? 7 : 3} 人即可开局)`;
+  const minHumans = totalSeats === 9 ? 7 : 3;
+  if (STATE.isHost) {
+    hint.textContent = STATE.players.length >= minHumans
+      ? `${STATE.players.length}/${totalSeats} 人已就位，等待开局...`
+      : `等待更多玩家... (${STATE.players.length}/${minHumans} 人即可开局)`;
   } else {
-    hint.textContent = game.isSpectator ? '围观中，等待游戏开始...' : '等待房主开始游戏...';
+    hint.textContent = STATE.isSpectator ? '围观中，等待游戏开始...' : '等待房主开始游戏...';
   }
 }
 

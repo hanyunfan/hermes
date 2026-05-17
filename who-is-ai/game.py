@@ -204,10 +204,11 @@ class Game:
         """Returns 'human' or 'ai' or None."""
         alive = self.alive_players
         ai_alive = sum(1 for p in alive if p.is_ai)
-        human_alive = sum(1 for p in alive if not p.is_ai)
 
-        if ai_alive == 0 and len(alive) > 4:
+        # Human wins if all AI eliminated
+        if ai_alive == 0:
             return "human"
+        # AI wins if alive count reaches 4 (threshold per spec)
         if len(alive) <= 4 and ai_alive >= 1:
             return "ai"
         return None
