@@ -109,15 +109,15 @@ class GameApplication(WebSocketApplication):
         conn_state[ws_id] = {"game": None, "player_seat": None, "is_spectator": False, "is_host": False}
         connected_ws[ws_id] = self.ws
 
-    def on_message(self, raw):
-        if not raw:
+    def on_message(self, message):
+        if not message:
             return
         ws_id = str(id(self.ws))
         state = conn_state.get(ws_id, {})
 
         try:
-            msg = json.loads(raw)
-        except json.JSONDecodeError:
+            msg = json.loads(message)
+        except (json.JSONDecodeError, TypeError):
             self.ws.send(json.dumps({"type": "error", "reason": "invalid JSON"}))
             return
 
