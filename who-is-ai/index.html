@@ -187,6 +187,11 @@
   <div class="end-actions">
     <button class="btn btn-primary" id="btn-restart">再来一局</button>
     <button class="btn btn-secondary" id="btn-back-lobby">返回大厅</button>
+    <button class="btn btn-secondary" id="btn-camera-verify" style="display:none;">开启摄像头</button>
+  </div>
+  <div id="camera-preview-area" style="display:none;margin-top:16px;">
+    <video id="camera-video" autoplay muted playsinline style="max-width:240px;border-radius:8px;border:1px solid var(--border);"></video>
+    <div style="font-size:0.8rem;color:var(--muted);margin-top:6px;text-align:center;">你的摄像头 — 结算阶段可见</div>
   </div>
 </div>
 
@@ -837,6 +842,31 @@ function showEndScreen() {
       <span class="l-text">${escHtml(m.text)}</span>
     </div>
   `).join('');
+
+  // Show camera button at end screen (post-game verification)
+  const camBtn = document.getElementById('btn-camera-verify');
+  const camArea = document.getElementById('camera-preview-area');
+  camBtn.style.display = 'inline-flex';
+
+  let cameraStream = null;
+  camBtn.addEventListener('click', async () => {
+    if (cameraStream) {
+      cameraStream.getTracks().forEach(t => t.stop());
+      cameraStream = null;
+      camArea.style.display = 'none';
+      camBtn.textContent = '开启摄像头';
+      return;
+    }
+    try {
+      cameraStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+      const video = document.getElementById('camera-video');
+      video.srcObject = cameraStream;
+      camArea.style.display = 'block';
+      camBtn.textContent = '关闭摄像头';
+    } catch (e) {
+      toast('无法访问摄像头：请在浏览器设置中允许摄像头权限', 'error');
+    }
+  });
 }
 
 document.getElementById('btn-restart')?.addEventListener('click', () => {
