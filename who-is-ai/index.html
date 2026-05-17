@@ -625,7 +625,7 @@ function renderPlayerList() {
   list.innerHTML = STATE.players.map(p => {
     const isMe = p.is_you;
     const isHost = p.is_host;
-    const isAI = p.is_ai;
+    const isAI = p.is_ai && STATE.isHost;  // Only show AI badge to host (god_view)
     const aliveClass = p.is_alive ? '' : 'dead';
     return `
       <div class="player-row ${aliveClass}">
