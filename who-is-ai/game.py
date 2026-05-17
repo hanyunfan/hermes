@@ -274,9 +274,9 @@ class RoomManager:
                god_view: bool = False,
                ai_independent: bool = False,
                max_spectators: int = 50) -> Game:
-        room_id = str(uuid.uuid8())[:6].upper()
+        room_id = str(uuid.uuid4())[:6].upper()
         while room_id in self.rooms:
-            room_id = str(uuid.uuid8())[:6].upper()
+            room_id = str(uuid.uuid4())[:6].upper()
         game = Game(
             room_id=room_id, mode=mode, host_ws_id=host_ws_id,
             chat_duration=chat_duration,

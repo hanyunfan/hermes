@@ -211,6 +211,7 @@
 const STATE = {
   screen: 'lobby',      // lobby | waiting | game | end
   ws: null,
+  _pending: [],         // messages queued before WS open
   mySeat: null,
   roomId: null,
   isHost: false,
@@ -239,7 +240,12 @@ function wsConnect() {
   const ws = new WebSocket(`${proto}//${location.host}/ws`);
   STATE.ws = ws;
 
-  ws.onopen = () => { STATE.wsConnected = true; };
+  ws.onopen = () => {
+    STATE.wsConnected = true;
+    // Flush any messages queued before connection opened
+    STATE._pending.forEach(msg => STATE.ws.send(JSON.stringify(msg)));
+    STATE._pending = [];
+  };
 
   ws.onmessage = (evt) => {
     const msg = JSON.parse(evt.data);
@@ -257,6 +263,9 @@ function wsConnect() {
 function wsSend(obj) {
   if (STATE.ws && STATE.ws.readyState === WebSocket.OPEN) {
     STATE.ws.send(JSON.stringify(obj));
+  } else {
+    // Queue for when connection opens
+    STATE._pending.push(obj);
   }
 }
 
