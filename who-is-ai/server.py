@@ -163,6 +163,38 @@ def run_vote_timer(game: Game, ai_mgr: AIManager):
 ai_managers: dict[str, AIManager] = {}
 timer_threads: dict[str, threading.Thread] = {}
 vote_timer_threads: dict[str, threading.Thread] = {}
+# ── waiting room cleanup (10 min timeout) ─────────────────────────
+def run_room_cleanup():
+    while True:
+        time.sleep(60)
+        now = time.time()
+        for room_id in list(rooms.rooms.keys()):
+            game = rooms.rooms.get(room_id)
+            if not game or game.phase != GamePhase.WAITING:
+                continue
+            if now - game.created_at > 600:  # 10 minutes
+                _close_room(game, reason="房间超过10分钟未开始，已自动关闭")
+
+
+def _close_room(game: Game, reason: str = ""):
+    """Close a room and notify all connected clients."""
+    # Stop timers
+    timer_threads.pop(game.room_id, None)
+    vote_timer_threads.pop(game.room_id, None)
+    ai_managers.pop(game.room_id, None)
+
+    # Notify all clients in the room
+    broadcast(game.room_id, {
+        "type": "room_closed",
+        "reason": reason,
+    })
+    # Remove from rooms
+    rooms.delete(game.room_id)
+
+
+# Start cleanup thread
+_cleaner = threading.Thread(target=run_room_cleanup, daemon=True)
+_cleaner.start()
 
 
 # ── WebSocket Application ──────────────────────────────────────────

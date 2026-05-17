@@ -380,6 +380,11 @@ function handleMsg(msg) {
       showEndScreen();
       break;
 
+    case 'room_closed':
+      toast(msg.reason || '房间已关闭', 'error');
+      showScreen('lobby');
+      break;
+
     case 'error':
       toast(msg.reason || '发生错误', 'error');
       break;
