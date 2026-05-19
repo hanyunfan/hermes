@@ -525,6 +525,7 @@ def ai_config():
         cfg = LLMConfig.get()
         return jsonify({
             "api_url": cfg.api_url,
+            "api_key": "********" if cfg.api_key else "",
             "model_name": cfg.model_name,
             "temperature": cfg.temperature,
             "max_tokens": cfg.max_tokens,
@@ -532,18 +533,12 @@ def ai_config():
     # POST: update config
     data = request.get_json(force=True) or {}
     LLMConfig.update(
-        api_url=data.get("api_url", ""),
-        model_name=data.get("model_name", ""),
-        temperature=float(data.get("temperature", 0.8)),
-        max_tokens=int(data.get("max_tokens", 150)),
+        api_url=data.get("api_url"),
+        api_key=data.get("api_key"),
+        model_name=data.get("model_name"),
+        temperature=float(data["temperature"]) if "temperature" in data else None,
+        max_tokens=int(data["max_tokens"]) if "max_tokens" in data else None,
     )
-    # Notify all connected clients to refresh AI config
-    for ws_id, state in list(conn_state.items()):
-        try:
-            from geventwebsocket import WebSocketApplication
-            pass
-        except Exception:
-            pass
     return jsonify({"status": "ok"})
 
 

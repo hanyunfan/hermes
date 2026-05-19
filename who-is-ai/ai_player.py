@@ -101,10 +101,12 @@ class LLMConfig:
         return cls._instance
 
     @classmethod
-    def update(cls, api_url=None, model_name=None, temperature=None, max_tokens=None):
+    def update(cls, api_url=None, api_key=None, model_name=None, temperature=None, max_tokens=None):
         cfg = cls.get()
         if api_url is not None:
             cfg.api_url = api_url
+        if api_key is not None:
+            cfg.api_key = api_key
         if model_name is not None:
             cfg.model_name = model_name
         if temperature is not None:

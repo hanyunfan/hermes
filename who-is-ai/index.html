@@ -95,6 +95,36 @@
         </div>
       </div>
     </div>
+
+    <!-- AI Model Config -->
+    <div class="card" id="ai-config-card">
+      <h2>🤖 AI 模型配置</h2>
+      <div class="form-row">
+        <label>API 地址</label>
+        <input type="text" id="cfg-api-url" placeholder="http://localhost:11434/v1/chat/completions" style="font-size:0.85rem;">
+      </div>
+      <div class="form-row">
+        <label>API Key / Token</label>
+        <input type="password" id="cfg-api-key" placeholder="不填则使用默认值">
+      </div>
+      <div class="form-row">
+        <label>模型名称</label>
+        <input type="text" id="cfg-model-name" placeholder="deepseek-v4-flash">
+      </div>
+      <div class="form-row">
+        <label>Temperature（0.1–2.0）</label>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <input type="range" id="cfg-temperature" min="0.1" max="2.0" step="0.1" value="0.8" style="flex:1;">
+          <span id="cfg-temperature-val" style="min-width:30px;text-align:right;">0.8</span>
+        </div>
+      </div>
+      <div class="form-row">
+        <label>最大回复 Token 数</label>
+        <input type="number" id="cfg-max-tokens" value="150" min="50" max="500" step="10">
+      </div>
+      <button class="btn btn-secondary" id="btn-save-ai-config">保存配置</button>
+      <div id="cfg-save-status" style="margin-top:6px;font-size:0.8rem;color:var(--success);opacity:0;transition:opacity 0.3s;">✓ 已保存</div>
+    </div>
   </div>
 </div>
 
@@ -457,6 +487,56 @@ function initLobby() {
   // Room visibility toggle
   document.getElementById('cfg-room-visibility').addEventListener('change', e => {
     document.getElementById('pwd-row').style.display = e.target.value === 'private' ? 'flex' : 'none';
+  });
+
+  // ── AI Model Config ──────────────────────────────────────────────
+  // Temperature slider preview
+  document.getElementById('cfg-temperature').addEventListener('input', e => {
+    document.getElementById('cfg-temperature-val').textContent = e.target.value;
+  });
+
+  // Load config from server on startup
+  (async () => {
+    try {
+      const base = window.__WHOISA_BASE__ || '';
+      const resp = await fetch(`${base}/api/config/ai`);
+      const cfg = await resp.json();
+      document.getElementById('cfg-api-url').value = cfg.api_url || '';
+      document.getElementById('cfg-api-key').value = '';
+      document.getElementById('cfg-model-name').value = cfg.model_name || '';
+      document.getElementById('cfg-temperature').value = cfg.temperature || 0.8;
+      document.getElementById('cfg-temperature-val').textContent = cfg.temperature || 0.8;
+      document.getElementById('cfg-max-tokens').value = cfg.max_tokens || 150;
+    } catch (_) {}
+  })();
+
+  // Save AI config
+  document.getElementById('btn-save-ai-config').addEventListener('click', async () => {
+    const apiUrl = document.getElementById('cfg-api-url').value.trim();
+    const apiKey = document.getElementById('cfg-api-key').value;
+    const modelName = document.getElementById('cfg-model-name').value.trim();
+    const temperature = parseFloat(document.getElementById('cfg-temperature').value);
+    const maxTokens = parseInt(document.getElementById('cfg-max-tokens').value) || 150;
+    const payload = { temperature, max_tokens: maxTokens };
+    if (apiUrl) payload.api_url = apiUrl;
+    if (apiKey) payload.api_key = apiKey;
+    if (modelName) payload.model_name = modelName;
+    try {
+      const base = window.__WHOISA_BASE__ || '';
+      const resp = await fetch(`${base}/api/config/ai`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      if (resp.ok) {
+        const el = document.getElementById('cfg-save-status');
+        el.style.opacity = '1';
+        setTimeout(() => { el.style.opacity = '0'; }, 2000);
+        if (apiKey) document.getElementById('cfg-api-key').value = '';
+      } else {
+        toast('保存失败', 'error');
+      }
+    } catch (_) { toast('保存失败', 'error'); }
   });
 
   // Create
