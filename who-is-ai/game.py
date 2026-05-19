@@ -225,10 +225,11 @@ class Game:
         # Human wins if all AI eliminated
         if ai_alive == 0:
             return "human"
-        # AI wins when alive < ceil(total_seats / 2)
+        # AI wins when alive < (total_seats + 1) / 2
         # e.g. 9 players → threshold = 5, AI wins at ≤ 4
+        #      6 players → threshold = 3, AI wins at ≤ 2
         #      4 players → threshold = 2, AI wins at ≤ 1
-        if len(alive) < math.ceil(self.total_seats / 2):
+        if len(alive) < (self.total_seats + 1) // 2:
             return "ai"
         return None
 
