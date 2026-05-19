@@ -15,11 +15,6 @@ class GamePhase(Enum):
     ENDED = "ended"              # game over
 
 
-class GameMode(Enum):
-    LIGHT = "light"   # 3 humans + 1 AI = 4
-    STANDARD = "standard"  # 7 humans + 2 AI = 9
-
-
 @dataclass
 class Player:
     seat: int           # 1-9
@@ -39,13 +34,12 @@ class RoundRecord:
 
 
 class Game:
-    # ── static config ──────────────────────────────────────────────
-    MODE_SEATS = {GameMode.LIGHT: 4, GameMode.STANDARD: 9}
-    MODE_HUMANS = {GameMode.LIGHT: 3, GameMode.STANDARD: 7}
-    MODE_AI = {GameMode.LIGHT: 1, GameMode.STANDARD: 2}
     CHAT_DURATIONS = [300, 480, 600]  # 5/8/10 min in seconds
 
-    def __init__(self, room_id: str, mode: GameMode, host_ws_id: str,
+    def __init__(self, room_id: str,
+                 total_seats: int,
+                 ai_count: int,
+                 host_ws_id: str,
                  chat_duration: int = 480,
                  is_public: bool = True,
                  password: str = "",
@@ -53,8 +47,14 @@ class Game:
                  god_view: bool = False,
                  ai_independent: bool = False,
                  max_spectators: int = 50):
+        if not (1 <= total_seats <= 9):
+            raise ValueError("total_seats must be 1-9")
+        if not (1 <= ai_count < total_seats):
+            raise ValueError("ai_count must be 1 to total_seats-1")
+
         self.room_id = room_id
-        self.mode = mode
+        self.total_seats = total_seats
+        self.ai_count = ai_count
         self.host_ws_id = host_ws_id
         self.chat_duration = chat_duration
         self.is_public = is_public
@@ -79,7 +79,7 @@ class Game:
 
     # ── seat helpers ────────────────────────────────────────────────
     def available_seat(self) -> Optional[int]:
-        for i in range(1, self.MODE_SEATS[self.mode] + 1):
+        for i in range(1, self.total_seats + 1):
             if i not in self.seats:
                 return i
         return None
@@ -94,15 +94,26 @@ class Game:
         self.seats[seat] = p
         return p
 
+    def seat_player(self, ws_id: str) -> Optional[int]:
+        """Assign a human player to the next available seat. Returns seat number or None if full."""
+        # If ws_id already has a seat, return it
+        for seat, p in self.seats.items():
+            if p.ws_id == ws_id:
+                return seat
+        seat = self.available_seat()
+        if seat is None:
+            return None
+        self.add_player(seat, ws_id)
+        return seat
+
     def fill_ai_slots(self):
-        """Fill remaining seats with AI players once human count is达标."""
-        total = self.MODE_SEATS[self.mode]
-        humans_needed = self.MODE_HUMANS[self.mode]
-        current_humans = sum(1 for p in self.seats.values() if not p.is_ai)
-        for _ in range(humans_needed - current_humans):
-            seat = self.available_seat()
-            if seat:
-                self.add_ai(seat)
+        """Fill remaining seats with AI players up to ai_count."""
+        ai_seats = random.sample(
+            [i for i in range(1, self.total_seats + 1) if i not in self.seats],
+            k=min(self.ai_count, self.total_seats - len(self.seats))
+        )
+        for seat in ai_seats:
+            self.add_ai(seat)
 
     @property
     def alive_players(self) -> list[Player]:
@@ -117,14 +128,11 @@ class Game:
         return sum(1 for p in self.alive_players if p.is_ai)
 
     def is_full(self) -> bool:
-        return all(
-            self.seats.get(i) is not None
-            for i in range(1, self.MODE_SEATS[self.mode] + 1)
-        )
+        return len(self.seats) >= self.total_seats
 
     def ready_to_start(self) -> bool:
         human_count = sum(1 for p in self.seats.values() if not p.is_ai)
-        return human_count >= self.MODE_HUMANS[self.mode] and self.is_full()
+        return human_count >= (self.total_seats - self.ai_count) and self.is_full()
 
     # ── state transitions ───────────────────────────────────────────
     def start_game(self):
@@ -240,7 +248,7 @@ class Game:
     def public_state(self, viewer_ws_id: str) -> dict:
         alive = self.alive_players
         players_out = []
-        for i in range(1, self.MODE_SEATS[self.mode] + 1):
+        for i in range(1, self.total_seats + 1):
             p = self.seats.get(i)
             if p:
                 info = {
@@ -255,7 +263,8 @@ class Game:
 
         return {
             "room_id": self.room_id,
-            "mode": self.mode.value,
+            "total_seats": self.total_seats,
+            "ai_count": self.ai_count,
             "phase": self.phase.value,
             "round_num": self.round_num,
             "chat_duration": self.chat_duration,
@@ -285,7 +294,9 @@ class RoomManager:
     def __init__(self):
         self.rooms: dict[str, Game] = {}
 
-    def create(self, mode: GameMode, host_ws_id: str,
+    def create(self, host_ws_id: str,
+               total_seats: int,
+               ai_count: int,
                chat_duration: int = 480,
                is_public: bool = True,
                password: str = "",
@@ -297,7 +308,10 @@ class RoomManager:
         while room_id in self.rooms:
             room_id = str(uuid.uuid4())[:6].upper()
         game = Game(
-            room_id=room_id, mode=mode, host_ws_id=host_ws_id,
+            room_id=room_id,
+            total_seats=total_seats,
+            ai_count=ai_count,
+            host_ws_id=host_ws_id,
             chat_duration=chat_duration,
             is_public=is_public, password=password,
             spectator_on=spectator_on, god_view=god_view,

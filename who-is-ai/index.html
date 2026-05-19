@@ -25,14 +25,17 @@
     <div class="card">
       <h2>创建房间</h2>
       <div class="form-row">
-        <label>对局模式</label>
-        <div class="toggle-group">
-          <label class="toggle-btn selected" id="mode-light-btn">
-            <input type="radio" name="mode" value="light" checked> 4人轻量局
-          </label>
-          <label class="toggle-btn" id="mode-standard-btn">
-            <input type="radio" name="mode" value="standard"> 9人标准局
-          </label>
+        <label>对局人数</label>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <input type="number" id="cfg-total-seats" value="6" min="2" max="9" style="width:60px;text-align:center;">
+          <span style="color:var(--text-muted);font-size:0.85rem;">人</span>
+        </div>
+      </div>
+      <div class="form-row">
+        <label>AI 数量</label>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <input type="number" id="cfg-ai-count" value="1" min="1" max="8" style="width:60px;text-align:center;" onchange="syncAiMax()">
+          <span style="color:var(--text-muted);font-size:0.85rem;">个</span>
         </div>
       </div>
       <div class="form-row">
@@ -133,7 +136,7 @@
   <div class="room-header">
     <div>
       <div class="room-id" id="wait-room-id">------</div>
-      <div class="room-meta">房间模式：<span id="wait-room-mode">--</span> · 等待玩家加入</div>
+      <div class="room-meta" id="wait-room-meta">等待玩家加入</div>
     </div>
     <div style="display:flex;gap:10px;align-items:center;">
       <button class="btn btn-secondary" id="btn-copy-room">复制房间号</button>
@@ -428,6 +431,8 @@ function applyRoomState(msg) {
   STATE.chatLog = msg.chat_log || [];
   STATE.chatSecLeft = msg.chat_seconds_left || 0;
   STATE.voteSecLeft = msg.vote_seconds_left || 0;
+  STATE.totalSeats = msg.total_seats || 6;
+  STATE.aiCount = msg.ai_count || 1;
 
   // Sync voted seats from server state
   if (msg.voted_seats) {
@@ -473,15 +478,17 @@ function showScreen(name) {
 // ═══════════════════════════════════════════════════════════════════
 //  LOBBY
 // ═══════════════════════════════════════════════════════════════════
+function syncAiMax() {
+  const total = parseInt(document.getElementById('cfg-total-seats').value) || 6;
+  const aiInput = document.getElementById('cfg-ai-count');
+  aiInput.max = total - 1;
+  if (parseInt(aiInput.value) >= total) aiInput.value = total - 1;
+}
+
 function initLobby() {
-  // Mode toggle
-  ['light', 'standard'].forEach(m => {
-    const btn = document.getElementById(`mode-${m}-btn`);
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('selected'));
-      btn.classList.add('selected');
-    });
-  });
+  // Keep ai_count max in sync whenever total_seats changes
+  document.getElementById('cfg-total-seats').addEventListener('input', syncAiMax);
+  syncAiMax();
 
   // Room visibility toggle
   document.getElementById('cfg-room-visibility').addEventListener('change', e => {
@@ -540,7 +547,8 @@ function initLobby() {
 
   // Create
   document.getElementById('btn-create').addEventListener('click', () => {
-    const mode = document.querySelector('.toggle-btn.selected input').value;
+    const totalSeats = parseInt(document.getElementById('cfg-total-seats').value) || 6;
+    const aiCount = parseInt(document.getElementById('cfg-ai-count').value) || 1;
     const chatDur = parseInt(document.getElementById('cfg-chat-duration').value);
     const isPublic = document.getElementById('cfg-room-visibility').value === 'public';
     const password = isPublic ? '' : document.getElementById('cfg-password').value;
@@ -549,7 +557,7 @@ function initLobby() {
     const aiInd = document.getElementById('cfg-ai-independent').checked;
     wsSend({
       type: 'create_room',
-      mode, chat_duration: chatDur,
+      total_seats: totalSeats, ai_count: aiCount, chat_duration: chatDur,
       is_public: isPublic, password,
       spectator_on: spectatorOn, god_view: godView,
       ai_independent: aiInd, max_spectators: 50,
@@ -583,7 +591,7 @@ async function refreshPublicRooms() {
       <div class="room-list-item" data-rid="${r.room_id}">
         <div>
           <div class="rl-id">${r.has_password ? '🔒 ' : ''}${r.room_id}</div>
-          <div class="rl-info">${r.mode === 'standard' ? '9人标准局' : '4人轻量局'}${r.has_password ? ' 🔑' : ''}</div>
+          <div class="rl-info">${r.total_seats}人 · AI ${r.ai_count}个${r.has_password ? ' 🔑' : ''}</div>
         </div>
         <div class="rl-players">${r.human_count}/${r.total_seats} 人</div>
       </div>
@@ -601,10 +609,10 @@ async function refreshPublicRooms() {
 // ═══════════════════════════════════════════════════════════════════
 function refreshWaitingRoom() {
   document.getElementById('wait-room-id').textContent = STATE.roomId || '------';
-  // Determine mode from player count or default to light
-  const totalSeats = STATE.players.length >= 7 ? 9 : 4;
-  const modeLabel = totalSeats === 9 ? 'standard' : 'light';
-  document.getElementById('wait-room-mode').textContent = modeLabel === 'standard' ? '9人标准局' : '4人轻量局';
+  const totalSeats = STATE.totalSeats || STATE.players.length || 6;
+  const aiCount = STATE.aiCount || 1;
+  document.getElementById('wait-room-meta').textContent =
+    `${totalSeats}人局 · AI ${aiCount}个 · 等待玩家加入`;
 
   const seatGrid = document.getElementById('wait-seats');
   seatGrid.innerHTML = '';
@@ -620,7 +628,7 @@ function refreshWaitingRoom() {
   }
 
   const hint = document.getElementById('wait-hint');
-  const minHumans = totalSeats === 9 ? 7 : 3;
+  const minHumans = totalSeats - aiCount;
   if (STATE.isHost) {
     hint.textContent = STATE.players.length >= minHumans
       ? `${STATE.players.length}/${totalSeats} 人已就位，等待开局...`
@@ -715,7 +723,7 @@ function updateTimerDisplay(id, sec) {
 function renderPlayerList() {
   const list = document.getElementById('player-list');
   if (!list) return;
-  const totalSeats = STATE.players.length || 9;
+  const totalSeats = STATE.totalSeats || STATE.players.length || 9;
   list.innerHTML = STATE.players.map(p => {
     const isMe = p.is_you;
     const isHost = p.is_host;

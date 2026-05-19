@@ -12,7 +12,7 @@ from geventwebsocket import WebSocketApplication, Resource
 from geventwebsocket.server import WebSocketServer
 import logging
 
-from game import Game, GameMode, GamePhase, rooms, Player
+from game import Game, GamePhase, rooms, Player
 from ai_player import AIManager, load_llm_config
 
 # ── app setup ─────────────────────────────────────────────────────
@@ -224,8 +224,8 @@ class GameApplication(WebSocketApplication):
 
         # ── create_room ────────────────────────────────────────────
         if msg_type == "create_room":
-            mode_str = msg.get("mode", "standard")
-            mode = GameMode.STANDARD if mode_str == "standard" else GameMode.LIGHT
+            total_seats = int(msg.get("total_seats", 9))
+            ai_count = int(msg.get("ai_count", 2))
             chat_dur = int(msg.get("chat_duration", 480))
             is_public = bool(msg.get("is_public", True))
             password = msg.get("password", "")
@@ -235,7 +235,9 @@ class GameApplication(WebSocketApplication):
             max_spec = int(msg.get("max_spectators", 50))
 
             game = rooms.create(
-                mode=mode, host_ws_id=ws_id,
+                host_ws_id=ws_id,
+                total_seats=total_seats,
+                ai_count=ai_count,
                 chat_duration=chat_dur,
                 is_public=is_public, password=password,
                 spectator_on=spectator_on, god_view=god_view,
@@ -250,11 +252,12 @@ class GameApplication(WebSocketApplication):
             self.ws.send(json.dumps({
                 "type": "room_created",
                 "room_id": game.room_id,
-                "mode": mode.value,
+                "total_seats": game.total_seats,
+                "ai_count": game.ai_count,
             }))
 
             # ── Pre-fill all AI seats immediately on room creation ────────
-            ai_seats = [i for i in range(1, Game.MODE_SEATS[game.mode] + 1)]
+            ai_seats = list(range(1, game.ai_count + 1))
             ai_mgr = AIManager(llm_cfg, independent=game.ai_independent)
             ai_mgr.spawn_ais(ai_seats)
             ai_managers[game.room_id] = ai_mgr
@@ -320,34 +323,19 @@ class GameApplication(WebSocketApplication):
                 **game.public_state(ws_id),
             }))
 
-            # ── Auto-fill AI seats once minimum humans are reached ────────
-            min_humans = Game.MODE_HUMANS[game.mode]
-            current_humans = sum(1 for p in game.seats.values() if not p.is_ai)
-            if current_humans >= min_humans and not game.is_full():
-                # Fill remaining seats with AI immediately (before game starts)
-                ai_seats = [i for i in range(1, Game.MODE_SEATS[game.mode] + 1)
-                            if i not in game.seats]
-                if not ai_seats:
-                    return
-                if game.room_id not in ai_managers:
-                    ai_mgr = AIManager(llm_cfg, independent=game.ai_independent)
-                    ai_mgr.spawn_ais(ai_seats)
-                    ai_managers[game.room_id] = ai_mgr
-                for s in ai_seats:
-                    game.add_ai(s)
-                # Broadcast updated room state so everyone sees AI players seated
-                broadcast(game.room_id, {
-                    "type": "room_state",
-                    **game.public_state(ws_id),
-                })
+            # ── Seat the new human player ───────────────────────────────
+            seat = game.seat_player(ws_id)
+            if seat is None:
+                self.ws.send(json.dumps({"type": "error", "reason": "房间已满"}))
+                return
 
-            # ── Start game only when all seats are filled ────────────────
+            # ── Check if room is now full → auto-start game ──────────────
             if game.is_full() and game.phase == GamePhase.WAITING:
                 game.start_game()
                 state_payload = game.public_state(ws_id)
                 broadcast(game.room_id, {
                     "type": "game_start",
-                    "message": f"游戏开始！共{Game.MODE_SEATS[game.mode]}人",
+                    "message": f"游戏开始！共{game.total_seats}人",
                     **state_payload,
                 })
                 ai_mgr = ai_managers.get(game.room_id)
@@ -516,9 +504,9 @@ def list_rooms():
             human_count = sum(1 for p in r.seats.values() if not p.is_ai)
             out.append({
                 "room_id": r.room_id,
-                "mode": r.mode.value,
+                "total_seats": r.total_seats,
+                "ai_count": r.ai_count,
                 "human_count": human_count,
-                "total_seats": Game.MODE_SEATS[r.mode],
                 "has_password": bool(r.password),
             })
     return jsonify(out)
