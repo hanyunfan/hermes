@@ -349,12 +349,11 @@ function handleMsg(msg) {
       break;
 
     case 'game_start':
-      showScreen('game');
-      STATE.phase = 'chatting';
+      // Use applyRoomState to properly initialise timer counts, phase, round, players
+      applyRoomState(msg);
       STATE.eliminated = null;
       STATE.votesCast.clear();
       STATE.votesReceived = {};
-      updatePhaseUI();
       if (!STATE.isSpectator) toast('游戏开始！', 'success');
       else toast('游戏已开始', 'success');
       break;

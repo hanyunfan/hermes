@@ -163,16 +163,20 @@ def run_vote_timer(game: Game, ai_mgr: AIManager):
 ai_managers: dict[str, AIManager] = {}
 timer_threads: dict[str, threading.Thread] = {}
 vote_timer_threads: dict[str, threading.Thread] = {}
-# ── waiting room cleanup (10 min timeout) ─────────────────────────
+# ── room cleanup (2-hour room timeout) ───────────────────────────────
 def run_room_cleanup():
     while True:
         time.sleep(60)
         now = time.time()
         for room_id in list(rooms.rooms.keys()):
             game = rooms.rooms.get(room_id)
-            if not game or game.phase != GamePhase.WAITING:
+            if not game:
                 continue
-            if now - game.created_at > 600:  # 10 minutes
+            # 2-hour hard timeout for all rooms
+            if now - game.created_at > 7200:
+                _close_room(game, reason="房间已运行2小时，已自动关闭")
+            # 10-minute timeout for waiting rooms
+            elif game.phase == GamePhase.WAITING and now - game.created_at > 600:
                 _close_room(game, reason="房间超过10分钟未开始，已自动关闭")
 
 
@@ -340,9 +344,11 @@ class GameApplication(WebSocketApplication):
             # ── Start game only when all seats are filled ────────────────
             if game.is_full() and game.phase == GamePhase.WAITING:
                 game.start_game()
+                state_payload = game.public_state(ws_id)
                 broadcast(game.room_id, {
                     "type": "game_start",
                     "message": f"游戏开始！共{Game.MODE_SEATS[game.mode]}人",
+                    **state_payload,
                 })
                 ai_mgr = ai_managers.get(game.room_id)
                 t = threading.Thread(target=run_chat_timer, args=(game, ai_mgr), daemon=True)
