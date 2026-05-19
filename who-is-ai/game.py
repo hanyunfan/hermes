@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Game logic — room management, chat, voting, win/loss conditions."""
 
-import json, uuid, time, random
+import json, uuid, time, random, math
 from dataclasses import dataclass, field, asdict
 from typing import Optional
 from enum import Enum
@@ -225,8 +225,10 @@ class Game:
         # Human wins if all AI eliminated
         if ai_alive == 0:
             return "human"
-        # AI wins if alive count reaches 4 (threshold per spec)
-        if len(alive) <= 4 and ai_alive >= 1:
+        # AI wins when alive < ceil(total_seats / 2)
+        # e.g. 9 players → threshold = 5, AI wins at ≤ 4
+        #      4 players → threshold = 2, AI wins at ≤ 1
+        if len(alive) < math.ceil(self.total_seats / 2):
             return "ai"
         return None
 
