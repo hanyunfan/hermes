@@ -1,5 +1,11 @@
 [
   {
+    "hostname": "node016",
+    "display_name": null,
+    "gpu_type": "H200_NVL",
+    "gpu_count": 8
+  },
+  {
     "hostname": "node012",
     "display_name": "16xXE9712_llama3_8b",
     "gpu_type": "GB300",
