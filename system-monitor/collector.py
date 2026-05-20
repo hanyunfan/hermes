@@ -124,6 +124,7 @@ def _probe_amd():
     Probe AMD GPUs using amd-smi CLI.
     GPU count from `amd-smi list`. GPU name from `amd-smi static -a`.
     """
+    print("[probe] _probe_amd() called")
     global GPU_COUNT, GPU_TYPE
     global GPU_VENDOR   # override lspci result (lspci may show "3D controller" without "AMD")
     try:
@@ -131,6 +132,9 @@ def _probe_amd():
             ["amd-smi", "list"],
             capture_output=True, text=True, timeout=10
         )
+        print(f"[probe] amd-smi list rc={result.returncode}")
+        print(f"[probe] amd-smi list stdout: {repr(result.stdout[:300])}")
+        print(f"[probe] amd-smi list stderr: {repr(result.stderr[:100])}")
         gpu_lines = [ln for ln in result.stdout.strip().splitlines() if ln.strip()]
         GPU_COUNT = min(8, len(gpu_lines))
         GPU_VENDOR = "amd"   # confirmed by amd-smi
