@@ -387,8 +387,9 @@ function onCustomDateChange() {
   refresh();
 }
 
-function setMachine(hostname) {
-  currentMachine = machines.find(m => m.hostname === hostname) || null;
+function setMachine(key) {
+  // key may be hostname or display_name — find by either
+  currentMachine = machines.find(m => m.hostname === key || (m.display_name && m.display_name === key)) || null;
   refresh();
 }
 
@@ -406,7 +407,7 @@ async function loadMachines() {
     }
     machines.forEach(m => {
       const opt = document.createElement('option');
-      opt.value = m.hostname;
+      opt.value = m.display_name || m.hostname;
       const gpuDesc = m.gpu_count > 0
         ? ` (${m.gpu_type || 'GPU'} x${m.gpu_count})`
         : ' (no GPU)';
@@ -414,7 +415,7 @@ async function loadMachines() {
       opt.textContent = shownName + gpuDesc;
       sel.appendChild(opt);
     });
-    sel.value = machines[0].hostname;
+    sel.value = machines[0].display_name || machines[0].hostname;
     currentMachine = machines[0];
   } catch (e) {
     console.error('Failed to load machines:', e);
@@ -425,7 +426,7 @@ async function loadMachines() {
 // ─── Refresh ─────────────────────────────────────────────────────────────────
 async function refresh() {
   if (!currentMachine) return;
-  const hostname  = currentMachine.hostname;
+  const machineKey = currentMachine.display_name || currentMachine.hostname;
   const gpuCount  = currentMachine.gpu_count || 0;
   const hasGpu    = gpuCount > 0;
 
@@ -464,14 +465,14 @@ async function refresh() {
   const todayUTC     = d.toISOString().slice(0, 10).replace(/-/g, '');
   const yesterdayUTC = yd.toISOString().slice(0, 10).replace(/-/g, '');
 
-  let files = ['data/metrics_' + hostname + '_' + todayUTC + '.json'];
+  let files = ['data/metrics_' + machineKey + '_' + todayUTC + '.json'];
   if (currentRange === 'day') {
-    files.push('data/metrics_' + hostname + '_' + yesterdayUTC + '.json');
+    files.push('data/metrics_' + machineKey + '_' + yesterdayUTC + '.json');
   } else if (currentRange === 'week') {
     // Load the last 7 UTC date files so the week chart has full coverage.
     const weekFiles = getUTCDateStrings(7).slice(1); // already have today, drop it
     weekFiles.forEach(f => {
-      if (!files.includes(f)) files.push('data/metrics_' + hostname + '_' + f + '.json');
+      if (!files.includes(f)) files.push('data/metrics_' + machineKey + '_' + f + '.json');
     });
   } else if (currentRange === 'custom') {
     const startInput = document.getElementById('custom-start');
@@ -484,7 +485,7 @@ async function refresh() {
       const cur  = new Date(startMs);
       while (cur.getTime() <= endMs) {
         const utcStr = cur.toISOString().slice(0, 10).replace(/-/g, '');
-        const f = 'data/metrics_' + hostname + '_' + utcStr + '.json';
+        const f = 'data/metrics_' + machineKey + '_' + utcStr + '.json';
         if (!seen.has(f)) { seen.add(f); files.push(f); }
         cur.setDate(cur.getDate() + 1);
       }
@@ -515,7 +516,7 @@ async function refresh() {
 
   if (allData.length === 0) {
     document.getElementById('updated').textContent =
-      'No data for this range on [' + hostname + ']. Collector may not be running.';
+      'No data for this range on [' + machineKey + ']. Collector may not be running.';
     return;
   }
 
@@ -606,7 +607,7 @@ async function refresh() {
 
   document.getElementById('updated').textContent =
     'Updated: ' + new Date().toLocaleTimeString() +
-    ' | ' + allData.length + ' pts | ' + hostname;
+    ' | ' + allData.length + ' pts | ' + machineKey;
 }
 
 function _normalizeGpus(gpu) {
