@@ -577,7 +577,7 @@ async function selectDate(dateStr) {
 
 async function loadDayData(dateStr) {
   if (!currentMachine) return;
-  const machineKey = currentMachine.display_name || currentMachine.hostname;
+  const machineKey = currentMachine.hostname;
   const gpuCount  = currentMachine.gpu_count || 0;
   const hasGpu    = gpuCount > 0;
 
@@ -756,7 +756,7 @@ async function loadMachines() {
 // ─── Refresh ─────────────────────────────────────────────────────────────────
 async function refresh() {
   if (!currentMachine) return;
-  const machineKey = currentMachine.display_name || currentMachine.hostname;
+  const machineKey = currentMachine.hostname;
   const gpuCount  = currentMachine.gpu_count || 0;
   const hasGpu    = gpuCount > 0;
 
