@@ -40,6 +40,69 @@
   .updated { font-size: 0.75rem; color: #555; margin-top: 8px; }
   .loading { opacity: 0.5; pointer-events: none; }
   .gpu-tag { font-size: 0.7rem; background: #2d6cdf; color: #fff; padding: 2px 8px; border-radius: 4px; margin-left: 8px; }
+  /* ── Mini Calendar ─────────────────────────────────────── */
+  #calendar-wrap {
+    display: none;
+    position: relative;
+    margin-top: 8px;
+  }
+  #calendar-wrap.visible { display: block; }
+  #calendar {
+    position: absolute;
+    top: 0; left: 0;
+    background: #1a1d27;
+    border: 1px solid #252a3a;
+    border-radius: 10px;
+    padding: 12px 14px;
+    width: 284px;
+    z-index: 100;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+  }
+  .cal-nav {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 8px;
+  }
+  .cal-nav button {
+    background: #252a3a; border: 1px solid #333;
+    color: #e0e0e0; border-radius: 4px; padding: 2px 8px;
+    cursor: pointer; font-size: 0.85rem;
+  }
+  .cal-nav button:hover { background: #333; }
+  .cal-title { font-size: 0.85rem; font-weight: 600; color: #ccc; }
+  .cal-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 2px;
+    text-align: center;
+  }
+  .cal-dow {
+    font-size: 0.65rem; color: #555; padding: 2px 0 4px;
+    text-transform: uppercase; letter-spacing: 0.04em;
+  }
+  .cal-day {
+    font-size: 0.75rem; color: #888;
+    padding: 5px 2px; border-radius: 4px; cursor: pointer;
+    position: relative;
+  }
+  .cal-day:hover:not(.cal-empty) { background: #252a3a; color: #e0e0e0; }
+  .cal-day.cal-today { border: 1px solid #2d6cdf; }
+  .cal-day.cal-selected { background: #2d6cdf; color: #fff; }
+  .cal-day.cal-empty { cursor: default; }
+  .cal-day.cal-has-data::after {
+    content: '';
+    display: block;
+    width: 4px; height: 4px;
+    background: #81c784;
+    border-radius: 50%;
+    position: absolute;
+    bottom: 2px; left: 50%; transform: translateX(-50%);
+  }
+  .cal-day.cal-selected.cal-has-data::after { background: #fff; }
+  .cal-today-btn {
+    font-size: 0.7rem; color: #2d6cdf; cursor: pointer;
+    margin-top: 6px; text-align: center;
+  }
+  .cal-today-btn:hover { color: #5a9eff; }
   @media (max-width: 600px) {
     .charts { grid-template-columns: 1fr; }
     .stat-value { font-size: 1.3rem; }
@@ -61,13 +124,11 @@
   <button id="btn-hour"  class="active" data-range="hour"   onclick="setRange('hour')">Hour</button>
   <button id="btn-day"              data-range="day"     onclick="setRange('day')">Day</button>
   <button id="btn-week"             data-range="week"    onclick="setRange('week')">Week</button>
-  <button id="btn-custom"           data-range="custom"  onclick="setRange('custom')" style="border-color:#555">Custom</button>
-  <span id="custom-range" style="display:none;align-items:center;gap:4px">
-    <input type="datetime-local" id="custom-start" onchange="onCustomDateChange()" />
-    <span style="color:#666;font-size:0.8rem">→</span>
-    <input type="datetime-local" id="custom-end" onchange="onCustomDateChange()" />
-  </span>
+  <button id="btn-custom"           data-range="custom"  onclick="setRange('custom')" style="border-color:#555">Calendar</button>
   <button onclick="refresh()" style="margin-left:auto">🔄 Refresh</button>
+</div>
+<div id="calendar-wrap">
+  <div id="calendar"></div>
 </div>
 
 <div class="stats" id="stats">
@@ -363,19 +424,242 @@ async function setRange(r) {
   currentRange = r;
   ['btn-hour','btn-day','btn-week','btn-custom'].forEach(id => document.getElementById(id).classList.remove('active'));
   document.getElementById('btn-' + r).classList.add('active');
-  const customRange = document.getElementById('custom-range');
+  const calWrap = document.getElementById('calendar-wrap');
   if (r === 'custom') {
-    customRange.style.display = 'inline-flex';
-    // Default: start = now-3h, end = now
-    const now = new Date();
-    const threeHrsAgo = new Date(now.getTime() - 3 * 3600000);
-    document.getElementById('custom-end').value = fmtLocal(now);
-    document.getElementById('custom-start').value = fmtLocal(threeHrsAgo);
+    calWrap.classList.add('visible');
+    renderCalendar(calYear, calMonth);
+    // Do NOT call refresh() here — wait for user to pick a date via selectDate()
+    return;
   } else {
-    customRange.style.display = 'none';
+    calWrap.classList.remove('visible');
+    calSelected = null;
   }
   clearDisplay();
   await refresh();
+}
+
+// ─── Calendar ───────────────────────────────────────────────────────────────
+let calYear  = new Date().getFullYear();
+let calMonth = new Date().getMonth();   // 0-based
+let calSelected = null;                 // 'YYYYMMDD'
+let availableDates = new Set();         // dates that have data for current machine
+
+// Scan a month and record which dates have data for the current machine.
+// Results are merged into availableDates so dots persist across month navigation.
+async function scanAvailableDates(year, month) {
+  if (!currentMachine) return;
+  const key = currentMachine.display_name || currentMachine.hostname;
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  // Use a local set for this scan, then merge
+  const localAvailable = new Set();
+  const promises = [];
+  for (let d = 1; d <= daysInMonth; d++) {
+    const dateStr = String(year) + String(month + 1).padStart(2, '0') + String(d).padStart(2, '0');
+    promises.push(checkDate(key, dateStr, localAvailable));
+  }
+  await Promise.all(promises);
+  // Merge into global set
+  localAvailable.forEach(d => availableDates.add(d));
+  // Refresh the dot indicators in the already-rendered calendar without full re-render
+  refreshCalendarDots();
+}
+
+async function checkDate(key, dateStr, localSet) {
+  try {
+    const r = await fetch('data/metrics_' + key + '_' + dateStr + '.json?t=' + Date.now());
+    if (r.ok) {
+      const text = await r.text();
+      const lines = text.trim().split('\n').filter(l => l.trim());
+      if (lines.length > 0) localSet.add(dateStr);
+    }
+  } catch { }
+}
+
+// Lightweight refresh: update dot indicators without full re-render
+function refreshCalendarDots() {
+  document.querySelectorAll('.cal-day').forEach(el => {
+    const d = el.textContent;
+    if (!d) return;
+    const dateStr = String(calYear) + String(calMonth+1).padStart(2,'0') + String(d).padStart(2,'0');
+    if (availableDates.has(dateStr)) {
+      el.classList.add('cal-has-data');
+    }
+  });
+}
+
+function renderCalendar(year, month) {
+  calYear  = year;
+  calMonth = month;
+  const today = new Date();
+  const todayStr = today.getFullYear() + String(today.getMonth()+1).padStart(2,'0') + String(today.getDate()).padStart(2,'0');
+  const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+  // Navigation
+  let html = `<div class="cal-nav">
+    <button onclick="prevMonth()">&#8592;</button>
+    <span class="cal-title">${MONTHS[month]} ${year}</span>
+    <button onclick="nextMonth()">&#8594;</button>
+  </div>`;
+
+  // Day-of-week headers
+  ['Su','Mo','Tu','We','Th','Fr','Sa'].forEach(d => html += `<div class="cal-dow">${d}</div>`);
+
+  // Day cells
+  const firstDay = new Date(year, month, 1).getDay(); // 0=Sun
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  for (let i = 0; i < firstDay; i++) html += `<div class="cal-day cal-empty"></div>`;
+  for (let d = 1; d <= daysInMonth; d++) {
+    const dateStr = String(year) + String(month+1).padStart(2,'0') + String(d).padStart(2,'0');
+    const isToday  = dateStr === todayStr;
+    const isSel    = dateStr === calSelected;
+    const hasData  = availableDates.has(dateStr);
+    const classes  = ['cal-day'];
+    if (isToday)  classes.push('cal-today');
+    if (isSel)   classes.push('cal-selected');
+    if (hasData) classes.push('cal-has-data');
+    html += `<div class="${classes.join(' ')}" onclick="selectDate('${dateStr}')">${d}</div>`;
+  }
+
+  html += `<div class="cal-today-btn" onclick="goToday()">Today</div>`;
+  document.getElementById('calendar').innerHTML = html;
+
+  // Re-scan for this month (async, don't block render)
+  scanAvailableDates(year, month);
+}
+
+function prevMonth() {
+  let m = calMonth - 1;
+  let y = calYear;
+  if (m < 0) { m = 11; y--; }
+  renderCalendar(y, m);
+}
+
+function nextMonth() {
+  let m = calMonth + 1;
+  let y = calYear;
+  if (m > 11) { m = 0; y++; }
+  renderCalendar(y, m);
+}
+
+function goToday() {
+  const t = new Date();
+  calYear  = t.getFullYear();
+  calMonth = t.getMonth();
+  calSelected = String(calYear) + String(calMonth+1).padStart(2,'0') + String(t.getDate()).padStart(2,'0');
+  renderCalendar(calYear, calMonth);
+  selectDate(calSelected);
+}
+
+async function selectDate(dateStr) {
+  calSelected = dateStr;
+  // Update visual selection without re-scanning
+  document.querySelectorAll('.cal-day').forEach(el => el.classList.remove('cal-selected'));
+  // Re-render to show selection highlight
+  renderCalendar(calYear, calMonth);
+  // Override the file list to use this single day
+  clearDisplay();
+  await loadDayData(dateStr);
+}
+
+async function loadDayData(dateStr) {
+  if (!currentMachine) return;
+  const machineKey = currentMachine.display_name || currentMachine.hostname;
+  const gpuCount  = currentMachine.gpu_count || 0;
+  const hasGpu    = gpuCount > 0;
+
+  const f = 'data/metrics_' + machineKey + '_' + dateStr + '.json';
+  let allData = [];
+  try {
+    const r = await fetch(f + '?t=' + Date.now());
+    if (r.ok) {
+      const text  = await r.text();
+      const lines = text.trim().split('\n');
+      lines.forEach(line => { try { allData.push(JSON.parse(line)); } catch { } });
+    }
+  } catch (e) { }
+
+  allData.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
+
+  if (allData.length === 0) {
+    document.getElementById('updated').textContent = 'No data for ' + dateStr + ' on [' + machineKey + ']';
+    return;
+  }
+
+  // ── Top-level stat cards
+  const latest        = allData[allData.length - 1];
+  const cpuMean       = mean(allData.map(d => d.cpu_percent));
+  const memMean       = mean(allData.map(d => d.memory_percent));
+  const memUsedGB     = (latest.memory_used_mb / 1024).toFixed(1);
+  const memTotalGB    = (latest.memory_total_mb / 1024).toFixed(1);
+
+  document.getElementById('s-cpu').textContent = cpuMean.toFixed(1) + '%';
+  document.getElementById('s-cpu-sub').textContent = 'latest: ' + latest.cpu_percent.toFixed(1) + '%';
+  document.getElementById('s-mem').textContent = memMean.toFixed(1) + '%';
+  document.getElementById('s-mem-sub').textContent = memUsedGB + ' / ' + memTotalGB + ' GB';
+
+  // ── GPU stat cards
+  if (hasGpu) {
+    const latestGpus = _normalizeGpus(latest.gpu);
+    const validGpus  = latestGpus.filter(g => !g.error);
+    const gpuUtilMean = validGpus.length ? mean(validGpus.map(g => g.utilization)) : 0;
+    const gpuUtilPct  = gpuUtilMean.toFixed(1);
+    const gpuUtilSub  = validGpus.map(g => 'GPU'+g.id+'='+g.utilization.toFixed(0)+'%').join('  ');
+
+    const totalMemUsed  = validGpus.reduce((s, g) => s + g.memory_used_mb, 0);
+    const totalMemTotal = validGpus.reduce((s, g) => s + g.memory_total_mb, 0);
+    const gpuMemPct     = totalMemTotal > 0 ? (totalMemUsed / totalMemTotal * 100).toFixed(1) : '0.0';
+    const gpuMemSub     = validGpus.map(g => 'GPU'+g.id+'='+(g.memory_used_mb/1024).toFixed(1)+'GB').join('  ');
+
+    document.getElementById('s-gpu').textContent     = gpuUtilPct + '%';
+    document.getElementById('s-gpu-sub').textContent = gpuUtilSub;
+    document.getElementById('s-gpu-mem').textContent = gpuMemPct + '%';
+    document.getElementById('s-gpu-mem-sub').textContent = gpuMemSub;
+
+    const gpuPower = latest.gpu_power || [];
+    const totalPowerW = gpuPower.reduce((s, g) => s + (g.power_w || 0), 0);
+    const powerSub = gpuPower.map(g => 'GPU'+g.id+'='+(g.power_w||'?')+'W').join('  ');
+    document.getElementById('s-power').textContent = totalPowerW.toFixed(1) + ' W';
+    document.getElementById('s-power-sub').textContent = powerSub;
+  } else {
+    ['s-gpu','s-gpu-mem'].forEach(id => document.getElementById(id).textContent = 'N/A');
+    ['s-gpu-sub','s-gpu-mem-sub'].forEach(id => document.getElementById(id).textContent = 'No GPU');
+  }
+
+  // ── System Power
+  const cpuPwr = latest.cpu_power_w;
+  if (cpuPwr != null) {
+    document.getElementById('s-sys-power').textContent = cpuPwr.toFixed(1) + ' W';
+    document.getElementById('sys-power-stat-card').style.display = '';
+  } else {
+    document.getElementById('sys-power-stat-card').style.display = 'none';
+  }
+
+  // ── Network
+  const netData = latest.network || [];
+  if (netData.length > 0) {
+    const totalRx = netData.reduce((s, n) => s + (n.rx_mbs || 0), 0);
+    const totalTx = netData.reduce((s, n) => s + (n.tx_mbs || 0), 0);
+    document.getElementById('s-net').textContent = totalRx.toFixed(2) + ' / ' + totalTx.toFixed(2) + ' MB/s';
+    document.getElementById('s-net-sub').textContent = netData.map(n => n.name+'='+n.rx_mbs.toFixed(1)+'/'+n.tx_mbs.toFixed(1)).join('  ');
+  } else {
+    document.getElementById('s-net').textContent = 'N/A';
+    document.getElementById('s-net-sub').textContent = 'No network data';
+  }
+
+  // ── Charts
+  charts.cpu.data.datasets[0].data = allData.map(d => ({ x: new Date(d.timestamp), y: d.cpu_percent }));
+  charts.mem.data.datasets[0].data  = allData.map(d => ({ x: new Date(d.timestamp), y: d.memory_percent }));
+  charts.cpu.update();
+  charts.mem.update();
+
+  if (hasGpu) updateGpuChart(charts.gpu,       allData, 'utilization',    '%',  gpuCount);
+  if (hasGpu) updateGpuChart(charts['gpu-mem'], allData, 'memory_used_mb', 'MB', gpuCount);
+  updateIoChart(allData);
+  if (latest.gpu_power) updatePowerChart(allData, gpuCount);
+
+  const first = allData[0].timestamp;
+  const last  = allData[allData.length - 1].timestamp;
+  document.getElementById('updated').textContent = 'Showing ' + dateStr + '  (' + first + ' → ' + last + ', ' + allData.length + ' pts)';
 }
 
 function clearDisplay() {
@@ -410,6 +694,11 @@ async function setMachine(key) {
   // key may be hostname or display_name — find by either
   currentMachine = machines.find(m => m.hostname === key || (m.display_name && m.display_name === key)) || null;
   clearDisplay();
+  availableDates.clear();
+  // If calendar is visible, re-render to scan available dates for the new machine
+  if (document.getElementById('calendar-wrap').classList.contains('visible')) {
+    renderCalendar(calYear, calMonth);
+  }
   await refresh();
 }
 
@@ -495,23 +784,10 @@ async function refresh() {
       if (!files.includes(f)) files.push('data/metrics_' + machineKey + '_' + f + '.json');
     });
   } else if (currentRange === 'custom') {
-    const startInput = document.getElementById('custom-start');
-    const endInput   = document.getElementById('custom-end');
-    if (startInput.value && endInput.value) {
-      const startMs = new Date(startInput.value).getTime();
-      const endMs   = new Date(endInput.value).getTime();
-      // Collect all UTC date files that fall within [startMs, endMs]
-      const seen = new Set();
-      const cur  = new Date(startMs);
-      while (cur.getTime() <= endMs) {
-        const utcStr = cur.toISOString().slice(0, 10).replace(/-/g, '');
-        const f = 'data/metrics_' + machineKey + '_' + utcStr + '.json';
-        if (!seen.has(f)) { seen.add(f); files.push(f); }
-        cur.setDate(cur.getDate() + 1);
-      }
-      cutoff  = startMs;
-      timeEnd = endMs;
-    }
+    // Calendar mode: user picks a date via selectDate() which calls loadDayData() directly.
+    // This branch is only hit if currentRange is set to 'custom' without going through setRange().
+    // Fall back to today's file.
+    files = ['data/metrics_' + machineKey + '_' + todayUTC + '.json'];
   }
 
   // ── Fetch & parse
