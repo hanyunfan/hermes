@@ -32,6 +32,9 @@ GPU_COUNT = 0
 GPU_TYPE  = None
 GPU_VENDOR = None   # "nvidia" or "amd"
 
+_amd_monitor_cache = None   # cached _amd_query_all() result
+_amd_last_query = 0.0       # monotonic timestamp of last query
+
 
 # ─── GPU probe: detect vendor then load appropriate backend ───────────────────
 
@@ -112,7 +115,6 @@ def _probe_amd():
     """
     global GPU_COUNT, GPU_TYPE
     try:
-        # Get GPU count: each "GPU: <id>" line in output
         result = subprocess.run(
             ["amd-smi", "list"],
             capture_output=True, text=True, timeout=10
@@ -123,16 +125,14 @@ def _probe_amd():
         if GPU_COUNT == 0:
             raise RuntimeError("amd-smi list returned no GPU entries")
 
-        # Get GPU name (board_name / name) from `amd-smi static -a`
+        # Get GPU name from `amd-smi static -a`
         result = subprocess.run(
             ["amd-smi", "static", "-a", "-g", "0"],
             capture_output=True, text=True, timeout=10
         )
-        # Look for "Marketing Name" or "Board Name" in the output
         name = None
         for line in result.stdout.splitlines():
             if any(k in line for k in ("Marketing Name", "Board Name", "Name", "Model")):
-                # Format: "    Marketing Name: <name>" or similar
                 parts = line.strip().split(":", 1)
                 if len(parts) == 2 and parts[1].strip():
                     name = parts[1].strip()
@@ -150,90 +150,91 @@ def _probe_amd():
         print(f"amd-smi not available, AMD GPU metrics disabled: {e}")
 
 
-# ─── Helper: run amd-smi for a specific GPU, parse output ─────────────────────
+# ─── AMD: single-shot monitor ──────────────────────────────────────────────────
 
-def _amd_run(gpu_id, subcmd, timeout=8):
-    """Run `amd-smi <subcmd> -g <gpu_id>`, return stdout text."""
+def _amd_query_all():
+    """
+    Single `amd-smi monitor -p -t -u -m -w 1 -i 1` call for all GPUs.
+    Caches result for up to 2 seconds to avoid redundant subprocess calls
+    when called multiple times per collect() cycle.
+    """
+    global _amd_monitor_cache, _amd_last_query
+
+    now = time.monotonic()
+    if _amd_monitor_cache is not None and (now - _amd_last_query) < 2.0:
+        return _amd_monitor_cache
+
     try:
         result = subprocess.run(
-            ["amd-smi", subcmd, "-g", str(gpu_id)],
-            capture_output=True, text=True, timeout=timeout
+            ["amd-smi", "monitor", "-p", "-t", "-u", "-m",
+             "-w", "1", "-i", "1"],
+            capture_output=True, text=True, timeout=15
         )
-        return result.stdout if result.returncode == 0 else ""
+        if result.returncode != 0:
+            return {}
+        stdout = result.stdout
     except Exception:
-        return ""
+        return {}
 
+    gpus = {}
+    lines = stdout.strip().splitlines()
 
-def _amd_run_all(subcmd, timeout=8):
-    """Run `amd-smi <subcmd>` (all GPUs), return stdout text."""
-    try:
-        result = subprocess.run(
-            ["amd-smi", subcmd],
-            capture_output=True, text=True, timeout=timeout
-        )
-        return result.stdout if result.returncode == 0 else ""
-    except Exception:
-        return ""
+    # Skip header and blank lines; data lines start with a timestamp digit
+    data_lines = [ln for ln in lines if ln and ln[0].isdigit()]
+    if not data_lines:
+        return {}
 
+    # Parse each data row
+    for line in data_lines:
+        # Columns: TIMESTAMP  GPU  XCP  POWER  PWR_CAP  GPU_T  MEM_T
+        #          GFX_CLK  GFX%  MEM%  MEM_CLOCK  VRAM_USED  VRAM_FREE
+        #          VRAM_TOTAL  VRAM%  PCIE_BW
+        cols = line.split()
+        if len(cols) < 15:
+            continue
+        try:
+            gpu_id = int(cols[1])
+            power_w = float(cols[3].rstrip("W"))
+            power_limit_w = float(cols[4].rstrip("W"))
+            temp_c = float(cols[5].rstrip("°C"))
+            mem_temp_c = float(cols[6].rstrip("°C"))
+            utilization = float(cols[8].rstrip(" %"))
+            memory_percent = float(cols[9].rstrip(" %"))
+            vram_used_raw = re.sub(r"[\sMB]", "", cols[11])
+            memory_used_mb = float(vram_used_raw)
+            vram_total_raw = re.sub(r"[\sMB]", "", cols[13])
+            memory_total_mb = float(vram_total_raw)
+            pcie_bw_raw = re.sub(r"[\sMb/s]", "", cols[15])
+            pcie_bandwidth_mbs = float(pcie_bw_raw)
 
-def _parse_metric_block(stdout, gpu_id, *keys):
-    """
-    Parse an amd-smi output block for a specific GPU.
-    The output format is:
-        GPU: <id>
-            KEY: VALUE
-            KEY2: VALUE2
-    Returns a dict {key: value} for the requested keys, or {} if not found.
-    Only looks at the block belonging to gpu_id.
-    """
-    # Split into per-GPU blocks
-    blocks = re.split(r"^GPU:\s+\d+", stdout, flags=re.MULTILINE)
-    target = None
-    for i, block in enumerate(blocks):
-        # Check if this block's GPU id matches
-        if f"GPU: {gpu_id}" in stdout.split("GPU:")[i] if i < len(blocks) else False:
-            target = block
-            break
+            gpus[gpu_id] = {
+                "id": gpu_id,
+                "power_w": power_w,
+                "power_limit_w": power_limit_w,
+                "temp_c": temp_c,
+                "mem_temp_c": mem_temp_c,
+                "utilization": utilization,
+                "memory_percent": memory_percent,
+                "memory_used_mb": memory_used_mb,
+                "memory_total_mb": memory_total_mb,
+                "pcie_bandwidth_mbs": pcie_bandwidth_mbs,
+                "rxpci_mbs": None,
+                "txpci_mbs": None,
+                "nvlrx_mbs": None,
+                "nvltx_mbs": None,
+            }
+        except (ValueError, IndexError):
+            continue
 
-    if target is None:
-        # Fallback: find block by scanning
-        current_gpu = None
-        block_map = {}
-        current_block = []
-        for line in stdout.splitlines():
-            m = re.match(r"^GPU:\s+(\d+)", line)
-            if m:
-                if current_gpu is not None:
-                    block_map[current_gpu] = "\n".join(current_block)
-                current_gpu = int(m.group(1))
-                current_block = []
-            else:
-                current_block.append(line)
-        if current_gpu is not None:
-            block_map[current_gpu] = "\n".join(current_block)
-        target = block_map.get(gpu_id, "")
-
-    result = {}
-    for key in keys:
-        # Match "KEY: VALUE" or "KEY: UNIT" lines
-        pattern = re.compile(rf"^\s*{re.escape(key)}:\s*(.+?)\s*$", re.MULTILINE)
-        m = pattern.search(target)
-        if m:
-            val_str = m.group(1).strip()
-            # Strip trailing units like "W", "MB", "GB", "°C", "Mb/s", "%"
-            val_clean = re.sub(r"\s*(W|MB|GB|Mb/s|GT/s|%|°C)\s*$", "", val_str)
-            # Handle "N/A"
-            if val_clean == "N/A":
-                result[key] = None
-            else:
-                result[key] = val_clean
-    return result
+    _amd_monitor_cache = gpus
+    _amd_last_query = now
+    return gpus
 
 
 # ─── GPU power ────────────────────────────────────────────────────────────────
 
 def get_gpu_power():
-    """Returns [{id, power_w}] or None. AMD has no power_limit in amd-smi metric."""
+    """Returns [{id, power_w, power_limit_w}] or None."""
     if not GPU_AVAILABLE or GPU_COUNT == 0:
         return None
     if GPU_VENDOR == "nvidia":
@@ -265,20 +266,9 @@ def _nvidia_get_gpu_power():
 
 
 def _amd_get_gpu_power():
-    """amd-smi metric -p: SOCKET_POWER: XX W"""
-    stdout = _amd_run_all("metric -p", timeout=10)
-    gpus = []
-    for i in range(GPU_COUNT):
-        vals = _parse_metric_block(stdout, i, "SOCKET_POWER")
-        entry = {"id": i}
-        raw = vals.get("SOCKET_POWER")
-        if raw is not None:
-            try:
-                entry["power_w"] = float(raw)
-            except ValueError:
-                pass
-        gpus.append(entry)
-    return gpus
+    """Returns all GPU power data from cached _amd_query_all()."""
+    data = _amd_query_all()
+    return [data.get(i, {"id": i}) for i in range(GPU_COUNT)]
 
 
 # ─── GPU PCIe + NVLink throughput ─────────────────────────────────────────────
@@ -375,32 +365,9 @@ def _nvidia_get_gpu_io():
 
 
 def _amd_get_gpu_io():
-    """
-    amd-smi metric -P: PCIe aggregate bandwidth in Mb/s (no per-direction split).
-    Converts to MB/s. NVLink fields stay None.
-    """
-    stdout = _amd_run_all("metric -P", timeout=10)
-    gpus_io = {}
-    for i in range(GPU_COUNT):
-        vals = _parse_metric_block(stdout, i, "BANDWIDTH")
-        raw = vals.get("BANDWIDTH")
-        if raw is not None:
-            try:
-                mbps = float(raw)
-                gpus_io[i] = {
-                    "id": i,
-                    "rxpci_mbs": None,   # amd-smi -P has no direction split
-                    "txpci_mbs": None,
-                    "nvlrx_mbs": None,
-                    "nvltx_mbs": None,
-                    # Store aggregate as "pcie_bandwidth_mbs" for transparency
-                    "pcie_bandwidth_mbs": round(mbps / 8, 3),
-                }
-            except ValueError:
-                gpus_io[i] = {"id": i}
-        else:
-            gpus_io[i] = {"id": i}
-    return [gpus_io.get(i, {"id": i}) for i in range(GPU_COUNT)]
+    """Returns PCIe/NVLink data from cached _amd_query_all()."""
+    data = _amd_query_all()
+    return [data.get(i, {"id": i}) for i in range(GPU_COUNT)]
 
 
 # ─── Network throughput ───────────────────────────────────────────────────────
@@ -523,69 +490,30 @@ def _nvidia_query_gpu_power(gpu_id):
 # ─── AMD helpers ───────────────────────────────────────────────────────────────
 
 def _amd_query_gpu_util_mem(gpu_id):
-    """
-    amd-smi metric -u: GFX_ACTIVITY: XX %
-    amd-smi metric -m: USED_VRAM / TOTAL_VRAM (MB)
-    """
-    entry = {"id": gpu_id}
-
-    # Utilization
-    stdout_u = _amd_run(gpu_id, "metric -u", timeout=8)
-    vals_u = _parse_metric_block(stdout_u, gpu_id, "GFX_ACTIVITY")
-    raw_util = vals_u.get("GFX_ACTIVITY")
-    if raw_util is not None:
-        try:
-            entry["utilization"] = float(raw_util.rstrip(" %"))
-        except ValueError:
-            pass
-
-    # Memory
-    stdout_m = _amd_run(gpu_id, "metric -m", timeout=8)
-    vals_m = _parse_metric_block(stdout_m, gpu_id, "USED_VRAM", "TOTAL_VISIBLE_VRAM")
-    raw_used = vals_m.get("USED_VRAM")
-    raw_total = vals_m.get("TOTAL_VISIBLE_VRAM")
-    if raw_used is not None:
-        try:
-            entry["memory_used_mb"] = float(raw_used.rstrip(" MB"))
-        except ValueError:
-            pass
-    if raw_total is not None:
-        try:
-            entry["memory_total_mb"] = float(raw_total.rstrip(" MB"))
-        except ValueError:
-            pass
-
-    return (gpu_id, entry)
+    """Returns cached util/mem data for one GPU from _amd_query_all()."""
+    data = _amd_query_all()
+    entry = data.get(gpu_id, {"id": gpu_id})
+    # Pick only the util+mem fields
+    return (gpu_id, {
+        "id": gpu_id,
+        "utilization": entry.get("utilization"),
+        "memory_percent": entry.get("memory_percent"),
+        "memory_used_mb": entry.get("memory_used_mb"),
+        "memory_total_mb": entry.get("memory_total_mb"),
+    })
 
 
 def _amd_query_gpu_power(gpu_id):
-    """
-    amd-smi metric -p: SOCKET_POWER: XX W
-    amd-smi metric -t: HOTSPOT: XX °C (EDGE is N/A on MI300)
-    """
-    entry = {"id": gpu_id}
-
-    # Power
-    stdout_p = _amd_run(gpu_id, "metric -p", timeout=8)
-    vals_p = _parse_metric_block(stdout_p, gpu_id, "SOCKET_POWER")
-    raw_power = vals_p.get("SOCKET_POWER")
-    if raw_power is not None:
-        try:
-            entry["power_w"] = float(raw_power.rstrip(" W"))
-        except ValueError:
-            pass
-
-    # Temperature: prefer HOTSPOT, fall back to EDGE
-    stdout_t = _amd_run(gpu_id, "metric -t", timeout=8)
-    vals_t = _parse_metric_block(stdout_t, gpu_id, "HOTSPOT", "EDGE")
-    raw_temp = vals_t.get("HOTSPOT") or vals_t.get("EDGE")
-    if raw_temp is not None:
-        try:
-            entry["temp_c"] = float(raw_temp.rstrip(" °C"))
-        except ValueError:
-            pass
-
-    return (gpu_id, entry)
+    """Returns cached power/temp data for one GPU from _amd_query_all()."""
+    data = _amd_query_all()
+    entry = data.get(gpu_id, {"id": gpu_id})
+    return (gpu_id, {
+        "id": gpu_id,
+        "power_w": entry.get("power_w"),
+        "power_limit_w": entry.get("power_limit_w"),
+        "temp_c": entry.get("temp_c"),
+        "mem_temp_c": entry.get("mem_temp_c"),
+    })
 
 
 # ─── Unified GPU stats collector ─────────────────────────────────────────────
