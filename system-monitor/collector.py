@@ -189,7 +189,7 @@ def _amd_query_all():
 
     try:
         result = subprocess.run(
-            ["amd-smi", "monitor", "-p", "-t", "-u", "-m",
+            ["amd-smi", "monitor", "-p", "-t", "-u", "-m", "-v", "-r",
              "-w", "1", "-i", "1"],
             capture_output=True, text=True, timeout=15
         )
@@ -208,46 +208,40 @@ def _amd_query_all():
         return {}
 
     # Parse each data row
-    for line in data_lines:
-        # Columns: TIMESTAMP  GPU  XCP  POWER  PWR_CAP  GPU_T  MEM_T
-        #          GFX_CLK  GFX%  MEM%  MEM_CLOCK  VRAM_USED  VRAM_FREE
-        #          VRAM_TOTAL  VRAM%  PCIE_BW
-        cols = line.split()
-        if len(cols) < 15:
-            continue
-        try:
-            gpu_id = int(cols[1])
-            power_w = float(cols[3].rstrip("W"))
-            power_limit_w = float(cols[4].rstrip("W"))
-            temp_c = float(cols[5].rstrip("°C"))
-            mem_temp_c = float(cols[6].rstrip("°C"))
-            utilization = float(cols[8].rstrip(" %"))
-            memory_percent = float(cols[9].rstrip(" %"))
-            vram_used_raw = re.sub(r"[\sMB]", "", cols[11])
-            memory_used_mb = float(vram_used_raw)
-            vram_total_raw = re.sub(r"[\sMB]", "", cols[13])
-            memory_total_mb = float(vram_total_raw)
-            pcie_bw_raw = re.sub(r"[\sMb/s]", "", cols[15])
-            pcie_bandwidth_mbs = float(pcie_bw_raw)
+        for line in data_lines:
+            cols = line.split()
+            if len(cols) < 28:
+                continue
+            try:
+                gpu_id = int(cols[1])
+                power_w = float(cols[3])
+                power_limit_w = float(cols[5])
+                temp_c = float(cols[7])
+                mem_temp_c = float(cols[9])
+                utilization = float(cols[13])
+                memory_percent = float(cols[15])
+                memory_used_mb = float(cols[19])
+                memory_total_mb = float(cols[23])
+                pcie_bandwidth_mbs = float(cols[27])
 
-            gpus[gpu_id] = {
-                "id": gpu_id,
-                "power_w": power_w,
-                "power_limit_w": power_limit_w,
-                "temp_c": temp_c,
-                "mem_temp_c": mem_temp_c,
-                "utilization": utilization,
-                "memory_percent": memory_percent,
-                "memory_used_mb": memory_used_mb,
-                "memory_total_mb": memory_total_mb,
-                "pcie_bandwidth_mbs": pcie_bandwidth_mbs,
-                "rxpci_mbs": None,
-                "txpci_mbs": None,
-                "nvlrx_mbs": None,
-                "nvltx_mbs": None,
-            }
-        except (ValueError, IndexError):
-            continue
+                gpus[gpu_id] = {
+                    "id": gpu_id,
+                    "power_w": power_w,
+                    "power_limit_w": power_limit_w,
+                    "temp_c": temp_c,
+                    "mem_temp_c": mem_temp_c,
+                    "utilization": utilization,
+                    "memory_percent": memory_percent,
+                    "memory_used_mb": memory_used_mb,
+                    "memory_total_mb": memory_total_mb,
+                    "pcie_bandwidth_mbs": pcie_bandwidth_mbs,
+                    "rxpci_mbs": None,
+                    "txpci_mbs": None,
+                    "nvlrx_mbs": None,
+                    "nvltx_mbs": None,
+                }
+            except (ValueError, IndexError):
+                continue
 
     _amd_monitor_cache = gpus
     _amd_last_query = now
