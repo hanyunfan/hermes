@@ -665,7 +665,8 @@ def append_to_file(data, period):
 def daemon(interval=10, _display_name=None):
     global display_name
     display_name = _display_name
-    gpu_label = f"{GPU_COUNT}x GPU" if GPU_COUNT else "no GPU"
+    type_label = f" {GPU_TYPE}" if GPU_TYPE else ""
+    gpu_label = f"{GPU_COUNT}x{type_label} GPU" if GPU_COUNT else "no GPU"
     vendor_label = f"({GPU_VENDOR.upper()})" if GPU_VENDOR else ""
     enable_nvlink = (interval >= 10)
     if _display_name:
