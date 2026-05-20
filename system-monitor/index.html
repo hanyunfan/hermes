@@ -496,7 +496,10 @@ function renderCalendar(year, month) {
   const todayStr = today.getFullYear() + String(today.getMonth()+1).padStart(2,'0') + String(today.getDate()).padStart(2,'0');
   const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
-  let html = `<div class="cal-nav">
+  let html = `<div class="cal-grid">`;
+
+  // Nav spans full width (1 row of 7 cols)
+  html += `<div class="cal-nav" style="grid-column:1/-1">
     <button onclick="prevMonth()">&#8592;</button>
     <span class="cal-title">${MONTHS[month]} ${year}</span>
     <button onclick="nextMonth()">&#8594;</button>
@@ -521,6 +524,7 @@ function renderCalendar(year, month) {
     html += `<div class="${classes.join(' ')}" data-date="${dateStr}" onclick="selectDate('${dateStr}')">${d}<span class="dot"></span></div>`;
   }
 
+  html += `</div>`; // close cal-grid
   html += `<div class="cal-today-btn" onclick="goToday()">Today</div>`;
   html += `<div class="cal-scanning" id="cal-scanning">scanning...</div>`;
   document.getElementById('calendar').innerHTML = html;
