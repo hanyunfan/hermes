@@ -58,10 +58,10 @@
     <option value="">— Loading machines —</option>
   </select>
   <label style="margin-left:12px">Range:</label>
-  <button id="btn-hour" class="active" onclick="setRange('hour')">Hour</button>
-  <button id="btn-day" onclick="setRange('day')">Day</button>
-  <button id="btn-week" onclick="setRange('week')">Week</button>
-  <button id="btn-custom" onclick="setRange('custom')" style="border-color:#555">Custom</button>
+  <button id="btn-hour"  class="active" data-range="hour"   onclick="setRange('hour')">Hour</button>
+  <button id="btn-day"              data-range="day"     onclick="setRange('day')">Day</button>
+  <button id="btn-week"             data-range="week"    onclick="setRange('week')">Week</button>
+  <button id="btn-custom"           data-range="custom"  onclick="setRange('custom')" style="border-color:#555">Custom</button>
   <span id="custom-range" style="display:none;align-items:center;gap:4px">
     <input type="datetime-local" id="custom-start" onchange="onCustomDateChange()" />
     <span style="color:#666;font-size:0.8rem">→</span>
@@ -374,7 +374,26 @@ async function setRange(r) {
   } else {
     customRange.style.display = 'none';
   }
+  clearDisplay();
   await refresh();
+}
+
+function clearDisplay() {
+  // Reset all stat cards to placeholder "--" to avoid showing stale data between machine/range switches
+  ['cpu','mem','gpu','gpu-mem','power','sys-power','net'].forEach(type => {
+    const valEl = document.getElementById('s-' + type);
+    const subEl = document.getElementById('s-' + type + '-sub');
+    if (valEl) valEl.textContent = '--';
+    if (subEl) subEl.textContent = '--';
+  });
+  document.getElementById('updated').textContent = '';
+  // Clear chart data
+  if (charts.cpu) {
+    charts.cpu.data.datasets[0].data = [];
+    charts.cpu.update();
+    charts.mem.data.datasets[0].data = [];
+    charts.mem.update();
+  }
 }
 
 function fmtLocal(d) {
@@ -390,6 +409,7 @@ function onCustomDateChange() {
 async function setMachine(key) {
   // key may be hostname or display_name — find by either
   currentMachine = machines.find(m => m.hostname === key || (m.display_name && m.display_name === key)) || null;
+  clearDisplay();
   await refresh();
 }
 
