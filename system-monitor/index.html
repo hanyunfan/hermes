@@ -466,7 +466,7 @@ function checkDateHasData(key, dateStr) {
 // Scan a month and update dots. Called after renderCalendar builds the DOM.
 async function scanAndShowDots(year, month) {
   if (!currentMachine) return;
-  const key = currentMachine.display_name || currentMachine.hostname;
+  const key = currentMachine.hostname;
   const daysInMonth = new Date(year, month + 1, 0).getDate();
   const today = new Date();
   const todayStr = today.getFullYear() + String(today.getMonth()+1).padStart(2,'0') + String(today.getDate()).padStart(2,'0');
@@ -556,7 +556,7 @@ function goToday() {
 // Find the most recent date (up to 365 days back) that has data, for the current machine.
 async function findLatestDateWithData() {
   if (!currentMachine) return null;
-  const key = currentMachine.display_name || currentMachine.hostname;
+  const key = currentMachine.hostname;
   const today = new Date();
   for (let i = 0; i < 365; i++) {
     const d = new Date(today.getTime() - i * 86400000);
