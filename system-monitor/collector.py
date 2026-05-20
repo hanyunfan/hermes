@@ -76,15 +76,16 @@ def _probe_gpu():
             print(f"[probe] nvidia-smi failed: {e}")
             try:
                 r = subprocess.run(
-                    ["amd-smi", "list"],
+                    ["amd-smi", "static", "--gpu", "0"],
                     capture_output=True, text=True, timeout=5
                 )
-                print(f"[probe] amd-smi list rc={r.returncode} stdout={r.stdout[:200]}")
-                if r.returncode == 0:
+                if r.returncode == 0 and "AMD" in r.stdout:
                     GPU_VENDOR = "amd"
-                    print("[probe] amd-smi succeeded")
+                    print("[probe] amd-smi vendor check succeeded")
+                else:
+                    print(f"[probe] amd-smi vendor check failed: {r.stdout[:200]}")
             except Exception as e2:
-                print(f"[probe] amd-smi list except: {e2}")
+                print(f"[probe] amd-smi failed: {e2}")
                 GPU_AVAILABLE = False
                 GPU_COUNT = 0
                 GPU_TYPE = None
