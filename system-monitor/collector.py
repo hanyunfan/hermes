@@ -655,8 +655,9 @@ def collect(enable_nvlink=True):
 
 def append_to_file(data, period):
     ts = datetime.now(timezone.utc).strftime("%Y%m%d")
-    hostname = data.get("hostname", HOSTNAME)
-    path = os.path.join(DATA_DIR, f"{period}_{hostname}_{ts}.json")
+    # Use display_name if set (distinguishes machines with same hostname but different GPU types)
+    name = display_name if display_name else data.get("hostname", HOSTNAME)
+    path = os.path.join(DATA_DIR, f"{period}_{name}_{ts}.json")
     with open(path, "a") as f:
         f.write(json.dumps(data) + "\n")
 
