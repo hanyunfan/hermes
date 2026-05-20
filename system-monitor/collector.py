@@ -723,6 +723,7 @@ def daemon(interval=10, _display_name=None):
 
 
 if __name__ == "__main__":
+    _probe_gpu()
     interval = int(sys.argv[1]) if len(sys.argv) > 1 else 10
     _display_name = sys.argv[2] if len(sys.argv) > 2 else None
     daemon(interval, _display_name)
