@@ -52,12 +52,12 @@ def _probe_gpu():
             capture_output=True, text=True, timeout=5
         )
         for line in result.stdout.splitlines():
-            if "VGA" in line or "3D controller" in line:
+            if any(kw in line for kw in ("VGA", "3D controller", "Processing accelerators")):
                 if any(kw in line for kw in ("NVIDIA", "GeForce", "Quadro", "RTX", "A100", "H100")):
                     GPU_VENDOR = "nvidia"
                     print(f"[probe] lspci detected nvidia: {line.strip()}")
                     break
-                if any(kw in line for kw in ("AMD", "Radeon", "Instinct", "ATI")):
+                if any(kw in line for kw in ("AMD", "Radeon", "Instinct", "ATI", "AMD/ATI")):
                     GPU_VENDOR = "amd"
                     print(f"[probe] lspci detected amd: {line.strip()}")
                     break
