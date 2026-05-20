@@ -44,6 +44,7 @@ def _probe_gpu():
     """
     global GPU_COUNT, GPU_TYPE, GPU_VENDOR
 
+    # Fast path: lspci already tells us the vendor
     try:
         result = subprocess.run(
             ["lspci", "-nn"],
@@ -53,28 +54,37 @@ def _probe_gpu():
             if "VGA" in line or "3D controller" in line:
                 if any(kw in line for kw in ("NVIDIA", "GeForce", "Quadro", "RTX", "A100", "H100")):
                     GPU_VENDOR = "nvidia"
+                    print(f"[probe] lspci detected nvidia: {line.strip()}")
                     break
                 if any(kw in line for kw in ("AMD", "Radeon", "Instinct")):
                     GPU_VENDOR = "amd"
+                    print(f"[probe] lspci detected amd: {line.strip()}")
                     break
-    except Exception:
-        pass
+    except Exception as e:
+        print(f"[probe] lspci failed: {e}")
 
     if GPU_VENDOR is None:
+        print("[probe] lspci found no GPU, trying nvidia-smi / amd-smi fallback")
         try:
             subprocess.run(
                 ["nvidia-smi", "--query-gpu=name", "--format=csv,noheader"],
                 capture_output=True, check=True, timeout=5
             )
             GPU_VENDOR = "nvidia"
-        except Exception:
+            print("[probe] nvidia-smi succeeded")
+        except Exception as e:
+            print(f"[probe] nvidia-smi failed: {e}")
             try:
-                subprocess.run(
+                r = subprocess.run(
                     ["amd-smi", "list"],
-                    capture_output=True, timeout=5
+                    capture_output=True, text=True, timeout=5
                 )
-                GPU_VENDOR = "amd"
-            except Exception:
+                print(f"[probe] amd-smi list rc={r.returncode} stdout={r.stdout[:200]}")
+                if r.returncode == 0:
+                    GPU_VENDOR = "amd"
+                    print("[probe] amd-smi succeeded")
+            except Exception as e2:
+                print(f"[probe] amd-smi list except: {e2}")
                 GPU_AVAILABLE = False
                 GPU_COUNT = 0
                 GPU_TYPE = None
