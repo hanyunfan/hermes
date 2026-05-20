@@ -140,12 +140,12 @@ def _probe_amd():
 
         # Get GPU name from `amd-smi static -a -g 0`
         result = subprocess.run(
-            ["amd-smi", "static", "-a", "-g", "0"],
+            ["amd-smi", "static", "--gpu", "0"],
             capture_output=True, text=True, timeout=10
         )
         name = None
         for line in result.stdout.splitlines():
-            if any(k in line for k in ("Marketing Name", "Board Name", "Name", "Model")):
+            if "PRODUCT_NAME" in line:
                 parts = line.strip().split(":", 1)
                 if len(parts) == 2 and parts[1].strip():
                     name = parts[1].strip()
