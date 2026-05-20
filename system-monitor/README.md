@@ -35,7 +35,7 @@
 A Python daemon that samples metrics every N seconds and **appends** JSON Lines to a local file.
 
 - **Platform**: Linux with `psutil` (CPU/memory) and `nvidia-smi` (GPU)
-- **Output**: `data/metrics_<hostname>_<YYYYMMDD>.json` — one JSON object per line
+- **Output**: `data/metrics_<display_name>_<YYYYMMDD>.json` — one JSON object per line. `display_name` is a required argument (e.g. `XE9785L_MI355X`) used to distinguish machines with identical hostnames.
 - **Scheduling**: `systemd` service (`system-monitor.service`) for auto-start on boot
 - **Hostname**: auto-detected via `socket.gethostname()` — each machine gets its own file
 
@@ -68,10 +68,18 @@ pip install psutil
 ### 2. Start the collector
 
 ```bash
-# Run once to test (interval in seconds):
-python3 collector.py --interval 10                 # PCIe/NVLink enabled
-python3 collector.py --interval 10 "XE9680-006"    # with custom display name
-python3 collector.py --interval 5                  # PCIe/NVLink disabled (red WARNING)
+# Usage: python3 collector.py <interval> <display_name>
+#   <interval>    : polling interval in seconds (e.g. 10)
+#   <display_name>: machine identifier used in JSON filename and frontend (e.g. XE9785L_MI355X)
+
+# Run once to test:
+python3 collector.py 10 XE9785L_MI355X            # AMD MI355X machine
+python3 collector.py 10 XE9680_A100               # NVIDIA A100 machine
+
+# PCIe/NVLink enabled (requires interval >= 10s):
+python3 collector.py 10 XE9680_A100
+# Smaller intervals work but PCIe/NVLink metrics are skipped:
+python3 collector.py 5 XE9680_A100                 # red WARNING printed
 
 # Or install as a systemd service (auto-starts on boot):
 sudo cp system-monitor.service /etc/systemd/system/
@@ -79,20 +87,7 @@ sudo systemctl daemon-reload
 sudo systemctl enable --now system-monitor
 ```
 
-> **Important**: PCIe/NVLink metrics are only collected when `interval >= 10s`. Smaller intervals print a red WARNING and skip these metrics.
-
-### 2b. Custom display name
-
-By default the dashboard shows the machine's hostname. If the hostname is opaque or changes, pass a second argument to set a persistent display name shown in the UI:
-
-```bash
-python3 collector.py --interval 10 "XE9680-006"
-```
-
-Usage: `python3 collector.py <interval> [display_name]`
-
-- No display_name → shows hostname as-is (e.g. `node012`)
-- With display_name → shows your label instead (e.g. `XE9680-006 (GB300 x4)`)
+> **Important**: `display_name` is required. Without it the collector exits with a usage message. Use a unique name per machine — if two machines share the same `display_name`, their data files will collide.
 
 ### 3. (Optional) Run a local HTTP server for development
 
@@ -125,7 +120,7 @@ The dashboard is a pure static SPA — no server-side logic, no authentication. 
 
 ## Data Format
 
-Each line in `data/metrics_<hostname>_<YYYYMMDD>.json`:
+Each line in `data/metrics_<display_name>_<YYYYMMDD>.json`:
 
 | Field | Type | Description |
 |-------|------|-------------|
@@ -199,4 +194,4 @@ Each line in `data/metrics_<hostname>_<YYYYMMDD>.json`:
 
 **system_power_w is null**: Confirm `ipmitool dcmi power reading` works on that machine and that the BMC has DCMI permissions.
 
-**Multiple collectors on same machine**: Only one collector per hostname should run, otherwise data files will interleave and corrupt each other.
+**Multiple collectors on same display_name**: Only one collector per `display_name` should run, otherwise data files will interleave and corrupt each other.

@@ -715,6 +715,11 @@ def daemon(interval=10, _display_name=None):
 
 if __name__ == "__main__":
     _probe_gpu()
-    interval = int(sys.argv[1]) if len(sys.argv) > 1 else 10
-    _display_name = sys.argv[2] if len(sys.argv) > 2 else None
+    if len(sys.argv) < 3:
+        print("Usage: python3 collector.py <interval> <display_name>")
+        print("  <interval>    : polling interval in seconds (e.g. 10)")
+        print("  <display_name>: machine description, used in JSON filename and frontend (e.g. XE9785L_MI355X)")
+        sys.exit(1)
+    interval = int(sys.argv[1])
+    _display_name = sys.argv[2]
     daemon(interval, _display_name)
