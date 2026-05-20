@@ -45,25 +45,28 @@ def _probe_gpu():
     print("[probe] _probe_gpu() starting")
     global GPU_COUNT, GPU_TYPE, GPU_VENDOR
 
-    # Fast path: lspci already tells us the vendor
+    # Fast path: dedicated command — one line per AMD GPU
     try:
         result = subprocess.run(
             ["lspci", "-nn"],
             capture_output=True, text=True, timeout=5
         )
-        for line in result.stdout.splitlines():
-            if any(kw in line for kw in ("VGA", "3D controller", "Processing accelerators")):
-                if any(kw in line for kw in ("NVIDIA", "GeForce", "Quadro", "RTX", "A100", "H100")):
-                    GPU_VENDOR = "nvidia"
-                    print(f"[probe] lspci detected nvidia: {line.strip()}")
-                    break
-                if any(kw in line for kw in ("AMD", "Radeon", "Instinct", "ATI", "AMD/ATI")):
-                    GPU_VENDOR = "amd"
-                    print(f"[probe] lspci detected amd: {line.strip()}")
-                    break
+        amd_lines = [ln for ln in result.stdout.splitlines()
+                     if "ATI" in ln and "accelerators" in ln]
+        if amd_lines:
+            GPU_VENDOR = "amd"
+            print(f"[probe] lspci detected {len(amd_lines)} AMD GPUs via ATI+accelerators")
+        else:
+            for line in result.stdout.splitlines():
+                if any(kw in line for kw in ("VGA", "3D controller", "Processing accelerators")):
+                    if any(kw in line for kw in ("NVIDIA", "GeForce", "Quadro", "RTX", "A100", "H100")):
+                        GPU_VENDOR = "nvidia"
+                        print(f"[probe] lspci detected nvidia: {line.strip()}")
+                        break
     except Exception as e:
         print(f"[probe] lspci failed: {e}")
 
+    # Fallback when lspci didn't find any GPU
     if GPU_VENDOR is None:
         print("[probe] lspci found no GPU, trying nvidia-smi / amd-smi fallback")
         try:
