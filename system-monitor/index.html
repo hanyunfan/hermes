@@ -43,66 +43,65 @@
   /* ── Mini Calendar ─────────────────────────────────────── */
   #calendar-wrap {
     display: none;
-    position: relative;
     margin-top: 8px;
   }
   #calendar-wrap.visible { display: block; }
   #calendar {
-    position: absolute;
-    top: 0; left: 0;
     background: #1a1d27;
     border: 1px solid #252a3a;
     border-radius: 10px;
     padding: 12px 14px;
-    width: 284px;
-    z-index: 100;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+    width: 308px;
+    user-select: none;
   }
   .cal-nav {
     display: flex; align-items: center; justify-content: space-between;
-    margin-bottom: 8px;
+    margin-bottom: 10px;
   }
   .cal-nav button {
     background: #252a3a; border: 1px solid #333;
-    color: #e0e0e0; border-radius: 4px; padding: 2px 8px;
+    color: #e0e0e0; border-radius: 4px; padding: 3px 10px;
     cursor: pointer; font-size: 0.85rem;
   }
   .cal-nav button:hover { background: #333; }
-  .cal-title { font-size: 0.85rem; font-weight: 600; color: #ccc; }
+  .cal-title { font-size: 0.9rem; font-weight: 600; color: #ccc; }
   .cal-grid {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     gap: 2px;
-    text-align: center;
   }
   .cal-dow {
-    font-size: 0.65rem; color: #555; padding: 2px 0 4px;
+    font-size: 0.65rem; color: #555; padding: 3px 0 5px;
     text-transform: uppercase; letter-spacing: 0.04em;
+    text-align: center;
   }
   .cal-day {
-    font-size: 0.75rem; color: #888;
-    padding: 5px 2px; border-radius: 4px; cursor: pointer;
+    font-size: 0.78rem; color: #999;
+    padding: 6px 0; border-radius: 4px; cursor: pointer;
+    text-align: center;
     position: relative;
   }
   .cal-day:hover:not(.cal-empty) { background: #252a3a; color: #e0e0e0; }
-  .cal-day.cal-today { border: 1px solid #2d6cdf; }
+  .cal-day.cal-today { color: #2d6cdf; font-weight: 600; }
   .cal-day.cal-selected { background: #2d6cdf; color: #fff; }
-  .cal-day.cal-empty { cursor: default; }
-  .cal-day.cal-has-data::after {
-    content: '';
-    display: block;
-    width: 4px; height: 4px;
+  .cal-day.cal-empty { cursor: default; pointer-events: none; }
+  /* green dot bottom-center */
+  .cal-day .dot {
+    display: none;
+    width: 5px; height: 5px;
     background: #81c784;
     border-radius: 50%;
     position: absolute;
-    bottom: 2px; left: 50%; transform: translateX(-50%);
+    bottom: 3px; left: 50%; transform: translateX(-50%);
   }
-  .cal-day.cal-selected.cal-has-data::after { background: #fff; }
+  .cal-day.cal-has-data .dot { display: block; }
+  .cal-day.cal-selected .dot { background: #fff; }
   .cal-today-btn {
-    font-size: 0.7rem; color: #2d6cdf; cursor: pointer;
-    margin-top: 6px; text-align: center;
+    font-size: 0.72rem; color: #2d6cdf; cursor: pointer;
+    margin-top: 8px; text-align: center;
   }
   .cal-today-btn:hover { color: #5a9eff; }
+  .cal-scanning { font-size: 0.7rem; color: #555; margin-top: 6px; text-align: center; }
   @media (max-width: 600px) {
     .charts { grid-template-columns: 1fr; }
     .stat-value { font-size: 1.3rem; }
@@ -428,7 +427,14 @@ async function setRange(r) {
   if (r === 'custom') {
     calWrap.classList.add('visible');
     renderCalendar(calYear, calMonth);
-    // Do NOT call refresh() here — wait for user to pick a date via selectDate()
+    // Auto-select the latest available date
+    const latest = await findLatestDateWithData();
+    if (latest) {
+      calSelected = latest;
+      renderCalendar(calYear, calMonth);
+      await loadDayData(latest);
+    }
+    // Do NOT call refresh() — loadDayData has already loaded the data
     return;
   } else {
     calWrap.classList.remove('visible');
@@ -444,47 +450,43 @@ let calMonth = new Date().getMonth();   // 0-based
 let calSelected = null;                 // 'YYYYMMDD'
 let availableDates = new Set();         // dates that have data for current machine
 
-// Scan a month and record which dates have data for the current machine.
-// Results are merged into availableDates so dots persist across month navigation.
-async function scanAvailableDates(year, month) {
+// Check if a single date has data. Resolves to true/false.
+function checkDateHasData(key, dateStr) {
+  return new Promise(resolve => {
+    fetch('data/metrics_' + key + '_' + dateStr + '.json?t=' + Date.now())
+      .then(r => r.ok ? r.text() : '')
+      .then(text => {
+        const lines = text.trim().split('\n').filter(l => l.trim());
+        resolve(lines.length > 0);
+      })
+      .catch(() => resolve(false));
+  });
+}
+
+// Scan a month and update dots. Called after renderCalendar builds the DOM.
+async function scanAndShowDots(year, month) {
   if (!currentMachine) return;
   const key = currentMachine.display_name || currentMachine.hostname;
   const daysInMonth = new Date(year, month + 1, 0).getDate();
-  // Use a local set for this scan, then merge
-  const localAvailable = new Set();
-  const promises = [];
+  const today = new Date();
+  const todayStr = today.getFullYear() + String(today.getMonth()+1).padStart(2,'0') + String(today.getDate()).padStart(2,'0');
+
+  // Check each day; update DOM as results come in
   for (let d = 1; d <= daysInMonth; d++) {
     const dateStr = String(year) + String(month + 1).padStart(2, '0') + String(d).padStart(2, '0');
-    promises.push(checkDate(key, dateStr, localAvailable));
+    const hasData = await checkDateHasData(key, dateStr);
+    if (hasData) availableDates.add(dateStr);
+
+    // Only update this specific day's dot if it's in the currently-visible month
+    if (year === calYear && month === calMonth) {
+      const cell = document.querySelector(`.cal-day[data-date="${dateStr}"]`);
+      if (cell && hasData) cell.classList.add('cal-has-data');
+    }
   }
-  await Promise.all(promises);
-  // Merge into global set
-  localAvailable.forEach(d => availableDates.add(d));
-  // Refresh the dot indicators in the already-rendered calendar without full re-render
-  refreshCalendarDots();
-}
 
-async function checkDate(key, dateStr, localSet) {
-  try {
-    const r = await fetch('data/metrics_' + key + '_' + dateStr + '.json?t=' + Date.now());
-    if (r.ok) {
-      const text = await r.text();
-      const lines = text.trim().split('\n').filter(l => l.trim());
-      if (lines.length > 0) localSet.add(dateStr);
-    }
-  } catch { }
-}
-
-// Lightweight refresh: update dot indicators without full re-render
-function refreshCalendarDots() {
-  document.querySelectorAll('.cal-day').forEach(el => {
-    const d = el.textContent;
-    if (!d) return;
-    const dateStr = String(calYear) + String(calMonth+1).padStart(2,'0') + String(d).padStart(2,'0');
-    if (availableDates.has(dateStr)) {
-      el.classList.add('cal-has-data');
-    }
-  });
+  // Remove "scanning" label
+  const scanEl = document.getElementById('cal-scanning');
+  if (scanEl) scanEl.textContent = '';
 }
 
 function renderCalendar(year, month) {
@@ -494,7 +496,6 @@ function renderCalendar(year, month) {
   const todayStr = today.getFullYear() + String(today.getMonth()+1).padStart(2,'0') + String(today.getDate()).padStart(2,'0');
   const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
-  // Navigation
   let html = `<div class="cal-nav">
     <button onclick="prevMonth()">&#8592;</button>
     <span class="cal-title">${MONTHS[month]} ${year}</span>
@@ -517,26 +518,25 @@ function renderCalendar(year, month) {
     if (isToday)  classes.push('cal-today');
     if (isSel)   classes.push('cal-selected');
     if (hasData) classes.push('cal-has-data');
-    html += `<div class="${classes.join(' ')}" onclick="selectDate('${dateStr}')">${d}</div>`;
+    html += `<div class="${classes.join(' ')}" data-date="${dateStr}" onclick="selectDate('${dateStr}')">${d}<span class="dot"></span></div>`;
   }
 
   html += `<div class="cal-today-btn" onclick="goToday()">Today</div>`;
+  html += `<div class="cal-scanning" id="cal-scanning">scanning...</div>`;
   document.getElementById('calendar').innerHTML = html;
 
-  // Re-scan for this month (async, don't block render)
-  scanAvailableDates(year, month);
+  // Async scan — update dots as results arrive (does not block render)
+  scanAndShowDots(year, month);
 }
 
 function prevMonth() {
-  let m = calMonth - 1;
-  let y = calYear;
+  let m = calMonth - 1, y = calYear;
   if (m < 0) { m = 11; y--; }
   renderCalendar(y, m);
 }
 
 function nextMonth() {
-  let m = calMonth + 1;
-  let y = calYear;
+  let m = calMonth + 1, y = calYear;
   if (m > 11) { m = 0; y++; }
   renderCalendar(y, m);
 }
@@ -545,20 +545,30 @@ function goToday() {
   const t = new Date();
   calYear  = t.getFullYear();
   calMonth = t.getMonth();
-  calSelected = String(calYear) + String(calMonth+1).padStart(2,'0') + String(t.getDate()).padStart(2,'0');
-  renderCalendar(calYear, calMonth);
-  selectDate(calSelected);
+  const todayStr = String(calYear) + String(calMonth+1).padStart(2,'0') + String(t.getDate()).padStart(2,'0');
+  selectDate(todayStr);
+}
+
+// Find the most recent date (up to 365 days back) that has data, for the current machine.
+async function findLatestDateWithData() {
+  if (!currentMachine) return null;
+  const key = currentMachine.display_name || currentMachine.hostname;
+  const today = new Date();
+  for (let i = 0; i < 365; i++) {
+    const d = new Date(today.getTime() - i * 86400000);
+    const dateStr = d.getFullYear() + String(d.getMonth()+1).padStart(2,'0') + String(d.getDate()).padStart(2,'0');
+    const hasData = await checkDateHasData(key, dateStr);
+    if (hasData) return dateStr;
+  }
+  return null;
 }
 
 async function selectDate(dateStr) {
   calSelected = dateStr;
-  // Update visual selection without re-scanning
-  document.querySelectorAll('.cal-day').forEach(el => el.classList.remove('cal-selected'));
-  // Re-render to show selection highlight
-  renderCalendar(calYear, calMonth);
-  // Override the file list to use this single day
   clearDisplay();
   await loadDayData(dateStr);
+  // Re-render calendar to show selection highlight
+  renderCalendar(calYear, calMonth);
 }
 
 async function loadDayData(dateStr) {
@@ -695,9 +705,16 @@ async function setMachine(key) {
   currentMachine = machines.find(m => m.hostname === key || (m.display_name && m.display_name === key)) || null;
   clearDisplay();
   availableDates.clear();
-  // If calendar is visible, re-render to scan available dates for the new machine
+  calSelected = null;
+  // If calendar is visible, re-render and auto-load latest available date for the new machine
   if (document.getElementById('calendar-wrap').classList.contains('visible')) {
     renderCalendar(calYear, calMonth);
+    const latest = await findLatestDateWithData();
+    if (latest) {
+      calSelected = latest;
+      renderCalendar(calYear, calMonth);
+      await loadDayData(latest);
+    }
   }
   await refresh();
 }
