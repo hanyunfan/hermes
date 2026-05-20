@@ -42,6 +42,7 @@ def _probe_gpu():
     """
     Detect GPU vendor via lspci, then dispatch to the correct backend.
     """
+    print("[probe] _probe_gpu() starting")
     global GPU_COUNT, GPU_TYPE, GPU_VENDOR
 
     # Fast path: lspci already tells us the vendor
@@ -56,7 +57,7 @@ def _probe_gpu():
                     GPU_VENDOR = "nvidia"
                     print(f"[probe] lspci detected nvidia: {line.strip()}")
                     break
-                if any(kw in line for kw in ("AMD", "Radeon", "Instinct")):
+                if any(kw in line for kw in ("AMD", "Radeon", "Instinct", "ATI")):
                     GPU_VENDOR = "amd"
                     print(f"[probe] lspci detected amd: {line.strip()}")
                     break
@@ -160,6 +161,7 @@ def _probe_amd():
         GPU_TYPE = name.replace(" ", "_")
 
         print(f"AMD GPU detected: {GPU_COUNT}x {GPU_TYPE} via amd-smi")
+        print(f"[probe] GPU_COUNT={GPU_COUNT}, GPU_TYPE={GPU_TYPE}, GPU_VENDOR={GPU_VENDOR}")
     except Exception as e:
         global GPU_AVAILABLE
         GPU_AVAILABLE = False
