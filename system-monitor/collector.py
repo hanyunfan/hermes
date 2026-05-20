@@ -124,18 +124,21 @@ def _probe_amd():
     GPU count from `amd-smi list`. GPU name from `amd-smi static -a`.
     """
     global GPU_COUNT, GPU_TYPE
+    global GPU_VENDOR   # override lspci result (lspci may show "3D controller" without "AMD")
     try:
         result = subprocess.run(
             ["amd-smi", "list"],
             capture_output=True, text=True, timeout=10
         )
-        gpu_ids = re.findall(r"^GPU:\s+(\d+)", result.stdout, re.MULTILINE)
-        GPU_COUNT = min(8, len(gpu_ids))
+        gpu_lines = [ln for ln in result.stdout.strip().splitlines() if ln.strip()]
+        GPU_COUNT = min(8, len(gpu_lines))
+        GPU_VENDOR = "amd"   # confirmed by amd-smi
+        print(f"[probe] amd-smi list found {GPU_COUNT} GPUs")
 
         if GPU_COUNT == 0:
             raise RuntimeError("amd-smi list returned no GPU entries")
 
-        # Get GPU name from `amd-smi static -a`
+        # Get GPU name from `amd-smi static -a -g 0`
         result = subprocess.run(
             ["amd-smi", "static", "-a", "-g", "0"],
             capture_output=True, text=True, timeout=10
@@ -148,7 +151,7 @@ def _probe_amd():
                     name = parts[1].strip()
                     break
         if not name:
-            name = f"AMD_GPU_{gpu_ids[0]}"
+            name = "AMD_GPU"
         GPU_TYPE = name.replace(" ", "_")
 
         print(f"AMD GPU detected: {GPU_COUNT}x {GPU_TYPE} via amd-smi")
