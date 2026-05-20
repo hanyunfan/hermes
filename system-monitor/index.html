@@ -515,6 +515,48 @@ async function refresh() {
   allData.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
 
   if (allData.length === 0) {
+    // No data in current range — search backwards for the latest day that has data
+    let fallbackDate = null;
+    const today = new Date();
+    for (let i = 0; i < 365; i++) {
+      const d = new Date(today.getTime() - i * 86400000);
+      const utcStr = d.toISOString().slice(0, 10).replace(/-/g, '');
+      const f = 'data/metrics_' + machineKey + '_' + utcStr + '.json';
+      try {
+        const r = await fetch(f + '?t=' + now);
+        if (r.ok) {
+          const text = await r.text();
+          const lines = text.trim().split('\n').filter(l => l.trim());
+          if (lines.length > 0) {
+            fallbackDate = utcStr;
+            break;
+          }
+        }
+      } catch { }
+    }
+    if (fallbackDate) {
+      // Reload with that single day, force day range
+      currentRange = 'day';
+      document.querySelectorAll('.range-btn').forEach(b => b.classList.remove('active'));
+      document.querySelector('.range-btn[data-range="day"]').classList.add('active');
+      files = ['data/metrics_' + machineKey + '_' + fallbackDate + '.json'];
+      cutoff = 0;
+      timeEnd = Infinity;
+      allData = [];
+      for (const f of files) {
+        try {
+          const r = await fetch(f + '?t=' + now);
+          if (!r.ok) continue;
+          const text  = await r.text();
+          const lines = text.trim().split('\n');
+          lines.forEach(line => { try { allData.push(JSON.parse(line)); } catch { } });
+        } catch (e) { }
+      }
+      allData.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
+    }
+  }
+
+  if (allData.length === 0) {
     document.getElementById('updated').textContent =
       'No data for this range on [' + machineKey + ']. Collector may not be running.';
     return;
