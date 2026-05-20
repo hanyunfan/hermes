@@ -2,6 +2,8 @@
 """
 System metrics collector: CPU, GPU (up to 8), memory, GPU power, network.
 Runs as daemon, writes JSON Lines.
+
+Supports NVIDIA (nvidia-smi) and AMD (amdsmi) GPUs.
 """
 
 import json
@@ -21,13 +23,76 @@ os.makedirs(DATA_DIR, exist_ok=True)
 
 HOSTNAME = socket.gethostname()
 
+# ─── GPU globals ───────────────────────────────────────────────────────────────
+
 GPU_AVAILABLE = True
 GPU_COUNT = 0
 GPU_TYPE  = None
+GPU_VENDOR = None   # "nvidia" or "amd"
 
-# ─── GPU probe ─────────────────────────────────────────────────────────────────
+# AMD-specific: library handle and GPU handles (initialized once)
+_amd_lib = None
+_amd_handles = []
+
+
+# ─── GPU probe: detect vendor then load appropriate backend ───────────────────
 
 def _probe_gpu():
+    """
+    Detect GPU vendor via lspci, then:
+      - NVIDIA → use nvidia-smi (unchanged)
+      - AMD    → import amdsmi and cache GPU handles
+    """
+    global GPU_COUNT, GPU_TYPE, GPU_VENDOR, _amd_lib, _amd_handles
+
+    try:
+        result = subprocess.run(
+            ["lspci", "-nn"],
+            capture_output=True, text=True, timeout=5
+        )
+        for line in result.stdout.splitlines():
+            # Look for VGA or 3D controller with NVIDIA or AMD vendor
+            if "VGA" in line or "3D controller" in line:
+                if "NVIDIA" in line or "GeForce" in line or "Quadro" in line or "RTX" in line or "A100" in line or "H100" in line:
+                    GPU_VENDOR = "nvidia"
+                    break
+                if "AMD" in line or "Radeon" in line or "Instinct" in line:
+                    GPU_VENDOR = "amd"
+                    break
+    except Exception:
+        pass
+
+    if GPU_VENDOR is None:
+        # Fallback: try nvidia-smi directly
+        try:
+            subprocess.run(
+                ["nvidia-smi", "--query-gpu=name", "--format=csv,noheader"],
+                capture_output=True, check=True, timeout=5
+            )
+            GPU_VENDOR = "nvidia"
+        except Exception:
+            try:
+                subprocess.run(
+                    ["amd-smi", "info", "--gpu", "0"],
+                    capture_output=True, timeout=5
+                )
+                GPU_VENDOR = "amd"
+            except Exception:
+                GPU_AVAILABLE = False
+                GPU_COUNT = 0
+                GPU_TYPE = None
+                print("No supported GPU detected, GPU metrics disabled.")
+                return
+
+    if GPU_VENDOR == "nvidia":
+        _probe_nvidia()
+    elif GPU_VENDOR == "amd":
+        _probe_amd()
+
+
+# ─── NVIDIA backend (unchanged) ───────────────────────────────────────────────
+
+def _probe_nvidia():
     global GPU_COUNT, GPU_TYPE
     try:
         result = subprocess.run(
@@ -39,93 +104,57 @@ def _probe_gpu():
         GPU_TYPE = raw[7:].strip().replace(" ", "_") if raw.startswith("NVIDIA ") else raw.replace(" ", "_")
         GPU_COUNT = min(8, len([n for n in result.stdout.strip().split("\n") if n.strip()]))
     except Exception:
+        global GPU_AVAILABLE
         GPU_AVAILABLE = False
+        GPU_COUNT = 0
         print("nvidia-smi not available, GPU metrics disabled.")
 
-_probe_gpu()
 
+# ─── AMD backend ─────────────────────────────────────────────────────────────
 
-# ─── System power (BMC / IPMI, whole-machine AC input) ────────────────────────
-
-def get_system_power():
-    """
-    Returns whole-machine AC input power in watts (float), or None if unavailable.
-    Uses: ipmitool dcmi power reading | grep Instantaneous
-    Falls back to /dev/ipmi0 presence check (placeholder for future use).
-    """
-    # ── Method 1: ipmitool DCMI (BMC-based, no sudo needed) ─────────────────
+def _probe_amd():
+    global GPU_COUNT, GPU_TYPE, _amd_lib, _amd_handles
     try:
-        result = subprocess.run(
-            ["ipmitool", "dcmi", "power", "reading"],
-            capture_output=True, text=True, timeout=5
-        )
-        if result.returncode == 0:
-            for line in result.stdout.splitlines():
-                if "Instantaneous" in line:
-                    # e.g. "  Instantaneous power reading:    2000 W"
-                    val = line.split(":")[-1].strip().split()[0]
-                    return float(val)
-    except Exception:
-        pass
+        import amdsmi
+        _amd_lib = amdsmi
+        amdsmi.amdsmi_init()
+        handles = amdsmi.amdsmi_get_gpu_handles()
+        _amd_handles = list(handles)
 
-    # ── Method 2: /dev/ipmi0 via OpenIPMI driver (no sudo needed) ────────────
-    # /dev/ipmi0 is a character device; simple read() returns nothing.
-    # Real IPMI communication requires ioctl calls — not implemented here.
-    try:
-        if os.path.exists("/dev/ipmi0"):
-            pass
-    except Exception:
-        pass
+        if not _amd_handles:
+            raise RuntimeError("amdsmi returned no GPU handles")
 
-    return None
+        GPU_COUNT = min(8, len(_amd_handles))
 
+        # GPU name: use board_name from asic info
+        asic_info = amdsmi.amdsmi_get_gpu_asic_info(_amd_handles[0])
+        raw = getattr(asic_info, "board_name", None) or getattr(asic_info, "name", None) or "AMD_GPU"
+        GPU_TYPE = str(raw).replace(" ", "_")
 
-# ─── CPU power (RAPL CPU package power, requires sudo) ───────────────────────
-
-def get_cpu_power():
-    """
-    Returns CPU package power in watts (float) via RAPL energy delta,
-    or None if sudo is not available without password.
-    Reads /sys/class/powercap/intel-rapl:0/energy_uj (cumulative μJ since boot)
-    and maintains _RAPL_PREV to compute watts = delta_J / delta_s.
-    """
-    global _RAPL_PREV
-    try:
-        check = subprocess.run(
-            ["sudo", "-n", "true"],
-            capture_output=True, timeout=2
-        )
-        if check.returncode != 0:
-            return None
-        energy_path = "/sys/class/powercap/intel-rapl:0/energy_uj"
-        result = subprocess.run(
-            ["sudo", "cat", energy_path],
-            capture_output=True, text=True, timeout=5
-        )
-        if result.returncode == 0 and result.stdout.strip().isdigit():
-            joules = float(result.stdout.strip()) / 1_000_000  # μJ → J
-            now = time.monotonic()
-            prev = _RAPL_PREV
-            if prev is not None:
-                prev_joules, prev_ts = prev
-                dt = now - prev_ts
-                if dt > 0:
-                    watts = (joules - prev_joules) / dt
-                    if watts >= 0:
-                        _RAPL_PREV = (joules, now)
-                        return round(watts, 1)
-            _RAPL_PREV = (joules, now)
-    except Exception:
-        pass
-    return None
+        print(f"AMD GPU detected: {GPU_COUNT}x {GPU_TYPE} via amdsmi")
+    except Exception as e:
+        global GPU_AVAILABLE
+        GPU_AVAILABLE = False
+        GPU_COUNT = 0
+        GPU_TYPE = None
+        print(f"amdsmi not available, AMD GPU metrics disabled: {e}")
 
 
-# ─── GPU power (nvidia-smi, no sudo needed) ────────────────────────────────────
+# ─── GPU power (vendor-agnostic) ──────────────────────────────────────────────
 
 def get_gpu_power():
     """Returns [{id, power_w, power_limit_w}] or None."""
     if not GPU_AVAILABLE or GPU_COUNT == 0:
         return None
+
+    if GPU_VENDOR == "nvidia":
+        return _nvidia_get_gpu_power()
+    elif GPU_VENDOR == "amd":
+        return _amd_get_gpu_power()
+    return None
+
+
+def _nvidia_get_gpu_power():
     gpus = []
     for i in range(GPU_COUNT):
         try:
@@ -146,25 +175,50 @@ def get_gpu_power():
     return gpus
 
 
-# ─── GPU PCIe + NVLink throughput (nvidia-smi dmon, no sudo) ──────────────────
+def _amd_get_gpu_power():
+    gpus = []
+    for idx, handle in enumerate(_amd_handles[:GPU_COUNT]):
+        try:
+            power_info = _amd_lib.amdsmi_get_power_info(handle)
+            # amdsmi_power_info_t fields: current_socket_power (watts), etc.
+            power_draw = getattr(power_info, "current_socket_power", None)
+            power_limit = getattr(power_info, "max_power", None)
+
+            entry = {"id": idx}
+            if power_draw is not None:
+                entry["power_w"] = float(power_draw)
+            if power_limit is not None:
+                entry["power_limit_w"] = float(power_limit)
+            gpus.append(entry)
+        except Exception as e:
+            gpus.append({"id": idx})
+    return gpus
+
+
+# ─── GPU PCIe + NVLink throughput ──────────────────────────────────────────────
 
 _GPU_IO_PREV = {}   # gpu_id -> {rxpci, txpci, nvlrx, nvltx}
-
-
 _GPU_IO_DEBUG = os.environ.get("COLLECTOR_DEBUG", "0") == "1"
 
 
 def get_gpu_io(enabled=True):
     """
     Returns list of dicts with PCIe and NVLink throughput in MB/s per GPU,
-    or None if nvidia-smi dmon is unavailable / disabled.
-
-    When enabled=False, returns None immediately (fast path, no subprocess call).
-    NVLink data is only meaningful when the collector interval is >= 10s,
-    as the nvidia-smi dmon needs ~3s to collect valid NVLink samples.
+    or None if unavailable / disabled.
+    NVLink is NVIDIA-only; AMD returns PCIe data only (or None).
     """
     if not enabled or not GPU_AVAILABLE or GPU_COUNT == 0:
         return None
+
+    if GPU_VENDOR == "nvidia":
+        return _nvidia_get_gpu_io()
+    elif GPU_VENDOR == "amd":
+        return _amd_get_gpu_io()
+    return None
+
+
+def _nvidia_get_gpu_io():
+    """NVIDIA: parse nvidia-smi dmon for PCIe + NVLink throughput."""
     try:
         result = subprocess.run(
             ["nvidia-smi", "dmon", "-s", "t", "--gpm-metrics", "60,61", "-c", "4", "-o", "T"],
@@ -191,37 +245,28 @@ def get_gpu_io(enabled=True):
         if _GPU_IO_DEBUG:
             sys.stderr.write(f"[get_gpu_io] DEBUG line: {parts}\n")
 
-        # Header detection: look for the line that has metric names like
-        # rxpci/txpci/nvlrx/nvltx (or pcirx/pcitx).  This is the line that
-        # starts with "# gpu" (metric names, no timestamp) or "#Time" (with
-        # timestamp).  We identify it by the presence of a known metric name.
         if parts[0].startswith("#"):
             metric_names = {"rxpci", "txpci", "nvlrx", "nvltx", "pcirx", "pcitx"}
             header_cols = [c.lower() for c in parts]
             if _GPU_IO_DEBUG:
                 sys.stderr.write(f"[get_gpu_io] DEBUG header_cols={header_cols} intersect={metric_names & set(header_cols)}\n")
             if metric_names & set(header_cols):
-                # This is the metric-names header row.
-                # Build col_map relative to data columns (parts[1:]) so offsets
-                # are always correct regardless of whether the line starts with
-                # "#" (no timestamp) or "#Time" (timestamp present).
-                for idx, col in enumerate(parts[1:]):   # data-col offset from parts[1]
+                for idx, col in enumerate(parts[1:]):
                     if col.lower() in metric_names:
-                        col_map[col.lower()] = idx   # idx is already relative to parts[1] (data_cols)
+                        col_map[col.lower()] = idx
                 if _GPU_IO_DEBUG:
                     sys.stderr.write(f"[get_gpu_io] DEBUG col_map built: {col_map}\n")
             continue
 
         if not parts[0].isdigit():
-            # With -o T, data lines start with timestamp (e.g. "11:20:37"), GPU ID is parts[1]
             if len(parts) > 1 and parts[1].isdigit():
                 gpu_id = int(parts[1])
-                data_cols = parts[1:]   # skip timestamp; gpu is first data element
+                data_cols = parts[1:]
             else:
                 continue
         else:
             gpu_id = int(parts[0])
-            data_cols = parts[1:]       # skip gpu_id; rest are metric values
+            data_cols = parts[1:]
 
         if _GPU_IO_DEBUG:
             sys.stderr.write(f"[get_gpu_io] DEBUG gpu_id={gpu_id} data_cols={data_cols} col_map={col_map}\n")
@@ -235,13 +280,8 @@ def get_gpu_io(enabled=True):
             except ValueError:
                 return None
 
-        # rxpci/txpci: PCIe RX/TX in MB/s (from -s t)
-        # nvlrx/nvltx: NVLink RX/TX — nvidia-smi may report these as
-        #   "nvlrx"/"nvltx" (L4 etc.) OR "pcirx"/"pcitx" (H100 etc.)
-        #   Both are in GPM:MiB/s → convert to MB/s (×1.048576)
         rxpci = val("rxpci")
         txpci = val("txpci")
-        # Must use "is not None" — val() returns float which can be 0.0 (falsy)
         _nvlrx = val("nvlrx")
         _nvltx = val("nvltx")
         nvlrx_raw = _nvlrx if _nvlrx is not None else val("pcirx")
@@ -263,7 +303,40 @@ def get_gpu_io(enabled=True):
     return [gpus_io.get(i, {"id": i}) for i in range(GPU_COUNT)]
 
 
-# ─── Network throughput (rx/tx bytes delta, no sudo) ───────────────────────────
+def _amd_get_gpu_io():
+    """
+    AMD: query PCIe throughput via amdsmi_get_gpu_pci_throughput().
+    Returns [{id, rxpci_mbs, txpci_mbs}] — NVLink is AMD-only and not applicable here.
+    """
+    gpus_io = {}
+    for idx, handle in enumerate(_amd_handles[:GPU_COUNT]):
+        try:
+            pci = _amd_lib.amdsmi_get_gpu_pci_throughput(handle)
+            # Fields: throughput (bytes/s); direction: rx (0), tx (1)
+            # We just want aggregate rx/tx; read from the structure if available
+            rxpci = getattr(pci, "rx", None) or getattr(pci, "rxpci", None) or getattr(pci, "rx_throughput", None)
+            txpci = getattr(pci, "tx", None) or getattr(pci, "txpci", None) or getattr(pci, "tx_throughput", None)
+            # Convert bytes/s to MB/s
+            if rxpci is not None:
+                rxpci = round(float(rxpci) / (1024 ** 2), 3)
+            if txpci is not None:
+                txpci = round(float(txpci) / (1024 ** 2), 3)
+            gpus_io[idx] = {
+                "id": idx,
+                "rxpci_mbs": rxpci,
+                "txpci_mbs": txpci,
+                # AMD has no NVLink equivalent in amdsmi, so these stay None
+                "nvlrx_mbs": None,
+                "nvltx_mbs": None,
+            }
+        except Exception as e:
+            if _GPU_IO_DEBUG:
+                sys.stderr.write(f"[amd_get_gpu_io] gpu {idx} error: {e}\n")
+            gpus_io[idx] = {"id": idx}
+    return [gpus_io.get(i, {"id": i}) for i in range(GPU_COUNT)]
+
+
+# ─── Network throughput (rx/tx bytes delta, no sudo) ─────────────────────────
 
 _NET_PREV = {}   # iface -> (rx_bytes, tx_bytes, timestamp)
 _RAPL_PREV = None   # (joules, timestamp)
@@ -310,7 +383,6 @@ def _get_net_throughput_mbs():
                 if dt > 0:
                     rx_rate = (cur["rx_bytes"] - prev_rx) / dt / (1024 ** 2)
                     tx_rate = (cur["tx_bytes"] - prev_tx) / dt / (1024 ** 2)
-                    # Only record if counter advanced or this is the first sample after boot
                     if rx_rate >= 0 and tx_rate >= 0:
                         result.append({
                             "name": iface,
@@ -319,7 +391,6 @@ def _get_net_throughput_mbs():
                         })
             _NET_PREV[iface] = (cur["rx_bytes"], cur["tx_bytes"], now)
 
-    # Sort: IB first, then Ethernet, each group by name
     def sort_key(x):
         n = x["name"]
         if n.startswith("ib"):
@@ -333,10 +404,29 @@ def _get_net_throughput_mbs():
     return result
 
 
-# ─── GPU stats (utilization, memory, PCIe/NVLink) — parallel execution ────────
+# ─── GPU stats: utilization, memory (vendor-agnostic dispatcher) ─────────────
 
 def _query_gpu_util_mem(gpu_id):
-    """Query utilization + memory for one GPU. Returns (gpu_id, dict) or (gpu_id, None)."""
+    """Query utilization + memory for one GPU. Returns (gpu_id, dict)."""
+    if GPU_VENDOR == "nvidia":
+        return _nvidia_query_gpu_util_mem(gpu_id)
+    elif GPU_VENDOR == "amd":
+        return _amd_query_gpu_util_mem(gpu_id)
+    return (gpu_id, {"id": gpu_id, "error": "unknown vendor"})
+
+
+def _query_gpu_power(gpu_id):
+    """Query power + temperature for one GPU. Returns (gpu_id, dict)."""
+    if GPU_VENDOR == "nvidia":
+        return _nvidia_query_gpu_power(gpu_id)
+    elif GPU_VENDOR == "amd":
+        return _amd_query_gpu_power(gpu_id)
+    return (gpu_id, {"id": gpu_id, "error": "unknown vendor"})
+
+
+# ─── NVIDIA GPU query helpers ─────────────────────────────────────────────────
+
+def _nvidia_query_gpu_util_mem(gpu_id):
     try:
         result = subprocess.run(
             ["nvidia-smi", "--id=" + str(gpu_id),
@@ -355,8 +445,7 @@ def _query_gpu_util_mem(gpu_id):
         return (gpu_id, {"id": gpu_id, "error": str(e)})
 
 
-def _query_gpu_power(gpu_id):
-    """Query power + temperature for one GPU. Returns (gpu_id, dict) or (gpu_id, None)."""
+def _nvidia_query_gpu_power(gpu_id):
     try:
         result = subprocess.run(
             ["nvidia-smi", "--id=" + str(gpu_id),
@@ -376,10 +465,84 @@ def _query_gpu_power(gpu_id):
         return (gpu_id, {"id": gpu_id, "error": str(e)})
 
 
+# ─── AMD GPU query helpers ────────────────────────────────────────────────────
+
+def _amd_query_gpu_util_mem(gpu_id):
+    """Query AMD GPU utilization + memory via amdsmi."""
+    try:
+        handle = _amd_handles[gpu_id]
+
+        # Utilization: amdsmi_get_gpu_busy_percent returns a float [0-100]
+        try:
+            busy_pct = _amd_lib.amdsmi_get_gpu_busy_percent(handle)
+            utilization = float(busy_pct)
+        except Exception:
+            utilization = None
+
+        # Memory: amdsmi_get_gpu_memory_total / amdsmi_get_gpu_memory_usage
+        #   Return values are in bytes
+        try:
+            mem_total = _amd_lib.amdsmi_get_gpu_memory_total(handle)
+            mem_used = _amd_lib.amdsmi_get_gpu_memory_usage(handle)
+            mem_total_mb = round(float(mem_total) / (1024 ** 2), 1)
+            mem_used_mb = round(float(mem_used) / (1024 ** 2), 1)
+        except Exception:
+            mem_total_mb = None
+            mem_used_mb = None
+
+        entry = {"id": gpu_id}
+        if utilization is not None:
+            entry["utilization"] = utilization
+        if mem_used_mb is not None:
+            entry["memory_used_mb"] = mem_used_mb
+        if mem_total_mb is not None:
+            entry["memory_total_mb"] = mem_total_mb
+
+        return (gpu_id, entry)
+    except Exception as e:
+        return (gpu_id, {"id": gpu_id, "error": str(e)})
+
+
+def _amd_query_gpu_power(gpu_id):
+    """Query AMD GPU power + temperature via amdsmi."""
+    try:
+        handle = _amd_handles[gpu_id]
+        entry = {"id": gpu_id}
+
+        # Power via amdsmi_get_power_info
+        try:
+            power_info = _amd_lib.amdsmi_get_power_info(handle)
+            power_draw = getattr(power_info, "current_socket_power", None)
+            power_limit = getattr(power_info, "max_power", None)
+            if power_draw is not None:
+                entry["power_w"] = float(power_draw)
+            if power_limit is not None:
+                entry["power_limit_w"] = float(power_limit)
+        except Exception:
+            pass
+
+        # Temperature via amdsmi_get_temperature_metric
+        #  AMDSMI_TEMP_TYPE_EDGE = 0 (GPU edge/hotspot temp)
+        try:
+            temp_metric = _amd_lib.amdsmi_get_temperature_metric(
+                handle,
+                _amd_lib.amdsmi_temperature_type_t.AMDSMI_TEMP_TYPE_EDGE,
+                _amd_lib.amdsmi_temperature_metric_t.AMDSMI_TEMP_CURRENT
+            )
+            entry["temp_c"] = float(temp_metric)
+        except Exception:
+            pass
+
+        return (gpu_id, entry)
+    except Exception as e:
+        return (gpu_id, {"id": gpu_id, "error": str(e)})
+
+
+# ─── Unified GPU stats collector ──────────────────────────────────────────────
+
 def get_gpu_stats(enable_nvlink=True):
     """
     Collect stats for all GPUs in parallel.
-    GPU util/mem queries (x8) + dmon (x1, NVLink) all run concurrently.
     Returns (gpu_stats_list, gpu_power_list, gpu_io_list).
     """
     if not GPU_AVAILABLE or GPU_COUNT == 0:
@@ -390,10 +553,10 @@ def get_gpu_stats(enable_nvlink=True):
         util_mem_futures = [ex.submit(_query_gpu_util_mem, i) for i in range(GPU_COUNT)]
         util_mem_results = [f.result() for f in util_mem_futures]
 
-    # NVLink/PCIe via dmon — runs in parallel with the GPU queries above
-    gpu_io = get_gpu_io(enabled=enable_nvlink)  # single dmon subprocess
+    # PCIe+NVLink via dmon (NVIDIA) / amdsmi (AMD) — runs in parallel with GPU queries
+    gpu_io = get_gpu_io(enabled=enable_nvlink)
 
-    # gpu_power queries — also parallel with dmon (they're all nvidia-smi)
+    # Power queries — also parallel with dmon
     with ThreadPoolExecutor(max_workers=GPU_COUNT) as ex:
         power_futures = [ex.submit(_query_gpu_power, i) for i in range(GPU_COUNT)]
         power_results = [f.result() for f in power_futures]
@@ -408,7 +571,6 @@ def get_gpu_stats(enable_nvlink=True):
         io_map = {g["id"]: g for g in gpu_io}
         for i in range(GPU_COUNT):
             io_entry = io_map.get(i, {})
-            # Merge but skip 'id' key to avoid duplicate
             for k, v in io_entry.items():
                 if k != "id" and gpus[i] is not None:
                     gpus[i][k] = v
@@ -422,16 +584,90 @@ def get_gpu_stats(enable_nvlink=True):
     return gpus, gpu_power, gpu_io
 
 
+# ─── Module-level state ────────────────────────────────────────────────────────
+
+_RAPL_PREV = None
+display_name = None   # set by daemon()
+
+
+# ─── System power (BMC / IPMI, whole-machine AC input) ────────────────────────
+
+def get_system_power():
+    """
+    Returns whole-machine AC input power in watts (float), or None if unavailable.
+    Uses: ipmitool dcmi power reading | grep Instantaneous
+    Falls back to /dev/ipmi0 presence check (placeholder for future use).
+    """
+    try:
+        result = subprocess.run(
+            ["ipmitool", "dcmi", "power", "reading"],
+            capture_output=True, text=True, timeout=5
+        )
+        if result.returncode == 0:
+            for line in result.stdout.splitlines():
+                if "Instantaneous" in line:
+                    val = line.split(":")[-1].strip().split()[0]
+                    return float(val)
+    except Exception:
+        pass
+
+    try:
+        if os.path.exists("/dev/ipmi0"):
+            pass
+    except Exception:
+        pass
+
+    return None
+
+
+# ─── CPU power (RAPL CPU package power, requires sudo) ────────────────────────
+
+def get_cpu_power():
+    """
+    Returns CPU package power in watts (float) via RAPL energy delta,
+    or None if sudo is not available without password.
+    """
+    global _RAPL_PREV
+    try:
+        check = subprocess.run(
+            ["sudo", "-n", "true"],
+            capture_output=True, timeout=2
+        )
+        if check.returncode != 0:
+            return None
+        energy_path = "/sys/class/powercap/intel-rapl:0/energy_uj"
+        result = subprocess.run(
+            ["sudo", "cat", energy_path],
+            capture_output=True, text=True, timeout=5
+        )
+        if result.returncode == 0 and result.stdout.strip().isdigit():
+            joules = float(result.stdout.strip()) / 1_000_000
+            now = time.monotonic()
+            prev = _RAPL_PREV
+            if prev is not None:
+                prev_joules, prev_ts = prev
+                dt = now - prev_ts
+                if dt > 0:
+                    watts = (joules - prev_joules) / dt
+                    if watts >= 0:
+                        _RAPL_PREV = (joules, now)
+                        return round(watts, 1)
+            _RAPL_PREV = (joules, now)
+    except Exception:
+        pass
+    return None
+
+
 # ─── Main collect ──────────────────────────────────────────────────────────────
 
 def collect(enable_nvlink=True):
     cpu_percent = psutil.cpu_percent(interval=0.5)
     mem = psutil.virtual_memory()
     net = _get_net_throughput_mbs()
-    sys_power = get_system_power()   # BMC whole-machine AC power
-    cpu_power = get_cpu_power()      # RAPL CPU package power
+    sys_power = get_system_power()
+    cpu_power = get_cpu_power()
 
-    # All GPU queries (util/mem x8 + power x8 + dmon x1) run in parallel
+    # All GPU queries run in parallel
     gpu_stats, gpu_power, _ = get_gpu_stats(enable_nvlink=enable_nvlink)
 
     stats = {
@@ -440,13 +676,14 @@ def collect(enable_nvlink=True):
         "display_name": display_name,
         "gpu_count": GPU_COUNT,
         "gpu_type": GPU_TYPE,
+        "gpu_vendor": GPU_VENDOR,
         "cpu_percent": cpu_percent,
         "memory_percent": mem.percent,
         "memory_used_mb": mem.used / (1024 ** 2),
         "memory_total_mb": mem.total / (1024 ** 2),
         "network": net,
-        "system_power_w": sys_power,  # BMC whole-machine AC power
-        "cpu_power_w": cpu_power,     # RAPL CPU package power
+        "system_power_w": sys_power,
+        "cpu_power_w": cpu_power,
         "gpu_power": gpu_power,
         "gpu": gpu_stats
     }
@@ -463,12 +700,15 @@ def append_to_file(data, period):
         f.write(json.dumps(data) + "\n")
 
 
-def daemon(interval=10, display_name=None):
+def daemon(interval=10, _display_name=None):
+    global display_name
+    display_name = _display_name
     gpu_label = f"{GPU_COUNT}x GPU" if GPU_COUNT else "no GPU"
+    vendor_label = f"({GPU_VENDOR.upper()})" if GPU_VENDOR else ""
     enable_nvlink = (interval >= 10)
-    shown_name = display_name or HOSTNAME
-    if display_name:
-        print(f"  Display name: [{display_name}]  (hostname: [{HOSTNAME}])")
+    shown_name = _display_name or HOSTNAME
+    if _display_name:
+        print(f"  Display name: [{_display_name}]  (hostname: [{HOSTNAME}])")
     if interval < 10:
         print("\n" + "=" * 60)
         print("\033[91m  WARNING: NVLink/PCIe monitoring will NOT start\033[0m")
@@ -476,7 +716,7 @@ def daemon(interval=10, display_name=None):
         print(f"           PCIe/NVLink data will NOT be collected.")
         print(f"           Rerun with: python3 collector.py --interval 10")
         print("=" * 60 + "\n")
-    print(f"Collector starting on [{HOSTNAME}], interval={interval}s, NVLink={'enabled' if enable_nvlink else 'disabled'}, GPU={gpu_label}")
+    print(f"Collector starting on [{HOSTNAME}], interval={interval}s, NVLink={'enabled' if enable_nvlink else 'disabled'}, GPU={gpu_label} {vendor_label}")
     while True:
         try:
             stats = collect(enable_nvlink=enable_nvlink)
@@ -513,7 +753,6 @@ def daemon(interval=10, display_name=None):
 
 
 if __name__ == "__main__":
-    import sys
     interval = int(sys.argv[1]) if len(sys.argv) > 1 else 10
     display_name = sys.argv[2] if len(sys.argv) > 2 else None
     daemon(interval, display_name=display_name)
