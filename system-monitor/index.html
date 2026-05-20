@@ -221,7 +221,7 @@ const GPU_COLORS = [
 ];
 
 // ─── State ────────────────────────────────────────────────────────────────────
-let currentRange = 'hour';
+let currentRange = 'custom';
 let charts       = {};
 let machines     = [];
 let currentMachine = null;
@@ -1142,7 +1142,7 @@ function mean(arr) {
 document.getElementById('machine-select').addEventListener('change', e => setMachine(e.target.value));
 initCharts();
 loadMachines().then(() => {
-  refresh();
+  setRange('custom');
   setInterval(refresh, 10000);
 });
 </script>
