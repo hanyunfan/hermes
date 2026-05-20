@@ -359,7 +359,7 @@ function chartOptions() {
 }
 
 // ─── Controls ────────────────────────────────────────────────────────────────
-function setRange(r) {
+async function setRange(r) {
   currentRange = r;
   ['btn-hour','btn-day','btn-week','btn-custom'].forEach(id => document.getElementById(id).classList.remove('active'));
   document.getElementById('btn-' + r).classList.add('active');
@@ -374,7 +374,7 @@ function setRange(r) {
   } else {
     customRange.style.display = 'none';
   }
-  refresh();
+  await refresh();
 }
 
 function fmtLocal(d) {
@@ -387,10 +387,10 @@ function onCustomDateChange() {
   refresh();
 }
 
-function setMachine(key) {
+async function setMachine(key) {
   // key may be hostname or display_name — find by either
   currentMachine = machines.find(m => m.hostname === key || (m.display_name && m.display_name === key)) || null;
-  refresh();
+  await refresh();
 }
 
 // ─── Load machines ────────────────────────────────────────────────────────────
