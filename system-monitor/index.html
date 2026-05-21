@@ -882,8 +882,8 @@ async function refresh() {
     if (fallbackDate) {
       // Reload with that single day, force day range
       currentRange = 'day';
-      document.querySelectorAll('.range-btn').forEach(b => b.classList.remove('active'));
-      document.querySelector('.range-btn[data-range="day"]').classList.add('active');
+      document.querySelectorAll('[id^="btn-"]').forEach(b => b.classList.remove('active'));
+      document.getElementById('btn-day').classList.add('active');
       files = ['data/metrics_' + machineKey + '_' + fallbackDate + '.json'];
       cutoff = 0;
       timeEnd = Infinity;
