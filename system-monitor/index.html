@@ -485,11 +485,10 @@ function chartOptions() {
       legend: { display: true, labels: { color: '#888', boxWidth: 12, font: { size: 11 } } },
       tooltip: { enabled: true, mode: 'index', intersect: false },
     },
-    onClick: (evt, elements) => {
+    onClick: (evt, elements, chart) => {
       console.log('chart clicked', evt, elements.length);
       if (elements.length > 0) {
         const first = elements[0];
-        const chart = first.element.context.chart;
         const datasetIndex = first.datasetIndex;
         const dataIndex = first.index;
         const ts = chart.data.datasets[datasetIndex].data[dataIndex].x;
