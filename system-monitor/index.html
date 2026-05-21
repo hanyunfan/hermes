@@ -485,6 +485,7 @@ function chartOptions() {
       legend: { display: true, labels: { color: '#888', boxWidth: 12, font: { size: 11 } } },
       tooltip: { enabled: true, mode: 'index', intersect: false },
     },
+    interaction: { intersect: false, mode: 'nearest' },
     onClick: (evt, elements, chart) => {
       console.log('chart clicked', evt, elements.length);
       if (elements.length > 0) {
@@ -496,7 +497,7 @@ function chartOptions() {
         if (ts) showPointInfo(new Date(ts));
       }
     },
-    elements: { point: { radius: 0, hoverRadius: 4, hitRadius: 8 }, line: { tension: 0.3 } }
+    elements: { point: { radius: 3, hoverRadius: 6, hitRadius: 20 }, line: { tension: 0.3 } }
   };
 }
 
