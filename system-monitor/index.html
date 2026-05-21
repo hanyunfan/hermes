@@ -1107,6 +1107,30 @@ function showPointInfo(ts) {
     + '  |  GPU Pwr: ' + gpuPwrVal + '  |  CPU Pwr: ' + cpuPwrVal
     + '  |  Net: ' + netVal;
 
+  // ── Update individual stat cards (like updateStats does) ──
+  // CPU card
+  if (best.cpu_percent != null) {
+    document.getElementById('s-cpu').textContent = best.cpu_percent.toFixed(1) + '%';
+    document.getElementById('s-cpu-sub').textContent = 'clicked point';
+  }
+  // Memory card
+  if (best.memory_percent != null) {
+    document.getElementById('s-mem').textContent = best.memory_percent.toFixed(1) + '%';
+    document.getElementById('s-mem-sub').textContent = 'clicked point';
+  }
+  // GPU cards
+  if (hasGpu && gpu0 && !gpu0.error) {
+    document.getElementById('s-gpu').textContent = gpuVal;
+    document.getElementById('s-gpu-sub').textContent = 'GPU0 clicked point';
+    document.getElementById('s-gpu-mem').textContent = gpuMemVal;
+    document.getElementById('s-gpu-mem-sub').textContent = 'GPU0 clicked point';
+  }
+  // Network card
+  if (netData.length > 0) {
+    document.getElementById('s-net').textContent = netVal;
+    document.getElementById('s-net-sub').textContent = netData.map(n => n.name + '=' + n.rx_mbs.toFixed(1) + '/' + n.tx_mbs.toFixed(1)).join('  ');
+  }
+
   // PCIe detail in the sub span
   if (hasGpu && gpu0 && !gpu0.error) {
     const pcieSub = 'PCIe: ' + (gpu0.rxpci_mbs||0).toFixed(1) + ' / ' + (gpu0.txpci_mbs||0).toFixed(1)
