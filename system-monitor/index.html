@@ -1009,9 +1009,9 @@ async function refresh() {
     document.getElementById('s-gpu-temp-sub').textContent = tempVals.join('  ');
 
     // ── GPU Power stat card
-    const gpuPower = latest.gpu_power || [];
-    const totalPowerW = gpuPower.reduce((s, g) => s + (g.power_w || 0), 0);
-    const powerSub = gpuPower.map(g => 'GPU' + g.id + '=' + (g.power_w || '?') + 'W').join('  ');
+    const gpuPowerTotal = latest.gpu_power || [];
+    const totalPowerW = gpuPowerTotal.reduce((s, g) => s + (g.power_w || 0), 0);
+    const powerSub = gpuPowerTotal.map(g => 'GPU' + g.id + '=' + (g.power_w || '?') + 'W').join('  ');
     document.getElementById('s-power').textContent = totalPowerW.toFixed(1) + ' W';
     document.getElementById('s-power-sub').textContent = powerSub;
   } else {
