@@ -284,6 +284,14 @@ function initCharts() {
       }
     }
   });
+  document.getElementById('chart-power').addEventListener('click', evt => {
+    const elements = charts.power.getElementsAtEventForMode(evt, 'nearest', { intersect: true }, false);
+    if (elements.length > 0) {
+      const el = elements[0];
+      const ts = charts.power.data.datasets[el.datasetIndex].data[el.index].x;
+      if (ts) showPointInfo(new Date(ts));
+    }
+  });
   // Network chart (up to 8 interfaces × 2 = 16 datasets: RX/TX per iface)
   charts.net = buildNetworkChart('chart-net');
   // GPU Temperature chart (one dataset per GPU + optional Tlimit annotation)
@@ -337,6 +345,14 @@ function buildNetworkChart(canvasId) {
       }
     }
   });
+  document.getElementById(canvasId).addEventListener('click', evt => {
+    const elements = chart.getElementsAtEventForMode(evt, 'nearest', { intersect: true }, false);
+    if (elements.length > 0) {
+      const el = elements[0];
+      const ts = chart.data.datasets[el.datasetIndex].data[el.index].x;
+      if (ts) showPointInfo(new Date(ts));
+    }
+  });
   return chart;
 }
 
@@ -357,6 +373,14 @@ function buildIoChart(canvasId) {
         ...chartOptions().scales,
         y: { min: 0, grid: { color: '#252a3a' }, ticks: { color: '#666' } }
       }
+    }
+  });
+  document.getElementById(canvasId).addEventListener('click', evt => {
+    const elements = chart.getElementsAtEventForMode(evt, 'nearest', { intersect: true }, false);
+    if (elements.length > 0) {
+      const el = elements[0];
+      const ts = chart.data.datasets[el.datasetIndex].data[el.index].x;
+      if (ts) showPointInfo(new Date(ts));
     }
   });
   return chart;
@@ -384,11 +408,20 @@ function buildTempChart(canvasId) {
       }
     }
   });
+  document.getElementById(canvasId).addEventListener('click', evt => {
+    const elements = chart.getElementsAtEventForMode(evt, 'nearest', { intersect: true }, false);
+    if (elements.length > 0) {
+      const el = elements[0];
+      const ts = chart.data.datasets[el.datasetIndex].data[el.index].x;
+      if (ts) showPointInfo(new Date(ts));
+    }
+  });
   return chart;
 }
 
 function initOne(key, dataKey, color) {
-  const ctx = document.getElementById('chart-' + key).getContext('2d');
+  const canvas = document.getElementById('chart-' + key);
+  const ctx = canvas.getContext('2d');
   const grad = ctx.createLinearGradient(0, 0, 0, 220);
   grad.addColorStop(0, '#' + color + '55');
   grad.addColorStop(1, '#' + color + '00');
@@ -396,6 +429,17 @@ function initOne(key, dataKey, color) {
     type: 'line',
     data: { datasets: [{ label: dataKey, data: [], borderColor: '#' + color, backgroundColor: grad, fill: true, borderWidth: 2 }] },
     options: chartOptions()
+  });
+  canvas.addEventListener('click', evt => {
+    console.log('canvas click', evt.offsetX, evt.offsetY);
+    const chart = charts[key];
+    const elements = chart.getElementsAtEventForMode(evt, 'nearest', { intersect: true }, false);
+    if (elements.length > 0) {
+      const el = elements[0];
+      const ts = chart.data.datasets[el.datasetIndex].data[el.index].x;
+      console.log('direct click ts:', ts, 'allData length:', allData.length);
+      if (ts) showPointInfo(new Date(ts));
+    }
   });
 }
 
@@ -416,6 +460,15 @@ function buildGpuChart(canvasId, colors, valueKey, unit) {
   chart._valueKey   = valueKey;
   chart._unit       = unit;
   chart._gpuCount   = 0;
+  const gpuCanvas = document.getElementById(canvasId);
+  gpuCanvas.addEventListener('click', evt => {
+    const elements = chart.getElementsAtEventForMode(evt, 'nearest', { intersect: true }, false);
+    if (elements.length > 0) {
+      const el = elements[0];
+      const ts = chart.data.datasets[el.datasetIndex].data[el.index].x;
+      if (ts) showPointInfo(new Date(ts));
+    }
+  });
   return chart;
 }
 
