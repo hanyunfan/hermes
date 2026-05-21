@@ -18,7 +18,7 @@
 | CPU % | `psutil` | Per-core aggregate |
 | Memory used/total | `psutil` | System RAM |
 | GPU utilization, memory | `nvidia-smi` | Up to 8 GPUs per machine |
-| GPU power draw | `nvidia-smi` | Per-GPU watts + TDP limit |
+| GPU temperature | `nvidia-smi` / `amd-smi` | Per-GPU temperature (°C) |\n| GPU power draw | `nvidia-smi` | Per-GPU watts + TDP limit |
 | PCIe RX/TX throughput | `nvidia-smi dmon` | GPU0 only; requires `interval >= 10s` |
 | NVLink RX/TX throughput | `nvidia-smi dmon` | GPU0 only; requires `interval >= 10s` |
 | Network throughput | `psutil` | Per interface (e.g. eth0, ib0) |
@@ -53,7 +53,7 @@ Chart.js-powered SPA served directly from GitHub Pages.
 - **Machine selector**: switch between machines
 - **Per-GPU charts**: each GPU gets its own colored line
 - **PCIe/NVLink chart**: GPU0 PCIe RX/TX + NVLink RX/TX (hidden if no data)
-- **Power chart**: per-GPU watts + system power (BMC) + CPU power (RAPL)
+- **Power chart**: per-GPU watts + system power (BMC) + CPU power (RAPL) + GPU temperature
 - **Aggregate stats**: mean CPU %, mean GPU utilization, total GPU memory
 - **Auto-refresh**: polls every 10 seconds
 
@@ -154,6 +154,7 @@ Each line in `data/metrics_<display_name>_<YYYYMMDD>.json`:
 | `id` | integer | GPU index (0–7) |
 | `power_w` | float | Current power draw (W) |
 | `power_limit_w` | float | Power limit / TDP (W) |
+| `temp_c` | float | GPU temperature (°C) |
 
 `gpu[]` elements:
 
