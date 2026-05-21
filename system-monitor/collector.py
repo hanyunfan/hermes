@@ -263,15 +263,16 @@ def _nvidia_get_gpu_power():
         try:
             result = subprocess.run(
                 ["nvidia-smi", "--id=" + str(i),
-                 "--query-gpu=power.draw,power.limit",
+                 "--query-gpu=power.draw,power.limit,temperature.gpu",
                  "--format=csv,noheader,nounits"],
                 capture_output=True, text=True, check=True, timeout=5
             )
-            power_draw, power_limit = result.stdout.strip().split(", ")
+            power_draw, power_limit, temp_c = result.stdout.strip().split(", ")
             gpus.append({
                 "id": i,
                 "power_w": float(power_draw),
-                "power_limit_w": float(power_limit)
+                "power_limit_w": float(power_limit),
+                "temperature": float(temp_c)
             })
         except Exception:
             gpus.append({"id": i})
@@ -559,6 +560,13 @@ def get_gpu_stats(enable_nvlink=True):
 
     power_map = {r[0]: r[1] for r in power_results}
     gpu_power = [power_map.get(i, {"id": i}) for i in range(GPU_COUNT)]
+
+    # Merge temperature from power query into gpus dict
+    for i in range(GPU_COUNT):
+        if gpus[i] is not None:
+            pw = power_map.get(i, {})
+            if "temperature" in pw:
+                gpus[i]["temperature"] = pw["temperature"]
 
     return gpus, gpu_power, gpu_io
 

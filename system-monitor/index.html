@@ -535,13 +535,19 @@ let calSelected = null;                 // 'YYYYMMDD'
 let availableDates = new Set();         // dates that have data for current machine
 
 // Check if a single date has data. Resolves to true/false.
+// Uses availableDates cache to avoid redundant fetches.
 function checkDateHasData(key, dateStr) {
+  // Already known to have data — skip the network request entirely
+  if (availableDates.has(dateStr)) return Promise.resolve(true);
+
   return new Promise(resolve => {
-    fetch('data/metrics_' + key + '_' + dateStr + '.json?t=' + Date.now())
+    // Drop ?t= cache-buster so browser can cache 404s too
+    fetch('data/metrics_' + key + '_' + dateStr + '.json')
       .then(r => r.ok ? r.text() : '')
       .then(text => {
-        const lines = text.trim().split('\n').filter(l => l.trim());
-        resolve(lines.length > 0);
+        const hasData = text.trim().split('\n').filter(l => l.trim()).length > 0;
+        if (hasData) availableDates.add(dateStr);
+        resolve(hasData);
       })
       .catch(() => resolve(false));
   });
@@ -668,7 +674,7 @@ async function loadDayData(dateStr) {
   const f = 'data/metrics_' + machineKey + '_' + dateStr + '.json';
   allData = [];
   try {
-    const r = await fetch(f + '?t=' + Date.now());
+    const r = await fetch(f);
     if (r.ok) {
       const text  = await r.text();
       const lines = text.trim().split('\n');
@@ -995,9 +1001,10 @@ async function refresh() {
     document.getElementById('s-gpu-mem').textContent = gpuMemPct + '%';
     document.getElementById('s-gpu-mem-sub').textContent = gpuMemSub;
 
-    // ── GPU Temperature stat card
-    const tempVals = validGpus.map(g => 'GPU' + g.id + '=' + (g.temperature != null ? g.temperature + '°C' : '?'));
-    const gpuTempMean = validGpus.length ? mean(validGpus.map(g => g.temperature || 0)) : 0;
+    // ── GPU Temperature stat card (temp lives in gpu_power array as temp_c)
+    const gpuPower = latest.gpu_power || [];
+    const tempVals = gpuPower.map(g => 'GPU' + g.id + '=' + (g.temp_c != null ? g.temp_c + '°C' : '?'));
+    const gpuTempMean = gpuPower.length ? mean(gpuPower.map(g => g.temp_c || 0)) : 0;
     document.getElementById('s-gpu-temp').textContent = gpuTempMean.toFixed(0) + ' °C';
     document.getElementById('s-gpu-temp-sub').textContent = tempVals.join('  ');
 
@@ -1134,10 +1141,12 @@ function showPointInfo(ts) {
     document.getElementById('s-gpu-sub').textContent = 'GPU0=' + gpuVal;
     document.getElementById('s-gpu-mem').textContent = gpuMemVal;
     document.getElementById('s-gpu-mem-sub').textContent = 'GPU0=' + gpuMemVal;
-    // GPU temperature card
-    const tempVals = gpus.map((g, i) => (g.temperature != null ? 'GPU' + i + ':' + g.temperature + '°C' : null)).filter(Boolean);
+    // GPU temperature card (temp lives in gpu_power array as temp_c)
+    const gpuPowerPt = best.gpu_power || [];
+    const tempVals = gpuPowerPt.map(g => 'GPU' + g.id + '=' + (g.temp_c != null ? g.temp_c + '°C' : '?'));
     if (tempVals.length > 0) {
-      document.getElementById('s-gpu-temp').textContent = gpu0.temperature + ' °C';
+      const meanTemp = gpuPowerPt.length ? mean(gpuPowerPt.map(g => g.temp_c || 0)) : 0;
+      document.getElementById('s-gpu-temp').textContent = meanTemp.toFixed(0) + ' °C';
       document.getElementById('s-gpu-temp-sub').textContent = tempVals.join('  ');
     }
   }
