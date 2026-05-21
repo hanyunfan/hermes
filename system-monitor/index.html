@@ -1154,6 +1154,18 @@ function showPointInfo(ts) {
     document.getElementById('s-net').textContent = netVal;
     document.getElementById('s-net-sub').textContent = netData.map(n => n.name + '=' + n.rx_mbs.toFixed(1) + '/' + n.tx_mbs.toFixed(1)).join('  ');
   }
+  // GPU Power card
+  if (best.gpu_power && best.gpu_power.length > 0) {
+    const gpuPowerTotal = best.gpu_power.reduce((s, g) => s + (g.power_w || 0), 0);
+    const gpuPowerSub = best.gpu_power.map(g => 'GPU' + g.id + '=' + (g.power_w != null ? g.power_w + 'W' : '?')).join('  ');
+    document.getElementById('s-power').textContent = gpuPowerTotal.toFixed(1) + ' W';
+    document.getElementById('s-power-sub').textContent = gpuPowerSub;
+  }
+  // CPU Power card
+  if (best.cpu_power_w != null) {
+    document.getElementById('s-sys-power').textContent = best.cpu_power_w.toFixed(1) + ' W';
+    document.getElementById('s-sys-power-sub').textContent = 'clicked point';
+  }
 
   // PCIe detail in the sub span
   if (hasGpu && gpu0 && !gpu0.error) {
