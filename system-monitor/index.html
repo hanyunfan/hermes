@@ -758,6 +758,8 @@ async function loadDayData(dateStr) {
   if (hasGpu) updateGpuChart(charts['gpu-mem'], allData, 'memory_used_mb', 'MB', gpuCount);
   updateIoChart(allData);
   if (latest.gpu_power) updatePowerChart(allData, gpuCount);
+  if (hasGpu) updateTempChart(allData, gpuCount);
+  updateNetworkChart(allData);
 
   const first = allData[0].timestamp;
   const last  = allData[allData.length - 1].timestamp;
