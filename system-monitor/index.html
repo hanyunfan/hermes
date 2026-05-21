@@ -37,6 +37,11 @@
   .power-val { color: #ff7043; }
   .sys-power-val { color: #ffca28; }
   .net-val { color: #26c6da; }
+  .pcie-val { color: #f06292; }
+  .point-mark {
+    position: absolute; top: 0; bottom: 0; width: 1px;
+    background: rgba(255,255,255,0.5); pointer-events: none; z-index: 10;
+  }
   .updated { font-size: 0.75rem; color: #555; margin-top: 8px; }
   .loading { opacity: 0.5; pointer-events: none; }
   .gpu-tag { font-size: 0.7rem; background: #2d6cdf; color: #fff; padding: 2px 8px; border-radius: 4px; margin-left: 8px; }
@@ -166,6 +171,15 @@
     <span class="stat-value net-val" id="s-net">-- MB/s</span>
     <span class="stat-sub" id="s-net-sub">--</span>
   </div>
+  <div class="stat-card" id="pcie-stat-card">
+    <span class="stat-label">PCIe / NVLink</span>
+    <span class="stat-value pcie-val" id="s-pcie">-- MB/s</span>
+    <span class="stat-sub" id="s-pcie-sub">--</span>
+  </div>
+  <div class="stat-card" id="point-stat-card" style="grid-column: 1/-1; display:none; border-color: #2d6cdf;">
+    <span class="stat-label" id="point-label">Clicked Point</span>
+    <span class="stat-value" id="s-point" style="color:#fff">--</span>
+  </div>
 </div>
 
 <div class="charts">
@@ -225,6 +239,7 @@ let currentRange = 'custom';
 let charts       = {};
 let machines     = [];
 let currentMachine = null;
+let allData      = [];   // shared across loadDayData / refresh / showPointInfo
 
 // ─── Init ────────────────────────────────────────────────────────────────────
 function initCharts() {
@@ -413,8 +428,21 @@ function chartOptions() {
         grid: { color: '#252a3a' }, ticks: { color: '#666', maxTicksLimit: 8 } },
       y: { min: 0, max: 100, grid: { color: '#252a3a' }, ticks: { color: '#666' } }
     },
-    plugins: { legend: { display: true, labels: { color: '#888', boxWidth: 12, font: { size: 11 } } } },
-    elements: { point: { radius: 0, hoverRadius: 4 }, line: { tension: 0.3 } }
+    plugins: {
+      legend: { display: true, labels: { color: '#888', boxWidth: 12, font: { size: 11 } } },
+      tooltip: { enabled: true, mode: 'index', intersect: false },
+    },
+    elements: { point: { radius: 0, hoverRadius: 4 }, line: { tension: 0.3 } },
+    onClick: (evt, elements) => {
+      if (elements.length > 0) {
+        const first = elements[0];
+        const chart = first.element.context.chart;
+        const datasetIndex = first.datasetIndex;
+        const dataIndex = first.index;
+        const ts = chart.data.datasets[datasetIndex].data[dataIndex].x;
+        if (ts) showPointInfo(new Date(ts));
+      }
+    },
   };
 }
 
@@ -582,7 +610,7 @@ async function loadDayData(dateStr) {
   const hasGpu    = gpuCount > 0;
 
   const f = 'data/metrics_' + machineKey + '_' + dateStr + '.json';
-  let allData = [];
+  allData = [];
   try {
     const r = await fetch(f + '?t=' + Date.now());
     if (r.ok) {
@@ -812,7 +840,7 @@ async function refresh() {
   }
 
   // ── Fetch & parse
-  let allData = [];
+  allData = [];
   for (const f of files) {
     try {
       const r = await fetch(f + '?t=' + now);
@@ -967,6 +995,75 @@ async function refresh() {
   document.getElementById('updated').textContent =
     'Updated: ' + new Date().toLocaleTimeString() +
     ' | ' + allData.length + ' pts | ' + machineKey;
+}
+
+function showPointInfo(ts) {
+  // Find the data point closest to the given timestamp
+  let best = null, bestDiff = Infinity;
+  for (const d of allData) {
+    const diff = Math.abs(new Date(d.timestamp).getTime() - ts.getTime());
+    if (diff < bestDiff) { bestDiff = diff; best = d; }
+  }
+  if (!best) return;
+
+  const gpuCount = currentMachine ? (currentMachine.gpu_count || 0) : 0;
+  const hasGpu   = gpuCount > 0;
+  const gpus     = _normalizeGpus(best.gpu);
+  const gpu0     = gpus[0];
+
+  // Format time
+  const t = new Date(best.timestamp);
+  const pad = n => String(n).padStart(2, '0');
+  const timeStr = t.getFullYear() + '-' + pad(t.getMonth()+1) + '-' + pad(t.getDate())
+                 + ' ' + pad(t.getHours()) + ':' + pad(t.getMinutes()) + ':' + pad(t.getSeconds());
+
+  // Build the summary line
+  const cpuVal = best.cpu_percent != null ? best.cpu_percent.toFixed(1) + '%' : 'N/A';
+  const memVal = best.memory_percent != null ? best.memory_percent.toFixed(1) + '%' : 'N/A';
+  let gpuVal = 'N/A', gpuMemVal = 'N/A', gpuPwrVal = 'N/A', cpuPwrVal = 'N/A';
+  let pcieVal = 'N/A';
+  if (hasGpu && gpu0 && !gpu0.error) {
+    gpuVal    = (gpu0.utilization != null ? gpu0.utilization.toFixed(0) : '?') + '%';
+    const gpuMemPct = (gpu0.memory_total_mb > 0)
+      ? (gpu0.memory_used_mb / gpu0.memory_total_mb * 100).toFixed(1)
+      : '?';
+    gpuMemVal  = gpuMemPct + '%';
+    pcieVal    = ((gpu0.rxpci_mbs || 0) + (gpu0.txpci_mbs || 0)).toFixed(1) + ' MB/s';
+  }
+  if (best.gpu_power) {
+    const totalW = best.gpu_power.reduce((s, g) => s + (g.power_w || 0), 0);
+    gpuPwrVal = totalW.toFixed(1) + ' W';
+  }
+  if (best.cpu_power_w != null) {
+    cpuPwrVal = best.cpu_power_w.toFixed(1) + ' W';
+  }
+  const netData = best.network || [];
+  let netVal = 'N/A';
+  if (netData.length > 0) {
+    const totalRx = netData.reduce((s, n) => s + (n.rx_mbs || 0), 0);
+    const totalTx = netData.reduce((s, n) => s + (n.tx_mbs || 0), 0);
+    netVal = totalRx.toFixed(2) + ' / ' + totalTx.toFixed(2) + ' MB/s';
+  }
+
+  document.getElementById('s-point').textContent =
+    timeStr + '  |  CPU: ' + cpuVal + '  |  Mem: ' + memVal
+    + '  |  GPU: ' + gpuVal + '  |  GPU Mem: ' + gpuMemVal
+    + '  |  GPU Pwr: ' + gpuPwrVal + '  |  CPU Pwr: ' + cpuPwrVal
+    + '  |  Net: ' + netVal;
+
+  // PCIe detail in the sub span
+  if (hasGpu && gpu0 && !gpu0.error) {
+    const pcieSub = 'PCIe: ' + (gpu0.rxpci_mbs||0).toFixed(1) + ' / ' + (gpu0.txpci_mbs||0).toFixed(1)
+                  + '  NVLink: ' + (gpu0.nvlrx_mbs||0).toFixed(1) + ' / ' + (gpu0.nvltx_mbs||0).toFixed(1) + ' MB/s';
+    document.getElementById('s-pcie').textContent = pcieVal;
+    document.getElementById('s-pcie-sub').textContent = pcieSub;
+    document.getElementById('pcie-stat-card').style.opacity = '1';
+  } else {
+    document.getElementById('pcie-stat-card').style.opacity = '0.4';
+  }
+
+  // Show the clicked-point card
+  document.getElementById('point-stat-card').style.display = '';
 }
 
 function _normalizeGpus(gpu) {
