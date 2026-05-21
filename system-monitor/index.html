@@ -818,7 +818,7 @@ async function setMachine(key) {
 // ─── Load machines ────────────────────────────────────────────────────────────
 async function loadMachines() {
   try {
-    const r = await fetch('machines.json?t=' + Date.now());
+    const r = await fetch('machines.json');
     if (!r.ok) throw new Error('Failed to load machines');
     machines = await r.json();
     const sel = document.getElementById('machine-select');
@@ -848,6 +848,10 @@ async function loadMachines() {
 // ─── Refresh ─────────────────────────────────────────────────────────────────
 async function refresh() {
   if (!currentMachine) return;
+  // In calendar mode with a specific date selected, auto-refresh does nothing —
+  // the user picked a date; loading it is handled by selectDate() / setRange().
+  if (calSelected) return;
+
   const machineKey = currentMachine.hostname;
   const gpuCount  = currentMachine.gpu_count || 0;
   const hasGpu    = gpuCount > 0;
@@ -907,7 +911,7 @@ async function refresh() {
   allData = [];
   for (const f of files) {
     try {
-      const r = await fetch(f + '?t=' + now);
+      const r = await fetch(f);
       if (!r.ok) { console.warn('Failed to fetch', f, r.status); continue; }
       const text  = await r.text();
       const lines = text.trim().split('\n');
@@ -932,7 +936,7 @@ async function refresh() {
       const utcStr = d.toISOString().slice(0, 10).replace(/-/g, '');
       const f = 'data/metrics_' + machineKey + '_' + utcStr + '.json';
       try {
-        const r = await fetch(f + '?t=' + now);
+        const r = await fetch(f);
         if (r.ok) {
           const text = await r.text();
           const lines = text.trim().split('\n').filter(l => l.trim());
@@ -954,7 +958,7 @@ async function refresh() {
       allData = [];
       for (const f of files) {
         try {
-          const r = await fetch(f + '?t=' + now);
+          const r = await fetch(f);
           if (!r.ok) continue;
           const text  = await r.text();
           const lines = text.trim().split('\n');
@@ -1355,9 +1359,11 @@ function mean(arr) {
 // ─── Bootstrap ───────────────────────────────────────────────────────────────
 document.getElementById('machine-select').addEventListener('change', e => setMachine(e.target.value));
 initCharts();
+let refreshInterval = null;
+
 loadMachines().then(() => {
   setRange('custom');
-  setInterval(refresh, 10000);
+  refreshInterval = setInterval(refresh, 10000);
 });
 </script>
 </body>
