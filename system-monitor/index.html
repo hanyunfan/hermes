@@ -156,6 +156,11 @@
     <span class="stat-value gpu-mem-val" id="s-gpu-mem">--%</span>
     <span class="stat-sub" id="s-gpu-mem-sub">--</span>
   </div>
+  <div class="stat-card" id="gpu-temp-stat-card">
+    <span class="stat-label">GPU Temperature</span>
+    <span class="stat-value gpu-temp-val" id="s-gpu-temp">-- °C</span>
+    <span class="stat-sub" id="s-gpu-temp-sub">--</span>
+  </div>
   <div class="stat-card" id="power-stat-card">
     <span class="stat-label">GPU Power</span>
     <span class="stat-value gpu-power-val" id="s-power">-- W</span>
@@ -720,6 +725,8 @@ async function loadDayData(dateStr) {
   } else {
     ['s-gpu','s-gpu-mem'].forEach(id => document.getElementById(id).textContent = 'N/A');
     ['s-gpu-sub','s-gpu-mem-sub'].forEach(id => document.getElementById(id).textContent = 'No GPU');
+    ['s-gpu-temp'].forEach(id => document.getElementById(id).textContent = 'N/A');
+    ['s-gpu-temp-sub'].forEach(id => document.getElementById(id).textContent = 'No GPU');
   }
 
   // ── System Power
@@ -992,6 +999,12 @@ async function refresh() {
     document.getElementById('s-gpu-mem').textContent = gpuMemPct + '%';
     document.getElementById('s-gpu-mem-sub').textContent = gpuMemSub;
 
+    // ── GPU Temperature stat card
+    const tempVals = validGpus.map(g => 'GPU' + g.id + '=' + (g.temperature != null ? g.temperature + '°C' : '?'));
+    const gpuTempMean = validGpus.length ? mean(validGpus.map(g => g.temperature || 0)) : 0;
+    document.getElementById('s-gpu-temp').textContent = gpuTempMean.toFixed(0) + ' °C';
+    document.getElementById('s-gpu-temp-sub').textContent = tempVals.join('  ');
+
     // ── GPU Power stat card
     const gpuPower = latest.gpu_power || [];
     const totalPowerW = gpuPower.reduce((s, g) => s + (g.power_w || 0), 0);
@@ -1001,6 +1014,8 @@ async function refresh() {
   } else {
     ['s-gpu','s-gpu-mem'].forEach(id => document.getElementById(id).textContent = 'N/A');
     ['s-gpu-sub','s-gpu-mem-sub'].forEach(id => document.getElementById(id).textContent = 'No GPU');
+    ['s-gpu-temp'].forEach(id => document.getElementById(id).textContent = 'N/A');
+    ['s-gpu-temp-sub'].forEach(id => document.getElementById(id).textContent = 'No GPU');
   }
 
   // ── System Power stat card → CPU Power (RAPL)
@@ -1124,6 +1139,15 @@ function showPointInfo(ts) {
     document.getElementById('s-gpu-sub').textContent = 'GPU0 clicked point';
     document.getElementById('s-gpu-mem').textContent = gpuMemVal;
     document.getElementById('s-gpu-mem-sub').textContent = 'GPU0 clicked point';
+    // GPU temperature card
+    const tempVals = gpus.map((g, i) => (g.temperature != null ? 'GPU' + i + ':' + g.temperature + '°C' : null)).filter(Boolean);
+    if (tempVals.length > 0) {
+      document.getElementById('s-gpu-temp').textContent = gpu0.temperature + ' °C';
+      document.getElementById('s-gpu-temp-sub').textContent = tempVals.join('  ');
+    } else {
+      document.getElementById('s-gpu-temp').textContent = 'N/A';
+      document.getElementById('s-gpu-temp-sub').textContent = 'No temp data';
+    }
   }
   // Network card
   if (netData.length > 0) {
