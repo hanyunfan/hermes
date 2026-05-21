@@ -432,7 +432,6 @@ function chartOptions() {
       legend: { display: true, labels: { color: '#888', boxWidth: 12, font: { size: 11 } } },
       tooltip: { enabled: true, mode: 'index', intersect: false },
     },
-    elements: { point: { radius: 0, hoverRadius: 4 }, line: { tension: 0.3 } },
     onClick: (evt, elements) => {
       if (elements.length > 0) {
         const first = elements[0];
@@ -443,6 +442,7 @@ function chartOptions() {
         if (ts) showPointInfo(new Date(ts));
       }
     },
+    elements: { point: { radius: 0, hoverRadius: 4 }, line: { tension: 0.3 } }
   };
 }
 
