@@ -181,10 +181,6 @@
     <span class="stat-value pcie-val" id="s-pcie">-- MB/s</span>
     <span class="stat-sub" id="s-pcie-sub">--</span>
   </div>
-  <div class="stat-card" id="point-stat-card" style="grid-column: 1/-1; display:none; border-color: #2d6cdf;">
-    <span class="stat-label" id="point-label">Clicked Point</span>
-    <span class="stat-value" id="s-point" style="color:#fff">--</span>
-  </div>
 </div>
 
 <div class="charts">
@@ -1121,12 +1117,6 @@ function showPointInfo(ts) {
     const totalTx = netData.reduce((s, n) => s + (n.tx_mbs || 0), 0);
     netVal = totalRx.toFixed(2) + ' / ' + totalTx.toFixed(2) + ' MB/s';
   }
-
-  document.getElementById('s-point').textContent =
-    timeStr + '  |  CPU: ' + cpuVal + '  |  Mem: ' + memVal
-    + '  |  GPU: ' + gpuVal + '  |  GPU Mem: ' + gpuMemVal
-    + '  |  GPU Pwr: ' + gpuPwrVal + '  |  CPU Pwr: ' + cpuPwrVal
-    + '  |  Net: ' + netVal;
 
   // ── Update individual stat cards (like updateStats does) ──
   // CPU card
