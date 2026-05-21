@@ -436,13 +436,11 @@ function initOne(key, dataKey, color) {
     options: chartOptions()
   });
   canvas.addEventListener('click', evt => {
-    console.log('canvas click', evt.offsetX, evt.offsetY);
     const chart = charts[key];
     const elements = chart.getElementsAtEventForMode(evt, 'nearest', { intersect: true }, false);
     if (elements.length > 0) {
       const el = elements[0];
       const ts = chart.data.datasets[el.datasetIndex].data[el.index].x;
-      console.log('direct click ts:', ts, 'allData length:', allData.length);
       if (ts) showPointInfo(new Date(ts));
     }
   });
@@ -492,13 +490,11 @@ function chartOptions() {
     },
     interaction: { intersect: false, mode: 'nearest' },
     onClick: (evt, elements, chart) => {
-      console.log('chart clicked', evt, elements.length);
       if (elements.length > 0) {
         const first = elements[0];
         const datasetIndex = first.datasetIndex;
         const dataIndex = first.index;
         const ts = chart.data.datasets[datasetIndex].data[dataIndex].x;
-        console.log('clicked ts:', ts, 'allData length:', allData.length);
         if (ts) showPointInfo(new Date(ts));
       }
     },
@@ -1068,7 +1064,6 @@ async function refresh() {
 }
 
 function showPointInfo(ts) {
-  console.log('showPointInfo called with', ts, 'allData length:', allData.length);
   // Find the data point closest to the given timestamp
   let best = null, bestDiff = Infinity;
   for (const d of allData) {
@@ -1126,27 +1121,24 @@ function showPointInfo(ts) {
   // CPU card
   if (best.cpu_percent != null) {
     document.getElementById('s-cpu').textContent = best.cpu_percent.toFixed(1) + '%';
-    document.getElementById('s-cpu-sub').textContent = 'clicked point';
+    document.getElementById('s-cpu-sub').textContent = 'clicked: ' + best.cpu_percent.toFixed(1) + '%';
   }
   // Memory card
   if (best.memory_percent != null) {
     document.getElementById('s-mem').textContent = best.memory_percent.toFixed(1) + '%';
-    document.getElementById('s-mem-sub').textContent = 'clicked point';
+    document.getElementById('s-mem-sub').textContent = 'clicked: ' + best.memory_percent.toFixed(1) + '%';
   }
   // GPU cards
   if (hasGpu && gpu0 && !gpu0.error) {
     document.getElementById('s-gpu').textContent = gpuVal;
-    document.getElementById('s-gpu-sub').textContent = 'GPU0 clicked point';
+    document.getElementById('s-gpu-sub').textContent = 'GPU0=' + gpuVal;
     document.getElementById('s-gpu-mem').textContent = gpuMemVal;
-    document.getElementById('s-gpu-mem-sub').textContent = 'GPU0 clicked point';
+    document.getElementById('s-gpu-mem-sub').textContent = 'GPU0=' + gpuMemVal;
     // GPU temperature card
     const tempVals = gpus.map((g, i) => (g.temperature != null ? 'GPU' + i + ':' + g.temperature + '°C' : null)).filter(Boolean);
     if (tempVals.length > 0) {
       document.getElementById('s-gpu-temp').textContent = gpu0.temperature + ' °C';
       document.getElementById('s-gpu-temp-sub').textContent = tempVals.join('  ');
-    } else {
-      document.getElementById('s-gpu-temp').textContent = 'N/A';
-      document.getElementById('s-gpu-temp-sub').textContent = 'No temp data';
     }
   }
   // Network card
@@ -1164,7 +1156,7 @@ function showPointInfo(ts) {
   // CPU Power card
   if (best.cpu_power_w != null) {
     document.getElementById('s-sys-power').textContent = best.cpu_power_w.toFixed(1) + ' W';
-    document.getElementById('s-sys-power-sub').textContent = 'clicked point';
+    document.getElementById('s-sys-power-sub').textContent = 'clicked: ' + best.cpu_power_w.toFixed(1) + ' W';
   }
 
   // PCIe detail in the sub span
