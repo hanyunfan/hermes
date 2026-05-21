@@ -433,12 +433,14 @@ function chartOptions() {
       tooltip: { enabled: true, mode: 'index', intersect: false },
     },
     onClick: (evt, elements) => {
+      console.log('chart clicked', evt, elements.length);
       if (elements.length > 0) {
         const first = elements[0];
         const chart = first.element.context.chart;
         const datasetIndex = first.datasetIndex;
         const dataIndex = first.index;
         const ts = chart.data.datasets[datasetIndex].data[dataIndex].x;
+        console.log('clicked ts:', ts, 'allData length:', allData.length);
         if (ts) showPointInfo(new Date(ts));
       }
     },
@@ -998,6 +1000,7 @@ async function refresh() {
 }
 
 function showPointInfo(ts) {
+  console.log('showPointInfo called with', ts, 'allData length:', allData.length);
   // Find the data point closest to the given timestamp
   let best = null, bestDiff = Infinity;
   for (const d of allData) {
