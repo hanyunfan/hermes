@@ -117,60 +117,105 @@ def detect_ip_location():
     return None
 
 
-# ─── GPS source: AccuWeather ─────────────────────────────────────────────────────
+# ─── GPS source: Google Pollen API ─────────────────────────────────────────────────
 
-def fetch_gps_data(lat, lng):
-    url = f"https://pollencount.app/api/getForecast?lat={lat}&lng={lng}"
-    print("Fetching GPS data from pollencount.app...")
-    req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 (compatible; PollenReport/1.0)"})
+# Google Pollen API (free tier: 10k req/month) — replaces dead pollencount.app
+# Requires a Google Maps API key with Pollen API enabled.
+# Get one at: https://console.cloud.google.com/google/maps-apis/start
+# Set env var GOOGLE_POLLEN_API_KEY, or edit the key line below.
+GOOGLE_POLLEN_URL = "https://pollen.googleapis.com/v1/forecast:lookup"
+GOOGLE_POLLEN_KEY = os.environ.get("GOOGLE_POLLEN_API_KEY", "")  # <--- put your key here
+
+
+def fetch_google_pollen(lat, lng):
+    if not GOOGLE_POLLEN_KEY:
+        print("Google Pollen API: no API key set (set GOOGLE_POLLEN_API_KEY env var)", file=sys.stderr)
+        return None
+    params = {
+        "location.latitude": lat,
+        "location.longitude": lng,
+        "days": 5,
+        "languageCode": "en-US",
+        "key": GOOGLE_POLLEN_KEY,
+    }
+
+    print("Fetching pollen data from Google Pollen API...")
+    url = GOOGLE_POLLEN_URL + "?" + urllib.parse.urlencode(params)
+    req = urllib.request.Request(
+        url,
+        headers={
+            "User-Agent": "PollenReport/1.0",
+            "Accept": "application/json",
+        },
+    )
     try:
         with urllib.request.urlopen(req, timeout=15) as resp:
             return json.loads(resp.read().decode())
     except Exception as e:
-        print(f"GPS fetch failed: {e}", file=sys.stderr)
+        print(f"Google Pollen API fetch failed: {e}", file=sys.stderr)
         return None
 
+# ─── Replaced parse_google_pollen function ──────────────────────────────────────
 
-def parse_gps_data(raw, source_name):
-    result = {"source": "GPS (AccuWeather)", "source_name": source_name}
-    forecasts = raw.get("DailyForecasts", [])
-    if not forecasts:
+def parse_google_pollen(raw, source_name):
+    """Parse Google Pollen API response into the same dict shape as parse_gps_data()."""
+    result = {"source": "Google Pollen API", "source_name": source_name}
+    try:
+        daily_forecasts = raw.get("dailyInfo", [])
+        if not daily_forecasts:
+            return result
+
+        today = daily_forecasts[0]
+        pollen_type_info = today.get("pollenTypeInfo", [])
+        # Google uses string codes: "GRASS", "TREE", "WEED", "RAGWEED"
+        code_map = {"GRASS": "grass", "TREE": "tree", "WEED": "weed", "RAGWEED": "ragweed"}
+        for entry in pollen_type_info:
+            code = entry.get("code", "")
+            key = code_map.get(code, code.lower())
+            index_info = entry.get("indexInfo", {})
+            val = index_info.get("value")
+            category = index_info.get("category", "")
+            if key not in result:  # first entry wins
+                result[key] = val
+                result[key + "_category"] = category
+
+        reco = today.get("healthRecommendations", [])
+        if reco:
+            result["headline"] = reco[0]
+
+        # Temperature
+        temp_info = today.get("temperatureInfo", {})
+        if temp_info:
+            result["temp_high"] = temp_info.get("max", {}).get("value") or temp_info.get("max")
+            result["temp_low"] = temp_info.get("min", {}).get("value") or temp_info.get("min")
+
+        # 5-day forecast
+        result["forecast"] = []
+        for day in daily_forecasts[:6]:
+            d = day.get("date", {})
+            date_str = f"{d.get('year','')}-{d.get('month',''):02d}-{d.get('day',''):02d}"
+            temp_day = day.get("temperatureInfo", {})
+            pollen_info = day.get("pollenTypeInfo", [])
+            tree_val = None
+            grass_val = None
+            for entry in pollen_info:
+                c = entry.get("code", "")
+                v = entry.get("indexInfo", {}).get("value")
+                if c == "TREE":
+                    tree_val = v
+                elif c == "GRASS":
+                    grass_val = v
+            result["forecast"].append({
+                "date": date_str,
+                "temp_high": (temp_day.get("max", {}).get("value") or temp_day.get("max")) if temp_day else None,
+                "tree": tree_val,
+                "grass": grass_val,
+            })
+
         return result
-    today = forecasts[0]
-    for item in today.get("AirAndPollen", []):
-        name = item.get("Name", "")
-        val = item.get("Value")
-        cat = item.get("Category", "")
-        if name == "Tree":
-            result["tree"] = val; result["tree_category"] = cat
-        elif name == "Grass":
-            result["grass"] = val; result["grass_category"] = cat
-        elif name == "Ragweed":
-            result["ragweed"] = val; result["ragweed_category"] = cat
-        elif name == "Mold":
-            result["mold"] = val; result["mold_category"] = cat
-        elif name == "AirQuality":
-            result["air_quality"] = val
-        elif name == "UVIndex":
-            result["uv_index"] = val
-    if "Headline" in today:
-        result["headline"] = today["Headline"]
-    result["temp_high"] = today.get("Temperature", {}).get("Maximum", {}).get("Value")
-    result["temp_low"] = today.get("Temperature", {}).get("Minimum", {}).get("Value")
-    result["hours_of_sun"] = today.get("HoursOfSun", "?")
-    result["forecast"] = [
-        {
-            "date": day.get("Date", "")[:10],
-            "temp_high": day.get("Temperature", {}).get("Maximum", {}).get("Value"),
-            "temp_low": day.get("Temperature", {}).get("Minimum", {}).get("Value"),
-            "tree": next((i.get("Value") for i in day.get("AirAndPollen", []) if i.get("Name") == "Tree"), None),
-            "grass": next((i.get("Value") for i in day.get("AirAndPollen", []) if i.get("Name") == "Grass"), None),
-        }
-        for day in forecasts[:6]
-    ]
-    return result
-
-
+    except Exception as e:
+        print(f"Google Pollen parse error: {e}", file=sys.stderr)
+        return result
 # ─── ZIP source: pollen.com via Chrome CDP ──────────────────────────────────────
 
 def fetch_zip_data(zip_code):
@@ -542,8 +587,8 @@ def main():
     zip_code = location["zip"]
 
     # Fetch data
-    gps_raw = fetch_gps_data(lat, lng)
-    gps_data = parse_gps_data(gps_raw, location.get("city", DEFAULT_CITY)) if gps_raw else {}
+    gps_raw = fetch_google_pollen(lat, lng)
+    gps_data = parse_google_pollen(gps_raw, location.get("city", DEFAULT_CITY)) if gps_raw else {}
     zip_raw = fetch_zip_data(zip_code)
     zip_data = parse_zip_data(zip_raw, zip_code)
     aqi = fetch_aqi(lat, lng)
