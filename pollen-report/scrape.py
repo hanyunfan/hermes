@@ -30,7 +30,7 @@ DEFAULT_ADDRESS = "Spicewood Elementary School, Austin TX 78750"
 DEFAULT_LAT = 30.4446283
 DEFAULT_LNG = -97.8039171
 DEFAULT_ZIP = "78750"
-DEFAULT_CITY = "Spicewood Elementary School, Austin TX 78750"
+DEFAULT_CITY = "Austin, Travis County"
 
 DATA_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data")
 OUTPUT_JSON = os.path.join(DATA_DIR, "pollen-data.json")
