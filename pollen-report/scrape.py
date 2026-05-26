@@ -340,7 +340,7 @@ def source_block(data, is_gps=True):
     tag = "GPS" if is_gps else "ZIP"
     tag_class = "gps" if is_gps else "zip"
     loc = data.get("source_name", "Unknown location")
-    src = "AccuWeather (pollencount.app)" if is_gps else "pollen.com"
+    src = "Google Pollen API" if is_gps else "pollen.com"
     allergen_vals = {k: data.get(k, 0) or 0 for k in ["tree","grass","ragweed","mold"]}
     top_key = max(allergen_vals, key=allergen_vals.get) if any(allergen_vals.values()) else None
     rows_html = ""
@@ -545,7 +545,7 @@ def generate_html(gps_data, zip_data, aqi, location):
             </div>{fc_rows}
         </div>
 
-        <p class="footer">Sources: AccuWeather (GPS) + pollen.com (ZIP)</p>
+        <p class="footer">Sources: Google Pollen API (GPS) + pollen.com (ZIP)</p>
     </div>
 </body>
 </html>"""
