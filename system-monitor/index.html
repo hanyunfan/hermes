@@ -304,6 +304,8 @@ const IO_COLORS = {
   txpci:  'e91e63',   // dark pink
   nvlrx:  '4dd0e1',   // cyan
   nvltx:  '26c6da',   // dark cyan
+  pcie_bw_rx: 'ab47bc', // purple (PCIe bandwidth RX)
+  pcie_bw_tx: '8e24aa', // dark purple (PCIe bandwidth TX)
 };
 
 // Up to 8 network interfaces × 2 (RX, TX). Colors paired per interface.
@@ -363,6 +365,8 @@ function buildIoChart(canvasId) {
     { label: 'PCIe TX', data: [], borderColor: '#' + IO_COLORS.txpci, backgroundColor: 'transparent', borderWidth: 1.5, hidden: false },
     { label: 'NVLink RX', data: [], borderColor: '#' + IO_COLORS.nvlrx, backgroundColor: 'transparent', borderWidth: 1.5, hidden: true },
     { label: 'NVLink TX', data: [], borderColor: '#' + IO_COLORS.nvltx, backgroundColor: 'transparent', borderWidth: 1.5, hidden: true },
+    { label: 'PCIe BW RX', data: [], borderColor: '#' + IO_COLORS.pcie_bw_rx, backgroundColor: 'transparent', borderWidth: 1.5, hidden: true },
+    { label: 'PCIe BW TX', data: [], borderColor: '#' + IO_COLORS.pcie_bw_tx, backgroundColor: 'transparent', borderWidth: 1.5, hidden: true },
   ];
   const chart = new Chart(document.getElementById(canvasId), {
     type: 'line',
@@ -1167,7 +1171,8 @@ function showPointInfo(ts) {
   // PCIe detail in the sub span
   if (hasGpu && gpu0 && !gpu0.error) {
     const pcieSub = 'PCIe: ' + (gpu0.rxpci_mbs||0).toFixed(1) + ' / ' + (gpu0.txpci_mbs||0).toFixed(1)
-                  + '  NVLink: ' + (gpu0.nvlrx_mbs||0).toFixed(1) + ' / ' + (gpu0.nvltx_mbs||0).toFixed(1) + ' MB/s';
+                  + '  NVLink: ' + (gpu0.nvlrx_mbs||0).toFixed(1) + ' / ' + (gpu0.nvltx_mbs||0).toFixed(1) + ' MB/s'
+                  + (gpu0.pcie_bandwidth_mbs != null ? '  PCIe BW: ' + gpu0.pcie_bandwidth_mbs.toFixed(1) + ' GB/s' : '');
     document.getElementById('s-pcie').textContent = pcieVal;
     document.getElementById('s-pcie-sub').textContent = pcieSub;
     document.getElementById('pcie-stat-card').style.opacity = '1';
@@ -1214,20 +1219,27 @@ function updateIoChart(allData) {
     { key: 'txpci_mbs', dsIdx: 1 },
     { key: 'nvlrx_mbs', dsIdx: 2 },
     { key: 'nvltx_mbs', dsIdx: 3 },
+    { key: 'pcie_bandwidth_mbs', dsIdx: 4, bothDirs: true },
   ];
-  KEYS.forEach(({ key, dsIdx }) => {
+  KEYS.forEach(({ key, dsIdx, bothDirs }) => {
     charts.io.data.datasets[dsIdx].data = allData.map(d => {
       const gpus = _normalizeGpus(d.gpu);
       const g    = gpus[gpuId];
       const y    = (g && !g.error && g[key] != null) ? g[key] : null;
       return y != null ? { x: new Date(d.timestamp), y } : { x: new Date(d.timestamp), y: null };
     });
+    if (bothDirs) {
+      charts.io.data.datasets[dsIdx + 1].data = charts.io.data.datasets[dsIdx].data;
+    }
   });
   // Show NVLink datasets only if any data is non-null
   const gpu0Data = allData.map(d => _normalizeGpus(d.gpu)[gpuId]).filter(g => g && !g.error);
   const hasNvlink = gpu0Data.some(g => g.nvlrx_mbs != null || g.nvltx_mbs != null);
   charts.io.data.datasets[2].hidden = !hasNvlink;  // NVLink RX
   charts.io.data.datasets[3].hidden = !hasNvlink;  // NVLink TX
+  const hasPcieBw = gpu0Data.some(g => g.pcie_bandwidth_mbs != null);
+  charts.io.data.datasets[4].hidden = !hasPcieBw;  // PCIe BW RX
+  charts.io.data.datasets[5].hidden = !hasPcieBw;  // PCIe BW TX
   charts.io.update();
 }
 
