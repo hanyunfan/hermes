@@ -17,6 +17,8 @@ for fname in files:
                 seen[hostname] = {
                     'hostname': hostname,
                     'display_name': r.get('display_name'),
+                    'cpu_count': r.get('cpu_count'),
+                    'cpu_type': r.get('cpu_type'),
                     'gpu_type': r.get('gpu_type') or ('NVIDIA GPU' if has_gpu else None),
                     'gpu_count': r.get('gpu_count', 0) or (1 if has_gpu else 0)
                 }

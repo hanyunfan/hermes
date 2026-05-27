@@ -17,6 +17,8 @@
   .controls select:hover, .controls button:hover { border-color: #555; }
   .controls button.active { background: #2d6cdf; border-color: #2d6cdf; }
   .controls button:hover { background: #383f5a; }
+  .hw-info { font-size: 0.82rem; color: #888; margin-bottom: 10px; padding: 6px 12px; background: #1a1d27; border: 1px solid #252a3a; border-radius: 8px; display: inline-block; }
+  .hw-info span { margin-right: 16px; }
   #machine-select { min-width: 280px; }
   .charts { display: grid; grid-template-columns: repeat(auto-fit, minmax(500px, 1fr)); gap: 16px; }
   .chart-card { background: #1a1d27; border-radius: 12px; padding: 16px; border: 1px solid #252a3a; }
@@ -118,6 +120,8 @@
 <body>
 
 <h1>🖥️ System Monitor</h1>
+
+<div id="hw-info" class="hw-info"></div>
 
 <div class="controls">
   <label>Machine:</label>
@@ -804,6 +808,7 @@ async function setMachine(key) {
   clearDisplay();
   availableDates.clear();
   calSelected = null;
+  updateHwInfo();
   // If calendar is visible, re-render and auto-load latest available date for the new machine
   if (document.getElementById('calendar-wrap').classList.contains('visible')) {
     renderCalendar(calYear, calMonth);
@@ -841,10 +846,23 @@ async function loadMachines() {
     });
     sel.value = machines[0].display_name || machines[0].hostname;
     currentMachine = machines[0];
+    updateHwInfo();
   } catch (e) {
     console.error('Failed to load machines:', e);
     document.getElementById('machine-select').innerHTML = '<option value="">— Error loading machines —</option>';
   }
+}
+
+function updateHwInfo() {
+  const m = currentMachine;
+  if (!m) return;
+  const cpu = m.cpu_type
+    ? `<span>CPU: ${m.cpu_type} x${m.cpu_count || '?'}</span>`
+    : `<span>CPU: ${m.cpu_count || '?'} cores</span>`;
+  const gpu = m.gpu_count > 0
+    ? `<span>GPU: ${m.gpu_type || 'GPU'} x${m.gpu_count}</span>`
+    : '<span>GPU: none</span>';
+  document.getElementById('hw-info').innerHTML = cpu + '  ' + gpu;
 }
 
 // ─── Refresh ─────────────────────────────────────────────────────────────────

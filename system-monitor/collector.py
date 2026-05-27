@@ -25,6 +25,36 @@ os.makedirs(DATA_DIR, exist_ok=True)
 
 HOSTNAME = socket.gethostname()
 
+# ─── CPU info ─────────────────────────────────────────────────────────────────
+
+CPU_COUNT = psutil.cpu_count(logical=False)
+CPU_TYPE  = None
+
+def _probe_cpu():
+    """Detect CPU model name from /proc/cpuinfo."""
+    global CPU_TYPE
+    try:
+        with open('/proc/cpuinfo') as f:
+            for line in f:
+                if line.startswith('model name'):
+                    CPU_TYPE = line.split(':', 1)[1].strip()
+                    return
+                if line.startswith('Hardware'):
+                    CPU_TYPE = line.split(':', 1)[1].strip()
+    except Exception:
+        pass
+    try:
+        import subprocess
+        r = subprocess.run(['cat', '/proc/cpuinfo'], capture_output=True, text=True)
+        for line in r.stdout.splitlines():
+            if line.startswith('model name'):
+                CPU_TYPE = line.split(':', 1)[1].strip()
+                return
+    except Exception:
+        pass
+
+_probe_cpu()
+
 # ─── GPU globals ───────────────────────────────────────────────────────────────
 
 GPU_AVAILABLE = True
@@ -643,6 +673,8 @@ def collect(enable_nvlink=True):
         "timestamp": datetime.now(timezone.utc).isoformat(),
         "hostname": HOSTNAME,
         "display_name": display_name,
+        "cpu_count": CPU_COUNT,
+        "cpu_type": CPU_TYPE,
         "gpu_count": GPU_COUNT,
         "gpu_type": GPU_TYPE,
         "gpu_vendor": GPU_VENDOR,
