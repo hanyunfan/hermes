@@ -1,7 +1,7 @@
 [
   {
     "hostname": "node016",
-    "display_name": "XE7740_H200NVL",
+    "display_name": null,
     "gpu_type": "H200_NVL",
     "gpu_count": 8
   },
@@ -25,7 +25,7 @@
   },
   {
     "hostname": "mlperf1",
-    "display_name": "XE9780L_B300",
+    "display_name": null,
     "gpu_type": "B300_SXM6_AC",
     "gpu_count": 8
   },
@@ -40,5 +40,11 @@
     "display_name": "XE9785L_MI355X",
     "gpu_type": "Instinct_MI355_OAM",
     "gpu_count": 8
+  },
+  {
+    "hostname": "GB300_lora_FP8_FP4",
+    "display_name": "GB300_lora_FP8_FP4",
+    "gpu_type": "GB300",
+    "gpu_count": 4
   }
 ]
