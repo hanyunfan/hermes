@@ -2,54 +2,72 @@
   {
     "hostname": "node016",
     "display_name": null,
+    "cpu_count": null,
+    "cpu_type": null,
     "gpu_type": "H200_NVL",
     "gpu_count": 8
   },
   {
     "hostname": "node012",
     "display_name": "16xXE9712_llama3_8b",
+    "cpu_count": null,
+    "cpu_type": null,
     "gpu_type": "GB300",
     "gpu_count": 4
   },
   {
     "hostname": "node009",
     "display_name": "XE9712",
+    "cpu_count": null,
+    "cpu_type": null,
     "gpu_type": "GB300",
     "gpu_count": 4
   },
   {
     "hostname": "node004",
     "display_name": "XE9712_flux_4nodes",
+    "cpu_count": null,
+    "cpu_type": null,
     "gpu_type": "GB300",
     "gpu_count": 4
   },
   {
     "hostname": "mlperf1",
     "display_name": null,
+    "cpu_count": null,
+    "cpu_type": null,
     "gpu_type": "B300_SXM6_AC",
     "gpu_count": 8
   },
   {
     "hostname": "frank-XPS-8960",
     "display_name": null,
+    "cpu_count": null,
+    "cpu_type": null,
     "gpu_type": null,
     "gpu_count": 0
   },
   {
     "hostname": "XE9785L_MI355X_Flux",
     "display_name": "XE9785L_MI355X_Flux",
+    "cpu_count": null,
+    "cpu_type": null,
     "gpu_type": "Instinct_MI355_OAM",
     "gpu_count": 8
   },
   {
     "hostname": "XE9785L_MI355X",
     "display_name": "XE9785L_MI355X",
+    "cpu_count": null,
+    "cpu_type": null,
     "gpu_type": "Instinct_MI355_OAM",
     "gpu_count": 8
   },
   {
     "hostname": "GB300_lora_FP8_FP4",
     "display_name": "GB300_lora_FP8_FP4",
+    "cpu_count": null,
+    "cpu_type": null,
     "gpu_type": "GB300",
     "gpu_count": 4
   }
