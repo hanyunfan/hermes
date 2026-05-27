@@ -36,6 +36,12 @@
     "gpu_count": 0
   },
   {
+    "hostname": "XE9785L_MI355X_Flux",
+    "display_name": "XE9785L_MI355X_Flux",
+    "gpu_type": "Instinct_MI355_OAM",
+    "gpu_count": 8
+  },
+  {
     "hostname": "XE9785L_MI355X",
     "display_name": "XE9785L_MI355X",
     "gpu_type": "Instinct_MI355_OAM",
