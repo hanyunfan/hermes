@@ -125,7 +125,7 @@ def detect_ip_location():
 # Get one at: https://console.cloud.google.com/google/maps-apis/start
 # Set env var GOOGLE_POLLEN_API_KEY, or edit the key line below.
 GOOGLE_POLLEN_URL = "https://pollen.googleapis.com/v1/forecast:lookup"
-GOOGLE_POLLEN_KEY = os.environ.get("GOOGLE_POLLEN_API_KEY", "")  # <--- put your key here
+GOOGLE_POLLEN_KEY = os.environ.get("GOOGLE_POLLEN_API_KEY", "")  # Put your key here
 
 
 def fetch_google_pollen(lat, lng):
@@ -355,7 +355,7 @@ def source_block(data, is_gps=True):
             <div class="pollen-row">
                 <span class="pollen-name">{icon} {key.title()}{star}</span>
                 <div class="pollen-right">
-                    <span class="pollen-num">{v}</span>
+                    <span class="pollen-num">{v}/5</span>
                     <span class="badge {col}">{cat_disp}</span>
                 </div>
             </div>"""
@@ -419,7 +419,7 @@ def generate_html(gps_data, zip_data, aqi, location):
             <div class="pollen-row">
                 <span class="pollen-name">{label}</span>
                 <div class="pollen-right">
-                    <span class="pollen-num">{v}</span>
+                    <span class="pollen-num">{v}/5</span>
                     <span class="badge {col}">{cat}</span>
                 </div>
             </div>"""
@@ -458,8 +458,8 @@ def generate_html(gps_data, zip_data, aqi, location):
         <div class="forecast-row">
             <span class="forecast-date">{day.get("date","?")[5:]}</span>
             <span class="forecast-temps">{day.get("temp_low","?")}°–{day.get("temp_high","?")}°F</span>
-            <span>🌳 {day.get("tree","?")}</span>
-            <span>🌾 {day.get("grass","?")}</span>
+            <span>🌳 {day.get("tree") or "-"}/5</span>
+            <span>🌾 {day.get("grass") or "-"}/5</span>
         </div>"""
     return f"""<!DOCTYPE html>
 <html lang="en">
