@@ -329,11 +329,16 @@ def top_allergens(gps):
 def severity_aqi(aqi):
     if aqi is None:
         return "-", "gray"
-    if aqi <= 50: return "Good", "green"
-    elif aqi <= 100: return "Moderate", "yellow"
-    elif aqi <= 150: return "Unhealthy for Sensitive", "orange"
-    elif aqi <= 200: return "Unhealthy", "red"
-    elif aqi <= 300: return "Very Unhealthy", "purple"
+    if aqi <= 50:
+        return "Good", "green"
+    elif aqi <= 100:
+        return "Moderate", "yellow"
+    elif aqi <= 150:
+        return "Unhealthy for Sensitive", "orange"
+    elif aqi <= 200:
+        return "Unhealthy", "red"
+    elif aqi <= 300:
+        return "Very Unhealthy", "purple"
     return "Hazardous", "maroon"
 
 
@@ -602,7 +607,7 @@ def main():
         "location": location.get("city", DEFAULT_CITY),
         "address": args.address if not args.detect_ip else "IP-detected",
         "lat": lat, "lng": lng, "zip": zip_code,
-        "gps": gps_data, "zip": zip_data, "aqi": aqi,
+        "gps": gps_data, "zip_data": zip_data, "aqi": aqi,
         "top_allergen": top[0] if top else None,
         "top_allergen_value": top[1] if top else None,
         "top_allergen_category": top[2] if top else None,

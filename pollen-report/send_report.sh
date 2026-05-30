@@ -14,11 +14,12 @@ sleep 1
 
 # Load local env (API keys) — not tracked by git
 if [ -f "$SCRIPT_DIR/.env.local" ]; then
-    source "$SCRIPT_DIR/.env.local"
+    # shellcheck disable=SC1091
+    . "$SCRIPT_DIR/.env.local"
 fi
 
 # Run scraper
-cd "$SCRIPT_DIR"
+cd "$SCRIPT_DIR" || exit
 python3 scrape.py
 
 # Build Telegram HTML message from JSON
@@ -50,7 +51,7 @@ lines.append(f"📍 {loc}  |  {ts}")
 lines.append("")
 
 if top != "N/A":
-    lines.append(f"<b>⚠️ Top Allergen: {top} ({top_val}, {top_cat})</b>")
+    lines.append(f"<b>⚠️ Top Allergen: {top} ({top_val}/5, {top_cat})</b>")
 else:
     lines.append("<b>⚠️ Top Allergen: unavailable (GPS data down)</b>")
 
@@ -63,7 +64,7 @@ if gps_ok:
         val = gps.get(key)
         cat = gps.get(f"{key}_category", "?")
         if val is not None:
-            lines.append(f"  {label}: {val} {cat_emoji(cat)}")
+            lines.append(f"  {label}: {val}/5 {cat_emoji(cat)}")
             shown = True
     if not shown:
         lines.append("  (no data available)")
@@ -91,8 +92,8 @@ if gps.get("forecast"):
         gr = f.get("grass")
         tr_cat = f.get("tree_category","")
         gr_cat = f.get("grass_category","")
-        tr_str = f"{tr} {tr_cat}" if tr is not None else "?"
-        gr_str = f"{gr} {gr_cat}" if gr is not None else "?"
+        tr_str = f"{tr}/5 {tr_cat}" if tr is not None else "?"
+        gr_str = f"{gr}/5 {gr_cat}" if gr is not None else "?"
         lines.append(f"  {date}: 🌳{tr_str}  🌾{gr_str}")
     lines.append("")
 
