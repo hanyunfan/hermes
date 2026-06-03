@@ -126,6 +126,12 @@
   <select id="machine-select">
     <option value="">— Loading machines —</option>
   </select>
+  <button id="upload-btn" title="Upload a metrics_*.json file. Stored in your browser localStorage is a GitHub Personal Access Token (repo:contents write).">⬆ Upload JSON</button>
+  <input type="file" id="upload-input" accept=".json,application/json" style="display:none">
+  <span id="upload-status" style="font-size:0.78rem;color:#888;margin-left:4px"></span>
+  <span style="margin-left:8px;font-size:0.78rem;color:#666">Source:</span>
+  <button id="src-github" class="src-btn active" data-src="github" onclick="setSource('github')">GitHub</button>
+  <button id="src-local" class="src-btn"        data-src="local"  onclick="setSource('local')">Local :8765</button>
   <label style="margin-left:12px">Range:</label>
   <button id="btn-hour"  class="active" data-range="hour"   onclick="setRange('hour')">Hour</button>
   <button id="btn-day"              data-range="day"     onclick="setRange('day')">Day</button>
@@ -225,6 +231,35 @@
 <script>
 // ─── Config ──────────────────────────────────────────────────────────────────
 const RANGES = { hour: 3600, day: 86400, week: 604800 };
+
+// Data source configuration.
+//   'github' → fetch from raw.githubusercontent.com (production / shared view).
+//              This is the default because it shows the union of every machine
+//              that has ever pushed to the repo, regardless of where the
+//              browser is running.
+//   'local'  → fetch from the same-origin server.py (http://localhost:8765).
+//              Use this when you're running collector.py locally and want to
+//              see your data before it's been pushed to GitHub. Note: machines
+//              registered only on the local server will NOT show up in
+//              machines.json on GitHub, and vice versa — there are two views.
+//
+// Switching sources re-runs loadMachines() and refresh(). The choice is
+// remembered in localStorage so it persists across reloads.
+const GITHUB_OWNER = 'hanyunfan';
+const GITHUB_REPO  = 'hermes';
+const GITHUB_BRANCH = 'main';
+const GITHUB_RAW_BASE = `https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/${GITHUB_BRANCH}/system-monitor`;
+// Used for the browser→GitHub upload. Note: Contents API requires a PAT.
+const GITHUB_API_BASE = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/system-monitor`;
+const PAT_STORAGE_KEY = 'systemMonitorGithubPAT';
+
+let dataSource = localStorage.getItem('systemMonitorDataSource') || 'github';
+
+function dataUrl(relPath) {
+  // relPath: e.g. 'machines.json' or 'data/metrics_X_20260603.json'
+  if (dataSource === 'local') return relPath;  // same origin (server.py)
+  return `${GITHUB_RAW_BASE}/${relPath}?ts=${Date.now()}`;
+}
 
 // Colors for up to 8 GPUs (index 0–7). Single-homedashboard uses GPU[0] color.
 const GPU_COLORS = [
@@ -544,8 +579,7 @@ function checkDateHasData(key, dateStr) {
   if (availableDates.has(dateStr)) return Promise.resolve(true);
 
   return new Promise(resolve => {
-    // Drop ?t= cache-buster so browser can cache 404s too
-    fetch('data/metrics_' + key + '_' + dateStr + '.json')
+    fetch(dataUrl('data/metrics_' + key + '_' + dateStr + '.json'))
       .then(r => r.ok ? r.text() : '')
       .then(text => {
         const hasData = text.trim().split('\n').filter(l => l.trim()).length > 0;
@@ -822,33 +856,230 @@ async function setMachine(key) {
 }
 
 // ─── Load machines ────────────────────────────────────────────────────────────
-async function loadMachines() {
-  try {
-    const r = await fetch('machines.json');
-    if (!r.ok) throw new Error('Failed to load machines');
-    machines = await r.json();
-    const sel = document.getElementById('machine-select');
-    sel.innerHTML = '';
-    if (machines.length === 0) {
-      sel.innerHTML = '<option value="">— No machines found —</option>';
-      return;
-    }
-    machines.forEach(m => {
-      const opt = document.createElement('option');
-      opt.value = m.display_name || m.hostname;
-      const gpuDesc = m.gpu_count > 0
-        ? ` (${m.gpu_type || 'GPU'} x${m.gpu_count})`
-        : ' (no GPU)';
-      const shownName = m.display_name || m.hostname;
-      opt.textContent = shownName + gpuDesc;
-      sel.appendChild(opt);
-    });
+let lastMachineKeys = new Set();
+
+function renderMachines() {
+  const sel = document.getElementById('machine-select');
+  const previousValue = sel.value;
+  sel.innerHTML = '';
+  if (machines.length === 0) {
+    sel.innerHTML = '<option value="">— No machines found —</option>';
+    return;
+  }
+  machines.forEach(m => {
+    const opt = document.createElement('option');
+    opt.value = m.display_name || m.hostname;
+    const gpuDesc = m.gpu_count > 0
+      ? ` (${m.gpu_type || 'GPU'} x${m.gpu_count})`
+      : ' (no GPU)';
+    const shownName = m.display_name || m.hostname;
+    opt.textContent = shownName + gpuDesc;
+    sel.appendChild(opt);
+  });
+  // Keep the user's current selection if it still exists; otherwise default to the first.
+  if (machines.some(m => (m.display_name || m.hostname) === previousValue)) {
+    sel.value = previousValue;
+  } else {
     sel.value = machines[0].display_name || machines[0].hostname;
     currentMachine = machines[0];
     updateHwInfo();
+    // A new machine appeared or the old one was removed → re-render charts.
+    refresh();
+  }
+}
+
+async function loadMachines() {
+  try {
+    const r = await fetch(dataUrl('machines.json'));
+    if (!r.ok) throw new Error('Failed to load machines');
+    machines = await r.json();
+
+    // Detect newly discovered machines and toast a notice.
+    const newKeys = new Set(machines.map(m => m.hostname));
+    if (lastMachineKeys.size > 0) {
+      const added = [...newKeys].filter(k => !lastMachineKeys.has(k));
+      if (added.length) {
+        flashStatus(`+ new machine${added.length>1?'s':''}: ${added.join(', ')}`, '#81c784');
+      }
+    }
+    lastMachineKeys = newKeys;
+
+    renderMachines();
   } catch (e) {
     console.error('Failed to load machines:', e);
     document.getElementById('machine-select').innerHTML = '<option value="">— Error loading machines —</option>';
+  }
+}
+
+function flashStatus(text, color) {
+  const el = document.getElementById('upload-status');
+  if (!el) return;
+  el.textContent = text;
+  el.style.color = color || '#888';
+  setTimeout(() => { el.textContent = ''; }, 6000);
+}
+
+// ─── Source switcher ──────────────────────────────────────────────────────────
+function setSource(src) {
+  if (src !== 'github' && src !== 'local') return;
+  dataSource = src;
+  localStorage.setItem('systemMonitorDataSource', src);
+  applyDataSource();
+  loadMachines().then(refresh);
+  flashStatus(`source → ${src === 'github' ? 'GitHub (raw)' : 'localhost:8765'}`, '#aaa');
+}
+
+function applyDataSource() {
+  document.querySelectorAll('.src-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.src === dataSource);
+  });
+}
+
+// ─── Upload (via GitHub Contents API) ────────────────────────────────────────
+// Uses a Personal Access Token (PAT) stored in localStorage. The PAT needs
+// `repo:contents:write` scope. This is the only way to make a static+JS page
+// write into a GitHub repo.
+//
+// The workflow after upload is:
+//   1. PUT to Contents API → file lands in repo, fires a `push` event
+//   2. .github/workflows/sync-machines.yml runs sync_machines.py and
+//      commits an updated machines.json
+//   3. Frontend's 30s poll of machines.json (from raw.githubusercontent.com)
+//      picks up the new machine
+// So you can sit on the dashboard, click Upload, and ~10–30s later see the
+// new machine in the dropdown.
+
+function getPat() { return localStorage.getItem(PAT_STORAGE_KEY) || ''; }
+function setPat(v) {
+  if (v) localStorage.setItem(PAT_STORAGE_KEY, v);
+  else localStorage.removeItem(PAT_STORAGE_KEY);
+}
+
+function promptForPat() {
+  const current = getPat();
+  const v = window.prompt(
+    'GitHub Personal Access Token (needs repo:contents:write).\n' +
+    'Create one at: https://github.com/settings/tokens/new (select "Contents: Read and write" under the repo scope).\n' +
+    'Stored in localStorage only — never sent anywhere except api.github.com.',
+    current ? '•••••••• (leave blank to keep)' : '');
+  if (v === null) return null;        // user cancelled
+  if (v === '') return current || ''; // empty input → keep existing (or nothing)
+  setPat(v);
+  return v;
+}
+
+async function uploadToGithub(file, fname) {
+  const pat = getPat();
+  if (!pat) {
+    flashStatus('✗ no PAT — opening prompt…', '#ff7043');
+    const entered = promptForPat();
+    if (!entered) throw new Error('PAT required to upload');
+  }
+  const buf = await file.arrayBuffer();
+  const b64 = arrayBufferToBase64(buf);
+  const url = `${GITHUB_API_BASE}/data/${encodeURIComponent(fname)}`;
+  const headers = {
+    'Authorization': `token ${getPat()}`,
+    'Accept': 'application/vnd.github+json',
+    'X-GitHub-Api-Version': '2022-11-28',
+    'Content-Type': 'application/json',
+  };
+
+  // We have to know the existing file's sha to overwrite it. Fetch first
+  // (HEAD via GET on the same URL returns 200 with metadata if it exists,
+  // 404 if it doesn't).
+  let existingSha = null;
+  const head = await fetch(url, { headers });
+  if (head.ok) {
+    const meta = await head.json();
+    existingSha = meta.sha;
+  }
+
+  const body = {
+    message: `data: upload ${fname} via dashboard`,
+    content: b64,
+    branch: GITHUB_BRANCH,
+  };
+  if (existingSha) body.sha = existingSha;
+
+  const r = await fetch(url, {
+    method: 'PUT',
+    headers,
+    body: JSON.stringify(body),
+  });
+  if (!r.ok) {
+    const txt = await r.text();
+    let msg = `HTTP ${r.status}`;
+    try {
+      const j = JSON.parse(txt);
+      msg = j.message || msg;
+    } catch {}
+    if (r.status === 401 || r.status === 403) {
+      setPat('');
+      msg = `auth failed (${msg}) — PAT cleared, please retry`;
+    }
+    throw new Error(msg);
+  }
+  return await r.json();
+}
+
+function arrayBufferToBase64(buf) {
+  // Works on File / Blob / ArrayBuffer.
+  const bytes = new Uint8Array(buf);
+  let bin = '';
+  // Build a binary string in chunks to avoid call-stack overflow on big files.
+  const CHUNK = 0x8000;
+  for (let i = 0; i < bytes.length; i += CHUNK) {
+    bin += String.fromCharCode.apply(null, bytes.subarray(i, i + CHUNK));
+  }
+  return btoa(bin);
+}
+
+async function uploadFile(file) {
+  if (!file) return;
+  if (!/^metrics_[A-Za-z0-9_]+_\d{8}\.json$/.test(file.name)) {
+    flashStatus(`✗ bad filename: ${file.name} (need metrics_<host>_<YYYYMMDD>.json)`, '#ff7043');
+    return;
+  }
+  if (dataSource !== 'github') {
+    flashStatus('switch to GitHub source to upload (the local server is read-only)', '#ff7043');
+    return;
+  }
+  flashStatus(`uploading ${file.name} (${(file.size/1024).toFixed(1)} KB)…`, '#4fc3f7');
+  try {
+    const res = await uploadToGithub(file, file.name);
+    flashStatus(`✓ pushed ${file.name} — Actions will refresh machines.json in ~10s`, '#81c784');
+    // Don't manually update local machines[] — the workflow will rewrite
+    // machines.json and our 30s poll will pick it up. Forcing a refresh here
+    // would race the workflow and confuse the user.
+    console.log('upload ok:', res.commit && res.commit.sha);
+  } catch (e) {
+    console.error('upload failed:', e);
+    flashStatus(`✗ upload failed: ${e.message}`, '#ff7043');
+  }
+}
+
+function wireUpload() {
+  const btn   = document.getElementById('upload-btn');
+  const input = document.getElementById('upload-input');
+  if (!btn || !input) return;
+  btn.addEventListener('click', () => input.click());
+  input.addEventListener('change', e => {
+    const f = e.target.files[0];
+    uploadFile(f);
+    input.value = '';  // allow re-uploading the same file later
+  });
+  // Drag-and-drop on the whole controls bar.
+  const controls = document.querySelector('.controls');
+  if (controls) {
+    controls.addEventListener('dragover', e => { e.preventDefault(); controls.style.background = '#252a3a'; });
+    controls.addEventListener('dragleave', e => { controls.style.background = ''; });
+    controls.addEventListener('drop', e => {
+      e.preventDefault();
+      controls.style.background = '';
+      const f = e.dataTransfer.files[0];
+      uploadFile(f);
+    });
   }
 }
 
@@ -1386,7 +1617,15 @@ loadMachines().then(() => {
   setRange('custom');
   refreshInterval = setInterval(refresh, 10000);
 });
-// cache-bust: v2
+// Poll machines.json every 30s so new machines pushed by collector.py, the
+// dashboard upload button (via Contents API), or another browser are picked
+// up without a manual refresh. Combined with the existing
+// .github/workflows/sync-machines.yml that regenerates machines.json on
+// every push, this gives near-real-time machine discovery.
+setInterval(() => loadMachines().catch(() => {}), 30000);
+wireUpload();
+applyDataSource();
+// cache-bust: v4
 // </script>
 </body>
 </html>

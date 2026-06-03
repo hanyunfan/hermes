@@ -118,6 +118,58 @@ https://hanyunfan.github.io/hermes/system-monitor/
 
 The dashboard is a pure static SPA — no server-side logic, no authentication. Anyone with the link can view it.
 
+## Data sources
+
+The dashboard has two view sources, switchable with the **Source:** buttons in the top bar:
+
+| Source | What you see | When to use |
+|--------|--------------|-------------|
+| **GitHub** (default) | The full repo's `data/` directory via `raw.githubusercontent.com` | Production / shared view. Every machine that has ever pushed is here. |
+| **Local :8765** | Whatever `server.py` is serving on `localhost:8765` | Local development. Use while running `collector.py` on this machine so you see data *before* it gets pushed. |
+
+The choice is remembered in `localStorage` and re-applied on next page load.
+
+> Note: the two views are *not* synchronized. A machine uploaded to the local server does **not** appear in the GitHub view, and vice versa. To move a file from local to GitHub, use the **Upload JSON** button (see below) — the file is pushed to the repo and the GitHub view will pick it up automatically.
+
+## Uploading a JSON file from the dashboard
+
+The **⬆ Upload JSON** button on the top bar pushes a `metrics_*.json` file to the GitHub repo via the [Contents API](https://docs.github.com/en/rest/repos/contents). The flow is:
+
+```
+[Browser] ──PUT Contents API──▶ [GitHub repo]
+                                     │
+                                     ▼  (push event)
+                          [sync-machines.yml Actions workflow]
+                                     │
+                                     ▼  (auto-commits machines.json)
+                          [machines.json updated in ~5–10s]
+                                     │
+                                     ▼  (≤30s frontend poll)
+                          [New machine appears in dropdown]
+```
+
+### One-time setup: create a PAT
+
+The Contents API needs a Personal Access Token (classic, with `repo` scope, or fine-grained with **Contents: Read and write** for this repo).
+
+1. Visit <https://github.com/settings/tokens/new> (or **Settings → Developer settings → Personal access tokens**)
+2. Pick **Fine-grained token** (recommended) or **Tokens (classic)**
+3. Resource owner: your account. Repository access: **Only select repositories → hanyunfan/hermes**
+4. Permissions → **Contents: Read and write**
+5. Generate, copy the token (you'll only see it once)
+6. In the dashboard, click **⬆ Upload JSON** → a prompt asks for the token. Paste it.
+7. The token is stored in your browser's `localStorage` under `systemMonitorGithubPAT`. It is **never** sent anywhere except `api.github.com`.
+
+To clear the token: open DevTools → Application → Local Storage → delete the `systemMonitorGithubPAT` key, or just call `localStorage.removeItem('systemMonitorGithubPAT')` in the console.
+
+### What happens if the PAT is wrong / expired
+
+The dashboard clears it from localStorage and asks for a new one. Old token isn't recoverable — generate a new one in the GitHub settings.
+
+### Why no PAT-prompt UI outside the upload button
+
+The read paths (viewing machines, charts) go through `raw.githubusercontent.com`, which is **public read** for this repo. Only writes need a token. So you can hand the dashboard URL to anyone without giving them a token.
+
 ## Data Format
 
 Each line in `data/metrics_<display_name>_<YYYYMMDD>.json`:
