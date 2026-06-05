@@ -38,8 +38,8 @@ Each rsync is always at full 100 MB/s — no eth splitting.
 # Custom directory
 ./rsync-tree.sh --dir /data/shared
 
-# Live TUI (requires `pip install rich`)
-./rsync-tree.sh --tui --dry-run --nodes 'node[01-18]'
+# Plain mode (skip TUI; logs to stdout line-by-line, useful for cron)
+./rsync-tree.sh --plain --dry-run --nodes 'node[01-18]'
 ```
 
 ### Node Pattern Examples
@@ -73,73 +73,70 @@ Each rsync is always at full 100 MB/s — no eth splitting.
 - `rsync` installed on source and all targets
 - `sudo rsync` on targets (for preserving permissions) — or remove `--rsync-path` flag from the script
 - Sufficient disk space on all targets
-- Python ≥ 3.10 (for the new TUI implementation; CLI surface unchanged)
-- `rich` ≥ 13 (only required for `--tui` mode; auto-installed by `rsync-tree.sh` if missing)
+- A real TTY for the default TUI mode; use `--plain` for cron / non-interactive runs
 
-## TUI Mode (`--tui`)
+## TUI Mode (default)
 
-When run with `--tui`, the launcher renders a live Rich terminal UI with three panes:
+By default `rsync-tree.sh` renders a live ANSI-based TUI on the terminal using
+the alternate screen buffer. The renderer is a separate `tui.sh` script
+sourced by the main script — no Python or other dependencies required.
 
 ```
-┌─────────────────────────────────────────────────────────────────────┐
-│ rsync-tree [DRY-RUN]   src=node12  nodes=18  iter=42  t=01:23:45    │  ← header
-├────────────── Topology ──────────────┬──────────── Jobs ─────────────┤
-│ Source: node12                       │ ┏━━━━━━┳━━━━━━━━━━┳━━━━━━ ... │
-│ ├─→ RUN  node03                      │ ┃ RUN  │ node12→03│ ███ ... │
-│ │   ├─→ RUN  node02                  │ ┃ RUN  │ node12→07│ ███ ... │
-│ │   └─→ DONE node09                  │ ┃ DONE │ node12→01│ ███ ... │
-│ ├─→ RUN  node07                      │ ...                              │
-│ │   ├─→ RUN  node05                  │                                  │
-│ │   └─→ DONE node10                  ├─────────── Events ──────────────┤
-│ └─→ ...                             │ 12:34  OK  [node01] ✓ done ...  │
-│                                     │ 12:33  ERR [node14] ✗ exit 12  │
+┌──────────────────────────────────────────────────────────────────────┐
+│ [DRY-RUN] src=node12 nodes=18 | iter=42 | 8 active / 6 done / ...   │  ← header
+├────────────── Topology ──────────────┬────────── Jobs ──────────────┤
+│ Source: node12                       │ RUN  node12→node03  41% 78MB/s│
+│ ├─→ RUN  node03                      │ RUN  node12→node07  79% 102MB │
+│ │   ├─→ RUN  node02                  │ RUN  node01→node02  33% 45MB  │
+│ │   └─→ DONE node09                  │ ...                             │
+│ ├─→ RUN  node07                      │                                  │
+│ │   ├─→ RUN  node05                  ├─────────── Events ──────────────┤
+│ │   └─→ DONE node10                  │ 12:34:01 OK    node01 done      │
+│ └─→ ...                             │ 12:33:55 ERR   node14 exit 12   │
 ├──────────────────────────────────────┴──────────────────────────────────┤
-│ [q] quit  [p] pause/resume  [+/-] adjust parallel cap  [r] reset    │
-└─────────────────────────────────────────────────────────────────────┘
+│ [q] quit  [p] pause  [+]+1  [-]-1  [r] retry   elapsed: 01:23:45     │
+└──────────────────────────────────────────────────────────────────────┘
 ```
 
-- **Topology** — live binary tree showing fan-out from the source. Colors
-  indicate each child's current job status (RUN/DONE/FAIL).
-- **Jobs** — per-rsync progress bar, percent done, throughput in MB/s,
-  elapsed time. Sorted active-first, then waiting, done, failed.
-- **Events** — last 12 log lines with timestamps and severity coloring.
+- **Header** — overall run state: source, total nodes, iteration count,
+  active/done/failed counts, elapsed time.
+- **Topology** — live binary tree showing fan-out from the source. Each node
+  is colored by its current job status (RUN/DONE/FAIL/WAIT).
+- **Jobs** — per-rsync progress percent, throughput, status. Sorted
+  active-first, then waiting, done, failed.
+- **Events** — last 6 log lines with timestamps and severity coloring.
+- **Footer** — key hints and elapsed time.
 
-### Keybindings
+The TUI auto-detects when stdout is not a TTY (e.g. piped to a file) and
+falls back to plain mode. The main loop's chatter is redirected to the
+log file (`/tmp/rsync-tree.log`) so the screen is dedicated to the TUI.
 
-| Key | Action                                  |
-|-----|-----------------------------------------|
-| `q` | Quit (drains active jobs gracefully)    |
-| `p` | Pause/resume scheduling                 |
-| `+` | Increase `max-parallel` cap by 1        |
-| `-` | Decrease `max-parallel` cap by 1        |
-| `r` | Reset per-target retry counter          |
+### Plain mode (`--plain`)
 
-### Plain (non-TUI) mode
-
-Omit `--tui` for a simple line-based progress log — useful for cron jobs,
-SSH sessions without a TTY, or piping into a log file.
+For cron jobs, non-TTY SSH sessions, or piping to a log file, use `--plain`.
+In this mode the main script writes one line of progress per iteration
+directly to stdout and the TUI renderer is not started.
 
 ```bash
-# Plain mode (default)
-./rsync-tree.sh --dry-run --nodes 'node[01-18]' 2>&1 | tee run.log
+# Plain mode (line-based progress, no TUI)
+./rsync-tree.sh --plain --dry-run --nodes 'node[01-18]' 2>&1 | tee run.log
 ```
 
 ## Architecture (v2.0)
 
-- `rsync-tree.py` — pure-Python implementation with `asyncio` event loop.
-  - `expand_nodes()` — pattern parser (preserved from v1)
-  - `parse_progress_line()` — parses rsync `--info=progress2` output in real time
-  - `run_one_job()` — async subprocess wrapper, updates `Controller.jobs` as bytes flow
-  - `scheduler()` — main loop: drain completed → pair free ready sources with waiting nodes
-  - `render_full()` — builds the Rich Layout tree (header, topology, jobs, events, footer)
-  - `run_tui()` / `run_plain()` — two runners sharing the same scheduler
-- `rsync-tree.sh` — thin shell wrapper. Picks `python3`, installs `rich` if needed,
-  forwards all args to `rsync-tree.py`. CLI surface unchanged.
-- `pyproject.toml` — declares `rich >= 13`; install with `pip install .` if you want
-  the `rsync-tree` console script.
-
-The v1 all-bash implementation is preserved as a fallback inside `rsync-tree.sh`'s
-comment header; v2 keeps the same algorithm, just observable.
+- `rsync-tree.sh` — main scheduler. v1 algorithm preserved; v2 adds:
+  - `--plain` flag to disable the TUI
+  - `tui_log_job` / `tui_log_event` / `tui_set_header` hooks that
+    write state files (`jobs.tsv`, `events.log`, `header`) consumed
+    by the TUI renderer
+  - `finalize` EXIT trap that stops the TUI, restores stdout from
+    the log-file redirect, prints the final summary, then cleans up
+- `tui.sh` — pure-bash ANSI TUI renderer. Sourced by `rsync-tree.sh`.
+  Reads state from `/tmp/rsync-tree-tui-$$/` and writes frames to
+  `/dev/tty` (or `$TUI_OUT` if set). Implements:
+  - `tui_start` — enters alt-screen, hides cursor, spawns render loop
+  - `tui_render` — full-frame redraw (header + topology + jobs + events + footer)
+  - `tui_stop` — kills render loop, restores cursor and main screen
 
 ## How It Works
 
