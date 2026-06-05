@@ -1,0 +1,19 @@
+# Build artifacts
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+build/
+dist/
+
+# Local virtualenvs
+.venv/
+venv/
+
+# Generated sample outputs / dev artifacts
+tui-sample.txt
+tui-e2e.txt
+render_tui_sample.py
+
+# Per-run rsync logs (also written by run)
+/tmp/rsync-*.log
