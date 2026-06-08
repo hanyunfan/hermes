@@ -9,7 +9,15 @@
   body { background: #0f1117; color: #e0e0e0; font-family: 'Segoe UI', system-ui, sans-serif; padding: 20px; }
   h1 { font-size: 1.5rem; margin-bottom: 16px; color: #fff; }
   .controls { margin-bottom: 16px; display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  .controls > .ctrl-group { display: flex; gap: 8px; align-items: center; }
+  .controls > .ctrl-group--right { margin-left: auto; }
   .controls label { font-size: 0.85rem; color: #aaa; }
+  /* Pure-CSS visual grouping for the source / range / refresh controls.
+     Uses a left margin on the label and a thicker right margin on the
+     last button of each group so the eye reads them as 3 clusters
+     even though they are still flat flex items. */
+  #src-local { margin-right: 16px; }
+  #btn-custom { margin-right: 16px; }
   .controls select, .controls button {
     background: #1e2230; color: #e0e0e0; border: 1px solid #333;
     padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.85rem;
