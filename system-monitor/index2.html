@@ -1,0 +1,1698 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>System Monitor</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #0f1117; color: #e0e0e0; font-family: 'Segoe UI', system-ui, sans-serif; padding: 20px; }
+  h1 { font-size: 1.5rem; margin-bottom: 16px; color: #fff; }
+  .controls { margin-bottom: 16px; display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  .controls label { font-size: 0.85rem; color: #aaa; }
+  .controls select, .controls button {
+    background: #1e2230; color: #e0e0e0; border: 1px solid #333;
+    padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.85rem;
+  }
+  .controls select:hover, .controls button:hover { border-color: #555; }
+  .controls button.active { background: #2d6cdf; border-color: #2d6cdf; }
+  .controls button:hover { background: #383f5a; }
+  .hw-info { font-size: 0.82rem; color: #888; margin-bottom: 10px; padding: 6px 12px; background: #1a1d27; border: 1px solid #252a3a; border-radius: 8px; display: inline-block; }
+  .hw-info span { margin-right: 16px; }
+  #machine-select { min-width: 280px; }
+  .charts { display: grid; grid-template-columns: repeat(auto-fit, minmax(500px, 1fr)); gap: 16px; }
+  .chart-card { background: #1a1d27; border-radius: 12px; padding: 16px; border: 1px solid #252a3a; }
+  .chart-card h3 { font-size: 0.9rem; color: #aaa; margin-bottom: 12px; font-weight: 500; }
+  .chart-wrapper { position: relative; height: 220px; }
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 16px; }
+  .stat-card {
+    background: #1a1d27; border: 1px solid #252a3a; border-radius: 10px;
+    padding: 14px 18px; display: flex; flex-direction: column; gap: 4px;
+  }
+  .stat-label { font-size: 0.75rem; color: #777; text-transform: uppercase; letter-spacing: 0.05em; }
+  .stat-value { font-size: 1.6rem; font-weight: 700; }
+  .stat-sub { font-size: 0.75rem; color: #555; }
+  .cpu-val { color: #4fc3f7; }
+  .mem-val { color: #ba68c8; }
+  .gpu-val { color: #81c784; }
+  .gpu-mem-val { color: #ffb74d; }
+  .power-val { color: #ff7043; }
+  .sys-power-val { color: #ffca28; }
+  .net-val { color: #26c6da; }
+  .pcie-val { color: #f06292; }
+  .point-mark {
+    position: absolute; top: 0; bottom: 0; width: 1px;
+    background: rgba(255,255,255,0.5); pointer-events: none; z-index: 10;
+  }
+  .updated { font-size: 0.75rem; color: #555; margin-top: 8px; }
+  .loading { opacity: 0.5; pointer-events: none; }
+  .gpu-tag { font-size: 0.7rem; background: #2d6cdf; color: #fff; padding: 2px 8px; border-radius: 4px; margin-left: 8px; }
+  /* ── Mini Calendar ─────────────────────────────────────── */
+  #calendar-wrap {
+    display: none;
+    margin-top: 8px;
+  }
+  #calendar-wrap.visible { display: block; }
+  #calendar {
+    background: #1a1d27;
+    border: 1px solid #252a3a;
+    border-radius: 10px;
+    padding: 12px 14px;
+    width: 308px;
+    user-select: none;
+  }
+  .cal-nav {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  .cal-nav button {
+    background: #252a3a; border: 1px solid #333;
+    color: #e0e0e0; border-radius: 4px; padding: 3px 10px;
+    cursor: pointer; font-size: 0.85rem;
+  }
+  .cal-nav button:hover { background: #333; }
+  .cal-title { font-size: 0.9rem; font-weight: 600; color: #ccc; }
+  .cal-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 2px;
+  }
+  .cal-dow {
+    font-size: 0.65rem; color: #555; padding: 3px 0 5px;
+    text-transform: uppercase; letter-spacing: 0.04em;
+    text-align: center;
+  }
+  .cal-day {
+    font-size: 0.78rem; color: #999;
+    padding: 6px 0; border-radius: 4px; cursor: pointer;
+    text-align: center;
+    position: relative;
+  }
+  .cal-day:hover:not(.cal-empty) { background: #252a3a; color: #e0e0e0; }
+  .cal-day.cal-today { color: #2d6cdf; font-weight: 600; }
+  .cal-day.cal-selected { background: #2d6cdf; color: #fff; }
+  .cal-day.cal-empty { cursor: default; pointer-events: none; }
+  /* green dot bottom-center */
+  .cal-day .dot {
+    display: none;
+    width: 5px; height: 5px;
+    background: #81c784;
+    border-radius: 50%;
+    position: absolute;
+    bottom: 3px; left: 50%; transform: translateX(-50%);
+  }
+  .cal-day.cal-has-data .dot { display: block; }
+  .cal-day.cal-selected .dot { background: #fff; }
+  .cal-today-btn {
+    font-size: 0.72rem; color: #2d6cdf; cursor: pointer;
+    margin-top: 8px; text-align: center;
+  }
+  .cal-today-btn:hover { color: #5a9eff; }
+  .cal-scanning { font-size: 0.7rem; color: #555; margin-top: 6px; text-align: center; }
+  @media (max-width: 600px) {
+    .charts { grid-template-columns: 1fr; }
+    .stat-value { font-size: 1.3rem; }
+  }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+</head>
+<body>
+
+<h1>🖥️ System Monitor</h1>
+
+<div class="controls">
+  <label>Machine:</label>
+  <select id="machine-select">
+    <option value="">— Loading machines —</option>
+  </select>
+  <button id="upload-btn" title="Upload a metrics_*.json file. Stored in your browser localStorage is a GitHub Personal Access Token (repo:contents write).">⬆ Upload JSON</button>
+  <input type="file" id="upload-input" accept=".json,application/json" style="display:none">
+  <span id="upload-status" style="font-size:0.78rem;color:#888;margin-left:4px"></span>
+  <label style="margin-left:12px">Range:</label>
+  <button id="btn-hour"  class="active" data-range="hour"   onclick="setRange('hour')">Hour</button>
+  <button id="btn-day"              data-range="day"     onclick="setRange('day')">Day</button>
+  <button id="btn-week"             data-range="week"    onclick="setRange('week')">Week</button>
+  <button id="btn-custom"           data-range="custom"  onclick="setRange('custom')" style="border-color:#555">Calendar</button>
+  <button onclick="refresh()" style="margin-left:auto">🔄 Refresh</button>
+</div>
+<div id="calendar-wrap">
+  <div id="hw-info" class="hw-info"></div>
+  <div id="calendar"></div>
+</div>
+
+<div class="stats" id="stats">
+  <div class="stat-card">
+    <span class="stat-label">CPU Usage</span>
+    <span class="stat-value cpu-val" id="s-cpu">--%</span>
+    <span class="stat-sub" id="s-cpu-sub">--</span>
+  </div>
+  <div class="stat-card">
+    <span class="stat-label">System Memory</span>
+    <span class="stat-value mem-val" id="s-mem">--%</span>
+    <span class="stat-sub" id="s-mem-sub">--</span>
+  </div>
+  <div class="stat-card" id="gpu-stat-card">
+    <span class="stat-label">GPU Utilization</span>
+    <span class="stat-value gpu-val" id="s-gpu">--%</span>
+    <span class="stat-sub" id="s-gpu-sub">--</span>
+  </div>
+  <div class="stat-card" id="gpu-mem-stat-card">
+    <span class="stat-label">GPU Memory</span>
+    <span class="stat-value gpu-mem-val" id="s-gpu-mem">--%</span>
+    <span class="stat-sub" id="s-gpu-mem-sub">--</span>
+  </div>
+  <div class="stat-card" id="gpu-temp-stat-card">
+    <span class="stat-label">GPU Temperature</span>
+    <span class="stat-value gpu-temp-val" id="s-gpu-temp">-- °C</span>
+    <span class="stat-sub" id="s-gpu-temp-sub">--</span>
+  </div>
+  <div class="stat-card" id="power-stat-card">
+    <span class="stat-label">GPU Power</span>
+    <span class="stat-value gpu-power-val" id="s-power">-- W</span>
+    <span class="stat-sub" id="s-power-sub">--</span>
+  </div>
+  <div class="stat-card" id="sys-power-stat-card">
+    <span class="stat-label">CPU Power</span>
+    <span class="stat-value sys-power-val" id="s-sys-power">-- W</span>
+    <span class="stat-sub" id="s-sys-power-sub">RAPL / sudo</span>
+  </div>
+  <div class="stat-card" id="net-stat-card">
+    <span class="stat-label">Network RX/TX</span>
+    <span class="stat-value net-val" id="s-net">-- MB/s</span>
+    <span class="stat-sub" id="s-net-sub">--</span>
+  </div>
+  <div class="stat-card" id="pcie-stat-card">
+    <span class="stat-label">PCIe / NVLink</span>
+    <span class="stat-value pcie-val" id="s-pcie">-- MB/s</span>
+    <span class="stat-sub" id="s-pcie-sub">--</span>
+  </div>
+</div>
+
+<div class="charts">
+  <div class="chart-card">
+    <h3>CPU Usage (%)</h3>
+    <div class="chart-wrapper"><canvas id="chart-cpu"></canvas></div>
+  </div>
+  <div class="chart-card">
+    <h3>System Memory (%)</h3>
+    <div class="chart-wrapper"><canvas id="chart-mem"></canvas></div>
+  </div>
+  <div class="chart-card" id="gpu-chart-card">
+    <h3>GPU Utilization (%)</h3>
+    <div class="chart-wrapper"><canvas id="chart-gpu"></canvas></div>
+  </div>
+  <div class="chart-card" id="gpu-mem-chart-card">
+    <h3>GPU Memory (%)</h3>
+    <div class="chart-wrapper"><canvas id="chart-gpu-mem"></canvas></div>
+  </div>
+  <div class="chart-card" id="io-chart-card">
+    <h3>GPU0 PCIe + NVLink (MB/s)</h3>
+    <div class="chart-wrapper"><canvas id="chart-io"></canvas></div>
+  </div>
+  <div class="chart-card" id="power-chart-card">
+    <h3>GPU Power (W)</h3>
+    <div class="chart-wrapper"><canvas id="chart-power"></canvas></div>
+  </div>
+  <div class="chart-card" id="temp-chart-card">
+    <h3>GPU Temperature (°C)</h3>
+    <div class="chart-wrapper"><canvas id="chart-temp"></canvas></div>
+  </div>
+  <div class="chart-card" id="net-chart-card">
+    <h3>Network RX/TX (MB/s)</h3>
+    <div class="chart-wrapper"><canvas id="chart-net"></canvas></div>
+  </div>
+</div>
+<p class="updated" id="updated"></p>
+
+<script>
+// ─── Config ──────────────────────────────────────────────────────────────────
+const RANGES = { hour: 3600, day: 86400, week: 604800 };
+
+// Data source configuration.
+//   Reads (machines.json, data/*.json) are served by GitHub Pages from this
+//   same project folder, so we fetch them via same-origin relative paths.
+//   This works whether the page is opened on Dell Enterprise GitHub Pages or
+//   via the local server.py (dev) — no token is needed for reads.
+//
+//   Writes (the ⬆ Upload JSON button) go through the GitHub Enterprise
+//   Contents API and require a Personal Access Token (see README).
+const GITHUB_HOST   = 'github.gtie.dell.com';
+const GITHUB_OWNER  = 'Frank-Han1';
+const GITHUB_REPO   = 'devin';
+const GITHUB_BRANCH = 'main';
+// Dell GitHub Enterprise REST API lives under /api/v3. Used for browser→repo
+// upload only. Note: Contents API requires a PAT.
+const GITHUB_API_BASE = `https://${GITHUB_HOST}/api/v3/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/system-monitor`;
+const PAT_STORAGE_KEY = 'systemMonitorGithubPAT';
+
+function dataUrl(relPath) {
+  // relPath: e.g. 'machines.json' or 'data/metrics_X_20260603.json'
+  // Served same-origin by GitHub Pages; cache-bust so the 30s poll sees updates.
+  return `${relPath}?ts=${Date.now()}`;
+}
+
+// Colors for up to 8 GPUs (index 0–7). Single-homedashboard uses GPU[0] color.
+const GPU_COLORS = [
+  '81c784', // GPU0 — green (original)
+  '4fc3f7', // GPU1 — light blue
+  'ba68c8', // GPU2 — purple
+  'ffb74d', // GPU3 — orange (original gpu-mem)
+  'ef9a9a', // GPU4 — red
+  'ffee58', // GPU5 — yellow
+  '80cbc4', // GPU6 — teal
+  'ce93d8', // GPU7 — lavender
+];
+
+// ─── State ────────────────────────────────────────────────────────────────────
+let currentRange = 'custom';
+let charts       = {};
+let machines     = [];
+let currentMachine = null;
+let allData      = [];   // shared across loadDayData / refresh / showPointInfo
+
+// ─── Init ────────────────────────────────────────────────────────────────────
+function initCharts() {
+  initOne('cpu', 'cpu', '4fc3f7');
+  initOne('mem', 'mem', 'ba68c8');
+  // GPU and GPU-mem charts are re-initialized per-machine (dynamic datasets)
+  charts.gpu    = buildGpuChart('chart-gpu',    GPU_COLORS, 'utilization', '%');
+  charts['gpu-mem'] = buildGpuChart('chart-gpu-mem', GPU_COLORS, 'memory_used_mb', 'MB');
+  // PCIe + NVLink IO chart (GPU0 only, 4 datasets: PCIe RX/TX, NVLink RX/TX)
+  charts.io = buildIoChart('chart-io');
+  // GPU Power chart (one dataset per GPU, up to 8). Y-axis has no upper cap.
+  const powerCtx = document.getElementById('chart-power').getContext('2d');
+  const powerDatasets = Array.from({ length: 8 }, (_, i) => {
+    const color = GPU_COLORS[i % GPU_COLORS.length];
+    const grad = powerCtx.createLinearGradient(0, 0, 0, 220);
+    grad.addColorStop(0, '#' + color + '55');
+    grad.addColorStop(1, '#' + color + '00');
+    return { label: 'GPU' + i, data: [], borderColor: '#' + color, backgroundColor: grad, fill: true, borderWidth: 1.5, hidden: i > 0 };
+  });
+  // System Power as dataset index 8 (dashed amber line — BMC, always visible when available)
+  const SYS_POWER_COLOR = 'ffca28';
+  const sysGrad = powerCtx.createLinearGradient(0, 0, 0, 220);
+  sysGrad.addColorStop(0, '#' + SYS_POWER_COLOR + '33');
+  sysGrad.addColorStop(1, '#' + SYS_POWER_COLOR + '00');
+  powerDatasets.push({ label: 'System', data: [], borderColor: '#' + SYS_POWER_COLOR, backgroundColor: sysGrad, fill: true, borderWidth: 2, borderDash: [5, 3], hidden: false });
+
+  // CPU Power as dataset index 9 (dashed cyan line — RAPL, always visible when available)
+  const CPU_POWER_COLOR = '26c6da';
+  const cpuGrad = powerCtx.createLinearGradient(0, 0, 0, 220);
+  cpuGrad.addColorStop(0, '#' + CPU_POWER_COLOR + '33');
+  cpuGrad.addColorStop(1, '#' + CPU_POWER_COLOR + '00');
+  powerDatasets.push({ label: 'CPU Pkg', data: [], borderColor: '#' + CPU_POWER_COLOR, backgroundColor: cpuGrad, fill: true, borderWidth: 2, borderDash: [5, 3], hidden: false });
+
+  charts.power = new Chart(powerCtx, {
+    type: 'line',
+    data: { datasets: powerDatasets },
+    options: {
+      ...chartOptions(),
+      scales: {
+        ...chartOptions().scales,
+        y: { min: 0, grid: { color: '#252a3a' }, ticks: { color: '#666' } }
+      }
+    }
+  });
+  document.getElementById('chart-power').addEventListener('click', evt => {
+    const elements = charts.power.getElementsAtEventForMode(evt, 'nearest', { intersect: true }, false);
+    if (elements.length > 0) {
+      const el = elements[0];
+      const ts = charts.power.data.datasets[el.datasetIndex].data[el.index].x;
+      if (ts) showPointInfo(new Date(ts));
+    }
+  });
+  // Network chart (up to 8 interfaces × 2 = 16 datasets: RX/TX per iface)
+  charts.net = buildNetworkChart('chart-net');
+  // GPU Temperature chart (one dataset per GPU + optional Tlimit annotation)
+  charts.temp = buildTempChart('chart-temp');
+}
+
+const IO_COLORS = {
+  rxpci:  'f06292',   // pink
+  txpci:  'e91e63',   // dark pink
+  nvlrx:  '4dd0e1',   // cyan
+  nvltx:  '26c6da',   // dark cyan
+  pcie_bw_rx: 'ab47bc', // purple (PCIe bandwidth RX)
+  pcie_bw_tx: '8e24aa', // dark purple (PCIe bandwidth TX)
+};
+
+// Up to 8 network interfaces × 2 (RX, TX). Colors paired per interface.
+const NET_COLORS = [
+  ['4fc3f7', '0288d1'],  // iface 0: light/dark blue   (RX/TX)
+  ['81c784', '2e7d32'],  // iface 1: light/dark green
+  ['ffb74d', 'e64a19'],  // iface 2: light/dark orange
+  ['ce93d8', '7b1fa2'],  // iface 3: light/dark purple
+  ['f06292', 'c62828'],  // iface 4: light/dark red
+  ['aed581', '558b2f'],  // iface 5: light/dark lime
+  ['80cbc4', '00695c'],  // iface 6: light/dark teal
+  ['fff176', 'f9a825'],  // iface 7: light/dark yellow
+];
+
+function buildNetworkChart(canvasId) {
+  const MAX_IFACES = 8;
+  const datasets = [];
+  for (let i = 0; i < MAX_IFACES; i++) {
+    const [rxColor, txColor] = NET_COLORS[i % NET_COLORS.length];
+    // RX dataset (solid line), TX dataset (dashed line)
+    datasets.push({
+      label: `_rx${i}`, data: [], borderColor: '#' + rxColor,
+      backgroundColor: 'transparent', borderWidth: 1.5, hidden: true,
+      borderDash: []
+    });
+    datasets.push({
+      label: `_tx${i}`, data: [], borderColor: '#' + txColor,
+      backgroundColor: 'transparent', borderWidth: 1.5, hidden: true,
+      borderDash: [5, 3]
+    });
+  }
+  const chart = new Chart(document.getElementById(canvasId), {
+    type: 'line',
+    data: { datasets },
+    options: {
+      ...chartOptions(),
+      scales: {
+        ...chartOptions().scales,
+        y: { min: 0, grid: { color: '#252a3a' }, ticks: { color: '#666' } }
+      }
+    }
+  });
+  document.getElementById(canvasId).addEventListener('click', evt => {
+    const elements = chart.getElementsAtEventForMode(evt, 'nearest', { intersect: true }, false);
+    if (elements.length > 0) {
+      const el = elements[0];
+      const ts = chart.data.datasets[el.datasetIndex].data[el.index].x;
+      if (ts) showPointInfo(new Date(ts));
+    }
+  });
+  return chart;
+}
+
+function buildIoChart(canvasId) {
+  const datasets = [
+    { label: 'PCIe RX', data: [], borderColor: '#' + IO_COLORS.rxpci, backgroundColor: 'transparent', borderWidth: 1.5, hidden: false },
+    { label: 'PCIe TX', data: [], borderColor: '#' + IO_COLORS.txpci, backgroundColor: 'transparent', borderWidth: 1.5, hidden: false },
+    { label: 'NVLink RX', data: [], borderColor: '#' + IO_COLORS.nvlrx, backgroundColor: 'transparent', borderWidth: 1.5, hidden: true },
+    { label: 'NVLink TX', data: [], borderColor: '#' + IO_COLORS.nvltx, backgroundColor: 'transparent', borderWidth: 1.5, hidden: true },
+    { label: 'PCIe BW RX', data: [], borderColor: '#' + IO_COLORS.pcie_bw_rx, backgroundColor: 'transparent', borderWidth: 1.5, hidden: true },
+    { label: 'PCIe BW TX', data: [], borderColor: '#' + IO_COLORS.pcie_bw_tx, backgroundColor: 'transparent', borderWidth: 1.5, hidden: true },
+  ];
+  const chart = new Chart(document.getElementById(canvasId), {
+    type: 'line',
+    data: { datasets },
+    options: {
+      ...chartOptions(),
+      // No y-axis max cap since throughput is unbounded MB/s
+      scales: {
+        ...chartOptions().scales,
+        y: { min: 0, grid: { color: '#252a3a' }, ticks: { color: '#666' } }
+      }
+    }
+  });
+  document.getElementById(canvasId).addEventListener('click', evt => {
+    const elements = chart.getElementsAtEventForMode(evt, 'nearest', { intersect: true }, false);
+    if (elements.length > 0) {
+      const el = elements[0];
+      const ts = chart.data.datasets[el.datasetIndex].data[el.index].x;
+      if (ts) showPointInfo(new Date(ts));
+    }
+  });
+  return chart;
+}
+
+function buildTempChart(canvasId) {
+  // One dataset per GPU (solid lines) + one Tlimit annotation dataset (dashed)
+  const datasets = Array.from({ length: 8 }, (_, i) => {
+    const color = GPU_COLORS[i % GPU_COLORS.length];
+    const grad = document.getElementById(canvasId).getContext('2d').createLinearGradient(0, 0, 0, 220);
+    grad.addColorStop(0, '#' + color + '55');
+    grad.addColorStop(1, '#' + color + '00');
+    return { label: 'GPU' + i, data: [], borderColor: '#' + color, backgroundColor: grad, fill: true, borderWidth: 1.5, hidden: i > 0 };
+  });
+  // Tlimit reference line (dashed red, hidden until data exists)
+  datasets.push({ label: 'Tlimit', data: [], borderColor: '#ff6b6b', backgroundColor: 'transparent', borderWidth: 1.5, borderDash: [6, 4], hidden: true, pointRadius: 0 });
+  const chart = new Chart(document.getElementById(canvasId), {
+    type: 'line',
+    data: { datasets },
+    options: {
+      ...chartOptions(),
+      scales: {
+        ...chartOptions().scales,
+        y: { min: 0, max: 110, grid: { color: '#252a3a' }, ticks: { color: '#666' } }
+      }
+    }
+  });
+  document.getElementById(canvasId).addEventListener('click', evt => {
+    const elements = chart.getElementsAtEventForMode(evt, 'nearest', { intersect: true }, false);
+    if (elements.length > 0) {
+      const el = elements[0];
+      const ts = chart.data.datasets[el.datasetIndex].data[el.index].x;
+      if (ts) showPointInfo(new Date(ts));
+    }
+  });
+  return chart;
+}
+
+function initOne(key, dataKey, color) {
+  const canvas = document.getElementById('chart-' + key);
+  const ctx = canvas.getContext('2d');
+  const grad = ctx.createLinearGradient(0, 0, 0, 220);
+  grad.addColorStop(0, '#' + color + '55');
+  grad.addColorStop(1, '#' + color + '00');
+  charts[key] = new Chart(ctx, {
+    type: 'line',
+    data: { datasets: [{ label: dataKey, data: [], borderColor: '#' + color, backgroundColor: grad, fill: true, borderWidth: 2 }] },
+    options: chartOptions()
+  });
+  canvas.addEventListener('click', evt => {
+    const chart = charts[key];
+    const elements = chart.getElementsAtEventForMode(evt, 'nearest', { intersect: true }, false);
+    if (elements.length > 0) {
+      const el = elements[0];
+      const ts = chart.data.datasets[el.datasetIndex].data[el.index].x;
+      if (ts) showPointInfo(new Date(ts));
+    }
+  });
+}
+
+function buildGpuChart(canvasId, colors, valueKey, unit) {
+  // Build one dataset per GPU slot (up to 8)
+  const datasets = Array.from({ length: 8 }, (_, i) => {
+    const color = colors[i % colors.length];
+    const grad = document.getElementById(canvasId).getContext('2d').createLinearGradient(0, 0, 0, 220);
+    grad.addColorStop(0, '#' + color + '55');
+    grad.addColorStop(1, '#' + color + '00');
+    return { label: 'GPU' + i, data: [], borderColor: '#' + color, backgroundColor: grad, fill: true, borderWidth: 1.5, hidden: i > 0 };
+  });
+  const chart = new Chart(document.getElementById(canvasId), {
+    type: 'line',
+    data: { datasets },
+    options: chartOptions()
+  });
+  chart._valueKey   = valueKey;
+  chart._unit       = unit;
+  chart._gpuCount   = 0;
+  const gpuCanvas = document.getElementById(canvasId);
+  gpuCanvas.addEventListener('click', evt => {
+    const elements = chart.getElementsAtEventForMode(evt, 'nearest', { intersect: true }, false);
+    if (elements.length > 0) {
+      const el = elements[0];
+      const ts = chart.data.datasets[el.datasetIndex].data[el.index].x;
+      if (ts) showPointInfo(new Date(ts));
+    }
+  });
+  return chart;
+}
+
+function chartOptions() {
+  return {
+    responsive: true, maintainAspectRatio: false,
+    animation: { duration: 300 },
+    scales: {
+      x: { type: 'time', time: { displayFormats: { hour: 'HH:mm', day: 'MM dd' } },
+        grid: { color: '#252a3a' }, ticks: { color: '#666', maxTicksLimit: 8 } },
+      y: { min: 0, max: 100, grid: { color: '#252a3a' }, ticks: { color: '#666' } }
+    },
+    plugins: {
+      legend: { display: true, labels: { color: '#888', boxWidth: 12, font: { size: 11 } } },
+      tooltip: { enabled: true, mode: 'index', intersect: false },
+    },
+    interaction: { intersect: false, mode: 'nearest' },
+    onClick: (evt, elements, chart) => {
+      if (elements.length > 0) {
+        const first = elements[0];
+        const datasetIndex = first.datasetIndex;
+        const dataIndex = first.index;
+        const ts = chart.data.datasets[datasetIndex].data[dataIndex].x;
+        if (ts) showPointInfo(new Date(ts));
+      }
+    },
+    elements: { point: { radius: 3, hoverRadius: 6, hitRadius: 20 }, line: { tension: 0.3 } }
+  };
+}
+
+// ─── Controls ────────────────────────────────────────────────────────────────
+async function setRange(r) {
+  currentRange = r;
+  ['btn-hour','btn-day','btn-week','btn-custom'].forEach(id => document.getElementById(id).classList.remove('active'));
+  document.getElementById('btn-' + r).classList.add('active');
+  const calWrap = document.getElementById('calendar-wrap');
+  if (r === 'custom') {
+    calWrap.classList.add('visible');
+    renderCalendar(calYear, calMonth);
+    // Auto-select the latest available date
+    const latest = await findLatestDateWithData();
+    if (latest) {
+      calSelected = latest;
+      renderCalendar(calYear, calMonth);
+      await loadDayData(latest);
+    }
+    // Do NOT call refresh() — loadDayData has already loaded the data
+    return;
+  } else {
+    calWrap.classList.remove('visible');
+    calSelected = null;
+  }
+  clearDisplay();
+  await refresh();
+}
+
+// ─── Calendar ───────────────────────────────────────────────────────────────
+let calYear  = new Date().getFullYear();
+let calMonth = new Date().getMonth();   // 0-based
+let calSelected = null;                 // 'YYYYMMDD'
+let availableDates = new Set();         // dates that have data for current machine
+
+// Check if a single date has data. Resolves to true/false.
+// Uses availableDates cache to avoid redundant fetches.
+function checkDateHasData(key, dateStr) {
+  // Already known to have data — skip the network request entirely
+  if (availableDates.has(dateStr)) return Promise.resolve(true);
+
+  return new Promise(resolve => {
+    fetch(dataUrl('data/metrics_' + key + '_' + dateStr + '.json'))
+      .then(r => r.ok ? r.text() : '')
+      .then(text => {
+        const hasData = text.trim().split('\n').filter(l => l.trim()).length > 0;
+        if (hasData) availableDates.add(dateStr);
+        resolve(hasData);
+      })
+      .catch(() => resolve(false));
+  });
+}
+
+// Scan a month and update dots. Called after renderCalendar builds the DOM.
+async function scanAndShowDots(year, month) {
+  if (!currentMachine) return;
+  const key = currentMachine.hostname;
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const today = new Date();
+  const todayStr = today.getFullYear() + String(today.getMonth()+1).padStart(2,'0') + String(today.getDate()).padStart(2,'0');
+
+  // Check each day; update DOM as results come in
+  for (let d = 1; d <= daysInMonth; d++) {
+    const dateStr = String(year) + String(month + 1).padStart(2, '0') + String(d).padStart(2, '0');
+    const hasData = await checkDateHasData(key, dateStr);
+    if (hasData) availableDates.add(dateStr);
+
+    // Only update this specific day's dot if it's in the currently-visible month
+    if (year === calYear && month === calMonth) {
+      const cell = document.querySelector(`.cal-day[data-date="${dateStr}"]`);
+      if (cell && hasData) cell.classList.add('cal-has-data');
+    }
+  }
+
+  // Remove "scanning" label
+  const scanEl = document.getElementById('cal-scanning');
+  if (scanEl) scanEl.textContent = '';
+}
+
+function renderCalendar(year, month) {
+  calYear  = year;
+  calMonth = month;
+  const today = new Date();
+  const todayStr = today.getFullYear() + String(today.getMonth()+1).padStart(2,'0') + String(today.getDate()).padStart(2,'0');
+  const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+  let html = `<div class="cal-grid">`;
+
+  // Nav spans full width (1 row of 7 cols)
+  html += `<div class="cal-nav" style="grid-column:1/-1">
+    <button onclick="prevMonth()">&#8592;</button>
+    <span class="cal-title">${MONTHS[month]} ${year}</span>
+    <button onclick="nextMonth()">&#8594;</button>
+  </div>`;
+
+  // Day-of-week headers
+  ['Su','Mo','Tu','We','Th','Fr','Sa'].forEach(d => html += `<div class="cal-dow">${d}</div>`);
+
+  // Day cells
+  const firstDay = new Date(year, month, 1).getDay(); // 0=Sun
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  for (let i = 0; i < firstDay; i++) html += `<div class="cal-day cal-empty"></div>`;
+  for (let d = 1; d <= daysInMonth; d++) {
+    const dateStr = String(year) + String(month+1).padStart(2,'0') + String(d).padStart(2,'0');
+    const isToday  = dateStr === todayStr;
+    const isSel    = dateStr === calSelected;
+    const hasData  = availableDates.has(dateStr);
+    const classes  = ['cal-day'];
+    if (isToday)  classes.push('cal-today');
+    if (isSel)   classes.push('cal-selected');
+    if (hasData) classes.push('cal-has-data');
+    html += `<div class="${classes.join(' ')}" data-date="${dateStr}" onclick="selectDate('${dateStr}')">${d}<span class="dot"></span></div>`;
+  }
+
+  html += `</div>`; // close cal-grid
+  html += `<div class="cal-today-btn" onclick="goToday()">Today</div>`;
+  html += `<div class="cal-scanning" id="cal-scanning">scanning...</div>`;
+  document.getElementById('calendar').innerHTML = html;
+
+  // Async scan — update dots as results arrive (does not block render)
+  scanAndShowDots(year, month);
+}
+
+function prevMonth() {
+  let m = calMonth - 1, y = calYear;
+  if (m < 0) { m = 11; y--; }
+  renderCalendar(y, m);
+}
+
+function nextMonth() {
+  let m = calMonth + 1, y = calYear;
+  if (m > 11) { m = 0; y++; }
+  renderCalendar(y, m);
+}
+
+function goToday() {
+  const t = new Date();
+  calYear  = t.getFullYear();
+  calMonth = t.getMonth();
+  const todayStr = String(calYear) + String(calMonth+1).padStart(2,'0') + String(t.getDate()).padStart(2,'0');
+  selectDate(todayStr);
+}
+
+// Find the most recent date (up to 365 days back) that has data, for the current machine.
+async function findLatestDateWithData() {
+  if (!currentMachine) return null;
+  const key = currentMachine.hostname;
+  const today = new Date();
+  for (let i = 0; i < 365; i++) {
+    const d = new Date(today.getTime() - i * 86400000);
+    const dateStr = d.getFullYear() + String(d.getMonth()+1).padStart(2,'0') + String(d.getDate()).padStart(2,'0');
+    const hasData = await checkDateHasData(key, dateStr);
+    if (hasData) return dateStr;
+  }
+  return null;
+}
+
+async function selectDate(dateStr) {
+  calSelected = dateStr;
+  clearDisplay();
+  await loadDayData(dateStr);
+  // Re-render calendar to show selection highlight
+  renderCalendar(calYear, calMonth);
+}
+
+async function loadDayData(dateStr) {
+  if (!currentMachine) return;
+  const machineKey = currentMachine.hostname;
+  const gpuCount  = currentMachine.gpu_count || 0;
+  const hasGpu    = gpuCount > 0;
+
+  const f = 'data/metrics_' + machineKey + '_' + dateStr + '.json';
+  allData = [];
+  try {
+    const r = await fetch(f);
+    if (r.ok) {
+      const text  = await r.text();
+      const lines = text.trim().split('\n');
+      lines.forEach(line => { try { allData.push(JSON.parse(line)); } catch { } });
+    }
+  } catch (e) { }
+
+  allData.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
+
+  if (allData.length === 0) {
+    document.getElementById('updated').textContent = 'No data for ' + dateStr + ' on [' + machineKey + ']';
+    return;
+  }
+
+  // ── Top-level stat cards
+  const latest        = allData[allData.length - 1];
+  const cpuMean       = mean(allData.map(d => d.cpu_percent));
+  const memMean       = mean(allData.map(d => d.memory_percent));
+  const memUsedGB     = (latest.memory_used_mb / 1024).toFixed(1);
+  const memTotalGB    = (latest.memory_total_mb / 1024).toFixed(1);
+
+  document.getElementById('s-cpu').textContent = cpuMean.toFixed(1) + '%';
+  document.getElementById('s-cpu-sub').textContent = 'latest: ' + latest.cpu_percent.toFixed(1) + '%';
+  document.getElementById('s-mem').textContent = memMean.toFixed(1) + '%';
+  document.getElementById('s-mem-sub').textContent = memUsedGB + ' / ' + memTotalGB + ' GB';
+
+  // ── GPU stat cards
+  if (hasGpu) {
+    const latestGpus = _normalizeGpus(latest.gpu);
+    const validGpus  = latestGpus.filter(g => !g.error);
+    const gpuUtilMean = validGpus.length ? mean(validGpus.map(g => g.utilization)) : 0;
+    const gpuUtilPct  = gpuUtilMean.toFixed(1);
+    const gpuUtilSub  = validGpus.map(g => 'GPU'+g.id+'='+g.utilization.toFixed(0)+'%').join('  ');
+
+    const totalMemUsed  = validGpus.reduce((s, g) => s + g.memory_used_mb, 0);
+    const totalMemTotal = validGpus.reduce((s, g) => s + g.memory_total_mb, 0);
+    const gpuMemPct     = totalMemTotal > 0 ? (totalMemUsed / totalMemTotal * 100).toFixed(1) : '0.0';
+    const gpuMemSub     = validGpus.map(g => 'GPU'+g.id+'='+(g.memory_used_mb/1024).toFixed(1)+'GB').join('  ');
+
+    document.getElementById('s-gpu').textContent     = gpuUtilPct + '%';
+    document.getElementById('s-gpu-sub').textContent = gpuUtilSub;
+    document.getElementById('s-gpu-mem').textContent = gpuMemPct + '%';
+    document.getElementById('s-gpu-mem-sub').textContent = gpuMemSub;
+
+    const gpuPower = latest.gpu_power || [];
+    const totalPowerW = gpuPower.reduce((s, g) => s + (g.power_w || 0), 0);
+    const powerSub = gpuPower.map(g => 'GPU'+g.id+'='+(g.power_w||'?')+'W').join('  ');
+    document.getElementById('s-power').textContent = totalPowerW.toFixed(1) + ' W';
+    document.getElementById('s-power-sub').textContent = powerSub;
+  } else {
+    ['s-gpu','s-gpu-mem'].forEach(id => document.getElementById(id).textContent = 'N/A');
+    ['s-gpu-sub','s-gpu-mem-sub'].forEach(id => document.getElementById(id).textContent = 'No GPU');
+    ['s-gpu-temp'].forEach(id => document.getElementById(id).textContent = 'N/A');
+    ['s-gpu-temp-sub'].forEach(id => document.getElementById(id).textContent = 'No GPU');
+  }
+
+  // ── System Power
+  const cpuPwr = latest.cpu_power_w;
+  if (cpuPwr != null) {
+    document.getElementById('s-sys-power').textContent = cpuPwr.toFixed(1) + ' W';
+    document.getElementById('sys-power-stat-card').style.display = '';
+  } else {
+    document.getElementById('sys-power-stat-card').style.display = 'none';
+  }
+
+  // ── Network
+  const netData = latest.network || [];
+  if (netData.length > 0) {
+    const totalRx = netData.reduce((s, n) => s + (n.rx_mbs || 0), 0);
+    const totalTx = netData.reduce((s, n) => s + (n.tx_mbs || 0), 0);
+    document.getElementById('s-net').textContent = totalRx.toFixed(2) + ' / ' + totalTx.toFixed(2) + ' MB/s';
+    document.getElementById('s-net-sub').textContent = netData.map(n => n.name+'='+n.rx_mbs.toFixed(1)+'/'+n.tx_mbs.toFixed(1)).join('  ');
+  } else {
+    document.getElementById('s-net').textContent = 'N/A';
+    document.getElementById('s-net-sub').textContent = 'No network data';
+  }
+
+  // ── Charts
+  charts.cpu.data.datasets[0].data = allData.map(d => ({ x: new Date(d.timestamp), y: d.cpu_percent }));
+  charts.mem.data.datasets[0].data  = allData.map(d => ({ x: new Date(d.timestamp), y: d.memory_percent }));
+  charts.cpu.update();
+  charts.mem.update();
+
+  if (hasGpu) updateGpuChart(charts.gpu,       allData, 'utilization',    '%',  gpuCount);
+  if (hasGpu) updateGpuChart(charts['gpu-mem'], allData, 'memory_used_mb', 'MB', gpuCount);
+  updateIoChart(allData);
+  if (latest.gpu_power) updatePowerChart(allData, gpuCount);
+  if (hasGpu) updateTempChart(allData, gpuCount);
+  updateNetworkChart(allData);
+
+  const first = allData[0].timestamp;
+  const last  = allData[allData.length - 1].timestamp;
+  document.getElementById('updated').textContent = 'Showing ' + dateStr + '  (' + first + ' → ' + last + ', ' + allData.length + ' pts)';
+}
+
+function clearDisplay() {
+  // Reset all stat cards to placeholder "--" to avoid showing stale data between machine/range switches
+  ['cpu','mem','gpu','gpu-mem','power','sys-power','net'].forEach(type => {
+    const valEl = document.getElementById('s-' + type);
+    const subEl = document.getElementById('s-' + type + '-sub');
+    if (valEl) valEl.textContent = '--';
+    if (subEl) subEl.textContent = '--';
+  });
+  document.getElementById('updated').textContent = '';
+  // Clear chart data
+  if (charts.cpu) {
+    charts.cpu.data.datasets[0].data = [];
+    charts.cpu.update();
+    charts.mem.data.datasets[0].data = [];
+    charts.mem.update();
+  }
+}
+
+function fmtLocal(d) {
+  const pad = n => String(n).padStart(2, '0');
+  return d.getFullYear() + '-' + pad(d.getMonth()+1) + '-' + pad(d.getDate())
+       + 'T' + pad(d.getHours()) + ':' + pad(d.getMinutes());
+}
+
+function onCustomDateChange() {
+  refresh();
+}
+
+async function setMachine(key) {
+  // key may be hostname or display_name — find by either
+  currentMachine = machines.find(m => m.hostname === key || (m.display_name && m.display_name === key)) || null;
+  clearDisplay();
+  availableDates.clear();
+  calSelected = null;
+  updateHwInfo();
+  // If calendar is visible, re-render and auto-load latest available date for the new machine
+  if (document.getElementById('calendar-wrap').classList.contains('visible')) {
+    renderCalendar(calYear, calMonth);
+    const latest = await findLatestDateWithData();
+    if (latest) {
+      calSelected = latest;
+      renderCalendar(calYear, calMonth);
+      await loadDayData(latest);
+    }
+  }
+  await refresh();
+}
+
+// ─── Load machines ────────────────────────────────────────────────────────────
+let lastMachineKeys = new Set();
+
+function renderMachines() {
+  const sel = document.getElementById('machine-select');
+  const previousValue = sel.value;
+  sel.innerHTML = '';
+  if (machines.length === 0) {
+    sel.innerHTML = '<option value="">— No machines found —</option>';
+    return;
+  }
+  machines.forEach(m => {
+    const opt = document.createElement('option');
+    opt.value = m.display_name || m.hostname;
+    const gpuDesc = m.gpu_count > 0
+      ? ` (${m.gpu_type || 'GPU'} x${m.gpu_count})`
+      : ' (no GPU)';
+    const shownName = m.display_name || m.hostname;
+    opt.textContent = shownName + gpuDesc;
+    sel.appendChild(opt);
+  });
+  // Keep the user's current selection if it still exists; otherwise default to the first.
+  if (machines.some(m => (m.display_name || m.hostname) === previousValue)) {
+    sel.value = previousValue;
+  } else {
+    sel.value = machines[0].display_name || machines[0].hostname;
+    currentMachine = machines[0];
+    updateHwInfo();
+    // A new machine appeared or the old one was removed → re-render charts.
+    refresh();
+  }
+}
+
+async function loadMachines() {
+  try {
+    const r = await fetch(dataUrl('machines.json'));
+    if (!r.ok) throw new Error('Failed to load machines');
+    machines = await r.json();
+
+    // Detect newly discovered machines and toast a notice.
+    const newKeys = new Set(machines.map(m => m.hostname));
+    if (lastMachineKeys.size > 0) {
+      const added = [...newKeys].filter(k => !lastMachineKeys.has(k));
+      if (added.length) {
+        flashStatus(`+ new machine${added.length>1?'s':''}: ${added.join(', ')}`, '#81c784');
+      }
+    }
+    lastMachineKeys = newKeys;
+
+    renderMachines();
+  } catch (e) {
+    console.error('Failed to load machines:', e);
+    document.getElementById('machine-select').innerHTML = '<option value="">— Error loading machines —</option>';
+  }
+}
+
+function flashStatus(text, color) {
+  const el = document.getElementById('upload-status');
+  if (!el) return;
+  el.textContent = text;
+  el.style.color = color || '#888';
+  setTimeout(() => { el.textContent = ''; }, 6000);
+}
+
+// ─── Source switcher (removed) ────────────────────────────────────────────────
+// Reads are always same-origin (GitHub Pages / local server.py), so there is no
+// GitHub-vs-Local toggle. These remain as harmless no-ops in case anything still
+// references them.
+function applyDataSource() {}
+
+// ─── Upload (via GitHub Contents API) ────────────────────────────────────────
+// Uses a Personal Access Token (PAT) stored in localStorage. The PAT needs
+// `repo:contents:write` scope. This is the only way to make a static+JS page
+// write into a GitHub repo.
+//
+// The flow after upload is:
+//   1. PUT the data file to the Contents API → file lands in system-monitor/data/
+//   2. Client-side, replicate sync_machines.py: rebuild the affected machine's
+//      entry from the file's first record and PUT an updated machines.json.
+//   3. Frontend's 30s poll (or the immediate loadMachines() below) of
+//      machines.json picks up the new machine.
+//
+// NOTE: this repo lives on a GitHub Enterprise instance where Actions is
+// disabled (0 workflows / 0 runs), so the .github/workflows/sync-machines.yml
+// hook never fires. We therefore update machines.json from the browser instead
+// of relying on that workflow. So you can sit on the dashboard, click Upload,
+// and see the new machine in the dropdown within a few seconds.
+
+function getPat() { return localStorage.getItem(PAT_STORAGE_KEY) || ''; }
+function setPat(v) {
+  if (v) localStorage.setItem(PAT_STORAGE_KEY, v);
+  else localStorage.removeItem(PAT_STORAGE_KEY);
+}
+
+function promptForPat() {
+  const current = getPat();
+  const v = window.prompt(
+    'GitHub Personal Access Token (needs repo / Contents: Read and write).\n' +
+    'Create one at: https://' + GITHUB_HOST + '/settings/tokens (select the "repo" scope, or fine-grained "Contents: Read and write" for ' + GITHUB_OWNER + '/' + GITHUB_REPO + ').\n' +
+    'Stored in localStorage only — never sent anywhere except ' + GITHUB_HOST + '.',
+    current ? '•••••••• (leave blank to keep)' : '');
+  if (v === null) return null;        // user cancelled
+  if (v === '') return current || ''; // empty input → keep existing (or nothing)
+  setPat(v);
+  return v;
+}
+
+async function uploadToGithub(file, fname) {
+  const pat = getPat();
+  if (!pat) {
+    flashStatus('✗ no PAT — opening prompt…', '#ff7043');
+    const entered = promptForPat();
+    if (!entered) throw new Error('PAT required to upload');
+  }
+  const buf = await file.arrayBuffer();
+  const b64 = arrayBufferToBase64(buf);
+  const url = `${GITHUB_API_BASE}/data/${encodeURIComponent(fname)}`;
+  const headers = {
+    'Authorization': `token ${getPat()}`,
+    'Accept': 'application/vnd.github+json',
+    'X-GitHub-Api-Version': '2022-11-28',
+    'Content-Type': 'application/json',
+  };
+
+  // We have to know the existing file's sha to overwrite it. Fetch first
+  // (HEAD via GET on the same URL returns 200 with metadata if it exists,
+  // 404 if it doesn't).
+  let existingSha = null;
+  const head = await fetch(url, { headers });
+  if (head.ok) {
+    const meta = await head.json();
+    existingSha = meta.sha;
+  }
+
+  const body = {
+    message: `data: upload ${fname} via dashboard`,
+    content: b64,
+    branch: GITHUB_BRANCH,
+  };
+  if (existingSha) body.sha = existingSha;
+
+  const r = await fetch(url, {
+    method: 'PUT',
+    headers,
+    body: JSON.stringify(body),
+  });
+  if (!r.ok) {
+    const txt = await r.text();
+    let msg = `HTTP ${r.status}`;
+    try {
+      const j = JSON.parse(txt);
+      msg = j.message || msg;
+    } catch {}
+    if (r.status === 401 || r.status === 403) {
+      setPat('');
+      msg = `auth failed (${msg}) — PAT cleared, please retry`;
+    }
+    throw new Error(msg);
+  }
+  return await r.json();
+}
+
+function arrayBufferToBase64(buf) {
+  // Works on File / Blob / ArrayBuffer.
+  const bytes = new Uint8Array(buf);
+  let bin = '';
+  // Build a binary string in chunks to avoid call-stack overflow on big files.
+  const CHUNK = 0x8000;
+  for (let i = 0; i < bytes.length; i += CHUNK) {
+    bin += String.fromCharCode.apply(null, bytes.subarray(i, i + CHUNK));
+  }
+  return btoa(bin);
+}
+
+// Browser-side port of sync_machines.py. Returns the first valid JSON object
+// (one line == one record in these JSON Lines files), or null.
+function firstJsonRecord(text) {
+  for (const raw of text.split('\n')) {
+    const line = raw.trim();
+    if (!line) continue;
+    try {
+      const obj = JSON.parse(line);
+      if (obj && typeof obj === 'object' && !Array.isArray(obj)) return obj;
+    } catch { return null; }
+  }
+  return null;
+}
+
+// Build a machines.json entry from a record, matching sync_machines.py exactly.
+function machineEntryFromRecord(hostname, r) {
+  const gpu = r.gpu;
+  const hasGpu = Array.isArray(gpu) && gpu.length > 0 &&
+    !(gpu[0] && typeof gpu[0] === 'object' && gpu[0].error);
+  return {
+    hostname,
+    display_name: r.display_name ?? null,
+    cpu_count: r.cpu_count ?? null,
+    cpu_type: r.cpu_type ?? null,
+    gpu_type: r.gpu_type || (hasGpu ? 'NVIDIA GPU' : null),
+    gpu_count: r.gpu_count || (hasGpu ? 1 : 0),
+  };
+}
+
+// Upsert the uploaded machine into machines.json via the Contents API. This is
+// what sync-machines.yml would do if Actions were enabled on this instance.
+async function syncMachinesJson(fname, fileText) {
+  const m = /^metrics_(.+)_\d{8}\.json$/.exec(fname);
+  if (!m) return;
+  const hostname = m[1];
+  const rec = firstJsonRecord(fileText);
+  if (!rec) throw new Error('could not parse a record from the file');
+  const entry = machineEntryFromRecord(hostname, rec);
+
+  const headers = {
+    'Authorization': `token ${getPat()}`,
+    'Accept': 'application/vnd.github+json',
+    'X-GitHub-Api-Version': '2022-11-28',
+    'Content-Type': 'application/json',
+  };
+  const url = `${GITHUB_API_BASE}/machines.json`;
+
+  // Need the current sha + content to overwrite machines.json.
+  let list = [], sha = null;
+  const head = await fetch(url, { headers });
+  if (head.ok) {
+    const meta = await head.json();
+    sha = meta.sha;
+    try {
+      const json = decodeURIComponent(escape(atob((meta.content || '').replace(/\n/g, ''))));
+      list = JSON.parse(json);
+    } catch { list = []; }
+    if (!Array.isArray(list)) list = [];
+  }
+
+  const idx = list.findIndex(x => x && x.hostname === hostname);
+  if (idx >= 0) list[idx] = entry;        // refresh existing machine
+  else list.unshift(entry);               // new machine → front of the list
+
+  const content = btoa(unescape(encodeURIComponent(JSON.stringify(list, null, 2))));
+  const body = {
+    message: `data: sync machines.json for ${hostname} via dashboard`,
+    content,
+    branch: GITHUB_BRANCH,
+  };
+  if (sha) body.sha = sha;
+
+  const r = await fetch(url, { method: 'PUT', headers, body: JSON.stringify(body) });
+  if (!r.ok) {
+    const txt = await r.text();
+    throw new Error(`HTTP ${r.status} ${txt.slice(0, 160)}`);
+  }
+}
+
+async function uploadFile(file) {
+  if (!file) return;
+  if (!/^metrics_[A-Za-z0-9_]+_\d{8}\.json$/.test(file.name)) {
+    flashStatus(`✗ bad filename: ${file.name} (need metrics_<host>_<YYYYMMDD>.json)`, '#ff7043');
+    return;
+  }
+  flashStatus(`uploading ${file.name} (${(file.size/1024).toFixed(1)} KB)…`, '#4fc3f7');
+  try {
+    const res = await uploadToGithub(file, file.name);
+    console.log('upload ok:', res.commit && res.commit.sha);
+    // Actions is disabled on this instance, so update machines.json ourselves
+    // (this is what sync-machines.yml would have done) and refresh the list.
+    try {
+      const text = await file.text();
+      await syncMachinesJson(file.name, text);
+      flashStatus(`✓ pushed ${file.name} + synced machines.json — refreshing…`, '#81c784');
+      loadMachines();
+    } catch (e2) {
+      console.error('machines.json sync failed:', e2);
+      flashStatus(`✓ pushed ${file.name}, but machines.json sync failed: ${e2.message}`, '#ffb74d');
+    }
+  } catch (e) {
+    console.error('upload failed:', e);
+    flashStatus(`✗ upload failed: ${e.message}`, '#ff7043');
+  }
+}
+
+function wireUpload() {
+  const btn   = document.getElementById('upload-btn');
+  const input = document.getElementById('upload-input');
+  if (!btn || !input) return;
+  btn.addEventListener('click', () => input.click());
+  input.addEventListener('change', e => {
+    const f = e.target.files[0];
+    uploadFile(f);
+    input.value = '';  // allow re-uploading the same file later
+  });
+  // Drag-and-drop on the whole controls bar.
+  const controls = document.querySelector('.controls');
+  if (controls) {
+    controls.addEventListener('dragover', e => { e.preventDefault(); controls.style.background = '#252a3a'; });
+    controls.addEventListener('dragleave', e => { controls.style.background = ''; });
+    controls.addEventListener('drop', e => {
+      e.preventDefault();
+      controls.style.background = '';
+      const f = e.dataTransfer.files[0];
+      uploadFile(f);
+    });
+  }
+}
+
+function updateHwInfo() {
+  const m = currentMachine;
+  if (!m) return;
+  const cpu = m.cpu_type
+    ? `<span>CPU: ${m.cpu_type} x${m.cpu_count || '?'}</span>`
+    : `<span>CPU: ${m.cpu_count || '?'} cores</span>`;
+  const gpu = m.gpu_count > 0
+    ? `<span>GPU: ${m.gpu_type || 'GPU'} x${m.gpu_count}</span>`
+    : '<span>GPU: none</span>';
+  document.getElementById('hw-info').innerHTML = cpu + '  ' + gpu;
+}
+
+// ─── Refresh ─────────────────────────────────────────────────────────────────
+async function refresh() {
+  if (!currentMachine) return;
+  // In calendar mode with a specific date selected, auto-refresh does nothing —
+  // the user picked a date; loading it is handled by selectDate() / setRange().
+  if (calSelected) return;
+
+  const machineKey = currentMachine.hostname;
+  const gpuCount  = currentMachine.gpu_count || 0;
+  const hasGpu    = gpuCount > 0;
+
+  // Show / hide GPU elements
+  const gpuOpacity = hasGpu ? '1' : '0.4';
+  document.getElementById('gpu-stat-card').style.opacity    = gpuOpacity;
+  document.getElementById('gpu-mem-stat-card').style.opacity = gpuOpacity;
+  document.getElementById('io-chart-card').style.opacity     = hasGpu ? '1' : '0.4';
+  document.getElementById('temp-chart-card').style.opacity  = hasGpu ? '1' : '0.4';
+  document.getElementById('power-chart-card').style.opacity  = hasGpu ? '1' : '0.4';
+  document.getElementById('power-stat-card').style.opacity   = hasGpu ? '1' : '0.4';
+
+  // Determine which data files to load.
+  // We always load 'today' (current UTC date file). For day/week views we also load
+  // the previous UTC date file to cover the local-day boundary — in timezones with a
+  // negative UTC offset (e.g. CDT = UTC-5), a local day starts at UTC 05:00, so
+  // the early-morning hours (00:00–04:59 local) live in the *next* UTC date file.
+  // Generate UTC date strings going back N days from today (inclusive).
+  // Files are named by UTC date, so we need UTC dates to find the right files.
+  function getUTCDateStrings(daysBack) {
+    const d = new Date();
+    return Array.from({ length: daysBack }, (_, i) => {
+      const date = new Date(d.getTime() - i * 86400000);
+      return date.toISOString().slice(0, 10).replace(/-/g, '');
+    });
+  }
+
+  // Build file list. Always include today (current UTC date).
+  // For day: today + yesterday UTC  (covers local 00:00–04:59 boundary)
+  // For week: last 7 UTC dates       (covers a full week of UTC files)
+  const now    = Date.now();
+  let   cutoff = now - (RANGES[currentRange] * 1000);
+  let   timeEnd = Infinity;
+  const d     = new Date();
+  const yd    = new Date(d.getTime() - 86400000);
+  const todayUTC     = d.toISOString().slice(0, 10).replace(/-/g, '');
+  const yesterdayUTC = yd.toISOString().slice(0, 10).replace(/-/g, '');
+
+  let files = ['data/metrics_' + machineKey + '_' + todayUTC + '.json'];
+  if (currentRange === 'day') {
+    files.push('data/metrics_' + machineKey + '_' + yesterdayUTC + '.json');
+  } else if (currentRange === 'week') {
+    // Load the last 7 UTC date files so the week chart has full coverage.
+    const weekFiles = getUTCDateStrings(7).slice(1); // already have today, drop it
+    weekFiles.forEach(f => {
+      if (!files.includes(f)) files.push('data/metrics_' + machineKey + '_' + f + '.json');
+    });
+  } else if (currentRange === 'custom') {
+    // Calendar mode: user picks a date via selectDate() which calls loadDayData() directly.
+    // This branch is only hit if currentRange is set to 'custom' without going through setRange().
+    // Fall back to today's file.
+    files = ['data/metrics_' + machineKey + '_' + todayUTC + '.json'];
+  }
+
+  // ── Fetch & parse
+  allData = [];
+  for (const f of files) {
+    try {
+      const r = await fetch(f);
+      if (!r.ok) { console.warn('Failed to fetch', f, r.status); continue; }
+      const text  = await r.text();
+      const lines = text.trim().split('\n');
+      lines.forEach(line => { try { allData.push(JSON.parse(line)); } catch { } });
+    } catch (e) { console.warn('Fetch error:', f, e); }
+  }
+
+  // ── Time-filter
+  allData = allData.filter(d => {
+    const t = new Date(d.timestamp).getTime();
+    if (currentRange === 'custom') return t >= cutoff && t <= timeEnd;
+    return t > cutoff;
+  });
+  allData.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
+
+  if (allData.length === 0) {
+    // No data in current range — search backwards for the latest day that has data
+    let fallbackDate = null;
+    const today = new Date();
+    for (let i = 0; i < 365; i++) {
+      const d = new Date(today.getTime() - i * 86400000);
+      const utcStr = d.toISOString().slice(0, 10).replace(/-/g, '');
+      const f = 'data/metrics_' + machineKey + '_' + utcStr + '.json';
+      try {
+        const r = await fetch(f);
+        if (r.ok) {
+          const text = await r.text();
+          const lines = text.trim().split('\n').filter(l => l.trim());
+          if (lines.length > 0) {
+            fallbackDate = utcStr;
+            break;
+          }
+        }
+      } catch { }
+    }
+    if (fallbackDate) {
+      // Reload with that single day, force day range
+      currentRange = 'day';
+      document.querySelectorAll('[id^="btn-"]').forEach(b => b.classList.remove('active'));
+      document.getElementById('btn-day').classList.add('active');
+      files = ['data/metrics_' + machineKey + '_' + fallbackDate + '.json'];
+      cutoff = 0;
+      timeEnd = Infinity;
+      allData = [];
+      for (const f of files) {
+        try {
+          const r = await fetch(f);
+          if (!r.ok) continue;
+          const text  = await r.text();
+          const lines = text.trim().split('\n');
+          lines.forEach(line => { try { allData.push(JSON.parse(line)); } catch { } });
+        } catch (e) { }
+      }
+      allData.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
+    }
+  }
+
+  if (allData.length === 0) {
+    document.getElementById('updated').textContent =
+      'No data for this range on [' + machineKey + ']. Collector may not be running.';
+    return;
+  }
+
+  // ── Top-level stat cards (CPU + system memory are always single values)
+  const latest        = allData[allData.length - 1];
+  const cpuMean       = mean(allData.map(d => d.cpu_percent));
+  const memMean       = mean(allData.map(d => d.memory_percent));
+  const memUsedGB     = (latest.memory_used_mb / 1024).toFixed(1);
+  const memTotalGB    = (latest.memory_total_mb / 1024).toFixed(1);
+
+  document.getElementById('s-cpu').textContent = cpuMean.toFixed(1) + '%';
+  document.getElementById('s-cpu-sub').textContent = 'latest: ' + latest.cpu_percent.toFixed(1) + '%';
+  document.getElementById('s-mem').textContent = memMean.toFixed(1) + '%';
+  document.getElementById('s-mem-sub').textContent = memUsedGB + ' / ' + memTotalGB + ' GB';
+
+  // ── GPU stat cards (aggregate across all GPUs)
+  if (hasGpu) {
+    const latestGpus = _normalizeGpus(latest.gpu);
+    const validGpus  = latestGpus.filter(g => !g.error);
+    const gpuUtilMean = validGpus.length ? mean(validGpus.map(g => g.utilization)) : 0;
+    const gpuUtilPct  = gpuUtilMean.toFixed(1);
+    const gpuUtilSub  = validGpus.map(g => 'GPU' + g.id + '=' + g.utilization.toFixed(0) + '%').join('  ');
+
+    const totalMemUsed = validGpus.reduce((s, g) => s + g.memory_used_mb, 0);
+    const totalMemTotal= validGpus.reduce((s, g) => s + g.memory_total_mb, 0);
+    const gpuMemPct    = totalMemTotal > 0 ? (totalMemUsed / totalMemTotal * 100).toFixed(1) : '0.0';
+    const gpuMemSub    = validGpus.map(g => 'GPU' + g.id + '=' + (g.memory_used_mb/1024).toFixed(1) + 'GB').join('  ');
+
+    document.getElementById('s-gpu').textContent     = gpuUtilPct + '%';
+    document.getElementById('s-gpu-sub').textContent = gpuUtilSub;
+    document.getElementById('s-gpu-mem').textContent = gpuMemPct + '%';
+    document.getElementById('s-gpu-mem-sub').textContent = gpuMemSub;
+
+    // ── GPU Temperature stat card (temp lives in gpu_power array as temp_c)
+    const gpuPower = latest.gpu_power || [];
+    const tempVals = gpuPower.map(g => 'GPU' + g.id + '=' + (g.temp_c != null ? g.temp_c + '°C' : '?'));
+    const gpuTempMean = gpuPower.length ? mean(gpuPower.map(g => g.temp_c || 0)) : 0;
+    document.getElementById('s-gpu-temp').textContent = gpuTempMean.toFixed(0) + ' °C';
+    document.getElementById('s-gpu-temp-sub').textContent = tempVals.join('  ');
+
+    // ── GPU Power stat card
+    const gpuPowerTotal = latest.gpu_power || [];
+    const totalPowerW = gpuPowerTotal.reduce((s, g) => s + (g.power_w || 0), 0);
+    const powerSub = gpuPowerTotal.map(g => 'GPU' + g.id + '=' + (g.power_w || '?') + 'W').join('  ');
+    document.getElementById('s-power').textContent = totalPowerW.toFixed(1) + ' W';
+    document.getElementById('s-power-sub').textContent = powerSub;
+  } else {
+    ['s-gpu','s-gpu-mem'].forEach(id => document.getElementById(id).textContent = 'N/A');
+    ['s-gpu-sub','s-gpu-mem-sub'].forEach(id => document.getElementById(id).textContent = 'No GPU');
+    ['s-gpu-temp'].forEach(id => document.getElementById(id).textContent = 'N/A');
+    ['s-gpu-temp-sub'].forEach(id => document.getElementById(id).textContent = 'No GPU');
+  }
+
+  // ── System Power stat card → CPU Power (RAPL)
+  const cpuPwr = latest.cpu_power_w;
+  if (cpuPwr != null) {
+    document.getElementById('s-sys-power').textContent = cpuPwr.toFixed(1) + ' W';
+    document.getElementById('s-sys-power-sub').textContent = 'RAPL / sudo';
+    document.getElementById('sys-power-stat-card').style.display = '';
+  } else {
+    document.getElementById('sys-power-stat-card').style.display = 'none';
+  }
+
+  // ── Network stat card (aggregate RX+TX across all ifaces, latest sample)
+  const netData = latest.network || [];
+  if (netData.length > 0) {
+    const totalRx = netData.reduce((s, n) => s + (n.rx_mbs || 0), 0);
+    const totalTx = netData.reduce((s, n) => s + (n.tx_mbs || 0), 0);
+    document.getElementById('s-net').textContent = totalRx.toFixed(2) + ' / ' + totalTx.toFixed(2) + ' MB/s';
+    document.getElementById('s-net-sub').textContent = netData.map(n => n.name + '=' + n.rx_mbs.toFixed(1) + '/' + n.tx_mbs.toFixed(1)).join('  ');
+  } else {
+    document.getElementById('s-net').textContent = 'N/A';
+    document.getElementById('s-net-sub').textContent = 'No network data';
+  }
+
+  // ── Update CPU + Memory charts (single dataset)
+  charts.cpu.data.datasets[0].data = allData.map(d => ({ x: new Date(d.timestamp), y: d.cpu_percent }));
+  charts.mem.data.datasets[0].data  = allData.map(d => ({ x: new Date(d.timestamp), y: d.memory_percent }));
+  charts.cpu.update();
+  charts.mem.update();
+
+  // ── Update GPU charts (one dataset per GPU)
+  if (hasGpu) updateGpuChart(charts.gpu,      allData, 'utilization',    '%',  gpuCount);
+  if (hasGpu) updateGpuChart(charts['gpu-mem'], allData, 'memory_used_mb', 'MB', gpuCount);
+
+  // ── Update PCIe/NVLink IO chart (GPU0 only)
+  updateIoChart(allData);
+
+  // ── Update GPU Power chart (one dataset per GPU)
+  if (hasGpu) updatePowerChart(allData, gpuCount);
+
+  // ── Update GPU Temperature chart (one dataset per GPU + Tlimit annotation)
+  if (hasGpu) updateTempChart(allData, gpuCount);
+
+  // ── Update Network chart (all ifaces, RX + TX)
+  updateNetworkChart(allData);
+
+  document.getElementById('updated').textContent =
+    'Updated: ' + new Date().toLocaleTimeString() +
+    ' | ' + allData.length + ' pts | ' + machineKey;
+}
+
+function showPointInfo(ts) {
+  // Find the data point closest to the given timestamp
+  let best = null, bestDiff = Infinity;
+  for (const d of allData) {
+    const diff = Math.abs(new Date(d.timestamp).getTime() - ts.getTime());
+    if (diff < bestDiff) { bestDiff = diff; best = d; }
+  }
+  if (!best) return;
+
+  const gpuCount = currentMachine ? (currentMachine.gpu_count || 0) : 0;
+  const hasGpu   = gpuCount > 0;
+  const gpus     = _normalizeGpus(best.gpu);
+  const gpu0     = gpus[0];
+
+  // Format time
+  const t = new Date(best.timestamp);
+  const pad = n => String(n).padStart(2, '0');
+  const timeStr = t.getFullYear() + '-' + pad(t.getMonth()+1) + '-' + pad(t.getDate())
+                 + ' ' + pad(t.getHours()) + ':' + pad(t.getMinutes()) + ':' + pad(t.getSeconds());
+
+  // Build the summary line
+  const cpuVal = best.cpu_percent != null ? best.cpu_percent.toFixed(1) + '%' : 'N/A';
+  const memVal = best.memory_percent != null ? best.memory_percent.toFixed(1) + '%' : 'N/A';
+  let gpuVal = 'N/A', gpuMemVal = 'N/A', gpuPwrVal = 'N/A', cpuPwrVal = 'N/A';
+  let pcieVal = 'N/A';
+  if (hasGpu && gpu0 && !gpu0.error) {
+    gpuVal    = (gpu0.utilization != null ? gpu0.utilization.toFixed(0) : '?') + '%';
+    const gpuMemPct = (gpu0.memory_total_mb > 0)
+      ? (gpu0.memory_used_mb / gpu0.memory_total_mb * 100).toFixed(1)
+      : '?';
+    gpuMemVal  = gpuMemPct + '%';
+    pcieVal    = ((gpu0.rxpci_mbs || 0) + (gpu0.txpci_mbs || 0)).toFixed(1) + ' MB/s';
+  }
+  if (best.gpu_power) {
+    const totalW = best.gpu_power.reduce((s, g) => s + (g.power_w || 0), 0);
+    gpuPwrVal = totalW.toFixed(1) + ' W';
+  }
+  if (best.cpu_power_w != null) {
+    cpuPwrVal = best.cpu_power_w.toFixed(1) + ' W';
+  }
+  const netData = best.network || [];
+  let netVal = 'N/A';
+  if (netData.length > 0) {
+    const totalRx = netData.reduce((s, n) => s + (n.rx_mbs || 0), 0);
+    const totalTx = netData.reduce((s, n) => s + (n.tx_mbs || 0), 0);
+    netVal = totalRx.toFixed(2) + ' / ' + totalTx.toFixed(2) + ' MB/s';
+  }
+
+  // ── Update individual stat cards (like updateStats does) ──
+  // CPU card
+  if (best.cpu_percent != null) {
+    document.getElementById('s-cpu').textContent = best.cpu_percent.toFixed(1) + '%';
+    document.getElementById('s-cpu-sub').textContent = 'clicked: ' + best.cpu_percent.toFixed(1) + '%';
+  }
+  // Memory card
+  if (best.memory_percent != null) {
+    document.getElementById('s-mem').textContent = best.memory_percent.toFixed(1) + '%';
+    document.getElementById('s-mem-sub').textContent = 'clicked: ' + best.memory_percent.toFixed(1) + '%';
+  }
+  // GPU cards
+  if (hasGpu && gpu0 && !gpu0.error) {
+    document.getElementById('s-gpu').textContent = gpuVal;
+    document.getElementById('s-gpu-sub').textContent = 'GPU0=' + gpuVal;
+    document.getElementById('s-gpu-mem').textContent = gpuMemVal;
+    document.getElementById('s-gpu-mem-sub').textContent = 'GPU0=' + gpuMemVal;
+    // GPU temperature card (temp lives in gpu_power array as temp_c)
+    const gpuPowerPt = best.gpu_power || [];
+    const tempVals = gpuPowerPt.map(g => 'GPU' + g.id + '=' + (g.temp_c != null ? g.temp_c + '°C' : '?'));
+    if (tempVals.length > 0) {
+      const meanTemp = gpuPowerPt.length ? mean(gpuPowerPt.map(g => g.temp_c || 0)) : 0;
+      document.getElementById('s-gpu-temp').textContent = meanTemp.toFixed(0) + ' °C';
+      document.getElementById('s-gpu-temp-sub').textContent = tempVals.join('  ');
+    }
+  }
+  // Network card
+  if (netData.length > 0) {
+    document.getElementById('s-net').textContent = netVal;
+    document.getElementById('s-net-sub').textContent = netData.map(n => n.name + '=' + n.rx_mbs.toFixed(1) + '/' + n.tx_mbs.toFixed(1)).join('  ');
+  }
+  // GPU Power card
+  if (best.gpu_power && best.gpu_power.length > 0) {
+    const gpuPowerTotal = best.gpu_power.reduce((s, g) => s + (g.power_w || 0), 0);
+    const gpuPowerSub = best.gpu_power.map(g => 'GPU' + g.id + '=' + (g.power_w != null ? g.power_w + 'W' : '?')).join('  ');
+    document.getElementById('s-power').textContent = gpuPowerTotal.toFixed(1) + ' W';
+    document.getElementById('s-power-sub').textContent = gpuPowerSub;
+  }
+  // CPU Power card
+  if (best.cpu_power_w != null) {
+    document.getElementById('s-sys-power').textContent = best.cpu_power_w.toFixed(1) + ' W';
+    document.getElementById('s-sys-power-sub').textContent = 'clicked: ' + best.cpu_power_w.toFixed(1) + ' W';
+  }
+
+  // PCIe detail in the sub span
+  if (hasGpu && gpu0 && !gpu0.error) {
+    const pcieSub = 'PCIe: ' + (gpu0.rxpci_mbs||0).toFixed(1) + ' / ' + (gpu0.txpci_mbs||0).toFixed(1)
+                  + '  NVLink: ' + (gpu0.nvlrx_mbs||0).toFixed(1) + ' / ' + (gpu0.nvltx_mbs||0).toFixed(1) + ' MB/s'
+                  + (gpu0.pcie_bandwidth_mbs != null ? '  PCIe BW: ' + gpu0.pcie_bandwidth_mbs.toFixed(1) + ' GB/s' : '');
+    document.getElementById('s-pcie').textContent = pcieVal;
+    document.getElementById('s-pcie-sub').textContent = pcieSub;
+    document.getElementById('pcie-stat-card').style.opacity = '1';
+  } else {
+    document.getElementById('pcie-stat-card').style.opacity = '0.4';
+  }
+
+  // Show the clicked-point card
+  // (card removed — debug feature deleted)
+}
+
+function _normalizeGpus(gpu) {
+  // Support both legacy {utilization, memory_used_mb} object and
+  // new-format [{id, utilization, memory_used_mb, ...}, ...]
+  if (!gpu) return [];
+  if (Array.isArray(gpu)) return gpu;
+  return [gpu];   // legacy single-GPU object
+}
+
+function updateGpuChart(chart, allData, valueKey, unit, gpuCount) {
+  // Show only as many datasets as this machine has GPUs
+  chart.data.datasets.forEach((ds, i) => { ds.hidden = i >= gpuCount; });
+  for (let i = 0; i < gpuCount; i++) {
+    chart.data.datasets[i].data = allData.map(d => {
+      const gpus = _normalizeGpus(d.gpu);
+      const g    = gpus[i];
+      let   y    = (g && !g.error) ? g[valueKey] : null;
+      if (valueKey === 'memory_used_mb') {
+        // Convert MB → % of that GPU's total memory
+        y = (g && !g.error && g.memory_total_mb > 0)
+          ? (g.memory_used_mb / g.memory_total_mb * 100) : null;
+      }
+      return (y != null) ? { x: new Date(d.timestamp), y } : { x: new Date(d.timestamp), y: null };
+    });
+  }
+  chart.update();
+}
+
+function updateIoChart(allData) {
+  // Extract GPU0 PCIe/NVLink stats. NVLink lines are hidden by default (no NVLink on L4).
+  const gpuId = 0;
+  const KEYS = [
+    { key: 'rxpci_mbs', dsIdx: 0 },
+    { key: 'txpci_mbs', dsIdx: 1 },
+    { key: 'nvlrx_mbs', dsIdx: 2 },
+    { key: 'nvltx_mbs', dsIdx: 3 },
+    { key: 'pcie_bandwidth_mbs', dsIdx: 4, bothDirs: true },
+  ];
+  KEYS.forEach(({ key, dsIdx, bothDirs }) => {
+    charts.io.data.datasets[dsIdx].data = allData.map(d => {
+      const gpus = _normalizeGpus(d.gpu);
+      const g    = gpus[gpuId];
+      const y    = (g && !g.error && g[key] != null) ? g[key] : null;
+      return y != null ? { x: new Date(d.timestamp), y } : { x: new Date(d.timestamp), y: null };
+    });
+    if (bothDirs) {
+      charts.io.data.datasets[dsIdx + 1].data = charts.io.data.datasets[dsIdx].data;
+    }
+  });
+  // Show NVLink datasets only if any data is non-null
+  const gpu0Data = allData.map(d => _normalizeGpus(d.gpu)[gpuId]).filter(g => g && !g.error);
+  const hasNvlink = gpu0Data.some(g => g.nvlrx_mbs != null || g.nvltx_mbs != null);
+  charts.io.data.datasets[2].hidden = !hasNvlink;  // NVLink RX
+  charts.io.data.datasets[3].hidden = !hasNvlink;  // NVLink TX
+  const hasPcieBw = gpu0Data.some(g => g.pcie_bandwidth_mbs != null);
+  charts.io.data.datasets[4].hidden = !hasPcieBw;  // PCIe BW RX
+  charts.io.data.datasets[5].hidden = !hasPcieBw;  // PCIe BW TX
+  charts.io.update();
+}
+
+function updatePowerChart(allData, gpuCount) {
+  // gpu_power is an array of {id, power_w, power_limit_w} in the record
+  charts.power.data.datasets.forEach((ds, i) => {
+    if (i < 8) ds.hidden = i >= gpuCount;   // GPU datasets 0-7
+    // dataset 8 = System Power (BMC) — handled below
+    // dataset 9 = CPU Power (RAPL)   — handled below
+  });
+  for (let i = 0; i < gpuCount; i++) {
+    charts.power.data.datasets[i].data = allData.map(d => {
+      const gp = (d.gpu_power || [])[i];
+      const y  = (gp && gp.power_w != null) ? gp.power_w : null;
+      return y != null ? { x: new Date(d.timestamp), y } : { x: new Date(d.timestamp), y: null };
+    });
+  }
+  // System Power (dataset index 8): BMC, show only when data exists
+  const sysDs = charts.power.data.datasets[8];
+  const sysHasData = allData.some(d => d.system_power_w != null);
+  sysDs.hidden = !sysHasData;
+  sysDs.data = allData.map(d => {
+    const y = d.system_power_w != null ? d.system_power_w : null;
+    return y != null ? { x: new Date(d.timestamp), y } : { x: new Date(d.timestamp), y: null };
+  });
+  // CPU Power (dataset index 9): RAPL, show only when data exists
+  const cpuDs = charts.power.data.datasets[9];
+  const cpuHasData = allData.some(d => d.cpu_power_w != null);
+  cpuDs.hidden = !cpuHasData;
+  cpuDs.data = allData.map(d => {
+    const y = d.cpu_power_w != null ? d.cpu_power_w : null;
+    return y != null ? { x: new Date(d.timestamp), y } : { x: new Date(d.timestamp), y: null };
+  });
+  charts.power.update();
+}
+
+function updateTempChart(allData, gpuCount) {
+  // gpu_power entries: [{id, power_w, power_limit_w, temp_c, temp_limit}, ...]
+  const TLIMIT_DSIDX = 8;
+
+  charts.temp.data.datasets.forEach((ds, i) => {
+    if (i < 8) ds.hidden = i >= gpuCount;
+  });
+
+  for (let i = 0; i < gpuCount; i++) {
+    charts.temp.data.datasets[i].data = allData.map(d => {
+      const gp = (d.gpu_power || [])[i];
+      const y  = (gp && gp.temp_c != null) ? gp.temp_c : null;
+      return y != null ? { x: new Date(d.timestamp), y } : { x: new Date(d.timestamp), y: null };
+    });
+  }
+
+  // Tlimit annotation (dashed): show only when temp_limit data exists
+  const tlimitDs = charts.temp.data.datasets[TLIMIT_DSIDX];
+  const tlimitHasData = allData.some(d => (d.gpu_power || []).some(gp => gp.temp_limit != null));
+  tlimitDs.hidden = !tlimitHasData;
+  tlimitDs.data = allData.map(d => {
+    const y = (d.gpu_power || [])[0]?.temp_limit ?? null;
+    return y != null ? { x: new Date(d.timestamp), y } : { x: new Date(d.timestamp), y: null };
+  });
+
+  // Dynamic y-axis max
+  const allTemps = allData.flatMap(d => (d.gpu_power || []).map(gp => gp.temp_c).filter(t => t != null));
+  const maxTemp = allTemps.length ? Math.max(...allTemps) : 0;
+  charts.temp.options.scales.y.max = Math.max(110, Math.ceil(maxTemp / 10) * 10 + 10);
+
+  charts.temp.update();
+}
+
+function updateNetworkChart(allData) {
+  // network is an array of {name, rx_mbs, tx_mbs} in the record.
+  // Discover which ifaces appear across all records, preserve consistent ordering.
+  const ifaceOrder = [];
+  const ifaceSet   = new Set();
+  for (const d of allData) {
+    for (const n of (d.network || [])) {
+      if (!ifaceSet.has(n.name)) { ifaceSet.add(n.name); ifaceOrder.push(n.name); }
+    }
+  }
+  const MAX = 8;
+  ifaceOrder.slice(0, MAX).forEach((name, idx) => {
+    const [rxColor, txColor] = NET_COLORS[idx % NET_COLORS.length];
+    // RX
+    const rxDs = charts.net.data.datasets[idx * 2];
+    rxDs.label        = name + ' RX';
+    rxDs.borderColor  = '#' + rxColor;
+    rxDs.backgroundColor = 'transparent';
+    rxDs.hidden        = false;
+    rxDs.data = allData.map(d => {
+      const entry = (d.network || []).find(n => n.name === name);
+      const y = (entry && entry.rx_mbs != null) ? entry.rx_mbs : null;
+      return y != null ? { x: new Date(d.timestamp), y } : { x: new Date(d.timestamp), y: null };
+    });
+    // TX
+    const txDs = charts.net.data.datasets[idx * 2 + 1];
+    txDs.label        = name + ' TX';
+    txDs.borderColor  = '#' + txColor;
+    txDs.backgroundColor = 'transparent';
+    txDs.hidden        = false;
+    txDs.data = allData.map(d => {
+      const entry = (d.network || []).find(n => n.name === name);
+      const y = (entry && entry.tx_mbs != null) ? entry.tx_mbs : null;
+      return y != null ? { x: new Date(d.timestamp), y } : { x: new Date(d.timestamp), y: null };
+    });
+  });
+  // Hide unused slots
+  for (let i = ifaceOrder.length; i < MAX; i++) {
+    charts.net.data.datasets[i * 2].hidden     = true;
+    charts.net.data.datasets[i * 2 + 1].hidden = true;
+    charts.net.data.datasets[i * 2].data     = [];
+    charts.net.data.datasets[i * 2 + 1].data = [];
+  }
+  charts.net.update();
+}
+
+function mean(arr) {
+  const valid = arr.filter(v => v != null && !isNaN(v));
+  return valid.length ? valid.reduce((a, b) => a + b, 0) / valid.length : 0;
+}
+
+// ─── Bootstrap ───────────────────────────────────────────────────────────────
+document.getElementById('machine-select').addEventListener('change', e => setMachine(e.target.value));
+initCharts();
+let refreshInterval = null;
+
+loadMachines().then(() => {
+  setRange('custom');
+  refreshInterval = setInterval(refresh, 10000);
+});
+// Poll machines.json every 30s so new machines pushed by collector.py, the
+// dashboard upload button (via Contents API), or another browser are picked
+// up without a manual refresh. Combined with the existing
+// .github/workflows/sync-machines.yml that regenerates machines.json on
+// every push, this gives near-real-time machine discovery.
+setInterval(() => loadMachines().catch(() => {}), 30000);
+wireUpload();
+applyDataSource();
+// cache-bust: v4
+// </script>
+</body>
+</html>
