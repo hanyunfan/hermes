@@ -1037,6 +1037,87 @@ function arrayBufferToBase64(buf) {
   return btoa(bin);
 }
 
+// Browser-side port of sync_machines.py. Returns the first valid JSON object
+// (one line == one record in these JSON Lines files), or null.
+function firstJsonRecord(text) {
+  for (const raw of text.split('\n')) {
+    const line = raw.trim();
+    if (!line) continue;
+    try {
+      const obj = JSON.parse(line);
+      if (obj && typeof obj === 'object' && !Array.isArray(obj)) return obj;
+    } catch { return null; }
+  }
+  return null;
+}
+
+// Build a machines.json entry from a record, matching sync_machines.py exactly.
+function machineEntryFromRecord(hostname, r) {
+  const gpu = r.gpu;
+  const hasGpu = Array.isArray(gpu) && gpu.length > 0 &&
+    !(gpu[0] && typeof gpu[0] === 'object' && gpu[0].error);
+  return {
+    hostname,
+    display_name: r.display_name ?? null,
+    cpu_count: r.cpu_count ?? null,
+    cpu_type: r.cpu_type ?? null,
+    gpu_type: r.gpu_type || (hasGpu ? 'NVIDIA GPU' : null),
+    gpu_count: r.gpu_count || (hasGpu ? 1 : 0),
+  };
+}
+
+// Upsert the uploaded machine into machines.json via the Contents API.
+// Replaces what .github/workflows/sync-machines.yml would do — useful when
+// Actions is slow or disabled. The frontend's 30s poll of machines.json
+// will then pick up the new/updated machine.
+async function syncMachinesJson(fname, fileText) {
+  const m = /^metrics_(.+)_(\d{8})\.json$/.exec(fname);
+  if (!m) return;
+  const hostname = m[1];
+  const rec = firstJsonRecord(fileText);
+  if (!rec) throw new Error('could not parse a record from the file');
+  const entry = machineEntryFromRecord(hostname, rec);
+
+  const headers = {
+    'Authorization': `token ${getPat()}`,
+    'Accept': 'application/vnd.github+json',
+    'X-GitHub-Api-Version': '2022-11-28',
+    'Content-Type': 'application/json',
+  };
+  const url = `${GITHUB_API_BASE}/machines.json`;
+
+  // Need the current sha + content to overwrite machines.json.
+  let list = [], sha = null;
+  const head = await fetch(url, { headers });
+  if (head.ok) {
+    const meta = await head.json();
+    sha = meta.sha;
+    try {
+      const json = decodeURIComponent(escape(atob((meta.content || '').replace(/\n/g, ''))));
+      list = JSON.parse(json);
+    } catch { list = []; }
+    if (!Array.isArray(list)) list = [];
+  }
+
+  const idx = list.findIndex(x => x && x.hostname === hostname);
+  if (idx >= 0) list[idx] = entry;        // refresh existing machine
+  else list.unshift(entry);               // new machine → front of the list
+
+  const content = btoa(unescape(encodeURIComponent(JSON.stringify(list, null, 2))));
+  const body = {
+    message: `data: sync machines.json for ${hostname} via dashboard`,
+    content,
+    branch: GITHUB_BRANCH,
+  };
+  if (sha) body.sha = sha;
+
+  const r = await fetch(url, { method: 'PUT', headers, body: JSON.stringify(body) });
+  if (!r.ok) {
+    const txt = await r.text();
+    throw new Error(`HTTP ${r.status} ${txt.slice(0, 160)}`);
+  }
+}
+
 async function uploadFile(file) {
   if (!file) return;
   if (!/^metrics_[A-Za-z0-9_]+_\d{8}\.json$/.test(file.name)) {
@@ -1050,11 +1131,19 @@ async function uploadFile(file) {
   flashStatus(`uploading ${file.name} (${(file.size/1024).toFixed(1)} KB)…`, '#4fc3f7');
   try {
     const res = await uploadToGithub(file, file.name);
-    flashStatus(`✓ pushed ${file.name} — Actions will refresh machines.json in ~10s`, '#81c784');
-    // Don't manually update local machines[] — the workflow will rewrite
-    // machines.json and our 30s poll will pick it up. Forcing a refresh here
-    // would race the workflow and confuse the user.
     console.log('upload ok:', res.commit && res.commit.sha);
+    // Actions may or may not run sync-machines.yml in time. Replicate it
+    // client-side so the new machine appears in the dropdown within a few
+    // seconds even if the workflow is slow or disabled.
+    try {
+      const text = await file.text();
+      await syncMachinesJson(file.name, text);
+      flashStatus(`✓ pushed ${file.name} + synced machines.json — refreshing…`, '#81c784');
+      loadMachines();
+    } catch (e2) {
+      console.error('machines.json sync failed:', e2);
+      flashStatus(`✓ pushed ${file.name}, but machines.json sync failed: ${e2.message}`, '#ffb74d');
+    }
   } catch (e) {
     console.error('upload failed:', e);
     flashStatus(`✗ upload failed: ${e.message}`, '#ff7043');
