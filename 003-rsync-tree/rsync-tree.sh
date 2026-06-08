@@ -23,6 +23,7 @@ SRC_DIR="/mnt/data"
 SSH_ARGS="-o StrictHostKeyChecking=no -o ConnectTimeout=10 -o ServerAliveInterval=10 -o BatchMode=yes"
 NODES_PATTERN='node[01-18]'
 DRY_RUN=""
+DIAGNOSE=""
 
 # ---- Pattern expander ----
 expand_nodes() {
@@ -67,12 +68,56 @@ while [[ $# -gt 0 ]]; do
         --nodes)   NODES_PATTERN="$2"; shift 2 ;;
         --dir)     SRC_DIR="$2"; shift 2 ;;
         --plain)   PLAIN=1; shift ;;
-        *) echo "Usage: $0 [--dry-run] [--source node12] [--nodes 'node[01-18]'] [--dir /mnt/data] [--plain]"; exit 1 ;;
+        --diagnose) DIAGNOSE=1; shift ;;
+        *) echo "Usage: $0 [--dry-run] [--source node12] [--nodes 'node[01-18]'] [--dir /mnt/data] [--plain] [--diagnose]"; exit 1 ;;
     esac
 done
 
 NODE_LIST=$(expand_nodes "$NODES_PATTERN")
 IFS=',' read -ra ALL_NODES <<< "$NODE_LIST"
+
+# ---- --diagnose: pre-flight checks (SSH + /mnt/data) for all nodes ----
+# Useful when the scheduler "stucks on starting" — tells you which node's
+# ssh/sshd/ssh-key handshake is the culprit, or which node's $SRC_DIR is
+# missing, before the main loop even starts.
+if [[ -n "$DIAGNOSE" ]]; then
+    echo "=============================================="
+    echo " DIAGNOSE: pre-flight per-node"
+    echo "=============================================="
+    ok=0; bad=0
+    for n in "${ALL_NODES[@]}"; do
+        # 1. SSH reachability
+        if ! ssh $SSH_ARGS "$n" 'true' 2>/dev/null; then
+            echo "  ✗ $n  SSH unreachable (BatchMode refused, no key, or wrong host)"
+            ((bad++))
+            continue
+        fi
+        # 2. Source dir existence
+        if ! ssh $SSH_ARGS "$n" "test -d $SRC_DIR" 2>/dev/null; then
+            echo "  ✗ $n  SSH ok, but $SRC_DIR/ does not exist on $n"
+            ((bad++))
+            continue
+        fi
+        # 3. rsync availability on the node (only checked for source/target roles)
+        local_sz=$(ssh $SSH_ARGS "$n" "du -sb $SRC_DIR 2>/dev/null | awk '{print \$1}'")
+        if [[ -z "$local_sz" ]]; then
+            echo "  ✗ $n  SSH ok, $SRC_DIR/ exists, but du failed (file system error?)"
+            ((bad++))
+            continue
+        fi
+        local_files=$(ssh $SSH_ARGS "$n" "ls $SRC_DIR 2>/dev/null | wc -l")
+        echo "  ✓ $n  SSH ok, $SRC_DIR/ exists, $local_files files, $(numfmt --to=iec "$local_sz" 2>/dev/null || echo "$local_sz"B)"
+        ((ok++))
+    done
+    echo ""
+    echo "  Result: $ok ok, $bad failed"
+    if (( bad > 0 )); then
+        echo "  Fix the failed nodes (ssh keys, hostname resolution, $SRC_DIR mount) and re-run."
+        exit 2
+    fi
+    echo "  All nodes healthy. Re-run without --diagnose to start the actual transfer."
+    exit 0
+fi
 
 echo "=============================================="
 echo " rsync-tree.sh — Event-driven rsync tree"
@@ -287,6 +332,18 @@ do_rsync() {
     echo "$pid" > "/tmp/rsync-tree-pid-$src→$tgt"
     tui_log_job "$src" "$tgt" "ACTIVE" 0 0 0
     tui_log_event "INFO" "[$src] → [$tgt] starting"
+    # Heartbeat: every 3s log that pid is still alive + tail of rsync log.
+    # Makes "stuck on starting" diagnosable — was the ssh session hung,
+    # did the kernel drop the TCP, did rsync stall on a single huge file?
+    (
+        while kill -0 "$pid" 2>/dev/null; do
+            sleep 3
+            local last_line
+            last_line=$(tail -n 1 "$log" 2>/dev/null | tr -d '\r' | head -c 80)
+            tui_log_event "DBG"  "[$src]→[$tgt] alive pid=$pid last='${last_line:-<empty>}'"
+        done
+    ) &
+    jobs["${src}→${tgt}.hb"]=$!
     return 0
 }
 

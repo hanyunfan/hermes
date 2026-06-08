@@ -38,6 +38,12 @@ Each rsync is always at full 100 MB/s — no eth splitting.
 # Custom directory
 ./rsync-tree.sh --dir /data/shared
 
+# Pre-flight check: verify SSH + $SRC_DIR on every node before starting
+./rsync-tree.sh --diagnose --nodes 'node[01-18]'
+# → ✗ node07  SSH unreachable (BatchMode refused, no key, or wrong host)
+# → ✓ node12  SSH ok, /mnt/data/ exists, 14 files, 482G
+# Exits 2 if any node fails, with a per-node breakdown.
+
 # Plain mode (skip TUI; logs to stdout line-by-line, useful for cron)
 ./rsync-tree.sh --plain --dry-run --nodes 'node[01-18]'
 ```
@@ -121,6 +127,26 @@ directly to stdout and the TUI renderer is not started.
 # Plain mode (line-based progress, no TUI)
 ./rsync-tree.sh --plain --dry-run --nodes 'node[01-18]' 2>&1 | tee run.log
 ```
+
+### Stuck on "starting"? Run `--diagnose`
+
+If the scheduler prints one `… starting` event and then nothing happens —
+no `[OK] done`, no `[ERR]` — that's a stuck ssh/rsync, not a TUI bug.
+Run `--diagnose` first to localize the failure to a specific node:
+
+```bash
+./rsync-tree.sh --diagnose --nodes 'node[01-18]'
+```
+
+It checks every node for SSH reachability (BatchMode), `$SRC_DIR`
+existence, and a successful `du -sb` size query. Exits 2 with a per-node
+breakdown if anything is wrong.
+
+If `--diagnose` says all nodes are healthy but a real run still hangs,
+look at the heartbeat log lines in the TUI events panel — they fire
+every 3 seconds while a job is `ACTIVE` and include the last line of
+the rsync log, so you can tell whether the ssh session is hung, the
+TCP socket got dropped, or rsync is just slow on a huge file.
 
 ## Architecture (v2.0)
 
