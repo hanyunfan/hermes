@@ -157,6 +157,13 @@ TCP socket got dropped, or rsync is just slow on a huge file.
     by the TUI renderer
   - `finalize` EXIT trap that stops the TUI, restores stdout from
     the log-file redirect, prints the final summary, then cleans up
+  - `update_job_progress` — every main-loop iter, parses the latest
+    rsync `--info=progress2` line from each active job's log and
+    pushes the (pct, speed) into the TUI row. Skips the rewrite when
+    the parsed values haven't changed, so it's cheap. Without this
+    ACTIVE jobs would stay at 0% / 0.0 MB/s for the whole run.
+  - `check_complete` rewrites the row to `DONE 100%` (or `FAIL`) on
+    process exit, instead of leaving the row stuck on `ACTIVE`.
 - `tui.sh` — pure-bash ANSI TUI renderer. Sourced by `rsync-tree.sh`.
   Reads state from `/tmp/rsync-tree-tui-$$/` and writes frames to
   `/dev/tty` (or `$TUI_OUT` if set). Implements:

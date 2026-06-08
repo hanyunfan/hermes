@@ -349,6 +349,12 @@ do_rsync() {
 
 # check_complete src tgt — returns 0 on success, 1 if still running/failed
 # Does NOT exit — failures are recorded and the target is returned to waiting queue
+#
+# IMPORTANT: We CANNOT use `wait $pid` here. The ssh+rsync child was spawned
+# in do_rsync() (a previous function call), so it is no longer a child of
+# this shell. `wait` on a non-child pid returns 127 immediately, which would
+# misclassify every job as failed. We rely on `kill -0` for liveness, and
+# on parsing the rsync log tail for completion.
 check_complete() {
     local src=$1 tgt=$2
     local log="/tmp/rsync-$src-$tgt.log"
@@ -364,60 +370,58 @@ check_complete() {
         return 1
     fi
 
-    local checked="/tmp/rsync-tree-checked-$src→$tgt"
-
-    # Already processed?
-    if [[ -f "$checked" ]]; then
-        local rsync_exit=$(cat "$checked")
-        echo "  [DD] [$src] → [$tgt] already processed, exit=$rsync_exit" >&2
-        if [[ $rsync_exit -ne 0 ]]; then
-            echo "  [!!] [$src] → [$tgt] rsync failed (exit=$rsync_exit) — returning $tgt to queue, $src back to ready" >&2
-            fail_job "$src→$tgt" "RSYNC_EXIT_$rsync_exit"
-            unset "jobs[$src→$tgt]" 2>/dev/null
-            rm -f "$pidfile"
-            waiting=("$tgt" "${waiting[@]}")
-            ready["$src"]=1
-            return 1
-        fi
-    else
-        if [[ ! -f "$pidfile" ]]; then
-            echo "  [??] [$src] → [$tgt] no pidfile yet" >&2
-            return 1
-        fi
-
-        local pid=$(cat "$pidfile")
-
-        if kill -0 "$pid" 2>/dev/null; then
-            echo "  [~~] [$src] → [$tgt] pid $pid still running" >&2
-            return 1
-        fi
-
-        local rsync_exit=0
-        wait "$pid" || rsync_exit=$?
-        echo "  [DD] [$src] → [$tgt] pid $pid exited, status=$rsync_exit" >&2
-
-        echo "$rsync_exit" > "$checked"
-        rm -f "$pidfile"
-
-        if [[ $rsync_exit -ne 0 ]]; then
-            echo "  [!!] [$src] → [$tgt] rsync failed with exit=$rsync_exit — returning $tgt to queue, $src back to ready" >&2
-            fail_job "$src→$tgt" "RSYNC_EXIT_$rsync_exit"
-            unset "jobs[$src→$tgt]" 2>/dev/null
-            rm -f "/tmp/rsync-tree-pid-$src→$tgt" "/tmp/rsync-tree-checked-$src→$tgt"
-            waiting=("$tgt" "${waiting[@]}")
-            ready["$src"]=1
-            return 1
-        fi
+    # 1. Is the rsync child still alive?
+    if [[ ! -f "$pidfile" ]]; then
+        echo "  [??] [$src] → [$tgt] no pidfile yet" >&2
+        return 1
+    fi
+    local pid=$(cat "$pidfile")
+    if kill -0 "$pid" 2>/dev/null; then
+        echo "  [~~] [$src] → [$tgt] pid $pid still running" >&2
+        return 1
     fi
 
-    # Size check
+    # 2. Process is gone. Decide success vs failure from the rsync log tail.
+    #    rsync exits 0 on clean completion, nonzero on any error. We can
+    #    tell from the log: success ends with "total size is ... (speedup)"
+    #    or just the last transfer summary; failures contain "rsync error:"
+    #    or nonzero exit code lines.
+    local rsync_exit=0
+    if [[ ! -f "$log" ]]; then
+        echo "  [!!] [$src] → [$tgt] pid $pid exited but log $log is missing" >&2
+        rsync_exit=1
+    elif tail -50 "$log" 2>/dev/null | grep -qE 'rsync error|IO error|connection unexpectedly closed|broken pipe'; then
+        echo "  [!!] [$src] → [$tgt] pid $pid exited, log shows error markers" >&2
+        rsync_exit=1
+    else
+        echo "  [DD] [$src] → [$tgt] pid $pid exited, log clean" >&2
+    fi
+
+    # Stop the heartbeat companion for this job (it exits on its own once
+    # kill -0 fails, but be explicit so events.log stops growing for dead jobs).
+    local hb_pidfile="/tmp/rsync-tree-pid-${src}→${tgt}.hb"
+    [[ -f "$hb_pidfile" ]] && kill "$(cat "$hb_pidfile")" 2>/dev/null; rm -f "$hb_pidfile"
+
+    if [[ $rsync_exit -ne 0 ]]; then
+        echo "  [!!] [$src] → [$tgt] rsync failed (exit=$rsync_exit) — returning $tgt to queue, $src back to ready" >&2
+        fail_job "$src→$tgt" "RSYNC_FAIL"
+        tui_log_job "$src" "$tgt" "FAIL" 0 0 0
+        unset "jobs[$src→$tgt]" 2>/dev/null
+        rm -f "$pidfile"
+        waiting=("$tgt" "${waiting[@]}")
+        ready["$src"]=1
+        return 1
+    fi
+
+    # 3. Size check (only on apparent success)
     local src_sz tgt_sz
     src_sz=$(ssh $SSH_ARGS "$src" "du -sb $SRC_DIR" 2>/dev/null | awk '{print $1}')
     if [[ -z "$src_sz" ]]; then
         echo "  [!!] [$src] → [$tgt] cannot get size from $src (SSH failed) — returning $tgt to queue, $src back to ready" >&2
         fail_job "$src→$tgt" "SSH_FAIL_SRC"
+        tui_log_job "$src" "$tgt" "FAIL" 0 0 0
         unset "jobs[$src→$tgt]" 2>/dev/null
-        rm -f "/tmp/rsync-tree-pid-$src→$tgt"
+        rm -f "$pidfile"
         waiting=("$tgt" "${waiting[@]}")
         ready["$src"]=1
         return 1
@@ -426,8 +430,9 @@ check_complete() {
     if [[ -z "$tgt_sz" ]]; then
         echo "  [!!] [$src] → [$tgt] cannot get size from $tgt (SSH failed) — returning $tgt to queue, $src back to ready" >&2
         fail_job "$src→$tgt" "SSH_FAIL_TGT"
+        tui_log_job "$src" "$tgt" "FAIL" 0 0 0
         unset "jobs[$src→$tgt]" 2>/dev/null
-        rm -f "/tmp/rsync-tree-pid-$src→$tgt"
+        rm -f "$pidfile"
         waiting=("$tgt" "${waiting[@]}")
         ready["$src"]=1
         return 1
@@ -438,13 +443,18 @@ check_complete() {
     if [[ "$src_sz" != "$tgt_sz" ]]; then
         echo "  [!!] [$src] → [$tgt] SIZE MISMATCH: src=$src_sz tgt=$tgt_sz — returning $tgt to queue, $src back to ready" >&2
         fail_job "$src→$tgt" "SIZE_MISMATCH_src=${src_sz}_tgt=${tgt_sz}"
+        tui_log_job "$src" "$tgt" "FAIL" 0 0 0
         unset "jobs[$src→$tgt]" 2>/dev/null
-        rm -f "/tmp/rsync-tree-pid-$src→$tgt"
+        rm -f "$pidfile"
         waiting=("$tgt" "${waiting[@]}")
         ready["$src"]=1
         return 1
     fi
 
+    # 4. Real success — write DONE to TUI (this was missing in the original;
+    #    TUI stayed stuck on ACTIVE 0%/0MB/s even after the job finished).
+    tui_log_job "$src" "$tgt" "DONE" 100 0 0
+    tui_log_event "OK"   "[$src] → [$tgt] done"
     echo "$src_sz"
     return 0
 }
@@ -532,6 +542,45 @@ update_tui_header() {
     local n_active=$1 n_done=$2 n_failed=$3 iter=$4
     local elapsed=$(( $(date +%s) - TUI_START_TS ))
     tui_set_header "${DRY_RUN:+[DRY-RUN] }src=$SOURCE_NODE nodes=${#ALL_NODES[@]} | iter=$iter | $n_active active / $n_done done / $n_failed failed | elapsed=$(fmt_elapsed $elapsed)"
+}
+
+# Parse the latest rsync --info=progress2 line from a job's log and push
+# the (pct, speed_mbs) into the TUI. rsync's progress2 line looks like:
+#   "        32,768   0%    0.00kB/s    0:00:10  (xfr#5, to-chk=10/15)"
+# or near the end of a transfer:
+#   " 1,234,567,890  50%   12.34MB/s    0:01:23  (xfr#5, ir-chk=100/200)"
+#
+# We only call tui_log_job (which rewrites the row) if the parsed values
+# changed since the last sample — avoids hammering the TUI state file
+# on every iter when nothing moved.
+#
+# $1 = src, $2 = tgt
+update_job_progress() {
+    local src=$1 tgt=$2
+    local log="/tmp/rsync-$src-$tgt.log"
+    local cache="/tmp/rsync-tree-progress-$src→$tgt"
+    [[ -f "$log" ]] || return 0
+    local last
+    last=$(grep -E '[0-9]+%' "$log" 2>/dev/null | tail -n 1)
+    [[ -z "$last" ]] && return 0
+    # Parse pct and speed. The percent is the % token right after a number;
+    # the speed is the only kB/s/MB/s/GB/s token on the line.
+    local pct speed_mbs
+    pct=$(echo "$last" | grep -oE '[0-9]+%' | head -1 | tr -d '%')
+    [[ -z "$pct" ]] && return 0
+    speed_mbs=$(echo "$last" | grep -oE '[0-9]+\.[0-9]+[kMG]?B/s' | head -1 | awk '
+        /GB\/s/ { sub(/GB\/s/,""); print $0 * 1024 }
+        /MB\/s/ { sub(/MB\/s/,""); print $0 }
+        /kB\/s/ { sub(/kB\/s/,""); print $0 / 1024 }
+        /B\/s/  { sub(/B\/s/,"");  print $0 / 1048576 }
+    ')
+    [[ -z "$speed_mbs" ]] && speed_mbs=0
+    local sig="$pct|$speed_mbs"
+    local prev=""
+    [[ -f "$cache" ]] && prev=$(cat "$cache" 2>/dev/null)
+    [[ "$sig" == "$prev" ]] && return 0
+    echo "$sig" > "$cache"
+    tui_log_job "$src" "$tgt" "ACTIVE" "$pct" "$speed_mbs" 0
 }
 
 # ---- Main loop ----
@@ -622,6 +671,19 @@ while true; do
     [[ $n_done_tui -lt 0 ]] && n_done_tui=0
     n_failed_tui=${#failed_jobs[@]}
     update_tui_header "$n_active" "$n_done_tui" "$n_failed_tui" "$iter"
+
+    # ---- TUI: refresh ACTIVE job progress from rsync --info=progress2 ----
+    # The job row stays ACTIVE in the TUI from do_rsync() onward; without
+    # this refresh it would show 0% / 0.0MB/s for the whole run. We only
+    # rewrite the row when the parsed (pct, speed) changes, so this is
+    # cheap even with many concurrent jobs.
+    for key in "${!jobs[@]}"; do
+        # Skip heartbeat companion entries (named "src→tgt.hb")
+        [[ "$key" == *.hb ]] && continue
+        local_src="${key%%→*}"
+        local_tgt="${key##*→}"
+        update_job_progress "$local_src" "$local_tgt"
+    done
 done
 
 # Main loop exited. From here on, anything printed in the main script flow
