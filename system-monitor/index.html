@@ -8,16 +8,10 @@
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { background: #0f1117; color: #e0e0e0; font-family: 'Segoe UI', system-ui, sans-serif; padding: 20px; }
   h1 { font-size: 1.5rem; margin-bottom: 16px; color: #fff; }
-  .controls { margin-bottom: 16px; display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  .controls { margin-bottom: 16px; display: flex; gap: 16px; flex-wrap: wrap; align-items: center; }
   .controls > .ctrl-group { display: flex; gap: 8px; align-items: center; }
   .controls > .ctrl-group--right { margin-left: auto; }
   .controls label { font-size: 0.85rem; color: #aaa; }
-  /* Pure-CSS visual grouping for the source / range / refresh controls.
-     Uses a left margin on the label and a thicker right margin on the
-     last button of each group so the eye reads them as 3 clusters
-     even though they are still flat flex items. */
-  #src-local { margin-right: 16px; }
-  #btn-custom { margin-right: 16px; }
   .controls select, .controls button {
     background: #1e2230; color: #e0e0e0; border: 1px solid #333;
     padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.85rem;
@@ -129,7 +123,7 @@
 
 <h1>🖥️ System Monitor</h1>
 
-
+<div class="controls">
   <label>Machine:</label>
   <select id="machine-select">
     <option value="">— Loading machines —</option>
@@ -137,10 +131,10 @@
   <button id="upload-btn" title="Upload a metrics_*.json file. Stored in your browser localStorage is a GitHub Personal Access Token (repo:contents write).">⬆ Upload JSON</button>
   <input type="file" id="upload-input" accept=".json,application/json" style="display:none">
   <span id="upload-status" style="font-size:0.78rem;color:#888;margin-left:4px"></span>
-  <span style="margin-left:8px;font-size:0.78rem;color:#666">Source:</span>
+  <span style="font-size:0.78rem;color:#666">Source:</span>
   <button id="src-github" class="src-btn active" data-src="github" onclick="setSource('github')">GitHub</button>
   <button id="src-local" class="src-btn"        data-src="local"  onclick="setSource('local')">Local :8765</button>
-  <label style="margin-left:12px">Range:</label>
+  <label>Range:</label>
   <button id="btn-hour"  class="active" data-range="hour"   onclick="setRange('hour')">Hour</button>
   <button id="btn-day"              data-range="day"     onclick="setRange('day')">Day</button>
   <button id="btn-week"             data-range="week"    onclick="setRange('week')">Week</button>
