@@ -64,6 +64,14 @@
     "gpu_count": 8
   },
   {
+    "hostname": "XE7740_H200NVL_gpt_oss_20b",
+    "display_name": "XE7740_H200NVL_gpt_oss_20b",
+    "cpu_count": 128,
+    "cpu_type": "Intel(R) Xeon(R) 6767P",
+    "gpu_type": "H200_NVL",
+    "gpu_count": 8
+  },
+  {
     "hostname": "XE7740_H200NVL_gpt_oss",
     "display_name": "XE7740_H200NVL_gpt_oss",
     "cpu_count": 128,
