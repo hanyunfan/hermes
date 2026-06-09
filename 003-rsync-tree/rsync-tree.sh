@@ -531,6 +531,11 @@ print_summary() {
 
 # Now that print_summary and cleanup are defined, install the EXIT trap.
 trap finalize EXIT
+# When the TUI renderer subshell sees 'q' on stdin it sends us SIGUSR1
+# to wake the main loop. Set EXIT_REQUESTED — the main loop checks it
+# at the top of every iteration and breaks out cleanly. Finalize
+# (EXIT trap) then runs cleanup + tui_stop + print_summary as usual.
+trap 'EXIT_REQUESTED=1' USR1
 
 SCRIPT_RUN_ID="$(date +%s)"
 TUI_START_TS=$(date +%s)
@@ -567,8 +572,16 @@ update_job_progress() {
     local log="/tmp/rsync-$src-$tgt.log"
     local cache="/tmp/rsync-tree-progress-$src→$tgt"
     [[ -f "$log" ]] || return 0
+    # rsync --info=progress2 uses \r (carriage return) to rewrite the
+    # same line in place. The "log" written by `&> $log` therefore ends
+    # up with MANY progress2 samples concatenated on a single physical
+    # line, separated by \r. `tail -n 1` returns that whole physical
+    # line; `grep -oE '[0-9]+%' | head -1` then grabs the FIRST percent
+    # on it (e.g. "6%") and reports 6% forever, even when rsync has
+    # actually reached 100%. Split on \r first, then take the LAST
+    # non-empty segment — that's the most recent progress sample.
     local last
-    last=$(grep -E '[0-9]+%' "$log" 2>/dev/null | tail -n 1)
+    last=$(tr '\r' '\n' < "$log" 2>/dev/null | grep -E '[0-9]+%' | tail -n 1)
     [[ -z "$last" ]] && return 0
     # Parse pct and speed. The percent is the % token right after a number;
     # the speed is the only kB/s/MB/s/GB/s token on the line.
@@ -605,21 +618,23 @@ iter=0
 while true; do
     iter=$((iter + 1))
 
-    # Check for 'q' at the top of every iteration so the user can
-    # exit gracefully regardless of which branch the scheduler is in
-    # (waiting, idle, or actively pairing). 100ms timeout means the
-    # loop is at most 10x slower when no key is pressed — acceptable
-    # for the 1s/iter cadence, and the timeout is long enough that
-    # bash's read actually returns the buffered key (read -t 0 in
-    # bash 5.x returns "no data" even when data is ready, so we
-    # need a small positive timeout).
-    key=""
-    if read -rsn1 -t 0.1 key 2>/dev/null; then
-        if [[ "$key" == "q" || "$key" == "Q" ]]; then
-            echo "  [USER] q pressed — graceful exit requested" >&2
-            EXIT_REQUESTED=1
-            break
+    # Check for 'q' at the top of every iteration. In plain mode we
+    # read stdin directly. In TUI mode the renderer subshell owns
+    # stdin and signals us via SIGUSR1 — the trap below sets
+    # EXIT_REQUESTED and breaks the loop on signal.
+    if [[ -z "${TUI_ACTIVE:-}" ]]; then
+        key=""
+        if read -rsn1 -t 0.1 key 2>/dev/null; then
+            if [[ "$key" == "q" || "$key" == "Q" ]]; then
+                echo "  [USER] q pressed — graceful exit requested" >&2
+                EXIT_REQUESTED=1
+                break
+            fi
         fi
+    fi
+    if [[ "${EXIT_REQUESTED:-}" == "1" ]]; then
+        echo "  [USER] exit requested — breaking main loop" >&2
+        break
     fi
 
     collect_ready

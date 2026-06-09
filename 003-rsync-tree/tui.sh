@@ -195,10 +195,15 @@ tui_render_jobs() {
             ACTIVE) tag="RUN "; color=$(tui_cyan) ;;
             *)      tag="WAIT"; color=$(tui_yellow) ;;
         esac
+        # Right-column jobs table — intentionally tagless. The status
+        # (RUN/DONE/FAIL) and pct are already shown in the topology
+        # tree on the left, so duplicating them here is noise. Keep
+        # the table for live progress speed and to surface jobs that
+        # don't appear in the topology (e.g. retries of failed pairs).
         tui_goto $row $col
-        printf "  %s%s%s %s→%s %s%5.1f%%%s %s%6.1f MB/s%s\n" \
-            "$(tui_bold)" "$color" "$tag" "$src" "$tgt" \
-            "$(tui_dim)" "${pct:-0}" "$(tui_reset)" \
+        printf "  %s%s→%s %s%5.1f%%%s %s%6.1f MB/s%s\n" \
+            "$(tui_dim)" "$src" "$tgt" \
+            "$(tui_bold)$(tui_cyan)" "${pct:-0}" "$(tui_reset)" \
             "$(tui_green)" "${speed:-0}" "$(tui_reset)"
         row=$((row + 1))
     done <<< "$jobs_text"
@@ -389,13 +394,34 @@ tui_start() {
     printf '%s2J%sH' "$CSI" "$CSI" > "$TUI_OUT"
 
     TUI_ACTIVE=1
+    # Stash the parent shell's PID so the renderer (a subshell) can
+    # signal the main loop with SIGUSR1 when 'q' is pressed.
+    TUI_PARENT_PID=$$
     (
         # Redirect the render loop's stdout to TUI_OUT so it survives
         # even if the parent script later redirects its own stdout to a log.
         exec >"$TUI_OUT" 2>"$TUI_OUT"
+        # Stash OUR pid (the renderer) so the main script can skip
+        # reading stdin (we own it from here on in TUI mode).
+        # Read stdin in the same subshell as the renderer — the main
+        # script's read is in its main loop, but on slow main-iter
+        # cycles the user can press q and have it sit in the kernel
+        # buffer until the next iter. Having the renderer also watch
+        # stdin (with a short timeout so it doesn't block tui_render)
+        # gives faster, more reliable q detection.
         while true; do
             tui_render
-            sleep 0.5
+            # Non-blocking key check: bash 5.x needs -t 0.1, not -t 0
+            local_key=""
+            if read -rsn1 -t 0.1 local_key 2>/dev/null; then
+                if [[ "$local_key" == "q" || "$local_key" == "Q" ]]; then
+                    EXIT_REQUESTED=1
+                    # Tell main script to wake up. If we just set the
+                    # flag it may not see it for up to 1s (main loop
+                    # cadence); SIGUSR1 wakes it immediately.
+                    kill -USR1 "$TUI_PARENT_PID" 2>/dev/null || true
+                fi
+            fi
         done
     ) &
     TUI_PID=$!
