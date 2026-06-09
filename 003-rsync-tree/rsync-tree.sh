@@ -575,10 +575,20 @@ update_job_progress() {
         /B\/s/  { sub(/B\/s/,"");  print $0 / 1048576 }
     ')
     [[ -z "$speed_mbs" ]] && speed_mbs=0
+    # Only skip the rewrite if the parsed values are exactly the same
+    # as the last call — but always re-emit at least once per second of
+    # wall time so the TUI can show liveness (otherwise if rsync's
+    # progress line doesn't change, the row freezes even though the
+    # transfer is still going).
     local sig="$pct|$speed_mbs"
     local prev=""
     [[ -f "$cache" ]] && prev=$(cat "$cache" 2>/dev/null)
-    [[ "$sig" == "$prev" ]] && return 0
+    local mtime=0
+    [[ -f "$cache" ]] && mtime=$(stat -c %Y "$cache" 2>/dev/null || echo 0)
+    local now; now=$(date +%s)
+    if [[ "$sig" == "$prev" ]] && (( now - mtime < 1 )); then
+        return 0
+    fi
     echo "$sig" > "$cache"
     tui_log_job "$src" "$tgt" "ACTIVE" "$pct" "$speed_mbs" 0
 }
@@ -610,12 +620,25 @@ while true; do
 
     if (( n_ready == 0 )); then
         echo "  (no free sources, sleeping...)"
+        # Still refresh ACTIVE job progress — without this the TUI shows
+        # 0% / 0.0MB/s for the entire run because the only path to
+        # update_job_progress was after the sleep+continue.
+        for key in "${!jobs[@]}"; do
+            [[ "$key" == *.hb ]] && continue
+            update_job_progress "${key%%→*}" "${key##*→}"
+        done
+        update_tui_header "$n_active" "$n_done_tui" "$n_failed_tui" "$iter"
         sleep 1
         continue
     fi
 
     if (( n_waiting == 0 )); then
         echo "  (all assigned, waiting for actives...)"
+        for key in "${!jobs[@]}"; do
+            [[ "$key" == *.hb ]] && continue
+            update_job_progress "${key%%→*}" "${key##*→}"
+        done
+        update_tui_header "$n_active" "$n_done_tui" "$n_failed_tui" "$iter"
         sleep 1
         continue
     fi
