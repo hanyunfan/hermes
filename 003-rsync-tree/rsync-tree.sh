@@ -304,7 +304,7 @@ do_rsync() {
         echo "  [$src] → [$tgt]  [DRY]"
         echo "[$src] → [$tgt] ✓" >> "$LOGFILE"
         (
-            sleep 0.01
+            sleep "${DRY_RUN_SLEEP:-0.01}"
             > "/tmp/rsync-tree-done-$src→$tgt"
         ) &
         jobs["$src→$tgt"]=$!
@@ -628,7 +628,18 @@ while true; do
             update_job_progress "${key%%→*}" "${key##*→}"
         done
         update_tui_header "$n_active" "$n_done_tui" "$n_failed_tui" "$iter"
-        sleep 1
+        # Replace sleep 1 with a 1-second read — doubles as the q/Q
+        # exit handler (press q to gracefully stop, jobs in-flight
+        # get killed by the EXIT trap / cleanup). Using `-t 1` so it
+        # blocks at most 1 second even if no key is pressed.
+        key=""
+        if read -rsn1 -t 1 key 2>/dev/null; then
+            if [[ "$key" == "q" || "$key" == "Q" ]]; then
+                echo "  [USER] q pressed — graceful exit requested" >&2
+                EXIT_REQUESTED=1
+                break
+            fi
+        fi
         continue
     fi
 
@@ -639,7 +650,14 @@ while true; do
             update_job_progress "${key%%→*}" "${key##*→}"
         done
         update_tui_header "$n_active" "$n_done_tui" "$n_failed_tui" "$iter"
-        sleep 1
+        key=""
+        if read -rsn1 -t 1 key 2>/dev/null; then
+            if [[ "$key" == "q" || "$key" == "Q" ]]; then
+                echo "  [USER] q pressed — graceful exit requested" >&2
+                EXIT_REQUESTED=1
+                break
+            fi
+        fi
         continue
     fi
 
