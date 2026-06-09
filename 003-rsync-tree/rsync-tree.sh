@@ -380,6 +380,15 @@ check_complete() {
         echo "  [~~] [$src] → [$tgt] pid $pid still running" >&2
         return 1
     fi
+    # Process is gone (or zombied). `wait` reaps it and returns its exit
+    # code — without this, the kernel keeps the pid around as a zombie
+    # and `kill -0` would keep returning 0 forever, making the job
+    # appear stuck even though the transfer finished. `wait` is safe
+    # here: this is the SAME shell that spawned `ssh ... &` in
+    # do_rsync, so $pid IS our child. We don't use the return value
+    # because we judge success/failure from the rsync log instead.
+    wait "$pid" 2>/dev/null
+    true  # ensure check_complete return code is not affected by wait's exit
 
     # 2. Process is gone. Decide success vs failure from the rsync log tail.
     #    rsync exits 0 on clean completion, nonzero on any error. We can
@@ -485,7 +494,12 @@ collect_ready() {
         seen[$key]=1
 
         unset "jobs[$key]" 2>/dev/null
+        # Also drop the heartbeat companion key (do_rsync adds it as
+        # "src→tgt.hb") — without this, the hb leaks in $jobs forever
+        # and is_busy() later in the main loop marks the source busy.
+        unset "jobs[$key.hb]" 2>/dev/null
         rm -f "/tmp/rsync-tree-pid-$src→$tgt" \
+              "/tmp/rsync-tree-pid-$src→$tgt.hb" \
               "/tmp/rsync-tree-checked-$src→$tgt" \
               "/tmp/rsync-tree-done-$src→$tgt"
 
@@ -665,6 +679,14 @@ while true; do
     for src in "${!ready[@]}"; do
         is_busy=0
         for key in "${!jobs[@]}"; do
+            # Heartbeat companion entries share the same src prefix
+            # (e.g. "node12→node001.hb") — those are trackers, not
+            # real rsync jobs, so they must NOT mark the source as
+            # busy. Without this skip, the first source that finishes
+            # a transfer would have its hb linger in $jobs and block
+            # the source from being re-paired (the "stuck after
+            # node001→node002" symptom).
+            [[ "$key" == *.hb ]] && continue
             [[ "${key%%→*}" == "$src" ]] && is_busy=1 && break
         done
         if [[ $is_busy -eq 1 ]]; then
