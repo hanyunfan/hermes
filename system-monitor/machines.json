@@ -48,6 +48,14 @@
     "gpu_count": 0
   },
   {
+    "hostname": "XE9785_overheating",
+    "display_name": "XE9785_overheating",
+    "cpu_count": 128,
+    "cpu_type": "AMD EPYC 9575F 64-Core Processor",
+    "gpu_type": "Instinct_MI355_OAM",
+    "gpu_count": 8
+  },
+  {
     "hostname": "XE9785L_MI355X_Flux",
     "display_name": "XE9785L_MI355X_Flux",
     "cpu_count": null,
