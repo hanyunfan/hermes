@@ -8,6 +8,7 @@
   const JSON_URL = "data/matches.json";
   const CACHE_KEY = "wc2026.matches.v2";
   const FILTER_KEY = "wc2026.filters.v1";
+  const TZ_KEY = "wc2026.tz.v1";
   const REFRESH_INTERVAL_MS = 5 * 60 * 1000; // 5 min
 
   const $ = (sel, root = document) => root.querySelector(sel);
@@ -84,6 +85,99 @@
   function tzName() {
     const cached = readCache();
     return cached?.timezone || localTimezone();
+  }
+
+  // ────────────────────────────────────────────────────────────
+  // Display-timezone state (user override; falls back to local)
+  // ────────────────────────────────────────────────────────────
+  // Curated list shown in the picker. Empty string = "Local (auto)".
+  const TZ_OPTIONS = [
+    { value: "",                       label: "Local (auto)",       group: "Auto" },
+    { value: "America/Los_Angeles",    label: "Los Angeles · PT",    group: "Tournament venues" },
+    { value: "America/Denver",         label: "Denver · MT",         group: "Tournament venues" },
+    { value: "America/Chicago",        label: "Chicago · CT",        group: "Tournament venues" },
+    { value: "America/New_York",       label: "New York · ET",       group: "Tournament venues" },
+    { value: "America/Toronto",        label: "Toronto · ET",        group: "Tournament venues" },
+    { value: "America/Mexico_City",    label: "Mexico City · CT (MX)", group: "Tournament venues" },
+    { value: "Europe/London",          label: "London · GMT/BST",    group: "International" },
+    { value: "Europe/Berlin",          label: "Berlin · CET/CEST",   group: "International" },
+    { value: "Asia/Shanghai",          label: "Shanghai · CST",      group: "International" },
+    { value: "Asia/Tokyo",             label: "Tokyo · JST",         group: "International" },
+    { value: "Australia/Sydney",       label: "Sydney · AEST/AEDT",  group: "International" },
+  ];
+
+  let selectedTz = null;     // null = use local (auto)
+  let allTimezones = null;   // Intl.supportedValuesOf("timeZone") if available
+
+  function loadTz() {
+    try {
+      const raw = localStorage.getItem(TZ_KEY);
+      if (!raw) return null;
+      const tz = JSON.parse(raw);
+      return typeof tz === "string" ? tz : null;
+    } catch { return null; }
+  }
+  function saveTz(tz) {
+    try { localStorage.setItem(TZ_KEY, JSON.stringify(tz || "")); } catch { /* ignore */ }
+  }
+  function currentTz() {
+    // User override wins; otherwise the data's TZ (always America/Chicago
+    // from the cron) for consistency with the data's pre-baked fields.
+    // We still let "Local" through when the user hasn't picked anything,
+    // which is the default UX.
+    return selectedTz || localTimezone();
+  }
+  function isLocalTz() { return !selectedTz; }
+
+  // Format a Date as "YYYY-MM-DD" in the given IANA zone (or local if null/empty).
+  function dateInTz(date, tz) {
+    if (!tz) return date.toISOString().slice(0, 10);
+    try {
+      const parts = new Intl.DateTimeFormat("en-CA", {
+        timeZone: tz, year: "numeric", month: "2-digit", day: "2-digit",
+      }).formatToParts(date);
+      const get = (t) => parts.find((p) => p.type === t)?.value;
+      return `${get("year")}-${get("month")}-${get("day")}`;
+    } catch { return date.toISOString().slice(0, 10); }
+  }
+  function timeInTz(date, tz) {
+    if (!tz) return date.toLocaleTimeString(undefined, { hour: "numeric", minute: "2-digit" });
+    try {
+      return new Intl.DateTimeFormat(undefined, {
+        timeZone: tz, hour: "numeric", minute: "2-digit",
+      }).format(date);
+    } catch { return date.toLocaleTimeString(); }
+  }
+  function weekdayInTz(date, tz) {
+    if (!tz) return new Intl.DateTimeFormat(undefined, { weekday: "short" }).format(date);
+    try {
+      return new Intl.DateTimeFormat(undefined, { timeZone: tz, weekday: "short" }).format(date);
+    } catch { return ""; }
+  }
+  // Friendly short offset like "UTC-5" or "UTC+9:30" computed for *now*.
+  function offsetLabel(tz) {
+    if (!tz) {
+      const m = -new Date().getTimezoneOffset();
+      const sign = m >= 0 ? "+" : "−";
+      const abs = Math.abs(m);
+      return `UTC${sign}${Math.floor(abs / 60)}${abs % 60 ? `:${String(abs % 60).padStart(2, "0")}` : ""}`;
+    }
+    try {
+      const parts = new Intl.DateTimeFormat("en-US", {
+        timeZone: tz, timeZoneName: "shortOffset",
+      }).formatToParts(new Date());
+      const off = parts.find((p) => p.type === "timeZoneName")?.value || "";
+      return off.replace("GMT", "UTC");
+    } catch { return ""; }
+  }
+  // The friendly label for the current selection, used in the pill.
+  function currentTzLabel() {
+    if (isLocalTz()) {
+      const browser = localTimezone();
+      return `Local · ${browser} · ${offsetLabel("")}`;
+    }
+    const opt = TZ_OPTIONS.find((o) => o.value === selectedTz);
+    return opt ? opt.label : `${selectedTz} · ${offsetLabel(selectedTz)}`;
   }
 
   // ────────────────────────────────────────────────────────────
@@ -170,10 +264,12 @@
   // ────────────────────────────────────────────────────────────
   function applyFilters() {
     if (!allData) return [];
-    const tz = allData.timezone || localTimezone();
+    // Use the user's display TZ for the "today" reference so that
+    // selecting a TZ on the other side of the world reshuffles which
+    // matches fall into "today" / "tomorrow" / the 3d / 7d windows.
+    const tz = currentTz();
     const now = nowInZone(tz);
-    // `now_local` is local-wall-clock ISO; use it directly (no UTC shift).
-    const todayIso = allData.now_local.slice(0, 10);
+    const todayIso = dateInTz(new Date(), tz);
 
     // Compute the date window from the range filter.
     let windowStart, windowEnd;
@@ -197,7 +293,9 @@
 
     const out = [];
     for (const m of allMatches) {
-      if (m.kickoff_local_date < windowStart || m.kickoff_local_date > windowEnd) continue;
+      // Bucket the match by its local date in the *display* TZ.
+      const mDate = dateInTz(new Date(m.kickoff_utc), tz);
+      if (mDate < windowStart || mDate > windowEnd) continue;
 
       // Status
       if (filters.status !== "any") {
@@ -235,9 +333,7 @@
   // Render
   // ────────────────────────────────────────────────────────────
   function renderHeader(data) {
-    const tz = data.timezone || localTimezone();
-    const tzShort = browserZone();
-    $("#tz-pill").textContent = `Times shown in ${tz}${tzShort ? ` (${tzShort})` : ""}`;
+    updateTzPill();
 
     const tour = data.tournament || {};
     if (tour.edition) $("#tournament-edition").textContent = `${tour.edition} edition`;
@@ -268,16 +364,18 @@
       return;
     }
 
-    // Group by local date in chronological order.
+    // Group by the match's local date in the *display* TZ.
+    const tz = currentTz();
     const byDate = new Map();
     for (const m of matches) {
-      if (!byDate.has(m.kickoff_local_date)) byDate.set(m.kickoff_local_date, []);
-      byDate.get(m.kickoff_local_date).push(m);
+      const mDate = dateInTz(new Date(m.kickoff_utc), tz);
+      if (!byDate.has(mDate)) byDate.set(mDate, []);
+      byDate.get(mDate).push(m);
     }
 
     const dayTemplate = $("#day-template");
     const matchTemplate = $("#match-template");
-    const todayIso = allData.now_local.slice(0, 10);
+    const todayIso = dateInTz(new Date(), tz);
     const tomorrowIso = addDays(todayIso, 1);
 
     for (const [date, items] of [...byDate.entries()].sort()) {
@@ -322,7 +420,17 @@
     if (m.status === "LIVE") li.classList.add("is-live");
     if (m.status === "FINAL") li.classList.add("is-final");
 
-    $(".time-main", li).textContent = m.kickoff_time || "—";
+    // Compute the time + weekday + date in the *display* TZ. The
+    // server-pre-baked `kickoff_time` / `kickoff_local_date` are in
+    // America/Chicago (the data's TZ), so we re-render from `kickoff_utc`
+    // when the display TZ differs.
+    const tz = currentTz();
+    const kickoff = new Date(m.kickoff_utc);
+    const viewTime = isLocalTz() && tz === (allData?.timezone || localTimezone())
+      ? (m.kickoff_time || timeInTz(kickoff, tz))
+      : timeInTz(kickoff, tz);
+    $(".time-main", li).textContent = viewTime;
+    $(".time-main", li).title = `${weekdayInTz(kickoff, tz)} · ${dateInTz(kickoff, tz)} ${viewTime} (${tz})`;
 
     const statusEl = $(".time-status", li);
     if (m.status === "LIVE") {
@@ -333,7 +441,7 @@
       statusEl.classList.add("is-final");
     } else {
       const kickoff = new Date(m.kickoff_utc);
-      const now = nowInZone(tzName());
+      const now = nowInZone(tz);
       const diffMs = kickoff.getTime() - now.getTime();
       if (diffMs <= 0) {
         statusEl.textContent = "Starting soon";
@@ -341,7 +449,7 @@
         triggerBackgroundRefresh();
       } else {
         statusEl.textContent = formatRelative(kickoff, now);
-        statusEl.title = kickoff.toLocaleString();
+        statusEl.title = kickoff.toLocaleString(undefined, { timeZone: tz });
       }
     }
 
@@ -413,6 +521,122 @@
   function setInitialPills() {
     setPillActive("range", filters.range);
     setPillActive("status", filters.status);
+  }
+
+  // ────────────────────────────────────────────────────────────
+  // Timezone picker UI
+  // ────────────────────────────────────────────────────────────
+  function updateTzPill() {
+    const label = $("#tz-pill-label");
+    const pill = $("#tz-pill");
+    if (!label || !pill) return;
+    label.textContent = `Times in ${currentTzLabel()}`;
+    pill.classList.toggle("is-local", isLocalTz());
+  }
+
+  function populateTzMenu() {
+    const ul = $("#tz-menu");
+    if (!ul) return;
+    ul.innerHTML = "";
+    let lastGroup = null;
+    for (const opt of TZ_OPTIONS) {
+      if (opt.group && opt.group !== lastGroup) {
+        const h = document.createElement("li");
+        h.className = "tz-group-label";
+        h.setAttribute("role", "presentation");
+        h.textContent = opt.group;
+        ul.appendChild(h);
+        lastGroup = opt.group;
+      }
+      const li = document.createElement("li");
+      li.className = "tz-option";
+      li.setAttribute("role", "option");
+      li.dataset.value = opt.value;
+      const isSel = (opt.value === "" && isLocalTz()) || (opt.value === selectedTz);
+      li.setAttribute("aria-selected", isSel ? "true" : "false");
+      li.tabIndex = 0;
+      const off = opt.value ? offsetLabel(opt.value) : offsetLabel("");
+      li.innerHTML = `
+        <span class="tz-name">${escapeHtml(opt.label)}</span>
+        <span class="tz-offset">${escapeHtml(off)}</span>
+      `;
+      li.addEventListener("click", () => {
+        setTz(opt.value || null);
+        closeTzMenu();
+      });
+      li.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          setTz(opt.value || null);
+          closeTzMenu();
+        } else if (e.key === "Escape") {
+          closeTzMenu();
+          $("#tz-pill")?.focus();
+        }
+      });
+      ul.appendChild(li);
+    }
+  }
+
+  function openTzMenu() {
+    const menu = $("#tz-menu");
+    const pill = $("#tz-pill");
+    if (!menu || !pill) return;
+    menu.hidden = false;
+    pill.setAttribute("aria-expanded", "true");
+    // Focus the currently selected option for keyboard users.
+    const sel = menu.querySelector('.tz-option[aria-selected="true"]') || menu.querySelector(".tz-option");
+    if (sel) sel.focus();
+  }
+  function closeTzMenu() {
+    const menu = $("#tz-menu");
+    const pill = $("#tz-pill");
+    if (!menu || !pill) return;
+    menu.hidden = true;
+    pill.setAttribute("aria-expanded", "false");
+  }
+  function toggleTzMenu() {
+    const menu = $("#tz-menu");
+    if (!menu) return;
+    if (menu.hidden) openTzMenu();
+    else closeTzMenu();
+  }
+
+  function setTz(tz) {
+    selectedTz = tz || null;
+    saveTz(selectedTz);
+    updateTzPill();
+    populateTzMenu();
+    if (allData) {
+      const matches = applyFilters();
+      renderMatches(matches);
+      renderHeader(allData);
+    }
+  }
+
+  function wireTzPicker() {
+    const pill = $("#tz-pill");
+    if (!pill) return;
+    pill.addEventListener("click", (e) => {
+      e.stopPropagation();
+      toggleTzMenu();
+    });
+    pill.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " " || e.key === "ArrowDown") {
+        e.preventDefault();
+        openTzMenu();
+      }
+    });
+    // Click outside / Escape closes the menu.
+    document.addEventListener("click", (e) => {
+      const menu = $("#tz-menu");
+      if (!menu || menu.hidden) return;
+      if (e.target.closest("#tz-picker")) return;
+      closeTzMenu();
+    });
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") closeTzMenu();
+    });
   }
 
   // Team combobox
@@ -668,8 +892,12 @@
 
   async function boot() {
     filters = loadFilters();
+    selectedTz = loadTz();
     setInitialPills();
     wirePills();
+    wireTzPicker();
+    populateTzMenu();
+    updateTzPill();
     wireTeamCombo();
     wireVenueCombo();
     wireClear();
