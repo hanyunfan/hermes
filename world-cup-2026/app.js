@@ -648,6 +648,13 @@
     list.className = "matches";
     list.setAttribute("role", "list");
     for (const group of groups) {
+      // Day sub-header (only emit when there are 2+ days in this wing)
+      if (groups.length > 1) {
+        const dh = document.createElement("li");
+        dh.className = "wing-day-head";
+        dh.innerHTML = `<span>${escapeHtml(group.label)}</span><span class="wing-day-count">${group.matches.length}</span>`;
+        list.appendChild(dh);
+      }
       for (const m of group.matches) list.appendChild(buildMatchCard(m));
     }
     wrap.appendChild(list);

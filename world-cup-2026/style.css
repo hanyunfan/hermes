@@ -1037,58 +1037,119 @@ body {
 }
 
 /* ─── Butterfly layout (default view) ─────────────────────────── */
+/* A real 双翼蝴蝶: past wing mirrors future wing, with today's body
+   in the center. Each wing is shaped like a butterfly wing (curved on
+   the outer edge, flat where it attaches to the body) and the match
+   cards inside the past wing are mirrored so they "point" at the body. */
 .butterfly {
   display: grid;
-  grid-template-columns: 1fr 1.1fr 1fr;
-  gap: 16px;
-  align-items: start;
-  margin-top: 8px;
+  grid-template-columns: 1fr 240px 1fr;  /* left wing | body | right wing */
+  gap: 0;
+  align-items: stretch;
+  margin-top: 38px;  /* space for the butterfly glyph above */
   position: relative;
 }
-/* The "body" (today) sits between the two wings. Pull it up slightly so
-   the three columns feel like a butterfly with the body at the center. */
+/* Decorative butterfly glyph — head/antennae at the body's top */
+/* Decorative butterfly — a real SVG with antennae, head, and 4 wings.
+   Sits centered above the body, slightly tilted for life. */
 .butterfly::before {
-  /* subtle decorative wing-tie / antenna at top of body */
-  content: "🦋";
+  content: "";
   position: absolute;
-  top: -22px;
+  top: -54px;
   left: 50%;
   transform: translateX(-50%);
-  font-size: 1.1rem;
-  opacity: 0.55;
+  width: 96px;
+  height: 70px;
   pointer-events: none;
+  z-index: 2;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 70' fill='none'><g><ellipse cx='48' cy='36' rx='1.5' ry='14' fill='%23f0c14b'/><circle cx='48' cy='20' r='2.4' fill='%23f0c14b'/><path d='M48 18 Q44 8 38 5' stroke='%23f0c14b' stroke-width='1.2' stroke-linecap='round' fill='none'/><path d='M48 18 Q52 8 58 5' stroke='%23f0c14b' stroke-width='1.2' stroke-linecap='round' fill='none'/><circle cx='38' cy='5' r='1.1' fill='%23f0c14b'/><circle cx='58' cy='5' r='1.1' fill='%23f0c14b'/><path d='M47 30 Q20 12 6 22 Q4 38 30 42 Q44 40 47 34 Z' fill='%23f0c14b' opacity='0.75'/><path d='M49 30 Q76 12 90 22 Q92 38 66 42 Q52 40 49 34 Z' fill='%23f0c14b' opacity='0.75'/><path d='M47 38 Q22 46 8 52 Q12 64 36 60 Q46 56 47 50 Z' fill='%234b9eff' opacity='0.5'/><path d='M49 38 Q74 46 88 52 Q84 64 60 60 Q50 56 49 50 Z' fill='%234b9eff' opacity='0.5'/></g></svg>");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  filter: drop-shadow(0 0 8px rgba(240, 193, 75, 0.5));
 }
 
+/* Wings attach to the body and curve outward. */
 .butterfly-wing {
-  background: linear-gradient(180deg, var(--bg-elev) 0%, rgba(19, 26, 44, 0.4) 100%);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 12px 12px 14px;
   display: flex;
   flex-direction: column;
   gap: 10px;
   min-width: 0;
+  position: relative;
+  padding: 16px 14px 18px;
 }
 .butterfly-wing--past {
-  border-left: 3px solid var(--final);
-}
-.butterfly-wing--today {
-  border-left: 3px solid var(--accent);
-  border-right: 3px solid var(--accent);
-  background: linear-gradient(180deg, rgba(240, 193, 75, 0.05) 0%, var(--bg-elev) 60%);
-  box-shadow: 0 0 0 1px rgba(240, 193, 75, 0.12), var(--shadow);
-  position: relative;
+  /* Past wing: rounded on the LEFT (outer), flat on the RIGHT (toward body).
+     Subtle dot pattern hints at wing scale texture. */
+  background:
+    radial-gradient(ellipse 95% 75% at 0% 50%, rgba(107, 114, 128, 0.22) 0%, transparent 80%),
+    radial-gradient(circle at 18% 25%, rgba(107, 114, 128, 0.18) 1.2px, transparent 1.6px),
+    radial-gradient(circle at 32% 65%, rgba(107, 114, 128, 0.14) 1px, transparent 1.4px),
+    radial-gradient(circle at 8% 50%, rgba(107, 114, 128, 0.12) 1.6px, transparent 2px),
+    linear-gradient(90deg, rgba(19, 26, 44, 0.95) 0%, rgba(19, 26, 44, 0.55) 80%);
+  background-size: auto, 26px 26px, 32px 32px, 40px 40px, auto;
+  border: 1px solid var(--border);
+  border-right: none;
+  border-radius: 140px 4px 4px 140px;  /* very rounded on the outer (left) edge */
+  padding-right: 14px;
+  padding-left: 20px;
 }
 .butterfly-wing--future {
-  border-right: 3px solid var(--scheduled);
+  /* Future wing: rounded on the RIGHT (outer), flat on the LEFT (toward body).
+     Subtle dot pattern hints at wing scale texture. */
+  background:
+    radial-gradient(ellipse 95% 75% at 100% 50%, rgba(75, 158, 255, 0.20) 0%, transparent 80%),
+    radial-gradient(circle at 82% 25%, rgba(75, 158, 255, 0.16) 1.2px, transparent 1.6px),
+    radial-gradient(circle at 68% 65%, rgba(75, 158, 255, 0.12) 1px, transparent 1.4px),
+    radial-gradient(circle at 92% 50%, rgba(75, 158, 255, 0.14) 1.6px, transparent 2px),
+    linear-gradient(270deg, rgba(19, 26, 44, 0.95) 0%, rgba(19, 26, 44, 0.55) 80%);
+  background-size: auto, 26px 26px, 32px 32px, 40px 40px, auto;
+  border: 1px solid var(--border);
+  border-left: none;
+  border-radius: 4px 140px 140px 4px;  /* very rounded on the outer (right) edge */
+  padding-left: 14px;
+  padding-right: 20px;
 }
+/* Body: a narrow vertical strip in the center. Holds today's matches. */
+.butterfly-wing--today {
+  background:
+    linear-gradient(180deg,
+      rgba(240, 193, 75, 0.28) 0%,
+      rgba(240, 193, 75, 0.10) 35%,
+      rgba(19, 26, 44, 0.55) 100%);
+  border-top: 2px solid var(--accent);
+  border-bottom: 2px solid var(--accent);
+  border-left: 0;  /* merges seamlessly with wings */
+  border-right: 0;
+  border-radius: 0;
+  box-shadow:
+    inset 0 0 0 1px rgba(240, 193, 75, 0.28),
+    0 0 28px rgba(240, 193, 75, 0.12);
+  padding: 18px 12px 22px;
+  position: relative;
+}
+/* Tail: a small triangular abdomen hanging below the body */
+.butterfly-wing--today::after {
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 16px;
+  height: 14px;
+  background: linear-gradient(180deg, rgba(240, 193, 75, 0.7) 0%, rgba(240, 193, 75, 0.2) 100%);
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  pointer-events: none;
+}
+/* Subtle vertical "spine" line down the center of the body */
 .butterfly-wing--today::before {
   content: "";
   position: absolute;
-  top: -1px; left: -1px; right: -1px;
-  height: 3px;
-  background: linear-gradient(90deg, transparent, var(--accent), transparent);
-  border-radius: var(--radius) var(--radius) 0 0;
+  top: 16px; bottom: 18px;
+  left: 50%;
+  width: 1px;
+  background: linear-gradient(180deg, transparent, rgba(240, 193, 75, 0.4), transparent);
+  pointer-events: none;
 }
 
 .wing-head {
@@ -1096,8 +1157,9 @@ body {
   align-items: baseline;
   justify-content: space-between;
   gap: 8px;
-  padding: 0 2px;
+  padding: 0 4px;
 }
+.butterfly-wing--past .wing-head { flex-direction: row-reverse; }  /* mirror heading */
 .wing-title {
   font-size: 0.72rem;
   font-weight: 700;
@@ -1138,63 +1200,215 @@ body {
 }
 
 .butterfly-wing .match {
-  /* slightly more compact than full-width cards */
-  grid-template-columns: 86px 1fr;
   border-radius: var(--radius-sm);
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  display: grid;
+  grid-template-columns: 86px 1fr;
+  transition: border-color 0.15s, transform 0.15s;
+  overflow: hidden;
+}
+.butterfly-wing .match:hover {
+  border-color: var(--border-strong);
+  transform: translateY(-1px);
 }
 
 .butterfly-wing .match-time {
   padding: 10px 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  background: rgba(11, 15, 26, 0.4);
+  border-right: 1px solid var(--border);
+}
+.butterfly-wing--today .match-time {
+  background: rgba(11, 15, 26, 0.6);
 }
 .butterfly-wing .time-main {
   font-size: 1.05rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+  color: var(--text);
 }
 .butterfly-wing .time-status {
-  font-size: 0.7rem;
+  font-size: 0.62rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 2px 6px;
+  border-radius: 999px;
+  background: rgba(75, 158, 255, 0.15);
+  color: var(--scheduled);
+  white-space: nowrap;
 }
+.butterfly-wing .time-status.is-live {
+  background: var(--live);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.butterfly-wing .time-status.is-live::before {
+  content: "";
+  width: 5px; height: 5px; border-radius: 50%;
+  background: #fff;
+  animation: pulse 1.4s ease-in-out infinite;
+}
+.butterfly-wing .time-status.is-final { background: rgba(107, 114, 128, 0.25); color: #c0c8d4; }
 
 .butterfly-wing .match-body {
-  padding: 10px 12px 12px;
-  gap: 8px;
+  padding: 8px 10px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
 }
+.butterfly-wing .team-row {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.butterfly-wing .team {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+.butterfly-wing .team.away { flex-direction: row; }
+.butterfly-wing .team-info {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  flex: 1;
+}
+.butterfly-wing .team.away .team-info { flex-direction: row-reverse; }
+.butterfly-wing .team-flag { font-size: 0.95rem; }
 .butterfly-wing .team-name {
-  font-size: 0.92rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .butterfly-wing .team-score {
   font-size: 1.05rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-muted);
+  min-width: 22px;
+  text-align: right;
+  flex-shrink: 0;
 }
-.butterfly-wing .match-meta {
-  display: none; /* tighter cards in butterfly */
-}
-.butterfly-wing .match-links {
-  display: none; /* quieter UI in wings; today still shows links */
-}
-.butterfly-wing--today .match-meta { display: grid; } /* keep today informative */
-.butterfly-wing--today .match-links { display: flex; }
+.butterfly-wing .match.is-live .team-score,
+.butterfly-wing .match.is-final .team-score { color: var(--text); }
+.butterfly-wing .team.is-winner .team-score { color: var(--accent-soft); }
+.butterfly-wing .team.is-winner .team-name { color: var(--accent-soft); }
 
-/* Tablet: 2 columns (past | today+future) */
+.butterfly-wing .match-meta { display: none; }
+.butterfly-wing .match-links { display: none; }
+
+/* The KEY butterfly feature: past wing cards are MIRRORED.
+   In the DOM, .match is always [match-time, match-body]. To MIRROR it
+   in the past wing, we use explicit grid-column placement to put
+   match-time in the RIGHT cell and match-body in the LEFT cell. */
+.butterfly-wing--past .match {
+  grid-template-columns: 1fr 86px;  /* body | time (reversed) */
+}
+.butterfly-wing--past .match-time {
+  grid-column: 2;            /* second (right) cell */
+  grid-row: 1;
+  border-right: none;
+  border-left: 1px solid var(--border);
+}
+.butterfly-wing--past .match-body {
+  grid-column: 1;            /* first (left) cell */
+  grid-row: 1;
+}
+/* Inside match-body, mirror the home/away teams. Future wing shows
+   [home: flag name score] / [away: score name flag]. Past wing flips:
+   [home: score name flag] / [away: flag name score]. */
+.butterfly-wing--past .team.home {
+  flex-direction: row-reverse;   /* [score][team-info] */
+  justify-content: flex-start;
+}
+.butterfly-wing--past .team.home .team-info {
+  flex-direction: row-reverse;  /* [name][flag] */
+  justify-content: flex-end;
+}
+.butterfly-wing--past .team.away {
+  flex-direction: row;           /* [team-info][score] — un-reversed */
+  justify-content: flex-start;
+}
+.butterfly-wing--past .team.away .team-info {
+  flex-direction: row;           /* [flag][name] — un-reversed */
+  justify-content: flex-start;
+}
+.butterfly-wing--past .team.home .team-score { text-align: left; }
+.butterfly-wing--past .team.away .team-score { text-align: right; }
+
+/* Day-break sub-headers inside each wing */
+.wing-day-head {
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-dim);
+  padding: 6px 6px 2px;
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+.butterfly-wing--past .wing-day-head { justify-content: flex-end; }
+.wing-day-head .wing-day-count {
+  font-size: 0.62rem;
+  color: var(--text-dim);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Tablet / phone: drop the mirror so each wing reads normally */
 @media (max-width: 980px) {
   .butterfly {
-    grid-template-columns: 1fr 1.1fr;
+    grid-template-columns: 1fr 1fr;
   }
+  .butterfly-wing--past,
   .butterfly-wing--future {
-    grid-column: 1 / -1;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+  }
+  .butterfly-wing--past { order: 1; }
+  .butterfly-wing--today { order: 0; grid-column: 1 / -1; }
+  .butterfly-wing--future { order: 2; }
+  .butterfly-wing--past .wing-head { flex-direction: row; }
+  .butterfly-wing--past .match {
+    grid-template-columns: 86px 1fr;
+  }
+  .butterfly-wing--past .match-time {
+    border-right: 1px solid var(--border);
+    border-left: none;
+  }
+  .butterfly-wing--past .team,
+  .butterfly-wing--past .team.away {
+    flex-direction: row;
+  }
+  .butterfly-wing--past .team-info,
+  .butterfly-wing--past .team.away .team-info {
+    flex-direction: row;
+  }
+  .butterfly-wing--past .team-score,
+  .butterfly-wing--past .team.away .team-score {
+    text-align: right;
   }
 }
 
-/* Phone: single column, today first */
 @media (max-width: 640px) {
   .butterfly {
     grid-template-columns: 1fr;
   }
-  .butterfly-wing--past,
-  .butterfly-wing--today,
-  .butterfly-wing--future {
-    grid-column: 1;
-    border-left-width: 1px;
-    border-right-width: 1px;
-  }
-  .butterfly-wing--past { order: 1; }
-  .butterfly-wing--today { order: 0; }
-  .butterfly-wing--future { order: 2; }
 }
+
+
