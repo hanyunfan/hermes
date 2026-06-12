@@ -101,6 +101,7 @@ body {
 .tz-picker {
   position: relative;
   display: inline-block;
+  z-index: 100; /* sit above the sticky .filters (z-index: 50) */
 }
 .tz-pill {
   cursor: pointer;
@@ -125,7 +126,7 @@ body {
   top: calc(100% + 6px);
   left: 50%;
   transform: translateX(-50%);
-  z-index: 50;
+  z-index: 110; /* above .tz-picker (100) and the sticky .filters (50) */
   margin: 0;
   padding: 6px 0;
   list-style: none;
