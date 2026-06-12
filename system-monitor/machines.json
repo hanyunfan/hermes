@@ -72,6 +72,14 @@
     "gpu_count": 8
   },
   {
+    "hostname": "XE9785L_MI300_lora_training",
+    "display_name": "XE9785L_MI300_lora_training",
+    "cpu_count": 128,
+    "cpu_type": "AMD EPYC 9575F 64-Core Processor",
+    "gpu_type": "Instinct_MI355_OAM",
+    "gpu_count": 8
+  },
+  {
     "hostname": "XE7740_H200NVL_gpt_oss_20b",
     "display_name": "XE7740_H200NVL_gpt_oss_20b",
     "cpu_count": 128,
