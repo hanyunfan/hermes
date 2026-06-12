@@ -485,6 +485,180 @@
   }
 
   // ────────────────────────────────────────────────────────────
+  // Knockout bracket rendering
+  // ────────────────────────────────────────────────────────────
+  const BRACKET_STAGE_ORDER = [
+    "round-of-32", "round-of-16", "quarterfinals", "semifinals", "final",
+  ];
+  const BRACKET_STAGE_LABEL = {
+    "round-of-32":      "Round of 32",
+    "round-of-16":      "Round of 16",
+    "quarterfinals":    "Quarterfinals",
+    "semifinals":       "Semifinals",
+    "final":            "Final",
+    "3rd-place-match":  "3rd Place",
+  };
+  // Detects placeholder team names (e.g. "Group A 2nd Place",
+  // "Round of 32 1 Winner", "Quarterfinal 2 Winner") so we can
+  // dim them visually until the upstream round resolves.
+  function isPlaceholderName(name) {
+    if (!name) return true;
+    return /^(group|round|quarter|semi|third)[\s-]/i.test(name.trim())
+        || /\bwinner\b/i.test(name)
+        || /\bloser\b/i.test(name);
+  }
+
+  function renderBracket() {
+    const section = $("#bracket-section");
+    const grid = $("#bracket-grid");
+    if (!section || !grid || !allData) return;
+
+    // Bucket all knockout matches by stage_slug.
+    const byStage = {};
+    for (const stage of BRACKET_STAGE_ORDER) byStage[stage] = [];
+    byStage["3rd-place-match"] = [];
+    for (const m of allMatches) {
+      if (byStage[m.stage_slug]) byStage[m.stage_slug].push(m);
+    }
+    // If the tournament has no knockout data yet (e.g. the scoreboard
+    // is in pre-tournament mode), hide the section rather than render
+    // an empty bracket.
+    const total =
+      byStage["round-of-32"].length +
+      byStage["round-of-16"].length +
+      byStage["quarterfinals"].length +
+      byStage["semifinals"].length +
+      byStage["final"].length +
+      byStage["3rd-place-match"].length;
+    if (total === 0) {
+      section.hidden = true;
+      return;
+    }
+    section.hidden = false;
+    grid.innerHTML = "";
+
+    // Render the 5 main columns. Each match is anchored to a
+    // specific row in the 16-row grid (defined by grid-row in
+    // the .bracket-match inline style below) so the bracket
+    // naturally centers later rounds between earlier matches.
+    for (const stage of BRACKET_STAGE_ORDER) {
+      const col = document.createElement("div");
+      col.className = "bracket-round";
+      col.dataset.stage = stage;
+
+      const label = document.createElement("div");
+      label.className = "bracket-round-label";
+      label.textContent = BRACKET_STAGE_LABEL[stage];
+      col.appendChild(label);
+
+      const matches = byStage[stage];
+      const rowCount = matches.length;
+      // Each match in this round consumes a contiguous slice of the
+      // 16 rows: size = 16 / rowCount, anchored so the round is
+      // vertically centered if rowCount is odd and the previous
+      // round had its own rowCount of double this.
+      const slice = 16 / rowCount;
+      matches.forEach((m, i) => {
+        const rowStart = i * slice + 1;
+        const rowEnd = (i + 1) * slice;
+        col.appendChild(renderBracketMatch(m, rowStart, rowEnd));
+      });
+      grid.appendChild(col);
+    }
+
+    // 3rd place match as a floating sidecar next to Final.
+    const third = byStage["3rd-place-match"];
+    if (third.length) {
+      const wrap = document.createElement("div");
+      wrap.className = "bracket-third";
+      wrap.dataset.stage = "3rd-place-match";
+      for (const m of third) {
+        const node = renderBracketMatchBody(m);
+        wrap.appendChild(node);
+      }
+      grid.appendChild(wrap);
+    }
+  }
+
+  function renderBracketMatch(m, rowStart, rowEnd) {
+    const li = document.createElement("a");
+    li.className = "bracket-match";
+    li.href = m.espn_url || "#";
+    li.target = "_blank";
+    li.rel = "noopener noreferrer";
+    li.style.gridRow = `${rowStart} / ${rowEnd + 1}`;
+    if (m.status === "FINAL") li.classList.add("is-final");
+    if (m.status === "LIVE")  li.classList.add("is-live");
+    if (m.stage_slug === "final") li.classList.add("is-grand-final");
+    li.title = m.espn_url
+      ? `${m.home.short || m.home.name} vs ${m.away.short || m.away.name} — open on ESPN`
+      : "";
+    li.appendChild(renderBracketMatchBody(m));
+    return li;
+  }
+
+  function renderBracketMatchBody(m) {
+    const frag = document.createDocumentFragment();
+
+    const home = document.createElement("div");
+    home.className = "bracket-team";
+    if (m.home.winner === true) home.classList.add("is-winner");
+    if (m.home.winner === false) home.classList.add("is-loser");
+    if (isPlaceholderName(m.home.short || m.home.name)) home.classList.add("is-tbd");
+    const homeName = document.createElement("span");
+    homeName.className = "bracket-team-name";
+    homeName.textContent = m.home.short || m.home.name || "TBD";
+    homeName.title = m.home.name || "";
+    const homeScore = document.createElement("span");
+    homeScore.className = "bracket-team-score";
+    if (m.status === "FINAL" || m.status === "LIVE") {
+      homeScore.textContent = m.home.score ?? "0";
+    } else {
+      homeScore.textContent = "—";
+      homeScore.classList.add("is-empty");
+    }
+    home.append(homeName, homeScore);
+    frag.appendChild(home);
+
+    const away = document.createElement("div");
+    away.className = "bracket-team";
+    if (m.away.winner === true) away.classList.add("is-winner");
+    if (m.away.winner === false) away.classList.add("is-loser");
+    if (isPlaceholderName(m.away.short || m.away.name)) away.classList.add("is-tbd");
+    const awayName = document.createElement("span");
+    awayName.className = "bracket-team-name";
+    awayName.textContent = m.away.short || m.away.name || "TBD";
+    awayName.title = m.away.name || "";
+    const awayScore = document.createElement("span");
+    awayScore.className = "bracket-team-score";
+    if (m.status === "FINAL" || m.status === "LIVE") {
+      awayScore.textContent = m.away.score ?? "0";
+    } else {
+      awayScore.textContent = "—";
+      awayScore.classList.add("is-empty");
+    }
+    away.append(awayName, awayScore);
+    frag.appendChild(away);
+
+    const meta = document.createElement("div");
+    meta.className = "bracket-meta";
+    const tz = currentTz();
+    const dt = new Date(m.kickoff_utc);
+    const dateEl = document.createElement("span");
+    dateEl.textContent = `${dateInTz(dt, tz)} · ${timeInTz(dt, tz)}`;
+    const statusEl = document.createElement("span");
+    statusEl.className = `bracket-meta-status is-${m.status.toLowerCase()}`;
+    statusEl.textContent =
+      m.status === "LIVE"  ? (m.status_short || "LIVE")
+    : m.status === "FINAL" ? (m.status_short || "Final")
+    : "Scheduled";
+    meta.append(dateEl, statusEl);
+    frag.appendChild(meta);
+
+    return frag;
+  }
+
+  // ────────────────────────────────────────────────────────────
   // Filter UI wiring
   // ────────────────────────────────────────────────────────────
   function setPillActive(group, value) {
@@ -881,6 +1055,7 @@
     updateVenueTrigger();
     renderTeamChips();
     onFilterChange();
+    renderBracket();
   }
 
   async function boot() {

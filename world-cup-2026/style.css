@@ -660,3 +660,180 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .refresh-icon, .time-status.is-live::before { animation: none; }
 }
+
+/* ─── Knockout bracket ────────────────────────────────────────── */
+.bracket-section {
+  margin-top: 32px;
+}
+.bracket-head {
+  text-align: center;
+  margin-bottom: 14px;
+}
+.bracket-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin: 0 0 4px;
+  color: var(--text);
+}
+.bracket-hint {
+  margin: 0;
+  font-size: 0.78rem;
+  color: var(--text-dim);
+}
+.bracket-scroll {
+  overflow-x: auto;
+  padding: 6px 0 12px;
+  scrollbar-width: thin;
+}
+.bracket-grid {
+  display: grid;
+  /* Default 16 rows × 5 columns (R32, R16, QF, SF, Final). The
+     3rd-place match renders as a sibling of the grid so it can
+     anchor to the right of Final. */
+  grid-template-columns: minmax(170px, 1fr) minmax(170px, 1fr) minmax(170px, 1fr) minmax(170px, 1fr) minmax(180px, 1fr);
+  grid-template-rows: repeat(16, minmax(46px, auto));
+  gap: 6px 22px;
+  min-width: 980px;
+  align-items: stretch;
+}
+.bracket-round {
+  grid-column: var(--col);
+  grid-row: 1 / -1;
+  display: grid;
+  grid-template-rows: subgrid;
+  align-items: center;
+  gap: 6px 0;
+}
+.bracket-round[data-stage="round-of-32"]   { --col: 1; }
+.bracket-round[data-stage="round-of-16"]   { --col: 2; }
+.bracket-round[data-stage="quarterfinals"] { --col: 3; }
+.bracket-round[data-stage="semifinals"]    { --col: 4; }
+.bracket-round[data-stage="final"]         { --col: 5; }
+
+.bracket-round > .bracket-round-label {
+  grid-row: 1 / -1;
+  align-self: start;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-dim);
+  padding: 0 4px;
+  text-align: center;
+}
+
+.bracket-match {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 6px 10px;
+  font-size: 0.78rem;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  cursor: default;
+  transition: background 0.12s, border-color 0.12s;
+  text-decoration: none;
+  color: inherit;
+  position: relative;
+  min-width: 0;
+}
+.bracket-match:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--border-strong);
+}
+.bracket-match.is-final {
+  border-color: var(--border-strong);
+  background: linear-gradient(180deg, var(--bg-card) 0%, var(--bg-elev) 100%);
+}
+.bracket-match.is-live {
+  border-color: var(--live);
+  box-shadow: 0 0 0 1px rgba(239, 68, 68, 0.4);
+}
+
+.bracket-team {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  min-width: 0;
+  font-variant-numeric: tabular-nums;
+}
+.bracket-team .bracket-team-name {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+  flex: 1 1 auto;
+  color: var(--text);
+}
+.bracket-team.is-tbd .bracket-team-name {
+  color: var(--text-dim);
+  font-style: italic;
+  font-weight: 500;
+}
+.bracket-team.is-winner .bracket-team-name {
+  color: var(--accent);
+  font-weight: 600;
+}
+.bracket-team .bracket-team-score {
+  flex: 0 0 auto;
+  font-weight: 600;
+  color: var(--text);
+  min-width: 1.5em;
+  text-align: right;
+}
+.bracket-team.is-winner .bracket-team-score { color: var(--accent); }
+.bracket-team .bracket-team-score.is-empty { color: var(--text-dim); }
+
+.bracket-meta {
+  font-size: 0.65rem;
+  color: var(--text-dim);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border-top: 1px dashed var(--border);
+  padding-top: 3px;
+  margin-top: 1px;
+}
+.bracket-meta .bracket-meta-status.is-live {
+  color: var(--live);
+  font-weight: 600;
+}
+.bracket-meta .bracket-meta-status.is-final {
+  color: var(--final);
+}
+
+.bracket-third {
+  /* 3rd place match sits to the right of Final, anchored to the
+     center vertically so it visually hangs from the middle of the
+     bracket like a sidecar. */
+  grid-column: 5;
+  grid-row: 9 / span 3;
+  align-self: center;
+  margin-left: 6px;
+  background: var(--bg-elev);
+  border: 1px dashed var(--border-strong);
+  border-radius: var(--radius-sm);
+  padding: 8px 10px;
+  position: relative;
+  font-size: 0.78rem;
+}
+.bracket-third::before {
+  content: "3rd place";
+  position: absolute;
+  top: -8px;
+  left: 10px;
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  background: var(--bg);
+  color: var(--text-dim);
+  padding: 0 6px;
+}
+
+@media (max-width: 720px) {
+  .bracket-grid {
+    grid-template-columns: 150px 150px 150px 150px 160px;
+    gap: 6px 14px;
+  }
+}

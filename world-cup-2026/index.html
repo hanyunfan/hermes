@@ -118,6 +118,17 @@
       <div class="loading" id="loading">Loading matches…</div>
     </main>
 
+    <!-- Knockout bracket (R32 → Final + 3rd place). Rendered by JS. -->
+    <section class="bracket-section" id="bracket-section" aria-label="Knockout bracket" hidden>
+      <header class="bracket-head">
+        <h2 class="bracket-title">Knockout bracket</h2>
+        <p class="bracket-hint">Placeholders like "Group A 2nd Place" fill in as the group stage completes.</p>
+      </header>
+      <div class="bracket-scroll">
+        <div class="bracket-grid" id="bracket-grid" role="list"></div>
+      </div>
+    </section>
+
     <footer class="foot">
       <p>
         Data: <a href="https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard" target="_blank" rel="noopener noreferrer">ESPN</a>
