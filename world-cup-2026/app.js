@@ -7,7 +7,7 @@
 
   const JSON_URL = "data/matches.json";
   const CACHE_KEY = "wc2026.matches.v2";
-  const FILTER_KEY = "wc2026.filters.v1";
+  const FILTER_KEY = "wc2026.filters.v2";
   const TZ_KEY = "wc2026.tz.v1";
   const REFRESH_INTERVAL_MS = 5 * 60 * 1000;   // 5 min between cron hits
   const REFRESH_LIVE_MS    = 30 * 1000;       // 30 s while any match is LIVE
@@ -175,7 +175,7 @@
   // Filter state
   // ────────────────────────────────────────────────────────────
   const DEFAULT_FILTERS = Object.freeze({
-    range: "today",  // today | tomorrow | 3d | 7d | all
+    range: "3d",     // today | tomorrow | 3d | 7d | all
     status: "any",   // any | upcoming | live | final
     teams: [],       // [teamId, ...]
     venues: [],      // [venueName, ...]
