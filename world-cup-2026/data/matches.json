@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-12T20:37:39.796877+00:00",
+  "generated_at": "2026-06-12T22:56:54.240487+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-12T15:37:39.432802-05:00",
+  "now_local": "2026-06-12T17:56:53.536305-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -681,14 +681,14 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/can.png"
           },
           "rank": 1,
-          "mp": 0,
+          "mp": 1,
           "w": 0,
-          "d": 0,
+          "d": 1,
           "l": 0,
-          "gf": 0,
-          "ga": 0,
+          "gf": 1,
+          "ga": 1,
           "gd": 0,
-          "pts": 0,
+          "pts": 1,
           "advance": false,
           "advance_label": "Advance to Round of 32",
           "advance_color": "#81D6AC"
@@ -703,14 +703,14 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/bih.png"
           },
           "rank": 2,
-          "mp": 0,
+          "mp": 1,
           "w": 0,
-          "d": 0,
+          "d": 1,
           "l": 0,
-          "gf": 0,
-          "ga": 0,
+          "gf": 1,
+          "ga": 1,
           "gd": 0,
-          "pts": 0,
+          "pts": 1,
           "advance": false,
           "advance_label": "Advance to Round of 32",
           "advance_color": "#81D6AC"
@@ -1830,8 +1830,8 @@
           "kickoff_local_date": "2026-06-12",
           "kickoff_time": "2:00 PM",
           "kickoff_weekday": "Fri",
-          "status": "LIVE",
-          "status_short": "68'",
+          "status": "FINAL",
+          "status_short": "FT",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -1843,7 +1843,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/can.png",
             "color": "ed2224",
             "home_away": "home",
-            "score": 0,
+            "score": 1,
             "winner": false
           },
           "away": {
