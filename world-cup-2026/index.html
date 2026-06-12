@@ -26,6 +26,80 @@
       </div>
     </header>
 
+    <!-- Filter bar -->
+    <section class="filters" id="filters" aria-label="Match filters">
+      <div class="filter-row">
+        <div class="filter-group" data-filter="range">
+          <span class="filter-label">Time</span>
+          <div class="pills" role="radiogroup" aria-label="Time range">
+            <button class="pill" data-value="today" type="button" role="radio">Today</button>
+            <button class="pill" data-value="tomorrow" type="button" role="radio">Tomorrow</button>
+            <button class="pill" data-value="3d" type="button" role="radio">Next 3 days</button>
+            <button class="pill" data-value="7d" type="button" role="radio">Next 7 days</button>
+            <button class="pill" data-value="all" type="button" role="radio">All 104</button>
+          </div>
+        </div>
+
+        <div class="filter-group" data-filter="status">
+          <span class="filter-label">Status</span>
+          <div class="pills" role="radiogroup" aria-label="Match status">
+            <button class="pill" data-value="any" type="button" role="radio">Any</button>
+            <button class="pill" data-value="upcoming" type="button" role="radio">Upcoming</button>
+            <button class="pill" data-value="live" type="button" role="radio">Live</button>
+            <button class="pill" data-value="final" type="button" role="radio">Final</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="filter-row">
+        <div class="filter-group filter-group--grow" data-filter="teams">
+          <label class="filter-label" for="team-search">Teams</label>
+          <div class="combo combo--teams">
+            <div class="combo-chips" id="team-chips" aria-live="polite"></div>
+            <div class="combo-input-wrap">
+              <input
+                id="team-search"
+                class="combo-input"
+                type="text"
+                placeholder="Search 48 teams…"
+                autocomplete="off"
+                spellcheck="false"
+                aria-autocomplete="list"
+                aria-controls="team-options"
+              />
+              <button class="combo-caret" type="button" aria-label="Toggle team list">▾</button>
+            </div>
+            <ul class="combo-options" id="team-options" role="listbox" hidden></ul>
+          </div>
+        </div>
+
+        <div class="filter-group" data-filter="venues">
+          <label class="filter-label" for="venue-trigger">Venues</label>
+          <div class="combo combo--venues">
+            <button
+              id="venue-trigger"
+              class="combo-trigger"
+              type="button"
+              aria-haspopup="listbox"
+              aria-expanded="false"
+            >
+              <span class="combo-trigger-label" id="venue-trigger-label">All 16 venues</span>
+              <span class="combo-caret">▾</span>
+            </button>
+            <ul class="combo-options combo-options--check" id="venue-options" role="listbox" hidden></ul>
+          </div>
+        </div>
+
+        <div class="filter-group filter-group--actions">
+          <span class="filter-label">&nbsp;</span>
+          <div class="filter-actions">
+            <span class="result-count" id="result-count">— matches</span>
+            <button class="clear-btn" id="clear-btn" type="button" hidden>Clear filters</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <main id="content" class="content" aria-live="polite">
       <div class="loading" id="loading">Loading matches…</div>
     </main>
@@ -59,20 +133,16 @@
       <div class="match-body">
         <div class="team-row">
           <div class="team home">
-            <img class="team-logo" alt="" loading="lazy" />
             <div class="team-info">
               <span class="team-flag"></span>
               <span class="team-name"></span>
-              <span class="team-rank"></span>
             </div>
             <span class="team-score"></span>
           </div>
           <div class="team away">
-            <img class="team-logo" alt="" loading="lazy" />
             <div class="team-info">
               <span class="team-flag"></span>
               <span class="team-name"></span>
-              <span class="team-rank"></span>
             </div>
             <span class="team-score"></span>
           </div>

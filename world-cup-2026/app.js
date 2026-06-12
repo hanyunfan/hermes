@@ -1,12 +1,13 @@
-// app.js — render the WC 2026 daily preview from data/matches.json
+// app.js — render the WC 2026 daily preview with filters
 // Pure ES2022, no build step, no dependencies. Caches the JSON in
-// sessionStorage so navigating away and back is instant.
+// sessionStorage; filter state persists in localStorage and URL hash.
 
 (() => {
   "use strict";
 
   const JSON_URL = "data/matches.json";
-  const CACHE_KEY = "wc2026.matches.v1";
+  const CACHE_KEY = "wc2026.matches.v2";
+  const FILTER_KEY = "wc2026.filters.v1";
   const REFRESH_INTERVAL_MS = 5 * 60 * 1000; // 5 min
 
   const $ = (sel, root = document) => root.querySelector(sel);
@@ -51,23 +52,16 @@
   // Time helpers
   // ────────────────────────────────────────────────────────────
   function localTimezone() {
-    try {
-      return Intl.DateTimeFormat().resolvedOptions().timeZone || "local";
-    } catch {
-      return "local";
-    }
+    try { return Intl.DateTimeFormat().resolvedOptions().timeZone || "local"; }
+    catch { return "local"; }
   }
-
   function browserZone() {
     try {
       return new Intl.DateTimeFormat(undefined, { timeZoneName: "short" })
         .formatToParts(new Date())
         .find((p) => p.type === "timeZoneName")?.value || "";
-    } catch {
-      return "";
-    }
+    } catch { return ""; }
   }
-
   function formatRelative(target, now) {
     const diffMs = target.getTime() - now.getTime();
     const abs = Math.abs(diffMs);
@@ -80,113 +74,247 @@
     else label = `${Math.round(abs / day)}d`;
     return past ? `${label} ago` : `in ${label}`;
   }
-
   function nowInZone(tzName) {
     if (!tzName) return new Date();
     try {
-      // Build a Date whose wall clock equals the requested zone's "now".
-      const partsNow = new Date();
-      const localStr = partsNow.toLocaleString("en-US", { timeZone: tzName });
+      const localStr = new Date().toLocaleString("en-US", { timeZone: tzName });
       return new Date(localStr);
-    } catch {
-      return new Date();
+    } catch { return new Date(); }
+  }
+  function tzName() {
+    const cached = readCache();
+    return cached?.timezone || localTimezone();
+  }
+
+  // ────────────────────────────────────────────────────────────
+  // Filter state
+  // ────────────────────────────────────────────────────────────
+  const DEFAULT_FILTERS = Object.freeze({
+    range: "today",  // today | tomorrow | 3d | 7d | all
+    status: "any",   // any | upcoming | live | final
+    teams: [],       // [teamId, ...]
+    venues: [],      // [venueName, ...]
+  });
+
+  let filters = { ...DEFAULT_FILTERS };
+  let allData = null;
+  let allMatches = []; // flattened
+
+  function loadFilters() {
+    // URL hash takes precedence, then localStorage, then defaults.
+    const fromHash = readFiltersFromHash();
+    if (fromHash) return normalizeFilters(fromHash);
+    try {
+      const raw = localStorage.getItem(FILTER_KEY);
+      if (raw) return normalizeFilters(JSON.parse(raw));
+    } catch { /* ignore */ }
+    return { ...DEFAULT_FILTERS };
+  }
+
+  function saveFilters() {
+    try { localStorage.setItem(FILTER_KEY, JSON.stringify(filters)); } catch { /* ignore */ }
+    writeFiltersToHash();
+  }
+
+  function normalizeFilters(f) {
+    const out = { ...DEFAULT_FILTERS, ...f };
+    out.range = ["today", "tomorrow", "3d", "7d", "all"].includes(out.range) ? out.range : "today";
+    out.status = ["any", "upcoming", "live", "final"].includes(out.status) ? out.status : "any";
+    out.teams = Array.isArray(out.teams) ? out.teams.slice(0, 8) : [];
+    out.venues = Array.isArray(out.venues) ? out.venues.slice(0, 16) : [];
+    return out;
+  }
+
+  function readFiltersFromHash() {
+    if (!location.hash || location.hash.length < 2) return null;
+    try {
+      const params = new URLSearchParams(location.hash.slice(1));
+      const r = params.get("r");
+      const s = params.get("s");
+      const t = params.get("t");
+      const v = params.get("v");
+      if (!r && !s && !t && !v) return null;
+      return {
+        range: r || DEFAULT_FILTERS.range,
+        status: s || DEFAULT_FILTERS.status,
+        teams: t ? t.split(",").filter(Boolean) : [],
+        venues: v ? v.split(",").filter(Boolean) : [],
+      };
+    } catch { return null; }
+  }
+
+  function writeFiltersToHash() {
+    const params = new URLSearchParams();
+    if (filters.range !== DEFAULT_FILTERS.range) params.set("r", filters.range);
+    if (filters.status !== DEFAULT_FILTERS.status) params.set("s", filters.status);
+    if (filters.teams.length) params.set("t", filters.teams.join(","));
+    if (filters.venues.length) params.set("v", filters.venues.join(","));
+    const newHash = params.toString();
+    const target = newHash ? `#${newHash}` : " ";
+    if (location.hash !== target) {
+      history.replaceState(null, "", target);
     }
+  }
+
+  function isDefaultFilters() {
+    return (
+      filters.range === DEFAULT_FILTERS.range &&
+      filters.status === DEFAULT_FILTERS.status &&
+      filters.teams.length === 0 &&
+      filters.venues.length === 0
+    );
+  }
+
+  // ────────────────────────────────────────────────────────────
+  // Filtering
+  // ────────────────────────────────────────────────────────────
+  function applyFilters() {
+    if (!allData) return [];
+    const tz = allData.timezone || localTimezone();
+    const now = nowInZone(tz);
+    // `now_local` is local-wall-clock ISO; use it directly (no UTC shift).
+    const todayIso = allData.now_local.slice(0, 10);
+
+    // Compute the date window from the range filter.
+    let windowStart, windowEnd;
+    if (filters.range === "today") {
+      windowStart = windowEnd = todayIso;
+    } else if (filters.range === "tomorrow") {
+      const d = new Date(todayIso + "T00:00:00Z");
+      d.setUTCDate(d.getUTCDate() + 1);
+      const iso = d.toISOString().slice(0, 10);
+      windowStart = windowEnd = iso;
+    } else if (filters.range === "3d") {
+      windowStart = todayIso;
+      windowEnd = addDays(todayIso, 2);
+    } else if (filters.range === "7d") {
+      windowStart = todayIso;
+      windowEnd = addDays(todayIso, 6);
+    } else {
+      windowStart = allData.tournament.start;
+      windowEnd = allData.tournament.end;
+    }
+
+    const out = [];
+    for (const m of allMatches) {
+      if (m.kickoff_local_date < windowStart || m.kickoff_local_date > windowEnd) continue;
+
+      // Status
+      if (filters.status !== "any") {
+        const live = m.status === "LIVE";
+        const fin = m.status === "FINAL";
+        // For SCHEDULED, decide upcoming vs based on kickoff vs now
+        let s = m.status;
+        if (s === "SCHEDULED" && new Date(m.kickoff_utc) <= now) s = "LIVE";
+        if (filters.status === "upcoming" && !(s === "SCHEDULED")) continue;
+        if (filters.status === "live" && !live && s !== "LIVE") continue;
+        if (filters.status === "final" && !fin) continue;
+      }
+
+      if (filters.teams.length) {
+        const homeId = String(m.home.id), awayId = String(m.away.id);
+        if (!filters.teams.includes(homeId) && !filters.teams.includes(awayId)) continue;
+      }
+
+      if (filters.venues.length) {
+        if (!filters.venues.includes(m.venue.name)) continue;
+      }
+
+      out.push(m);
+    }
+    return out;
+  }
+
+  function addDays(iso, n) {
+    const d = new Date(iso + "T00:00:00Z");
+    d.setUTCDate(d.getUTCDate() + n);
+    return d.toISOString().slice(0, 10);
   }
 
   // ────────────────────────────────────────────────────────────
   // Render
   // ────────────────────────────────────────────────────────────
-  function render(data) {
+  function renderHeader(data) {
     const tz = data.timezone || localTimezone();
     const tzShort = browserZone();
     $("#tz-pill").textContent = `Times shown in ${tz}${tzShort ? ` (${tzShort})` : ""}`;
 
     const tour = data.tournament || {};
-    if (tour.edition) {
-      const t = $("#tournament-edition");
-      t.textContent = `${tour.edition} edition`;
-    }
+    if (tour.edition) $("#tournament-edition").textContent = `${tour.edition} edition`;
     if (tour.dates || tour.host) {
       $("#tournament-subtitle").textContent =
         [tour.dates, tour.host].filter(Boolean).join(" · ");
     }
 
-    // "Updated X ago"
     const updatedAt = new Date(data.generated_at);
-    const updatedEl = $("#updated");
-    const relNow = new Date();
-    updatedEl.textContent = `Updated ${formatRelative(updatedAt, relNow)}`;
-    updatedEl.title = updatedAt.toLocaleString();
+    $("#updated").textContent = `Updated ${formatRelative(updatedAt, new Date())}`;
+    $("#updated").title = updatedAt.toLocaleString();
+  }
 
+  function renderMatches(matches) {
     const content = $("#content");
     content.innerHTML = "";
 
-    const days = data.days || [];
+    if (!allData) return;
+
+    if (matches.length === 0) {
+      const empty = document.createElement("div");
+      empty.className = "empty";
+      empty.innerHTML = isDefaultFilters()
+        ? `<strong>No matches in this window.</strong><div class="empty-hint">Try a wider time range or clear your filters.</div>`
+        : `<strong>No matches match these filters.</strong><div class="empty-hint">Try widening the time range or clearing filters.</div>`;
+      content.appendChild(empty);
+      $("#result-count").textContent = `0 matches`;
+      return;
+    }
+
+    // Group by local date in chronological order.
+    const byDate = new Map();
+    for (const m of matches) {
+      if (!byDate.has(m.kickoff_local_date)) byDate.set(m.kickoff_local_date, []);
+      byDate.get(m.kickoff_local_date).push(m);
+    }
+
     const dayTemplate = $("#day-template");
     const matchTemplate = $("#match-template");
+    const todayIso = allData.now_local.slice(0, 10);
+    const tomorrowIso = addDays(todayIso, 1);
 
-    let totalMatches = 0;
-    let anyScheduled = false;
-    let anyLive = false;
-
-    for (const day of days) {
-      totalMatches += day.match_count;
+    for (const [date, items] of [...byDate.entries()].sort()) {
+      items.sort((a, b) => a.kickoff_utc < b.kickoff_utc ? -1 : 1);
       const section = dayTemplate.content.firstElementChild.cloneNode(true);
-      section.classList.add(`is-${day.label.toLowerCase()}`);
-      $(".day-title", section).textContent =
-        day.label === "Today"
-          ? `Today · ${friendlyDate(day.date)}`
-          : day.label === "Tomorrow"
-            ? `Tomorrow · ${friendlyDate(day.date)}`
-            : friendlyDate(day.date);
-      $(".day-count", section).textContent =
-        day.match_count === 0
-          ? "no matches"
-          : day.match_count === 1
-            ? "1 match"
-            : `${day.match_count} matches`;
+      section.classList.add(`is-${dayClass(date, todayIso, tomorrowIso)}`);
+      $(".day-title", section).textContent = dayTitle(date, todayIso, tomorrowIso);
+      $(".day-count", section).textContent = items.length === 1
+        ? "1 match"
+        : `${items.length} matches`;
 
       const list = $(".matches", section);
-      if (day.matches.length === 0) {
-        const li = document.createElement("li");
-        li.className = "match-empty";
-        li.textContent = day.label === "Today"
-          ? "No World Cup matches scheduled for today. 🏖️"
-          : "No World Cup matches scheduled for tomorrow.";
-        list.appendChild(li);
-      } else {
-        for (const m of day.matches) {
-          list.appendChild(renderMatch(m, matchTemplate));
-          if (m.status === "LIVE") anyLive = true;
-          if (m.status === "SCHEDULED") anyScheduled = true;
-        }
-      }
-
+      for (const m of items) list.appendChild(renderMatch(m, matchTemplate));
       content.appendChild(section);
     }
 
-    // Empty / over state
-    if (totalMatches === 0) {
-      const empty = document.createElement("div");
-      empty.className = "empty";
-      empty.innerHTML = `<strong>No matches today or tomorrow.</strong><br />The 2026 World Cup runs Jun 11 – Jul 19. Check back later.`;
-      content.appendChild(empty);
-    }
-
-    return { totalMatches, anyScheduled, anyLive };
+    $("#result-count").textContent = matches.length === 1
+      ? "1 match"
+      : `${matches.length} matches`;
   }
 
+  function dayClass(date, todayIso, tomorrowIso) {
+    if (date === todayIso) return "today";
+    if (date === tomorrowIso) return "tomorrow";
+    return "other";
+  }
+  function dayTitle(date, todayIso, tomorrowIso) {
+    if (date === todayIso) return `Today · ${friendlyDate(date)}`;
+    if (date === tomorrowIso) return `Tomorrow · ${friendlyDate(date)}`;
+    return friendlyDate(date);
+  }
   function friendlyDate(iso) {
     try {
-      const d = new Date(iso + "T00:00:00");
-      return d.toLocaleDateString(undefined, {
-        weekday: "long",
-        month: "short",
-        day: "numeric",
+      return new Date(iso + "T00:00:00").toLocaleDateString(undefined, {
+        weekday: "long", month: "short", day: "numeric",
       });
-    } catch {
-      return iso;
-    }
+    } catch { return iso; }
   }
 
   function renderMatch(m, tpl) {
@@ -204,18 +332,15 @@
       statusEl.textContent = m.status_short || "Final";
       statusEl.classList.add("is-final");
     } else {
-      // SCHEDULED — show relative countdown, but if we're past kickoff the
-      // API snapshot is stale; surface that clearly and force a refresh.
-      const tz = tzName();
-      const target = nowInZone(tz);
       const kickoff = new Date(m.kickoff_utc);
-      const diffMs = kickoff.getTime() - target.getTime();
+      const now = nowInZone(tzName());
+      const diffMs = kickoff.getTime() - now.getTime();
       if (diffMs <= 0) {
         statusEl.textContent = "Starting soon";
         statusEl.title = "Auto-refresh in a moment…";
         triggerBackgroundRefresh();
       } else {
-        statusEl.textContent = formatRelative(kickoff, target);
+        statusEl.textContent = formatRelative(kickoff, now);
         statusEl.title = kickoff.toLocaleString();
       }
     }
@@ -224,10 +349,12 @@
     populateTeam(li, ".away", m.away, m);
 
     $(".stage", li).textContent = m.stage || "World Cup";
-    $(".venue", li).textContent = m.venue?.name
+    const venueText = m.venue?.name
       ? `${m.venue.name}${m.venue.city ? `, ${m.venue.city}` : ""}`
       : "—";
-    $(".venue", li).title = m.venue?.name
+    const venueEl = $(".venue", li);
+    venueEl.textContent = venueText;
+    venueEl.title = m.venue?.name
       ? `${m.venue.name}${m.venue.city ? `, ${m.venue.city}` : ""}${m.venue.country ? `, ${m.venue.country}` : ""}`
       : "";
 
@@ -243,12 +370,8 @@
   function populateTeam(li, sel, team, match) {
     const root = $(sel, li);
     if (!root || !team) return;
-    const logo = $(".team-logo", root);
-    if (team.logo) logo.src = team.logo;
-    logo.alt = team.name || "";
     $(".team-flag", root).textContent = team.flag || "🏳️";
     const nameEl = $(".team-name", root);
-    // Prefer the full name; ellipsis handles overflow on narrow viewports.
     nameEl.textContent = team.name || "?";
     nameEl.title = team.name || "";
     const scoreEl = $(".team-score", root);
@@ -260,10 +383,256 @@
     if (team.winner === true) root.classList.add("is-winner");
   }
 
-  // Mirror of timezone from the data so render can use it for countdowns
-  function tzName() {
-    const cached = readCache();
-    return cached?.timezone || localTimezone();
+  // ────────────────────────────────────────────────────────────
+  // Filter UI wiring
+  // ────────────────────────────────────────────────────────────
+  function setPillActive(group, value) {
+    const root = document.querySelector(`.filter-group[data-filter="${group}"] .pills`);
+    if (!root) return;
+    for (const btn of $$(".pill", root)) {
+      const isActive = btn.dataset.value === value;
+      btn.classList.toggle("is-active", isActive);
+      btn.setAttribute("aria-checked", isActive ? "true" : "false");
+    }
+  }
+
+  function wirePills() {
+    for (const group of $$(".filter-group[data-filter]")) {
+      const key = group.dataset.filter;
+      if (key !== "range" && key !== "status") continue;
+      for (const btn of $$(".pill", group)) {
+        btn.addEventListener("click", () => {
+          filters[key] = btn.dataset.value;
+          setPillActive(key, filters[key]);
+          onFilterChange();
+        });
+      }
+    }
+  }
+
+  function setInitialPills() {
+    setPillActive("range", filters.range);
+    setPillActive("status", filters.status);
+  }
+
+  // Team combobox
+  function buildTeamList() {
+    const ul = $("#team-options");
+    ul.innerHTML = "";
+    const teams = allData?.facets?.teams || [];
+    // Sort: favorites (selected) first, then alphabetical.
+    const sel = new Set(filters.teams);
+    const sorted = [...teams].sort((a, b) => {
+      const aSel = sel.has(String(a.id)) ? 0 : 1;
+      const bSel = sel.has(String(b.id)) ? 0 : 1;
+      if (aSel !== bSel) return aSel - bSel;
+      return a.name.localeCompare(b.name);
+    });
+    if (sorted.length === 0) {
+      const li = document.createElement("li");
+      li.className = "combo-empty";
+      li.textContent = "No teams available";
+      ul.appendChild(li);
+      return;
+    }
+    for (const t of sorted) {
+      const li = document.createElement("li");
+      li.className = "combo-option";
+      li.setAttribute("role", "option");
+      li.dataset.value = String(t.id);
+      const isSel = sel.has(String(t.id));
+      li.setAttribute("aria-selected", isSel ? "true" : "false");
+      li.innerHTML = `
+        <span class="opt-flag">${t.flag || "🏳️"}</span>
+        <span class="opt-name">${escapeHtml(t.name)}</span>
+        <span class="opt-meta">${escapeHtml(t.abbr || "")}</span>
+      `;
+      li.addEventListener("click", () => toggleTeam(String(t.id)));
+      ul.appendChild(li);
+    }
+  }
+
+  function renderTeamChips() {
+    const wrap = $("#team-chips");
+    wrap.innerHTML = "";
+    const sel = new Set(filters.teams);
+    const teams = allData?.facets?.teams || [];
+    const lookup = new Map(teams.map((t) => [String(t.id), t]));
+    for (const id of filters.teams) {
+      const t = lookup.get(id);
+      if (!t) continue;
+      const chip = document.createElement("span");
+      chip.className = "chip";
+      chip.innerHTML = `${t.flag || "🏳️"} ${escapeHtml(t.short || t.name)} <button type="button" aria-label="Remove ${escapeHtml(t.name)}">×</button>`;
+      chip.querySelector("button").addEventListener("click", () => toggleTeam(id));
+      wrap.appendChild(chip);
+    }
+    void sel;
+  }
+
+  function toggleTeam(id) {
+    const idx = filters.teams.indexOf(id);
+    if (idx >= 0) filters.teams.splice(idx, 1);
+    else if (filters.teams.length < 8) filters.teams.push(id);
+    renderTeamChips();
+    buildTeamList();
+    onFilterChange();
+  }
+
+  function filterTeamOptions(query) {
+    const ul = $("#team-options");
+    const q = query.trim().toLowerCase();
+    let visible = 0;
+    for (const li of $$(".combo-option", ul)) {
+      const text = li.textContent.toLowerCase();
+      const hit = !q || text.includes(q);
+      li.style.display = hit ? "" : "none";
+      if (hit) visible++;
+    }
+    ul.querySelector(".combo-empty")?.remove();
+    if (visible === 0) {
+      const li = document.createElement("li");
+      li.className = "combo-empty";
+      li.textContent = q ? `No teams matching “${query}”` : "No teams available";
+      ul.appendChild(li);
+    }
+  }
+
+  function wireTeamCombo() {
+    const input = $("#team-search");
+    const caret = input.parentElement.querySelector(".combo-caret");
+    const options = $("#team-options");
+
+    function open() { options.hidden = false; caret.setAttribute("aria-expanded", "true"); }
+    function close() { options.hidden = true; caret.setAttribute("aria-expanded", "false"); }
+    function isOpen() { return !options.hidden; }
+
+    input.addEventListener("focus", () => { open(); filterTeamOptions(input.value); });
+    input.addEventListener("input", () => { open(); filterTeamOptions(input.value); });
+    caret.addEventListener("click", () => { isOpen() ? close() : (input.focus(), open()); });
+    input.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        const first = $$(".combo-option", options).find((li) => li.style.display !== "none");
+        if (first) toggleTeam(first.dataset.value);
+      } else if (e.key === "Backspace" && input.value === "" && filters.teams.length) {
+        filters.teams.pop();
+        renderTeamChips();
+        buildTeamList();
+        onFilterChange();
+      } else if (e.key === "Escape") {
+        close();
+        input.blur();
+      }
+    });
+    document.addEventListener("click", (e) => {
+      if (!e.target.closest(".combo--teams")) close();
+    });
+  }
+
+  // Venue dropdown
+  function buildVenueList() {
+    const ul = $("#venue-options");
+    ul.innerHTML = "";
+    const venues = allData?.facets?.venues || [];
+    if (venues.length === 0) {
+      const li = document.createElement("li");
+      li.className = "combo-empty";
+      li.textContent = "No venues available";
+      ul.appendChild(li);
+      return;
+    }
+    for (const v of venues) {
+      const li = document.createElement("li");
+      li.className = "combo-option";
+      li.setAttribute("role", "option");
+      li.dataset.value = v.name;
+      const isSel = filters.venues.includes(v.name);
+      li.setAttribute("aria-selected", isSel ? "true" : "false");
+      li.innerHTML = `
+        <input type="checkbox" ${isSel ? "checked" : ""} tabindex="-1" />
+        <div style="display:flex; flex-direction:column; min-width:0;">
+          <span class="opt-name">${escapeHtml(v.name)}</span>
+          <span class="opt-meta" style="margin-left:0;">${escapeHtml([v.city, v.country].filter(Boolean).join(", "))} · ${v.match_count} matches</span>
+        </div>
+      `;
+      li.addEventListener("click", (e) => {
+        if (e.target.tagName !== "INPUT") {
+          const cb = li.querySelector("input");
+          cb.checked = !cb.checked;
+        }
+        toggleVenue(v.name);
+      });
+      ul.appendChild(li);
+    }
+  }
+
+  function updateVenueTrigger() {
+    const total = allData?.facets?.venues?.length || 0;
+    const label = $("#venue-trigger-label");
+    if (filters.venues.length === 0) {
+      label.textContent = total === 1 ? `All ${total} venue` : `All ${total} venues`;
+    } else if (filters.venues.length === 1) {
+      label.textContent = filters.venues[0];
+    } else {
+      label.textContent = `${filters.venues.length} venues selected`;
+    }
+  }
+
+  function toggleVenue(name) {
+    const idx = filters.venues.indexOf(name);
+    if (idx >= 0) filters.venues.splice(idx, 1);
+    else filters.venues.push(name);
+    updateVenueTrigger();
+    buildVenueList();
+    onFilterChange();
+  }
+
+  function wireVenueCombo() {
+    const trigger = $("#venue-trigger");
+    const options = $("#venue-options");
+    function open() { options.hidden = false; trigger.setAttribute("aria-expanded", "true"); }
+    function close() { options.hidden = true; trigger.setAttribute("aria-expanded", "false"); }
+    trigger.addEventListener("click", (e) => {
+      e.stopPropagation();
+      if (options.hidden) open(); else close();
+    });
+    document.addEventListener("click", (e) => {
+      if (!e.target.closest(".combo--venues")) close();
+    });
+  }
+
+  function wireClear() {
+    const btn = $("#clear-btn");
+    btn.addEventListener("click", () => {
+      filters = { ...DEFAULT_FILTERS };
+      setInitialPills();
+      renderTeamChips();
+      buildTeamList();
+      buildVenueList();
+      updateVenueTrigger();
+      onFilterChange();
+    });
+  }
+
+  function refreshClearVisibility() {
+    $("#clear-btn").hidden = isDefaultFilters();
+  }
+
+  // ────────────────────────────────────────────────────────────
+  // Central filter change handler
+  // ────────────────────────────────────────────────────────────
+  function onFilterChange() {
+    saveFilters();
+    refreshClearVisibility();
+    const matches = applyFilters();
+    renderMatches(matches);
+  }
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, (c) =>
+      ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]),
+    );
   }
 
   // ────────────────────────────────────────────────────────────
@@ -276,51 +645,73 @@
     setTimeout(async () => {
       try {
         const data = await loadMatches(true);
-        render(data);
-      } catch {
-        /* keep last render */
-      } finally {
-        backgroundRefreshScheduled = false;
-      }
+        initFromData(data);
+      } catch { /* keep last render */ }
+      finally { backgroundRefreshScheduled = false; }
     }, 15_000);
   }
 
+  function initFromData(data) {
+    allData = data;
+    // Flatten matches
+    allMatches = [];
+    for (const day of data.days || []) {
+      for (const m of day.matches) allMatches.push(m);
+    }
+    renderHeader(data);
+    buildTeamList();
+    buildVenueList();
+    updateVenueTrigger();
+    renderTeamChips();
+    onFilterChange();
+  }
+
   async function boot() {
-    const refreshBtn = $("#refresh-btn");
-    refreshBtn.addEventListener("click", async () => {
-      refreshBtn.classList.add("spinning");
+    filters = loadFilters();
+    setInitialPills();
+    wirePills();
+    wireTeamCombo();
+    wireVenueCombo();
+    wireClear();
+    renderTeamChips();
+
+    $("#refresh-btn").addEventListener("click", async () => {
+      const btn = $("#refresh-btn");
+      btn.classList.add("spinning");
       try {
         const data = await loadMatches(true);
-        render(data);
+        initFromData(data);
       } catch (e) {
         showError(e);
       } finally {
-        setTimeout(() => refreshBtn.classList.remove("spinning"), 400);
+        setTimeout(() => btn.classList.remove("spinning"), 400);
       }
     });
 
     try {
       const data = await loadMatches();
-      render(data);
+      initFromData(data);
     } catch (e) {
-      // Try cache as a fallback so the page is never blank
       const cached = readCache();
-      if (cached) {
-        render(cached);
-      } else {
-        showError(e);
-      }
+      if (cached) initFromData(cached);
+      else showError(e);
     }
 
-    // Periodic background refresh
     setInterval(async () => {
       try {
         const data = await loadMatches(true);
-        render(data);
-      } catch {
-        /* keep last render */
-      }
+        initFromData(data);
+      } catch { /* keep last render */ }
     }, REFRESH_INTERVAL_MS);
+
+    // Re-render every minute so relative countdowns stay fresh
+    setInterval(() => {
+      if (allData) {
+        const matches = applyFilters();
+        renderMatches(matches);
+        renderHeader(allData);
+      }
+    }, 60_000);
   }
 
   function showError(err) {
@@ -330,12 +721,6 @@
     div.className = "error";
     div.innerHTML = `<strong>Couldn't load match data.</strong><br />${escapeHtml(String(err))}<br /><br />Try the refresh button.`;
     content.appendChild(div);
-  }
-
-  function escapeHtml(s) {
-    return s.replace(/[&<>"']/g, (c) =>
-      ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]),
-    );
   }
 
   if (document.readyState === "loading") {
