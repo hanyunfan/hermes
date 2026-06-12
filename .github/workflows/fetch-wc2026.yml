@@ -2,12 +2,16 @@ name: Fetch WC 2026 matches
 
 on:
   schedule:
-    # 12:00 UTC = 07:00 CDT (morning refresh, before kickoff)
-    - cron: "0 12 * * *"
-    # 21:00 UTC = 16:00 / 17:00 CDT (afternoon refresh, catches evening games)
-    - cron: "0 21 * * *"
-    # 03:00 UTC = 22:00 CDT (final refresh, scores settled)
-    - cron: "0 3 * * *"
+    # Six runs per day, each ~30 min after a typical group-stage
+    # match window ends (group stage matches kick off at 12/15/18/21 ET,
+    # run ~2h 5m, so end ~14/17/20/23 ET; cron fires 30 min after).
+    # Times shown in UTC; CDT = UTC-5 during the tournament.
+    - cron: "0 12 * * *"   # 12:00 UTC = 07:00 CT — morning preview / settle overnight
+    - cron: "30 18 * * *"  # 18:30 UTC = 13:30 CT — after ~13:00 CT matches
+    - cron: "30 21 * * *"  # 21:30 UTC = 16:30 CT — after ~16:00 CT matches
+    - cron: "30 0 * * *"   # 00:30 UTC = 19:30 CT — after ~19:00 CT matches
+    - cron: "30 3 * * *"   # 03:30 UTC = 22:30 CT — after ~22:00 CT matches
+    - cron: "0 6 * * *"    # 06:00 UTC = 01:00 CT — settle any extra-time / late games
   workflow_dispatch:
   push:
     paths:
