@@ -30,6 +30,11 @@ ESPN_BASE = "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/sco
 USER_AGENT = "hermes-world-cup-2026/1.0 (+https://github.com/hanyunfan/hermes)"
 DEFAULT_TZ = "America/Chicago"
 
+# ESPN caps the scoreboard endpoint at ~100 events per request. The 2026
+# World Cup has 104 matches over 39 days, so we chunk into ~14-day windows.
+ESPN_MAX_RANGE_DAYS = 14
+ESPN_HARD_CAP_EVENTS = 100
+
 
 def fetch_events(dates: str, timeout: int = 20) -> list[dict]:
     url = f"{ESPN_BASE}?dates={dates}"
@@ -37,6 +42,39 @@ def fetch_events(dates: str, timeout: int = 20) -> list[dict]:
     with urllib.request.urlopen(req, timeout=timeout) as r:
         payload = json.load(r)
     return payload.get("events") or []
+
+
+def fetch_full_tournament(start_utc: datetime, end_utc: datetime) -> list[dict]:
+    """Fetch every match in [start_utc, end_utc] by chunking on
+    ESPN_MAX_RANGE_DAYS. If a chunk still hits the hard cap we split it
+    further and warn, so the pipeline is robust to future schedule growth.
+    """
+    seen: dict[str, dict] = {}  # dedupe by event id
+    cursor = start_utc
+    chunk_size = ESPN_MAX_RANGE_DAYS
+    while cursor <= end_utc:
+        chunk_end = min(cursor + timedelta(days=chunk_size - 1), end_utc)
+        dates_arg = f"{cursor.strftime('%Y%m%d')}-{chunk_end.strftime('%Y%m%d')}"
+        events = fetch_events(dates_arg)
+        # Hit the cap? Halve the chunk and retry.
+        if len(events) >= ESPN_HARD_CAP_EVENTS and (chunk_end - cursor).days > 1:
+            if chunk_size <= 1:
+                print(
+                    f"WARNING: chunk {dates_arg} still at the {ESPN_HARD_CAP_EVENTS} cap "
+                    f"after min-size; some matches may be missing.",
+                    file=sys.stderr,
+                )
+            else:
+                chunk_size = max(1, chunk_size // 2)
+                continue
+        for e in events:
+            eid = e.get("id")
+            if eid is not None:
+                seen[eid] = e
+        cursor = chunk_end + timedelta(days=1)
+        if chunk_size < ESPN_MAX_RANGE_DAYS:
+            chunk_size = ESPN_MAX_RANGE_DAYS
+    return list(seen.values())
 
 
 def parse_competitor(comp: dict) -> dict:
@@ -216,15 +254,14 @@ def build_payload(tz_name: str) -> dict:
     today_local = now_local.date()
     tomorrow_local = today_local + timedelta(days=1)
 
-    # Pull a 4-day window in UTC so timezone wrap-around can't drop a match.
-    # Scoreboard endpoint accepts up to ~14 days per request.
+    # Fetch the full World Cup window. 2026 runs Jun 11 – Jul 19, but we
+    # also pad ±1 day to absorb any tz wrap-around edge cases.
     start_local = today_local - timedelta(days=1)
-    end_local = tomorrow_local + timedelta(days=1)
+    end_local = today_local + timedelta(days=45)  # safely past Jul 19
     start_utc = datetime.combine(start_local, datetime.min.time(), tzinfo=tz).astimezone(timezone.utc)
     end_utc = datetime.combine(end_local, datetime.max.time(), tzinfo=tz).astimezone(timezone.utc)
-    dates_arg = f"{start_utc.strftime('%Y%m%d')}-{end_utc.strftime('%Y%m%d')}"
 
-    raw_events = fetch_events(dates_arg)
+    raw_events = fetch_full_tournament(start_utc, end_utc)
 
     parsed: list[dict] = []
     for ev in raw_events:
@@ -233,21 +270,81 @@ def build_payload(tz_name: str) -> dict:
             parsed.append(m)
     parsed.sort(key=lambda m: m["kickoff_utc"])
 
-    today_str = today_local.isoformat()
-    tomorrow_str = tomorrow_local.isoformat()
-
-    def bucket(date_str: str, label: str) -> dict:
-        items = [m for m in parsed if m["kickoff_local_date"] == date_str]
+    # Build one bucket per local-date with a match, in chronological order.
+    seen_dates: dict[str, list[dict]] = {}
+    for m in parsed:
+        seen_dates.setdefault(m["kickoff_local_date"], []).append(m)
+    for items in seen_dates.values():
         items.sort(key=lambda m: m["kickoff_utc"])
-        return {
-            "date": date_str,
-            "label": label,
+
+    def label_for(date_str: str) -> str:
+        d = datetime.fromisoformat(date_str).date()
+        if d == today_local:
+            return "Today"
+        if d == tomorrow_local:
+            return "Tomorrow"
+        return d.strftime("%a")  # Mon, Tue, ...
+
+    days = [
+        {
+            "date": ds,
+            "label": label_for(ds),
             "match_count": len(items),
             "matches": items,
         }
+        for ds, items in sorted(seen_dates.items())
+    ]
+
+    # Facets for the front-end filter UI.
+    # Only real teams (group stage) show up in the team facet; knockout
+    # "X Winner" placeholders are filtered out so the picker stays clean.
+    team_index: dict[str, dict] = {}
+    venue_index: dict[str, dict] = {}
+    for m in parsed:
+        for side in (m["home"], m["away"]):
+            tid = str(side["id"])
+            name = side["name"] or ""
+            is_placeholder = (
+                "Winner" in name
+                or "Loser" in name
+                or "2nd Place" in name
+                or "Third Place" in name
+            )
+            if is_placeholder:
+                continue
+            existing = team_index.get(tid)
+            if existing is None or m["kickoff_local_date"] < existing["first_seen"]:
+                team_index[tid] = {
+                    "id": tid,
+                    "name": name,
+                    "short": side["short"],
+                    "abbr": side["abbr"],
+                    "flag": side["flag"],
+                    "first_seen": m["kickoff_local_date"],
+                    "group_count": 0,
+                }
+            if m["stage_slug"] == "group-stage":
+                team_index[tid]["group_count"] += 1
+        v = m["venue"]
+        if v["name"]:
+            key = v["name"]
+            venue_index.setdefault(key, {
+                "id": key,
+                "name": v["name"],
+                "city": v["city"],
+                "country": v["country"],
+                "match_count": 0,
+            })
+            venue_index[key]["match_count"] += 1
+
+    teams = sorted(team_index.values(), key=lambda t: t["name"])
+    venues = sorted(venue_index.values(), key=lambda v: v["name"])
+
+    tournament_start = days[0]["date"] if days else today_local.isoformat()
+    tournament_end = days[-1]["date"] if days else today_local.isoformat()
 
     return {
-        "schema_version": 1,
+        "schema_version": 2,
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "timezone": tz_name,
         "now_local": now_local.isoformat(),
@@ -256,11 +353,15 @@ def build_payload(tz_name: str) -> dict:
             "host": "USA / Canada / Mexico",
             "dates": "Jun 11 – Jul 19, 2026",
             "edition": "23rd",
+            "start": tournament_start,
+            "end": tournament_end,
         },
-        "days": [
-            bucket(today_str, "Today"),
-            bucket(tomorrow_str, "Tomorrow"),
-        ],
+        "facets": {
+            "teams": teams,
+            "venues": venues,
+            "stages": sorted({m["stage_slug"] for m in parsed if m.get("stage_slug")}),
+        },
+        "days": days,
     }
 
 
@@ -288,9 +389,12 @@ def main() -> int:
         out.parent.mkdir(parents=True, exist_ok=True)
         out.write_text(text + "\n", encoding="utf-8")
         match_count = sum(d["match_count"] for d in payload["days"])
+        team_count = len(payload.get("facets", {}).get("teams", []))
+        venue_count = len(payload.get("facets", {}).get("venues", []))
         print(
             f"wrote {out} ({match_count} matches across "
-            f"{len(payload['days'])} days, tz={args.tz})"
+            f"{len(payload['days'])} days, {team_count} teams, "
+            f"{venue_count} venues, tz={args.tz})"
         )
     return 0
 
