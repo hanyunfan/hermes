@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FIFA World Cup 2026 — Daily Preview</title>
+  <meta name="description" content="Daily preview of today's and tomorrow's 2026 FIFA World Cup matches, in your local timezone." />
+  <link rel="icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><text y='52' font-size='52'>⚽</text></svg>" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="page">
+    <header class="hero">
+      <div class="hero-meta">
+        <span class="trophy">🏆</span>
+        <span class="edition" id="tournament-edition">23rd edition</span>
+      </div>
+      <h1 class="title">FIFA World Cup <span class="year">2026</span></h1>
+      <p class="subtitle" id="tournament-subtitle">Jun 11 – Jul 19, 2026 · USA · Canada · Mexico</p>
+      <div class="tz-row">
+        <span class="tz-pill" id="tz-pill">Local time</span>
+        <button class="refresh-btn" id="refresh-btn" type="button" title="Reload matches">
+          <span class="refresh-icon" aria-hidden="true">↻</span> Refresh
+        </button>
+        <span class="updated" id="updated">—</span>
+      </div>
+    </header>
+
+    <main id="content" class="content" aria-live="polite">
+      <div class="loading" id="loading">Loading matches…</div>
+    </main>
+
+    <footer class="foot">
+      <p>
+        Data: <a href="https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard" target="_blank" rel="noopener noreferrer">ESPN</a>
+        · Refreshed daily by GitHub Actions
+        · <a href="https://github.com/hanyunfan/hermes/tree/main/world-cup-2026" target="_blank" rel="noopener noreferrer">Source</a>
+      </p>
+    </footer>
+  </div>
+
+  <template id="day-template">
+    <section class="day">
+      <header class="day-head">
+        <h2 class="day-title"></h2>
+        <span class="day-count"></span>
+      </header>
+      <ul class="matches" role="list"></ul>
+    </section>
+  </template>
+
+  <template id="match-template">
+    <li class="match">
+      <div class="match-time">
+        <span class="time-main"></span>
+        <span class="time-status"></span>
+      </div>
+
+      <div class="match-body">
+        <div class="team-row">
+          <div class="team home">
+            <img class="team-logo" alt="" loading="lazy" />
+            <div class="team-info">
+              <span class="team-flag"></span>
+              <span class="team-name"></span>
+              <span class="team-rank"></span>
+            </div>
+            <span class="team-score"></span>
+          </div>
+          <div class="team away">
+            <img class="team-logo" alt="" loading="lazy" />
+            <div class="team-info">
+              <span class="team-flag"></span>
+              <span class="team-name"></span>
+              <span class="team-rank"></span>
+            </div>
+            <span class="team-score"></span>
+          </div>
+        </div>
+
+        <div class="match-meta">
+          <div class="meta-block">
+            <span class="meta-label">Stage</span>
+            <span class="meta-val stage"></span>
+          </div>
+          <div class="meta-block">
+            <span class="meta-label">Venue</span>
+            <span class="meta-val venue"></span>
+          </div>
+          <div class="meta-block">
+            <span class="meta-label">Watch</span>
+            <span class="meta-val broadcasts"></span>
+          </div>
+        </div>
+
+        <div class="match-links">
+          <a class="link espn" target="_blank" rel="noopener noreferrer">ESPN ↗</a>
+          <a class="link fox" target="_blank" rel="noopener noreferrer">Fox Sports ↗</a>
+        </div>
+      </div>
+    </li>
+  </template>
+
+  <script src="app.js" defer></script>
+</body>
+</html>
