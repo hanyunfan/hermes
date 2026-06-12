@@ -9,7 +9,9 @@
   const CACHE_KEY = "wc2026.matches.v2";
   const FILTER_KEY = "wc2026.filters.v1";
   const TZ_KEY = "wc2026.tz.v1";
-  const REFRESH_INTERVAL_MS = 5 * 60 * 1000; // 5 min
+  const REFRESH_INTERVAL_MS = 5 * 60 * 1000;   // 5 min between cron hits
+  const REFRESH_LIVE_MS    = 30 * 1000;       // 30 s while any match is LIVE
+  const RERENDER_TICK_MS   = 60 * 1000;       // re-render countdowns every 1 min
 
   const $ = (sel, root = document) => root.querySelector(sel);
   const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
@@ -914,21 +916,31 @@
       else showError(e);
     }
 
-    setInterval(async () => {
-      try {
-        const data = await loadMatches(true);
-        initFromData(data);
-      } catch { /* keep last render */ }
-    }, REFRESH_INTERVAL_MS);
+    // Self-rescheduling refresh. While any match is LIVE we poll
+    // every 30 s so a goal / score change shows up fast; otherwise we
+    // settle back to the 5-min baseline (the cron covers catch-up
+    // for users who don't have the page open).
+    function scheduleRefresh() {
+      const hasLive = allMatches.some((m) => m.status === "LIVE");
+      const delay = hasLive ? REFRESH_LIVE_MS : REFRESH_INTERVAL_MS;
+      setTimeout(async () => {
+        try {
+          const data = await loadMatches(true);
+          initFromData(data);
+        } catch { /* keep last render */ }
+        scheduleRefresh();
+      }, delay);
+    }
+    scheduleRefresh();
 
-    // Re-render every minute so relative countdowns stay fresh
+    // Re-render every minute so relative countdowns stay fresh.
     setInterval(() => {
       if (allData) {
         const matches = applyFilters();
         renderMatches(matches);
         renderHeader(allData);
       }
-    }, 60_000);
+    }, RERENDER_TICK_MS);
   }
 
   function showError(err) {
