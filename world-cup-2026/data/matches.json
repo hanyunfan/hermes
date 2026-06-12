@@ -1,15 +1,681 @@
 {
-  "schema_version": 1,
-  "generated_at": "2026-06-12T07:09:40.345948+00:00",
+  "schema_version": 2,
+  "generated_at": "2026-06-12T12:23:51.567129+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-12T02:09:40.205166-05:00",
+  "now_local": "2026-06-12T07:23:51.206008-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
     "dates": "Jun 11 – Jul 19, 2026",
-    "edition": "23rd"
+    "edition": "23rd",
+    "start": "2026-06-11",
+    "end": "2026-07-19"
+  },
+  "facets": {
+    "teams": [
+      {
+        "id": "624",
+        "name": "Algeria",
+        "short": "Algeria",
+        "abbr": "ALG",
+        "flag": "🇩🇿",
+        "first_seen": "2026-06-16",
+        "group_count": 3
+      },
+      {
+        "id": "202",
+        "name": "Argentina",
+        "short": "Argentina",
+        "abbr": "ARG",
+        "flag": "🇦🇷",
+        "first_seen": "2026-06-16",
+        "group_count": 3
+      },
+      {
+        "id": "628",
+        "name": "Australia",
+        "short": "Australia",
+        "abbr": "AUS",
+        "flag": "🇦🇺",
+        "first_seen": "2026-06-13",
+        "group_count": 3
+      },
+      {
+        "id": "474",
+        "name": "Austria",
+        "short": "Austria",
+        "abbr": "AUT",
+        "flag": "🇦🇹",
+        "first_seen": "2026-06-16",
+        "group_count": 3
+      },
+      {
+        "id": "459",
+        "name": "Belgium",
+        "short": "Belgium",
+        "abbr": "BEL",
+        "flag": "🇧🇪",
+        "first_seen": "2026-06-15",
+        "group_count": 3
+      },
+      {
+        "id": "452",
+        "name": "Bosnia-Herzegovina",
+        "short": "Bosnia-Herz",
+        "abbr": "BIH",
+        "flag": "🇧🇦",
+        "first_seen": "2026-06-12",
+        "group_count": 3
+      },
+      {
+        "id": "205",
+        "name": "Brazil",
+        "short": "Brazil",
+        "abbr": "BRA",
+        "flag": "🇧🇷",
+        "first_seen": "2026-06-13",
+        "group_count": 3
+      },
+      {
+        "id": "206",
+        "name": "Canada",
+        "short": "Canada",
+        "abbr": "CAN",
+        "flag": "🇨🇦",
+        "first_seen": "2026-06-12",
+        "group_count": 3
+      },
+      {
+        "id": "2597",
+        "name": "Cape Verde",
+        "short": "Cape Verde",
+        "abbr": "CPV",
+        "flag": "🇨🇻",
+        "first_seen": "2026-06-15",
+        "group_count": 3
+      },
+      {
+        "id": "208",
+        "name": "Colombia",
+        "short": "Colombia",
+        "abbr": "COL",
+        "flag": "🇨🇴",
+        "first_seen": "2026-06-17",
+        "group_count": 3
+      },
+      {
+        "id": "2850",
+        "name": "Congo DR",
+        "short": "Congo DR",
+        "abbr": "COD",
+        "flag": "🇨🇩",
+        "first_seen": "2026-06-17",
+        "group_count": 3
+      },
+      {
+        "id": "477",
+        "name": "Croatia",
+        "short": "Croatia",
+        "abbr": "CRO",
+        "flag": "🇭🇷",
+        "first_seen": "2026-06-17",
+        "group_count": 3
+      },
+      {
+        "id": "11678",
+        "name": "Curaçao",
+        "short": "Curaçao",
+        "abbr": "CUW",
+        "flag": "🏳️",
+        "first_seen": "2026-06-14",
+        "group_count": 3
+      },
+      {
+        "id": "450",
+        "name": "Czechia",
+        "short": "Czechia",
+        "abbr": "CZE",
+        "flag": "🇨🇿",
+        "first_seen": "2026-06-11",
+        "group_count": 3
+      },
+      {
+        "id": "209",
+        "name": "Ecuador",
+        "short": "Ecuador",
+        "abbr": "ECU",
+        "flag": "🇪🇨",
+        "first_seen": "2026-06-14",
+        "group_count": 3
+      },
+      {
+        "id": "2620",
+        "name": "Egypt",
+        "short": "Egypt",
+        "abbr": "EGY",
+        "flag": "🇪🇬",
+        "first_seen": "2026-06-15",
+        "group_count": 3
+      },
+      {
+        "id": "448",
+        "name": "England",
+        "short": "England",
+        "abbr": "ENG",
+        "flag": "🏴",
+        "first_seen": "2026-06-17",
+        "group_count": 3
+      },
+      {
+        "id": "478",
+        "name": "France",
+        "short": "France",
+        "abbr": "FRA",
+        "flag": "🇫🇷",
+        "first_seen": "2026-06-16",
+        "group_count": 3
+      },
+      {
+        "id": "481",
+        "name": "Germany",
+        "short": "Germany",
+        "abbr": "GER",
+        "flag": "🇩🇪",
+        "first_seen": "2026-06-14",
+        "group_count": 3
+      },
+      {
+        "id": "4469",
+        "name": "Ghana",
+        "short": "Ghana",
+        "abbr": "GHA",
+        "flag": "🇬🇭",
+        "first_seen": "2026-06-17",
+        "group_count": 3
+      },
+      {
+        "id": "2654",
+        "name": "Haiti",
+        "short": "Haiti",
+        "abbr": "HAI",
+        "flag": "🇭🇹",
+        "first_seen": "2026-06-13",
+        "group_count": 3
+      },
+      {
+        "id": "469",
+        "name": "Iran",
+        "short": "Iran",
+        "abbr": "IRN",
+        "flag": "🇮🇷",
+        "first_seen": "2026-06-15",
+        "group_count": 3
+      },
+      {
+        "id": "4375",
+        "name": "Iraq",
+        "short": "Iraq",
+        "abbr": "IRQ",
+        "flag": "🇮🇶",
+        "first_seen": "2026-06-16",
+        "group_count": 3
+      },
+      {
+        "id": "4789",
+        "name": "Ivory Coast",
+        "short": "Ivory Coast",
+        "abbr": "CIV",
+        "flag": "🇨🇮",
+        "first_seen": "2026-06-14",
+        "group_count": 3
+      },
+      {
+        "id": "627",
+        "name": "Japan",
+        "short": "Japan",
+        "abbr": "JPN",
+        "flag": "🇯🇵",
+        "first_seen": "2026-06-14",
+        "group_count": 3
+      },
+      {
+        "id": "2917",
+        "name": "Jordan",
+        "short": "Jordan",
+        "abbr": "JOR",
+        "flag": "🇯🇴",
+        "first_seen": "2026-06-16",
+        "group_count": 3
+      },
+      {
+        "id": "203",
+        "name": "Mexico",
+        "short": "Mexico",
+        "abbr": "MEX",
+        "flag": "🇲🇽",
+        "first_seen": "2026-06-11",
+        "group_count": 3
+      },
+      {
+        "id": "2869",
+        "name": "Morocco",
+        "short": "Morocco",
+        "abbr": "MAR",
+        "flag": "🇲🇦",
+        "first_seen": "2026-06-13",
+        "group_count": 3
+      },
+      {
+        "id": "449",
+        "name": "Netherlands",
+        "short": "Netherlands",
+        "abbr": "NED",
+        "flag": "🇳🇱",
+        "first_seen": "2026-06-14",
+        "group_count": 3
+      },
+      {
+        "id": "2666",
+        "name": "New Zealand",
+        "short": "New Zealand",
+        "abbr": "NZL",
+        "flag": "🇳🇿",
+        "first_seen": "2026-06-15",
+        "group_count": 3
+      },
+      {
+        "id": "464",
+        "name": "Norway",
+        "short": "Norway",
+        "abbr": "NOR",
+        "flag": "🇳🇴",
+        "first_seen": "2026-06-16",
+        "group_count": 3
+      },
+      {
+        "id": "2659",
+        "name": "Panama",
+        "short": "Panama",
+        "abbr": "PAN",
+        "flag": "🇵🇦",
+        "first_seen": "2026-06-17",
+        "group_count": 3
+      },
+      {
+        "id": "210",
+        "name": "Paraguay",
+        "short": "Paraguay",
+        "abbr": "PAR",
+        "flag": "🇵🇾",
+        "first_seen": "2026-06-12",
+        "group_count": 3
+      },
+      {
+        "id": "482",
+        "name": "Portugal",
+        "short": "Portugal",
+        "abbr": "POR",
+        "flag": "🇵🇹",
+        "first_seen": "2026-06-17",
+        "group_count": 3
+      },
+      {
+        "id": "4398",
+        "name": "Qatar",
+        "short": "Qatar",
+        "abbr": "QAT",
+        "flag": "🇶🇦",
+        "first_seen": "2026-06-13",
+        "group_count": 3
+      },
+      {
+        "id": "655",
+        "name": "Saudi Arabia",
+        "short": "Saudi Arabia",
+        "abbr": "KSA",
+        "flag": "🇸🇦",
+        "first_seen": "2026-06-15",
+        "group_count": 3
+      },
+      {
+        "id": "580",
+        "name": "Scotland",
+        "short": "Scotland",
+        "abbr": "SCO",
+        "flag": "🏴",
+        "first_seen": "2026-06-13",
+        "group_count": 3
+      },
+      {
+        "id": "654",
+        "name": "Senegal",
+        "short": "Senegal",
+        "abbr": "SEN",
+        "flag": "🇸🇳",
+        "first_seen": "2026-06-16",
+        "group_count": 3
+      },
+      {
+        "id": "467",
+        "name": "South Africa",
+        "short": "South Africa",
+        "abbr": "RSA",
+        "flag": "🇿🇦",
+        "first_seen": "2026-06-11",
+        "group_count": 3
+      },
+      {
+        "id": "451",
+        "name": "South Korea",
+        "short": "South Korea",
+        "abbr": "KOR",
+        "flag": "🇰🇷",
+        "first_seen": "2026-06-11",
+        "group_count": 3
+      },
+      {
+        "id": "164",
+        "name": "Spain",
+        "short": "Spain",
+        "abbr": "ESP",
+        "flag": "🇪🇸",
+        "first_seen": "2026-06-15",
+        "group_count": 3
+      },
+      {
+        "id": "466",
+        "name": "Sweden",
+        "short": "Sweden",
+        "abbr": "SWE",
+        "flag": "🇸🇪",
+        "first_seen": "2026-06-14",
+        "group_count": 3
+      },
+      {
+        "id": "475",
+        "name": "Switzerland",
+        "short": "Switzerland",
+        "abbr": "SUI",
+        "flag": "🇨🇭",
+        "first_seen": "2026-06-13",
+        "group_count": 3
+      },
+      {
+        "id": "659",
+        "name": "Tunisia",
+        "short": "Tunisia",
+        "abbr": "TUN",
+        "flag": "🇹🇳",
+        "first_seen": "2026-06-14",
+        "group_count": 3
+      },
+      {
+        "id": "465",
+        "name": "Türkiye",
+        "short": "Türkiye",
+        "abbr": "TUR",
+        "flag": "🇹🇷",
+        "first_seen": "2026-06-13",
+        "group_count": 3
+      },
+      {
+        "id": "660",
+        "name": "United States",
+        "short": "USA",
+        "abbr": "USA",
+        "flag": "🇺🇸",
+        "first_seen": "2026-06-12",
+        "group_count": 3
+      },
+      {
+        "id": "212",
+        "name": "Uruguay",
+        "short": "Uruguay",
+        "abbr": "URU",
+        "flag": "🇺🇾",
+        "first_seen": "2026-06-15",
+        "group_count": 3
+      },
+      {
+        "id": "2570",
+        "name": "Uzbekistan",
+        "short": "Uzbekistan",
+        "abbr": "UZB",
+        "flag": "🇺🇿",
+        "first_seen": "2026-06-17",
+        "group_count": 3
+      }
+    ],
+    "venues": [
+      {
+        "id": "AT&T Stadium",
+        "name": "AT&T Stadium",
+        "city": "Arlington, Texas",
+        "country": "USA",
+        "match_count": 9
+      },
+      {
+        "id": "BC Place",
+        "name": "BC Place",
+        "city": "Vancouver",
+        "country": "Canada",
+        "match_count": 7
+      },
+      {
+        "id": "BMO Field",
+        "name": "BMO Field",
+        "city": "Toronto",
+        "country": "Canada",
+        "match_count": 6
+      },
+      {
+        "id": "Estadio Akron",
+        "name": "Estadio Akron",
+        "city": "Guadalajara",
+        "country": "Mexico",
+        "match_count": 4
+      },
+      {
+        "id": "Estadio BBVA",
+        "name": "Estadio BBVA",
+        "city": "Guadalupe",
+        "country": "Mexico",
+        "match_count": 4
+      },
+      {
+        "id": "Estadio Banorte",
+        "name": "Estadio Banorte",
+        "city": "Mexico City",
+        "country": "Mexico",
+        "match_count": 5
+      },
+      {
+        "id": "GEHA Field at Arrowhead Stadium",
+        "name": "GEHA Field at Arrowhead Stadium",
+        "city": "Kansas City, Missouri",
+        "country": "USA",
+        "match_count": 6
+      },
+      {
+        "id": "Gillette Stadium",
+        "name": "Gillette Stadium",
+        "city": "Foxborough, Massachusetts",
+        "country": "USA",
+        "match_count": 7
+      },
+      {
+        "id": "Hard Rock Stadium",
+        "name": "Hard Rock Stadium",
+        "city": "Miami Gardens, Florida",
+        "country": "USA",
+        "match_count": 7
+      },
+      {
+        "id": "Levi's Stadium",
+        "name": "Levi's Stadium",
+        "city": "Santa Clara, California",
+        "country": "USA",
+        "match_count": 6
+      },
+      {
+        "id": "Lincoln Financial Field",
+        "name": "Lincoln Financial Field",
+        "city": "Philadelphia, Pennsylvania",
+        "country": "USA",
+        "match_count": 6
+      },
+      {
+        "id": "Lumen Field",
+        "name": "Lumen Field",
+        "city": "Seattle, Washington",
+        "country": "USA",
+        "match_count": 6
+      },
+      {
+        "id": "Mercedes-Benz Stadium",
+        "name": "Mercedes-Benz Stadium",
+        "city": "Atlanta, Georgia",
+        "country": "USA",
+        "match_count": 8
+      },
+      {
+        "id": "MetLife Stadium",
+        "name": "MetLife Stadium",
+        "city": "East Rutherford, New Jersey",
+        "country": "USA",
+        "match_count": 8
+      },
+      {
+        "id": "NRG Stadium",
+        "name": "NRG Stadium",
+        "city": "Houston, Texas",
+        "country": "USA",
+        "match_count": 7
+      },
+      {
+        "id": "SoFi Stadium",
+        "name": "SoFi Stadium",
+        "city": "Inglewood, California",
+        "country": "USA",
+        "match_count": 8
+      }
+    ],
+    "stages": [
+      "3rd-place-match",
+      "final",
+      "group-stage",
+      "quarterfinals",
+      "round-of-16",
+      "round-of-32",
+      "semifinals"
+    ]
   },
   "days": [
+    {
+      "date": "2026-06-11",
+      "label": "Thu",
+      "match_count": 2,
+      "matches": [
+        {
+          "id": "760415",
+          "kickoff_utc": "2026-06-11T19:00:00+00:00",
+          "kickoff_local": "2026-06-11T14:00:00-05:00",
+          "kickoff_local_date": "2026-06-11",
+          "kickoff_time": "2:00 PM",
+          "kickoff_weekday": "Thu",
+          "status": "FINAL",
+          "status_short": "FT",
+          "stage": "Group Stage",
+          "stage_slug": "group-stage",
+          "home": {
+            "id": "203",
+            "name": "Mexico",
+            "short": "Mexico",
+            "abbr": "MEX",
+            "flag": "🇲🇽",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/mex.png",
+            "color": "006847",
+            "home_away": "home",
+            "score": 2,
+            "winner": true
+          },
+          "away": {
+            "id": "467",
+            "name": "South Africa",
+            "short": "South Africa",
+            "abbr": "RSA",
+            "flag": "🇿🇦",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/rsa.png",
+            "color": "087d5a",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "Estadio Banorte",
+            "city": "Mexico City",
+            "country": "Mexico"
+          },
+          "broadcasts": [
+            "FOX",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760415/south-africa-mexico",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Mexico%20vs%20South%20Africa",
+          "slug": "south africa-at-mexico"
+        },
+        {
+          "id": "760414",
+          "kickoff_utc": "2026-06-12T02:00:00+00:00",
+          "kickoff_local": "2026-06-11T21:00:00-05:00",
+          "kickoff_local_date": "2026-06-11",
+          "kickoff_time": "9:00 PM",
+          "kickoff_weekday": "Thu",
+          "status": "FINAL",
+          "status_short": "FT",
+          "stage": "Group Stage",
+          "stage_slug": "group-stage",
+          "home": {
+            "id": "451",
+            "name": "South Korea",
+            "short": "South Korea",
+            "abbr": "KOR",
+            "flag": "🇰🇷",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/kors.png",
+            "color": "ce2028",
+            "home_away": "home",
+            "score": 2,
+            "winner": true
+          },
+          "away": {
+            "id": "450",
+            "name": "Czechia",
+            "short": "Czechia",
+            "abbr": "CZE",
+            "flag": "🇨🇿",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/cze.png",
+            "color": "d7141a",
+            "home_away": "away",
+            "score": 1,
+            "winner": false
+          },
+          "venue": {
+            "name": "Estadio Akron",
+            "city": "Guadalajara",
+            "country": "Mexico"
+          },
+          "broadcasts": [
+            "FS1",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760414/czechia-south-korea",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20South%20Korea%20vs%20Czechia",
+          "slug": "czechia-at-south korea"
+        }
+      ]
+    },
     {
       "date": "2026-06-12",
       "label": "Today",
@@ -315,6 +981,4927 @@
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760421/turkiye-australia",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Australia%20vs%20T%C3%BCrkiye",
           "slug": "turkiye-at-australia"
+        }
+      ]
+    },
+    {
+      "date": "2026-06-14",
+      "label": "Sun",
+      "match_count": 4,
+      "matches": [
+        {
+          "id": "760422",
+          "kickoff_utc": "2026-06-14T17:00:00+00:00",
+          "kickoff_local": "2026-06-14T12:00:00-05:00",
+          "kickoff_local_date": "2026-06-14",
+          "kickoff_time": "12:00 PM",
+          "kickoff_weekday": "Sun",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
+          "stage": "Group Stage",
+          "stage_slug": "group-stage",
+          "home": {
+            "id": "481",
+            "name": "Germany",
+            "short": "Germany",
+            "abbr": "GER",
+            "flag": "🇩🇪",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/ger.png",
+            "color": "000000",
+            "home_away": "home",
+            "score": 0,
+            "winner": false
+          },
+          "away": {
+            "id": "11678",
+            "name": "Curaçao",
+            "short": "Curaçao",
+            "abbr": "CUW",
+            "flag": "🏳️",
+            "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/11678.png",
+            "color": "0537e4",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "NRG Stadium",
+            "city": "Houston, Texas",
+            "country": "USA"
+          },
+          "broadcasts": [
+            "FOX",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760422/curacao-germany",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Germany%20vs%20Cura%C3%A7ao",
+          "slug": "curacao-at-germany"
+        },
+        {
+          "id": "760425",
+          "kickoff_utc": "2026-06-14T20:00:00+00:00",
+          "kickoff_local": "2026-06-14T15:00:00-05:00",
+          "kickoff_local_date": "2026-06-14",
+          "kickoff_time": "3:00 PM",
+          "kickoff_weekday": "Sun",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
+          "stage": "Group Stage",
+          "stage_slug": "group-stage",
+          "home": {
+            "id": "449",
+            "name": "Netherlands",
+            "short": "Netherlands",
+            "abbr": "NED",
+            "flag": "🇳🇱",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/ned.png",
+            "color": "fb5d00",
+            "home_away": "home",
+            "score": 0,
+            "winner": false
+          },
+          "away": {
+            "id": "627",
+            "name": "Japan",
+            "short": "Japan",
+            "abbr": "JPN",
+            "flag": "🇯🇵",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/jpn.png",
+            "color": "ed1c24",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "AT&T Stadium",
+            "city": "Arlington, Texas",
+            "country": "USA"
+          },
+          "broadcasts": [
+            "FOX",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760425/japan-netherlands",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Netherlands%20vs%20Japan",
+          "slug": "japan-at-netherlands"
+        },
+        {
+          "id": "760423",
+          "kickoff_utc": "2026-06-14T23:00:00+00:00",
+          "kickoff_local": "2026-06-14T18:00:00-05:00",
+          "kickoff_local_date": "2026-06-14",
+          "kickoff_time": "6:00 PM",
+          "kickoff_weekday": "Sun",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
+          "stage": "Group Stage",
+          "stage_slug": "group-stage",
+          "home": {
+            "id": "4789",
+            "name": "Ivory Coast",
+            "short": "Ivory Coast",
+            "abbr": "CIV",
+            "flag": "🇨🇮",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/civ.png",
+            "color": "d48c00",
+            "home_away": "home",
+            "score": 0,
+            "winner": false
+          },
+          "away": {
+            "id": "209",
+            "name": "Ecuador",
+            "short": "Ecuador",
+            "abbr": "ECU",
+            "flag": "🇪🇨",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/ecu.png",
+            "color": "ffdd00",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "Lincoln Financial Field",
+            "city": "Philadelphia, Pennsylvania",
+            "country": "USA"
+          },
+          "broadcasts": [
+            "FS1",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760423/ecuador-ivory-coast",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Ivory%20Coast%20vs%20Ecuador",
+          "slug": "ecuador-at-ivory coast"
+        },
+        {
+          "id": "760424",
+          "kickoff_utc": "2026-06-15T02:00:00+00:00",
+          "kickoff_local": "2026-06-14T21:00:00-05:00",
+          "kickoff_local_date": "2026-06-14",
+          "kickoff_time": "9:00 PM",
+          "kickoff_weekday": "Sun",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
+          "stage": "Group Stage",
+          "stage_slug": "group-stage",
+          "home": {
+            "id": "466",
+            "name": "Sweden",
+            "short": "Sweden",
+            "abbr": "SWE",
+            "flag": "🇸🇪",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/swe.png",
+            "color": "fecb00",
+            "home_away": "home",
+            "score": 0,
+            "winner": false
+          },
+          "away": {
+            "id": "659",
+            "name": "Tunisia",
+            "short": "Tunisia",
+            "abbr": "TUN",
+            "flag": "🇹🇳",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/tun.png",
+            "color": "D20300",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "Estadio BBVA",
+            "city": "Guadalupe",
+            "country": "Mexico"
+          },
+          "broadcasts": [
+            "FS1",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760424/tunisia-sweden",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Sweden%20vs%20Tunisia",
+          "slug": "tunisia-at-sweden"
+        }
+      ]
+    },
+    {
+      "date": "2026-06-15",
+      "label": "Mon",
+      "match_count": 4,
+      "matches": [
+        {
+          "id": "760428",
+          "kickoff_utc": "2026-06-15T16:00:00+00:00",
+          "kickoff_local": "2026-06-15T11:00:00-05:00",
+          "kickoff_local_date": "2026-06-15",
+          "kickoff_time": "11:00 AM",
+          "kickoff_weekday": "Mon",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
+          "stage": "Group Stage",
+          "stage_slug": "group-stage",
+          "home": {
+            "id": "164",
+            "name": "Spain",
+            "short": "Spain",
+            "abbr": "ESP",
+            "flag": "🇪🇸",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/esp.png",
+            "color": "c60b1e",
+            "home_away": "home",
+            "score": 0,
+            "winner": false
+          },
+          "away": {
+            "id": "2597",
+            "name": "Cape Verde",
+            "short": "Cape Verde",
+            "abbr": "CPV",
+            "flag": "🇨🇻",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/cpv.png",
+            "color": "0000ff",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "Mercedes-Benz Stadium",
+            "city": "Atlanta, Georgia",
+            "country": "USA"
+          },
+          "broadcasts": [
+            "FOX",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760428/cape-verde-spain",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Spain%20vs%20Cape%20Verde",
+          "slug": "cape verde-at-spain"
+        },
+        {
+          "id": "760426",
+          "kickoff_utc": "2026-06-15T19:00:00+00:00",
+          "kickoff_local": "2026-06-15T14:00:00-05:00",
+          "kickoff_local_date": "2026-06-15",
+          "kickoff_time": "2:00 PM",
+          "kickoff_weekday": "Mon",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
+          "stage": "Group Stage",
+          "stage_slug": "group-stage",
+          "home": {
+            "id": "459",
+            "name": "Belgium",
+            "short": "Belgium",
+            "abbr": "BEL",
+            "flag": "🇧🇪",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/bel.png",
+            "color": "ef3340",
+            "home_away": "home",
+            "score": 0,
+            "winner": false
+          },
+          "away": {
+            "id": "2620",
+            "name": "Egypt",
+            "short": "Egypt",
+            "abbr": "EGY",
+            "flag": "🇪🇬",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/egy.png",
+            "color": "D20300",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "Lumen Field",
+            "city": "Seattle, Washington",
+            "country": "USA"
+          },
+          "broadcasts": [
+            "FOX",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760426/egypt-belgium",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Belgium%20vs%20Egypt",
+          "slug": "egypt-at-belgium"
+        },
+        {
+          "id": "760429",
+          "kickoff_utc": "2026-06-15T22:00:00+00:00",
+          "kickoff_local": "2026-06-15T17:00:00-05:00",
+          "kickoff_local_date": "2026-06-15",
+          "kickoff_time": "5:00 PM",
+          "kickoff_weekday": "Mon",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
+          "stage": "Group Stage",
+          "stage_slug": "group-stage",
+          "home": {
+            "id": "655",
+            "name": "Saudi Arabia",
+            "short": "Saudi Arabia",
+            "abbr": "KSA",
+            "flag": "🇸🇦",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/ksa.png",
+            "color": "dddddd",
+            "home_away": "home",
+            "score": 0,
+            "winner": false
+          },
+          "away": {
+            "id": "212",
+            "name": "Uruguay",
+            "short": "Uruguay",
+            "abbr": "URU",
+            "flag": "🇺🇾",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/uru.png",
+            "color": "003da5",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "Hard Rock Stadium",
+            "city": "Miami Gardens, Florida",
+            "country": "USA"
+          },
+          "broadcasts": [
+            "FS1",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760429/uruguay-saudi-arabia",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Saudi%20Arabia%20vs%20Uruguay",
+          "slug": "uruguay-at-saudi arabia"
+        },
+        {
+          "id": "760427",
+          "kickoff_utc": "2026-06-16T01:00:00+00:00",
+          "kickoff_local": "2026-06-15T20:00:00-05:00",
+          "kickoff_local_date": "2026-06-15",
+          "kickoff_time": "8:00 PM",
+          "kickoff_weekday": "Mon",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
+          "stage": "Group Stage",
+          "stage_slug": "group-stage",
+          "home": {
+            "id": "469",
+            "name": "Iran",
+            "short": "Iran",
+            "abbr": "IRN",
+            "flag": "🇮🇷",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/irn.png",
+            "color": "da0000",
+            "home_away": "home",
+            "score": 0,
+            "winner": false
+          },
+          "away": {
+            "id": "2666",
+            "name": "New Zealand",
+            "short": "New Zealand",
+            "abbr": "NZL",
+            "flag": "🇳🇿",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/nzl.png",
+            "color": "273476",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "SoFi Stadium",
+            "city": "Inglewood, California",
+            "country": "USA"
+          },
+          "broadcasts": [
+            "FS1",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760427/new-zealand-iran",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Iran%20vs%20New%20Zealand",
+          "slug": "new zealand-at-iran"
+        }
+      ]
+    },
+    {
+      "date": "2026-06-16",
+      "label": "Tue",
+      "match_count": 4,
+      "matches": [
+        {
+          "id": "760432",
+          "kickoff_utc": "2026-06-16T19:00:00+00:00",
+          "kickoff_local": "2026-06-16T14:00:00-05:00",
+          "kickoff_local_date": "2026-06-16",
+          "kickoff_time": "2:00 PM",
+          "kickoff_weekday": "Tue",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
+          "stage": "Group Stage",
+          "stage_slug": "group-stage",
+          "home": {
+            "id": "478",
+            "name": "France",
+            "short": "France",
+            "abbr": "FRA",
+            "flag": "🇫🇷",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/fra.png",
+            "color": "0c2fff",
+            "home_away": "home",
+            "score": 0,
+            "winner": false
+          },
+          "away": {
+            "id": "654",
+            "name": "Senegal",
+            "short": "Senegal",
+            "abbr": "SEN",
+            "flag": "🇸🇳",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/sen.png",
+            "color": "00853f",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "MetLife Stadium",
+            "city": "East Rutherford, New Jersey",
+            "country": "USA"
+          },
+          "broadcasts": [
+            "FOX",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760432/senegal-france",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20France%20vs%20Senegal",
+          "slug": "senegal-at-france"
+        },
+        {
+          "id": "760430",
+          "kickoff_utc": "2026-06-16T22:00:00+00:00",
+          "kickoff_local": "2026-06-16T17:00:00-05:00",
+          "kickoff_local_date": "2026-06-16",
+          "kickoff_time": "5:00 PM",
+          "kickoff_weekday": "Tue",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
+          "stage": "Group Stage",
+          "stage_slug": "group-stage",
+          "home": {
+            "id": "4375",
+            "name": "Iraq",
+            "short": "Iraq",
+            "abbr": "IRQ",
+            "flag": "🇮🇶",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/irq.png",
+            "color": "00843d",
+            "home_away": "home",
+            "score": 0,
+            "winner": false
+          },
+          "away": {
+            "id": "464",
+            "name": "Norway",
+            "short": "Norway",
+            "abbr": "NOR",
+            "flag": "🇳🇴",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/nor.png",
+            "color": "ef2b2d",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "Gillette Stadium",
+            "city": "Foxborough, Massachusetts",
+            "country": "USA"
+          },
+          "broadcasts": [
+            "FOX",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760430/norway-iraq",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Iraq%20vs%20Norway",
+          "slug": "norway-at-iraq"
+        },
+        {
+          "id": "760433",
+          "kickoff_utc": "2026-06-17T01:00:00+00:00",
+          "kickoff_local": "2026-06-16T20:00:00-05:00",
+          "kickoff_local_date": "2026-06-16",
+          "kickoff_time": "8:00 PM",
+          "kickoff_weekday": "Tue",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
+          "stage": "Group Stage",
+          "stage_slug": "group-stage",
+          "home": {
+            "id": "202",
+            "name": "Argentina",
+            "short": "Argentina",
+            "abbr": "ARG",
+            "flag": "🇦🇷",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/arg.png",
+            "color": "74acdf",
+            "home_away": "home",
+            "score": 0,
+            "winner": false
+          },
+          "away": {
+            "id": "624",
+            "name": "Algeria",
+            "short": "Algeria",
+            "abbr": "ALG",
+            "flag": "🇩🇿",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/alg.png",
+            "color": "5bbd19",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "GEHA Field at Arrowhead Stadium",
+            "city": "Kansas City, Missouri",
+            "country": "USA"
+          },
+          "broadcasts": [
+            "FOX",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760433/algeria-argentina",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Argentina%20vs%20Algeria",
+          "slug": "algeria-at-argentina"
+        },
+        {
+          "id": "760431",
+          "kickoff_utc": "2026-06-17T04:00:00+00:00",
+          "kickoff_local": "2026-06-16T23:00:00-05:00",
+          "kickoff_local_date": "2026-06-16",
+          "kickoff_time": "11:00 PM",
+          "kickoff_weekday": "Tue",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
+          "stage": "Group Stage",
+          "stage_slug": "group-stage",
+          "home": {
+            "id": "474",
+            "name": "Austria",
+            "short": "Austria",
+            "abbr": "AUT",
+            "flag": "🇦🇹",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/aut.png",
+            "color": "d72b2c",
+            "home_away": "home",
+            "score": 0,
+            "winner": false
+          },
+          "away": {
+            "id": "2917",
+            "name": "Jordan",
+            "short": "Jordan",
+            "abbr": "JOR",
+            "flag": "🇯🇴",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/jor.png",
+            "color": "E70000",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "Levi's Stadium",
+            "city": "Santa Clara, California",
+            "country": "USA"
+          },
+          "broadcasts": [
+            "FS1",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760431/jordan-austria",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Austria%20vs%20Jordan",
+          "slug": "jordan-at-austria"
+        }
+      ]
+    },
+    {
+      "date": "2026-06-17",
+      "label": "Wed",
+      "match_count": 4,
+      "matches": [
+        {
+          "id": "760435",
+          "kickoff_utc": "2026-06-17T17:00:00+00:00",
+          "kickoff_local": "2026-06-17T12:00:00-05:00",
+          "kickoff_local_date": "2026-06-17",
+          "kickoff_time": "12:00 PM",
+          "kickoff_weekday": "Wed",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
+          "stage": "Group Stage",
+          "stage_slug": "group-stage",
+          "home": {
+            "id": "482",
+            "name": "Portugal",
+            "short": "Portugal",
+            "abbr": "POR",
+            "flag": "🇵🇹",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/por.png",
+            "color": "da291c",
+            "home_away": "home",
+            "score": 0,
+            "winner": false
+          },
+          "away": {
+            "id": "2850",
+            "name": "Congo DR",
+            "short": "Congo DR",
+            "abbr": "COD",
+            "flag": "🇨🇩",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/rdc.png",
+            "color": "418fde",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "NRG Stadium",
+            "city": "Houston, Texas",
+            "country": "USA"
+          },
+          "broadcasts": [
+            "FOX",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760435/congo-dr-portugal",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Portugal%20vs%20Congo%20DR",
+          "slug": "congo dr-at-portugal"
+        },
+        {
+          "id": "760437",
+          "kickoff_utc": "2026-06-17T20:00:00+00:00",
+          "kickoff_local": "2026-06-17T15:00:00-05:00",
+          "kickoff_local_date": "2026-06-17",
+          "kickoff_time": "3:00 PM",
+          "kickoff_weekday": "Wed",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
+          "stage": "Group Stage",
+          "stage_slug": "group-stage",
+          "home": {
+            "id": "448",
+            "name": "England",
+            "short": "England",
+            "abbr": "ENG",
+            "flag": "🏴",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/eng.png",
+            "color": "ffffff",
+            "home_away": "home",
+            "score": 0,
+            "winner": false
+          },
+          "away": {
+            "id": "477",
+            "name": "Croatia",
+            "short": "Croatia",
+            "abbr": "CRO",
+            "flag": "🇭🇷",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/cro.png",
+            "color": "ff0000",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "AT&T Stadium",
+            "city": "Arlington, Texas",
+            "country": "USA"
+          },
+          "broadcasts": [
+            "FOX",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760437/croatia-england",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20England%20vs%20Croatia",
+          "slug": "croatia-at-england"
+        },
+        {
+          "id": "760434",
+          "kickoff_utc": "2026-06-17T23:00:00+00:00",
+          "kickoff_local": "2026-06-17T18:00:00-05:00",
+          "kickoff_local_date": "2026-06-17",
+          "kickoff_time": "6:00 PM",
+          "kickoff_weekday": "Wed",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
+          "stage": "Group Stage",
+          "stage_slug": "group-stage",
+          "home": {
+            "id": "4469",
+            "name": "Ghana",
+            "short": "Ghana",
+            "abbr": "GHA",
+            "flag": "🇬🇭",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/gha.png",
+            "color": "ce2931",
+            "home_away": "home",
+            "score": 0,
+            "winner": false
+          },
+          "away": {
+            "id": "2659",
+            "name": "Panama",
+            "short": "Panama",
+            "abbr": "PAN",
+            "flag": "🇵🇦",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/pan.png",
+            "color": "d21034",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "BMO Field",
+            "city": "Toronto",
+            "country": "Canada"
+          },
+          "broadcasts": [
+            "FS1",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760434/panama-ghana",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Ghana%20vs%20Panama",
+          "slug": "panama-at-ghana"
+        },
+        {
+          "id": "760436",
+          "kickoff_utc": "2026-06-18T02:00:00+00:00",
+          "kickoff_local": "2026-06-17T21:00:00-05:00",
+          "kickoff_local_date": "2026-06-17",
+          "kickoff_time": "9:00 PM",
+          "kickoff_weekday": "Wed",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
+          "stage": "Group Stage",
+          "stage_slug": "group-stage",
+          "home": {
+            "id": "2570",
+            "name": "Uzbekistan",
+            "short": "Uzbekistan",
+            "abbr": "UZB",
+            "flag": "🇺🇿",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/uzb.png",
+            "color": "0081d6",
+            "home_away": "home",
+            "score": 0,
+            "winner": false
+          },
+          "away": {
+            "id": "208",
+            "name": "Colombia",
+            "short": "Colombia",
+            "abbr": "COL",
+            "flag": "🇨🇴",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/col.png",
+            "color": "fbd632",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "Estadio Banorte",
+            "city": "Mexico City",
+            "country": "Mexico"
+          },
+          "broadcasts": [
+            "FS1",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760436/colombia-uzbekistan",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Uzbekistan%20vs%20Colombia",
+          "slug": "colombia-at-uzbekistan"
+        }
+      ]
+    },
+    {
+      "date": "2026-06-18",
+      "label": "Thu",
+      "match_count": 4,
+      "matches": [
+        {
+          "id": "760438",
+          "kickoff_utc": "2026-06-18T16:00:00+00:00",
+          "kickoff_local": "2026-06-18T11:00:00-05:00",
+          "kickoff_local_date": "2026-06-18",
+          "kickoff_time": "11:00 AM",
+          "kickoff_weekday": "Thu",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
+          "stage": "Group Stage",
+          "stage_slug": "group-stage",
+          "home": {
+            "id": "450",
+            "name": "Czechia",
+            "short": "Czechia",
+            "abbr": "CZE",
+            "flag": "🇨🇿",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/cze.png",
+            "color": "d7141a",
+            "home_away": "home",
+            "score": 0,
+            "winner": false
+          },
+          "away": {
+            "id": "467",
+            "name": "South Africa",
+            "short": "South Africa",
+            "abbr": "RSA",
+            "flag": "🇿🇦",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/rsa.png",
+            "color": "087d5a",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "Mercedes-Benz Stadium",
+            "city": "Atlanta, Georgia",
+            "country": "USA"
+          },
+          "broadcasts": [
+            "FOX",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760438/south-africa-czechia",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Czechia%20vs%20South%20Africa",
+          "slug": "south africa-at-czechia"
+        },
+        {
+          "id": "760439",
+          "kickoff_utc": "2026-06-18T19:00:00+00:00",
+          "kickoff_local": "2026-06-18T14:00:00-05:00",
+          "kickoff_local_date": "2026-06-18",
+          "kickoff_time": "2:00 PM",
+          "kickoff_weekday": "Thu",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
+          "stage": "Group Stage",
+          "stage_slug": "group-stage",
+          "home": {
+            "id": "475",
+            "name": "Switzerland",
+            "short": "Switzerland",
+            "abbr": "SUI",
+            "flag": "🇨🇭",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/sui.png",
+            "color": "d72b2c",
+            "home_away": "home",
+            "score": 0,
+            "winner": false
+          },
+          "away": {
+            "id": "452",
+            "name": "Bosnia-Herzegovina",
+            "short": "Bosnia-Herz",
+            "abbr": "BIH",
+            "flag": "🇧🇦",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/bih.png",
+            "color": "112855",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "SoFi Stadium",
+            "city": "Inglewood, California",
+            "country": "USA"
+          },
+          "broadcasts": [
+            "FOX",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760439/bosnia-herzegovina-switzerland",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Switzerland%20vs%20Bosnia-Herzegovina",
+          "slug": "bosnia-herzegovina-at-switzerland"
+        },
+        {
+          "id": "760440",
+          "kickoff_utc": "2026-06-18T22:00:00+00:00",
+          "kickoff_local": "2026-06-18T17:00:00-05:00",
+          "kickoff_local_date": "2026-06-18",
+          "kickoff_time": "5:00 PM",
+          "kickoff_weekday": "Thu",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
+          "stage": "Group Stage",
+          "stage_slug": "group-stage",
+          "home": {
+            "id": "206",
+            "name": "Canada",
+            "short": "Canada",
+            "abbr": "CAN",
+            "flag": "🇨🇦",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/can.png",
+            "color": "ed2224",
+            "home_away": "home",
+            "score": 0,
+            "winner": false
+          },
+          "away": {
+            "id": "4398",
+            "name": "Qatar",
+            "short": "Qatar",
+            "abbr": "QAT",
+            "flag": "🇶🇦",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/qat.png",
+            "color": "691a40",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "BC Place",
+            "city": "Vancouver",
+            "country": "Canada"
+          },
+          "broadcasts": [
+            "FS1",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760440/qatar-canada",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Canada%20vs%20Qatar",
+          "slug": "qatar-at-canada"
+        },
+        {
+          "id": "760441",
+          "kickoff_utc": "2026-06-19T01:00:00+00:00",
+          "kickoff_local": "2026-06-18T20:00:00-05:00",
+          "kickoff_local_date": "2026-06-18",
+          "kickoff_time": "8:00 PM",
+          "kickoff_weekday": "Thu",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
+          "stage": "Group Stage",
+          "stage_slug": "group-stage",
+          "home": {
+            "id": "203",
+            "name": "Mexico",
+            "short": "Mexico",
+            "abbr": "MEX",
+            "flag": "🇲🇽",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/mex.png",
+            "color": "006847",
+            "home_away": "home",
+            "score": 0,
+            "winner": false
+          },
+          "away": {
+            "id": "451",
+            "name": "South Korea",
+            "short": "South Korea",
+            "abbr": "KOR",
+            "flag": "🇰🇷",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/kors.png",
+            "color": "ce2028",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "Estadio Akron",
+            "city": "Guadalajara",
+            "country": "Mexico"
+          },
+          "broadcasts": [
+            "FOX",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760441/south-korea-mexico",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Mexico%20vs%20South%20Korea",
+          "slug": "south korea-at-mexico"
+        }
+      ]
+    },
+    {
+      "date": "2026-06-19",
+      "label": "Fri",
+      "match_count": 4,
+      "matches": [
+        {
+          "id": "760442",
+          "kickoff_utc": "2026-06-19T19:00:00+00:00",
+          "kickoff_local": "2026-06-19T14:00:00-05:00",
+          "kickoff_local_date": "2026-06-19",
+          "kickoff_time": "2:00 PM",
+          "kickoff_weekday": "Fri",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
+          "stage": "Group Stage",
+          "stage_slug": "group-stage",
+          "home": {
+            "id": "660",
+            "name": "United States",
+            "short": "USA",
+            "abbr": "USA",
+            "flag": "🇺🇸",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/usa.png",
+            "color": "213065",
+            "home_away": "home",
+            "score": 0,
+            "winner": false
+          },
+          "away": {
+            "id": "628",
+            "name": "Australia",
+            "short": "Australia",
+            "abbr": "AUS",
+            "flag": "🇦🇺",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/aus.png",
+            "color": "2a2d7c",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "Lumen Field",
+            "city": "Seattle, Washington",
+            "country": "USA"
+          },
+          "broadcasts": [
+            "FOX",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760442/australia-united-states",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20United%20States%20vs%20Australia",
+          "slug": "australia-at-united states"
+        },
+        {
+          "id": "760445",
+          "kickoff_utc": "2026-06-19T22:00:00+00:00",
+          "kickoff_local": "2026-06-19T17:00:00-05:00",
+          "kickoff_local_date": "2026-06-19",
+          "kickoff_time": "5:00 PM",
+          "kickoff_weekday": "Fri",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
+          "stage": "Group Stage",
+          "stage_slug": "group-stage",
+          "home": {
+            "id": "580",
+            "name": "Scotland",
+            "short": "Scotland",
+            "abbr": "SCO",
+            "flag": "🏴",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/sco.png",
+            "color": "1a2d69",
+            "home_away": "home",
+            "score": 0,
+            "winner": false
+          },
+          "away": {
+            "id": "2869",
+            "name": "Morocco",
+            "short": "Morocco",
+            "abbr": "MAR",
+            "flag": "🇲🇦",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/mar.png",
+            "color": "009060",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "Gillette Stadium",
+            "city": "Foxborough, Massachusetts",
+            "country": "USA"
+          },
+          "broadcasts": [
+            "FOX",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760445/morocco-scotland",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Scotland%20vs%20Morocco",
+          "slug": "morocco-at-scotland"
+        },
+        {
+          "id": "760444",
+          "kickoff_utc": "2026-06-20T00:30:00+00:00",
+          "kickoff_local": "2026-06-19T19:30:00-05:00",
+          "kickoff_local_date": "2026-06-19",
+          "kickoff_time": "7:30 PM",
+          "kickoff_weekday": "Fri",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
+          "stage": "Group Stage",
+          "stage_slug": "group-stage",
+          "home": {
+            "id": "205",
+            "name": "Brazil",
+            "short": "Brazil",
+            "abbr": "BRA",
+            "flag": "🇧🇷",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/bra.png",
+            "color": "fee000",
+            "home_away": "home",
+            "score": 0,
+            "winner": false
+          },
+          "away": {
+            "id": "2654",
+            "name": "Haiti",
+            "short": "Haiti",
+            "abbr": "HAI",
+            "flag": "🇭🇹",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/hai.png",
+            "color": "0033a0",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "Lincoln Financial Field",
+            "city": "Philadelphia, Pennsylvania",
+            "country": "USA"
+          },
+          "broadcasts": [
+            "FOX",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760444/haiti-brazil",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Brazil%20vs%20Haiti",
+          "slug": "haiti-at-brazil"
+        },
+        {
+          "id": "760443",
+          "kickoff_utc": "2026-06-20T03:00:00+00:00",
+          "kickoff_local": "2026-06-19T22:00:00-05:00",
+          "kickoff_local_date": "2026-06-19",
+          "kickoff_time": "10:00 PM",
+          "kickoff_weekday": "Fri",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
+          "stage": "Group Stage",
+          "stage_slug": "group-stage",
+          "home": {
+            "id": "465",
+            "name": "Türkiye",
+            "short": "Türkiye",
+            "abbr": "TUR",
+            "flag": "🇹🇷",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/tur.png",
+            "color": "ffffff",
+            "home_away": "home",
+            "score": 0,
+            "winner": false
+          },
+          "away": {
+            "id": "210",
+            "name": "Paraguay",
+            "short": "Paraguay",
+            "abbr": "PAR",
+            "flag": "🇵🇾",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/par.png",
+            "color": "ea2300",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "Levi's Stadium",
+            "city": "Santa Clara, California",
+            "country": "USA"
+          },
+          "broadcasts": [
+            "FS1",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760443/paraguay-turkiye",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20T%C3%BCrkiye%20vs%20Paraguay",
+          "slug": "paraguay-at-turkiye"
+        }
+      ]
+    },
+    {
+      "date": "2026-06-20",
+      "label": "Sat",
+      "match_count": 4,
+      "matches": [
+        {
+          "id": "760447",
+          "kickoff_utc": "2026-06-20T17:00:00+00:00",
+          "kickoff_local": "2026-06-20T12:00:00-05:00",
+          "kickoff_local_date": "2026-06-20",
+          "kickoff_time": "12:00 PM",
+          "kickoff_weekday": "Sat",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
+          "stage": "Group Stage",
+          "stage_slug": "group-stage",
+          "home": {
+            "id": "449",
+            "name": "Netherlands",
+            "short": "Netherlands",
+            "abbr": "NED",
+            "flag": "🇳🇱",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/ned.png",
+            "color": "fb5d00",
+            "home_away": "home",
+            "score": 0,
+            "winner": false
+          },
+          "away": {
+            "id": "466",
+            "name": "Sweden",
+            "short": "Sweden",
+            "abbr": "SWE",
+            "flag": "🇸🇪",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/swe.png",
+            "color": "fecb00",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "NRG Stadium",
+            "city": "Houston, Texas",
+            "country": "USA"
+          },
+          "broadcasts": [
+            "FOX",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760447/sweden-netherlands",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Netherlands%20vs%20Sweden",
+          "slug": "sweden-at-netherlands"
+        },
+        {
+          "id": "760448",
+          "kickoff_utc": "2026-06-20T20:00:00+00:00",
+          "kickoff_local": "2026-06-20T15:00:00-05:00",
+          "kickoff_local_date": "2026-06-20",
+          "kickoff_time": "3:00 PM",
+          "kickoff_weekday": "Sat",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
+          "stage": "Group Stage",
+          "stage_slug": "group-stage",
+          "home": {
+            "id": "481",
+            "name": "Germany",
+            "short": "Germany",
+            "abbr": "GER",
+            "flag": "🇩🇪",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/ger.png",
+            "color": "000000",
+            "home_away": "home",
+            "score": 0,
+            "winner": false
+          },
+          "away": {
+            "id": "4789",
+            "name": "Ivory Coast",
+            "short": "Ivory Coast",
+            "abbr": "CIV",
+            "flag": "🇨🇮",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/civ.png",
+            "color": "d48c00",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "BMO Field",
+            "city": "Toronto",
+            "country": "Canada"
+          },
+          "broadcasts": [
+            "FOX",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760448/ivory-coast-germany",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Germany%20vs%20Ivory%20Coast",
+          "slug": "ivory coast-at-germany"
+        },
+        {
+          "id": "760446",
+          "kickoff_utc": "2026-06-21T00:00:00+00:00",
+          "kickoff_local": "2026-06-20T19:00:00-05:00",
+          "kickoff_local_date": "2026-06-20",
+          "kickoff_time": "7:00 PM",
+          "kickoff_weekday": "Sat",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
+          "stage": "Group Stage",
+          "stage_slug": "group-stage",
+          "home": {
+            "id": "209",
+            "name": "Ecuador",
+            "short": "Ecuador",
+            "abbr": "ECU",
+            "flag": "🇪🇨",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/ecu.png",
+            "color": "ffdd00",
+            "home_away": "home",
+            "score": 0,
+            "winner": false
+          },
+          "away": {
+            "id": "11678",
+            "name": "Curaçao",
+            "short": "Curaçao",
+            "abbr": "CUW",
+            "flag": "🏳️",
+            "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/11678.png",
+            "color": "0537e4",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "GEHA Field at Arrowhead Stadium",
+            "city": "Kansas City, Missouri",
+            "country": "USA"
+          },
+          "broadcasts": [
+            "FS1",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760446/curacao-ecuador",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Ecuador%20vs%20Cura%C3%A7ao",
+          "slug": "curacao-at-ecuador"
+        },
+        {
+          "id": "760449",
+          "kickoff_utc": "2026-06-21T04:00:00+00:00",
+          "kickoff_local": "2026-06-20T23:00:00-05:00",
+          "kickoff_local_date": "2026-06-20",
+          "kickoff_time": "11:00 PM",
+          "kickoff_weekday": "Sat",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
+          "stage": "Group Stage",
+          "stage_slug": "group-stage",
+          "home": {
+            "id": "659",
+            "name": "Tunisia",
+            "short": "Tunisia",
+            "abbr": "TUN",
+            "flag": "🇹🇳",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/tun.png",
+            "color": "D20300",
+            "home_away": "home",
+            "score": 0,
+            "winner": false
+          },
+          "away": {
+            "id": "627",
+            "name": "Japan",
+            "short": "Japan",
+            "abbr": "JPN",
+            "flag": "🇯🇵",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/jpn.png",
+            "color": "ed1c24",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "Estadio BBVA",
+            "city": "Guadalupe",
+            "country": "Mexico"
+          },
+          "broadcasts": [
+            "FS1",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760449/japan-tunisia",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Tunisia%20vs%20Japan",
+          "slug": "japan-at-tunisia"
+        }
+      ]
+    },
+    {
+      "date": "2026-06-21",
+      "label": "Sun",
+      "match_count": 4,
+      "matches": [
+        {
+          "id": "760453",
+          "kickoff_utc": "2026-06-21T16:00:00+00:00",
+          "kickoff_local": "2026-06-21T11:00:00-05:00",
+          "kickoff_local_date": "2026-06-21",
+          "kickoff_time": "11:00 AM",
+          "kickoff_weekday": "Sun",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
+          "stage": "Group Stage",
+          "stage_slug": "group-stage",
+          "home": {
+            "id": "164",
+            "name": "Spain",
+            "short": "Spain",
+            "abbr": "ESP",
+            "flag": "🇪🇸",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/esp.png",
+            "color": "c60b1e",
+            "home_away": "home",
+            "score": 0,
+            "winner": false
+          },
+          "away": {
+            "id": "655",
+            "name": "Saudi Arabia",
+            "short": "Saudi Arabia",
+            "abbr": "KSA",
+            "flag": "🇸🇦",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/ksa.png",
+            "color": "dddddd",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "Mercedes-Benz Stadium",
+            "city": "Atlanta, Georgia",
+            "country": "USA"
+          },
+          "broadcasts": [
+            "FOX",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760453/saudi-arabia-spain",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Spain%20vs%20Saudi%20Arabia",
+          "slug": "saudi arabia-at-spain"
+        },
+        {
+          "id": "760451",
+          "kickoff_utc": "2026-06-21T19:00:00+00:00",
+          "kickoff_local": "2026-06-21T14:00:00-05:00",
+          "kickoff_local_date": "2026-06-21",
+          "kickoff_time": "2:00 PM",
+          "kickoff_weekday": "Sun",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
+          "stage": "Group Stage",
+          "stage_slug": "group-stage",
+          "home": {
+            "id": "459",
+            "name": "Belgium",
+            "short": "Belgium",
+            "abbr": "BEL",
+            "flag": "🇧🇪",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/bel.png",
+            "color": "ef3340",
+            "home_away": "home",
+            "score": 0,
+            "winner": false
+          },
+          "away": {
+            "id": "469",
+            "name": "Iran",
+            "short": "Iran",
+            "abbr": "IRN",
+            "flag": "🇮🇷",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/irn.png",
+            "color": "da0000",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "SoFi Stadium",
+            "city": "Inglewood, California",
+            "country": "USA"
+          },
+          "broadcasts": [
+            "FS1",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760451/iran-belgium",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Belgium%20vs%20Iran",
+          "slug": "iran-at-belgium"
+        },
+        {
+          "id": "760450",
+          "kickoff_utc": "2026-06-21T22:00:00+00:00",
+          "kickoff_local": "2026-06-21T17:00:00-05:00",
+          "kickoff_local_date": "2026-06-21",
+          "kickoff_time": "5:00 PM",
+          "kickoff_weekday": "Sun",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
+          "stage": "Group Stage",
+          "stage_slug": "group-stage",
+          "home": {
+            "id": "212",
+            "name": "Uruguay",
+            "short": "Uruguay",
+            "abbr": "URU",
+            "flag": "🇺🇾",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/uru.png",
+            "color": "003da5",
+            "home_away": "home",
+            "score": 0,
+            "winner": false
+          },
+          "away": {
+            "id": "2597",
+            "name": "Cape Verde",
+            "short": "Cape Verde",
+            "abbr": "CPV",
+            "flag": "🇨🇻",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/cpv.png",
+            "color": "0000ff",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "Hard Rock Stadium",
+            "city": "Miami Gardens, Florida",
+            "country": "USA"
+          },
+          "broadcasts": [
+            "FS1",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760450/cape-verde-uruguay",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Uruguay%20vs%20Cape%20Verde",
+          "slug": "cape verde-at-uruguay"
+        },
+        {
+          "id": "760452",
+          "kickoff_utc": "2026-06-22T01:00:00+00:00",
+          "kickoff_local": "2026-06-21T20:00:00-05:00",
+          "kickoff_local_date": "2026-06-21",
+          "kickoff_time": "8:00 PM",
+          "kickoff_weekday": "Sun",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
+          "stage": "Group Stage",
+          "stage_slug": "group-stage",
+          "home": {
+            "id": "2666",
+            "name": "New Zealand",
+            "short": "New Zealand",
+            "abbr": "NZL",
+            "flag": "🇳🇿",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/nzl.png",
+            "color": "273476",
+            "home_away": "home",
+            "score": 0,
+            "winner": false
+          },
+          "away": {
+            "id": "2620",
+            "name": "Egypt",
+            "short": "Egypt",
+            "abbr": "EGY",
+            "flag": "🇪🇬",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/egy.png",
+            "color": "D20300",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "BC Place",
+            "city": "Vancouver",
+            "country": "Canada"
+          },
+          "broadcasts": [
+            "FS1",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760452/egypt-new-zealand",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20New%20Zealand%20vs%20Egypt",
+          "slug": "egypt-at-new zealand"
+        }
+      ]
+    },
+    {
+      "date": "2026-06-22",
+      "label": "Mon",
+      "match_count": 4,
+      "matches": [
+        {
+          "id": "760456",
+          "kickoff_utc": "2026-06-22T17:00:00+00:00",
+          "kickoff_local": "2026-06-22T12:00:00-05:00",
+          "kickoff_local_date": "2026-06-22",
+          "kickoff_time": "12:00 PM",
+          "kickoff_weekday": "Mon",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
+          "stage": "Group Stage",
+          "stage_slug": "group-stage",
+          "home": {
+            "id": "202",
+            "name": "Argentina",
+            "short": "Argentina",
+            "abbr": "ARG",
+            "flag": "🇦🇷",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/arg.png",
+            "color": "74acdf",
+            "home_away": "home",
+            "score": 0,
+            "winner": false
+          },
+          "away": {
+            "id": "474",
+            "name": "Austria",
+            "short": "Austria",
+            "abbr": "AUT",
+            "flag": "🇦🇹",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/aut.png",
+            "color": "d72b2c",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "AT&T Stadium",
+            "city": "Arlington, Texas",
+            "country": "USA"
+          },
+          "broadcasts": [
+            "FOX",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760456/austria-argentina",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Argentina%20vs%20Austria",
+          "slug": "austria-at-argentina"
+        },
+        {
+          "id": "760457",
+          "kickoff_utc": "2026-06-22T21:00:00+00:00",
+          "kickoff_local": "2026-06-22T16:00:00-05:00",
+          "kickoff_local_date": "2026-06-22",
+          "kickoff_time": "4:00 PM",
+          "kickoff_weekday": "Mon",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
+          "stage": "Group Stage",
+          "stage_slug": "group-stage",
+          "home": {
+            "id": "478",
+            "name": "France",
+            "short": "France",
+            "abbr": "FRA",
+            "flag": "🇫🇷",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/fra.png",
+            "color": "0c2fff",
+            "home_away": "home",
+            "score": 0,
+            "winner": false
+          },
+          "away": {
+            "id": "4375",
+            "name": "Iraq",
+            "short": "Iraq",
+            "abbr": "IRQ",
+            "flag": "🇮🇶",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/irq.png",
+            "color": "00843d",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "Lincoln Financial Field",
+            "city": "Philadelphia, Pennsylvania",
+            "country": "USA"
+          },
+          "broadcasts": [
+            "FOX",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760457/iraq-france",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20France%20vs%20Iraq",
+          "slug": "iraq-at-france"
+        },
+        {
+          "id": "760454",
+          "kickoff_utc": "2026-06-23T00:00:00+00:00",
+          "kickoff_local": "2026-06-22T19:00:00-05:00",
+          "kickoff_local_date": "2026-06-22",
+          "kickoff_time": "7:00 PM",
+          "kickoff_weekday": "Mon",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
+          "stage": "Group Stage",
+          "stage_slug": "group-stage",
+          "home": {
+            "id": "464",
+            "name": "Norway",
+            "short": "Norway",
+            "abbr": "NOR",
+            "flag": "🇳🇴",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/nor.png",
+            "color": "ef2b2d",
+            "home_away": "home",
+            "score": 0,
+            "winner": false
+          },
+          "away": {
+            "id": "654",
+            "name": "Senegal",
+            "short": "Senegal",
+            "abbr": "SEN",
+            "flag": "🇸🇳",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/sen.png",
+            "color": "00853f",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "MetLife Stadium",
+            "city": "East Rutherford, New Jersey",
+            "country": "USA"
+          },
+          "broadcasts": [
+            "FOX",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760454/senegal-norway",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Norway%20vs%20Senegal",
+          "slug": "senegal-at-norway"
+        },
+        {
+          "id": "760455",
+          "kickoff_utc": "2026-06-23T03:00:00+00:00",
+          "kickoff_local": "2026-06-22T22:00:00-05:00",
+          "kickoff_local_date": "2026-06-22",
+          "kickoff_time": "10:00 PM",
+          "kickoff_weekday": "Mon",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
+          "stage": "Group Stage",
+          "stage_slug": "group-stage",
+          "home": {
+            "id": "2917",
+            "name": "Jordan",
+            "short": "Jordan",
+            "abbr": "JOR",
+            "flag": "🇯🇴",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/jor.png",
+            "color": "E70000",
+            "home_away": "home",
+            "score": 0,
+            "winner": false
+          },
+          "away": {
+            "id": "624",
+            "name": "Algeria",
+            "short": "Algeria",
+            "abbr": "ALG",
+            "flag": "🇩🇿",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/alg.png",
+            "color": "5bbd19",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "Levi's Stadium",
+            "city": "Santa Clara, California",
+            "country": "USA"
+          },
+          "broadcasts": [
+            "FS1",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760455/algeria-jordan",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Jordan%20vs%20Algeria",
+          "slug": "algeria-at-jordan"
+        }
+      ]
+    },
+    {
+      "date": "2026-06-23",
+      "label": "Tue",
+      "match_count": 4,
+      "matches": [
+        {
+          "id": "760461",
+          "kickoff_utc": "2026-06-23T17:00:00+00:00",
+          "kickoff_local": "2026-06-23T12:00:00-05:00",
+          "kickoff_local_date": "2026-06-23",
+          "kickoff_time": "12:00 PM",
+          "kickoff_weekday": "Tue",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
+          "stage": "Group Stage",
+          "stage_slug": "group-stage",
+          "home": {
+            "id": "482",
+            "name": "Portugal",
+            "short": "Portugal",
+            "abbr": "POR",
+            "flag": "🇵🇹",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/por.png",
+            "color": "da291c",
+            "home_away": "home",
+            "score": 0,
+            "winner": false
+          },
+          "away": {
+            "id": "2570",
+            "name": "Uzbekistan",
+            "short": "Uzbekistan",
+            "abbr": "UZB",
+            "flag": "🇺🇿",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/uzb.png",
+            "color": "0081d6",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "NRG Stadium",
+            "city": "Houston, Texas",
+            "country": "USA"
+          },
+          "broadcasts": [
+            "FOX",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760461/uzbekistan-portugal",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Portugal%20vs%20Uzbekistan",
+          "slug": "uzbekistan-at-portugal"
+        },
+        {
+          "id": "760458",
+          "kickoff_utc": "2026-06-23T20:00:00+00:00",
+          "kickoff_local": "2026-06-23T15:00:00-05:00",
+          "kickoff_local_date": "2026-06-23",
+          "kickoff_time": "3:00 PM",
+          "kickoff_weekday": "Tue",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
+          "stage": "Group Stage",
+          "stage_slug": "group-stage",
+          "home": {
+            "id": "448",
+            "name": "England",
+            "short": "England",
+            "abbr": "ENG",
+            "flag": "🏴",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/eng.png",
+            "color": "ffffff",
+            "home_away": "home",
+            "score": 0,
+            "winner": false
+          },
+          "away": {
+            "id": "4469",
+            "name": "Ghana",
+            "short": "Ghana",
+            "abbr": "GHA",
+            "flag": "🇬🇭",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/gha.png",
+            "color": "ce2931",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "Gillette Stadium",
+            "city": "Foxborough, Massachusetts",
+            "country": "USA"
+          },
+          "broadcasts": [
+            "FOX",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760458/ghana-england",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20England%20vs%20Ghana",
+          "slug": "ghana-at-england"
+        },
+        {
+          "id": "760460",
+          "kickoff_utc": "2026-06-23T23:00:00+00:00",
+          "kickoff_local": "2026-06-23T18:00:00-05:00",
+          "kickoff_local_date": "2026-06-23",
+          "kickoff_time": "6:00 PM",
+          "kickoff_weekday": "Tue",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
+          "stage": "Group Stage",
+          "stage_slug": "group-stage",
+          "home": {
+            "id": "2659",
+            "name": "Panama",
+            "short": "Panama",
+            "abbr": "PAN",
+            "flag": "🇵🇦",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/pan.png",
+            "color": "d21034",
+            "home_away": "home",
+            "score": 0,
+            "winner": false
+          },
+          "away": {
+            "id": "477",
+            "name": "Croatia",
+            "short": "Croatia",
+            "abbr": "CRO",
+            "flag": "🇭🇷",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/cro.png",
+            "color": "ff0000",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "BMO Field",
+            "city": "Toronto",
+            "country": "Canada"
+          },
+          "broadcasts": [
+            "FOX",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760460/croatia-panama",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Panama%20vs%20Croatia",
+          "slug": "croatia-at-panama"
+        },
+        {
+          "id": "760459",
+          "kickoff_utc": "2026-06-24T02:00:00+00:00",
+          "kickoff_local": "2026-06-23T21:00:00-05:00",
+          "kickoff_local_date": "2026-06-23",
+          "kickoff_time": "9:00 PM",
+          "kickoff_weekday": "Tue",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
+          "stage": "Group Stage",
+          "stage_slug": "group-stage",
+          "home": {
+            "id": "208",
+            "name": "Colombia",
+            "short": "Colombia",
+            "abbr": "COL",
+            "flag": "🇨🇴",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/col.png",
+            "color": "fbd632",
+            "home_away": "home",
+            "score": 0,
+            "winner": false
+          },
+          "away": {
+            "id": "2850",
+            "name": "Congo DR",
+            "short": "Congo DR",
+            "abbr": "COD",
+            "flag": "🇨🇩",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/rdc.png",
+            "color": "418fde",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "Estadio Akron",
+            "city": "Guadalajara",
+            "country": "Mexico"
+          },
+          "broadcasts": [
+            "FS1",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760459/congo-dr-colombia",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Colombia%20vs%20Congo%20DR",
+          "slug": "congo dr-at-colombia"
+        }
+      ]
+    },
+    {
+      "date": "2026-06-24",
+      "label": "Wed",
+      "match_count": 6,
+      "matches": [
+        {
+          "id": "760462",
+          "kickoff_utc": "2026-06-24T19:00:00+00:00",
+          "kickoff_local": "2026-06-24T14:00:00-05:00",
+          "kickoff_local_date": "2026-06-24",
+          "kickoff_time": "2:00 PM",
+          "kickoff_weekday": "Wed",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
+          "stage": "Group Stage",
+          "stage_slug": "group-stage",
+          "home": {
+            "id": "452",
+            "name": "Bosnia-Herzegovina",
+            "short": "Bosnia-Herz",
+            "abbr": "BIH",
+            "flag": "🇧🇦",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/bih.png",
+            "color": "112855",
+            "home_away": "home",
+            "score": 0,
+            "winner": false
+          },
+          "away": {
+            "id": "4398",
+            "name": "Qatar",
+            "short": "Qatar",
+            "abbr": "QAT",
+            "flag": "🇶🇦",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/qat.png",
+            "color": "691a40",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "Lumen Field",
+            "city": "Seattle, Washington",
+            "country": "USA"
+          },
+          "broadcasts": [
+            "FS1",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760462/qatar-bosnia-herzegovina",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Bosnia-Herzegovina%20vs%20Qatar",
+          "slug": "qatar-at-bosnia-herzegovina"
+        },
+        {
+          "id": "760463",
+          "kickoff_utc": "2026-06-24T19:00:00+00:00",
+          "kickoff_local": "2026-06-24T14:00:00-05:00",
+          "kickoff_local_date": "2026-06-24",
+          "kickoff_time": "2:00 PM",
+          "kickoff_weekday": "Wed",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
+          "stage": "Group Stage",
+          "stage_slug": "group-stage",
+          "home": {
+            "id": "475",
+            "name": "Switzerland",
+            "short": "Switzerland",
+            "abbr": "SUI",
+            "flag": "🇨🇭",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/sui.png",
+            "color": "d72b2c",
+            "home_away": "home",
+            "score": 0,
+            "winner": false
+          },
+          "away": {
+            "id": "206",
+            "name": "Canada",
+            "short": "Canada",
+            "abbr": "CAN",
+            "flag": "🇨🇦",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/can.png",
+            "color": "ed2224",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "BC Place",
+            "city": "Vancouver",
+            "country": "Canada"
+          },
+          "broadcasts": [
+            "FOX",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760463/canada-switzerland",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Switzerland%20vs%20Canada",
+          "slug": "canada-at-switzerland"
+        },
+        {
+          "id": "760464",
+          "kickoff_utc": "2026-06-24T22:00:00+00:00",
+          "kickoff_local": "2026-06-24T17:00:00-05:00",
+          "kickoff_local_date": "2026-06-24",
+          "kickoff_time": "5:00 PM",
+          "kickoff_weekday": "Wed",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
+          "stage": "Group Stage",
+          "stage_slug": "group-stage",
+          "home": {
+            "id": "2869",
+            "name": "Morocco",
+            "short": "Morocco",
+            "abbr": "MAR",
+            "flag": "🇲🇦",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/mar.png",
+            "color": "009060",
+            "home_away": "home",
+            "score": 0,
+            "winner": false
+          },
+          "away": {
+            "id": "2654",
+            "name": "Haiti",
+            "short": "Haiti",
+            "abbr": "HAI",
+            "flag": "🇭🇹",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/hai.png",
+            "color": "0033a0",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "Mercedes-Benz Stadium",
+            "city": "Atlanta, Georgia",
+            "country": "USA"
+          },
+          "broadcasts": [
+            "FS1",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760464/haiti-morocco",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Morocco%20vs%20Haiti",
+          "slug": "haiti-at-morocco"
+        },
+        {
+          "id": "760465",
+          "kickoff_utc": "2026-06-24T22:00:00+00:00",
+          "kickoff_local": "2026-06-24T17:00:00-05:00",
+          "kickoff_local_date": "2026-06-24",
+          "kickoff_time": "5:00 PM",
+          "kickoff_weekday": "Wed",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
+          "stage": "Group Stage",
+          "stage_slug": "group-stage",
+          "home": {
+            "id": "580",
+            "name": "Scotland",
+            "short": "Scotland",
+            "abbr": "SCO",
+            "flag": "🏴",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/sco.png",
+            "color": "1a2d69",
+            "home_away": "home",
+            "score": 0,
+            "winner": false
+          },
+          "away": {
+            "id": "205",
+            "name": "Brazil",
+            "short": "Brazil",
+            "abbr": "BRA",
+            "flag": "🇧🇷",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/bra.png",
+            "color": "fee000",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "Hard Rock Stadium",
+            "city": "Miami Gardens, Florida",
+            "country": "USA"
+          },
+          "broadcasts": [
+            "FOX",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760465/brazil-scotland",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Scotland%20vs%20Brazil",
+          "slug": "brazil-at-scotland"
+        },
+        {
+          "id": "760467",
+          "kickoff_utc": "2026-06-25T01:00:00+00:00",
+          "kickoff_local": "2026-06-24T20:00:00-05:00",
+          "kickoff_local_date": "2026-06-24",
+          "kickoff_time": "8:00 PM",
+          "kickoff_weekday": "Wed",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
+          "stage": "Group Stage",
+          "stage_slug": "group-stage",
+          "home": {
+            "id": "450",
+            "name": "Czechia",
+            "short": "Czechia",
+            "abbr": "CZE",
+            "flag": "🇨🇿",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/cze.png",
+            "color": "d7141a",
+            "home_away": "home",
+            "score": 0,
+            "winner": false
+          },
+          "away": {
+            "id": "203",
+            "name": "Mexico",
+            "short": "Mexico",
+            "abbr": "MEX",
+            "flag": "🇲🇽",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/mex.png",
+            "color": "006847",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "Estadio Banorte",
+            "city": "Mexico City",
+            "country": "Mexico"
+          },
+          "broadcasts": [
+            "FOX",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760467/mexico-czechia",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Czechia%20vs%20Mexico",
+          "slug": "mexico-at-czechia"
+        },
+        {
+          "id": "760466",
+          "kickoff_utc": "2026-06-25T01:00:00+00:00",
+          "kickoff_local": "2026-06-24T20:00:00-05:00",
+          "kickoff_local_date": "2026-06-24",
+          "kickoff_time": "8:00 PM",
+          "kickoff_weekday": "Wed",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
+          "stage": "Group Stage",
+          "stage_slug": "group-stage",
+          "home": {
+            "id": "467",
+            "name": "South Africa",
+            "short": "South Africa",
+            "abbr": "RSA",
+            "flag": "🇿🇦",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/rsa.png",
+            "color": "087d5a",
+            "home_away": "home",
+            "score": 0,
+            "winner": false
+          },
+          "away": {
+            "id": "451",
+            "name": "South Korea",
+            "short": "South Korea",
+            "abbr": "KOR",
+            "flag": "🇰🇷",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/kors.png",
+            "color": "ce2028",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "Estadio BBVA",
+            "city": "Guadalupe",
+            "country": "Mexico"
+          },
+          "broadcasts": [
+            "FS1",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760466/south-korea-south-africa",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20South%20Africa%20vs%20South%20Korea",
+          "slug": "south korea-at-south africa"
+        }
+      ]
+    },
+    {
+      "date": "2026-06-25",
+      "label": "Thu",
+      "match_count": 6,
+      "matches": [
+        {
+          "id": "760473",
+          "kickoff_utc": "2026-06-25T20:00:00+00:00",
+          "kickoff_local": "2026-06-25T15:00:00-05:00",
+          "kickoff_local_date": "2026-06-25",
+          "kickoff_time": "3:00 PM",
+          "kickoff_weekday": "Thu",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
+          "stage": "Group Stage",
+          "stage_slug": "group-stage",
+          "home": {
+            "id": "11678",
+            "name": "Curaçao",
+            "short": "Curaçao",
+            "abbr": "CUW",
+            "flag": "🏳️",
+            "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/11678.png",
+            "color": "0537e4",
+            "home_away": "home",
+            "score": 0,
+            "winner": false
+          },
+          "away": {
+            "id": "4789",
+            "name": "Ivory Coast",
+            "short": "Ivory Coast",
+            "abbr": "CIV",
+            "flag": "🇨🇮",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/civ.png",
+            "color": "d48c00",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "Lincoln Financial Field",
+            "city": "Philadelphia, Pennsylvania",
+            "country": "USA"
+          },
+          "broadcasts": [
+            "FS1",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760473/ivory-coast-curacao",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Cura%C3%A7ao%20vs%20Ivory%20Coast",
+          "slug": "ivory coast-at-curacao"
+        },
+        {
+          "id": "760468",
+          "kickoff_utc": "2026-06-25T20:00:00+00:00",
+          "kickoff_local": "2026-06-25T15:00:00-05:00",
+          "kickoff_local_date": "2026-06-25",
+          "kickoff_time": "3:00 PM",
+          "kickoff_weekday": "Thu",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
+          "stage": "Group Stage",
+          "stage_slug": "group-stage",
+          "home": {
+            "id": "209",
+            "name": "Ecuador",
+            "short": "Ecuador",
+            "abbr": "ECU",
+            "flag": "🇪🇨",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/ecu.png",
+            "color": "ffdd00",
+            "home_away": "home",
+            "score": 0,
+            "winner": false
+          },
+          "away": {
+            "id": "481",
+            "name": "Germany",
+            "short": "Germany",
+            "abbr": "GER",
+            "flag": "🇩🇪",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/ger.png",
+            "color": "000000",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "MetLife Stadium",
+            "city": "East Rutherford, New Jersey",
+            "country": "USA"
+          },
+          "broadcasts": [
+            "FOX",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760468/germany-ecuador",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Ecuador%20vs%20Germany",
+          "slug": "germany-at-ecuador"
+        },
+        {
+          "id": "760471",
+          "kickoff_utc": "2026-06-25T23:00:00+00:00",
+          "kickoff_local": "2026-06-25T18:00:00-05:00",
+          "kickoff_local_date": "2026-06-25",
+          "kickoff_time": "6:00 PM",
+          "kickoff_weekday": "Thu",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
+          "stage": "Group Stage",
+          "stage_slug": "group-stage",
+          "home": {
+            "id": "627",
+            "name": "Japan",
+            "short": "Japan",
+            "abbr": "JPN",
+            "flag": "🇯🇵",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/jpn.png",
+            "color": "ed1c24",
+            "home_away": "home",
+            "score": 0,
+            "winner": false
+          },
+          "away": {
+            "id": "466",
+            "name": "Sweden",
+            "short": "Sweden",
+            "abbr": "SWE",
+            "flag": "🇸🇪",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/swe.png",
+            "color": "fecb00",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "AT&T Stadium",
+            "city": "Arlington, Texas",
+            "country": "USA"
+          },
+          "broadcasts": [
+            "FS1",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760471/sweden-japan",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Japan%20vs%20Sweden",
+          "slug": "sweden-at-japan"
+        },
+        {
+          "id": "760472",
+          "kickoff_utc": "2026-06-25T23:00:00+00:00",
+          "kickoff_local": "2026-06-25T18:00:00-05:00",
+          "kickoff_local_date": "2026-06-25",
+          "kickoff_time": "6:00 PM",
+          "kickoff_weekday": "Thu",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
+          "stage": "Group Stage",
+          "stage_slug": "group-stage",
+          "home": {
+            "id": "659",
+            "name": "Tunisia",
+            "short": "Tunisia",
+            "abbr": "TUN",
+            "flag": "🇹🇳",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/tun.png",
+            "color": "D20300",
+            "home_away": "home",
+            "score": 0,
+            "winner": false
+          },
+          "away": {
+            "id": "449",
+            "name": "Netherlands",
+            "short": "Netherlands",
+            "abbr": "NED",
+            "flag": "🇳🇱",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/ned.png",
+            "color": "fb5d00",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "GEHA Field at Arrowhead Stadium",
+            "city": "Kansas City, Missouri",
+            "country": "USA"
+          },
+          "broadcasts": [
+            "FOX",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760472/netherlands-tunisia",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Tunisia%20vs%20Netherlands",
+          "slug": "netherlands-at-tunisia"
+        },
+        {
+          "id": "760469",
+          "kickoff_utc": "2026-06-26T02:00:00+00:00",
+          "kickoff_local": "2026-06-25T21:00:00-05:00",
+          "kickoff_local_date": "2026-06-25",
+          "kickoff_time": "9:00 PM",
+          "kickoff_weekday": "Thu",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
+          "stage": "Group Stage",
+          "stage_slug": "group-stage",
+          "home": {
+            "id": "210",
+            "name": "Paraguay",
+            "short": "Paraguay",
+            "abbr": "PAR",
+            "flag": "🇵🇾",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/par.png",
+            "color": "ea2300",
+            "home_away": "home",
+            "score": 0,
+            "winner": false
+          },
+          "away": {
+            "id": "628",
+            "name": "Australia",
+            "short": "Australia",
+            "abbr": "AUS",
+            "flag": "🇦🇺",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/aus.png",
+            "color": "2a2d7c",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "Levi's Stadium",
+            "city": "Santa Clara, California",
+            "country": "USA"
+          },
+          "broadcasts": [
+            "FS1",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760469/australia-paraguay",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Paraguay%20vs%20Australia",
+          "slug": "australia-at-paraguay"
+        },
+        {
+          "id": "760470",
+          "kickoff_utc": "2026-06-26T02:00:00+00:00",
+          "kickoff_local": "2026-06-25T21:00:00-05:00",
+          "kickoff_local_date": "2026-06-25",
+          "kickoff_time": "9:00 PM",
+          "kickoff_weekday": "Thu",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
+          "stage": "Group Stage",
+          "stage_slug": "group-stage",
+          "home": {
+            "id": "465",
+            "name": "Türkiye",
+            "short": "Türkiye",
+            "abbr": "TUR",
+            "flag": "🇹🇷",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/tur.png",
+            "color": "ffffff",
+            "home_away": "home",
+            "score": 0,
+            "winner": false
+          },
+          "away": {
+            "id": "660",
+            "name": "United States",
+            "short": "USA",
+            "abbr": "USA",
+            "flag": "🇺🇸",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/usa.png",
+            "color": "213065",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "SoFi Stadium",
+            "city": "Inglewood, California",
+            "country": "USA"
+          },
+          "broadcasts": [
+            "FOX",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760470/united-states-turkiye",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20T%C3%BCrkiye%20vs%20United%20States",
+          "slug": "united states-at-turkiye"
+        }
+      ]
+    },
+    {
+      "date": "2026-06-26",
+      "label": "Fri",
+      "match_count": 6,
+      "matches": [
+        {
+          "id": "760475",
+          "kickoff_utc": "2026-06-26T19:00:00+00:00",
+          "kickoff_local": "2026-06-26T14:00:00-05:00",
+          "kickoff_local_date": "2026-06-26",
+          "kickoff_time": "2:00 PM",
+          "kickoff_weekday": "Fri",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
+          "stage": "Group Stage",
+          "stage_slug": "group-stage",
+          "home": {
+            "id": "464",
+            "name": "Norway",
+            "short": "Norway",
+            "abbr": "NOR",
+            "flag": "🇳🇴",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/nor.png",
+            "color": "ef2b2d",
+            "home_away": "home",
+            "score": 0,
+            "winner": false
+          },
+          "away": {
+            "id": "478",
+            "name": "France",
+            "short": "France",
+            "abbr": "FRA",
+            "flag": "🇫🇷",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/fra.png",
+            "color": "0c2fff",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "Gillette Stadium",
+            "city": "Foxborough, Massachusetts",
+            "country": "USA"
+          },
+          "broadcasts": [
+            "FOX",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760475/france-norway",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Norway%20vs%20France",
+          "slug": "france-at-norway"
+        },
+        {
+          "id": "760474",
+          "kickoff_utc": "2026-06-26T19:00:00+00:00",
+          "kickoff_local": "2026-06-26T14:00:00-05:00",
+          "kickoff_local_date": "2026-06-26",
+          "kickoff_time": "2:00 PM",
+          "kickoff_weekday": "Fri",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
+          "stage": "Group Stage",
+          "stage_slug": "group-stage",
+          "home": {
+            "id": "654",
+            "name": "Senegal",
+            "short": "Senegal",
+            "abbr": "SEN",
+            "flag": "🇸🇳",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/sen.png",
+            "color": "00853f",
+            "home_away": "home",
+            "score": 0,
+            "winner": false
+          },
+          "away": {
+            "id": "4375",
+            "name": "Iraq",
+            "short": "Iraq",
+            "abbr": "IRQ",
+            "flag": "🇮🇶",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/irq.png",
+            "color": "00843d",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "BMO Field",
+            "city": "Toronto",
+            "country": "Canada"
+          },
+          "broadcasts": [
+            "FS1",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760474/iraq-senegal",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Senegal%20vs%20Iraq",
+          "slug": "iraq-at-senegal"
+        },
+        {
+          "id": "760478",
+          "kickoff_utc": "2026-06-27T00:00:00+00:00",
+          "kickoff_local": "2026-06-26T19:00:00-05:00",
+          "kickoff_local_date": "2026-06-26",
+          "kickoff_time": "7:00 PM",
+          "kickoff_weekday": "Fri",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
+          "stage": "Group Stage",
+          "stage_slug": "group-stage",
+          "home": {
+            "id": "2597",
+            "name": "Cape Verde",
+            "short": "Cape Verde",
+            "abbr": "CPV",
+            "flag": "🇨🇻",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/cpv.png",
+            "color": "0000ff",
+            "home_away": "home",
+            "score": 0,
+            "winner": false
+          },
+          "away": {
+            "id": "655",
+            "name": "Saudi Arabia",
+            "short": "Saudi Arabia",
+            "abbr": "KSA",
+            "flag": "🇸🇦",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/ksa.png",
+            "color": "dddddd",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "NRG Stadium",
+            "city": "Houston, Texas",
+            "country": "USA"
+          },
+          "broadcasts": [
+            "FS1",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760478/saudi-arabia-cape-verde",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Cape%20Verde%20vs%20Saudi%20Arabia",
+          "slug": "saudi arabia-at-cape verde"
+        },
+        {
+          "id": "760479",
+          "kickoff_utc": "2026-06-27T00:00:00+00:00",
+          "kickoff_local": "2026-06-26T19:00:00-05:00",
+          "kickoff_local_date": "2026-06-26",
+          "kickoff_time": "7:00 PM",
+          "kickoff_weekday": "Fri",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
+          "stage": "Group Stage",
+          "stage_slug": "group-stage",
+          "home": {
+            "id": "212",
+            "name": "Uruguay",
+            "short": "Uruguay",
+            "abbr": "URU",
+            "flag": "🇺🇾",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/uru.png",
+            "color": "003da5",
+            "home_away": "home",
+            "score": 0,
+            "winner": false
+          },
+          "away": {
+            "id": "164",
+            "name": "Spain",
+            "short": "Spain",
+            "abbr": "ESP",
+            "flag": "🇪🇸",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/esp.png",
+            "color": "c60b1e",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "Estadio Akron",
+            "city": "Guadalajara",
+            "country": "Mexico"
+          },
+          "broadcasts": [
+            "FOX",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760479/spain-uruguay",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Uruguay%20vs%20Spain",
+          "slug": "spain-at-uruguay"
+        },
+        {
+          "id": "760476",
+          "kickoff_utc": "2026-06-27T03:00:00+00:00",
+          "kickoff_local": "2026-06-26T22:00:00-05:00",
+          "kickoff_local_date": "2026-06-26",
+          "kickoff_time": "10:00 PM",
+          "kickoff_weekday": "Fri",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
+          "stage": "Group Stage",
+          "stage_slug": "group-stage",
+          "home": {
+            "id": "2620",
+            "name": "Egypt",
+            "short": "Egypt",
+            "abbr": "EGY",
+            "flag": "🇪🇬",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/egy.png",
+            "color": "D20300",
+            "home_away": "home",
+            "score": 0,
+            "winner": false
+          },
+          "away": {
+            "id": "469",
+            "name": "Iran",
+            "short": "Iran",
+            "abbr": "IRN",
+            "flag": "🇮🇷",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/irn.png",
+            "color": "da0000",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "Lumen Field",
+            "city": "Seattle, Washington",
+            "country": "USA"
+          },
+          "broadcasts": [
+            "FS1",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760476/iran-egypt",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Egypt%20vs%20Iran",
+          "slug": "iran-at-egypt"
+        },
+        {
+          "id": "760477",
+          "kickoff_utc": "2026-06-27T03:00:00+00:00",
+          "kickoff_local": "2026-06-26T22:00:00-05:00",
+          "kickoff_local_date": "2026-06-26",
+          "kickoff_time": "10:00 PM",
+          "kickoff_weekday": "Fri",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
+          "stage": "Group Stage",
+          "stage_slug": "group-stage",
+          "home": {
+            "id": "2666",
+            "name": "New Zealand",
+            "short": "New Zealand",
+            "abbr": "NZL",
+            "flag": "🇳🇿",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/nzl.png",
+            "color": "273476",
+            "home_away": "home",
+            "score": 0,
+            "winner": false
+          },
+          "away": {
+            "id": "459",
+            "name": "Belgium",
+            "short": "Belgium",
+            "abbr": "BEL",
+            "flag": "🇧🇪",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/bel.png",
+            "color": "ef3340",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "BC Place",
+            "city": "Vancouver",
+            "country": "Canada"
+          },
+          "broadcasts": [
+            "FOX",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760477/belgium-new-zealand",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20New%20Zealand%20vs%20Belgium",
+          "slug": "belgium-at-new zealand"
+        }
+      ]
+    },
+    {
+      "date": "2026-06-27",
+      "label": "Sat",
+      "match_count": 6,
+      "matches": [
+        {
+          "id": "760480",
+          "kickoff_utc": "2026-06-27T21:00:00+00:00",
+          "kickoff_local": "2026-06-27T16:00:00-05:00",
+          "kickoff_local_date": "2026-06-27",
+          "kickoff_time": "4:00 PM",
+          "kickoff_weekday": "Sat",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
+          "stage": "Group Stage",
+          "stage_slug": "group-stage",
+          "home": {
+            "id": "477",
+            "name": "Croatia",
+            "short": "Croatia",
+            "abbr": "CRO",
+            "flag": "🇭🇷",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/cro.png",
+            "color": "ff0000",
+            "home_away": "home",
+            "score": 0,
+            "winner": false
+          },
+          "away": {
+            "id": "4469",
+            "name": "Ghana",
+            "short": "Ghana",
+            "abbr": "GHA",
+            "flag": "🇬🇭",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/gha.png",
+            "color": "ce2931",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "Lincoln Financial Field",
+            "city": "Philadelphia, Pennsylvania",
+            "country": "USA"
+          },
+          "broadcasts": [
+            "FS1",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760480/ghana-croatia",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Croatia%20vs%20Ghana",
+          "slug": "ghana-at-croatia"
+        },
+        {
+          "id": "760485",
+          "kickoff_utc": "2026-06-27T21:00:00+00:00",
+          "kickoff_local": "2026-06-27T16:00:00-05:00",
+          "kickoff_local_date": "2026-06-27",
+          "kickoff_time": "4:00 PM",
+          "kickoff_weekday": "Sat",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
+          "stage": "Group Stage",
+          "stage_slug": "group-stage",
+          "home": {
+            "id": "2659",
+            "name": "Panama",
+            "short": "Panama",
+            "abbr": "PAN",
+            "flag": "🇵🇦",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/pan.png",
+            "color": "d21034",
+            "home_away": "home",
+            "score": 0,
+            "winner": false
+          },
+          "away": {
+            "id": "448",
+            "name": "England",
+            "short": "England",
+            "abbr": "ENG",
+            "flag": "🏴",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/eng.png",
+            "color": "ffffff",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "MetLife Stadium",
+            "city": "East Rutherford, New Jersey",
+            "country": "USA"
+          },
+          "broadcasts": [
+            "FOX",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760485/england-panama",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Panama%20vs%20England",
+          "slug": "england-at-panama"
+        },
+        {
+          "id": "760481",
+          "kickoff_utc": "2026-06-27T23:30:00+00:00",
+          "kickoff_local": "2026-06-27T18:30:00-05:00",
+          "kickoff_local_date": "2026-06-27",
+          "kickoff_time": "6:30 PM",
+          "kickoff_weekday": "Sat",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
+          "stage": "Group Stage",
+          "stage_slug": "group-stage",
+          "home": {
+            "id": "208",
+            "name": "Colombia",
+            "short": "Colombia",
+            "abbr": "COL",
+            "flag": "🇨🇴",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/col.png",
+            "color": "fbd632",
+            "home_away": "home",
+            "score": 0,
+            "winner": false
+          },
+          "away": {
+            "id": "482",
+            "name": "Portugal",
+            "short": "Portugal",
+            "abbr": "POR",
+            "flag": "🇵🇹",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/por.png",
+            "color": "da291c",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "Hard Rock Stadium",
+            "city": "Miami Gardens, Florida",
+            "country": "USA"
+          },
+          "broadcasts": [
+            "FOX",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760481/portugal-colombia",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Colombia%20vs%20Portugal",
+          "slug": "portugal-at-colombia"
+        },
+        {
+          "id": "760482",
+          "kickoff_utc": "2026-06-27T23:30:00+00:00",
+          "kickoff_local": "2026-06-27T18:30:00-05:00",
+          "kickoff_local_date": "2026-06-27",
+          "kickoff_time": "6:30 PM",
+          "kickoff_weekday": "Sat",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
+          "stage": "Group Stage",
+          "stage_slug": "group-stage",
+          "home": {
+            "id": "2850",
+            "name": "Congo DR",
+            "short": "Congo DR",
+            "abbr": "COD",
+            "flag": "🇨🇩",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/rdc.png",
+            "color": "418fde",
+            "home_away": "home",
+            "score": 0,
+            "winner": false
+          },
+          "away": {
+            "id": "2570",
+            "name": "Uzbekistan",
+            "short": "Uzbekistan",
+            "abbr": "UZB",
+            "flag": "🇺🇿",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/uzb.png",
+            "color": "0081d6",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "Mercedes-Benz Stadium",
+            "city": "Atlanta, Georgia",
+            "country": "USA"
+          },
+          "broadcasts": [
+            "FS1",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760482/uzbekistan-congo-dr",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Congo%20DR%20vs%20Uzbekistan",
+          "slug": "uzbekistan-at-congo dr"
+        },
+        {
+          "id": "760484",
+          "kickoff_utc": "2026-06-28T02:00:00+00:00",
+          "kickoff_local": "2026-06-27T21:00:00-05:00",
+          "kickoff_local_date": "2026-06-27",
+          "kickoff_time": "9:00 PM",
+          "kickoff_weekday": "Sat",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
+          "stage": "Group Stage",
+          "stage_slug": "group-stage",
+          "home": {
+            "id": "624",
+            "name": "Algeria",
+            "short": "Algeria",
+            "abbr": "ALG",
+            "flag": "🇩🇿",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/alg.png",
+            "color": "5bbd19",
+            "home_away": "home",
+            "score": 0,
+            "winner": false
+          },
+          "away": {
+            "id": "474",
+            "name": "Austria",
+            "short": "Austria",
+            "abbr": "AUT",
+            "flag": "🇦🇹",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/aut.png",
+            "color": "d72b2c",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "GEHA Field at Arrowhead Stadium",
+            "city": "Kansas City, Missouri",
+            "country": "USA"
+          },
+          "broadcasts": [
+            "FS1",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760484/austria-algeria",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Algeria%20vs%20Austria",
+          "slug": "austria-at-algeria"
+        },
+        {
+          "id": "760483",
+          "kickoff_utc": "2026-06-28T02:00:00+00:00",
+          "kickoff_local": "2026-06-27T21:00:00-05:00",
+          "kickoff_local_date": "2026-06-27",
+          "kickoff_time": "9:00 PM",
+          "kickoff_weekday": "Sat",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
+          "stage": "Group Stage",
+          "stage_slug": "group-stage",
+          "home": {
+            "id": "2917",
+            "name": "Jordan",
+            "short": "Jordan",
+            "abbr": "JOR",
+            "flag": "🇯🇴",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/jor.png",
+            "color": "E70000",
+            "home_away": "home",
+            "score": 0,
+            "winner": false
+          },
+          "away": {
+            "id": "202",
+            "name": "Argentina",
+            "short": "Argentina",
+            "abbr": "ARG",
+            "flag": "🇦🇷",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/arg.png",
+            "color": "74acdf",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "AT&T Stadium",
+            "city": "Arlington, Texas",
+            "country": "USA"
+          },
+          "broadcasts": [
+            "FOX",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760483/argentina-jordan",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Jordan%20vs%20Argentina",
+          "slug": "argentina-at-jordan"
+        }
+      ]
+    },
+    {
+      "date": "2026-06-28",
+      "label": "Sun",
+      "match_count": 1,
+      "matches": [
+        {
+          "id": "760486",
+          "kickoff_utc": "2026-06-28T19:00:00+00:00",
+          "kickoff_local": "2026-06-28T14:00:00-05:00",
+          "kickoff_local_date": "2026-06-28",
+          "kickoff_time": "2:00 PM",
+          "kickoff_weekday": "Sun",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
+          "stage": "Round of 32",
+          "stage_slug": "round-of-32",
+          "home": {
+            "id": "5926",
+            "name": "Group A 2nd Place",
+            "short": "2A",
+            "abbr": "2A",
+            "flag": "🏳️",
+            "logo": "",
+            "color": "000000",
+            "home_away": "home",
+            "score": 0,
+            "winner": false
+          },
+          "away": {
+            "id": "5924",
+            "name": "Group B 2nd Place",
+            "short": "2B",
+            "abbr": "2B",
+            "flag": "🏳️",
+            "logo": "",
+            "color": "000000",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "SoFi Stadium",
+            "city": "Inglewood, California",
+            "country": "USA"
+          },
+          "broadcasts": [
+            "FOX",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760486/group-b-2nd-place-group-a-2nd-place",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Group%20A%202nd%20Place%20vs%20Group%20B%202nd%20Place",
+          "slug": "group b 2nd place-at-group a 2nd place"
+        }
+      ]
+    },
+    {
+      "date": "2026-06-29",
+      "label": "Mon",
+      "match_count": 3,
+      "matches": [
+        {
+          "id": "760487",
+          "kickoff_utc": "2026-06-29T17:00:00+00:00",
+          "kickoff_local": "2026-06-29T12:00:00-05:00",
+          "kickoff_local_date": "2026-06-29",
+          "kickoff_time": "12:00 PM",
+          "kickoff_weekday": "Mon",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
+          "stage": "Round of 32",
+          "stage_slug": "round-of-32",
+          "home": {
+            "id": "5927",
+            "name": "Group C Winner",
+            "short": "1C",
+            "abbr": "1C",
+            "flag": "🏳️",
+            "logo": "",
+            "color": "000000",
+            "home_away": "home",
+            "score": 0,
+            "winner": false
+          },
+          "away": {
+            "id": "5934",
+            "name": "Group F 2nd Place",
+            "short": "2F",
+            "abbr": "2F",
+            "flag": "🏳️",
+            "logo": "",
+            "color": "000000",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "NRG Stadium",
+            "city": "Houston, Texas",
+            "country": "USA"
+          },
+          "broadcasts": [
+            "FOX",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760487/group-f-2nd-place-group-c-winner",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Group%20C%20Winner%20vs%20Group%20F%202nd%20Place",
+          "slug": "group f 2nd place-at-group c winner"
+        },
+        {
+          "id": "760489",
+          "kickoff_utc": "2026-06-29T20:30:00+00:00",
+          "kickoff_local": "2026-06-29T15:30:00-05:00",
+          "kickoff_local_date": "2026-06-29",
+          "kickoff_time": "3:30 PM",
+          "kickoff_weekday": "Mon",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
+          "stage": "Round of 32",
+          "stage_slug": "round-of-32",
+          "home": {
+            "id": "5931",
+            "name": "Group E Winner",
+            "short": "1E",
+            "abbr": "1E",
+            "flag": "🏳️",
+            "logo": "",
+            "color": "000000",
+            "home_away": "home",
+            "score": 0,
+            "winner": false
+          },
+          "away": {
+            "id": "131541",
+            "name": "Third Place Group A/B/C/D/F",
+            "short": "3RD A/B/C/D/F",
+            "abbr": "3RD",
+            "flag": "🏳️",
+            "logo": "",
+            "color": "000000",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "Gillette Stadium",
+            "city": "Foxborough, Massachusetts",
+            "country": "USA"
+          },
+          "broadcasts": [
+            "FOX",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760489/third-place-group-abcdf-group-e-winner",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Group%20E%20Winner%20vs%20Third%20Place%20Group%20A/B/C/D/F",
+          "slug": "third place group a/b/c/d/f-at-group e winner"
+        },
+        {
+          "id": "760488",
+          "kickoff_utc": "2026-06-30T01:00:00+00:00",
+          "kickoff_local": "2026-06-29T20:00:00-05:00",
+          "kickoff_local_date": "2026-06-29",
+          "kickoff_time": "8:00 PM",
+          "kickoff_weekday": "Mon",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
+          "stage": "Round of 32",
+          "stage_slug": "round-of-32",
+          "home": {
+            "id": "5933",
+            "name": "Group F Winner",
+            "short": "1F",
+            "abbr": "1F",
+            "flag": "🏳️",
+            "logo": "",
+            "color": "000000",
+            "home_away": "home",
+            "score": 0,
+            "winner": false
+          },
+          "away": {
+            "id": "5930",
+            "name": "Group C 2nd Place",
+            "short": "2C",
+            "abbr": "2C",
+            "flag": "🏳️",
+            "logo": "",
+            "color": "000000",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "Estadio BBVA",
+            "city": "Guadalupe",
+            "country": "Mexico"
+          },
+          "broadcasts": [
+            "FOX",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760488/group-c-2nd-place-group-f-winner",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Group%20F%20Winner%20vs%20Group%20C%202nd%20Place",
+          "slug": "group c 2nd place-at-group f winner"
+        }
+      ]
+    },
+    {
+      "date": "2026-06-30",
+      "label": "Tue",
+      "match_count": 3,
+      "matches": [
+        {
+          "id": "760490",
+          "kickoff_utc": "2026-06-30T17:00:00+00:00",
+          "kickoff_local": "2026-06-30T12:00:00-05:00",
+          "kickoff_local_date": "2026-06-30",
+          "kickoff_time": "12:00 PM",
+          "kickoff_weekday": "Tue",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
+          "stage": "Round of 32",
+          "stage_slug": "round-of-32",
+          "home": {
+            "id": "5932",
+            "name": "Group E 2nd Place",
+            "short": "2E",
+            "abbr": "2E",
+            "flag": "🏳️",
+            "logo": "",
+            "color": "000000",
+            "home_away": "home",
+            "score": 0,
+            "winner": false
+          },
+          "away": {
+            "id": "131501",
+            "name": "Group I 2nd Place",
+            "short": "2I",
+            "abbr": "2I",
+            "flag": "🏳️",
+            "logo": "",
+            "color": "000000",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "AT&T Stadium",
+            "city": "Arlington, Texas",
+            "country": "USA"
+          },
+          "broadcasts": [
+            "FOX",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760490/group-i-2nd-place-group-e-2nd-place",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Group%20E%202nd%20Place%20vs%20Group%20I%202nd%20Place",
+          "slug": "group i 2nd place-at-group e 2nd place"
+        },
+        {
+          "id": "760492",
+          "kickoff_utc": "2026-06-30T21:00:00+00:00",
+          "kickoff_local": "2026-06-30T16:00:00-05:00",
+          "kickoff_local_date": "2026-06-30",
+          "kickoff_time": "4:00 PM",
+          "kickoff_weekday": "Tue",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
+          "stage": "Round of 32",
+          "stage_slug": "round-of-32",
+          "home": {
+            "id": "131505",
+            "name": "Group I Winner",
+            "short": "1I",
+            "abbr": "1I",
+            "flag": "🏳️",
+            "logo": "",
+            "color": "000000",
+            "home_away": "home",
+            "score": 0,
+            "winner": false
+          },
+          "away": {
+            "id": "131544",
+            "name": "Third Place Group C/D/F/G/H",
+            "short": "3RD C/D/F/G/H",
+            "abbr": "3RD",
+            "flag": "🏳️",
+            "logo": "",
+            "color": "000000",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "MetLife Stadium",
+            "city": "East Rutherford, New Jersey",
+            "country": "USA"
+          },
+          "broadcasts": [
+            "FOX",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760492/third-place-group-cdfgh-group-i-winner",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Group%20I%20Winner%20vs%20Third%20Place%20Group%20C/D/F/G/H",
+          "slug": "third place group c/d/f/g/h-at-group i winner"
+        },
+        {
+          "id": "760491",
+          "kickoff_utc": "2026-07-01T01:00:00+00:00",
+          "kickoff_local": "2026-06-30T20:00:00-05:00",
+          "kickoff_local_date": "2026-06-30",
+          "kickoff_time": "8:00 PM",
+          "kickoff_weekday": "Tue",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
+          "stage": "Round of 32",
+          "stage_slug": "round-of-32",
+          "home": {
+            "id": "5923",
+            "name": "Group A Winner",
+            "short": "1A",
+            "abbr": "1A",
+            "flag": "🏳️",
+            "logo": "",
+            "color": "000000",
+            "home_away": "home",
+            "score": 0,
+            "winner": false
+          },
+          "away": {
+            "id": "131545",
+            "name": "Third Place Group C/E/F/H/I",
+            "short": "3RD C/E/F/H/I",
+            "abbr": "3RD",
+            "flag": "🏳️",
+            "logo": "",
+            "color": "000000",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "Estadio Banorte",
+            "city": "Mexico City",
+            "country": "Mexico"
+          },
+          "broadcasts": [
+            "FOX",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760491/third-place-group-cefhi-group-a-winner",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Group%20A%20Winner%20vs%20Third%20Place%20Group%20C/E/F/H/I",
+          "slug": "third place group c/e/f/h/i-at-group a winner"
+        }
+      ]
+    },
+    {
+      "date": "2026-07-01",
+      "label": "Wed",
+      "match_count": 3,
+      "matches": [
+        {
+          "id": "760495",
+          "kickoff_utc": "2026-07-01T16:00:00+00:00",
+          "kickoff_local": "2026-07-01T11:00:00-05:00",
+          "kickoff_local_date": "2026-07-01",
+          "kickoff_time": "11:00 AM",
+          "kickoff_weekday": "Wed",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
+          "stage": "Round of 32",
+          "stage_slug": "round-of-32",
+          "home": {
+            "id": "131508",
+            "name": "Group L Winner",
+            "short": "1L",
+            "abbr": "1L",
+            "flag": "🏳️",
+            "logo": "",
+            "color": "000000",
+            "home_away": "home",
+            "score": 0,
+            "winner": false
+          },
+          "away": {
+            "id": "131548",
+            "name": "Third Place Group E/H/I/J/K",
+            "short": "3RD E/H/I/J/K",
+            "abbr": "3RD",
+            "flag": "🏳️",
+            "logo": "",
+            "color": "000000",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "Mercedes-Benz Stadium",
+            "city": "Atlanta, Georgia",
+            "country": "USA"
+          },
+          "broadcasts": [
+            "FOX",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760495/third-place-group-ehijk-group-l-winner",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Group%20L%20Winner%20vs%20Third%20Place%20Group%20E/H/I/J/K",
+          "slug": "third place group e/h/i/j/k-at-group l winner"
+        },
+        {
+          "id": "760493",
+          "kickoff_utc": "2026-07-01T20:00:00+00:00",
+          "kickoff_local": "2026-07-01T15:00:00-05:00",
+          "kickoff_local_date": "2026-07-01",
+          "kickoff_time": "3:00 PM",
+          "kickoff_weekday": "Wed",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
+          "stage": "Round of 32",
+          "stage_slug": "round-of-32",
+          "home": {
+            "id": "5935",
+            "name": "Group G Winner",
+            "short": "1G",
+            "abbr": "1G",
+            "flag": "🏳️",
+            "logo": "",
+            "color": "000000",
+            "home_away": "home",
+            "score": 0,
+            "winner": false
+          },
+          "away": {
+            "id": "131542",
+            "name": "Third Place Group A/E/H/I/J",
+            "short": "3RD A/E/H/I/J",
+            "abbr": "3RD",
+            "flag": "🏳️",
+            "logo": "",
+            "color": "000000",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "Lumen Field",
+            "city": "Seattle, Washington",
+            "country": "USA"
+          },
+          "broadcasts": [
+            "FS1",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760493/third-place-group-aehij-group-g-winner",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Group%20G%20Winner%20vs%20Third%20Place%20Group%20A/E/H/I/J",
+          "slug": "third place group a/e/h/i/j-at-group g winner"
+        },
+        {
+          "id": "760494",
+          "kickoff_utc": "2026-07-02T00:00:00+00:00",
+          "kickoff_local": "2026-07-01T19:00:00-05:00",
+          "kickoff_local_date": "2026-07-01",
+          "kickoff_time": "7:00 PM",
+          "kickoff_weekday": "Wed",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
+          "stage": "Round of 32",
+          "stage_slug": "round-of-32",
+          "home": {
+            "id": "5929",
+            "name": "Group D Winner",
+            "short": "1D",
+            "abbr": "1D",
+            "flag": "🏳️",
+            "logo": "",
+            "color": "000000",
+            "home_away": "home",
+            "score": 0,
+            "winner": false
+          },
+          "away": {
+            "id": "131543",
+            "name": "Third Place Group B/E/F/I/J",
+            "short": "3RD B/E/F/I/J",
+            "abbr": "3RD",
+            "flag": "🏳️",
+            "logo": "",
+            "color": "000000",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "Levi's Stadium",
+            "city": "Santa Clara, California",
+            "country": "USA"
+          },
+          "broadcasts": [
+            "FOX",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760494/third-place-group-befij-group-d-winner",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Group%20D%20Winner%20vs%20Third%20Place%20Group%20B/E/F/I/J",
+          "slug": "third place group b/e/f/i/j-at-group d winner"
+        }
+      ]
+    },
+    {
+      "date": "2026-07-02",
+      "label": "Thu",
+      "match_count": 3,
+      "matches": [
+        {
+          "id": "760497",
+          "kickoff_utc": "2026-07-02T19:00:00+00:00",
+          "kickoff_local": "2026-07-02T14:00:00-05:00",
+          "kickoff_local_date": "2026-07-02",
+          "kickoff_time": "2:00 PM",
+          "kickoff_weekday": "Thu",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
+          "stage": "Round of 32",
+          "stage_slug": "round-of-32",
+          "home": {
+            "id": "5937",
+            "name": "Group H Winner",
+            "short": "1H",
+            "abbr": "1H",
+            "flag": "🏳️",
+            "logo": "",
+            "color": "000000",
+            "home_away": "home",
+            "score": 0,
+            "winner": false
+          },
+          "away": {
+            "id": "131502",
+            "name": "Group J 2nd Place",
+            "short": "2J",
+            "abbr": "2J",
+            "flag": "🏳️",
+            "logo": "",
+            "color": "000000",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "SoFi Stadium",
+            "city": "Inglewood, California",
+            "country": "USA"
+          },
+          "broadcasts": [
+            "FOX",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760497/group-j-2nd-place-group-h-winner",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Group%20H%20Winner%20vs%20Group%20J%202nd%20Place",
+          "slug": "group j 2nd place-at-group h winner"
+        },
+        {
+          "id": "760496",
+          "kickoff_utc": "2026-07-02T23:00:00+00:00",
+          "kickoff_local": "2026-07-02T18:00:00-05:00",
+          "kickoff_local_date": "2026-07-02",
+          "kickoff_time": "6:00 PM",
+          "kickoff_weekday": "Thu",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
+          "stage": "Round of 32",
+          "stage_slug": "round-of-32",
+          "home": {
+            "id": "131503",
+            "name": "Group K 2nd Place",
+            "short": "2K",
+            "abbr": "2K",
+            "flag": "🏳️",
+            "logo": "",
+            "color": "000000",
+            "home_away": "home",
+            "score": 0,
+            "winner": false
+          },
+          "away": {
+            "id": "131504",
+            "name": "Group L 2nd Place",
+            "short": "2L",
+            "abbr": "2L",
+            "flag": "🏳️",
+            "logo": "",
+            "color": "000000",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "BMO Field",
+            "city": "Toronto",
+            "country": "Canada"
+          },
+          "broadcasts": [
+            "FOX",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760496/group-l-2nd-place-group-k-2nd-place",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Group%20K%202nd%20Place%20vs%20Group%20L%202nd%20Place",
+          "slug": "group l 2nd place-at-group k 2nd place"
+        },
+        {
+          "id": "760498",
+          "kickoff_utc": "2026-07-03T03:00:00+00:00",
+          "kickoff_local": "2026-07-02T22:00:00-05:00",
+          "kickoff_local_date": "2026-07-02",
+          "kickoff_time": "10:00 PM",
+          "kickoff_weekday": "Thu",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
+          "stage": "Round of 32",
+          "stage_slug": "round-of-32",
+          "home": {
+            "id": "5925",
+            "name": "Group B Winner",
+            "short": "1B",
+            "abbr": "1B",
+            "flag": "🏳️",
+            "logo": "",
+            "color": "000000",
+            "home_away": "home",
+            "score": 0,
+            "winner": false
+          },
+          "away": {
+            "id": "131547",
+            "name": "Third Place Group E/F/G/I/J",
+            "short": "3RD E/F/G/I/J",
+            "abbr": "3RD",
+            "flag": "🏳️",
+            "logo": "",
+            "color": "000000",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "BC Place",
+            "city": "Vancouver",
+            "country": "Canada"
+          },
+          "broadcasts": [
+            "FS1",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760498/third-place-group-efgij-group-b-winner",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Group%20B%20Winner%20vs%20Third%20Place%20Group%20E/F/G/I/J",
+          "slug": "third place group e/f/g/i/j-at-group b winner"
+        }
+      ]
+    },
+    {
+      "date": "2026-07-03",
+      "label": "Fri",
+      "match_count": 3,
+      "matches": [
+        {
+          "id": "760499",
+          "kickoff_utc": "2026-07-03T18:00:00+00:00",
+          "kickoff_local": "2026-07-03T13:00:00-05:00",
+          "kickoff_local_date": "2026-07-03",
+          "kickoff_time": "1:00 PM",
+          "kickoff_weekday": "Fri",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
+          "stage": "Round of 32",
+          "stage_slug": "round-of-32",
+          "home": {
+            "id": "5928",
+            "name": "Group D 2nd Place",
+            "short": "2D",
+            "abbr": "2D",
+            "flag": "🏳️",
+            "logo": "",
+            "color": "000000",
+            "home_away": "home",
+            "score": 0,
+            "winner": false
+          },
+          "away": {
+            "id": "5936",
+            "name": "Group G 2nd Place",
+            "short": "2G",
+            "abbr": "2G",
+            "flag": "🏳️",
+            "logo": "",
+            "color": "000000",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "AT&T Stadium",
+            "city": "Arlington, Texas",
+            "country": "USA"
+          },
+          "broadcasts": [
+            "FOX",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760499/group-g-2nd-place-group-d-2nd-place",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Group%20D%202nd%20Place%20vs%20Group%20G%202nd%20Place",
+          "slug": "group g 2nd place-at-group d 2nd place"
+        },
+        {
+          "id": "760500",
+          "kickoff_utc": "2026-07-03T22:00:00+00:00",
+          "kickoff_local": "2026-07-03T17:00:00-05:00",
+          "kickoff_local_date": "2026-07-03",
+          "kickoff_time": "5:00 PM",
+          "kickoff_weekday": "Fri",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
+          "stage": "Round of 32",
+          "stage_slug": "round-of-32",
+          "home": {
+            "id": "131506",
+            "name": "Group J Winner",
+            "short": "1J",
+            "abbr": "1J",
+            "flag": "🏳️",
+            "logo": "",
+            "color": "000000",
+            "home_away": "home",
+            "score": 0,
+            "winner": false
+          },
+          "away": {
+            "id": "5938",
+            "name": "Group H 2nd Place",
+            "short": "2H",
+            "abbr": "2H",
+            "flag": "🏳️",
+            "logo": "",
+            "color": "000000",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "Hard Rock Stadium",
+            "city": "Miami Gardens, Florida",
+            "country": "USA"
+          },
+          "broadcasts": [
+            "FOX",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760500/group-h-2nd-place-group-j-winner",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Group%20J%20Winner%20vs%20Group%20H%202nd%20Place",
+          "slug": "group h 2nd place-at-group j winner"
+        },
+        {
+          "id": "760501",
+          "kickoff_utc": "2026-07-04T01:30:00+00:00",
+          "kickoff_local": "2026-07-03T20:30:00-05:00",
+          "kickoff_local_date": "2026-07-03",
+          "kickoff_time": "8:30 PM",
+          "kickoff_weekday": "Fri",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
+          "stage": "Round of 32",
+          "stage_slug": "round-of-32",
+          "home": {
+            "id": "131507",
+            "name": "Group K Winner",
+            "short": "1K",
+            "abbr": "1K",
+            "flag": "🏳️",
+            "logo": "",
+            "color": "000000",
+            "home_away": "home",
+            "score": 0,
+            "winner": false
+          },
+          "away": {
+            "id": "131546",
+            "name": "Third Place Group D/E/I/J/L",
+            "short": "3RD D/E/I/J/L",
+            "abbr": "3RD",
+            "flag": "🏳️",
+            "logo": "",
+            "color": "000000",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "GEHA Field at Arrowhead Stadium",
+            "city": "Kansas City, Missouri",
+            "country": "USA"
+          },
+          "broadcasts": [
+            "FOX",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760501/third-place-group-deijl-group-k-winner",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Group%20K%20Winner%20vs%20Third%20Place%20Group%20D/E/I/J/L",
+          "slug": "third place group d/e/i/j/l-at-group k winner"
+        }
+      ]
+    },
+    {
+      "date": "2026-07-04",
+      "label": "Sat",
+      "match_count": 2,
+      "matches": [
+        {
+          "id": "760502",
+          "kickoff_utc": "2026-07-04T17:00:00+00:00",
+          "kickoff_local": "2026-07-04T12:00:00-05:00",
+          "kickoff_local_date": "2026-07-04",
+          "kickoff_time": "12:00 PM",
+          "kickoff_weekday": "Sat",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
+          "stage": "Round of 16",
+          "stage_slug": "round-of-16",
+          "home": {
+            "id": "131525",
+            "name": "Round of 32 1 Winner",
+            "short": "RD32 W1",
+            "abbr": "RD32",
+            "flag": "🏳️",
+            "logo": "",
+            "color": "000000",
+            "home_away": "home",
+            "score": 0,
+            "winner": false
+          },
+          "away": {
+            "id": "131527",
+            "name": "Round of 32 3 Winner",
+            "short": "RD32 W3",
+            "abbr": "RD32",
+            "flag": "🏳️",
+            "logo": "",
+            "color": "000000",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "NRG Stadium",
+            "city": "Houston, Texas",
+            "country": "USA"
+          },
+          "broadcasts": [
+            "FOX",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760502/round-of-32-3-winner-round-of-32-1-winner",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Round%20of%2032%201%20Winner%20vs%20Round%20of%2032%203%20Winner",
+          "slug": "round of 32 3 winner-at-round of 32 1 winner"
+        },
+        {
+          "id": "760503",
+          "kickoff_utc": "2026-07-04T21:00:00+00:00",
+          "kickoff_local": "2026-07-04T16:00:00-05:00",
+          "kickoff_local_date": "2026-07-04",
+          "kickoff_time": "4:00 PM",
+          "kickoff_weekday": "Sat",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
+          "stage": "Round of 16",
+          "stage_slug": "round-of-16",
+          "home": {
+            "id": "131526",
+            "name": "Round of 32 2 Winner",
+            "short": "RD32 W2",
+            "abbr": "RD32",
+            "flag": "🏳️",
+            "logo": "",
+            "color": "000000",
+            "home_away": "home",
+            "score": 0,
+            "winner": false
+          },
+          "away": {
+            "id": "131529",
+            "name": "Round of 32 5 Winner",
+            "short": "RD32 W5",
+            "abbr": "RD32",
+            "flag": "🏳️",
+            "logo": "",
+            "color": "000000",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "Lincoln Financial Field",
+            "city": "Philadelphia, Pennsylvania",
+            "country": "USA"
+          },
+          "broadcasts": [
+            "FOX",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760503/round-of-32-5-winner-round-of-32-2-winner",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Round%20of%2032%202%20Winner%20vs%20Round%20of%2032%205%20Winner",
+          "slug": "round of 32 5 winner-at-round of 32 2 winner"
+        }
+      ]
+    },
+    {
+      "date": "2026-07-05",
+      "label": "Sun",
+      "match_count": 2,
+      "matches": [
+        {
+          "id": "760504",
+          "kickoff_utc": "2026-07-05T20:00:00+00:00",
+          "kickoff_local": "2026-07-05T15:00:00-05:00",
+          "kickoff_local_date": "2026-07-05",
+          "kickoff_time": "3:00 PM",
+          "kickoff_weekday": "Sun",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
+          "stage": "Round of 16",
+          "stage_slug": "round-of-16",
+          "home": {
+            "id": "131528",
+            "name": "Round of 32 4 Winner",
+            "short": "RD32 W4",
+            "abbr": "RD32",
+            "flag": "🏳️",
+            "logo": "",
+            "color": "000000",
+            "home_away": "home",
+            "score": 0,
+            "winner": false
+          },
+          "away": {
+            "id": "131530",
+            "name": "Round of 32 6 Winner",
+            "short": "RD32 W6",
+            "abbr": "RD32",
+            "flag": "🏳️",
+            "logo": "",
+            "color": "000000",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "MetLife Stadium",
+            "city": "East Rutherford, New Jersey",
+            "country": "USA"
+          },
+          "broadcasts": [
+            "FOX",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760504/round-of-32-6-winner-round-of-32-4-winner",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Round%20of%2032%204%20Winner%20vs%20Round%20of%2032%206%20Winner",
+          "slug": "round of 32 6 winner-at-round of 32 4 winner"
+        },
+        {
+          "id": "760505",
+          "kickoff_utc": "2026-07-06T00:00:00+00:00",
+          "kickoff_local": "2026-07-05T19:00:00-05:00",
+          "kickoff_local_date": "2026-07-05",
+          "kickoff_time": "7:00 PM",
+          "kickoff_weekday": "Sun",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
+          "stage": "Round of 16",
+          "stage_slug": "round-of-16",
+          "home": {
+            "id": "131531",
+            "name": "Round of 32 7 Winner",
+            "short": "RD32 W7",
+            "abbr": "RD32",
+            "flag": "🏳️",
+            "logo": "",
+            "color": "000000",
+            "home_away": "home",
+            "score": 0,
+            "winner": false
+          },
+          "away": {
+            "id": "131532",
+            "name": "Round of 32 8 Winner",
+            "short": "RD32 W8",
+            "abbr": "RD32",
+            "flag": "🏳️",
+            "logo": "",
+            "color": "000000",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "Estadio Banorte",
+            "city": "Mexico City",
+            "country": "Mexico"
+          },
+          "broadcasts": [
+            "FOX",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760505/round-of-32-8-winner-round-of-32-7-winner",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Round%20of%2032%207%20Winner%20vs%20Round%20of%2032%208%20Winner",
+          "slug": "round of 32 8 winner-at-round of 32 7 winner"
+        }
+      ]
+    },
+    {
+      "date": "2026-07-06",
+      "label": "Mon",
+      "match_count": 2,
+      "matches": [
+        {
+          "id": "760506",
+          "kickoff_utc": "2026-07-06T19:00:00+00:00",
+          "kickoff_local": "2026-07-06T14:00:00-05:00",
+          "kickoff_local_date": "2026-07-06",
+          "kickoff_time": "2:00 PM",
+          "kickoff_weekday": "Mon",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
+          "stage": "Round of 16",
+          "stage_slug": "round-of-16",
+          "home": {
+            "id": "131535",
+            "name": "Round of 32 11 Winner",
+            "short": "RD32 W11",
+            "abbr": "RD32",
+            "flag": "🏳️",
+            "logo": "",
+            "color": "000000",
+            "home_away": "home",
+            "score": 0,
+            "winner": false
+          },
+          "away": {
+            "id": "131536",
+            "name": "Round of 32 12 Winner",
+            "short": "RD32 W12",
+            "abbr": "RD32",
+            "flag": "🏳️",
+            "logo": "",
+            "color": "000000",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "AT&T Stadium",
+            "city": "Arlington, Texas",
+            "country": "USA"
+          },
+          "broadcasts": [
+            "FOX",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760506/round-of-32-12-winner-round-of-32-11-winner",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Round%20of%2032%2011%20Winner%20vs%20Round%20of%2032%2012%20Winner",
+          "slug": "round of 32 12 winner-at-round of 32 11 winner"
+        },
+        {
+          "id": "760507",
+          "kickoff_utc": "2026-07-07T00:00:00+00:00",
+          "kickoff_local": "2026-07-06T19:00:00-05:00",
+          "kickoff_local_date": "2026-07-06",
+          "kickoff_time": "7:00 PM",
+          "kickoff_weekday": "Mon",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
+          "stage": "Round of 16",
+          "stage_slug": "round-of-16",
+          "home": {
+            "id": "131533",
+            "name": "Round of 32 9 Winner",
+            "short": "RD32 W9",
+            "abbr": "RD32",
+            "flag": "🏳️",
+            "logo": "",
+            "color": "000000",
+            "home_away": "home",
+            "score": 0,
+            "winner": false
+          },
+          "away": {
+            "id": "131534",
+            "name": "Round of 32 10 Winner",
+            "short": "RD32 W10",
+            "abbr": "RD32",
+            "flag": "🏳️",
+            "logo": "",
+            "color": "000000",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "Lumen Field",
+            "city": "Seattle, Washington",
+            "country": "USA"
+          },
+          "broadcasts": [
+            "FOX",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760507/round-of-32-10-winner-round-of-32-9-winner",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Round%20of%2032%209%20Winner%20vs%20Round%20of%2032%2010%20Winner",
+          "slug": "round of 32 10 winner-at-round of 32 9 winner"
+        }
+      ]
+    },
+    {
+      "date": "2026-07-07",
+      "label": "Tue",
+      "match_count": 2,
+      "matches": [
+        {
+          "id": "760509",
+          "kickoff_utc": "2026-07-07T16:00:00+00:00",
+          "kickoff_local": "2026-07-07T11:00:00-05:00",
+          "kickoff_local_date": "2026-07-07",
+          "kickoff_time": "11:00 AM",
+          "kickoff_weekday": "Tue",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
+          "stage": "Round of 16",
+          "stage_slug": "round-of-16",
+          "home": {
+            "id": "131538",
+            "name": "Round of 32 14 Winner",
+            "short": "RD32 W14",
+            "abbr": "RD32",
+            "flag": "🏳️",
+            "logo": "",
+            "color": "000000",
+            "home_away": "home",
+            "score": 0,
+            "winner": false
+          },
+          "away": {
+            "id": "131540",
+            "name": "Round of 32 16 Winner",
+            "short": "RD32 W16",
+            "abbr": "RD32",
+            "flag": "🏳️",
+            "logo": "",
+            "color": "000000",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "Mercedes-Benz Stadium",
+            "city": "Atlanta, Georgia",
+            "country": "USA"
+          },
+          "broadcasts": [
+            "FOX",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760509/round-of-32-16-winner-round-of-32-14-winner",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Round%20of%2032%2014%20Winner%20vs%20Round%20of%2032%2016%20Winner",
+          "slug": "round of 32 16 winner-at-round of 32 14 winner"
+        },
+        {
+          "id": "760508",
+          "kickoff_utc": "2026-07-07T20:00:00+00:00",
+          "kickoff_local": "2026-07-07T15:00:00-05:00",
+          "kickoff_local_date": "2026-07-07",
+          "kickoff_time": "3:00 PM",
+          "kickoff_weekday": "Tue",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
+          "stage": "Round of 16",
+          "stage_slug": "round-of-16",
+          "home": {
+            "id": "131537",
+            "name": "Round of 32 13 Winner",
+            "short": "RD32 W13",
+            "abbr": "RD32",
+            "flag": "🏳️",
+            "logo": "",
+            "color": "000000",
+            "home_away": "home",
+            "score": 0,
+            "winner": false
+          },
+          "away": {
+            "id": "131539",
+            "name": "Round of 32 15 Winner",
+            "short": "RD32 W15",
+            "abbr": "RD32",
+            "flag": "🏳️",
+            "logo": "",
+            "color": "000000",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "BC Place",
+            "city": "Vancouver",
+            "country": "Canada"
+          },
+          "broadcasts": [
+            "FOX",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760508/round-of-32-15-winner-round-of-32-13-winner",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Round%20of%2032%2013%20Winner%20vs%20Round%20of%2032%2015%20Winner",
+          "slug": "round of 32 15 winner-at-round of 32 13 winner"
+        }
+      ]
+    },
+    {
+      "date": "2026-07-09",
+      "label": "Thu",
+      "match_count": 1,
+      "matches": [
+        {
+          "id": "760510",
+          "kickoff_utc": "2026-07-09T20:00:00+00:00",
+          "kickoff_local": "2026-07-09T15:00:00-05:00",
+          "kickoff_local_date": "2026-07-09",
+          "kickoff_time": "3:00 PM",
+          "kickoff_weekday": "Thu",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
+          "stage": "Quarterfinals",
+          "stage_slug": "quarterfinals",
+          "home": {
+            "id": "19282",
+            "name": "Round of 16 1 Winner",
+            "short": "RD16 W1",
+            "abbr": "RD16 W1",
+            "flag": "🏳️",
+            "logo": "",
+            "color": "000000",
+            "home_away": "home",
+            "score": 0,
+            "winner": false
+          },
+          "away": {
+            "id": "19283",
+            "name": "Round of 16 2 Winner",
+            "short": "RD16 W2",
+            "abbr": "RD16 W2",
+            "flag": "🏳️",
+            "logo": "",
+            "color": "000000",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "Gillette Stadium",
+            "city": "Foxborough, Massachusetts",
+            "country": "USA"
+          },
+          "broadcasts": [
+            "FOX",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760510/round-of-16-2-winner-round-of-16-1-winner",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Round%20of%2016%201%20Winner%20vs%20Round%20of%2016%202%20Winner",
+          "slug": "round of 16 2 winner-at-round of 16 1 winner"
+        }
+      ]
+    },
+    {
+      "date": "2026-07-10",
+      "label": "Fri",
+      "match_count": 1,
+      "matches": [
+        {
+          "id": "760511",
+          "kickoff_utc": "2026-07-10T19:00:00+00:00",
+          "kickoff_local": "2026-07-10T14:00:00-05:00",
+          "kickoff_local_date": "2026-07-10",
+          "kickoff_time": "2:00 PM",
+          "kickoff_weekday": "Fri",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
+          "stage": "Quarterfinals",
+          "stage_slug": "quarterfinals",
+          "home": {
+            "id": "19278",
+            "name": "Round of 16 5 Winner",
+            "short": "RD16 W5",
+            "abbr": "RD16 W5",
+            "flag": "🏳️",
+            "logo": "",
+            "color": "000000",
+            "home_away": "home",
+            "score": 0,
+            "winner": false
+          },
+          "away": {
+            "id": "19279",
+            "name": "Round of 16 6 Winner",
+            "short": "RD16 W6",
+            "abbr": "RD16 W6",
+            "flag": "🏳️",
+            "logo": "",
+            "color": "000000",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "SoFi Stadium",
+            "city": "Inglewood, California",
+            "country": "USA"
+          },
+          "broadcasts": [
+            "FOX",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760511/round-of-16-6-winner-round-of-16-5-winner",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Round%20of%2016%205%20Winner%20vs%20Round%20of%2016%206%20Winner",
+          "slug": "round of 16 6 winner-at-round of 16 5 winner"
+        }
+      ]
+    },
+    {
+      "date": "2026-07-11",
+      "label": "Sat",
+      "match_count": 2,
+      "matches": [
+        {
+          "id": "760512",
+          "kickoff_utc": "2026-07-11T21:00:00+00:00",
+          "kickoff_local": "2026-07-11T16:00:00-05:00",
+          "kickoff_local_date": "2026-07-11",
+          "kickoff_time": "4:00 PM",
+          "kickoff_weekday": "Sat",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
+          "stage": "Quarterfinals",
+          "stage_slug": "quarterfinals",
+          "home": {
+            "id": "19284",
+            "name": "Round of 16 3 Winner",
+            "short": "RD16 W3",
+            "abbr": "RD16 W3",
+            "flag": "🏳️",
+            "logo": "",
+            "color": "000000",
+            "home_away": "home",
+            "score": 0,
+            "winner": false
+          },
+          "away": {
+            "id": "19285",
+            "name": "Round of 16 4 Winner",
+            "short": "RD16 W4",
+            "abbr": "RD16 W4",
+            "flag": "🏳️",
+            "logo": "",
+            "color": "000000",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "Hard Rock Stadium",
+            "city": "Miami Gardens, Florida",
+            "country": "USA"
+          },
+          "broadcasts": [
+            "FOX",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760512/round-of-16-4-winner-round-of-16-3-winner",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Round%20of%2016%203%20Winner%20vs%20Round%20of%2016%204%20Winner",
+          "slug": "round of 16 4 winner-at-round of 16 3 winner"
+        },
+        {
+          "id": "760513",
+          "kickoff_utc": "2026-07-12T01:00:00+00:00",
+          "kickoff_local": "2026-07-11T20:00:00-05:00",
+          "kickoff_local_date": "2026-07-11",
+          "kickoff_time": "8:00 PM",
+          "kickoff_weekday": "Sat",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
+          "stage": "Quarterfinals",
+          "stage_slug": "quarterfinals",
+          "home": {
+            "id": "19280",
+            "name": "Round of 16 7 Winner",
+            "short": "RD16 W7",
+            "abbr": "RD16 W7",
+            "flag": "🏳️",
+            "logo": "",
+            "color": "000000",
+            "home_away": "home",
+            "score": 0,
+            "winner": false
+          },
+          "away": {
+            "id": "19281",
+            "name": "Round of 16 8 Winner",
+            "short": "RD16 W8",
+            "abbr": "RD16 W8",
+            "flag": "🏳️",
+            "logo": "",
+            "color": "000000",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "GEHA Field at Arrowhead Stadium",
+            "city": "Kansas City, Missouri",
+            "country": "USA"
+          },
+          "broadcasts": [
+            "FOX",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760513/round-of-16-8-winner-round-of-16-7-winner",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Round%20of%2016%207%20Winner%20vs%20Round%20of%2016%208%20Winner",
+          "slug": "round of 16 8 winner-at-round of 16 7 winner"
+        }
+      ]
+    },
+    {
+      "date": "2026-07-14",
+      "label": "Tue",
+      "match_count": 1,
+      "matches": [
+        {
+          "id": "760514",
+          "kickoff_utc": "2026-07-14T19:00:00+00:00",
+          "kickoff_local": "2026-07-14T14:00:00-05:00",
+          "kickoff_local_date": "2026-07-14",
+          "kickoff_time": "2:00 PM",
+          "kickoff_weekday": "Tue",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
+          "stage": "Semifinals",
+          "stage_slug": "semifinals",
+          "home": {
+            "id": "17631",
+            "name": "Quarterfinal 1 Winner",
+            "short": "QF W1",
+            "abbr": "QFW1",
+            "flag": "🏳️",
+            "logo": "",
+            "color": "000000",
+            "home_away": "home",
+            "score": 0,
+            "winner": false
+          },
+          "away": {
+            "id": "17629",
+            "name": "Quarterfinal 2 Winner",
+            "short": "QF W2",
+            "abbr": "QFW2",
+            "flag": "🏳️",
+            "logo": "",
+            "color": "000000",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "AT&T Stadium",
+            "city": "Arlington, Texas",
+            "country": "USA"
+          },
+          "broadcasts": [
+            "FOX",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760514/quarterfinal-2-winner-quarterfinal-1-winner",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Quarterfinal%201%20Winner%20vs%20Quarterfinal%202%20Winner",
+          "slug": "quarterfinal 2 winner-at-quarterfinal 1 winner"
+        }
+      ]
+    },
+    {
+      "date": "2026-07-15",
+      "label": "Wed",
+      "match_count": 1,
+      "matches": [
+        {
+          "id": "760515",
+          "kickoff_utc": "2026-07-15T19:00:00+00:00",
+          "kickoff_local": "2026-07-15T14:00:00-05:00",
+          "kickoff_local_date": "2026-07-15",
+          "kickoff_time": "2:00 PM",
+          "kickoff_weekday": "Wed",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
+          "stage": "Semifinals",
+          "stage_slug": "semifinals",
+          "home": {
+            "id": "17630",
+            "name": "Quarterfinal 3 Winner",
+            "short": "QF W3",
+            "abbr": "QFW3",
+            "flag": "🏳️",
+            "logo": "",
+            "color": "000000",
+            "home_away": "home",
+            "score": 0,
+            "winner": false
+          },
+          "away": {
+            "id": "17632",
+            "name": "Quarterfinal 4 Winner",
+            "short": "QF W4",
+            "abbr": "QW4",
+            "flag": "🏳️",
+            "logo": "",
+            "color": "000000",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "Mercedes-Benz Stadium",
+            "city": "Atlanta, Georgia",
+            "country": "USA"
+          },
+          "broadcasts": [
+            "FOX",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760515/quarterfinal-4-winner-quarterfinal-3-winner",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Quarterfinal%203%20Winner%20vs%20Quarterfinal%204%20Winner",
+          "slug": "quarterfinal 4 winner-at-quarterfinal 3 winner"
+        }
+      ]
+    },
+    {
+      "date": "2026-07-18",
+      "label": "Sat",
+      "match_count": 1,
+      "matches": [
+        {
+          "id": "760516",
+          "kickoff_utc": "2026-07-18T21:00:00+00:00",
+          "kickoff_local": "2026-07-18T16:00:00-05:00",
+          "kickoff_local_date": "2026-07-18",
+          "kickoff_time": "4:00 PM",
+          "kickoff_weekday": "Sat",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
+          "stage": "3Rd Place Match",
+          "stage_slug": "3rd-place-match",
+          "home": {
+            "id": "5958",
+            "name": "Semifinal 1 Loser",
+            "short": "SF L1",
+            "abbr": "SF L1",
+            "flag": "🏳️",
+            "logo": "",
+            "color": "000000",
+            "home_away": "home",
+            "score": 0,
+            "winner": false
+          },
+          "away": {
+            "id": "5959",
+            "name": "Semifinal 2 Loser",
+            "short": "SF L2",
+            "abbr": "SF L2",
+            "flag": "🏳️",
+            "logo": "",
+            "color": "000000",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "Hard Rock Stadium",
+            "city": "Miami Gardens, Florida",
+            "country": "USA"
+          },
+          "broadcasts": [
+            "FOX",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760516/semifinal-2-loser-semifinal-1-loser",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Semifinal%201%20Loser%20vs%20Semifinal%202%20Loser",
+          "slug": "semifinal 2 loser-at-semifinal 1 loser"
+        }
+      ]
+    },
+    {
+      "date": "2026-07-19",
+      "label": "Sun",
+      "match_count": 1,
+      "matches": [
+        {
+          "id": "760517",
+          "kickoff_utc": "2026-07-19T19:00:00+00:00",
+          "kickoff_local": "2026-07-19T14:00:00-05:00",
+          "kickoff_local_date": "2026-07-19",
+          "kickoff_time": "2:00 PM",
+          "kickoff_weekday": "Sun",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
+          "stage": "Final",
+          "stage_slug": "final",
+          "home": {
+            "id": "5960",
+            "name": "Semifinal 1 Winner",
+            "short": "SF W1",
+            "abbr": "SFW1",
+            "flag": "🏳️",
+            "logo": "",
+            "color": "000000",
+            "home_away": "home",
+            "score": 0,
+            "winner": false
+          },
+          "away": {
+            "id": "5961",
+            "name": "Semifinal 2 Winner",
+            "short": "SF W2",
+            "abbr": "SFW2",
+            "flag": "🏳️",
+            "logo": "",
+            "color": "000000",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "MetLife Stadium",
+            "city": "East Rutherford, New Jersey",
+            "country": "USA"
+          },
+          "broadcasts": [
+            "FOX",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760517/semifinal-2-winner-semifinal-1-winner",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Semifinal%201%20Winner%20vs%20Semifinal%202%20Winner",
+          "slug": "semifinal 2 winner-at-semifinal 1 winner"
         }
       ]
     }
