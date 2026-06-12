@@ -1,25 +1,58 @@
 {
-  "timestamp": "2026-05-09T07:00:32.388371",
+  "timestamp": "2026-06-12T07:02:50.380214",
   "location": "Austin, Travis County",
   "address": "Spicewood Elementary School, Austin TX 78750",
   "lat": 30.4446283,
   "lng": -97.8039171,
-  "zip": {
+  "zip": "78750",
+  "gps": {
+    "source": "Google Pollen API",
+    "source_name": "Austin, Travis County",
+    "grass": 2,
+    "grass_category": "Low",
+    "tree": null,
+    "tree_category": "",
+    "weed": null,
+    "weed_category": "",
+    "forecast": [
+      {
+        "date": "2026-06-12",
+        "temp_high": null,
+        "tree": null,
+        "grass": 2
+      },
+      {
+        "date": "2026-06-13",
+        "temp_high": null,
+        "tree": null,
+        "grass": 2
+      },
+      {
+        "date": "2026-06-14",
+        "temp_high": null,
+        "tree": null,
+        "grass": 1
+      },
+      {
+        "date": "2026-06-15",
+        "temp_high": null,
+        "tree": null,
+        "grass": 1
+      },
+      {
+        "date": "2026-06-16",
+        "temp_high": null,
+        "tree": null,
+        "grass": 1
+      }
+    ]
+  },
+  "zip_data": {
     "source": "ZIP (pollen.com)",
     "source_name": "pollen.com (78750)",
-    "overall_index": 5.1,
-    "overall_label": "medium",
+    "overall_index": 3.9,
+    "overall_label": "low-medium",
     "top_allergens": [
-      {
-        "name": "Hickory",
-        "genus": "Carya",
-        "plantType": "Tree"
-      },
-      {
-        "name": "Willow",
-        "genus": "Salix",
-        "plantType": "Tree"
-      },
       {
         "name": "Grasses",
         "genus": "Grasses",
@@ -27,84 +60,27 @@
       }
     ],
     "yesterday": {
-      "index": 4.4,
+      "index": 4,
       "label": "low-medium",
       "names": [
-        "Hickory",
-        "Willow",
-        "Grasses"
+        "Grasses",
+        "Oak"
       ]
     },
     "tomorrow": {
-      "index": 5.8,
-      "label": "medium",
+      "index": 3.7,
+      "label": "low-medium",
       "names": [
-        "Hickory",
-        "Willow",
         "Grasses"
       ]
     }
   },
-  "gps": {
-    "source": "GPS (AccuWeather)",
-    "source_name": "Austin, Travis County",
-    "air_quality": 64,
-    "grass": 2,
-    "grass_category": "Low",
-    "mold": 3250,
-    "mold_category": "Low",
-    "ragweed": 30,
-    "ragweed_category": "Moderate",
-    "tree": 50,
-    "tree_category": "Moderate",
-    "uv_index": 10,
-    "temp_high": 93,
-    "temp_low": 69,
-    "hours_of_sun": 6.2,
-    "forecast": [
-      {
-        "date": "2026-05-09",
-        "temp_high": 93,
-        "temp_low": 69,
-        "tree": 50,
-        "grass": 2
-      },
-      {
-        "date": "2026-05-10",
-        "temp_high": 93,
-        "temp_low": 67,
-        "tree": 21,
-        "grass": 1
-      },
-      {
-        "date": "2026-05-11",
-        "temp_high": 79,
-        "temp_low": 63,
-        "tree": 62,
-        "grass": 17
-      },
-      {
-        "date": "2026-05-12",
-        "temp_high": 85,
-        "temp_low": 65,
-        "tree": 126,
-        "grass": 41
-      },
-      {
-        "date": "2026-05-13",
-        "temp_high": 87,
-        "temp_low": 65,
-        "tree": 394,
-        "grass": 131
-      }
-    ]
-  },
   "aqi": {
-    "pm25": 55,
-    "aqi": 55,
+    "pm25": 80,
+    "aqi": 80,
     "source": "WAQI (World Air Quality Index)"
   },
-  "top_allergen": "Tree",
-  "top_allergen_value": 50,
-  "top_allergen_category": "Moderate"
+  "top_allergen": "Grass",
+  "top_allergen_value": 2,
+  "top_allergen_category": "Low"
 }
