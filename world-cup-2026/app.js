@@ -1,20 +1,215 @@
 // app.js — render the WC 2026 daily preview with filters
 // Pure ES2022, no build step, no dependencies. Caches the JSON in
 // sessionStorage; filter state persists in localStorage and URL hash.
+// "Butterfly" default view: past + today + next 3 days, in 3 columns.
 
 (() => {
   "use strict";
 
   const JSON_URL = "data/matches.json";
   const CACHE_KEY = "wc2026.matches.v2";
-  const FILTER_KEY = "wc2026.filters.v3";
+  const FILTER_KEY = "wc2026.filters.v4";
   const TZ_KEY = "wc2026.tz.v1";
-  const REFRESH_INTERVAL_MS = 5 * 60 * 1000;   // 5 min between cron hits
-  const REFRESH_LIVE_MS    = 30 * 1000;       // 30 s while any match is LIVE
-  const RERENDER_TICK_MS   = 60 * 1000;       // re-render countdowns every 1 min
+  const LANG_KEY = "wc2026.lang.v1";
+  const REFRESH_INTERVAL_MS = 5 * 60 * 1000;
+  const REFRESH_LIVE_MS    = 30 * 1000;
+  const RERENDER_TICK_MS   = 60 * 1000;
 
   const $ = (sel, root = document) => root.querySelector(sel);
   const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
+
+  // ────────────────────────────────────────────────────────────
+  // i18n — EN / 中文
+  // ────────────────────────────────────────────────────────────
+  const I18N = {
+    en: {
+      "page.title": "FIFA World Cup 2026 — Daily Preview",
+      "tournament.edition": "23rd edition",
+      "tournament.dates": "Jun 11 – Jul 19, 2026 · USA · Canada · Mexico",
+      "filter.time": "Time",
+      "filter.status": "Status",
+      "filter.teams": "Teams",
+      "filter.venues": "Venues",
+      "filter.lang": "Language",
+      "range.butterfly": "Overview",
+      "range.today": "Today",
+      "range.past": "Past",
+      "range.3d": "Next 3 days",
+      "range.7d": "Next 7 days",
+      "range.all": "All 104",
+      "status.any": "Any",
+      "status.upcoming": "Upcoming",
+      "status.live": "Live",
+      "status.final": "Final",
+      "search.teams.placeholder": "Search 48 teams…",
+      "venues.all": "All {n} venues",
+      "venue.single": "{name}",
+      "refresh": "Refresh",
+      "updated": "Updated {rel}",
+      "loading": "Loading matches…",
+      "error.title": "Couldn't load match data.",
+      "error.hint": "Try the refresh button.",
+      "empty.title": "No matches in this window.",
+      "empty.hint": "Try a wider time range or clear your filters.",
+      "empty.filtered": "No matches match these filters.",
+      "clear": "Clear filters",
+      "n.matches": "{n} matches",
+      "1.match": "1 match",
+      "day.today": "Today · {date}",
+      "day.tomorrow": "Tomorrow · {date}",
+      "day.other": "{date}",
+      "wing.past": "Wing · Past",
+      "wing.today": "Body · Today",
+      "wing.future": "Wing · Next 3 days",
+      "wing.past.empty": "No completed matches yet",
+      "wing.future.empty": "No upcoming matches in this window",
+      "stage": "Stage",
+      "venue": "Venue",
+      "watch": "Watch",
+      "link.espn": "ESPN ↗",
+      "link.fox": "Fox Sports ↗",
+      "status.live.short": "LIVE",
+      "status.final.short": "Final",
+      "status.scheduled": "Scheduled",
+      "status.starting": "Starting soon",
+      "status.halftime": "Halftime",
+      "relative.in.h": "in {n}h",
+      "relative.in.m": "in {n}m",
+      "relative.in.d": "in {n}d",
+      "relative.h.ago": "{n}h ago",
+      "relative.m.ago": "{n}m ago",
+      "relative.d.ago": "{n}d ago",
+      "relative.less.than.minute": "less than a minute",
+      "relative.less.than.minute.ago": "less than a minute ago",
+      "bracket.title": "Knockout bracket",
+      "bracket.hint": "Placeholders like \"Group A 2nd Place\" fill in as the group stage completes.",
+      "bracket.round-of-32": "Round of 32",
+      "bracket.round-of-16": "Round of 16",
+      "bracket.quarterfinals": "Quarterfinals",
+      "bracket.semifinals": "Semifinals",
+      "bracket.final": "Final",
+      "bracket.3rd-place": "3rd Place",
+      "footer.data": "Data:",
+      "footer.refresh": "Refreshed 6× daily by GitHub Actions (07:00, 13:30, 16:30, 19:30, 22:30, 01:00 CT)",
+      "footer.source": "Source",
+      "tz.times.in": "Times in {tz}",
+    },
+    zh: {
+      "page.title": "2026 国际足联世界杯 — 每日预告",
+      "tournament.edition": "第 23 届",
+      "tournament.dates": "2026年6月11日 – 7月19日 · 美国 · 加拿大 · 墨西哥",
+      "filter.time": "时间",
+      "filter.status": "状态",
+      "filter.teams": "球队",
+      "filter.venues": "场馆",
+      "filter.lang": "语言",
+      "range.butterfly": "总览",
+      "range.today": "今日",
+      "range.past": "已结束",
+      "range.3d": "未来 3 天",
+      "range.7d": "未来 7 天",
+      "range.all": "全部 104 场",
+      "status.any": "全部",
+      "status.upcoming": "未开始",
+      "status.live": "直播中",
+      "status.final": "已结束",
+      "search.teams.placeholder": "搜索 48 支球队…",
+      "venues.all": "全部 {n} 个场馆",
+      "venue.single": "{name}",
+      "refresh": "刷新",
+      "updated": "{rel}前更新",
+      "loading": "加载比赛中…",
+      "error.title": "无法加载比赛数据。",
+      "error.hint": "请尝试刷新按钮。",
+      "empty.title": "当前范围没有比赛。",
+      "empty.hint": "试试更宽的时间范围或清除筛选条件。",
+      "empty.filtered": "没有符合筛选条件的比赛。",
+      "clear": "清除筛选",
+      "n.matches": "{n} 场比赛",
+      "1.match": "1 场比赛",
+      "day.today": "今日 · {date}",
+      "day.tomorrow": "明日 · {date}",
+      "day.other": "{date}",
+      "wing.past": "左翼 · 已结束",
+      "wing.today": "中央 · 今日",
+      "wing.future": "右翼 · 未来 3 天",
+      "wing.past.empty": "暂无已完赛比赛",
+      "wing.future.empty": "近 3 天暂无比赛",
+      "stage": "阶段",
+      "venue": "场馆",
+      "watch": "观看",
+      "link.espn": "ESPN ↗",
+      "link.fox": "福克斯体育 ↗",
+      "status.live.short": "直播",
+      "status.final.short": "终场",
+      "status.scheduled": "未开赛",
+      "status.starting": "即将开赛",
+      "status.halftime": "中场",
+      "relative.in.h": "{n} 小时后",
+      "relative.in.m": "{n} 分钟后",
+      "relative.in.d": "{n} 天后",
+      "relative.h.ago": "{n} 小时前",
+      "relative.m.ago": "{n} 分钟前",
+      "relative.d.ago": "{n} 天前",
+      "relative.less.than.minute": "不到一分钟",
+      "relative.less.than.minute.ago": "不到一分钟前",
+      "bracket.title": "淘汰赛对阵",
+      "bracket.hint": "占位符（如\"A 组第二名\"）将在小组赛进行后填入。",
+      "bracket.round-of-32": "16 强",
+      "bracket.round-of-16": "八强",
+      "bracket.quarterfinals": "四分之一决赛",
+      "bracket.semifinals": "半决赛",
+      "bracket.final": "决赛",
+      "bracket.3rd-place": "三四名决赛",
+      "footer.data": "数据：",
+      "footer.refresh": "每日 6 次由 GitHub Actions 自动刷新（07:00 / 13:30 / 16:30 / 19:30 / 22:30 / 01:00 CT）",
+      "footer.source": "源码",
+      "tz.times.in": "时间显示：{tz}",
+    },
+  };
+
+  let currentLang = "en";
+  function t(key, vars = {}) {
+    const dict = I18N[currentLang] || I18N.en;
+    let str = dict[key] || I18N.en[key] || key;
+    for (const [k, v] of Object.entries(vars)) {
+      str = str.replace(new RegExp(`\\{${k}\\}`, "g"), String(v));
+    }
+    return str;
+  }
+
+  function loadLang() {
+    try {
+      const raw = localStorage.getItem(LANG_KEY);
+      if (raw === "zh" || raw === "en") return raw;
+    } catch { /* ignore */ }
+    return "en";
+  }
+  function saveLang(lang) {
+    try { localStorage.setItem(LANG_KEY, lang); } catch { /* ignore */ }
+  }
+  function setLang(lang) {
+    currentLang = (lang === "zh") ? "zh" : "en";
+    saveLang(currentLang);
+    document.documentElement.lang = currentLang === "zh" ? "zh-Hans" : "en";
+    $$("[data-i18n]").forEach((el) => { el.textContent = t(el.dataset.i18n); });
+    $$("[data-i18n-placeholder]").forEach((el) => { el.placeholder = t(el.dataset.i18nPlaceholder); });
+    $$("[data-i18n-title]").forEach((el) => { el.title = t(el.dataset.i18nTitle, { tz: "Local" }); });
+    $$("[data-i18n-aria]").forEach((el) => { el.setAttribute("aria-label", t(el.dataset.i18nAria)); });
+    updateLangPills();
+    if (allData) {
+      renderHeader(allData);
+      const matches = applyFilters();
+      renderMatches(matches);
+      renderBracket();
+    }
+  }
+  function updateLangPills() {
+    $$(".lang-pill").forEach((p) => {
+      const checked = p.dataset.lang === currentLang;
+      p.setAttribute("aria-checked", checked ? "true" : "false");
+    });
+  }
 
   // ────────────────────────────────────────────────────────────
   // Data loading
@@ -36,7 +231,7 @@
       const raw = sessionStorage.getItem(CACHE_KEY);
       if (!raw) return null;
       const { at, data } = JSON.parse(raw);
-      if (Date.now() - at > 60 * 1000) return null; // 1 min soft TTL
+      if (Date.now() - at > 60 * 1000) return null;
       return data;
     } catch {
       return null;
@@ -46,9 +241,7 @@
   function writeCache(data) {
     try {
       sessionStorage.setItem(CACHE_KEY, JSON.stringify({ at: Date.now(), data }));
-    } catch {
-      /* private mode / quota — fine */
-    }
+    } catch { /* private mode / quota — fine */ }
   }
 
   // ────────────────────────────────────────────────────────────
@@ -58,18 +251,6 @@
     try { return Intl.DateTimeFormat().resolvedOptions().timeZone || "local"; }
     catch { return "local"; }
   }
-  function formatRelative(target, now) {
-    const diffMs = target.getTime() - now.getTime();
-    const abs = Math.abs(diffMs);
-    const past = diffMs < 0;
-    const minute = 60_000, hour = 3_600_000, day = 86_400_000;
-    let label;
-    if (abs < minute) label = "less than a minute";
-    else if (abs < hour) label = `${Math.round(abs / minute)}m`;
-    else if (abs < day) label = `${Math.round(abs / hour)}h`;
-    else label = `${Math.round(abs / day)}d`;
-    return past ? `${label} ago` : `in ${label}`;
-  }
   function nowInZone(tzName) {
     if (!tzName) return new Date();
     try {
@@ -77,11 +258,23 @@
       return new Date(localStr);
     } catch { return new Date(); }
   }
+  function formatRelative(target, now) {
+    const diffMs = target.getTime() - now.getTime();
+    const abs = Math.abs(diffMs);
+    const past = diffMs < 0;
+    const minute = 60_000, hour = 3_600_000, day = 86_400_000;
+    const key = past ? "relative.less.than.minute.ago" : "relative.less.than.minute";
+    let label;
+    if (abs < minute) label = t(key);
+    else if (abs < hour) label = past ? t("relative.m.ago", { n: Math.round(abs / minute) }) : t("relative.in.m", { n: Math.round(abs / minute) });
+    else if (abs < day) label = past ? t("relative.h.ago", { n: Math.round(abs / hour) }) : t("relative.in.h", { n: Math.round(abs / hour) });
+    else label = past ? t("relative.d.ago", { n: Math.round(abs / day) }) : t("relative.in.d", { n: Math.round(abs / day) });
+    return label;
+  }
 
   // ────────────────────────────────────────────────────────────
-  // Display-timezone state (user override; falls back to local)
+  // Display-timezone state
   // ────────────────────────────────────────────────────────────
-  // Curated list shown in the picker. Empty string = "Local (auto)".
   const TZ_OPTIONS = [
     { value: "",                       label: "Local (auto)",       group: "Auto" },
     { value: "America/Los_Angeles",    label: "Los Angeles · PT",    group: "Tournament venues" },
@@ -97,8 +290,7 @@
     { value: "Australia/Sydney",       label: "Sydney · AEST/AEDT",  group: "International" },
   ];
 
-  let selectedTz = null;     // null = use local (auto)
-  let allTimezones = null;   // Intl.supportedValuesOf("timeZone") if available
+  let selectedTz = null;
 
   function loadTz() {
     try {
@@ -111,16 +303,9 @@
   function saveTz(tz) {
     try { localStorage.setItem(TZ_KEY, JSON.stringify(tz || "")); } catch { /* ignore */ }
   }
-  function currentTz() {
-    // User override wins; otherwise the data's TZ (always America/Chicago
-    // from the cron) for consistency with the data's pre-baked fields.
-    // We still let "Local" through when the user hasn't picked anything,
-    // which is the default UX.
-    return selectedTz || localTimezone();
-  }
+  function currentTz() { return selectedTz || localTimezone(); }
   function isLocalTz() { return !selectedTz; }
 
-  // Format a Date as "YYYY-MM-DD" in the given IANA zone (or local if null/empty).
   function dateInTz(date, tz) {
     if (!tz) return date.toISOString().slice(0, 10);
     try {
@@ -130,6 +315,11 @@
       const get = (t) => parts.find((p) => p.type === t)?.value;
       return `${get("year")}-${get("month")}-${get("day")}`;
     } catch { return date.toISOString().slice(0, 10); }
+  }
+  function addDays(iso, n) {
+    const d = new Date(iso + "T00:00:00Z");
+    d.setUTCDate(d.getUTCDate() + n);
+    return d.toISOString().slice(0, 10);
   }
   function timeInTz(date, tz) {
     if (!tz) return date.toLocaleTimeString(undefined, { hour: "numeric", minute: "2-digit" });
@@ -145,7 +335,6 @@
       return new Intl.DateTimeFormat(undefined, { timeZone: tz, weekday: "short" }).format(date);
     } catch { return ""; }
   }
-  // Friendly short offset like "UTC-5" or "UTC+9:30" computed for *now*.
   function offsetLabel(tz) {
     if (!tz) {
       const m = -new Date().getTimezoneOffset();
@@ -161,7 +350,6 @@
       return off.replace("GMT", "UTC");
     } catch { return ""; }
   }
-  // The friendly label for the current selection, used in the pill.
   function currentTzLabel() {
     if (isLocalTz()) {
       const browser = localTimezone();
@@ -172,21 +360,20 @@
   }
 
   // ────────────────────────────────────────────────────────────
-  // Filter state
+  // Filter state — "butterfly" is the default
   // ────────────────────────────────────────────────────────────
   const DEFAULT_FILTERS = Object.freeze({
-    range: "3d",     // today | past | 3d | 7d | all
-    status: "any",   // any | upcoming | live | final
-    teams: [],       // [teamId, ...]
-    venues: [],      // [venueName, ...]
+    range: "butterfly",  // butterfly | today | past | 3d | 7d | all
+    status: "any",
+    teams: [],
+    venues: [],
   });
 
   let filters = { ...DEFAULT_FILTERS };
   let allData = null;
-  let allMatches = []; // flattened
+  let allMatches = [];
 
   function loadFilters() {
-    // URL hash takes precedence, then localStorage, then defaults.
     const fromHash = readFiltersFromHash();
     if (fromHash) return normalizeFilters(fromHash);
     try {
@@ -203,7 +390,7 @@
 
   function normalizeFilters(f) {
     const out = { ...DEFAULT_FILTERS, ...f };
-    out.range = ["today", "past", "3d", "7d", "all"].includes(out.range) ? out.range : "3d";
+    out.range = ["butterfly", "today", "past", "3d", "7d", "all"].includes(out.range) ? out.range : "butterfly";
     out.status = ["any", "upcoming", "live", "final"].includes(out.status) ? out.status : "any";
     out.teams = Array.isArray(out.teams) ? out.teams.slice(0, 8) : [];
     out.venues = Array.isArray(out.venues) ? out.venues.slice(0, 16) : [];
@@ -236,9 +423,7 @@
     if (filters.venues.length) params.set("v", filters.venues.join(","));
     const newHash = params.toString();
     const target = newHash ? `#${newHash}` : " ";
-    if (location.hash !== target) {
-      history.replaceState(null, "", target);
-    }
+    if (location.hash !== target) history.replaceState(null, "", target);
   }
 
   function isDefaultFilters() {
@@ -251,26 +436,58 @@
   }
 
   // ────────────────────────────────────────────────────────────
+  // Bucketing logic for the butterfly view
+  // Past  = date < todayIso, status === "FINAL" (no scores missing)
+  // Today = date === todayIso (LIVE/SCHEDULED — never classified as past
+  //         even if kickoff has technically passed; ESPN has not flipped
+  //         the status yet, so it stays here)
+  // Future= today < date <= today+2  (3-day window including today+2)
+  // ────────────────────────────────────────────────────────────
+  function bucketButterfly(matches, tz) {
+    const todayIso = dateInTz(new Date(), tz);
+    const futureEnd = addDays(todayIso, 2);
+    const past = [];
+    const today = [];
+    const future = [];
+    for (const m of matches) {
+      const mDate = dateInTz(new Date(m.kickoff_utc), tz);
+      if (mDate < todayIso) {
+        // Only show past matches that actually finished. A SCHEDULED
+        // match from an earlier date (e.g. rescheduled, postponed)
+        // stays out of "past" so the user doesn't see ghosts.
+        if (m.status === "FINAL") past.push(m);
+      } else if (mDate === todayIso) {
+        today.push(m);
+      } else if (mDate <= futureEnd) {
+        future.push(m);
+      }
+    }
+    past.sort((a, b) => a.kickoff_utc.localeCompare(b.kickoff_utc));
+    today.sort((a, b) => a.kickoff_utc.localeCompare(b.kickoff_utc));
+    future.sort((a, b) => a.kickoff_utc.localeCompare(b.kickoff_utc));
+    return { past, today, future, todayIso, futureEnd };
+  }
+
+  // ────────────────────────────────────────────────────────────
   // Filtering
   // ────────────────────────────────────────────────────────────
   function applyFilters() {
     if (!allData) return [];
-    // Use the user's display TZ for the "today" reference so that
-    // selecting a TZ on the other side of the world reshuffles which
-    // matches fall into "today" / "tomorrow" / the 3d / 7d windows.
     const tz = currentTz();
     const now = nowInZone(tz);
     const todayIso = dateInTz(new Date(), tz);
 
-    // Compute the date window from the range filter.
     let windowStart, windowEnd;
-    if (filters.range === "today") {
+    if (filters.range === "butterfly") {
+      // Past + today + next 3 days (4-day window)
+      windowStart = allData.tournament.start;
+      windowEnd = addDays(todayIso, 2);
+    } else if (filters.range === "today") {
       windowStart = windowEnd = todayIso;
     } else if (filters.range === "past") {
-      // Everything from the start of the tournament up to (and
-      // including) yesterday, in the display TZ. Today is excluded
-      // so the user can quickly jump back to "what's already
-      // happened" without seeing today's games twice.
+      // Hard rule: "past" only includes dates strictly before today.
+      // Within those dates, only FINAL matches show. Any SCHEDULED
+      // match from before today stays hidden here.
       windowStart = allData.tournament.start;
       windowEnd = addDays(todayIso, -1);
     } else if (filters.range === "3d") {
@@ -286,710 +503,559 @@
 
     const out = [];
     for (const m of allMatches) {
-      // Bucket the match by its local date in the *display* TZ.
       const mDate = dateInTz(new Date(m.kickoff_utc), tz);
       if (mDate < windowStart || mDate > windowEnd) continue;
 
-      // Status
+      // Past filter excludes any not-yet-finalized match
+      if (filters.range === "past" && m.status !== "FINAL") continue;
+
       if (filters.status !== "any") {
         const live = m.status === "LIVE";
         const fin = m.status === "FINAL";
-        // For SCHEDULED, decide upcoming vs based on kickoff vs now
         let s = m.status;
         if (s === "SCHEDULED" && new Date(m.kickoff_utc) <= now) s = "LIVE";
-        if (filters.status === "upcoming" && !(s === "SCHEDULED")) continue;
+        if (filters.status === "upcoming" && !(s === "SCHEDULED" && new Date(m.kickoff_utc) > now)) continue;
         if (filters.status === "live" && !live && s !== "LIVE") continue;
         if (filters.status === "final" && !fin) continue;
       }
 
       if (filters.teams.length) {
-        const homeId = String(m.home.id), awayId = String(m.away.id);
-        if (!filters.teams.includes(homeId) && !filters.teams.includes(awayId)) continue;
+        const ids = filters.teams.map(String);
+        if (!ids.includes(String(m.home.id)) && !ids.includes(String(m.away.id))) continue;
       }
-
       if (filters.venues.length) {
         if (!filters.venues.includes(m.venue.name)) continue;
       }
 
       out.push(m);
     }
+    out.sort((a, b) => a.kickoff_utc.localeCompare(b.kickoff_utc));
     return out;
   }
 
-  function addDays(iso, n) {
-    const d = new Date(iso + "T00:00:00Z");
-    d.setUTCDate(d.getUTCDate() + n);
-    return d.toISOString().slice(0, 10);
-  }
-
   // ────────────────────────────────────────────────────────────
-  // Render
+  // Render: match list (with butterfly layout for the default range)
   // ────────────────────────────────────────────────────────────
-  function renderHeader(data) {
-    updateTzPill();
-
-    const tour = data.tournament || {};
-    if (tour.edition) $("#tournament-edition").textContent = `${tour.edition} edition`;
-    if (tour.dates || tour.host) {
-      $("#tournament-subtitle").textContent =
-        [tour.dates, tour.host].filter(Boolean).join(" · ");
-    }
-
-    const updatedAt = new Date(data.generated_at);
-    $("#updated").textContent = `Updated ${formatRelative(updatedAt, new Date())}`;
-    $("#updated").title = updatedAt.toLocaleString();
-  }
-
   function renderMatches(matches) {
     const content = $("#content");
     content.innerHTML = "";
-
-    if (!allData) return;
+    const countEl = $("#result-count");
+    if (countEl) {
+      countEl.textContent = matches.length === 1 ? t("1.match") : t("n.matches", { n: matches.length });
+    }
 
     if (matches.length === 0) {
-      const empty = document.createElement("div");
-      empty.className = "empty";
-      empty.innerHTML = isDefaultFilters()
-        ? `<strong>No matches in this window.</strong><div class="empty-hint">Try a wider time range or clear your filters.</div>`
-        : `<strong>No matches match these filters.</strong><div class="empty-hint">Try widening the time range or clearing filters.</div>`;
-      content.appendChild(empty);
-      $("#result-count").textContent = `0 matches`;
+      const hasFilters = !isDefaultFilters();
+      const div = document.createElement("div");
+      div.className = "empty";
+      div.innerHTML = `<div>${escapeHtml(hasFilters ? t("empty.filtered") : t("empty.title"))}</div>
+        <div class="empty-hint">${escapeHtml(t("empty.hint"))}</div>`;
+      content.appendChild(div);
       return;
     }
 
-    // Group by the match's local date in the *display* TZ.
+    // Butterfly view: split into past + today + future 3-day columns
+    if (filters.range === "butterfly") {
+      renderButterfly(content, matches);
+      return;
+    }
+
+    // Other ranges: group by day in a single column
+    renderDayList(content, matches);
+  }
+
+  function renderButterfly(content, matches) {
+    const tz = currentTz();
+    const { past, today, future } = bucketButterfly(matches, tz);
+    const grid = document.createElement("div");
+    grid.className = "butterfly";
+
+    grid.appendChild(buildWing("past", t("wing.past"), past, "wing-past-empty"));
+    grid.appendChild(buildWing("today", t("wing.today"), today, "wing-today-empty"));
+    grid.appendChild(buildWing("future", t("wing.future"), future, "wing-future-empty"));
+
+    content.appendChild(grid);
+  }
+
+  function buildWing(wing, title, matches, emptyKey) {
+    const wrap = document.createElement("section");
+    wrap.className = `butterfly-wing butterfly-wing--${wing}`;
+    wrap.setAttribute("aria-label", title);
+
+    const head = document.createElement("header");
+    head.className = "wing-head";
+    head.innerHTML = `<span class="wing-title">${escapeHtml(title)}</span><span class="wing-count">${matches.length}</span>`;
+    wrap.appendChild(head);
+
+    if (matches.length === 0) {
+      const empty = document.createElement("div");
+      empty.className = "wing-empty";
+      empty.textContent = t(emptyKey);
+      wrap.appendChild(empty);
+      return wrap;
+    }
+
+    // Group wing matches by day so the user can still see date breaks
+    const groups = groupByDay(matches);
+    const list = document.createElement("ul");
+    list.className = "matches";
+    list.setAttribute("role", "list");
+    for (const group of groups) {
+      for (const m of group.matches) list.appendChild(buildMatchCard(m));
+    }
+    wrap.appendChild(list);
+    return wrap;
+  }
+
+  function groupByDay(matches) {
     const tz = currentTz();
     const byDate = new Map();
     for (const m of matches) {
-      const mDate = dateInTz(new Date(m.kickoff_utc), tz);
-      if (!byDate.has(mDate)) byDate.set(mDate, []);
-      byDate.get(mDate).push(m);
+      const d = dateInTz(new Date(m.kickoff_utc), tz);
+      if (!byDate.has(d)) byDate.set(d, []);
+      byDate.get(d).push(m);
     }
+    const today = dateInTz(new Date(), tz);
+    const tomorrow = addDays(today, 1);
+    return Array.from(byDate.entries())
+      .sort((a, b) => a[0].localeCompare(b[0]))
+      .map(([d, items]) => ({
+        date: d,
+        label: d === today ? t("day.today", { date: d }) : d === tomorrow ? t("day.tomorrow", { date: d }) : t("day.other", { date: d }),
+        matches: items,
+      }));
+  }
 
-    const dayTemplate = $("#day-template");
-    const matchTemplate = $("#match-template");
-    const todayIso = dateInTz(new Date(), tz);
-    const tomorrowIso = addDays(todayIso, 1);
-
-    for (const [date, items] of [...byDate.entries()].sort()) {
-      items.sort((a, b) => a.kickoff_utc < b.kickoff_utc ? -1 : 1);
-      const section = dayTemplate.content.firstElementChild.cloneNode(true);
-      section.classList.add(`is-${dayClass(date, todayIso, tomorrowIso)}`);
-      $(".day-title", section).textContent = dayTitle(date, todayIso, tomorrowIso);
-      $(".day-count", section).textContent = items.length === 1
-        ? "1 match"
-        : `${items.length} matches`;
-
-      const list = $(".matches", section);
-      for (const m of items) list.appendChild(renderMatch(m, matchTemplate));
-      content.appendChild(section);
+  function renderDayList(content, matches) {
+    const groups = groupByDay(matches);
+    for (const group of groups) {
+      const day = document.createElement("section");
+      day.className = "day";
+      const head = document.createElement("header");
+      head.className = "day-head";
+      const isT = group.date === dateInTz(new Date(), currentTz());
+      const isT1 = group.date === addDays(dateInTz(new Date(), currentTz()), 1);
+      day.classList.add(isT ? "is-today" : isT1 ? "is-tomorrow" : "is-other");
+      head.innerHTML = `<h2 class="day-title">${escapeHtml(group.label)}</h2><span class="day-count">${group.matches.length}</span>`;
+      day.appendChild(head);
+      const ul = document.createElement("ul");
+      ul.className = "matches";
+      ul.setAttribute("role", "list");
+      for (const m of group.matches) ul.appendChild(buildMatchCard(m));
+      day.appendChild(ul);
+      content.appendChild(day);
     }
-
-    $("#result-count").textContent = matches.length === 1
-      ? "1 match"
-      : `${matches.length} matches`;
   }
 
-  function dayClass(date, todayIso, tomorrowIso) {
-    if (date === todayIso) return "today";
-    if (date === tomorrowIso) return "tomorrow";
-    return "other";
-  }
-  function dayTitle(date, todayIso, tomorrowIso) {
-    if (date === todayIso) return `Today · ${friendlyDate(date)}`;
-    if (date === tomorrowIso) return `Tomorrow · ${friendlyDate(date)}`;
-    return friendlyDate(date);
-  }
-  function friendlyDate(iso) {
-    try {
-      return new Date(iso + "T00:00:00").toLocaleDateString(undefined, {
-        weekday: "long", month: "short", day: "numeric",
-      });
-    } catch { return iso; }
+  function buildMatchCard(m) {
+    const tmpl = $("#match-template");
+    const node = tmpl.content.firstElementChild.cloneNode(true);
+    populateMatchCard(node, m);
+    return node;
   }
 
-  function renderMatch(m, tpl) {
-    const li = tpl.content.firstElementChild.cloneNode(true);
-    if (m.status === "LIVE") li.classList.add("is-live");
-    if (m.status === "FINAL") li.classList.add("is-final");
-
-    // Compute the time + weekday + date in the *display* TZ. The
-    // server-pre-baked `kickoff_time` / `kickoff_local_date` are in
-    // America/Chicago (the data's TZ), so we re-render from `kickoff_utc`
-    // when the display TZ differs.
+  function populateMatchCard(node, m) {
     const tz = currentTz();
+    const now = nowInZone(tz);
     const kickoff = new Date(m.kickoff_utc);
-    const viewTime = isLocalTz() && tz === (allData?.timezone || localTimezone())
-      ? (m.kickoff_time || timeInTz(kickoff, tz))
-      : timeInTz(kickoff, tz);
-    $(".time-main", li).textContent = viewTime;
-    $(".time-main", li).title = `${weekdayInTz(kickoff, tz)} · ${dateInTz(kickoff, tz)} ${viewTime} (${tz})`;
+    const isLive = m.status === "LIVE";
+    const isFinal = m.status === "FINAL";
+    const isScheduled = m.status === "SCHEDULED";
 
-    const statusEl = $(".time-status", li);
-    if (m.status === "LIVE") {
-      statusEl.textContent = m.status_short || "LIVE";
-      statusEl.classList.add("is-live");
-    } else if (m.status === "FINAL") {
-      statusEl.textContent = m.status_short || "Final";
-      statusEl.classList.add("is-final");
-    } else {
-      const kickoff = new Date(m.kickoff_utc);
-      const now = nowInZone(tz);
-      const diffMs = kickoff.getTime() - now.getTime();
-      if (diffMs <= 0) {
-        statusEl.textContent = "Starting soon";
-        statusEl.title = "Auto-refresh in a moment…";
-        triggerBackgroundRefresh();
+    const timeMain = node.querySelector(".time-main");
+    const timeStatus = node.querySelector(".time-status");
+    timeMain.textContent = timeInTz(kickoff, tz);
+    timeStatus.classList.remove("is-live", "is-final", "is-scheduled", "is-starting");
+    if (isLive) {
+      timeStatus.classList.add("is-live");
+      timeStatus.textContent = t("status.live.short");
+      node.classList.add("is-live");
+    } else if (isFinal) {
+      timeStatus.classList.add("is-final");
+      timeStatus.textContent = t("status.final.short");
+      node.classList.add("is-final");
+    } else if (isScheduled) {
+      const minutes = (kickoff - now) / 60_000;
+      if (minutes > 0 && minutes <= 30) {
+        // Within 30 min of kickoff — show "Starting soon" / "in Xm"
+        timeStatus.classList.add("is-starting");
+        timeStatus.textContent = formatRelative(kickoff, now);
+      } else if (minutes <= 0) {
+        // Kickoff has passed but ESPN still has it as SCHEDULED.
+        // Don't say "Xm ago" (it would look like the game happened).
+        // Show nothing — the kickoff time itself is the truth.
+        timeStatus.textContent = "";
       } else {
-        statusEl.textContent = formatRelative(kickoff, now);
-        statusEl.title = kickoff.toLocaleString(undefined, { timeZone: tz });
+        timeStatus.classList.add("is-scheduled");
+        timeStatus.textContent = formatRelative(kickoff, now);
       }
     }
 
-    populateTeam(li, ".home", m.home, m);
-    populateTeam(li, ".away", m.away, m);
-
-    $(".stage", li).textContent = m.stage || "World Cup";
-    const venueText = m.venue?.name
-      ? `${m.venue.name}${m.venue.city ? `, ${m.venue.city}` : ""}`
-      : "—";
-    const venueEl = $(".venue", li);
-    venueEl.textContent = venueText;
-    venueEl.title = m.venue?.name
-      ? `${m.venue.name}${m.venue.city ? `, ${m.venue.city}` : ""}${m.venue.country ? `, ${m.venue.country}` : ""}`
-      : "";
-
-    const bc = (m.broadcasts || []).filter(Boolean);
-    $(".broadcasts", li).textContent = bc.length ? bc.join(" · ") : "—";
-
-    $(".link.espn", li).href = m.espn_url || "#";
-    $(".link.fox", li).href = m.fox_url || "https://www.foxsports.com/soccer";
-
-    return li;
-  }
-
-  function populateTeam(li, sel, team, match) {
-    const root = $(sel, li);
-    if (!root || !team) return;
-    $(".team-flag", root).textContent = team.flag || "🏳️";
-    const nameEl = $(".team-name", root);
-    nameEl.textContent = team.name || "?";
-    nameEl.title = team.name || "";
-    const scoreEl = $(".team-score", root);
-    if (match.status === "FINAL" || match.status === "LIVE") {
-      scoreEl.textContent = team.score ?? "0";
+    const home = node.querySelector(".team.home");
+    const away = node.querySelector(".team.away");
+    const homeFlag = home.querySelector(".team-flag");
+    const homeName = home.querySelector(".team-name");
+    const homeScore = home.querySelector(".team-score");
+    homeFlag.textContent = m.home.flag || "🏳️";
+    homeName.textContent = m.home.short || m.home.name || "—";
+    if (isLive || isFinal) {
+      homeScore.textContent = m.home.score != null ? m.home.score : "—";
     } else {
-      scoreEl.textContent = "";
+      homeScore.textContent = "";
     }
-    if (team.winner === true) root.classList.add("is-winner");
+    if (m.home.winner === true) home.classList.add("is-winner");
+    if (m.home.winner === false) home.classList.add("is-loser");
+
+    const awayFlag = away.querySelector(".team-flag");
+    const awayName = away.querySelector(".team-name");
+    const awayScore = away.querySelector(".team-score");
+    awayFlag.textContent = m.away.flag || "🏳️";
+    awayName.textContent = m.away.short || m.away.name || "—";
+    if (isLive || isFinal) {
+      awayScore.textContent = m.away.score != null ? m.away.score : "—";
+    } else {
+      awayScore.textContent = "";
+    }
+    if (m.away.winner === true) away.classList.add("is-winner");
+    if (m.away.winner === false) away.classList.add("is-loser");
+
+    const stage = node.querySelector(".stage");
+    const venue = node.querySelector(".venue");
+    const broadcasts = node.querySelector(".broadcasts");
+    stage.textContent = m.stage || "—";
+    venue.textContent = m.venue?.name || "—";
+    const bcast = m.broadcasts?.length ? m.broadcasts.join(", ") : "—";
+    broadcasts.textContent = bcast;
+
+    const espn = node.querySelector("a.espn");
+    const fox = node.querySelector("a.fox");
+    if (m.espn_url) espn.href = m.espn_url;
+    else espn.removeAttribute("href");
+    if (m.fox_url) fox.href = m.fox_url;
+    else fox.removeAttribute("href");
   }
 
   // ────────────────────────────────────────────────────────────
-  // Knockout bracket rendering
+  // Header
   // ────────────────────────────────────────────────────────────
-  const BRACKET_STAGE_ORDER = [
-    "round-of-32", "round-of-16", "quarterfinals", "semifinals", "final",
-  ];
-  const BRACKET_STAGE_LABEL = {
-    "round-of-32":      "Round of 32",
-    "round-of-16":      "Round of 16",
-    "quarterfinals":    "Quarterfinals",
-    "semifinals":       "Semifinals",
-    "final":            "Final",
-    "3rd-place-match":  "3rd Place",
-  };
-  // Detects placeholder team names (e.g. "Group A 2nd Place",
-  // "Round of 32 1 Winner", "Quarterfinal 2 Winner") so we can
-  // dim them visually until the upstream round resolves.
-  function isPlaceholderName(name) {
-    if (!name) return true;
-    return /^(group|round|quarter|semi|third)[\s-]/i.test(name.trim())
-        || /\bwinner\b/i.test(name)
-        || /\bloser\b/i.test(name);
+  function renderHeader(data) {
+    const sub = $("#tournament-subtitle");
+    if (sub && data.tournament) sub.textContent = data.tournament.dates;
+    const updated = $("#updated");
+    if (updated) {
+      const now = new Date(data.generated_at);
+      updated.textContent = t("updated", { rel: formatRelative(now, new Date()) });
+      updated.title = new Date(data.generated_at).toLocaleString();
+    }
   }
 
+  // ────────────────────────────────────────────────────────────
+  // Bracket rendering
+  // ────────────────────────────────────────────────────────────
   function renderBracket() {
+    if (!allData) return;
     const section = $("#bracket-section");
     const grid = $("#bracket-grid");
-    if (!section || !grid || !allData) return;
-
-    // Bucket all knockout matches by stage_slug.
-    const byStage = {};
-    for (const stage of BRACKET_STAGE_ORDER) byStage[stage] = [];
-    byStage["3rd-place-match"] = [];
-    for (const m of allMatches) {
-      if (byStage[m.stage_slug]) byStage[m.stage_slug].push(m);
-    }
-    // If the tournament has no knockout data yet (e.g. the scoreboard
-    // is in pre-tournament mode), hide the section rather than render
-    // an empty bracket.
-    const total =
-      byStage["round-of-32"].length +
-      byStage["round-of-16"].length +
-      byStage["quarterfinals"].length +
-      byStage["semifinals"].length +
-      byStage["final"].length +
-      byStage["3rd-place-match"].length;
-    if (total === 0) {
+    if (!section || !grid) return;
+    const stages = ["round-of-32", "round-of-16", "quarterfinals", "semifinals"];
+    const hasKOs = allMatches.some((m) => m.stage_slug && stages.includes(m.stage_slug));
+    if (!hasKOs) {
       section.hidden = true;
       return;
     }
     section.hidden = false;
     grid.innerHTML = "";
 
-    // Render the 5 main columns. Each match is anchored to a
-    // specific row in the 16-row grid (defined by grid-row in
-    // the .bracket-match inline style below) so the bracket
-    // naturally centers later rounds between earlier matches.
-    for (const stage of BRACKET_STAGE_ORDER) {
+    const rounds = ["round-of-32", "round-of-16", "quarterfinals", "semifinals", "final"];
+    for (const r of rounds) {
       const col = document.createElement("div");
       col.className = "bracket-round";
-      col.dataset.stage = stage;
-
-      const label = document.createElement("div");
-      label.className = "bracket-round-label";
-      label.textContent = BRACKET_STAGE_LABEL[stage];
-      col.appendChild(label);
-
-      const matches = byStage[stage];
-      const rowCount = matches.length;
-      // Each match in this round consumes a contiguous slice of the
-      // 16 rows: size = 16 / rowCount, anchored so the round is
-      // vertically centered if rowCount is odd and the previous
-      // round had its own rowCount of double this.
-      const slice = 16 / rowCount;
-      matches.forEach((m, i) => {
-        const rowStart = i * slice + 1;
-        const rowEnd = (i + 1) * slice;
-        col.appendChild(renderBracketMatch(m, rowStart, rowEnd));
-      });
+      col.dataset.stage = r;
+      const matches = allMatches.filter((m) => m.stage_slug === r);
+      matches.sort((a, b) => a.kickoff_utc.localeCompare(b.kickoff_utc));
+      for (const m of matches) col.appendChild(buildBracketMatch(m));
       grid.appendChild(col);
     }
-
-    // 3rd place match as a floating sidecar next to Final.
-    const third = byStage["3rd-place-match"];
-    if (third.length) {
-      const wrap = document.createElement("div");
-      wrap.className = "bracket-third";
-      wrap.dataset.stage = "3rd-place-match";
-      for (const m of third) {
-        const node = renderBracketMatchBody(m);
-        wrap.appendChild(node);
-      }
-      grid.appendChild(wrap);
+    // 3rd place
+    const third = allMatches.find((m) => m.stage_slug === "third-place");
+    if (third) {
+      const cell = document.createElement("div");
+      cell.className = "bracket-third";
+      cell.appendChild(buildBracketMatch(third));
+      grid.appendChild(cell);
     }
   }
 
-  function renderBracketMatch(m, rowStart, rowEnd) {
-    const li = document.createElement("a");
-    li.className = "bracket-match";
-    li.href = m.espn_url || "#";
-    li.target = "_blank";
-    li.rel = "noopener noreferrer";
-    li.style.gridRow = `${rowStart} / ${rowEnd + 1}`;
-    if (m.status === "FINAL") li.classList.add("is-final");
-    if (m.status === "LIVE")  li.classList.add("is-live");
-    if (m.stage_slug === "final") li.classList.add("is-grand-final");
-    li.title = m.espn_url
-      ? `${m.home.short || m.home.name} vs ${m.away.short || m.away.name} — open on ESPN`
-      : "";
-    li.appendChild(renderBracketMatchBody(m));
-    return li;
-  }
-
-  function renderBracketMatchBody(m) {
-    const frag = document.createDocumentFragment();
-
-    const home = document.createElement("div");
-    home.className = "bracket-team";
-    if (m.home.winner === true) home.classList.add("is-winner");
-    if (m.home.winner === false) home.classList.add("is-loser");
-    if (isPlaceholderName(m.home.short || m.home.name)) home.classList.add("is-tbd");
-    const homeName = document.createElement("span");
-    homeName.className = "bracket-team-name";
-    homeName.textContent = m.home.short || m.home.name || "TBD";
-    homeName.title = m.home.name || "";
-    const homeScore = document.createElement("span");
-    homeScore.className = "bracket-team-score";
-    if (m.status === "FINAL" || m.status === "LIVE") {
-      homeScore.textContent = m.home.score ?? "0";
-    } else {
-      homeScore.textContent = "—";
-      homeScore.classList.add("is-empty");
-    }
-    home.append(homeName, homeScore);
-    frag.appendChild(home);
-
-    const away = document.createElement("div");
-    away.className = "bracket-team";
-    if (m.away.winner === true) away.classList.add("is-winner");
-    if (m.away.winner === false) away.classList.add("is-loser");
-    if (isPlaceholderName(m.away.short || m.away.name)) away.classList.add("is-tbd");
-    const awayName = document.createElement("span");
-    awayName.className = "bracket-team-name";
-    awayName.textContent = m.away.short || m.away.name || "TBD";
-    awayName.title = m.away.name || "";
-    const awayScore = document.createElement("span");
-    awayScore.className = "bracket-team-score";
-    if (m.status === "FINAL" || m.status === "LIVE") {
-      awayScore.textContent = m.away.score ?? "0";
-    } else {
-      awayScore.textContent = "—";
-      awayScore.classList.add("is-empty");
-    }
-    away.append(awayName, awayScore);
-    frag.appendChild(away);
-
-    const meta = document.createElement("div");
-    meta.className = "bracket-meta";
+  function buildBracketMatch(m) {
+    const node = document.createElement("a");
+    node.className = "bracket-match";
+    node.href = m.espn_url || "#";
+    node.target = "_blank";
+    node.rel = "noopener noreferrer";
+    if (m.status === "LIVE") node.classList.add("is-live");
+    if (m.status === "FINAL") node.classList.add("is-final");
     const tz = currentTz();
-    const dt = new Date(m.kickoff_utc);
-    const dateEl = document.createElement("span");
-    dateEl.textContent = `${dateInTz(dt, tz)} · ${timeInTz(dt, tz)}`;
-    const statusEl = document.createElement("span");
-    statusEl.className = `bracket-meta-status is-${m.status.toLowerCase()}`;
-    statusEl.textContent =
-      m.status === "LIVE"  ? (m.status_short || "LIVE")
-    : m.status === "FINAL" ? (m.status_short || "Final")
-    : "Scheduled";
-    meta.append(dateEl, statusEl);
-    frag.appendChild(meta);
-
-    return frag;
+    const homeName = m.home.short || m.home.name || "TBD";
+    const awayName = m.away.short || m.away.name || "TBD";
+    const homeScore = m.status === "SCHEDULED" ? "" : (m.home.score != null ? m.home.score : "");
+    const awayScore = m.status === "SCHEDULED" ? "" : (m.away.score != null ? m.away.score : "");
+    const homeTbd = !m.home.id;
+    const awayTbd = !m.away.id;
+    const homeWin = m.home.winner === true;
+    const awayWin = m.away.winner === true;
+    node.innerHTML = `
+      <div class="bracket-team ${homeWin ? "is-winner" : ""} ${homeTbd ? "is-tbd" : ""}">
+        <span class="bracket-team-name">${escapeHtml(homeName)}</span>
+        <span class="bracket-team-score ${homeScore === "" ? "is-empty" : ""}">${homeScore || "—"}</span>
+      </div>
+      <div class="bracket-team ${awayWin ? "is-winner" : ""} ${awayTbd ? "is-tbd" : ""}">
+        <span class="bracket-team-name">${escapeHtml(awayName)}</span>
+        <span class="bracket-team-score ${awayScore === "" ? "is-empty" : ""}">${awayScore || "—"}</span>
+      </div>
+      <div class="bracket-meta">
+        <span class="bracket-meta-status ${m.status === "LIVE" ? "is-live" : m.status === "FINAL" ? "is-final" : ""}">${
+          m.status === "LIVE" ? t("status.live.short") :
+          m.status === "FINAL" ? t("status.final.short") :
+          timeInTz(new Date(m.kickoff_utc), tz)
+        }</span>
+        <span class="bracket-meta-date">${escapeHtml(m.venue?.name || "")}</span>
+      </div>
+    `;
+    return node;
   }
 
   // ────────────────────────────────────────────────────────────
-  // Filter UI wiring
+  // Filters UI wiring
   // ────────────────────────────────────────────────────────────
-  function setPillActive(group, value) {
-    const root = document.querySelector(`.filter-group[data-filter="${group}"] .pills`);
-    if (!root) return;
-    for (const btn of $$(".pill", root)) {
-      const isActive = btn.dataset.value === value;
-      btn.classList.toggle("is-active", isActive);
-      btn.setAttribute("aria-checked", isActive ? "true" : "false");
-    }
+  function setInitialPills() {
+    $$(".pills [data-value]").forEach((p) => {
+      const group = p.closest(".filter-group");
+      if (!group) return;
+      const filterKey = group.dataset.filter;
+      if (!filterKey) return;
+      p.setAttribute("aria-checked", String(filters[filterKey] === p.dataset.value));
+    });
   }
 
   function wirePills() {
-    for (const group of $$(".filter-group[data-filter]")) {
-      const key = group.dataset.filter;
-      if (key !== "range" && key !== "status") continue;
-      for (const btn of $$(".pill", group)) {
-        btn.addEventListener("click", () => {
-          filters[key] = btn.dataset.value;
-          setPillActive(key, filters[key]);
-          onFilterChange();
-        });
-      }
-    }
-  }
-
-  function setInitialPills() {
-    setPillActive("range", filters.range);
-    setPillActive("status", filters.status);
-  }
-
-  // ────────────────────────────────────────────────────────────
-  // Timezone picker UI
-  // ────────────────────────────────────────────────────────────
-  function updateTzPill() {
-    const label = $("#tz-pill-label");
-    const pill = $("#tz-pill");
-    if (!label || !pill) return;
-    label.textContent = `Times in ${currentTzLabel()}`;
-    pill.classList.toggle("is-local", isLocalTz());
-  }
-
-  function populateTzMenu() {
-    const ul = $("#tz-menu");
-    if (!ul) return;
-    ul.innerHTML = "";
-    let lastGroup = null;
-    for (const opt of TZ_OPTIONS) {
-      if (opt.group && opt.group !== lastGroup) {
-        const h = document.createElement("li");
-        h.className = "tz-group-label";
-        h.setAttribute("role", "presentation");
-        h.textContent = opt.group;
-        ul.appendChild(h);
-        lastGroup = opt.group;
-      }
-      const li = document.createElement("li");
-      li.className = "tz-option";
-      li.setAttribute("role", "option");
-      li.dataset.value = opt.value;
-      const isSel = (opt.value === "" && isLocalTz()) || (opt.value === selectedTz);
-      li.setAttribute("aria-selected", isSel ? "true" : "false");
-      li.tabIndex = 0;
-      const off = opt.value ? offsetLabel(opt.value) : offsetLabel("");
-      li.innerHTML = `
-        <span class="tz-name">${escapeHtml(opt.label)}</span>
-        <span class="tz-offset">${escapeHtml(off)}</span>
-      `;
-      li.addEventListener("click", () => {
-        setTz(opt.value || null);
-        closeTzMenu();
+    $$(".pills [data-value]").forEach((p) => {
+      p.addEventListener("click", () => {
+        const group = p.closest(".filter-group");
+        const filterKey = group?.dataset.filter;
+        if (!filterKey) return;
+        filters[filterKey] = p.dataset.value;
+        setInitialPills();
+        onFilterChange();
       });
-      li.addEventListener("keydown", (e) => {
-        if (e.key === "Enter" || e.key === " ") {
-          e.preventDefault();
-          setTz(opt.value || null);
-          closeTzMenu();
-        } else if (e.key === "Escape") {
-          closeTzMenu();
-          $("#tz-pill")?.focus();
-        }
-      });
-      ul.appendChild(li);
-    }
-  }
-
-  function openTzMenu() {
-    const menu = $("#tz-menu");
-    const pill = $("#tz-pill");
-    if (!menu || !pill) return;
-    menu.hidden = false;
-    pill.setAttribute("aria-expanded", "true");
-    // Focus the currently selected option for keyboard users.
-    const sel = menu.querySelector('.tz-option[aria-selected="true"]') || menu.querySelector(".tz-option");
-    if (sel) sel.focus();
-  }
-  function closeTzMenu() {
-    const menu = $("#tz-menu");
-    const pill = $("#tz-pill");
-    if (!menu || !pill) return;
-    menu.hidden = true;
-    pill.setAttribute("aria-expanded", "false");
-  }
-  function toggleTzMenu() {
-    const menu = $("#tz-menu");
-    if (!menu) return;
-    if (menu.hidden) openTzMenu();
-    else closeTzMenu();
-  }
-
-  function setTz(tz) {
-    selectedTz = tz || null;
-    saveTz(selectedTz);
-    updateTzPill();
-    populateTzMenu();
-    if (allData) {
-      const matches = applyFilters();
-      renderMatches(matches);
-      renderHeader(allData);
-    }
+    });
   }
 
   function wireTzPicker() {
     const pill = $("#tz-pill");
-    if (!pill) return;
-    pill.addEventListener("click", (e) => {
-      e.stopPropagation();
-      toggleTzMenu();
-    });
-    pill.addEventListener("keydown", (e) => {
-      if (e.key === "Enter" || e.key === " " || e.key === "ArrowDown") {
-        e.preventDefault();
-        openTzMenu();
-      }
-    });
-    // Click outside / Escape closes the menu.
+    const menu = $("#tz-menu");
+    const label = $("#tz-pill-label");
+    function refresh() {
+      label.textContent = currentTzLabel();
+    }
+    function open() {
+      pill.setAttribute("aria-expanded", "true");
+      menu.hidden = false;
+    }
+    function close() {
+      pill.setAttribute("aria-expanded", "false");
+      menu.hidden = true;
+    }
+    function toggle() { menu.hidden ? open() : close(); }
+    pill.addEventListener("click", toggle);
     document.addEventListener("click", (e) => {
-      const menu = $("#tz-menu");
-      if (!menu || menu.hidden) return;
-      if (e.target.closest("#tz-picker")) return;
-      closeTzMenu();
+      if (!pill.contains(e.target) && !menu.contains(e.target)) close();
     });
     document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") closeTzMenu();
+      if (e.key === "Escape") close();
     });
+    menu.addEventListener("click", (e) => {
+      const li = e.target.closest(".tz-option");
+      if (!li) return;
+      selectedTz = li.dataset.value || null;
+      saveTz(selectedTz);
+      refresh();
+      close();
+      populateTzMenu();
+      onFilterChange();
+    });
+    refresh();
   }
 
-  // Team combobox
+  function populateTzMenu() {
+    const menu = $("#tz-menu");
+    menu.innerHTML = "";
+    let lastGroup = null;
+    for (const o of TZ_OPTIONS) {
+      if (o.group !== lastGroup) {
+        const groupLabel = document.createElement("li");
+        groupLabel.className = "tz-group-label";
+        groupLabel.textContent = o.group;
+        menu.appendChild(groupLabel);
+        lastGroup = o.group;
+      }
+      const li = document.createElement("li");
+      li.className = "tz-option";
+      li.dataset.value = o.value;
+      li.setAttribute("role", "option");
+      const isSel = (o.value || null) === selectedTz;
+      li.setAttribute("aria-selected", String(isSel));
+      const off = offsetLabel(o.value || null);
+      li.innerHTML = `<span>${escapeHtml(o.label)}</span><span class="tz-offset">${escapeHtml(off)}</span>`;
+      menu.appendChild(li);
+    }
+  }
+
+  function updateTzPill() {
+    const label = $("#tz-pill-label");
+    if (label) label.textContent = currentTzLabel();
+  }
+
+  // ────────────────────────────────────────────────────────────
+  // Team and venue combos
+  // ────────────────────────────────────────────────────────────
   function buildTeamList() {
+    if (!allData) return;
     const ul = $("#team-options");
     ul.innerHTML = "";
-    const teams = allData?.facets?.teams || [];
-    // Sort: favorites (selected) first, then alphabetical.
-    const sel = new Set(filters.teams);
-    const sorted = [...teams].sort((a, b) => {
-      const aSel = sel.has(String(a.id)) ? 0 : 1;
-      const bSel = sel.has(String(b.id)) ? 0 : 1;
-      if (aSel !== bSel) return aSel - bSel;
-      return a.name.localeCompare(b.name);
-    });
-    if (sorted.length === 0) {
-      const li = document.createElement("li");
-      li.className = "combo-empty";
-      li.textContent = "No teams available";
-      ul.appendChild(li);
-      return;
-    }
-    for (const t of sorted) {
+    const teams = allData.facets?.teams || [];
+    for (const team of teams) {
       const li = document.createElement("li");
       li.className = "combo-option";
+      li.dataset.id = team.id;
       li.setAttribute("role", "option");
-      li.dataset.value = String(t.id);
-      const isSel = sel.has(String(t.id));
-      li.setAttribute("aria-selected", isSel ? "true" : "false");
-      li.innerHTML = `
-        <span class="opt-flag">${t.flag || "🏳️"}</span>
-        <span class="opt-name">${escapeHtml(t.name)}</span>
-        <span class="opt-meta">${escapeHtml(t.abbr || "")}</span>
-      `;
-      li.addEventListener("click", () => toggleTeam(String(t.id)));
+      const selected = filters.teams.includes(team.id);
+      li.setAttribute("aria-selected", String(selected));
+      li.innerHTML = `<span class="opt-flag">${team.flag || "🏳️"}</span><span>${escapeHtml(team.name)}</span><span class="opt-meta">${escapeHtml(team.abbr || "")}</span>`;
+      li.addEventListener("click", () => {
+        toggleTeam(team.id);
+        buildTeamList();
+        renderTeamChips();
+        onFilterChange();
+      });
       ul.appendChild(li);
     }
+  }
+
+  function toggleTeam(id) {
+    const sid = String(id);
+    const idx = filters.teams.findIndex((x) => String(x) === sid);
+    if (idx >= 0) filters.teams.splice(idx, 1);
+    else if (filters.teams.length < 8) filters.teams.push(sid);
+    else filters.teams.splice(0, 1), filters.teams.push(sid);
   }
 
   function renderTeamChips() {
     const wrap = $("#team-chips");
     wrap.innerHTML = "";
-    const sel = new Set(filters.teams);
-    const teams = allData?.facets?.teams || [];
-    const lookup = new Map(teams.map((t) => [String(t.id), t]));
+    if (!allData) return;
+    const teams = allData.facets?.teams || [];
     for (const id of filters.teams) {
-      const t = lookup.get(id);
-      if (!t) continue;
+      const team = teams.find((t) => String(t.id) === String(id));
+      if (!team) continue;
       const chip = document.createElement("span");
       chip.className = "chip";
-      chip.innerHTML = `${t.flag || "🏳️"} ${escapeHtml(t.short || t.name)} <button type="button" aria-label="Remove ${escapeHtml(t.name)}">×</button>`;
-      chip.querySelector("button").addEventListener("click", () => toggleTeam(id));
+      chip.innerHTML = `<span class="opt-flag">${team.flag || "🏳️"}</span><span>${escapeHtml(team.short || team.name)}</span><button type="button" aria-label="remove">×</button>`;
+      chip.querySelector("button").addEventListener("click", () => {
+        toggleTeam(id);
+        renderTeamChips();
+        buildTeamList();
+        onFilterChange();
+      });
       wrap.appendChild(chip);
-    }
-    void sel;
-  }
-
-  function toggleTeam(id) {
-    const idx = filters.teams.indexOf(id);
-    if (idx >= 0) filters.teams.splice(idx, 1);
-    else if (filters.teams.length < 8) filters.teams.push(id);
-    renderTeamChips();
-    buildTeamList();
-    onFilterChange();
-  }
-
-  function filterTeamOptions(query) {
-    const ul = $("#team-options");
-    const q = query.trim().toLowerCase();
-    let visible = 0;
-    for (const li of $$(".combo-option", ul)) {
-      const text = li.textContent.toLowerCase();
-      const hit = !q || text.includes(q);
-      li.style.display = hit ? "" : "none";
-      if (hit) visible++;
-    }
-    ul.querySelector(".combo-empty")?.remove();
-    if (visible === 0) {
-      const li = document.createElement("li");
-      li.className = "combo-empty";
-      li.textContent = q ? `No teams matching “${query}”` : "No teams available";
-      ul.appendChild(li);
     }
   }
 
   function wireTeamCombo() {
     const input = $("#team-search");
-    const caret = input.parentElement.querySelector(".combo-caret");
-    const options = $("#team-options");
-
-    function open() { options.hidden = false; caret.setAttribute("aria-expanded", "true"); }
-    function close() { options.hidden = true; caret.setAttribute("aria-expanded", "false"); }
-    function isOpen() { return !options.hidden; }
-
-    input.addEventListener("focus", () => { open(); filterTeamOptions(input.value); });
-    input.addEventListener("input", () => { open(); filterTeamOptions(input.value); });
-    caret.addEventListener("click", () => { isOpen() ? close() : (input.focus(), open()); });
-    input.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") {
-        e.preventDefault();
-        const first = $$(".combo-option", options).find((li) => li.style.display !== "none");
-        if (first) toggleTeam(first.dataset.value);
-      } else if (e.key === "Backspace" && input.value === "" && filters.teams.length) {
-        filters.teams.pop();
-        renderTeamChips();
-        buildTeamList();
-        onFilterChange();
-      } else if (e.key === "Escape") {
-        close();
-        input.blur();
-      }
+    const ul = $("#team-options");
+    const caret = input.parentElement?.querySelector(".combo-caret");
+    input.addEventListener("focus", () => { ul.hidden = false; filterTeamList(); });
+    input.addEventListener("input", filterTeamList);
+    caret?.addEventListener("click", () => {
+      ul.hidden = !ul.hidden;
+      if (!ul.hidden) filterTeamList();
     });
     document.addEventListener("click", (e) => {
-      if (!e.target.closest(".combo--teams")) close();
+      if (!e.target.closest(".combo--teams")) ul.hidden = true;
     });
   }
 
-  // Venue dropdown
+  function filterTeamList() {
+    const q = $("#team-search").value.trim().toLowerCase();
+    $$("#team-options .combo-option").forEach((li) => {
+      const text = li.textContent.toLowerCase();
+      li.hidden = q && !text.includes(q);
+    });
+  }
+
   function buildVenueList() {
+    if (!allData) return;
     const ul = $("#venue-options");
     ul.innerHTML = "";
-    const venues = allData?.facets?.venues || [];
-    if (venues.length === 0) {
-      const li = document.createElement("li");
-      li.className = "combo-empty";
-      li.textContent = "No venues available";
-      ul.appendChild(li);
-      return;
-    }
+    const venues = allData.facets?.venues || [];
     for (const v of venues) {
       const li = document.createElement("li");
       li.className = "combo-option";
       li.setAttribute("role", "option");
-      li.dataset.value = v.name;
-      const isSel = filters.venues.includes(v.name);
-      li.setAttribute("aria-selected", isSel ? "true" : "false");
-      li.innerHTML = `
-        <input type="checkbox" ${isSel ? "checked" : ""} tabindex="-1" />
-        <div style="display:flex; flex-direction:column; min-width:0;">
-          <span class="opt-name">${escapeHtml(v.name)}</span>
-          <span class="opt-meta" style="margin-left:0;">${escapeHtml([v.city, v.country].filter(Boolean).join(", "))} · ${v.match_count} matches</span>
-        </div>
-      `;
-      li.addEventListener("click", (e) => {
-        if (e.target.tagName !== "INPUT") {
-          const cb = li.querySelector("input");
-          cb.checked = !cb.checked;
-        }
+      const selected = filters.venues.includes(v.name);
+      li.setAttribute("aria-selected", String(selected));
+      const count = v.match_count || 0;
+      li.innerHTML = `<span>${escapeHtml(v.name)}</span><span class="opt-meta">${count}</span>`;
+      li.addEventListener("click", () => {
         toggleVenue(v.name);
+        buildVenueList();
+        updateVenueTrigger();
+        onFilterChange();
       });
       ul.appendChild(li);
     }
-  }
-
-  function updateVenueTrigger() {
-    const total = allData?.facets?.venues?.length || 0;
-    const label = $("#venue-trigger-label");
-    if (filters.venues.length === 0) {
-      label.textContent = total === 1 ? `All ${total} venue` : `All ${total} venues`;
-    } else if (filters.venues.length === 1) {
-      label.textContent = filters.venues[0];
-    } else {
-      label.textContent = `${filters.venues.length} venues selected`;
-    }
+    updateVenueTrigger();
   }
 
   function toggleVenue(name) {
     const idx = filters.venues.indexOf(name);
     if (idx >= 0) filters.venues.splice(idx, 1);
-    else filters.venues.push(name);
-    updateVenueTrigger();
-    buildVenueList();
-    onFilterChange();
+    else if (filters.venues.length < 16) filters.venues.push(name);
+  }
+
+  function updateVenueTrigger() {
+    const label = $("#venue-trigger-label");
+    if (!label) return;
+    if (!allData) { label.textContent = t("venues.all", { n: 0 }); return; }
+    const total = allData.facets?.venues?.length || 0;
+    if (filters.venues.length === 0) {
+      label.textContent = t("venues.all", { n: total });
+    } else if (filters.venues.length === 1) {
+      label.textContent = t("venue.single", { name: filters.venues[0] });
+    } else {
+      label.textContent = `${filters.venues.length} / ${total}`;
+    }
   }
 
   function wireVenueCombo() {
     const trigger = $("#venue-trigger");
-    const options = $("#venue-options");
-    function open() { options.hidden = false; trigger.setAttribute("aria-expanded", "true"); }
-    function close() { options.hidden = true; trigger.setAttribute("aria-expanded", "false"); }
-    trigger.addEventListener("click", (e) => {
-      e.stopPropagation();
-      if (options.hidden) open(); else close();
+    const ul = $("#venue-options");
+    trigger.addEventListener("click", () => {
+      const open = ul.hidden;
+      ul.hidden = !open;
+      trigger.setAttribute("aria-expanded", String(open));
     });
     document.addEventListener("click", (e) => {
-      if (!e.target.closest(".combo--venues")) close();
+      if (!e.target.closest(".combo--venues")) {
+        ul.hidden = true;
+        trigger.setAttribute("aria-expanded", "false");
+      }
+    });
+  }
+
+  function wireLangToggle() {
+    $$(".lang-pill").forEach((p) => {
+      p.addEventListener("click", () => setLang(p.dataset.lang));
     });
   }
 
@@ -1044,7 +1110,6 @@
 
   function initFromData(data) {
     allData = data;
-    // Flatten matches
     allMatches = [];
     for (const day of data.days || []) {
       for (const m of day.matches) allMatches.push(m);
@@ -1054,11 +1119,14 @@
     buildVenueList();
     updateVenueTrigger();
     renderTeamChips();
+    updateVenueTrigger();
     onFilterChange();
     renderBracket();
   }
 
   async function boot() {
+    currentLang = loadLang();
+    document.documentElement.lang = currentLang === "zh" ? "zh-Hans" : "en";
     filters = loadFilters();
     selectedTz = loadTz();
     setInitialPills();
@@ -1068,8 +1136,16 @@
     updateTzPill();
     wireTeamCombo();
     wireVenueCombo();
+    wireLangToggle();
     wireClear();
     renderTeamChips();
+    // Apply translations to all data-i18n elements on first paint
+    $$("[data-i18n]").forEach((el) => { el.textContent = t(el.dataset.i18n); });
+    $$("[data-i18n-placeholder]").forEach((el) => { el.placeholder = t(el.dataset.i18nPlaceholder); });
+    $$("[data-i18n-title]").forEach((el) => { el.title = t(el.dataset.i18nTitle); });
+    $$("[data-i18n-aria]").forEach((el) => { el.setAttribute("aria-label", t(el.dataset.i18nAria)); });
+    updateLangPills();
+    updateVenueTrigger();
 
     $("#refresh-btn").addEventListener("click", async () => {
       const btn = $("#refresh-btn");
@@ -1093,10 +1169,6 @@
       else showError(e);
     }
 
-    // Self-rescheduling refresh. While any match is LIVE we poll
-    // every 30 s so a goal / score change shows up fast; otherwise we
-    // settle back to the 5-min baseline (the cron covers catch-up
-    // for users who don't have the page open).
     function scheduleRefresh() {
       const hasLive = allMatches.some((m) => m.status === "LIVE");
       const delay = hasLive ? REFRESH_LIVE_MS : REFRESH_INTERVAL_MS;
@@ -1110,7 +1182,6 @@
     }
     scheduleRefresh();
 
-    // Re-render every minute so relative countdowns stay fresh.
     setInterval(() => {
       if (allData) {
         const matches = applyFilters();
@@ -1125,7 +1196,7 @@
     content.innerHTML = "";
     const div = document.createElement("div");
     div.className = "error";
-    div.innerHTML = `<strong>Couldn't load match data.</strong><br />${escapeHtml(String(err))}<br /><br />Try the refresh button.`;
+    div.innerHTML = `<strong>${escapeHtml(t("error.title"))}</strong><br />${escapeHtml(String(err))}<br /><br />${escapeHtml(t("error.hint"))}`;
     content.appendChild(div);
   }
 

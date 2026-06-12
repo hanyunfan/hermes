@@ -837,3 +837,201 @@ body {
     gap: 6px 14px;
   }
 }
+
+/* ─── Language toggle ─────────────────────────────────────────── */
+.lang-toggle {
+  display: inline-flex;
+  align-items: center;
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  padding: 2px;
+  border-radius: 999px;
+  gap: 0;
+}
+.lang-pill {
+  background: transparent;
+  border: 0;
+  color: var(--text-muted);
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-family: inherit;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.12s, color 0.12s;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+}
+.lang-pill:hover { color: var(--text); }
+.lang-pill[aria-checked="true"] {
+  background: var(--accent);
+  color: #1b1500;
+  font-weight: 700;
+}
+.lang-pill:focus-visible {
+  outline: 2px solid var(--accent-soft);
+  outline-offset: 2px;
+}
+
+/* ─── Butterfly layout (default view) ─────────────────────────── */
+.butterfly {
+  display: grid;
+  grid-template-columns: 1fr 1.1fr 1fr;
+  gap: 16px;
+  align-items: start;
+  margin-top: 8px;
+  position: relative;
+}
+/* The "body" (today) sits between the two wings. Pull it up slightly so
+   the three columns feel like a butterfly with the body at the center. */
+.butterfly::before {
+  /* subtle decorative wing-tie / antenna at top of body */
+  content: "🦋";
+  position: absolute;
+  top: -22px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 1.1rem;
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+.butterfly-wing {
+  background: linear-gradient(180deg, var(--bg-elev) 0%, rgba(19, 26, 44, 0.4) 100%);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+}
+.butterfly-wing--past {
+  border-left: 3px solid var(--final);
+}
+.butterfly-wing--today {
+  border-left: 3px solid var(--accent);
+  border-right: 3px solid var(--accent);
+  background: linear-gradient(180deg, rgba(240, 193, 75, 0.05) 0%, var(--bg-elev) 60%);
+  box-shadow: 0 0 0 1px rgba(240, 193, 75, 0.12), var(--shadow);
+  position: relative;
+}
+.butterfly-wing--future {
+  border-right: 3px solid var(--scheduled);
+}
+.butterfly-wing--today::before {
+  content: "";
+  position: absolute;
+  top: -1px; left: -1px; right: -1px;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  border-radius: var(--radius) var(--radius) 0 0;
+}
+
+.wing-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 0 2px;
+}
+.wing-title {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--text-muted);
+}
+.butterfly-wing--past .wing-title { color: var(--final); }
+.butterfly-wing--today .wing-title { color: var(--accent); }
+.butterfly-wing--future .wing-title { color: var(--scheduled); }
+
+.wing-count {
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  font-variant-numeric: tabular-nums;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  padding: 1px 8px;
+  border-radius: 999px;
+}
+.wing-empty {
+  text-align: center;
+  padding: 24px 8px;
+  color: var(--text-dim);
+  font-size: 0.84rem;
+  background: var(--bg-card);
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-sm);
+}
+
+.butterfly-wing .matches {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.butterfly-wing .match {
+  /* slightly more compact than full-width cards */
+  grid-template-columns: 86px 1fr;
+  border-radius: var(--radius-sm);
+}
+
+.butterfly-wing .match-time {
+  padding: 10px 6px;
+}
+.butterfly-wing .time-main {
+  font-size: 1.05rem;
+}
+.butterfly-wing .time-status {
+  font-size: 0.7rem;
+}
+
+.butterfly-wing .match-body {
+  padding: 10px 12px 12px;
+  gap: 8px;
+}
+.butterfly-wing .team-name {
+  font-size: 0.92rem;
+}
+.butterfly-wing .team-score {
+  font-size: 1.05rem;
+}
+.butterfly-wing .match-meta {
+  display: none; /* tighter cards in butterfly */
+}
+.butterfly-wing .match-links {
+  display: none; /* quieter UI in wings; today still shows links */
+}
+.butterfly-wing--today .match-meta { display: grid; } /* keep today informative */
+.butterfly-wing--today .match-links { display: flex; }
+
+/* Tablet: 2 columns (past | today+future) */
+@media (max-width: 980px) {
+  .butterfly {
+    grid-template-columns: 1fr 1.1fr;
+  }
+  .butterfly-wing--future {
+    grid-column: 1 / -1;
+  }
+}
+
+/* Phone: single column, today first */
+@media (max-width: 640px) {
+  .butterfly {
+    grid-template-columns: 1fr;
+  }
+  .butterfly-wing--past,
+  .butterfly-wing--today,
+  .butterfly-wing--future {
+    grid-column: 1;
+    border-left-width: 1px;
+    border-right-width: 1px;
+  }
+  .butterfly-wing--past { order: 1; }
+  .butterfly-wing--today { order: 0; }
+  .butterfly-wing--future { order: 2; }
+}

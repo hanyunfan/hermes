@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>FIFA World Cup 2026 — Daily Preview</title>
+  <title data-i18n="page.title">FIFA World Cup 2026 — Daily Preview</title>
   <meta name="description" content="Daily preview of today's and tomorrow's 2026 FIFA World Cup matches, in your local timezone." />
   <link rel="icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><text y='52' font-size='52'>⚽</text></svg>" />
   <link rel="stylesheet" href="style.css" />
@@ -13,10 +13,10 @@
     <header class="hero">
       <div class="hero-meta">
         <span class="trophy">🏆</span>
-        <span class="edition" id="tournament-edition">23rd edition</span>
+        <span class="edition" id="tournament-edition" data-i18n="tournament.edition">23rd edition</span>
       </div>
       <h1 class="title">FIFA World Cup <span class="year">2026</span></h1>
-      <p class="subtitle" id="tournament-subtitle">Jun 11 – Jul 19, 2026 · USA · Canada · Mexico</p>
+      <p class="subtitle" id="tournament-subtitle" data-i18n="tournament.dates">Jun 11 – Jul 19, 2026 · USA · Canada · Mexico</p>
       <div class="tz-row">
         <div class="tz-picker" id="tz-picker">
           <button
@@ -26,6 +26,7 @@
             aria-haspopup="listbox"
             aria-expanded="false"
             aria-controls="tz-menu"
+            data-i18n-title="tz.times.in"
             title="Choose display timezone"
           >
             <span id="tz-pill-label">Local time</span>
@@ -33,9 +34,13 @@
           </button>
           <ul class="tz-menu" id="tz-menu" role="listbox" hidden></ul>
         </div>
-        <button class="refresh-btn" id="refresh-btn" type="button" title="Reload matches">
-          <span class="refresh-icon" aria-hidden="true">↻</span> Refresh
+        <button class="refresh-btn" id="refresh-btn" type="button" data-i18n-title="refresh" title="Reload matches">
+          <span class="refresh-icon" aria-hidden="true">↻</span> <span data-i18n="refresh">Refresh</span>
         </button>
+        <div class="lang-toggle" id="lang-toggle" role="radiogroup" data-i18n-aria="filter.lang" aria-label="Language">
+          <button class="lang-pill" data-lang="en" type="button" role="radio" aria-checked="true">EN</button>
+          <button class="lang-pill" data-lang="zh" type="button" role="radio" aria-checked="false">中</button>
+        </div>
         <span class="updated" id="updated">—</span>
       </div>
     </header>
@@ -44,30 +49,31 @@
     <section class="filters" id="filters" aria-label="Match filters">
       <div class="filter-row">
         <div class="filter-group" data-filter="range">
-          <span class="filter-label">Time</span>
-          <div class="pills" role="radiogroup" aria-label="Time range">
-            <button class="pill" data-value="today" type="button" role="radio">Today</button>
-            <button class="pill" data-value="past" type="button" role="radio">Past</button>
-            <button class="pill" data-value="3d" type="button" role="radio">Next 3 days</button>
-            <button class="pill" data-value="7d" type="button" role="radio">Next 7 days</button>
-            <button class="pill" data-value="all" type="button" role="radio">All 104</button>
+          <span class="filter-label" data-i18n="filter.time">Time</span>
+          <div class="pills" role="radiogroup" data-i18n-aria="filter.time" aria-label="Time range">
+            <button class="pill" data-value="butterfly" type="button" role="radio" aria-checked="true" data-i18n="range.butterfly">Overview</button>
+            <button class="pill" data-value="today" type="button" role="radio" data-i18n="range.today">Today</button>
+            <button class="pill" data-value="past" type="button" role="radio" data-i18n="range.past">Past</button>
+            <button class="pill" data-value="3d" type="button" role="radio" data-i18n="range.3d">Next 3 days</button>
+            <button class="pill" data-value="7d" type="button" role="radio" data-i18n="range.7d">Next 7 days</button>
+            <button class="pill" data-value="all" type="button" role="radio" data-i18n="range.all">All 104</button>
           </div>
         </div>
 
         <div class="filter-group" data-filter="status">
-          <span class="filter-label">Status</span>
-          <div class="pills" role="radiogroup" aria-label="Match status">
-            <button class="pill" data-value="any" type="button" role="radio">Any</button>
-            <button class="pill" data-value="upcoming" type="button" role="radio">Upcoming</button>
-            <button class="pill" data-value="live" type="button" role="radio">Live</button>
-            <button class="pill" data-value="final" type="button" role="radio">Final</button>
+          <span class="filter-label" data-i18n="filter.status">Status</span>
+          <div class="pills" role="radiogroup" data-i18n-aria="filter.status" aria-label="Match status">
+            <button class="pill" data-value="any" type="button" role="radio" data-i18n="status.any">Any</button>
+            <button class="pill" data-value="upcoming" type="button" role="radio" data-i18n="status.upcoming">Upcoming</button>
+            <button class="pill" data-value="live" type="button" role="radio" data-i18n="status.live">Live</button>
+            <button class="pill" data-value="final" type="button" role="radio" data-i18n="status.final">Final</button>
           </div>
         </div>
       </div>
 
       <div class="filter-row">
         <div class="filter-group filter-group--grow" data-filter="teams">
-          <label class="filter-label" for="team-search">Teams</label>
+          <label class="filter-label" for="team-search" data-i18n="filter.teams">Teams</label>
           <div class="combo combo--teams">
             <div class="combo-chips" id="team-chips" aria-live="polite"></div>
             <div class="combo-input-wrap">
@@ -80,6 +86,7 @@
                 spellcheck="false"
                 aria-autocomplete="list"
                 aria-controls="team-options"
+                data-i18n-placeholder="search.teams.placeholder"
               />
               <button class="combo-caret" type="button" aria-label="Toggle team list">▾</button>
             </div>
@@ -88,7 +95,7 @@
         </div>
 
         <div class="filter-group" data-filter="venues">
-          <label class="filter-label" for="venue-trigger">Venues</label>
+          <label class="filter-label" for="venue-trigger" data-i18n="filter.venues">Venues</label>
           <div class="combo combo--venues">
             <button
               id="venue-trigger"
@@ -108,32 +115,43 @@
           <span class="filter-label">&nbsp;</span>
           <div class="filter-actions">
             <span class="result-count" id="result-count">— matches</span>
-            <button class="clear-btn" id="clear-btn" type="button" hidden>Clear filters</button>
+            <button class="clear-btn" id="clear-btn" type="button" hidden data-i18n="clear">Clear filters</button>
           </div>
         </div>
       </div>
     </section>
 
     <main id="content" class="content" aria-live="polite">
-      <div class="loading" id="loading">Loading matches…</div>
+      <div class="loading" id="loading" data-i18n="loading">Loading matches…</div>
     </main>
 
     <!-- Knockout bracket (R32 → Final + 3rd place). Rendered by JS. -->
     <section class="bracket-section" id="bracket-section" aria-label="Knockout bracket" hidden>
       <header class="bracket-head">
-        <h2 class="bracket-title">Knockout bracket</h2>
-        <p class="bracket-hint">Placeholders like "Group A 2nd Place" fill in as the group stage completes.</p>
+        <h2 class="bracket-title" data-i18n="bracket.title">Knockout bracket</h2>
+        <p class="bracket-hint" data-i18n="bracket.hint">Placeholders like "Group A 2nd Place" fill in as the group stage completes.</p>
       </header>
       <div class="bracket-scroll">
+        <div class="bracket-labels" aria-hidden="true">
+          <span data-i18n="bracket.round-of-32">Round of 32</span>
+          <span data-i18n="bracket.round-of-16">Round of 16</span>
+          <span data-i18n="bracket.quarterfinals">Quarterfinals</span>
+          <span data-i18n="bracket.semifinals">Semifinals</span>
+          <span class="label-final" data-i18n="bracket.final">Final</span>
+          <span data-i18n="bracket.semifinals">Semifinals</span>
+          <span data-i18n="bracket.quarterfinals">Quarterfinals</span>
+          <span data-i18n="bracket.round-of-16">Round of 16</span>
+          <span data-i18n="bracket.round-of-32">Round of 32</span>
+        </div>
         <div class="bracket-grid" id="bracket-grid" role="list"></div>
       </div>
     </section>
 
     <footer class="foot">
       <p>
-        Data: <a href="https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard" target="_blank" rel="noopener noreferrer">ESPN</a>
-        · Refreshed 6× daily by GitHub Actions (07:00, 13:30, 16:30, 19:30, 22:30, 01:00 CT)
-        · <a href="https://github.com/hanyunfan/hermes/tree/main/world-cup-2026" target="_blank" rel="noopener noreferrer">Source</a>
+        <span data-i18n="footer.data">Data:</span> <a href="https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard" target="_blank" rel="noopener noreferrer">ESPN</a>
+        · <span data-i18n="footer.refresh">Refreshed 6× daily by GitHub Actions (07:00, 13:30, 16:30, 19:30, 22:30, 01:00 CT)</span>
+        · <span data-i18n="footer.source">Source</span>: <a href="https://github.com/hanyunfan/hermes/tree/main/world-cup-2026" target="_blank" rel="noopener noreferrer">GitHub</a>
       </p>
     </footer>
   </div>
@@ -175,22 +193,22 @@
 
         <div class="match-meta">
           <div class="meta-block">
-            <span class="meta-label">Stage</span>
+            <span class="meta-label" data-i18n="stage">Stage</span>
             <span class="meta-val stage"></span>
           </div>
           <div class="meta-block">
-            <span class="meta-label">Venue</span>
+            <span class="meta-label" data-i18n="venue">Venue</span>
             <span class="meta-val venue"></span>
           </div>
           <div class="meta-block">
-            <span class="meta-label">Watch</span>
+            <span class="meta-label" data-i18n="watch">Watch</span>
             <span class="meta-val broadcasts"></span>
           </div>
         </div>
 
         <div class="match-links">
-          <a class="link espn" target="_blank" rel="noopener noreferrer">ESPN ↗</a>
-          <a class="link fox" target="_blank" rel="noopener noreferrer">Fox Sports ↗</a>
+          <a class="link espn" target="_blank" rel="noopener noreferrer" data-i18n="link.espn">ESPN ↗</a>
+          <a class="link fox" target="_blank" rel="noopener noreferrer" data-i18n="link.fox">Fox Sports ↗</a>
         </div>
       </div>
     </li>
