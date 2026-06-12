@@ -1,4 +1,4 @@
-name: Fetch matches
+name: Fetch WC 2026 matches
 
 on:
   schedule:
@@ -11,8 +11,8 @@ on:
   workflow_dispatch:
   push:
     paths:
-      - "scripts/fetch_matches.py"
-      - ".github/workflows/fetch-matches.yml"
+      - "world-cup-2026/scripts/fetch_matches.py"
+      - ".github/workflows/fetch-wc2026.yml"
 
 permissions:
   contents: write

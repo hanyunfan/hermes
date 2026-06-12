@@ -48,11 +48,16 @@ world-cup-2026/
 ├── style.css             # dark theme
 ├── data/
 │   └── matches.json      # auto-generated, do not edit
-├── scripts/
-│   └── fetch_matches.py  # ESPN → normalized JSON
-└── .github/workflows/
-    ├── fetch-matches.yml # daily refresh
-    └── pages.yml         # deploy to GH Pages
+└── scripts/
+    └── fetch_matches.py  # ESPN → normalized JSON
+```
+
+The scheduled refresh workflow lives at the repo root:
+```
+.github/workflows/
+├── fetch-wc2026.yml      # daily refresh of data/matches.json (3×/day)
+├── pages.yml             # deploy whole repo to GH Pages
+└── sync-machines.yml     # unrelated
 ```
 
 ## Schema (v1)
