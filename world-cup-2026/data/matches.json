@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-12T15:16:06.508608+00:00",
+  "generated_at": "2026-06-12T20:06:38.749264+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-12T10:16:05.262221-05:00",
+  "now_local": "2026-06-12T15:06:37.944164-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -570,6 +570,1148 @@
       "semifinals"
     ]
   },
+  "groups": [
+    {
+      "id": "1",
+      "name": "Group A",
+      "abbreviation": "Group A",
+      "entries": [
+        {
+          "team": {
+            "id": "203",
+            "name": "Mexico",
+            "short": "Mexico",
+            "abbr": "MEX",
+            "flag": "🇲🇽",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/mex.png"
+          },
+          "rank": 1,
+          "mp": 1,
+          "w": 1,
+          "d": 0,
+          "l": 0,
+          "gf": 2,
+          "ga": 0,
+          "gd": 2,
+          "pts": 3,
+          "advance": false,
+          "advance_label": "Advance to Round of 32",
+          "advance_color": "#81D6AC"
+        },
+        {
+          "team": {
+            "id": "451",
+            "name": "South Korea",
+            "short": "South Korea",
+            "abbr": "KOR",
+            "flag": "🇰🇷",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/kors.png"
+          },
+          "rank": 2,
+          "mp": 1,
+          "w": 1,
+          "d": 0,
+          "l": 0,
+          "gf": 2,
+          "ga": 1,
+          "gd": 1,
+          "pts": 3,
+          "advance": false,
+          "advance_label": "Advance to Round of 32",
+          "advance_color": "#81D6AC"
+        },
+        {
+          "team": {
+            "id": "450",
+            "name": "Czechia",
+            "short": "Czechia",
+            "abbr": "CZE",
+            "flag": "🇨🇿",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/cze.png"
+          },
+          "rank": 3,
+          "mp": 1,
+          "w": 0,
+          "d": 0,
+          "l": 1,
+          "gf": 1,
+          "ga": 2,
+          "gd": -1,
+          "pts": 0,
+          "advance": false,
+          "advance_label": "Best 8 advance",
+          "advance_color": "#B5E7CE"
+        },
+        {
+          "team": {
+            "id": "467",
+            "name": "South Africa",
+            "short": "South Africa",
+            "abbr": "RSA",
+            "flag": "🇿🇦",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/rsa.png"
+          },
+          "rank": 4,
+          "mp": 1,
+          "w": 0,
+          "d": 0,
+          "l": 1,
+          "gf": 0,
+          "ga": 2,
+          "gd": -2,
+          "pts": 0,
+          "advance": false,
+          "advance_label": "Eliminated",
+          "advance_color": "#FF7F84"
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "name": "Group B",
+      "abbreviation": "Group B",
+      "entries": [
+        {
+          "team": {
+            "id": "206",
+            "name": "Canada",
+            "short": "Canada",
+            "abbr": "CAN",
+            "flag": "🇨🇦",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/can.png"
+          },
+          "rank": 1,
+          "mp": 0,
+          "w": 0,
+          "d": 0,
+          "l": 0,
+          "gf": 0,
+          "ga": 0,
+          "gd": 0,
+          "pts": 0,
+          "advance": false,
+          "advance_label": "Advance to Round of 32",
+          "advance_color": "#81D6AC"
+        },
+        {
+          "team": {
+            "id": "452",
+            "name": "Bosnia-Herzegovina",
+            "short": "Bosnia-Herz",
+            "abbr": "BIH",
+            "flag": "🇧🇦",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/bih.png"
+          },
+          "rank": 2,
+          "mp": 0,
+          "w": 0,
+          "d": 0,
+          "l": 0,
+          "gf": 0,
+          "ga": 0,
+          "gd": 0,
+          "pts": 0,
+          "advance": false,
+          "advance_label": "Advance to Round of 32",
+          "advance_color": "#81D6AC"
+        },
+        {
+          "team": {
+            "id": "4398",
+            "name": "Qatar",
+            "short": "Qatar",
+            "abbr": "QAT",
+            "flag": "🇶🇦",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/qat.png"
+          },
+          "rank": 3,
+          "mp": 0,
+          "w": 0,
+          "d": 0,
+          "l": 0,
+          "gf": 0,
+          "ga": 0,
+          "gd": 0,
+          "pts": 0,
+          "advance": false,
+          "advance_label": "Best 8 advance",
+          "advance_color": "#B5E7CE"
+        },
+        {
+          "team": {
+            "id": "475",
+            "name": "Switzerland",
+            "short": "Switzerland",
+            "abbr": "SUI",
+            "flag": "🇨🇭",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/sui.png"
+          },
+          "rank": 4,
+          "mp": 0,
+          "w": 0,
+          "d": 0,
+          "l": 0,
+          "gf": 0,
+          "ga": 0,
+          "gd": 0,
+          "pts": 0,
+          "advance": false,
+          "advance_label": "Eliminated",
+          "advance_color": "#FF7F84"
+        }
+      ]
+    },
+    {
+      "id": "3",
+      "name": "Group C",
+      "abbreviation": "Group C",
+      "entries": [
+        {
+          "team": {
+            "id": "205",
+            "name": "Brazil",
+            "short": "Brazil",
+            "abbr": "BRA",
+            "flag": "🇧🇷",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/bra.png"
+          },
+          "rank": 1,
+          "mp": 0,
+          "w": 0,
+          "d": 0,
+          "l": 0,
+          "gf": 0,
+          "ga": 0,
+          "gd": 0,
+          "pts": 0,
+          "advance": false,
+          "advance_label": "Advance to Round of 32",
+          "advance_color": "#81D6AC"
+        },
+        {
+          "team": {
+            "id": "2869",
+            "name": "Morocco",
+            "short": "Morocco",
+            "abbr": "MAR",
+            "flag": "🇲🇦",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/mar.png"
+          },
+          "rank": 2,
+          "mp": 0,
+          "w": 0,
+          "d": 0,
+          "l": 0,
+          "gf": 0,
+          "ga": 0,
+          "gd": 0,
+          "pts": 0,
+          "advance": false,
+          "advance_label": "Advance to Round of 32",
+          "advance_color": "#81D6AC"
+        },
+        {
+          "team": {
+            "id": "2654",
+            "name": "Haiti",
+            "short": "Haiti",
+            "abbr": "HAI",
+            "flag": "🇭🇹",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/hai.png"
+          },
+          "rank": 3,
+          "mp": 0,
+          "w": 0,
+          "d": 0,
+          "l": 0,
+          "gf": 0,
+          "ga": 0,
+          "gd": 0,
+          "pts": 0,
+          "advance": false,
+          "advance_label": "Best 8 advance",
+          "advance_color": "#B5E7CE"
+        },
+        {
+          "team": {
+            "id": "580",
+            "name": "Scotland",
+            "short": "Scotland",
+            "abbr": "SCO",
+            "flag": "🏴",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/sco.png"
+          },
+          "rank": 4,
+          "mp": 0,
+          "w": 0,
+          "d": 0,
+          "l": 0,
+          "gf": 0,
+          "ga": 0,
+          "gd": 0,
+          "pts": 0,
+          "advance": false,
+          "advance_label": "Eliminated",
+          "advance_color": "#FF7F84"
+        }
+      ]
+    },
+    {
+      "id": "4",
+      "name": "Group D",
+      "abbreviation": "Group D",
+      "entries": [
+        {
+          "team": {
+            "id": "660",
+            "name": "United States",
+            "short": "USA",
+            "abbr": "USA",
+            "flag": "🇺🇸",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/usa.png"
+          },
+          "rank": 1,
+          "mp": 0,
+          "w": 0,
+          "d": 0,
+          "l": 0,
+          "gf": 0,
+          "ga": 0,
+          "gd": 0,
+          "pts": 0,
+          "advance": false,
+          "advance_label": "Advance to Round of 32",
+          "advance_color": "#81D6AC"
+        },
+        {
+          "team": {
+            "id": "210",
+            "name": "Paraguay",
+            "short": "Paraguay",
+            "abbr": "PAR",
+            "flag": "🇵🇾",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/par.png"
+          },
+          "rank": 2,
+          "mp": 0,
+          "w": 0,
+          "d": 0,
+          "l": 0,
+          "gf": 0,
+          "ga": 0,
+          "gd": 0,
+          "pts": 0,
+          "advance": false,
+          "advance_label": "Advance to Round of 32",
+          "advance_color": "#81D6AC"
+        },
+        {
+          "team": {
+            "id": "628",
+            "name": "Australia",
+            "short": "Australia",
+            "abbr": "AUS",
+            "flag": "🇦🇺",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/aus.png"
+          },
+          "rank": 3,
+          "mp": 0,
+          "w": 0,
+          "d": 0,
+          "l": 0,
+          "gf": 0,
+          "ga": 0,
+          "gd": 0,
+          "pts": 0,
+          "advance": false,
+          "advance_label": "Best 8 advance",
+          "advance_color": "#B5E7CE"
+        },
+        {
+          "team": {
+            "id": "465",
+            "name": "Türkiye",
+            "short": "Türkiye",
+            "abbr": "TUR",
+            "flag": "🇹🇷",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/tur.png"
+          },
+          "rank": 4,
+          "mp": 0,
+          "w": 0,
+          "d": 0,
+          "l": 0,
+          "gf": 0,
+          "ga": 0,
+          "gd": 0,
+          "pts": 0,
+          "advance": false,
+          "advance_label": "Eliminated",
+          "advance_color": "#FF7F84"
+        }
+      ]
+    },
+    {
+      "id": "5",
+      "name": "Group E",
+      "abbreviation": "Group E",
+      "entries": [
+        {
+          "team": {
+            "id": "481",
+            "name": "Germany",
+            "short": "Germany",
+            "abbr": "GER",
+            "flag": "🇩🇪",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/ger.png"
+          },
+          "rank": 1,
+          "mp": 0,
+          "w": 0,
+          "d": 0,
+          "l": 0,
+          "gf": 0,
+          "ga": 0,
+          "gd": 0,
+          "pts": 0,
+          "advance": false,
+          "advance_label": "Advance to Round of 32",
+          "advance_color": "#81D6AC"
+        },
+        {
+          "team": {
+            "id": "11678",
+            "name": "Curaçao",
+            "short": "Curaçao",
+            "abbr": "CUW",
+            "flag": "🏳️",
+            "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/11678.png"
+          },
+          "rank": 2,
+          "mp": 0,
+          "w": 0,
+          "d": 0,
+          "l": 0,
+          "gf": 0,
+          "ga": 0,
+          "gd": 0,
+          "pts": 0,
+          "advance": false,
+          "advance_label": "Advance to Round of 32",
+          "advance_color": "#81D6AC"
+        },
+        {
+          "team": {
+            "id": "4789",
+            "name": "Ivory Coast",
+            "short": "Ivory Coast",
+            "abbr": "CIV",
+            "flag": "🇨🇮",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/civ.png"
+          },
+          "rank": 3,
+          "mp": 0,
+          "w": 0,
+          "d": 0,
+          "l": 0,
+          "gf": 0,
+          "ga": 0,
+          "gd": 0,
+          "pts": 0,
+          "advance": false,
+          "advance_label": "Best 8 advance",
+          "advance_color": "#B5E7CE"
+        },
+        {
+          "team": {
+            "id": "209",
+            "name": "Ecuador",
+            "short": "Ecuador",
+            "abbr": "ECU",
+            "flag": "🇪🇨",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/ecu.png"
+          },
+          "rank": 4,
+          "mp": 0,
+          "w": 0,
+          "d": 0,
+          "l": 0,
+          "gf": 0,
+          "ga": 0,
+          "gd": 0,
+          "pts": 0,
+          "advance": false,
+          "advance_label": "Eliminated",
+          "advance_color": "#FF7F84"
+        }
+      ]
+    },
+    {
+      "id": "6",
+      "name": "Group F",
+      "abbreviation": "Group F",
+      "entries": [
+        {
+          "team": {
+            "id": "449",
+            "name": "Netherlands",
+            "short": "Netherlands",
+            "abbr": "NED",
+            "flag": "🇳🇱",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/ned.png"
+          },
+          "rank": 1,
+          "mp": 0,
+          "w": 0,
+          "d": 0,
+          "l": 0,
+          "gf": 0,
+          "ga": 0,
+          "gd": 0,
+          "pts": 0,
+          "advance": false,
+          "advance_label": "Advance to Round of 32",
+          "advance_color": "#81D6AC"
+        },
+        {
+          "team": {
+            "id": "627",
+            "name": "Japan",
+            "short": "Japan",
+            "abbr": "JPN",
+            "flag": "🇯🇵",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/jpn.png"
+          },
+          "rank": 2,
+          "mp": 0,
+          "w": 0,
+          "d": 0,
+          "l": 0,
+          "gf": 0,
+          "ga": 0,
+          "gd": 0,
+          "pts": 0,
+          "advance": false,
+          "advance_label": "Advance to Round of 32",
+          "advance_color": "#81D6AC"
+        },
+        {
+          "team": {
+            "id": "466",
+            "name": "Sweden",
+            "short": "Sweden",
+            "abbr": "SWE",
+            "flag": "🇸🇪",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/swe.png"
+          },
+          "rank": 3,
+          "mp": 0,
+          "w": 0,
+          "d": 0,
+          "l": 0,
+          "gf": 0,
+          "ga": 0,
+          "gd": 0,
+          "pts": 0,
+          "advance": false,
+          "advance_label": "Best 8 advance",
+          "advance_color": "#B5E7CE"
+        },
+        {
+          "team": {
+            "id": "659",
+            "name": "Tunisia",
+            "short": "Tunisia",
+            "abbr": "TUN",
+            "flag": "🇹🇳",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/tun.png"
+          },
+          "rank": 4,
+          "mp": 0,
+          "w": 0,
+          "d": 0,
+          "l": 0,
+          "gf": 0,
+          "ga": 0,
+          "gd": 0,
+          "pts": 0,
+          "advance": false,
+          "advance_label": "Eliminated",
+          "advance_color": "#FF7F84"
+        }
+      ]
+    },
+    {
+      "id": "7",
+      "name": "Group G",
+      "abbreviation": "Group G",
+      "entries": [
+        {
+          "team": {
+            "id": "459",
+            "name": "Belgium",
+            "short": "Belgium",
+            "abbr": "BEL",
+            "flag": "🇧🇪",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/bel.png"
+          },
+          "rank": 1,
+          "mp": 0,
+          "w": 0,
+          "d": 0,
+          "l": 0,
+          "gf": 0,
+          "ga": 0,
+          "gd": 0,
+          "pts": 0,
+          "advance": false,
+          "advance_label": "Advance to Round of 32",
+          "advance_color": "#81D6AC"
+        },
+        {
+          "team": {
+            "id": "2620",
+            "name": "Egypt",
+            "short": "Egypt",
+            "abbr": "EGY",
+            "flag": "🇪🇬",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/egy.png"
+          },
+          "rank": 2,
+          "mp": 0,
+          "w": 0,
+          "d": 0,
+          "l": 0,
+          "gf": 0,
+          "ga": 0,
+          "gd": 0,
+          "pts": 0,
+          "advance": false,
+          "advance_label": "Advance to Round of 32",
+          "advance_color": "#81D6AC"
+        },
+        {
+          "team": {
+            "id": "469",
+            "name": "Iran",
+            "short": "Iran",
+            "abbr": "IRN",
+            "flag": "🇮🇷",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/irn.png"
+          },
+          "rank": 3,
+          "mp": 0,
+          "w": 0,
+          "d": 0,
+          "l": 0,
+          "gf": 0,
+          "ga": 0,
+          "gd": 0,
+          "pts": 0,
+          "advance": false,
+          "advance_label": "Best 8 advance",
+          "advance_color": "#B5E7CE"
+        },
+        {
+          "team": {
+            "id": "2666",
+            "name": "New Zealand",
+            "short": "New Zealand",
+            "abbr": "NZL",
+            "flag": "🇳🇿",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/nzl.png"
+          },
+          "rank": 4,
+          "mp": 0,
+          "w": 0,
+          "d": 0,
+          "l": 0,
+          "gf": 0,
+          "ga": 0,
+          "gd": 0,
+          "pts": 0,
+          "advance": false,
+          "advance_label": "Eliminated",
+          "advance_color": "#FF7F84"
+        }
+      ]
+    },
+    {
+      "id": "8",
+      "name": "Group H",
+      "abbreviation": "Group H",
+      "entries": [
+        {
+          "team": {
+            "id": "164",
+            "name": "Spain",
+            "short": "Spain",
+            "abbr": "ESP",
+            "flag": "🇪🇸",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/esp.png"
+          },
+          "rank": 1,
+          "mp": 0,
+          "w": 0,
+          "d": 0,
+          "l": 0,
+          "gf": 0,
+          "ga": 0,
+          "gd": 0,
+          "pts": 0,
+          "advance": false,
+          "advance_label": "Advance to Round of 32",
+          "advance_color": "#81D6AC"
+        },
+        {
+          "team": {
+            "id": "2597",
+            "name": "Cape Verde",
+            "short": "Cape Verde",
+            "abbr": "CPV",
+            "flag": "🇨🇻",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/cpv.png"
+          },
+          "rank": 2,
+          "mp": 0,
+          "w": 0,
+          "d": 0,
+          "l": 0,
+          "gf": 0,
+          "ga": 0,
+          "gd": 0,
+          "pts": 0,
+          "advance": false,
+          "advance_label": "Advance to Round of 32",
+          "advance_color": "#81D6AC"
+        },
+        {
+          "team": {
+            "id": "655",
+            "name": "Saudi Arabia",
+            "short": "Saudi Arabia",
+            "abbr": "KSA",
+            "flag": "🇸🇦",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/ksa.png"
+          },
+          "rank": 3,
+          "mp": 0,
+          "w": 0,
+          "d": 0,
+          "l": 0,
+          "gf": 0,
+          "ga": 0,
+          "gd": 0,
+          "pts": 0,
+          "advance": false,
+          "advance_label": "Best 8 advance",
+          "advance_color": "#B5E7CE"
+        },
+        {
+          "team": {
+            "id": "212",
+            "name": "Uruguay",
+            "short": "Uruguay",
+            "abbr": "URU",
+            "flag": "🇺🇾",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/uru.png"
+          },
+          "rank": 4,
+          "mp": 0,
+          "w": 0,
+          "d": 0,
+          "l": 0,
+          "gf": 0,
+          "ga": 0,
+          "gd": 0,
+          "pts": 0,
+          "advance": false,
+          "advance_label": "Eliminated",
+          "advance_color": "#FF7F84"
+        }
+      ]
+    },
+    {
+      "id": "9",
+      "name": "Group I",
+      "abbreviation": "Group I",
+      "entries": [
+        {
+          "team": {
+            "id": "478",
+            "name": "France",
+            "short": "France",
+            "abbr": "FRA",
+            "flag": "🇫🇷",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/fra.png"
+          },
+          "rank": 1,
+          "mp": 0,
+          "w": 0,
+          "d": 0,
+          "l": 0,
+          "gf": 0,
+          "ga": 0,
+          "gd": 0,
+          "pts": 0,
+          "advance": false,
+          "advance_label": "Advance to Round of 32",
+          "advance_color": "#81D6AC"
+        },
+        {
+          "team": {
+            "id": "654",
+            "name": "Senegal",
+            "short": "Senegal",
+            "abbr": "SEN",
+            "flag": "🇸🇳",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/sen.png"
+          },
+          "rank": 2,
+          "mp": 0,
+          "w": 0,
+          "d": 0,
+          "l": 0,
+          "gf": 0,
+          "ga": 0,
+          "gd": 0,
+          "pts": 0,
+          "advance": false,
+          "advance_label": "Advance to Round of 32",
+          "advance_color": "#81D6AC"
+        },
+        {
+          "team": {
+            "id": "4375",
+            "name": "Iraq",
+            "short": "Iraq",
+            "abbr": "IRQ",
+            "flag": "🇮🇶",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/irq.png"
+          },
+          "rank": 3,
+          "mp": 0,
+          "w": 0,
+          "d": 0,
+          "l": 0,
+          "gf": 0,
+          "ga": 0,
+          "gd": 0,
+          "pts": 0,
+          "advance": false,
+          "advance_label": "Best 8 advance",
+          "advance_color": "#B5E7CE"
+        },
+        {
+          "team": {
+            "id": "464",
+            "name": "Norway",
+            "short": "Norway",
+            "abbr": "NOR",
+            "flag": "🇳🇴",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/nor.png"
+          },
+          "rank": 4,
+          "mp": 0,
+          "w": 0,
+          "d": 0,
+          "l": 0,
+          "gf": 0,
+          "ga": 0,
+          "gd": 0,
+          "pts": 0,
+          "advance": false,
+          "advance_label": "Eliminated",
+          "advance_color": "#FF7F84"
+        }
+      ]
+    },
+    {
+      "id": "10",
+      "name": "Group J",
+      "abbreviation": "Group J",
+      "entries": [
+        {
+          "team": {
+            "id": "202",
+            "name": "Argentina",
+            "short": "Argentina",
+            "abbr": "ARG",
+            "flag": "🇦🇷",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/arg.png"
+          },
+          "rank": 1,
+          "mp": 0,
+          "w": 0,
+          "d": 0,
+          "l": 0,
+          "gf": 0,
+          "ga": 0,
+          "gd": 0,
+          "pts": 0,
+          "advance": false,
+          "advance_label": "Advance to Round of 32",
+          "advance_color": "#81D6AC"
+        },
+        {
+          "team": {
+            "id": "624",
+            "name": "Algeria",
+            "short": "Algeria",
+            "abbr": "ALG",
+            "flag": "🇩🇿",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/alg.png"
+          },
+          "rank": 2,
+          "mp": 0,
+          "w": 0,
+          "d": 0,
+          "l": 0,
+          "gf": 0,
+          "ga": 0,
+          "gd": 0,
+          "pts": 0,
+          "advance": false,
+          "advance_label": "Advance to Round of 32",
+          "advance_color": "#81D6AC"
+        },
+        {
+          "team": {
+            "id": "474",
+            "name": "Austria",
+            "short": "Austria",
+            "abbr": "AUT",
+            "flag": "🇦🇹",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/aut.png"
+          },
+          "rank": 3,
+          "mp": 0,
+          "w": 0,
+          "d": 0,
+          "l": 0,
+          "gf": 0,
+          "ga": 0,
+          "gd": 0,
+          "pts": 0,
+          "advance": false,
+          "advance_label": "Best 8 advance",
+          "advance_color": "#B5E7CE"
+        },
+        {
+          "team": {
+            "id": "2917",
+            "name": "Jordan",
+            "short": "Jordan",
+            "abbr": "JOR",
+            "flag": "🇯🇴",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/jor.png"
+          },
+          "rank": 4,
+          "mp": 0,
+          "w": 0,
+          "d": 0,
+          "l": 0,
+          "gf": 0,
+          "ga": 0,
+          "gd": 0,
+          "pts": 0,
+          "advance": false,
+          "advance_label": "Eliminated",
+          "advance_color": "#FF7F84"
+        }
+      ]
+    },
+    {
+      "id": "11",
+      "name": "Group K",
+      "abbreviation": "Group K",
+      "entries": [
+        {
+          "team": {
+            "id": "482",
+            "name": "Portugal",
+            "short": "Portugal",
+            "abbr": "POR",
+            "flag": "🇵🇹",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/por.png"
+          },
+          "rank": 1,
+          "mp": 0,
+          "w": 0,
+          "d": 0,
+          "l": 0,
+          "gf": 0,
+          "ga": 0,
+          "gd": 0,
+          "pts": 0,
+          "advance": false,
+          "advance_label": "Advance to Round of 32",
+          "advance_color": "#81D6AC"
+        },
+        {
+          "team": {
+            "id": "2850",
+            "name": "Congo DR",
+            "short": "Congo DR",
+            "abbr": "COD",
+            "flag": "🇨🇩",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/rdc.png"
+          },
+          "rank": 2,
+          "mp": 0,
+          "w": 0,
+          "d": 0,
+          "l": 0,
+          "gf": 0,
+          "ga": 0,
+          "gd": 0,
+          "pts": 0,
+          "advance": false,
+          "advance_label": "Advance to Round of 32",
+          "advance_color": "#81D6AC"
+        },
+        {
+          "team": {
+            "id": "2570",
+            "name": "Uzbekistan",
+            "short": "Uzbekistan",
+            "abbr": "UZB",
+            "flag": "🇺🇿",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/uzb.png"
+          },
+          "rank": 3,
+          "mp": 0,
+          "w": 0,
+          "d": 0,
+          "l": 0,
+          "gf": 0,
+          "ga": 0,
+          "gd": 0,
+          "pts": 0,
+          "advance": false,
+          "advance_label": "Best 8 advance",
+          "advance_color": "#B5E7CE"
+        },
+        {
+          "team": {
+            "id": "208",
+            "name": "Colombia",
+            "short": "Colombia",
+            "abbr": "COL",
+            "flag": "🇨🇴",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/col.png"
+          },
+          "rank": 4,
+          "mp": 0,
+          "w": 0,
+          "d": 0,
+          "l": 0,
+          "gf": 0,
+          "ga": 0,
+          "gd": 0,
+          "pts": 0,
+          "advance": false,
+          "advance_label": "Eliminated",
+          "advance_color": "#FF7F84"
+        }
+      ]
+    },
+    {
+      "id": "12",
+      "name": "Group L",
+      "abbreviation": "Group L",
+      "entries": [
+        {
+          "team": {
+            "id": "448",
+            "name": "England",
+            "short": "England",
+            "abbr": "ENG",
+            "flag": "🏴",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/eng.png"
+          },
+          "rank": 1,
+          "mp": 0,
+          "w": 0,
+          "d": 0,
+          "l": 0,
+          "gf": 0,
+          "ga": 0,
+          "gd": 0,
+          "pts": 0,
+          "advance": false,
+          "advance_label": "Advance to Round of 32",
+          "advance_color": "#81D6AC"
+        },
+        {
+          "team": {
+            "id": "477",
+            "name": "Croatia",
+            "short": "Croatia",
+            "abbr": "CRO",
+            "flag": "🇭🇷",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/cro.png"
+          },
+          "rank": 2,
+          "mp": 0,
+          "w": 0,
+          "d": 0,
+          "l": 0,
+          "gf": 0,
+          "ga": 0,
+          "gd": 0,
+          "pts": 0,
+          "advance": false,
+          "advance_label": "Advance to Round of 32",
+          "advance_color": "#81D6AC"
+        },
+        {
+          "team": {
+            "id": "4469",
+            "name": "Ghana",
+            "short": "Ghana",
+            "abbr": "GHA",
+            "flag": "🇬🇭",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/gha.png"
+          },
+          "rank": 3,
+          "mp": 0,
+          "w": 0,
+          "d": 0,
+          "l": 0,
+          "gf": 0,
+          "ga": 0,
+          "gd": 0,
+          "pts": 0,
+          "advance": false,
+          "advance_label": "Best 8 advance",
+          "advance_color": "#B5E7CE"
+        },
+        {
+          "team": {
+            "id": "2659",
+            "name": "Panama",
+            "short": "Panama",
+            "abbr": "PAN",
+            "flag": "🇵🇦",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/pan.png"
+          },
+          "rank": 4,
+          "mp": 0,
+          "w": 0,
+          "d": 0,
+          "l": 0,
+          "gf": 0,
+          "ga": 0,
+          "gd": 0,
+          "pts": 0,
+          "advance": false,
+          "advance_label": "Eliminated",
+          "advance_color": "#FF7F84"
+        }
+      ]
+    }
+  ],
   "days": [
     {
       "date": "2026-06-11",

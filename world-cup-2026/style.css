@@ -838,7 +838,170 @@ body {
   }
 }
 
-/* ─── Language toggle ─────────────────────────────────────────── */
+/* ─── View switch (Matches / Standings) ──────────────────────── */
+.view-switch {
+  display: flex;
+  justify-content: center;
+  margin: 8px 0 20px;
+}
+.view-switch {
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 4px;
+  display: inline-flex;
+  gap: 0;
+}
+.view-pill {
+  background: transparent;
+  border: 0;
+  color: var(--text-muted);
+  padding: 7px 22px;
+  border-radius: 999px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s, color 0.15s;
+  letter-spacing: 0.02em;
+}.view-pill:hover { color: var(--text); }
+.view-pill.is-active {
+  background: var(--accent);
+  color: #1b1500;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1) inset;
+}
+.view-pill:focus-visible {
+  outline: 2px solid var(--accent-soft);
+  outline-offset: 2px;
+}
+
+/* ─── Standings view ──────────────────────────────────────────── */
+.standings-section {
+  margin-top: 4px;
+}
+.standings-head {
+  text-align: center;
+  margin-bottom: 18px;
+}
+.standings-title {
+  font-size: clamp(1.3rem, 3vw, 1.6rem);
+  font-weight: 700;
+  margin: 0 0 6px;
+  background: linear-gradient(180deg, #fff 30%, #c4cce0 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.standings-hint {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  margin: 0 auto;
+  max-width: 600px;
+}
+.standings-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 12px;
+}
+.group-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+}
+.group-head {
+  background: linear-gradient(180deg, var(--bg-elev) 0%, var(--bg-card) 100%);
+  border-bottom: 1px solid var(--border);
+  padding: 8px 12px;
+  text-align: center;
+}
+.group-name {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.group-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+  font-size: 0.82rem;
+}
+.group-table thead th {
+  font-weight: 600;
+  color: var(--text-dim);
+  padding: 6px 4px;
+  text-align: center;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  border-bottom: 1px solid var(--border);
+}
+.group-table thead .col-team { text-align: left; padding-left: 10px; }
+.group-table tbody td {
+  padding: 6px 4px;
+  text-align: center;
+  border-top: 1px solid rgba(35, 49, 82, 0.4);
+}
+.group-table tbody tr:first-child td { border-top: 0; }
+.group-table .col-team {
+  text-align: left;
+  padding-left: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+.group-table .team-flag { font-size: 0.95rem; line-height: 1; }
+.group-table .team-short {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--text);
+  font-size: 0.82rem;
+}
+.group-table .col-rank {
+  position: relative;
+  width: 36px;
+  color: var(--text-muted);
+  font-weight: 600;
+  text-align: center;
+}
+.group-table .rank-num { display: inline-block; min-width: 1em; }
+.group-table .qual-q {
+  display: inline-block;
+  background: var(--accent);
+  color: #1b1500;
+  font-size: 0.6rem;
+  font-weight: 800;
+  padding: 1px 4px;
+  border-radius: 3px;
+  margin-left: 3px;
+  vertical-align: middle;
+  letter-spacing: 0.05em;
+}
+.group-table .col-pts strong { color: var(--text); }
+.group-table tr.is-qualified {
+  background: linear-gradient(90deg, rgba(240, 193, 75, 0.08) 0%, transparent 60%);
+}
+.group-table tr.is-qualified .col-pts strong { color: var(--accent); }
+.group-table tr.is-possible {
+  background: linear-gradient(90deg, rgba(75, 158, 255, 0.05) 0%, transparent 60%);
+}
+.group-table .is-pos { color: #4ade80; }
+.group-table .is-neg { color: #f87171; }
+.standings-notes {
+  text-align: center;
+  color: var(--text-dim);
+  font-size: 0.75rem;
+  margin: 16px 0 0;
+  letter-spacing: 0.02em;
+}
+
 .lang-toggle {
   display: inline-flex;
   align-items: center;

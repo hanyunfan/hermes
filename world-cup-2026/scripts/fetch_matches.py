@@ -27,6 +27,7 @@ from pathlib import Path
 from zoneinfo import ZoneInfo
 
 ESPN_BASE = "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard"
+ESPN_STANDINGS = "https://site.api.espn.com/apis/v2/sports/soccer/fifa.world/standings"
 USER_AGENT = "hermes-world-cup-2026/1.0 (+https://github.com/hanyunfan/hermes)"
 DEFAULT_TZ = "America/Chicago"
 
@@ -42,6 +43,57 @@ def fetch_events(dates: str, timeout: int = 20) -> list[dict]:
     with urllib.request.urlopen(req, timeout=timeout) as r:
         payload = json.load(r)
     return payload.get("events") or []
+
+
+def fetch_standings(timeout: int = 20) -> list[dict]:
+    """Fetch group standings (12 groups A–L, 4 teams each).
+    Returns a list of group dicts in ESPN's nested shape:
+        {"name": "Group A", "abbreviation": "Group A",
+         "entries": [{"team": {...}, "stats": [...], "note": {...}}]}"""
+    req = urllib.request.Request(ESPN_STANDINGS, headers={"User-Agent": USER_AGENT})
+    with urllib.request.urlopen(req, timeout=timeout) as r:
+        payload = json.load(r)
+    groups = []
+    for child in payload.get("children") or []:
+        entries_raw = (child.get("standings") or {}).get("entries") or []
+        entries = [_normalize_standing_entry(e) for e in entries_raw]
+        # Stable sort: rank, then by points desc as a safety net
+        entries.sort(key=lambda e: (e["rank"], -e["pts"], -e["gd"]))
+        groups.append({
+            "id": child.get("id") or child.get("uid") or "",
+            "name": child.get("name") or "",
+            "abbreviation": child.get("abbreviation") or child.get("name") or "",
+            "entries": entries,
+        })
+    return groups
+
+
+def _normalize_standing_entry(entry: dict) -> dict:
+    team = entry.get("team") or {}
+    by_name = {s.get("name"): s.get("value") for s in (entry.get("stats") or [])}
+    note = entry.get("note") or {}
+    return {
+        "team": {
+            "id": str(team.get("id") or ""),
+            "name": team.get("displayName") or team.get("name") or "?",
+            "short": team.get("shortDisplayName") or team.get("abbreviation") or "?",
+            "abbr": team.get("abbreviation") or "",
+            "flag": _flag_for_abbr(team.get("abbreviation") or ""),
+            "logo": ((team.get("logos") or [{}])[0] or {}).get("href") or "",
+        },
+        "rank": int(by_name.get("rank", 0) or 0),
+        "mp": int(by_name.get("gamesPlayed", 0) or 0),
+        "w": int(by_name.get("wins", 0) or 0),
+        "d": int(by_name.get("ties", 0) or 0),
+        "l": int(by_name.get("losses", 0) or 0),
+        "gf": int(by_name.get("pointsFor", 0) or 0),
+        "ga": int(by_name.get("pointsAgainst", 0) or 0),
+        "gd": int(by_name.get("pointDifferential", 0) or 0),
+        "pts": int(by_name.get("points", 0) or 0),
+        "advance": (by_name.get("advanced", 0) or 0) > 0,
+        "advance_label": note.get("description") or "",
+        "advance_color": note.get("color") or "",
+    }
 
 
 def fetch_full_tournament(start_utc: datetime, end_utc: datetime) -> list[dict]:
@@ -263,6 +315,13 @@ def build_payload(tz_name: str) -> dict:
 
     raw_events = fetch_full_tournament(start_utc, end_utc)
 
+    # Group standings (best-effort — standings endpoint may lag the scoreboard)
+    try:
+        groups = fetch_standings()
+    except (urllib.error.URLError, json.JSONDecodeError, ValueError) as e:
+        print(f"WARNING: could not fetch standings: {e}", file=sys.stderr)
+        groups = []
+
     parsed: list[dict] = []
     for ev in raw_events:
         m = parse_event(ev, tz)
@@ -361,6 +420,7 @@ def build_payload(tz_name: str) -> dict:
             "venues": venues,
             "stages": sorted({m["stage_slug"] for m in parsed if m.get("stage_slug")}),
         },
+        "groups": groups,
         "days": days,
     }
 
@@ -391,10 +451,12 @@ def main() -> int:
         match_count = sum(d["match_count"] for d in payload["days"])
         team_count = len(payload.get("facets", {}).get("teams", []))
         venue_count = len(payload.get("facets", {}).get("venues", []))
+        group_count = len(payload.get("groups", []))
         print(
             f"wrote {out} ({match_count} matches across "
             f"{len(payload['days'])} days, {team_count} teams, "
-            f"{venue_count} venues, tz={args.tz})"
+            f"{venue_count} venues, {group_count} groups, "
+            f"tz={args.tz})"
         )
     return 0
 

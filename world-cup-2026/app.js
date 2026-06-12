@@ -11,6 +11,7 @@
   const FILTER_KEY = "wc2026.filters.v4";
   const TZ_KEY = "wc2026.tz.v1";
   const LANG_KEY = "wc2026.lang.v1";
+  const VIEW_KEY = "wc2026.view.v1";
   const REFRESH_INTERVAL_MS = 5 * 60 * 1000;
   const REFRESH_LIVE_MS    = 30 * 1000;
   const RERENDER_TICK_MS   = 60 * 1000;
@@ -26,6 +27,9 @@
       "page.title": "FIFA World Cup 2026 — Daily Preview",
       "tournament.edition": "23rd edition",
       "tournament.dates": "Jun 11 – Jul 19, 2026 · USA · Canada · Mexico",
+      "view.label": "View",
+      "view.matches": "Matches",
+      "view.standings": "Standings",
       "filter.time": "Time",
       "filter.status": "Status",
       "filter.teams": "Teams",
@@ -63,6 +67,20 @@
       "wing.future": "Wing · Next 3 days",
       "wing.past.empty": "No completed matches yet",
       "wing.future.empty": "No upcoming matches in this window",
+      "standings.title": "Group Stage Standings",
+      "standings.hint": "Top 2 advance to the Round of 32. The 8 best 3rd-place teams also advance.",
+      "standings.col.team": "Team",
+      "standings.col.mp": "MP",
+      "standings.col.w": "W",
+      "standings.col.d": "D",
+      "standings.col.l": "L",
+      "standings.col.gf": "GF",
+      "standings.col.ga": "GA",
+      "standings.col.gd": "GD",
+      "standings.col.pts": "Pts",
+      "standings.empty": "No group standings yet — the group stage starts June 11.",
+      "standings.q": "Q",
+      "standings.notes": "Q = qualified · q = best 3rd-place",
       "stage": "Stage",
       "venue": "Venue",
       "watch": "Watch",
@@ -98,6 +116,9 @@
       "page.title": "2026 国际足联世界杯 — 每日预告",
       "tournament.edition": "第 23 届",
       "tournament.dates": "2026年6月11日 – 7月19日 · 美国 · 加拿大 · 墨西哥",
+      "view.label": "视图",
+      "view.matches": "比赛",
+      "view.standings": "积分",
       "filter.time": "时间",
       "filter.status": "状态",
       "filter.teams": "球队",
@@ -135,6 +156,20 @@
       "wing.future": "右翼 · 未来 3 天",
       "wing.past.empty": "暂无已完赛比赛",
       "wing.future.empty": "近 3 天暂无比赛",
+      "standings.title": "小组赛积分",
+      "standings.hint": "各组前 2 名晋级 32 强，8 个成绩最好的第 3 名同样晋级。",
+      "standings.col.team": "球队",
+      "standings.col.mp": "赛",
+      "standings.col.w": "胜",
+      "standings.col.d": "平",
+      "standings.col.l": "负",
+      "standings.col.gf": "进",
+      "standings.col.ga": "失",
+      "standings.col.gd": "净",
+      "standings.col.pts": "分",
+      "standings.empty": "小组赛尚未开赛（6 月 11 日开始），暂无积分数据。",
+      "standings.q": "Q",
+      "standings.notes": "Q = 已晋级 · q = 成绩最好的第 3 名",
       "stage": "阶段",
       "venue": "场馆",
       "watch": "观看",
@@ -199,8 +234,7 @@
     updateLangPills();
     if (allData) {
       renderHeader(allData);
-      const matches = applyFilters();
-      renderMatches(matches);
+      render();
       renderBracket();
     }
   }
@@ -372,6 +406,7 @@
   let filters = { ...DEFAULT_FILTERS };
   let allData = null;
   let allMatches = [];
+  let currentView = "matches";  // matches | standings
 
   function loadFilters() {
     const fromHash = readFiltersFromHash();
@@ -534,6 +569,18 @@
   }
 
   // ────────────────────────────────────────────────────────────
+  // Render dispatcher (view-aware)
+  // ────────────────────────────────────────────────────────────
+  function render() {
+    if (currentView === "standings") {
+      renderStandings();
+      return;
+    }
+    const matches = applyFilters();
+    renderMatches(matches);
+  }
+
+  // ────────────────────────────────────────────────────────────
   // Render: match list (with butterfly layout for the default range)
   // ────────────────────────────────────────────────────────────
   function renderMatches(matches) {
@@ -625,6 +672,100 @@
         matches: items,
       }));
   }
+
+  function renderStandings() {
+    const content = $("#content");
+    content.innerHTML = "";
+    const countEl = $("#result-count");
+    if (countEl) countEl.textContent = "";
+
+    const groups = (allData && allData.groups) || [];
+    if (groups.length === 0) {
+      const div = document.createElement("div");
+      div.className = "empty";
+      div.innerHTML = `<div>${escapeHtml(t("standings.empty"))}</div>`;
+      content.appendChild(div);
+      return;
+    }
+
+    const wrap = document.createElement("section");
+    wrap.className = "standings-section";
+    const head = document.createElement("header");
+    head.className = "standings-head";
+    head.innerHTML = `<h2 class="standings-title">${escapeHtml(t("standings.title"))}</h2>
+      <p class="standings-hint">${escapeHtml(t("standings.hint"))}</p>`;
+    wrap.appendChild(head);
+
+    const grid = document.createElement("div");
+    grid.className = "standings-grid";
+    for (const g of groups) grid.appendChild(buildGroupTable(g));
+    wrap.appendChild(grid);
+
+    const note = document.createElement("p");
+    note.className = "standings-notes";
+    note.textContent = t("standings.notes");
+    wrap.appendChild(note);
+
+    content.appendChild(wrap);
+  }
+
+  function buildGroupTable(group) {
+    const card = document.createElement("div");
+    card.className = "group-card";
+    const head = document.createElement("header");
+    head.className = "group-head";
+    head.innerHTML = `<span class="group-name">${escapeHtml(group.abbreviation || group.name)}</span>`;
+    card.appendChild(head);
+
+    const table = document.createElement("table");
+    table.className = "group-table";
+    table.innerHTML = `
+      <thead>
+        <tr>
+          <th class="col-rank">#</th>
+          <th class="col-team">${escapeHtml(t("standings.col.team"))}</th>
+          <th class="col-num" title="${escapeHtml(t("standings.col.mp"))}">${escapeHtml(t("standings.col.mp"))}</th>
+          <th class="col-num" title="${escapeHtml(t("standings.col.w"))}">${escapeHtml(t("standings.col.w"))}</th>
+          <th class="col-num" title="${escapeHtml(t("standings.col.d"))}">${escapeHtml(t("standings.col.d"))}</th>
+          <th class="col-num" title="${escapeHtml(t("standings.col.l"))}">${escapeHtml(t("standings.col.l"))}</th>
+          <th class="col-num" title="${escapeHtml(t("standings.col.gf"))}">${escapeHtml(t("standings.col.gf"))}</th>
+          <th class="col-num" title="${escapeHtml(t("standings.col.ga"))}">${escapeHtml(t("standings.col.ga"))}</th>
+          <th class="col-num" title="${escapeHtml(t("standings.col.gd"))}">${escapeHtml(t("standings.col.gd"))}</th>
+          <th class="col-num col-pts" title="${escapeHtml(t("standings.col.pts"))}">${escapeHtml(t("standings.col.pts"))}</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    `;
+    const tbody = table.querySelector("tbody");
+    for (const e of (group.entries || [])) {
+      const tr = document.createElement("tr");
+      const rank = e.rank || 0;
+      if (rank <= 2) tr.classList.add("is-qualified");
+      else if (rank === 3) tr.classList.add("is-possible");
+      tr.innerHTML = `
+        <td class="col-rank">
+          <span class="rank-num">${rank}</span>
+          ${rank === 1 || rank === 2 ? `<span class="qual-q" title="${escapeHtml(t("standings.q"))}">Q</span>` : ""}
+        </td>
+        <td class="col-team">
+          <span class="team-flag">${escapeHtml(e.team.flag || "")}</span>
+          <span class="team-short">${escapeHtml(e.team.short || e.team.name)}</span>
+        </td>
+        <td class="col-num">${e.mp}</td>
+        <td class="col-num">${e.w}</td>
+        <td class="col-num">${e.d}</td>
+        <td class="col-num">${e.l}</td>
+        <td class="col-num">${e.gf}</td>
+        <td class="col-num">${e.ga}</td>
+        <td class="col-num ${e.gd > 0 ? "is-pos" : e.gd < 0 ? "is-neg" : ""}">${e.gd > 0 ? `+${e.gd}` : e.gd}</td>
+        <td class="col-num col-pts"><strong>${e.pts}</strong></td>
+      `;
+      tbody.appendChild(tr);
+    }
+    card.appendChild(table);
+    return card;
+  }
+
 
   function renderDayList(content, matches) {
     const groups = groupByDay(matches);
@@ -1059,6 +1200,38 @@
     });
   }
 
+  function loadView() {
+    try {
+      const raw = localStorage.getItem(VIEW_KEY);
+      if (raw === "standings" || raw === "matches") return raw;
+    } catch { /* ignore */ }
+    return "matches";
+  }
+  function saveView(v) {
+    try { localStorage.setItem(VIEW_KEY, v); } catch { /* ignore */ }
+  }
+  function setView(v) {
+    currentView = (v === "standings") ? "standings" : "matches";
+    saveView(currentView);
+    updateViewPills();
+    // Hide filters when in standings view
+    const filterEl = $("#filters");
+    if (filterEl) filterEl.hidden = currentView === "standings";
+    if (allData) render();
+  }
+  function updateViewPills() {
+    $$(".view-pill").forEach((p) => {
+      const checked = p.dataset.value === currentView;
+      p.setAttribute("aria-checked", checked ? "true" : "false");
+      p.classList.toggle("is-active", checked);
+    });
+  }
+  function wireViewSwitch() {
+    $$(".view-pill").forEach((p) => {
+      p.addEventListener("click", () => setView(p.dataset.value));
+    });
+  }
+
   function wireClear() {
     const btn = $("#clear-btn");
     btn.addEventListener("click", () => {
@@ -1082,8 +1255,7 @@
   function onFilterChange() {
     saveFilters();
     refreshClearVisibility();
-    const matches = applyFilters();
-    renderMatches(matches);
+    render();
   }
 
   function escapeHtml(s) {
@@ -1129,6 +1301,7 @@
     document.documentElement.lang = currentLang === "zh" ? "zh-Hans" : "en";
     filters = loadFilters();
     selectedTz = loadTz();
+    currentView = loadView();
     setInitialPills();
     wirePills();
     wireTzPicker();
@@ -1137,6 +1310,7 @@
     wireTeamCombo();
     wireVenueCombo();
     wireLangToggle();
+    wireViewSwitch();
     wireClear();
     renderTeamChips();
     // Apply translations to all data-i18n elements on first paint
@@ -1145,7 +1319,13 @@
     $$("[data-i18n-title]").forEach((el) => { el.title = t(el.dataset.i18nTitle); });
     $$("[data-i18n-aria]").forEach((el) => { el.setAttribute("aria-label", t(el.dataset.i18nAria)); });
     updateLangPills();
+    updateViewPills();
     updateVenueTrigger();
+    // Apply persisted view (hide filters if standings)
+    if (currentView === "standings") {
+      const filterEl = $("#filters");
+      if (filterEl) filterEl.hidden = true;
+    }
 
     $("#refresh-btn").addEventListener("click", async () => {
       const btn = $("#refresh-btn");
@@ -1184,8 +1364,7 @@
 
     setInterval(() => {
       if (allData) {
-        const matches = applyFilters();
-        renderMatches(matches);
+        render();
         renderHeader(allData);
       }
     }, RERENDER_TICK_MS);
