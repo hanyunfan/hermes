@@ -131,25 +131,14 @@
       <div class="loading" id="loading" data-i18n="loading">Loading matches…</div>
     </main>
 
-    <!-- Knockout bracket (R32 → Final + 3rd place). Rendered by JS. -->
+    <!-- Knockout bracket — double-wing butterfly with connecting lines. Rendered by JS. -->
     <section class="bracket-section" id="bracket-section" aria-label="Knockout bracket" hidden>
       <header class="bracket-head">
         <h2 class="bracket-title" data-i18n="bracket.title">Knockout bracket</h2>
         <p class="bracket-hint" data-i18n="bracket.hint">Placeholders like "Group A 2nd Place" fill in as the group stage completes.</p>
       </header>
       <div class="bracket-scroll">
-        <div class="bracket-labels" aria-hidden="true">
-          <span data-i18n="bracket.round-of-32">Round of 32</span>
-          <span data-i18n="bracket.round-of-16">Round of 16</span>
-          <span data-i18n="bracket.quarterfinals">Quarterfinals</span>
-          <span data-i18n="bracket.semifinals">Semifinals</span>
-          <span class="label-final" data-i18n="bracket.final">Final</span>
-          <span data-i18n="bracket.semifinals">Semifinals</span>
-          <span data-i18n="bracket.quarterfinals">Quarterfinals</span>
-          <span data-i18n="bracket.round-of-16">Round of 16</span>
-          <span data-i18n="bracket.round-of-32">Round of 32</span>
-        </div>
-        <div class="bracket-grid" id="bracket-grid" role="list"></div>
+        <div class="bracket-butterfly" id="bracket-butterfly"></div>
       </div>
     </section>
 

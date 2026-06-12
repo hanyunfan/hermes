@@ -898,13 +898,13 @@
   }
 
   // ────────────────────────────────────────────────────────────
-  // Bracket rendering
+  // Bracket rendering — double-wing butterfly with connecting lines
   // ────────────────────────────────────────────────────────────
   function renderBracket() {
     if (!allData) return;
     const section = $("#bracket-section");
-    const grid = $("#bracket-grid");
-    if (!section || !grid) return;
+    const container = $("#bracket-butterfly");
+    if (!section || !container) return;
     const stages = ["round-of-32", "round-of-16", "quarterfinals", "semifinals"];
     const hasKOs = allMatches.some((m) => m.stage_slug && stages.includes(m.stage_slug));
     if (!hasKOs) {
@@ -912,36 +912,141 @@
       return;
     }
     section.hidden = false;
-    grid.innerHTML = "";
+    container.innerHTML = "";
 
     const rounds = ["round-of-32", "round-of-16", "quarterfinals", "semifinals", "final"];
+    const byRound = {};
     for (const r of rounds) {
-      const col = document.createElement("div");
-      col.className = "bracket-round";
-      col.dataset.stage = r;
-      const matches = allMatches.filter((m) => m.stage_slug === r);
-      matches.sort((a, b) => a.kickoff_utc.localeCompare(b.kickoff_utc));
-      for (const m of matches) col.appendChild(buildBracketMatch(m));
-      grid.appendChild(col);
+      const ms = allMatches.filter((m) => m.stage_slug === r);
+      ms.sort((a, b) => a.kickoff_utc.localeCompare(b.kickoff_utc));
+      byRound[r] = ms;
     }
-    // 3rd place
-    const third = allMatches.find((m) => m.stage_slug === "third-place");
+    const third = allMatches.find((m) => m.stage_slug === "3rd-place-match");
+
+    // Compute Y position (0-100% of height) and side (L/R) for every match.
+    // Center of each match sits at the midpoint of its two source matches.
+    const pos = {};  // matchId -> { y, side }
+    function place(round) {
+      const ms = byRound[round] || [];
+      const n = ms.length;
+      if (n === 0) return;
+      if (round === "final") {
+        for (const m of ms) pos[m.id] = { y: 50, side: "C" };
+        return;
+      }
+      const half = n / 2;
+      ms.forEach((m, i) => {
+        let y;
+        if (round === "round-of-32") y = ((i + 0.5) / 16) * 100;
+        else if (round === "round-of-16") y = ((2 * i + 1) / 16) * 100;
+        else if (round === "quarterfinals") y = ((4 * i + 2) / 16) * 100;
+        else if (round === "semifinals") y = ((8 * i + 4) / 16) * 100;
+        pos[m.id] = { y, side: i < half ? "L" : "R" };
+      });
+    }
+    place("round-of-32");
+    place("round-of-16");
+    place("quarterfinals");
+    place("semifinals");
+    place("final");
+    if (third) pos[third.id] = { y: 50, side: "C" };
+
+    // SVG layer of connecting lines
+    const SVG_NS = "http://www.w3.org/2000/svg";
+    const svg = document.createElementNS(SVG_NS, "svg");
+    svg.setAttribute("class", "bracket-lines");
+    svg.setAttribute("viewBox", "0 0 100 100");
+    svg.setAttribute("preserveAspectRatio", "none");
+    svg.setAttribute("aria-hidden", "true");
+
+    // X positions (left edge in 0-100%) for each round. 110px cards on
+    // a 1200px container = 9.17% per card. Layout:
+    //   0% | 10.83% | 21.67% | 32.5% | [50% Final] | 58.33% | 69.17% | 80% | 90.83%
+    // (Final is centered at 50% via CSS transform.)
+    const W = 9.17;
+    const roundLeft = {
+      "round-of-32": 0,
+      "round-of-16": 10.83 + 1.66,  // adds the gap
+      "quarterfinals": 21.67 + 1.66,
+      "semifinals": 32.5 + 1.66,
+    };
+    function cardLeftX(stage, side) {
+      if (stage === "final") return 50 - W / 2;          // 50 - 4.58 = 45.42
+      if (stage === "3rd-place-match") return 58.33 + 1.66 + W / 2 - W / 2;  // placeholder
+      const left = roundLeft[stage] || 0;
+      if (side === "L") return left;
+      return 100 - left - W;
+    }
+    function cardRightX(stage, side) {
+      if (stage === "final") return 50 + W / 2;
+      if (stage === "3rd-place-match") return 58.33 + 1.66 + W / 2 - W / 2 + W;
+      const left = roundLeft[stage] || 0;
+      if (side === "L") return left + W;
+      return 100 - left;
+    }
+
+    function addLine(x1, y1, x2, y2, isWinner) {
+      const midX = (x1 + x2) / 2;
+      const d = `M ${x1.toFixed(2)} ${y1.toFixed(2)} C ${midX.toFixed(2)} ${y1.toFixed(2)}, ${midX.toFixed(2)} ${y2.toFixed(2)}, ${x2.toFixed(2)} ${y2.toFixed(2)}`;
+      const p = document.createElementNS(SVG_NS, "path");
+      p.setAttribute("d", d);
+      if (isWinner) p.setAttribute("class", "is-winner");
+      svg.appendChild(p);
+    }
+
+    function linkRound(stage, nextStage) {
+      const ms = byRound[stage] || [];
+      for (let i = 0; i < ms.length; i += 2) {
+        const a = ms[i], b = ms[i + 1];
+        const parent = (byRound[nextStage] || [])[i / 2];
+        if (!parent || !a || !b) continue;
+        const pa = pos[a.id], pb = pos[b.id], pp = pos[parent.id];
+        if (!pa || !pb || !pp) continue;
+        // Only highlight a winner's line once the parent match is
+        // decided (FINAL + one winner). ESPN pre-fills both as false
+        // on placeholder matches.
+        const parentDecided = parent.status === "FINAL" && (parent.home.winner === true || parent.away.winner === true);
+        const winnerSrc = parentDecided
+          ? (parent.home.winner === true ? a : b)
+          : null;
+        addLine(cardRightX(stage, pa.side), pa.y, cardLeftX(nextStage, pp.side), pp.y, winnerSrc === a);
+        addLine(cardRightX(stage, pb.side), pb.y, cardLeftX(nextStage, pp.side), pp.y, winnerSrc === b);
+      }
+    }
+    linkRound("round-of-32", "round-of-16");
+    linkRound("round-of-16", "quarterfinals");
+    linkRound("quarterfinals", "semifinals");
+    linkRound("semifinals", "final");
+    container.appendChild(svg);
+
+    // Build cards
+    function appendCard(m, customY) {
+      if (!m) return;
+      const p = pos[m.id];
+      const card = buildBracketCard(m, p);
+      card.style.top = (customY != null ? customY : p.y) + "%";
+      container.appendChild(card);
+    }
+    for (const r of rounds) for (const m of byRound[r] || []) appendCard(m);
     if (third) {
-      const cell = document.createElement("div");
-      cell.className = "bracket-third";
-      cell.appendChild(buildBracketMatch(third));
-      grid.appendChild(cell);
+      // Position the 3rd-place match slightly to the right of Final
+      // and a bit below it so it doesn't overlap the SF lines.
+      pos[third.id] = { y: 56, side: "C" };
+      appendCard(third, 58);
     }
   }
 
-  function buildBracketMatch(m) {
+  function buildBracketCard(m, p) {
     const node = document.createElement("a");
-    node.className = "bracket-match";
+    node.className = "bracket-card";
     node.href = m.espn_url || "#";
     node.target = "_blank";
     node.rel = "noopener noreferrer";
+    node.dataset.stage = m.stage_slug;
+    if (p && p.side) node.dataset.side = p.side;
     if (m.status === "LIVE") node.classList.add("is-live");
     if (m.status === "FINAL") node.classList.add("is-final");
+    if (m.status === "FINAL" && (m.home.winner || m.away.winner)) node.classList.add("is-final-winner");
     const tz = currentTz();
     const homeName = m.home.short || m.home.name || "TBD";
     const awayName = m.away.short || m.away.name || "TBD";
@@ -951,22 +1056,32 @@
     const awayTbd = !m.away.id;
     const homeWin = m.home.winner === true;
     const awayWin = m.away.winner === true;
+    // Only mark a team as a loser once the match is FINAL and the
+    // other side has been decided as the winner. ESPN pre-fills
+    // `winner: false` for both teams on placeholder matches, so we
+    // must not treat that as a real loss.
+    const decided = m.status === "FINAL" && (homeWin || awayWin);
+    const homeLose = decided && !homeWin;
+    const awayLose = decided && !awayWin;
+    const roundKey = `bracket.${m.stage_slug}`;
+    const showLabel = p && p.side && (m.stage_slug === "round-of-32" || m.stage_slug === "round-of-16" || m.stage_slug === "quarterfinals" || m.stage_slug === "semifinals");
+    const roundLabel = showLabel ? `<span class="bracket-round-label">${escapeHtml(t(roundKey))}</span>` : "";
     node.innerHTML = `
-      <div class="bracket-team ${homeWin ? "is-winner" : ""} ${homeTbd ? "is-tbd" : ""}">
-        <span class="bracket-team-name">${escapeHtml(homeName)}</span>
-        <span class="bracket-team-score ${homeScore === "" ? "is-empty" : ""}">${homeScore || "—"}</span>
+      ${roundLabel}
+      <div class="bracket-team ${homeWin ? "is-winner" : ""} ${homeLose ? "is-loser" : ""} ${homeTbd ? "is-tbd" : ""}">
+        <span class="bc-team-name">${escapeHtml(homeName)}</span>
+        <span class="bc-team-score">${homeScore || "—"}</span>
       </div>
-      <div class="bracket-team ${awayWin ? "is-winner" : ""} ${awayTbd ? "is-tbd" : ""}">
-        <span class="bracket-team-name">${escapeHtml(awayName)}</span>
-        <span class="bracket-team-score ${awayScore === "" ? "is-empty" : ""}">${awayScore || "—"}</span>
+      <div class="bracket-team ${awayWin ? "is-winner" : ""} ${awayLose ? "is-loser" : ""} ${awayTbd ? "is-tbd" : ""}">
+        <span class="bc-team-name">${escapeHtml(awayName)}</span>
+        <span class="bc-team-score">${awayScore || "—"}</span>
       </div>
-      <div class="bracket-meta">
-        <span class="bracket-meta-status ${m.status === "LIVE" ? "is-live" : m.status === "FINAL" ? "is-final" : ""}">${
-          m.status === "LIVE" ? t("status.live.short") :
+      <div class="bc-status ${m.status === "LIVE" ? "is-live" : m.status === "FINAL" ? "is-final" : ""}">
+        <span>${
+          m.status === "LIVE" ? "● " + t("status.live.short") :
           m.status === "FINAL" ? t("status.final.short") :
           timeInTz(new Date(m.kickoff_utc), tz)
         }</span>
-        <span class="bracket-meta-date">${escapeHtml(m.venue?.name || "")}</span>
       </div>
     `;
     return node;

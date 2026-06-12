@@ -662,12 +662,24 @@ body {
 }
 
 /* ─── Knockout bracket ────────────────────────────────────────── */
+/* ─── Knockout bracket — double-wing butterfly with lines ──── */
 .bracket-section {
-  margin-top: 32px;
+  margin-top: 48px;
+  position: relative;
+}
+.bracket-section::before {
+  content: "🦋";
+  position: absolute;
+  top: -36px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 1.4rem;
+  filter: drop-shadow(0 0 8px rgba(240, 193, 75, 0.45));
+  pointer-events: none;
 }
 .bracket-head {
   text-align: center;
-  margin-bottom: 14px;
+  margin-bottom: 18px;
 }
 .bracket-title {
   font-size: 1.2rem;
@@ -680,74 +692,107 @@ body {
   font-size: 0.78rem;
   color: var(--text-dim);
 }
+
 .bracket-scroll {
   overflow-x: auto;
-  padding: 6px 0 12px;
+  padding: 4px 0 12px;
   scrollbar-width: thin;
 }
-.bracket-grid {
-  display: grid;
-  /* Default 16 rows × 5 columns (R32, R16, QF, SF, Final). The
-     3rd-place match renders as a sibling of the grid so it can
-     anchor to the right of Final. */
-  grid-template-columns: minmax(170px, 1fr) minmax(170px, 1fr) minmax(170px, 1fr) minmax(170px, 1fr) minmax(180px, 1fr);
-  grid-template-rows: repeat(16, minmax(46px, auto));
-  gap: 6px 22px;
-  min-width: 980px;
-  align-items: stretch;
-}
-.bracket-round {
-  grid-column: var(--col);
-  grid-row: 1 / -1;
-  display: grid;
-  grid-template-rows: subgrid;
-  align-items: center;
-  gap: 6px 0;
-}
-.bracket-round[data-stage="round-of-32"]   { --col: 1; }
-.bracket-round[data-stage="round-of-16"]   { --col: 2; }
-.bracket-round[data-stage="quarterfinals"] { --col: 3; }
-.bracket-round[data-stage="semifinals"]    { --col: 4; }
-.bracket-round[data-stage="final"]         { --col: 5; }
 
-.bracket-round > .bracket-round-label {
-  grid-row: 1 / -1;
-  align-self: start;
-  font-size: 0.7rem;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--text-dim);
-  padding: 0 4px;
-  text-align: center;
+.bracket-butterfly {
+  position: relative;
+  width: 100%;
+  min-width: 1200px;
+  height: 900px;
+  margin: 0 auto;
 }
 
-.bracket-match {
+/* SVG layer that draws the connecting lines */
+.bracket-lines {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+.bracket-lines path {
+  fill: none;
+  stroke: var(--border-strong);
+  stroke-width: 0.4;
+  vector-effect: non-scaling-stroke;
+}
+.bracket-lines path.is-winner {
+  stroke: var(--accent);
+  stroke-width: 0.7;
+  vector-effect: non-scaling-stroke;
+}
+
+/* Each bracket match card */
+.bracket-card {
+  position: absolute;
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: 6px 10px;
-  font-size: 0.78rem;
+  border-radius: 6px;
+  padding: 4px 8px;
+  font-size: 0.72rem;
   display: flex;
   flex-direction: column;
-  gap: 3px;
-  cursor: default;
-  transition: background 0.12s, border-color 0.12s;
+  gap: 2px;
+  z-index: 2;
   text-decoration: none;
   color: inherit;
-  position: relative;
-  min-width: 0;
+  transition: background 0.12s, border-color 0.12s, transform 0.12s;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.04) inset, 0 2px 6px rgba(0, 0, 0, 0.3);
+  white-space: nowrap;
+  overflow: hidden;
 }
-.bracket-match:hover {
+.bracket-card:hover {
   background: var(--bg-card-hover);
   border-color: var(--border-strong);
+  z-index: 5;
 }
-.bracket-match.is-final {
-  border-color: var(--border-strong);
-  background: linear-gradient(180deg, var(--bg-card) 0%, var(--bg-elev) 100%);
-}
-.bracket-match.is-live {
+.bracket-card.is-live {
   border-color: var(--live);
-  box-shadow: 0 0 0 1px rgba(239, 68, 68, 0.4);
+  box-shadow: 0 0 0 1px rgba(239, 68, 68, 0.5), 0 0 12px rgba(239, 68, 68, 0.2);
+}
+.bracket-card.is-final {
+  border-color: var(--border-strong);
+}
+.bracket-card.is-final-winner {
+  border-color: var(--accent);
+  background: linear-gradient(180deg, rgba(240, 193, 75, 0.08) 0%, var(--bg-card) 100%);
+}
+
+/* Round-specific sizing — Final is the body of the butterfly */
+.bracket-card[data-stage="round-of-32"]   { width: 110px; }
+.bracket-card[data-stage="round-of-16"]   { width: 110px; }
+.bracket-card[data-stage="quarterfinals"] { width: 110px; }
+.bracket-card[data-stage="semifinals"]    { width: 110px; }
+.bracket-card[data-stage="final"]         { width: 130px; }
+.bracket-card[data-stage="third-place"]   { width: 110px; }
+
+/* X positions: left wing -> body -> right wing
+   Layout: R32 | R16 | QF | SF | [Final] | SF | QF | R16 | R32
+   Card width: 110px each. Total container: 1200px (10 columns). */
+.bracket-card[data-side="L"][data-stage="round-of-32"]   { left: 0; }
+.bracket-card[data-side="R"][data-stage="round-of-32"]   { right: 0; }
+.bracket-card[data-side="L"][data-stage="round-of-16"]   { left: calc(10.83% + 0px); }   /* 130px */
+.bracket-card[data-side="R"][data-stage="round-of-16"]   { right: calc(10.83% + 0px); }
+.bracket-card[data-side="L"][data-stage="quarterfinals"] { left: calc(21.67% + 0px); }   /* 260px */
+.bracket-card[data-side="R"][data-stage="quarterfinals"] { right: calc(21.67% + 0px); }
+.bracket-card[data-side="L"][data-stage="semifinals"]    { left: calc(32.5% + 0px); }    /* 390px */
+.bracket-card[data-side="R"][data-stage="semifinals"]    { right: calc(32.5% + 0px); }
+.bracket-card[data-stage="final"]         { left: 50%; transform: translate(-50%, -50%); }
+.bracket-card[data-stage="third-place"]   { left: calc(58.33% + 25px); }    /* sits to the right of Final, on its own line */
+
+/* The final/3rd place card uses translate to center horizontally; other
+   cards use top-50% only. */
+.bracket-card[data-stage="round-of-32"],
+.bracket-card[data-stage="round-of-16"],
+.bracket-card[data-stage="quarterfinals"],
+.bracket-card[data-stage="semifinals"] {
+  transform: translate(0, -50%);
 }
 
 .bracket-team {
@@ -757,8 +802,9 @@ body {
   gap: 6px;
   min-width: 0;
   font-variant-numeric: tabular-nums;
+  line-height: 1.25;
 }
-.bracket-team .bracket-team-name {
+.bracket-team .bc-team-name {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -766,76 +812,68 @@ body {
   flex: 1 1 auto;
   color: var(--text);
 }
-.bracket-team.is-tbd .bracket-team-name {
+.bracket-team.is-tbd .bc-team-name {
   color: var(--text-dim);
   font-style: italic;
   font-weight: 500;
 }
-.bracket-team.is-winner .bracket-team-name {
+.bracket-team.is-winner .bc-team-name {
   color: var(--accent);
   font-weight: 600;
 }
-.bracket-team .bracket-team-score {
+.bracket-team .bc-team-score {
   flex: 0 0 auto;
-  font-weight: 600;
-  color: var(--text);
-  min-width: 1.5em;
+  font-weight: 700;
+  color: var(--text-muted);
+  min-width: 1.4em;
   text-align: right;
-}
-.bracket-team.is-winner .bracket-team-score { color: var(--accent); }
-.bracket-team .bracket-team-score.is-empty { color: var(--text-dim); }
-
-.bracket-meta {
-  font-size: 0.65rem;
-  color: var(--text-dim);
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  border-top: 1px dashed var(--border);
-  padding-top: 3px;
-  margin-top: 1px;
-}
-.bracket-meta .bracket-meta-status.is-live {
-  color: var(--live);
-  font-weight: 600;
-}
-.bracket-meta .bracket-meta-status.is-final {
-  color: var(--final);
-}
-
-.bracket-third {
-  /* 3rd place match sits to the right of Final, anchored to the
-     center vertically so it visually hangs from the middle of the
-     bracket like a sidecar. */
-  grid-column: 5;
-  grid-row: 9 / span 3;
-  align-self: center;
-  margin-left: 6px;
-  background: var(--bg-elev);
-  border: 1px dashed var(--border-strong);
-  border-radius: var(--radius-sm);
-  padding: 8px 10px;
-  position: relative;
   font-size: 0.78rem;
 }
-.bracket-third::before {
-  content: "3rd place";
-  position: absolute;
-  top: -8px;
-  left: 10px;
+.bracket-team.is-winner .bc-team-score { color: var(--accent); }
+.bracket-team.is-loser { opacity: 0.5; }
+.bracket-team.is-loser .bc-team-name { text-decoration: line-through; }
+
+.bracket-card .bc-status {
   font-size: 0.6rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-dim);
+  border-top: 1px dashed var(--border);
+  padding-top: 2px;
+  margin-top: 1px;
+  display: flex;
+  justify-content: space-between;
+  gap: 4px;
+}
+.bracket-card .bc-status.is-live { color: var(--live); }
+.bracket-card .bc-status.is-final { color: var(--text-muted); }
+
+/* Round labels on the outermost edge */
+.bracket-round-label {
+  position: absolute;
+  top: -22px;
+  font-size: 0.65rem;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  background: var(--bg);
   color: var(--text-dim);
-  padding: 0 6px;
+  font-weight: 600;
+  white-space: nowrap;
 }
+.bracket-card[data-side="L"][data-stage="round-of-32"] .bracket-round-label { left: 0; }
+.bracket-card[data-side="R"][data-stage="round-of-32"] .bracket-round-label { right: 0; }
+.bracket-card[data-side="L"][data-stage="round-of-16"] .bracket-round-label { left: 0; }
+.bracket-card[data-side="R"][data-stage="round-of-16"] .bracket-round-label { right: 0; }
+.bracket-card[data-side="L"][data-stage="quarterfinals"] .bracket-round-label { left: 0; }
+.bracket-card[data-side="R"][data-stage="quarterfinals"] .bracket-round-label { right: 0; }
+.bracket-card[data-side="L"][data-stage="semifinals"] .bracket-round-label { left: 0; }
+.bracket-card[data-side="R"][data-stage="semifinals"] .bracket-round-label { right: 0; }
+.bracket-card[data-stage="final"] .bracket-round-label { left: 0; }
+.bracket-card[data-stage="third-place"] .bracket-round-label { left: 0; }
 
+/* Mobile */
 @media (max-width: 720px) {
-  .bracket-grid {
-    grid-template-columns: 150px 150px 150px 150px 160px;
-    gap: 6px 14px;
-  }
+  .bracket-butterfly { min-width: 920px; height: 700px; }
 }
 
 /* ─── View switch (Matches / Standings) ──────────────────────── */
