@@ -56,13 +56,6 @@
     try { return Intl.DateTimeFormat().resolvedOptions().timeZone || "local"; }
     catch { return "local"; }
   }
-  function browserZone() {
-    try {
-      return new Intl.DateTimeFormat(undefined, { timeZoneName: "short" })
-        .formatToParts(new Date())
-        .find((p) => p.type === "timeZoneName")?.value || "";
-    } catch { return ""; }
-  }
   function formatRelative(target, now) {
     const diffMs = target.getTime() - now.getTime();
     const abs = Math.abs(diffMs);
@@ -81,10 +74,6 @@
       const localStr = new Date().toLocaleString("en-US", { timeZone: tzName });
       return new Date(localStr);
     } catch { return new Date(); }
-  }
-  function tzName() {
-    const cached = readCache();
-    return cached?.timezone || localTimezone();
   }
 
   // ────────────────────────────────────────────────────────────
