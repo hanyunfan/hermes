@@ -98,6 +98,83 @@ body {
   font-size: 0.8rem;
   font-variant-numeric: tabular-nums;
 }
+.tz-picker {
+  position: relative;
+  display: inline-block;
+}
+.tz-pill {
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: inherit;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+.tz-pill:hover { background: var(--bg-card-hover); border-color: var(--border-strong); color: var(--text); }
+.tz-pill[aria-expanded="true"] { background: var(--bg-card-hover); border-color: var(--border-strong); color: var(--text); }
+.tz-pill.is-local { color: var(--text); }
+.tz-pill .tz-caret {
+  font-size: 0.65rem;
+  opacity: 0.7;
+  transition: transform 0.15s;
+}
+.tz-pill[aria-expanded="true"] .tz-caret { transform: rotate(180deg); }
+
+.tz-menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 50;
+  margin: 0;
+  padding: 6px 0;
+  list-style: none;
+  min-width: 240px;
+  max-height: 360px;
+  overflow-y: auto;
+  background: var(--bg-card);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow);
+  scrollbar-width: thin;
+}
+.tz-menu[hidden] { display: none; }
+
+.tz-group-label {
+  display: block;
+  padding: 6px 14px 4px;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-dim);
+}
+.tz-option {
+  padding: 7px 14px;
+  font-size: 0.82rem;
+  color: var(--text);
+  cursor: pointer;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  white-space: nowrap;
+  user-select: none;
+}
+.tz-option:hover, .tz-option:focus-visible {
+  background: var(--bg-card-hover);
+  outline: none;
+}
+.tz-option[aria-selected="true"] {
+  background: var(--bg-elev);
+  color: var(--accent);
+}
+.tz-option .tz-offset {
+  color: var(--text-dim);
+  font-size: 0.72rem;
+  font-variant-numeric: tabular-nums;
+}
+.tz-option[aria-selected="true"] .tz-offset { color: var(--accent-soft); }
+
 .refresh-btn {
   background: var(--bg-elev);
   border: 1px solid var(--border);

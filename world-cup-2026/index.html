@@ -18,7 +18,21 @@
       <h1 class="title">FIFA World Cup <span class="year">2026</span></h1>
       <p class="subtitle" id="tournament-subtitle">Jun 11 – Jul 19, 2026 · USA · Canada · Mexico</p>
       <div class="tz-row">
-        <span class="tz-pill" id="tz-pill">Local time</span>
+        <div class="tz-picker" id="tz-picker">
+          <button
+            class="tz-pill"
+            id="tz-pill"
+            type="button"
+            aria-haspopup="listbox"
+            aria-expanded="false"
+            aria-controls="tz-menu"
+            title="Choose display timezone"
+          >
+            <span id="tz-pill-label">Local time</span>
+            <span class="tz-caret" aria-hidden="true">▾</span>
+          </button>
+          <ul class="tz-menu" id="tz-menu" role="listbox" hidden></ul>
+        </div>
         <button class="refresh-btn" id="refresh-btn" type="button" title="Reload matches">
           <span class="refresh-icon" aria-hidden="true">↻</span> Refresh
         </button>
