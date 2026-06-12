@@ -7,7 +7,7 @@
 
   const JSON_URL = "data/matches.json";
   const CACHE_KEY = "wc2026.matches.v2";
-  const FILTER_KEY = "wc2026.filters.v2";
+  const FILTER_KEY = "wc2026.filters.v3";
   const TZ_KEY = "wc2026.tz.v1";
   const REFRESH_INTERVAL_MS = 5 * 60 * 1000;   // 5 min between cron hits
   const REFRESH_LIVE_MS    = 30 * 1000;       // 30 s while any match is LIVE
@@ -175,7 +175,7 @@
   // Filter state
   // ────────────────────────────────────────────────────────────
   const DEFAULT_FILTERS = Object.freeze({
-    range: "3d",     // today | tomorrow | 3d | 7d | all
+    range: "3d",     // today | past | 3d | 7d | all
     status: "any",   // any | upcoming | live | final
     teams: [],       // [teamId, ...]
     venues: [],      // [venueName, ...]
@@ -203,7 +203,7 @@
 
   function normalizeFilters(f) {
     const out = { ...DEFAULT_FILTERS, ...f };
-    out.range = ["today", "tomorrow", "3d", "7d", "all"].includes(out.range) ? out.range : "today";
+    out.range = ["today", "past", "3d", "7d", "all"].includes(out.range) ? out.range : "3d";
     out.status = ["any", "upcoming", "live", "final"].includes(out.status) ? out.status : "any";
     out.teams = Array.isArray(out.teams) ? out.teams.slice(0, 8) : [];
     out.venues = Array.isArray(out.venues) ? out.venues.slice(0, 16) : [];
@@ -266,11 +266,13 @@
     let windowStart, windowEnd;
     if (filters.range === "today") {
       windowStart = windowEnd = todayIso;
-    } else if (filters.range === "tomorrow") {
-      const d = new Date(todayIso + "T00:00:00Z");
-      d.setUTCDate(d.getUTCDate() + 1);
-      const iso = d.toISOString().slice(0, 10);
-      windowStart = windowEnd = iso;
+    } else if (filters.range === "past") {
+      // Everything from the start of the tournament up to (and
+      // including) yesterday, in the display TZ. Today is excluded
+      // so the user can quickly jump back to "what's already
+      // happened" without seeing today's games twice.
+      windowStart = allData.tournament.start;
+      windowEnd = addDays(todayIso, -1);
     } else if (filters.range === "3d") {
       windowStart = todayIso;
       windowEnd = addDays(todayIso, 2);
