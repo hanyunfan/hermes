@@ -941,6 +941,10 @@
         else if (round === "round-of-16") y = ((2 * i + 1) / 16) * 100;
         else if (round === "quarterfinals") y = ((4 * i + 2) / 16) * 100;
         else if (round === "semifinals") y = ((8 * i + 4) / 16) * 100;
+        // Compress to 90% range with 5% top/bottom margin so the topmost
+        // card clears the column-labels row above. Linear transform keeps
+        // the midpoint relationships that the SVG connecting lines rely on.
+        y = y * 0.9 + 5;
         pos[m.id] = { y, side: i < half ? "L" : "R" };
       });
     }
