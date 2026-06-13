@@ -802,6 +802,58 @@
     return node;
   }
 
+  function renderIncidents(container, incidents) {
+    if (!container) return;
+    if (!incidents || incidents.length === 0) {
+      container.hidden = true;
+      container.innerHTML = "";
+      return;
+    }
+    container.hidden = false;
+    container.innerHTML = "";
+    const goals   = incidents.filter((i) => i.kind === "goal");
+    const yellows = incidents.filter((i) => i.kind === "yellow_card");
+    const reds    = incidents.filter((i) => i.kind === "red_card");
+    if (goals.length)   _incidentRow(container, "goal",   "⚽", goals);
+    if (yellows.length) _incidentRow(container, "yellow", "🟨", yellows);
+    if (reds.length)    _incidentRow(container, "red",    "🟥", reds);
+  }
+
+  function _incidentRow(container, rowClass, icon, list) {
+    const row = document.createElement("div");
+    row.className = "incident-row is-" + rowClass;
+    const iconEl = document.createElement("span");
+    iconEl.className = "ir-icon";
+    iconEl.textContent = icon;
+    row.appendChild(iconEl);
+    list.forEach((inc, i) => {
+      if (i > 0) {
+        const sep = document.createElement("span");
+        sep.className = "ir-sep";
+        sep.textContent = "·";
+        row.appendChild(sep);
+      }
+      const incident = document.createElement("span");
+      incident.className = "incident";
+      const player = document.createElement("span");
+      player.className = "ic-player";
+      player.textContent = inc.player || "—";
+      incident.appendChild(player);
+      if (inc.assist) {
+        const a = document.createElement("span");
+        a.className = "ic-assist";
+        a.textContent = inc.assist;
+        incident.appendChild(a);
+      }
+      const min = document.createElement("span");
+      min.className = "ic-minute";
+      min.textContent = inc.minute;
+      incident.appendChild(min);
+      row.appendChild(incident);
+    });
+    container.appendChild(row);
+  }
+
   function populateMatchCard(node, m) {
     const tz = currentTz();
     const now = nowInZone(tz);
@@ -866,6 +918,9 @@
     }
     if (m.away.winner === true) away.classList.add("is-winner");
     if (m.away.winner === false) away.classList.add("is-loser");
+
+    // Per-match incidents: goals + cards (only for LIVE / FINAL)
+    renderIncidents(node.querySelector(".match-incidents"), m.incidents);
 
     const stage = node.querySelector(".stage");
     const venue = node.querySelector(".venue");

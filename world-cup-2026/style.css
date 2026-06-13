@@ -580,6 +580,59 @@ body {
 .match.is-live .team-score, .match.is-final .team-score { color: var(--text); }
 .team.is-winner .team-score { color: var(--accent-soft); }
 
+/* Per-match incidents (goals, cards) for LIVE / FINAL games.
+   Hidden when no incidents. Compact, scrollable horizontally on narrow cards. */
+.match-incidents {
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px dashed var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  font-size: 0.74rem;
+  line-height: 1.4;
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+.match-incidents[hidden] { display: none; }
+.incident-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 4px;
+  align-items: baseline;
+  min-width: 0;
+}
+.incident-row .ir-icon {
+  font-size: 0.9rem;
+  line-height: 1;
+  margin-right: 6px;
+  flex: 0 0 auto;
+}
+.incident-row.is-yellow .ir-icon { color: #facc15; }
+.incident-row.is-red    .ir-icon { color: #ef4444; }
+.incident-row.is-goal   .ir-icon { color: var(--text); }
+.incident {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 3px;
+  white-space: nowrap;
+}
+.incident .ic-minute {
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+  font-size: 0.68rem;
+  margin-left: 2px;
+}
+.incident .ic-player { color: var(--text); }
+.incident .ic-assist {
+  color: var(--text-dim);
+  font-style: italic;
+  margin-left: 4px;
+}
+.incident .ic-assist::before { content: " ("; }
+.incident .ic-assist::after { content: ")"; }
+.ir-sep { color: var(--text-dim); padding: 0 2px; }
+
 .match-meta {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
