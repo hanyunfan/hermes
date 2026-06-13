@@ -964,7 +964,8 @@ body {
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
-  overflow: hidden;
+  overflow-x: auto;
+  overflow-y: hidden;
   box-shadow: var(--shadow);
   display: flex;
   flex-direction: column;
@@ -1011,7 +1012,7 @@ body {
   display: flex;
   align-items: center;
   gap: 6px;
-  min-width: 0;
+  min-width: 84px;
 }
 .group-table .team-flag { font-size: 0.95rem; line-height: 1; }
 .group-table .team-short {

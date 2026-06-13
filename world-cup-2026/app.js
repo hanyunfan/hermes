@@ -729,8 +729,9 @@
     table.innerHTML = `
       <thead>
         <tr>
-          <th class="col-rank">#</th>
+          <th class="col-num col-pts" title="${escapeHtml(t("standings.col.pts"))}">${escapeHtml(t("standings.col.pts"))}</th>
           <th class="col-team">${escapeHtml(t("standings.col.team"))}</th>
+          <th class="col-rank">#</th>
           <th class="col-num" title="${escapeHtml(t("standings.col.mp"))}">${escapeHtml(t("standings.col.mp"))}</th>
           <th class="col-num" title="${escapeHtml(t("standings.col.w"))}">${escapeHtml(t("standings.col.w"))}</th>
           <th class="col-num" title="${escapeHtml(t("standings.col.d"))}">${escapeHtml(t("standings.col.d"))}</th>
@@ -738,7 +739,6 @@
           <th class="col-num" title="${escapeHtml(t("standings.col.gf"))}">${escapeHtml(t("standings.col.gf"))}</th>
           <th class="col-num" title="${escapeHtml(t("standings.col.ga"))}">${escapeHtml(t("standings.col.ga"))}</th>
           <th class="col-num" title="${escapeHtml(t("standings.col.gd"))}">${escapeHtml(t("standings.col.gd"))}</th>
-          <th class="col-num col-pts" title="${escapeHtml(t("standings.col.pts"))}">${escapeHtml(t("standings.col.pts"))}</th>
         </tr>
       </thead>
       <tbody></tbody>
@@ -750,13 +750,14 @@
       if (rank <= 2) tr.classList.add("is-qualified");
       else if (rank === 3) tr.classList.add("is-possible");
       tr.innerHTML = `
-        <td class="col-rank">
-          <span class="rank-num">${rank}</span>
-          ${rank === 1 || rank === 2 ? `<span class="qual-q" title="${escapeHtml(t("standings.q"))}">Q</span>` : ""}
-        </td>
+        <td class="col-num col-pts"><strong>${e.pts}</strong></td>
         <td class="col-team">
           <span class="team-flag">${escapeHtml(e.team.flag || "")}</span>
           <span class="team-short">${escapeHtml(e.team.short || e.team.name)}</span>
+        </td>
+        <td class="col-rank">
+          <span class="rank-num">${rank}</span>
+          ${rank === 1 || rank === 2 ? `<span class="qual-q" title="${escapeHtml(t("standings.q"))}">Q</span>` : ""}
         </td>
         <td class="col-num">${e.mp}</td>
         <td class="col-num">${e.w}</td>
@@ -765,7 +766,6 @@
         <td class="col-num">${e.gf}</td>
         <td class="col-num">${e.ga}</td>
         <td class="col-num ${e.gd > 0 ? "is-pos" : e.gd < 0 ? "is-neg" : ""}">${e.gd > 0 ? `+${e.gd}` : e.gd}</td>
-        <td class="col-num col-pts"><strong>${e.pts}</strong></td>
       `;
       tbody.appendChild(tr);
     }
