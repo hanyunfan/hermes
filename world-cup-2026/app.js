@@ -959,30 +959,39 @@
     svg.setAttribute("preserveAspectRatio", "none");
     svg.setAttribute("aria-hidden", "true");
 
-    // X positions (left edge in 0-100%) for each round. 110px cards on
-    // a 1200px container = 9.17% per card. Layout:
-    //   0% | 10.83% | 21.67% | 32.5% | [50% Final] | 58.33% | 69.17% | 80% | 90.83%
-    // (Final is centered at 50% via CSS transform.)
-    const W = 9.17;
-    const roundLeft = {
-      "round-of-32": 0,
-      "round-of-16": 10.83 + 1.66,  // adds the gap
-      "quarterfinals": 21.67 + 1.66,
-      "semifinals": 32.5 + 1.66,
+    // 9 columns: R32 | R16 | QF | SF | [Final] | SF | QF | R16 | R32
+    // Card width 96px, gap 6px. Total: 9*96 + 8*6 = 912px, centered.
+    // Use a normalized 912px coordinate system inside the 100% container
+    // by anchoring to ((100% - 912px) / 2) horizontal padding.
+    const CARD_W = 96;
+    const COL_GAP = 6;
+    const TOTAL_W = 9 * CARD_W + 8 * COL_GAP;  // 912
+    const PAD = (100 - (TOTAL_W / 12)) / 2;  // 100% - 912; used as left/right padding in %
+    const COL_PX = {
+      "round-of-32":   0,
+      "round-of-16":   CARD_W + COL_GAP,         // 102
+      "quarterfinals": 2 * (CARD_W + COL_GAP),   // 204
+      "semifinals":    3 * (CARD_W + COL_GAP),   // 306
     };
+    // In %: each px offset is offset_px / 912 * 100
+    function pxToPct(px) { return (px / TOTAL_W) * 100; }
+
     function cardLeftX(stage, side) {
-      if (stage === "final") return 50 - W / 2;          // 50 - 4.58 = 45.42
-      if (stage === "3rd-place-match") return 58.33 + 1.66 + W / 2 - W / 2;  // placeholder
-      const left = roundLeft[stage] || 0;
-      if (side === "L") return left;
-      return 100 - left - W;
+      if (stage === "final") return 50;       // centered (CSS handles translate)
+      if (stage === "3rd-place-match") return 50 + pxToPct(4 * (CARD_W + COL_GAP));  // 4 cols right of center
+      const offsetPx = COL_PX[stage] || 0;
+      const offsetPct = pxToPct(offsetPx);
+      if (side === "L") return offsetPct;
+      // Mirror: 100% - left_offset% - card_width%
+      return 100 - offsetPct - pxToPct(CARD_W);
     }
     function cardRightX(stage, side) {
-      if (stage === "final") return 50 + W / 2;
-      if (stage === "3rd-place-match") return 58.33 + 1.66 + W / 2 - W / 2 + W;
-      const left = roundLeft[stage] || 0;
-      if (side === "L") return left + W;
-      return 100 - left;
+      if (stage === "final") return 50;
+      if (stage === "3rd-place-match") return 50 + pxToPct(4 * (CARD_W + COL_GAP)) + pxToPct(CARD_W);
+      const offsetPx = COL_PX[stage] || 0;
+      const offsetPct = pxToPct(offsetPx);
+      if (side === "L") return offsetPct + pxToPct(CARD_W);
+      return 100 - offsetPct;
     }
 
     function addLine(x1, y1, x2, y2, isWinner) {
@@ -1018,6 +1027,28 @@
     linkRound("quarterfinals", "semifinals");
     linkRound("semifinals", "final");
     container.appendChild(svg);
+
+    // Column labels at the top (R32 | R16 | QF | SF | [Final] | SF | QF | R16 | R32)
+    const labels = document.createElement("div");
+    labels.className = "bracket-col-labels";
+    const labelOrder = [
+      { key: "bracket.round-of-32", side: "L" },
+      { key: "bracket.round-of-16", side: "L" },
+      { key: "bracket.quarterfinals", side: "L" },
+      { key: "bracket.semifinals", side: "L" },
+      { key: "bracket.final", side: "C", center: true },
+      { key: "bracket.semifinals", side: "R" },
+      { key: "bracket.quarterfinals", side: "R" },
+      { key: "bracket.round-of-16", side: "R" },
+      { key: "bracket.round-of-32", side: "R" },
+    ];
+    for (const l of labelOrder) {
+      const span = document.createElement("span");
+      span.className = "bracket-col-label" + (l.center ? " is-center" : "");
+      span.textContent = t(l.key);
+      labels.appendChild(span);
+    }
+    container.appendChild(labels);
 
     // Build cards
     function appendCard(m, customY) {

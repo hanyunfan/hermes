@@ -702,9 +702,38 @@ body {
 .bracket-butterfly {
   position: relative;
   width: 100%;
-  min-width: 1200px;
-  height: 900px;
+  height: 880px;
   margin: 0 auto;
+}
+
+/* Column labels at the top of the bracket */
+.bracket-col-labels {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1.2fr 1fr 1fr 1fr 1fr;
+  gap: 6px;
+  z-index: 3;
+  pointer-events: none;
+}
+.bracket-col-label {
+  font-size: 0.66rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-dim);
+  text-align: center;
+  font-weight: 700;
+  padding: 4px 6px;
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+}
+.bracket-col-label.is-center {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: linear-gradient(180deg, rgba(240, 193, 75, 0.12) 0%, var(--bg-elev) 100%);
 }
 
 /* SVG layer that draws the connecting lines */
@@ -719,12 +748,12 @@ body {
 .bracket-lines path {
   fill: none;
   stroke: var(--border-strong);
-  stroke-width: 0.4;
+  stroke-width: 1;
   vector-effect: non-scaling-stroke;
 }
 .bracket-lines path.is-winner {
   stroke: var(--accent);
-  stroke-width: 0.7;
+  stroke-width: 1.8;
   vector-effect: non-scaling-stroke;
 }
 
@@ -733,19 +762,20 @@ body {
   position: absolute;
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: 4px 8px;
-  font-size: 0.72rem;
+  border-radius: 5px;
+  padding: 3px 6px;
+  font-size: 0.7rem;
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 1px;
   z-index: 2;
   text-decoration: none;
   color: inherit;
-  transition: background 0.12s, border-color 0.12s, transform 0.12s;
+  transition: background 0.12s, border-color 0.12s;
   box-shadow: 0 1px 0 rgba(255, 255, 255, 0.04) inset, 0 2px 6px rgba(0, 0, 0, 0.3);
   white-space: nowrap;
   overflow: hidden;
+  transform: translate(0, -50%);
 }
 .bracket-card:hover {
   background: var(--bg-card-hover);
@@ -756,44 +786,32 @@ body {
   border-color: var(--live);
   box-shadow: 0 0 0 1px rgba(239, 68, 68, 0.5), 0 0 12px rgba(239, 68, 68, 0.2);
 }
-.bracket-card.is-final {
-  border-color: var(--border-strong);
-}
 .bracket-card.is-final-winner {
   border-color: var(--accent);
-  background: linear-gradient(180deg, rgba(240, 193, 75, 0.08) 0%, var(--bg-card) 100%);
+  background: linear-gradient(180deg, rgba(240, 193, 75, 0.12) 0%, var(--bg-card) 100%);
+  box-shadow: 0 0 0 1px rgba(240, 193, 75, 0.3);
 }
 
 /* Round-specific sizing — Final is the body of the butterfly */
-.bracket-card[data-stage="round-of-32"]   { width: 110px; }
-.bracket-card[data-stage="round-of-16"]   { width: 110px; }
-.bracket-card[data-stage="quarterfinals"] { width: 110px; }
-.bracket-card[data-stage="semifinals"]    { width: 110px; }
-.bracket-card[data-stage="final"]         { width: 130px; }
-.bracket-card[data-stage="third-place"]   { width: 110px; }
+.bracket-card[data-stage="round-of-32"]   { width: 96px; }
+.bracket-card[data-stage="round-of-16"]   { width: 96px; }
+.bracket-card[data-stage="quarterfinals"] { width: 96px; }
+.bracket-card[data-stage="semifinals"]    { width: 96px; }
+.bracket-card[data-stage="final"]         { width: 116px; transform: translate(-50%, -50%); }
+.bracket-card[data-stage="3rd-place-match"]   { width: 96px; }
 
-/* X positions: left wing -> body -> right wing
-   Layout: R32 | R16 | QF | SF | [Final] | SF | QF | R16 | R32
-   Card width: 110px each. Total container: 1200px (10 columns). */
+/* 9-column grid: 4 columns each side + Final in the center.
+   Card width 96px, gaps 6px. 9*96 + 8*6 = 912 ≈ page width. */
 .bracket-card[data-side="L"][data-stage="round-of-32"]   { left: 0; }
 .bracket-card[data-side="R"][data-stage="round-of-32"]   { right: 0; }
-.bracket-card[data-side="L"][data-stage="round-of-16"]   { left: calc(10.83% + 0px); }   /* 130px */
-.bracket-card[data-side="R"][data-stage="round-of-16"]   { right: calc(10.83% + 0px); }
-.bracket-card[data-side="L"][data-stage="quarterfinals"] { left: calc(21.67% + 0px); }   /* 260px */
-.bracket-card[data-side="R"][data-stage="quarterfinals"] { right: calc(21.67% + 0px); }
-.bracket-card[data-side="L"][data-stage="semifinals"]    { left: calc(32.5% + 0px); }    /* 390px */
-.bracket-card[data-side="R"][data-stage="semifinals"]    { right: calc(32.5% + 0px); }
-.bracket-card[data-stage="final"]         { left: 50%; transform: translate(-50%, -50%); }
-.bracket-card[data-stage="third-place"]   { left: calc(58.33% + 25px); }    /* sits to the right of Final, on its own line */
-
-/* The final/3rd place card uses translate to center horizontally; other
-   cards use top-50% only. */
-.bracket-card[data-stage="round-of-32"],
-.bracket-card[data-stage="round-of-16"],
-.bracket-card[data-stage="quarterfinals"],
-.bracket-card[data-stage="semifinals"] {
-  transform: translate(0, -50%);
-}
+.bracket-card[data-side="L"][data-stage="round-of-16"]   { left: calc((100% - 912px) / 2 + 102px); }
+.bracket-card[data-side="R"][data-stage="round-of-16"]   { right: calc((100% - 912px) / 2 + 102px); }
+.bracket-card[data-side="L"][data-stage="quarterfinals"] { left: calc((100% - 912px) / 2 + 204px); }
+.bracket-card[data-side="R"][data-stage="quarterfinals"] { right: calc((100% - 912px) / 2 + 204px); }
+.bracket-card[data-side="L"][data-stage="semifinals"]    { left: calc((100% - 912px) / 2 + 306px); }
+.bracket-card[data-side="R"][data-stage="semifinals"]    { right: calc((100% - 912px) / 2 + 306px); }
+.bracket-card[data-stage="final"]         { left: calc(50% + 18px); }
+.bracket-card[data-stage="3rd-place-match"]   { left: calc(50% + 156px); }
 
 .bracket-team {
   display: flex;
@@ -873,7 +891,8 @@ body {
 
 /* Mobile */
 @media (max-width: 720px) {
-  .bracket-butterfly { min-width: 920px; height: 700px; }
+  .bracket-butterfly { width: 100%; min-width: 920px; height: 700px; }
+  .bracket-col-labels { min-width: 920px; }
 }
 
 /* ─── View switch (Matches / Standings) ──────────────────────── */
