@@ -24,6 +24,8 @@
 | Network throughput | `psutil` | Per interface (e.g. eth0, ib0) |
 | System power (whole-machine) | `ipmitool dcmi` | BMC-based; requires `ipmitool` + BMC access |
 | CPU power (package) | `intel_rapl` | RAPL CPU package power |
+| **CPU core temperature** (opt-in) | `psutil.sensors_temperatures` | Per physical core (°C). Intel `coretemp` / AMD `k10temp` if exposed. Requires `--cpu-debug` flag. |
+| **CPU core frequency** (opt-in) | `psutil.cpu_freq(percpu=True)` | Per logical core (MHz). Requires `--cpu-debug` flag. |
 
 > **PCIe/NVLink**: These metrics use `nvidia-smi dmon` which needs ~3–4 seconds of sampling to produce valid numbers. The collector therefore only enables them when `interval >= 10s`. If you start with a smaller interval, a red WARNING is printed and these fields will be absent from the JSON.
 
@@ -68,9 +70,10 @@ pip install psutil
 ### 2. Start the collector
 
 ```bash
-# Usage: python3 collector.py <interval> <display_name>
+# Usage: python3 collector.py <interval> <display_name> [--cpu-debug]
 #   <interval>    : polling interval in seconds (e.g. 10)
 #   <display_name>: machine identifier used in JSON filename and frontend (e.g. XE9785L_MI355X)
+#   --cpu-debug   : opt-in flag to record per-core CPU temperature + frequency
 
 # Run once to test:
 python3 collector.py 10 XE9785L_MI355X            # AMD MI355X machine
@@ -80,6 +83,9 @@ python3 collector.py 10 XE9680_A100               # NVIDIA A100 machine
 python3 collector.py 10 XE9680_A100
 # Smaller intervals work but PCIe/NVLink metrics are skipped:
 python3 collector.py 5 XE9680_A100                 # red WARNING printed
+
+# CPU debug mode (opt-in) — adds per-core temperature and frequency charts:
+python3 collector.py 10 XE9785L_MI355X --cpu-debug
 
 # Or install as a systemd service (auto-starts on boot):
 sudo cp system-monitor.service /etc/systemd/system/
@@ -190,6 +196,9 @@ Each line in `data/metrics_<display_name>_<YYYYMMDD>.json`:
 | `cpu_power_w` | float or null | CPU package power (W) via RAPL; null if unavailable |
 | `gpu_power` | array or null | Per-GPU power draw (see below); null if no GPU |
 | `gpu` | array or null | Per-GPU stats (see below); null if no GPU |
+| `cpu_debug` | bool | **Only present when collector is run with `--cpu-debug` flag.** Signals that the per-core arrays below are populated. |
+| `cpu_core_temp_c` | array of float or null | Per **physical** core temperature (°C); sparse — `null` for cores with no sensor. Empty `[]` on chips that only expose package temperature (e.g. AMD Zen via k10temp). Only present with `--cpu-debug`. |
+| `cpu_core_freq_mhz` | array of float | Per **logical** core current frequency (MHz). Length equals `psutil.cpu_count(logical=True)`. Only present with `--cpu-debug`. |
 
 `network[]` elements:
 
@@ -246,5 +255,7 @@ Each line in `data/metrics_<display_name>_<YYYYMMDD>.json`:
 **PCIe/NVLink chart shows no data**: This is expected if the collector was started with `interval < 10s`. Restart with `python3 collector.py --interval 10`. The red WARNING message confirms this.
 
 **system_power_w is null**: Confirm `ipmitool dcmi power reading` works on that machine and that the BMC has DCMI permissions.
+
+**CPU core temperature / frequency charts don't appear**: The collector was not started with `--cpu-debug`. Restart with `python3 collector.py 10 <name> --cpu-debug`. Existing files recorded without the flag will not retroactively gain the charts — start a new data file.
 
 **Multiple collectors on same display_name**: Only one collector per `display_name` should run, otherwise data files will interleave and corrupt each other.

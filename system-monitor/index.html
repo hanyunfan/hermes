@@ -227,6 +227,15 @@
     <h3>Network RX/TX (MB/s)</h3>
     <div class="chart-wrapper"><canvas id="chart-net"></canvas></div>
   </div>
+  <!-- CPU debug charts (hidden by default; shown when data carries cpu_debug=true) -->
+  <div class="chart-card" id="cpu-core-temp-chart-card" style="display:none">
+    <h3>CPU Core Temperature (°C, per physical core)</h3>
+    <div class="chart-wrapper"><canvas id="chart-cpu-core-temp"></canvas></div>
+  </div>
+  <div class="chart-card" id="cpu-core-freq-chart-card" style="display:none">
+    <h3>CPU Core Frequency (MHz, per logical core)</h3>
+    <div class="chart-wrapper"><canvas id="chart-cpu-core-freq"></canvas></div>
+  </div>
 </div>
 <p class="updated" id="updated"></p>
 
@@ -273,6 +282,20 @@ const GPU_COLORS = [
   'ffee58', // GPU5 — yellow
   '80cbc4', // GPU6 — teal
   'ce93d8', // GPU7 — lavender
+];
+
+// Colors for CPU cores (cycled across physical or logical indices, up to 64).
+// Distinct palette from GPU_COLORS so the per-core lines don't collide with
+// the GPU dataset colours on machines that show both.
+const CORE_COLORS = [
+  '4fc3f7','ba68c8','81c784','ffb74d','ef9a9a','ffee58','80cbc4','ce93d8',
+  '90a4ae','a1887f','bcaaa4','dce775','aed581','fff176','ff8a65','b39ddb',
+  'f48fb1','80deea','c5e1a5','ffcc80','b0bec5','d7ccc8','e6ee9c','b2ff59',
+  'ffe57f','ff9e80','8c9eff','ea80fc','84ffff','a7ffeb','ccff90','ffff8d',
+  'ff9a80','b388ff','8d6e63','9e9e9e','26a69a','42a5f5','ec407a','ab47bc',
+  '7e57c2','66bb6a','ffca28','ffa726','ff7043','8d6e63','78909c','5c6bc0',
+  'd4e157','ff6e40','26c6da','9fa8da','f06292','aed581','ba68c8','fff176',
+  'ffb74d','a3a3a3','8d8d8d','b0b0b0',
 ];
 
 // ─── State ────────────────────────────────────────────────────────────────────
@@ -337,6 +360,11 @@ function initCharts() {
   charts.net = buildNetworkChart('chart-net');
   // GPU Temperature chart (one dataset per GPU + optional Tlimit annotation)
   charts.temp = buildTempChart('chart-temp');
+  // CPU debug charts (hidden by default; only the visibility branch in
+  // loadDayData flips their wrapper <div> to display:'' when cpu_debug
+  // is present in any sample).
+  charts['cpu-core-temp'] = buildCpuCoreTempChart('chart-cpu-core-temp');
+  charts['cpu-core-freq'] = buildCpuCoreFreqChart('chart-cpu-core-freq');
 }
 
 const IO_COLORS = {
@@ -484,6 +512,58 @@ function initOne(key, dataKey, color) {
       if (ts) showPointInfo(new Date(ts));
     }
   });
+}
+
+// ─── CPU debug chart builders (mirror buildTempChart, no fill, tighter lines) ─
+
+function buildCpuCoreTempChart(canvasId) {
+  // Up to 64 physical cores (largest AMD EPYC currently is 96c/128t but
+  // exposed physical indices will still be under 64 for the foreseeable
+  // future). All datasets pre-allocated hidden; updateCpuCoreTempChart
+  // reveals only the indices that carry data.
+  const datasets = Array.from({ length: 64 }, (_, i) => {
+    const color = CORE_COLORS[i % CORE_COLORS.length];
+    return { label: 'P' + i, data: [], borderColor: '#' + color,
+             backgroundColor: 'transparent', borderWidth: 1,
+             hidden: true, pointRadius: 0 };
+  });
+  const chart = new Chart(document.getElementById(canvasId), {
+    type: 'line',
+    data: { datasets },
+    options: {
+      ...chartOptions(),
+      scales: {
+        ...chartOptions().scales,
+        y: { min: 0, max: 100, grid: { color: '#252a3a' }, ticks: { color: '#666' } }
+      }
+    }
+  });
+  return chart;
+}
+
+function buildCpuCoreFreqChart(canvasId) {
+  // Up to 128 logical cores — covers any current HT/SMT machine. Same
+  // reveal-on-data strategy as the temp chart.
+  const datasets = Array.from({ length: 128 }, (_, i) => {
+    const color = CORE_COLORS[i % CORE_COLORS.length];
+    return { label: 'L' + i, data: [], borderColor: '#' + color,
+             backgroundColor: 'transparent', borderWidth: 1,
+             hidden: true, pointRadius: 0 };
+  });
+  const chart = new Chart(document.getElementById(canvasId), {
+    type: 'line',
+    data: { datasets },
+    options: {
+      ...chartOptions(),
+      scales: {
+        ...chartOptions().scales,
+        // Frequency floor 0 — the y-max auto-scaler in the updater raises
+        // it above the observed max (min 2000 MHz) for a tighter view.
+        y: { min: 0, grid: { color: '#252a3a' }, ticks: { color: '#666' } }
+      }
+    }
+  });
+  return chart;
 }
 
 function buildGpuChart(canvasId, colors, valueKey, unit) {
@@ -803,6 +883,15 @@ async function loadDayData(dateStr) {
   if (latest.gpu_power) updatePowerChart(allData, gpuCount);
   if (hasGpu) updateTempChart(allData, gpuCount);
   updateNetworkChart(allData);
+
+  // ── CPU debug charts (only visible when any sample carries cpu_debug=true)
+  const hasCpuDebug = allData.some(d => d.cpu_debug === true);
+  document.getElementById('cpu-core-temp-chart-card').style.display = hasCpuDebug ? '' : 'none';
+  document.getElementById('cpu-core-freq-chart-card').style.display = hasCpuDebug ? '' : 'none';
+  if (hasCpuDebug) {
+    updateCpuCoreTempChart(allData);
+    updateCpuCoreFreqChart(allData);
+  }
 
   const first = allData[0].timestamp;
   const last  = allData[allData.length - 1].timestamp;
@@ -1410,6 +1499,15 @@ async function refresh() {
   // ── Update Network chart (all ifaces, RX + TX)
   updateNetworkChart(allData);
 
+  // ── CPU debug charts (only visible when any sample carries cpu_debug=true)
+  const hasCpuDebug = allData.some(d => d.cpu_debug === true);
+  document.getElementById('cpu-core-temp-chart-card').style.display = hasCpuDebug ? '' : 'none';
+  document.getElementById('cpu-core-freq-chart-card').style.display = hasCpuDebug ? '' : 'none';
+  if (hasCpuDebug) {
+    updateCpuCoreTempChart(allData);
+    updateCpuCoreFreqChart(allData);
+  }
+
   document.getElementById('updated').textContent =
     'Updated: ' + new Date().toLocaleTimeString() +
     ' | ' + allData.length + ' pts | ' + machineKey;
@@ -1646,6 +1744,63 @@ function updateTempChart(allData, gpuCount) {
   charts.temp.options.scales.y.max = Math.max(110, Math.ceil(maxTemp / 10) * 10 + 10);
 
   charts.temp.update();
+}
+
+function updateCpuCoreTempChart(allData) {
+  // Discover the highest physical core index that has any non-null sample.
+  let maxIdx = -1;
+  for (const d of allData) {
+    const arr = d.cpu_core_temp_c || [];
+    for (let i = arr.length - 1; i >= 0; i--) {
+      if (arr[i] != null) { maxIdx = Math.max(maxIdx, i); break; }
+    }
+  }
+  if (maxIdx < 0) return; // no data — leave chart hidden
+
+  const datasets = charts['cpu-core-temp'].data.datasets;
+  for (let i = 0; i <= maxIdx; i++) {
+    datasets[i].hidden = false;
+    datasets[i].data = allData.map(d => {
+      const t = (d.cpu_core_temp_c || [])[i];
+      return t != null
+        ? { x: new Date(d.timestamp), y: t }
+        : { x: new Date(d.timestamp), y: null };
+    });
+  }
+
+  // Auto-scale y to 1.1x observed max, floor 80°C
+  const allT = allData.flatMap(d => (d.cpu_core_temp_c || []).filter(t => t != null));
+  const max = allT.length ? Math.max(...allT) : 0;
+  charts['cpu-core-temp'].options.scales.y.max = Math.max(80, Math.ceil(max * 1.1 / 10) * 10);
+  charts['cpu-core-temp'].update();
+}
+
+function updateCpuCoreFreqChart(allData) {
+  // Discover the highest logical core index that has any sample.
+  let maxIdx = -1;
+  for (const d of allData) {
+    const arr = d.cpu_core_freq_mhz || [];
+    if (arr.length) maxIdx = Math.max(maxIdx, arr.length - 1);
+  }
+  if (maxIdx < 0) return;
+
+  const datasets = charts['cpu-core-freq'].data.datasets;
+  for (let i = 0; i <= maxIdx; i++) {
+    datasets[i].hidden = false;
+    datasets[i].data = allData.map(d => {
+      const f = (d.cpu_core_freq_mhz || [])[i];
+      return f != null
+        ? { x: new Date(d.timestamp), y: f }
+        : { x: new Date(d.timestamp), y: null };
+    });
+  }
+
+  // Auto-scale y to 1.1x observed max, floor 2000 MHz (so idle dips to 800
+  // still leave the active range visible without zooming forever).
+  const allF = allData.flatMap(d => d.cpu_core_freq_mhz || []);
+  const max = allF.length ? Math.max(...allF) : 0;
+  charts['cpu-core-freq'].options.scales.y.max = Math.max(2000, Math.ceil(max * 1.1 / 100) * 100);
+  charts['cpu-core-freq'].update();
 }
 
 function updateNetworkChart(allData) {

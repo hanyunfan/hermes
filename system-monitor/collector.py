@@ -31,7 +31,9 @@ CPU_COUNT = psutil.cpu_count(logical=False)
 CPU_TYPE  = None
 
 def _probe_cpu():
-    """Detect CPU model name from /proc/cpuinfo."""
+    """
+    Detect CPU model name from /proc/cpuinfo.
+    """
     global CPU_TYPE
     try:
         with open('/proc/cpuinfo') as f:
@@ -54,6 +56,72 @@ def _probe_cpu():
         pass
 
 _probe_cpu()
+
+# ─── CPU debug (opt-in) ───────────────────────────────────────────────────────
+# When enabled via --cpu-debug, the collector samples per-core temperature
+# (via psutil.sensors_temperatures) and per-core frequency
+# (via psutil.cpu_freq(percpu=True)) once per cycle and writes the two arrays
+# to the JSON. Frontend hides the two new charts unless cpu_debug === true.
+#
+# Cardinality:
+#   cpu_core_temp_c   — indexed by PHYSICAL core id (sensors expose physical
+#                       cores only; some AMD Zen chips only expose Tctl/Tdie
+#                       and return []).
+#   cpu_core_freq_mhz — indexed by LOGICAL core id (cpuN/cpufreq in sysfs is
+#                       per logical CPU). On an HT-enabled chip the two
+#                       arrays have different lengths — this is intentional.
+#
+# Safe to call when CPU_DEBUG is False: the getters return [] in <1ms.
+
+def get_cpu_core_temp():
+    """Return list[float|None] indexed by physical core id, [] on failure.
+
+    Parses psutil.sensors_temperatures()['coretemp'] (Intel) or ['k10temp']
+    (AMD Zen). On AMD, k10temp usually only exposes Package/Tdie/Tctl and
+    has no per-core entries — we return [] in that case so the frontend
+    leaves the chart hidden.
+    """
+    try:
+        s = psutil.sensors_temperatures(fahrenheit=False)
+    except Exception:
+        return []
+
+    for chip in ("coretemp", "k10temp"):
+        entries = s.get(chip) or []
+        if not entries:
+            continue
+        if chip == "k10temp":
+            # AMD Zen typically reports only Tctl/Tdie — no per-core entries.
+            return []
+        # coretemp: entries labelled 'Core 0', 'Core 12', etc. (physical ids)
+        out = []
+        for t in entries:
+            if not t.label or not t.label.startswith("Core "):
+                continue
+            try:
+                idx = int(t.label.split()[1])
+            except (ValueError, IndexError):
+                continue
+            while len(out) <= idx:
+                out.append(None)
+            out[idx] = t.current
+        return out
+    return []
+
+
+def get_cpu_core_freq():
+    """Return list[float] indexed by logical core id, [] on failure.
+
+    Length matches psutil.cpu_count(logical=True). Reads
+    /sys/devices/system/cpu/cpuN/cpufreq/scaling_cur_freq via psutil.
+    """
+    try:
+        f = psutil.cpu_freq(percpu=True)
+    except Exception:
+        return []
+    if not f:
+        return []
+    return [round(c.current, 1) for c in f]
 
 # ─── GPU globals ───────────────────────────────────────────────────────────────
 
@@ -661,7 +729,7 @@ display_name = None   # set by daemon()
 
 # ─── Main collect ─────────────────────────────────────────────────────────────
 
-def collect(enable_nvlink=True):
+def collect(enable_nvlink=True, cpu_debug=False):
     cpu_percent = psutil.cpu_percent(interval=0.5)
     mem = psutil.virtual_memory()
     net = _get_net_throughput_mbs()
@@ -688,6 +756,12 @@ def collect(enable_nvlink=True):
         "gpu_power": gpu_power,
         "gpu": gpu_stats
     }
+    # CPU debug fields are written ONLY when the flag is on, so the JSON
+    # shape is byte-identical to the pre-feature output otherwise.
+    if cpu_debug:
+        stats["cpu_debug"]          = True
+        stats["cpu_core_temp_c"]    = get_cpu_core_temp()
+        stats["cpu_core_freq_mhz"]  = get_cpu_core_freq()
     return stats
 
 
@@ -702,7 +776,7 @@ def append_to_file(data, period):
         f.write(json.dumps(data) + "\n")
 
 
-def daemon(interval=10, _display_name=None):
+def daemon(interval=10, _display_name=None, cpu_debug=False):
     global display_name
     display_name = _display_name
     type_label = f" {GPU_TYPE}" if GPU_TYPE else ""
@@ -716,10 +790,12 @@ def daemon(interval=10, _display_name=None):
         print("\033[91m  WARNING: NVLink/PCIe monitoring will NOT start\033[0m")
         print(f"           This feature requires interval >= 10s (current: {interval}s)")
         print("=" * 60 + "\n")
+    if cpu_debug:
+        print("CPU debug mode ENABLED — per-core temp + freq will be recorded each cycle")
     print(f"Collector starting on [{HOSTNAME}], interval={interval}s, NVLink={'enabled' if enable_nvlink else 'disabled'}, GPU={gpu_label} {vendor_label}")
     while True:
         try:
-            stats = collect(enable_nvlink=enable_nvlink)
+            stats = collect(enable_nvlink=enable_nvlink, cpu_debug=cpu_debug)
             append_to_file(stats, "metrics")
             pwr_str = ""
             if stats.get("system_power_w") is not None:
@@ -747,8 +823,22 @@ def daemon(interval=10, _display_name=None):
                         nv = f" PCIe={g['pcie_bandwidth_mbs']:.1f}MB/s"
                     gpu_str += f" GPU{g['id']}={g.get('utilization','?')}%{nv}"
 
+            # CPU debug summary (compact one-liner appended to the same log line)
+            debug_str = ""
+            if cpu_debug:
+                temps = stats.get("cpu_core_temp_c") or []
+                freqs = stats.get("cpu_core_freq_mhz") or []
+                if temps:
+                    debug_str += " Tcore=[" + ",".join(
+                        f"{t:.0f}" if t is not None else "-" for t in temps
+                    ) + "]"
+                if freqs:
+                    debug_str += " Fcore=[" + ",".join(
+                        f"{f:.0f}" for f in freqs
+                    ) + "]"
+
             print(f"[{stats['timestamp']}] CPU={stats['cpu_percent']}% "
-                  f"MEM={stats['memory_percent']}%{pwr_str}{gpu_str}{net_str}")
+                  f"MEM={stats['memory_percent']}%{pwr_str}{gpu_str}{net_str}{debug_str}")
         except Exception as e:
             print(f"Error: {e}")
         time.sleep(interval)
@@ -756,11 +846,16 @@ def daemon(interval=10, _display_name=None):
 
 if __name__ == "__main__":
     _probe_gpu()
-    if len(sys.argv) < 3:
-        print("Usage: python3 collector.py <interval> <display_name>")
+    args = sys.argv[1:]
+    cpu_debug = "--cpu-debug" in args
+    if cpu_debug:
+        args.remove("--cpu-debug")
+    if len(args) < 2:
+        print("Usage: python3 collector.py <interval> <display_name> [--cpu-debug]")
         print("  <interval>    : polling interval in seconds (e.g. 10)")
         print("  <display_name>: machine description, used in JSON filename and frontend (e.g. XE9785L_MI355X)")
+        print("  --cpu-debug   : opt-in flag to record per-core CPU temperature + frequency")
         sys.exit(1)
-    interval = int(sys.argv[1])
-    _display_name = sys.argv[2]
-    daemon(interval, _display_name)
+    interval = int(args[0])
+    _display_name = args[1]
+    daemon(interval, _display_name, cpu_debug=cpu_debug)
