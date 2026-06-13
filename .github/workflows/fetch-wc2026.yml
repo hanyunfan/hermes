@@ -1,17 +1,25 @@
 name: Fetch WC 2026 matches
 
 on:
+  # Primary path: external cron (cron-job.org, see README) hits
+  # /dispatches 6× per day in America/Chicago. External triggers
+  # fire within seconds; GH Actions schedule is unreliable (1-3h
+  # observed in practice, worse off-hours).
+  repository_dispatch:
+    types: [refresh-wc2026]
+  # Fallback: 6× daily GH Actions cron. Covers the schedule even
+  # if the external cron is down. Runs the same 6 CT windows.
   schedule:
-    # Six runs per day, each ~30 min after a typical group-stage
-    # match window ends (group stage matches kick off at 12/15/18/21 ET,
-    # run ~2h 5m, so end ~14/17/20/23 ET; cron fires 30 min after).
-    # Times shown in UTC; CDT = UTC-5 during the tournament.
-    - cron: "0 12 * * *"   # 12:00 UTC = 07:00 CT — morning preview / settle overnight
-    - cron: "30 18 * * *"  # 18:30 UTC = 13:30 CT — after ~13:00 CT matches
-    - cron: "30 21 * * *"  # 21:30 UTC = 16:30 CT — after ~16:00 CT matches
-    - cron: "30 0 * * *"   # 00:30 UTC = 19:30 CT — after ~19:00 CT matches
-    - cron: "30 3 * * *"   # 03:30 UTC = 22:30 CT — after ~22:00 CT matches
-    - cron: "0 6 * * *"    # 06:00 UTC = 01:00 CT — settle any extra-time / late games
+    # Group-stage matches kick off 11/14/17/20/23 CT, run ~2h05,
+    # so end ~13/16/19/22/01 CT. Cron fires 30 min after each
+    # window ends to catch updated scores. Times in UTC
+    # (CDT = UTC-5 during the tournament).
+    - cron: "0 12 * * *"   # 12:00 UTC = 07:00 CT
+    - cron: "30 18 * * *"  # 18:30 UTC = 13:30 CT
+    - cron: "30 21 * * *"  # 21:30 UTC = 16:30 CT
+    - cron: "30 0 * * *"   # 00:30 UTC = 19:30 CT
+    - cron: "30 3 * * *"   # 03:30 UTC = 22:30 CT
+    - cron: "0 6 * * *"    # 06:00 UTC = 01:00 CT
   workflow_dispatch:
   push:
     paths:
@@ -48,6 +56,8 @@ jobs:
 
       - name: Commit & push
         working-directory: world-cup-2026
+        env:
+          TRIGGER: ${{ github.event_name }}
         run: |
           if git diff --quiet data/matches.json; then
             echo "No changes to data/matches.json"
@@ -56,5 +66,12 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add data/matches.json
-          git commit -m "ci: refresh matches $(date -u '+%Y-%m-%d %H:%M UTC')"
+          TS=$(date -u '+%Y-%m-%d %H:%M UTC')
+          case "$TRIGGER" in
+            repository_dispatch) SUFFIX=" (external)" ;;
+            schedule)            SUFFIX=" (scheduled)" ;;
+            push)                SUFFIX=" (push)" ;;
+            *)                   SUFFIX="" ;;
+          esac
+          git commit -m "ci: refresh matches ${TS}${SUFFIX}"
           git push
