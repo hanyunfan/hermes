@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-13T21:12:53.225378+00:00",
+  "generated_at": "2026-06-13T21:13:19.594772+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-13T16:12:52.129951-05:00",
+  "now_local": "2026-06-13T16:13:19.153465-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -2585,8 +2585,8 @@
           "kickoff_local_date": "2026-06-13",
           "kickoff_time": "2:00 PM",
           "kickoff_weekday": "Sat",
-          "status": "FINAL",
-          "status_short": "FT",
+          "status": "LIVE",
+          "status_short": "90'+3'",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -2598,7 +2598,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/qat.png",
             "color": "691a40",
             "home_away": "home",
-            "score": 1,
+            "score": 0,
             "winner": false
           },
           "away": {
