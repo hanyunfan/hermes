@@ -22,11 +22,13 @@ import sys
 import urllib.error
 import urllib.parse
 import urllib.request
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
 ESPN_BASE = "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard"
+ESPN_SUMMARY = "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/summary"
 ESPN_STANDINGS = "https://site.api.espn.com/apis/v2/sports/soccer/fifa.world/standings"
 USER_AGENT = "hermes-world-cup-2026/1.0 (+https://github.com/hanyunfan/hermes)"
 DEFAULT_TZ = "America/Chicago"
@@ -100,6 +102,102 @@ def _normalize_standing_entry(entry: dict) -> dict:
         "advance_label": note.get("description") or "",
         "advance_color": note.get("color") or "",
     }
+
+
+# ESPN summary `keyEvents` types we care about. Map of API type string ->
+# normalized kind. Goals come in as `goal`, `goal---header`, `goal---own`,
+# etc. — we treat any type starting with `goal` as a goal.
+_KEEP_TYPES = {"yellow-card", "red-card", "substitution"}
+_GOAL_PREFIX = "goal"
+
+
+def fetch_match_events(event_id: str, home_id: str = "", away_id: str = "") -> list[dict]:
+    """Fetch goals / cards / subs for one match via the ESPN summary endpoint.
+
+    Returns a list of normalized incidents:
+        {kind, minute, team, team_side, player, [assist|player_off], text}
+
+    The summary endpoint can lag a few seconds behind the live ticker;
+    on failure we return [] and let the caller carry on.
+    """
+    url = f"{ESPN_SUMMARY}?event={event_id}"
+    req = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
+    try:
+        with urllib.request.urlopen(req, timeout=15) as r:
+            payload = json.load(r)
+    except (urllib.error.URLError, json.JSONDecodeError, TimeoutError) as exc:
+        print(f"  warn: events fetch failed for {event_id}: {exc}", file=sys.stderr)
+        return []
+
+    out: list[dict] = []
+    for e in payload.get("keyEvents") or []:
+        raw_kind = (e.get("type") or {}).get("type") or ""
+        if raw_kind in _KEEP_TYPES:
+            kind = raw_kind.replace("-", "_")
+        elif raw_kind.startswith(_GOAL_PREFIX):
+            kind = "goal"
+        else:
+            continue  # kickoff / halftime / delay / end-of-half / etc.
+
+        team_obj = e.get("team") or {}
+        team_id = str(team_obj.get("id") or "")
+        team_name = team_obj.get("displayName") or ""
+        if home_id and team_id == str(home_id):
+            team_side = "home"
+        elif away_id and team_id == str(away_id):
+            team_side = "away"
+        else:
+            team_side = ""
+
+        participants = e.get("participants") or []
+        primary = participants[0].get("athlete", {}).get("displayName", "") if participants else ""
+        secondary = participants[1].get("athlete", {}).get("displayName", "") if len(participants) > 1 else ""
+
+        incident = {
+            "kind": kind,
+            "minute": (e.get("clock") or {}).get("displayValue") or "",
+            "team": team_name,
+            "team_id": team_id,
+            "team_side": team_side,
+            "player": primary,
+            "text": e.get("text") or "",
+        }
+        if kind == "goal" and secondary:
+            incident["assist"] = secondary
+        elif kind == "substitution" and secondary:
+            incident["player_off"] = secondary
+        out.append(incident)
+    return out
+
+
+def attach_incidents(matches: list[dict], max_workers: int = 6) -> None:
+    """In-place: fetch and attach `incidents` to LIVE and FINAL matches.
+
+    SCHEDULED matches have no events yet, so we skip them. Parallel
+    fetch (4-6 workers) keeps the total runtime under ~10s for the
+    full 104-match tournament.
+    """
+    targets = [m for m in matches if m.get("status") in ("LIVE", "FINAL")]
+    if not targets:
+        return
+    print(f"Fetching incidents for {len(targets)} live/final matches...")
+    with ThreadPoolExecutor(max_workers=max_workers) as pool:
+        futures = {
+            pool.submit(
+                fetch_match_events,
+                m["id"],
+                str(m.get("home", {}).get("id") or ""),
+                str(m.get("away", {}).get("id") or ""),
+            ): m
+            for m in targets
+        }
+        for fut in as_completed(futures):
+            m = futures[fut]
+            try:
+                m["incidents"] = fut.result()
+            except Exception as exc:  # noqa: BLE001 — best-effort
+                print(f"  warn: incidents for {m['id']} failed: {exc}", file=sys.stderr)
+                m["incidents"] = []
 
 
 def fetch_full_tournament(start_utc: datetime, end_utc: datetime) -> list[dict]:
@@ -336,6 +434,9 @@ def build_payload(tz_name: str) -> dict:
         if m:
             parsed.append(m)
     parsed.sort(key=lambda m: m["kickoff_utc"])
+
+    # Per-match incidents (goals, cards, subs) for LIVE + FINAL games.
+    attach_incidents(parsed)
 
     # Build one bucket per local-date with a match, in chronological order.
     seen_dates: dict[str, list[dict]] = {}
