@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-13T21:07:55.250710+00:00",
+  "generated_at": "2026-06-13T20:09:37.291707+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-13T16:07:54.274477-05:00",
+  "now_local": "2026-06-13T15:09:36.511317-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -1765,7 +1765,173 @@
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760415/south-africa-mexico",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Mexico%20vs%20South%20Africa",
-          "slug": "south africa-at-mexico"
+          "slug": "south africa-at-mexico",
+          "incidents": [
+            {
+              "kind": "goal",
+              "minute": "9'",
+              "team": "Mexico",
+              "team_id": "203",
+              "team_side": "home",
+              "player": "Julián Quiñones",
+              "text": "Goal! Mexico 1, South Africa 0. Julián Quiñones (Mexico) right footed shot from the centre of the box to the centre of the goal. Assisted by Érik Lira.",
+              "assist": "Érik Lira"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "17'",
+              "team": "South Africa",
+              "team_id": "467",
+              "team_side": "away",
+              "player": "Teboho Mokoena",
+              "text": "Teboho Mokoena (South Africa) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "23'",
+              "team": "Mexico",
+              "team_id": "203",
+              "team_side": "home",
+              "player": "Brian Gutiérrez",
+              "text": "Brian Gutiérrez (Mexico) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "red_card",
+              "minute": "49'",
+              "team": "South Africa",
+              "team_id": "467",
+              "team_side": "away",
+              "player": "Sphephelo Sithole",
+              "text": "Yaya Sithole (South Africa) is shown the red card."
+            },
+            {
+              "kind": "substitution",
+              "minute": "56'",
+              "team": "South Africa",
+              "team_id": "467",
+              "team_side": "away",
+              "player": "Thalente Mbatha",
+              "text": "Substitution, South Africa. Thalente Mbatha replaces Lyle Foster.",
+              "player_off": "Lyle Foster"
+            },
+            {
+              "kind": "substitution",
+              "minute": "61'",
+              "team": "South Africa",
+              "team_id": "467",
+              "team_side": "away",
+              "player": "Themba Zwane",
+              "text": "Substitution, South Africa. Themba Zwane replaces Jayden Adams.",
+              "player_off": "Jayden Adams"
+            },
+            {
+              "kind": "substitution",
+              "minute": "66'",
+              "team": "Mexico",
+              "team_id": "203",
+              "team_side": "home",
+              "player": "Luis Chávez",
+              "text": "Substitution, Mexico. Luis Chávez replaces Brian Gutiérrez.",
+              "player_off": "Brian Gutiérrez"
+            },
+            {
+              "kind": "substitution",
+              "minute": "66'",
+              "team": "Mexico",
+              "team_id": "203",
+              "team_side": "home",
+              "player": "Gilberto Mora",
+              "text": "Substitution, Mexico. Gilberto Mora replaces Álvaro Fidalgo.",
+              "player_off": "Álvaro Fidalgo"
+            },
+            {
+              "kind": "goal",
+              "minute": "67'",
+              "team": "Mexico",
+              "team_id": "203",
+              "team_side": "home",
+              "player": "Raúl Jiménez",
+              "text": "Goal! Mexico 2, South Africa 0. Raúl Jiménez (Mexico) header from very close range to the bottom left corner. Assisted by Roberto Alvarado with a cross.",
+              "assist": "Roberto Alvarado"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "74'",
+              "team": "South Africa",
+              "team_id": "467",
+              "team_side": "away",
+              "player": "Nkosinathi Sibisi",
+              "text": "Nkosinathi Sibisi (South Africa) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "substitution",
+              "minute": "76'",
+              "team": "Mexico",
+              "team_id": "203",
+              "team_side": "home",
+              "player": "Edson Álvarez",
+              "text": "Substitution, Mexico. Edson Álvarez replaces Érik Lira.",
+              "player_off": "Érik Lira"
+            },
+            {
+              "kind": "substitution",
+              "minute": "76'",
+              "team": "Mexico",
+              "team_id": "203",
+              "team_side": "home",
+              "player": "Armando González",
+              "text": "Substitution, Mexico. Armando González replaces Raúl Jiménez.",
+              "player_off": "Raúl Jiménez"
+            },
+            {
+              "kind": "substitution",
+              "minute": "76'",
+              "team": "South Africa",
+              "team_id": "467",
+              "team_side": "away",
+              "player": "Evidence Makgopa",
+              "text": "Substitution, South Africa. Evidence Makgopa replaces Iqraam Rayners.",
+              "player_off": "Iqraam Rayners"
+            },
+            {
+              "kind": "substitution",
+              "minute": "77'",
+              "team": "South Africa",
+              "team_id": "467",
+              "team_side": "away",
+              "player": "Oswin Appollis",
+              "text": "Substitution, South Africa. Oswin Appollis replaces Aubrey Modiba.",
+              "player_off": "Aubrey Modiba"
+            },
+            {
+              "kind": "substitution",
+              "minute": "79'",
+              "team": "Mexico",
+              "team_id": "203",
+              "team_side": "home",
+              "player": "Alexis Vega",
+              "text": "Substitution, Mexico. Alexis Vega replaces Julián Quiñones.",
+              "player_off": "Julián Quiñones"
+            },
+            {
+              "kind": "red_card",
+              "minute": "84'",
+              "team": "South Africa",
+              "team_id": "467",
+              "team_side": "away",
+              "player": "Themba Zwane",
+              "text": "Themba Zwane (South Africa) is shown the red card for violent conduct."
+            },
+            {
+              "kind": "red_card",
+              "minute": "90'+2'",
+              "team": "Mexico",
+              "team_id": "203",
+              "team_side": "home",
+              "player": "César Montes",
+              "text": "César Montes (Mexico) is shown the red card."
+            }
+          ]
         },
         {
           "id": "760414",
@@ -1814,7 +1980,138 @@
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760414/czechia-south-korea",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20South%20Korea%20vs%20Czechia",
-          "slug": "czechia-at-south korea"
+          "slug": "czechia-at-south korea",
+          "incidents": [
+            {
+              "kind": "goal",
+              "minute": "59'",
+              "team": "Czechia",
+              "team_id": "450",
+              "team_side": "away",
+              "player": "Ladislav Krejcí",
+              "text": "Goal! Korea Republic 0, Czechia 1. Ladislav Krejcí (Czechia) header from very close range to the bottom right corner. Assisted by Vladimír Coufal.",
+              "assist": "Vladimír Coufal"
+            },
+            {
+              "kind": "substitution",
+              "minute": "62'",
+              "team": "South Korea",
+              "team_id": "451",
+              "team_side": "home",
+              "player": "Hwang Hee-Chan",
+              "text": "Substitution, Korea Republic. Hwang Hee-Chan replaces Lee Jae-Sung.",
+              "player_off": "Lee Jae-Sung"
+            },
+            {
+              "kind": "substitution",
+              "minute": "64'",
+              "team": "Czechia",
+              "team_id": "450",
+              "team_side": "away",
+              "player": "Adam Hlozek",
+              "text": "Substitution, Czechia. Adam Hlozek replaces Pavel Sulc.",
+              "player_off": "Pavel Sulc"
+            },
+            {
+              "kind": "substitution",
+              "minute": "64'",
+              "team": "Czechia",
+              "team_id": "450",
+              "team_side": "away",
+              "player": "Tomás Chorý",
+              "text": "Substitution, Czechia. Tomás Chory replaces Patrik Schick.",
+              "player_off": "Patrik Schick"
+            },
+            {
+              "kind": "substitution",
+              "minute": "64'",
+              "team": "Czechia",
+              "team_id": "450",
+              "team_side": "away",
+              "player": "Michal Sadílek",
+              "text": "Substitution, Czechia. Michal Sadílek replaces Lukás Provod.",
+              "player_off": "Lukás Provod"
+            },
+            {
+              "kind": "goal",
+              "minute": "67'",
+              "team": "South Korea",
+              "team_id": "451",
+              "team_side": "home",
+              "player": "Hwang In-Beom",
+              "text": "Goal! Korea Republic 1, Czechia 1. Hwang In-Beom (Korea Republic) right footed shot from the centre of the box to the bottom right corner. Assisted by Lee Kang-In.",
+              "assist": "Lee Kang-In"
+            },
+            {
+              "kind": "substitution",
+              "minute": "69'",
+              "team": "South Korea",
+              "team_id": "451",
+              "team_side": "home",
+              "player": "Eom Ji-Sung",
+              "text": "Substitution, Korea Republic. Eom Ji-Sung replaces Lee Tae-Seok.",
+              "player_off": "Lee Tae-Seok"
+            },
+            {
+              "kind": "substitution",
+              "minute": "69'",
+              "team": "South Korea",
+              "team_id": "451",
+              "team_side": "home",
+              "player": "Oh Hyeon-Gyu",
+              "text": "Substitution, Korea Republic. Oh Hyeon-Gyu replaces Son Heung-Min.",
+              "player_off": "Son Heung-Min"
+            },
+            {
+              "kind": "goal",
+              "minute": "80'",
+              "team": "South Korea",
+              "team_id": "451",
+              "team_side": "home",
+              "player": "Oh Hyeon-Gyu",
+              "text": "Goal! Korea Republic 2, Czechia 1. Oh Hyeon-Gyu (Korea Republic) left footed shot from very close range to the bottom left corner. Assisted by Hwang In-Beom.",
+              "assist": "Hwang In-Beom"
+            },
+            {
+              "kind": "substitution",
+              "minute": "84'",
+              "team": "South Korea",
+              "team_id": "451",
+              "team_side": "home",
+              "player": "Kim Jin-Gyu",
+              "text": "Substitution, Korea Republic. Kim Jin-Gyu replaces Hwang In-Beom.",
+              "player_off": "Hwang In-Beom"
+            },
+            {
+              "kind": "substitution",
+              "minute": "84'",
+              "team": "South Korea",
+              "team_id": "451",
+              "team_side": "home",
+              "player": "Park Jin-Seop",
+              "text": "Substitution, Korea Republic. Park Jin-Seob replaces Paik Seung-Ho.",
+              "player_off": "Paik Seung-Ho"
+            },
+            {
+              "kind": "substitution",
+              "minute": "84'",
+              "team": "Czechia",
+              "team_id": "450",
+              "team_side": "away",
+              "player": "Mojmír Chytil",
+              "text": "Substitution, Czechia. Mojmír Chytil replaces Alexandr Sojka.",
+              "player_off": "Alexandr Sojka"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "90'+6'",
+              "team": "South Korea",
+              "team_id": "451",
+              "team_side": "home",
+              "player": "Lee Gi-Hyuk",
+              "text": "Lee Gi-Hyuk (Korea Republic) is shown the yellow card for a bad foul."
+            }
+          ]
         }
       ]
     },
@@ -1870,7 +2167,174 @@
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760416/bosnia-herzegovina-canada",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Canada%20vs%20Bosnia-Herzegovina",
-          "slug": "bosnia-herzegovina-at-canada"
+          "slug": "bosnia-herzegovina-at-canada",
+          "incidents": [
+            {
+              "kind": "yellow_card",
+              "minute": "11'",
+              "team": "Canada",
+              "team_id": "206",
+              "team_side": "home",
+              "player": "Alistair Johnston",
+              "text": "Alistair Johnston (Canada) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "goal",
+              "minute": "21'",
+              "team": "Bosnia-Herzegovina",
+              "team_id": "452",
+              "team_side": "away",
+              "player": "Jovo Lukic",
+              "text": "Goal! Canada 0, Bosnia and Herzegovina 1. Jovo Lukic (Bosnia and Herzegovina) header from very close range to the centre of the goal. Assisted by Sead Kolasinac with a headed pass following a corner.",
+              "assist": "Sead Kolasinac"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "45'",
+              "team": "Bosnia-Herzegovina",
+              "team_id": "452",
+              "team_side": "away",
+              "player": "Ermedin Demirovic",
+              "text": "Ermedin Demirovic (Bosnia and Herzegovina) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "45'+1'",
+              "team": "Bosnia-Herzegovina",
+              "team_id": "452",
+              "team_side": "away",
+              "player": "Jovo Lukic",
+              "text": "Jovo Lukic (Bosnia and Herzegovina) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "53'",
+              "team": "Canada",
+              "team_id": "206",
+              "team_side": "home",
+              "player": "Luc de Fougerolles",
+              "text": "Luc De Fougerolles (Canada) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "substitution",
+              "minute": "61'",
+              "team": "Canada",
+              "team_id": "206",
+              "team_side": "home",
+              "player": "Jacob Shaffelburg",
+              "text": "Substitution, Canada. Jacob Shaffelburg replaces Liam Millar.",
+              "player_off": "Liam Millar"
+            },
+            {
+              "kind": "substitution",
+              "minute": "61'",
+              "team": "Canada",
+              "team_id": "206",
+              "team_side": "home",
+              "player": "Promise David",
+              "text": "Substitution, Canada. Promise David replaces Jonathan David.",
+              "player_off": "Jonathan David"
+            },
+            {
+              "kind": "substitution",
+              "minute": "61'",
+              "team": "Canada",
+              "team_id": "206",
+              "team_side": "home",
+              "player": "Ali Ahmed",
+              "text": "Substitution, Canada. Ali Ahmed replaces Tajon Buchanan.",
+              "player_off": "Tajon Buchanan"
+            },
+            {
+              "kind": "substitution",
+              "minute": "62'",
+              "team": "Bosnia-Herzegovina",
+              "team_id": "452",
+              "team_side": "away",
+              "player": "Samed Bazdar",
+              "text": "Substitution, Bosnia and Herzegovina. Samed Bazdar replaces Jovo Lukic.",
+              "player_off": "Jovo Lukic"
+            },
+            {
+              "kind": "substitution",
+              "minute": "62'",
+              "team": "Bosnia-Herzegovina",
+              "team_id": "452",
+              "team_side": "away",
+              "player": "Armin Gigovic",
+              "text": "Substitution, Bosnia and Herzegovina. Armin Gigovic replaces Ivan Basic.",
+              "player_off": "Ivan Basic"
+            },
+            {
+              "kind": "substitution",
+              "minute": "74'",
+              "team": "Bosnia-Herzegovina",
+              "team_id": "452",
+              "team_side": "away",
+              "player": "Ivan Sunjic",
+              "text": "Substitution, Bosnia and Herzegovina. Ivan Sunjic replaces Esmir Bajraktarevic.",
+              "player_off": "Esmir Bajraktarevic"
+            },
+            {
+              "kind": "substitution",
+              "minute": "74'",
+              "team": "Bosnia-Herzegovina",
+              "team_id": "452",
+              "team_side": "away",
+              "player": "Kerim Alajbegovic",
+              "text": "Substitution, Bosnia and Herzegovina. Kerim Alajbegovic replaces Amar Memic.",
+              "player_off": "Amar Memic"
+            },
+            {
+              "kind": "substitution",
+              "minute": "76'",
+              "team": "Canada",
+              "team_id": "206",
+              "team_side": "home",
+              "player": "Cyle Larin",
+              "text": "Substitution, Canada. Cyle Larin replaces Tani Oluwaseyi.",
+              "player_off": "Tani Oluwaseyi"
+            },
+            {
+              "kind": "goal",
+              "minute": "78'",
+              "team": "Canada",
+              "team_id": "206",
+              "team_side": "home",
+              "player": "Cyle Larin",
+              "text": "Goal! Canada 1, Bosnia and Herzegovina 1. Cyle Larin (Canada) right footed shot from the centre of the box to the bottom right corner. Assisted by Promise David.",
+              "assist": "Promise David"
+            },
+            {
+              "kind": "substitution",
+              "minute": "84'",
+              "team": "Bosnia-Herzegovina",
+              "team_id": "452",
+              "team_side": "away",
+              "player": "Dzenis Burnic",
+              "text": "Substitution, Bosnia and Herzegovina. Dzenis Burnic replaces Sead Kolasinac because of an injury.",
+              "player_off": "Sead Kolasinac"
+            },
+            {
+              "kind": "substitution",
+              "minute": "90'+1'",
+              "team": "Canada",
+              "team_id": "206",
+              "team_side": "home",
+              "player": "Jonathan Osorio",
+              "text": "Substitution, Canada. Jonathan Osorio replaces Stephen Eustaquio.",
+              "player_off": "Stephen Eustáquio"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "90'+3'",
+              "team": "Bosnia-Herzegovina",
+              "team_id": "452",
+              "team_side": "away",
+              "player": "Nikola Katic",
+              "text": "Nikola Katic (Bosnia and Herzegovina) is shown the yellow card for a bad foul."
+            }
+          ]
         },
         {
           "id": "760417",
@@ -1919,7 +2383,193 @@
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760417/paraguay-united-states",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20United%20States%20vs%20Paraguay",
-          "slug": "paraguay-at-united states"
+          "slug": "paraguay-at-united states",
+          "incidents": [
+            {
+              "kind": "yellow_card",
+              "minute": "10'",
+              "team": "Paraguay",
+              "team_id": "210",
+              "team_side": "away",
+              "player": "Juan Jose Cáceres",
+              "text": "Juan José Cáceres (Paraguay) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "goal",
+              "minute": "31'",
+              "team": "United States",
+              "team_id": "660",
+              "team_side": "home",
+              "player": "Folarin Balogun",
+              "text": "Goal! USA 2, Paraguay 0. Folarin Balogun (USA) right footed shot from the centre of the box to the bottom right corner. Assisted by Christian Pulisic.",
+              "assist": "Christian Pulisic"
+            },
+            {
+              "kind": "goal",
+              "minute": "45'+5'",
+              "team": "United States",
+              "team_id": "660",
+              "team_side": "home",
+              "player": "Folarin Balogun",
+              "text": "Goal! USA 3, Paraguay 0. Folarin Balogun (USA) left footed shot from the centre of the box to the top left corner. Assisted by Malik Tillman.",
+              "assist": "Malik Tillman"
+            },
+            {
+              "kind": "substitution",
+              "minute": "45'",
+              "team": "Paraguay",
+              "team_id": "210",
+              "team_side": "away",
+              "player": "Maurício",
+              "text": "Substitution, Paraguay. Mauricio replaces Damián Bobadilla.",
+              "player_off": "Damián Bobadilla"
+            },
+            {
+              "kind": "substitution",
+              "minute": "45'",
+              "team": "United States",
+              "team_id": "660",
+              "team_side": "home",
+              "player": "Sebastian Berhalter",
+              "text": "Substitution, USA. Sebastian Berhalter replaces Christian Pulisic.",
+              "player_off": "Christian Pulisic"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "53'",
+              "team": "Paraguay",
+              "team_id": "210",
+              "team_side": "away",
+              "player": "Miguel Almirón",
+              "text": "Miguel Almirón (Paraguay) is shown the yellow card."
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "59'",
+              "team": "United States",
+              "team_id": "660",
+              "team_side": "home",
+              "player": "Tyler Adams",
+              "text": "Tyler Adams (USA) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "substitution",
+              "minute": "62'",
+              "team": "Paraguay",
+              "team_id": "210",
+              "team_side": "away",
+              "player": "Alex Arce",
+              "text": "Substitution, Paraguay. Álex Arce replaces Antonio Sanabria.",
+              "player_off": "Antonio Sanabria"
+            },
+            {
+              "kind": "substitution",
+              "minute": "72'",
+              "team": "United States",
+              "team_id": "660",
+              "team_side": "home",
+              "player": "Timothy Weah",
+              "text": "Substitution, USA. Timothy Weah replaces Sergiño Dest.",
+              "player_off": "Sergiño Dest"
+            },
+            {
+              "kind": "substitution",
+              "minute": "72'",
+              "team": "United States",
+              "team_id": "660",
+              "team_side": "home",
+              "player": "Ricardo Pepi",
+              "text": "Substitution, USA. Ricardo Pepi replaces Folarin Balogun.",
+              "player_off": "Folarin Balogun"
+            },
+            {
+              "kind": "goal",
+              "minute": "73'",
+              "team": "Paraguay",
+              "team_id": "210",
+              "team_side": "away",
+              "player": "Maurício",
+              "text": "Goal! USA 3, Paraguay 1. Mauricio (Paraguay) left footed shot from the centre of the box to the bottom right corner. Assisted by Julio Enciso following a set piece situation.",
+              "assist": "Julio Enciso"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "79'",
+              "team": "Paraguay",
+              "team_id": "210",
+              "team_side": "away",
+              "player": "Diego Gómez",
+              "text": "Diego Gómez (Paraguay) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "substitution",
+              "minute": "79'",
+              "team": "Paraguay",
+              "team_id": "210",
+              "team_side": "away",
+              "player": "Ramón Sosa",
+              "text": "Substitution, Paraguay. Ramón Sosa replaces Miguel Almirón.",
+              "player_off": "Miguel Almirón"
+            },
+            {
+              "kind": "substitution",
+              "minute": "79'",
+              "team": "Paraguay",
+              "team_id": "210",
+              "team_side": "away",
+              "player": "Gustavo Velázquez",
+              "text": "Substitution, Paraguay. Gustavo Velázquez replaces Juan José Cáceres.",
+              "player_off": "Juan Jose Cáceres"
+            },
+            {
+              "kind": "substitution",
+              "minute": "80'",
+              "team": "Paraguay",
+              "team_id": "210",
+              "team_side": "away",
+              "player": "Alejandro Romero Gamarra",
+              "text": "Substitution, Paraguay. Alejandro Romero replaces Diego Gómez.",
+              "player_off": "Diego Gómez"
+            },
+            {
+              "kind": "substitution",
+              "minute": "82'",
+              "team": "United States",
+              "team_id": "660",
+              "team_side": "home",
+              "player": "Giovanni Reyna",
+              "text": "Substitution, USA. Giovanni Reyna replaces Malik Tillman.",
+              "player_off": "Malik Tillman"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "88'",
+              "team": "Paraguay",
+              "team_id": "210",
+              "team_side": "away",
+              "player": "Alex Arce",
+              "text": "Álex Arce (Paraguay) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "90'+3'",
+              "team": "Paraguay",
+              "team_id": "210",
+              "team_side": "away",
+              "player": "Júnior Alonso",
+              "text": "Júnior Alonso (Paraguay) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "goal",
+              "minute": "90'+8'",
+              "team": "United States",
+              "team_id": "660",
+              "team_side": "home",
+              "player": "Giovanni Reyna",
+              "text": "Goal! USA 4, Paraguay 1. Giovanni Reyna (USA) right footed shot from the centre of the box to the bottom left corner. Assisted by Alex Freeman.",
+              "assist": "Alex Freeman"
+            }
+          ]
         }
       ]
     },
@@ -1935,8 +2585,8 @@
           "kickoff_local_date": "2026-06-13",
           "kickoff_time": "2:00 PM",
           "kickoff_weekday": "Sat",
-          "status": "FINAL",
-          "status_short": "FT",
+          "status": "LIVE",
+          "status_short": "HT",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -1948,7 +2598,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/qat.png",
             "color": "691a40",
             "home_away": "home",
-            "score": 1,
+            "score": 0,
             "winner": false
           },
           "away": {
@@ -1975,7 +2625,36 @@
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760420/switzerland-qatar",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Qatar%20vs%20Switzerland",
-          "slug": "switzerland-at-qatar"
+          "slug": "switzerland-at-qatar",
+          "incidents": [
+            {
+              "kind": "yellow_card",
+              "minute": "16'",
+              "team": "Qatar",
+              "team_id": "4398",
+              "team_side": "home",
+              "player": "Mahmoud Abunada",
+              "text": "Mahmoud Abunada (Qatar) is shown the yellow card."
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "23'",
+              "team": "Qatar",
+              "team_id": "4398",
+              "team_side": "home",
+              "player": "Jassem Gaber",
+              "text": "Jassem Gaber (Qatar) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "42'",
+              "team": "Switzerland",
+              "team_id": "475",
+              "team_side": "away",
+              "player": "Denis Zakaria",
+              "text": "Denis Zakaria (Switzerland) is shown the yellow card for a bad foul."
+            }
+          ]
         },
         {
           "id": "760419",
