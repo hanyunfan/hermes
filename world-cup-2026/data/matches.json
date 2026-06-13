@@ -1,14 +1,14 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-13T19:12:51.446260+00:00",
+  "generated_at": "2026-06-13T19:59:37.202171+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-13T14:12:51.052626-05:00",
+  "now_local": "2026-06-13T14:59:36.397307-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
     "dates": "Jun 11 – Jul 19, 2026",
     "edition": "23rd",
-    "start": "2026-06-12",
+    "start": "2026-06-11",
     "end": "2026-07-19"
   },
   "facets": {
@@ -136,8 +136,8 @@
         "short": "Czechia",
         "abbr": "CZE",
         "flag": "🇨🇿",
-        "first_seen": "2026-06-18",
-        "group_count": 2
+        "first_seen": "2026-06-11",
+        "group_count": 3
       },
       {
         "id": "209",
@@ -253,8 +253,8 @@
         "short": "Mexico",
         "abbr": "MEX",
         "flag": "🇲🇽",
-        "first_seen": "2026-06-18",
-        "group_count": 2
+        "first_seen": "2026-06-11",
+        "group_count": 3
       },
       {
         "id": "2869",
@@ -361,8 +361,8 @@
         "short": "South Africa",
         "abbr": "RSA",
         "flag": "🇿🇦",
-        "first_seen": "2026-06-18",
-        "group_count": 2
+        "first_seen": "2026-06-11",
+        "group_count": 3
       },
       {
         "id": "451",
@@ -370,8 +370,8 @@
         "short": "South Korea",
         "abbr": "KOR",
         "flag": "🇰🇷",
-        "first_seen": "2026-06-18",
-        "group_count": 2
+        "first_seen": "2026-06-11",
+        "group_count": 3
       },
       {
         "id": "164",
@@ -473,7 +473,7 @@
         "name": "Estadio Akron",
         "city": "Guadalajara",
         "country": "Mexico",
-        "match_count": 3
+        "match_count": 4
       },
       {
         "id": "Estadio BBVA",
@@ -487,7 +487,7 @@
         "name": "Estadio Banorte",
         "city": "Mexico City",
         "country": "Mexico",
-        "match_count": 4
+        "match_count": 5
       },
       {
         "id": "GEHA Field at Arrowhead Stadium",
@@ -1714,6 +1714,111 @@
   ],
   "days": [
     {
+      "date": "2026-06-11",
+      "label": "Thu",
+      "match_count": 2,
+      "matches": [
+        {
+          "id": "760415",
+          "kickoff_utc": "2026-06-11T19:00:00+00:00",
+          "kickoff_local": "2026-06-11T14:00:00-05:00",
+          "kickoff_local_date": "2026-06-11",
+          "kickoff_time": "2:00 PM",
+          "kickoff_weekday": "Thu",
+          "status": "FINAL",
+          "status_short": "FT",
+          "stage": "Group Stage",
+          "stage_slug": "group-stage",
+          "home": {
+            "id": "203",
+            "name": "Mexico",
+            "short": "Mexico",
+            "abbr": "MEX",
+            "flag": "🇲🇽",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/mex.png",
+            "color": "006847",
+            "home_away": "home",
+            "score": 2,
+            "winner": true
+          },
+          "away": {
+            "id": "467",
+            "name": "South Africa",
+            "short": "South Africa",
+            "abbr": "RSA",
+            "flag": "🇿🇦",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/rsa.png",
+            "color": "087d5a",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "venue": {
+            "name": "Estadio Banorte",
+            "city": "Mexico City",
+            "country": "Mexico"
+          },
+          "broadcasts": [
+            "FOX",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760415/south-africa-mexico",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Mexico%20vs%20South%20Africa",
+          "slug": "south africa-at-mexico"
+        },
+        {
+          "id": "760414",
+          "kickoff_utc": "2026-06-12T02:00:00+00:00",
+          "kickoff_local": "2026-06-11T21:00:00-05:00",
+          "kickoff_local_date": "2026-06-11",
+          "kickoff_time": "9:00 PM",
+          "kickoff_weekday": "Thu",
+          "status": "FINAL",
+          "status_short": "FT",
+          "stage": "Group Stage",
+          "stage_slug": "group-stage",
+          "home": {
+            "id": "451",
+            "name": "South Korea",
+            "short": "South Korea",
+            "abbr": "KOR",
+            "flag": "🇰🇷",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/kors.png",
+            "color": "ce2028",
+            "home_away": "home",
+            "score": 2,
+            "winner": true
+          },
+          "away": {
+            "id": "450",
+            "name": "Czechia",
+            "short": "Czechia",
+            "abbr": "CZE",
+            "flag": "🇨🇿",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/cze.png",
+            "color": "d7141a",
+            "home_away": "away",
+            "score": 1,
+            "winner": false
+          },
+          "venue": {
+            "name": "Estadio Akron",
+            "city": "Guadalajara",
+            "country": "Mexico"
+          },
+          "broadcasts": [
+            "FS1",
+            "Tele",
+            "Peacock"
+          ],
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760414/czechia-south-korea",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20South%20Korea%20vs%20Czechia",
+          "slug": "czechia-at-south korea"
+        }
+      ]
+    },
+    {
       "date": "2026-06-12",
       "label": "Fri",
       "match_count": 2,
@@ -1830,8 +1935,8 @@
           "kickoff_local_date": "2026-06-13",
           "kickoff_time": "2:00 PM",
           "kickoff_weekday": "Sat",
-          "status": "SCHEDULED",
-          "status_short": "Scheduled",
+          "status": "LIVE",
+          "status_short": "HT",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -1855,7 +1960,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/sui.png",
             "color": "d72b2c",
             "home_away": "away",
-            "score": 0,
+            "score": 1,
             "winner": false
           },
           "venue": {
