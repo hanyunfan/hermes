@@ -1,25 +1,23 @@
 name: Fetch WC 2026 matches
 
 on:
-  # Primary path: external cron (cron-job.org, see README) hits
-  # /dispatches 6× per day in America/Chicago. External triggers
-  # fire within seconds; GH Actions schedule is unreliable (1-3h
-  # observed in practice, worse off-hours).
-  repository_dispatch:
-    types: [refresh-wc2026]
-  # Fallback: 6× daily GH Actions cron. Covers the schedule even
-  # if the external cron is down. Runs the same 6 CT windows.
+  # 12× daily, every 2h UTC. Compensates for GH Actions schedule
+  # drift (observed 1-3h late, worse off-hours) by running often
+  # enough that at least one run per match window lands close to
+  # on time. Times in UTC; CDT = UTC-5 during the tournament.
   schedule:
-    # Group-stage matches kick off 11/14/17/20/23 CT, run ~2h05,
-    # so end ~13/16/19/22/01 CT. Cron fires 30 min after each
-    # window ends to catch updated scores. Times in UTC
-    # (CDT = UTC-5 during the tournament).
-    - cron: "0 12 * * *"   # 12:00 UTC = 07:00 CT
-    - cron: "30 18 * * *"  # 18:30 UTC = 13:30 CT
-    - cron: "30 21 * * *"  # 21:30 UTC = 16:30 CT
-    - cron: "30 0 * * *"   # 00:30 UTC = 19:30 CT
-    - cron: "30 3 * * *"   # 03:30 UTC = 22:30 CT
-    - cron: "0 6 * * *"    # 06:00 UTC = 01:00 CT
+    - cron: "0 0 * * *"   # 00:00 UTC = 19:00 CT (prev day)
+    - cron: "0 2 * * *"   # 02:00 UTC = 21:00 CT (prev day)
+    - cron: "0 4 * * *"   # 04:00 UTC = 23:00 CT (prev day)
+    - cron: "0 6 * * *"   # 06:00 UTC = 01:00 CT
+    - cron: "0 8 * * *"   # 08:00 UTC = 03:00 CT
+    - cron: "0 10 * * *"  # 10:00 UTC = 05:00 CT
+    - cron: "0 12 * * *"  # 12:00 UTC = 07:00 CT
+    - cron: "0 14 * * *"  # 14:00 UTC = 09:00 CT
+    - cron: "0 16 * * *"  # 16:00 UTC = 11:00 CT
+    - cron: "0 18 * * *"  # 18:00 UTC = 13:00 CT
+    - cron: "0 20 * * *"  # 20:00 UTC = 15:00 CT
+    - cron: "0 22 * * *"  # 22:00 UTC = 17:00 CT
   workflow_dispatch:
   push:
     paths:
@@ -68,10 +66,9 @@ jobs:
           git add data/matches.json
           TS=$(date -u '+%Y-%m-%d %H:%M UTC')
           case "$TRIGGER" in
-            repository_dispatch) SUFFIX=" (external)" ;;
-            schedule)            SUFFIX=" (scheduled)" ;;
-            push)                SUFFIX=" (push)" ;;
-            *)                   SUFFIX="" ;;
+            schedule) SUFFIX=" (scheduled)" ;;
+            push)     SUFFIX=" (push)" ;;
+            *)        SUFFIX="" ;;
           esac
           git commit -m "ci: refresh matches ${TS}${SUFFIX}"
           git push
