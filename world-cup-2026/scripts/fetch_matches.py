@@ -22,7 +22,7 @@ import sys
 import urllib.error
 import urllib.parse
 import urllib.request
-from datetime import datetime, timedelta, timezone
+from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
@@ -30,6 +30,12 @@ ESPN_BASE = "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/sco
 ESPN_STANDINGS = "https://site.api.espn.com/apis/v2/sports/soccer/fifa.world/standings"
 USER_AGENT = "hermes-world-cup-2026/1.0 (+https://github.com/hanyunfan/hermes)"
 DEFAULT_TZ = "America/Chicago"
+
+# Tournament calendar — hard-coded so we always fetch the full
+# window (including the opening match on day 1, which a rolling
+# "today - 1" window would skip once we're days into the event).
+TOURNAMENT_START = date(2026, 6, 11)
+TOURNAMENT_END = date(2026, 7, 19)
 
 # ESPN caps the scoreboard endpoint at ~100 events per request. The 2026
 # World Cup has 104 matches over 39 days, so we chunk into ~14-day windows.
@@ -306,10 +312,12 @@ def build_payload(tz_name: str) -> dict:
     today_local = now_local.date()
     tomorrow_local = today_local + timedelta(days=1)
 
-    # Fetch the full World Cup window. 2026 runs Jun 11 – Jul 19, but we
-    # also pad ±1 day to absorb any tz wrap-around edge cases.
-    start_local = today_local - timedelta(days=1)
-    end_local = today_local + timedelta(days=45)  # safely past Jul 19
+    # Fetch the full World Cup window. 2026 runs Jun 11 – Jul 19,
+    # hard-coded via TOURNAMENT_START / TOURNAMENT_END so the opening
+    # match is always included. Pad ±1 day to absorb any tz wrap-around
+    # edge cases.
+    start_local = TOURNAMENT_START - timedelta(days=1)
+    end_local = TOURNAMENT_END + timedelta(days=1)
     start_utc = datetime.combine(start_local, datetime.min.time(), tzinfo=tz).astimezone(timezone.utc)
     end_utc = datetime.combine(end_local, datetime.max.time(), tzinfo=tz).astimezone(timezone.utc)
 
@@ -399,8 +407,11 @@ def build_payload(tz_name: str) -> dict:
     teams = sorted(team_index.values(), key=lambda t: t["name"])
     venues = sorted(venue_index.values(), key=lambda v: v["name"])
 
-    tournament_start = days[0]["date"] if days else today_local.isoformat()
-    tournament_end = days[-1]["date"] if days else today_local.isoformat()
+    # Use the hard-coded tournament dates — don't infer from the
+    # fetched data, which can miss early or late matches if ESPN
+    # is slow to publish them.
+    tournament_start = TOURNAMENT_START.isoformat()
+    tournament_end = TOURNAMENT_END.isoformat()
 
     return {
         "schema_version": 2,
