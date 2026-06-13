@@ -397,7 +397,7 @@
   // Filter state — "butterfly" is the default
   // ────────────────────────────────────────────────────────────
   const DEFAULT_FILTERS = Object.freeze({
-    range: "butterfly",  // butterfly | today | past | 3d | 7d | all
+    range: "3d",         // butterfly | today | past | 3d | 7d | all
     status: "any",
     teams: [],
     venues: [],
@@ -425,7 +425,7 @@
 
   function normalizeFilters(f) {
     const out = { ...DEFAULT_FILTERS, ...f };
-    out.range = ["butterfly", "today", "past", "3d", "7d", "all"].includes(out.range) ? out.range : "butterfly";
+    out.range = ["butterfly", "today", "past", "3d", "7d", "all"].includes(out.range) ? out.range : "3d";
     out.status = ["any", "upcoming", "live", "final"].includes(out.status) ? out.status : "any";
     out.teams = Array.isArray(out.teams) ? out.teams.slice(0, 8) : [];
     out.venues = Array.isArray(out.venues) ? out.venues.slice(0, 16) : [];
