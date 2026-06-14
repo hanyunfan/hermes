@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-14T17:14:26.633025+00:00",
+  "generated_at": "2026-06-14T19:14:00.947295+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-14T12:14:25.617954-05:00",
+  "now_local": "2026-06-14T14:13:59.265411-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -966,26 +966,26 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/ger.png"
           },
           "rank": 1,
-          "mp": 0,
-          "w": 0,
+          "mp": 1,
+          "w": 1,
           "d": 0,
           "l": 0,
-          "gf": 0,
-          "ga": 0,
-          "gd": 0,
-          "pts": 0,
+          "gf": 7,
+          "ga": 1,
+          "gd": 6,
+          "pts": 3,
           "advance": false,
           "advance_label": "Advance to Round of 32",
           "advance_color": "#81D6AC"
         },
         {
           "team": {
-            "id": "11678",
-            "name": "Curaçao",
-            "short": "Curaçao",
-            "abbr": "CUW",
-            "flag": "🏳️",
-            "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/11678.png"
+            "id": "209",
+            "name": "Ecuador",
+            "short": "Ecuador",
+            "abbr": "ECU",
+            "flag": "🇪🇨",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/ecu.png"
           },
           "rank": 2,
           "mp": 0,
@@ -1024,21 +1024,21 @@
         },
         {
           "team": {
-            "id": "209",
-            "name": "Ecuador",
-            "short": "Ecuador",
-            "abbr": "ECU",
-            "flag": "🇪🇨",
-            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/ecu.png"
+            "id": "11678",
+            "name": "Curaçao",
+            "short": "Curaçao",
+            "abbr": "CUW",
+            "flag": "🏳️",
+            "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/11678.png"
           },
           "rank": 4,
-          "mp": 0,
+          "mp": 1,
           "w": 0,
           "d": 0,
-          "l": 0,
-          "gf": 0,
-          "ga": 0,
-          "gd": 0,
+          "l": 1,
+          "gf": 1,
+          "ga": 7,
+          "gd": -6,
           "pts": 0,
           "advance": false,
           "advance_label": "Eliminated",
@@ -3314,8 +3314,8 @@
           "kickoff_local_date": "2026-06-14",
           "kickoff_time": "12:00 PM",
           "kickoff_weekday": "Sun",
-          "status": "SCHEDULED",
-          "status_short": "Scheduled",
+          "status": "LIVE",
+          "status_short": "12'",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -3327,7 +3327,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/ger.png",
             "color": "FFFFFF",
             "home_away": "home",
-            "score": 0,
+            "score": 1,
             "winner": false
           },
           "away": {
@@ -3354,7 +3354,158 @@
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760422/curacao-germany",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Germany%20vs%20Cura%C3%A7ao",
-          "slug": "curacao-at-germany"
+          "slug": "curacao-at-germany",
+          "incidents": [
+            {
+              "kind": "goal",
+              "minute": "6'",
+              "team": "Germany",
+              "team_id": "481",
+              "team_side": "home",
+              "player": "Felix Nmecha",
+              "text": "Goal! Germany 1, Curaçao 0. Felix Nmecha (Germany) right footed shot from the centre of the box to the bottom right corner. Assisted by Florian Wirtz.",
+              "assist": "Florian Wirtz"
+            },
+            {
+              "kind": "goal",
+              "minute": "21'",
+              "team": "Curaçao",
+              "team_id": "11678",
+              "team_side": "away",
+              "player": "Livano Comenencia",
+              "text": "Goal! Germany 1, Curaçao 1. Livano Comenencia (Curaçao) left footed shot from the centre of the box to the bottom left corner."
+            },
+            {
+              "kind": "goal",
+              "minute": "38'",
+              "team": "Germany",
+              "team_id": "481",
+              "team_side": "home",
+              "player": "Nico Schlotterbeck",
+              "text": "Goal! Germany 2, Curaçao 1. Nico Schlotterbeck (Germany) header from very close range to the bottom left corner. Assisted by Nathaniel Brown with a cross following a corner.",
+              "assist": "Nathaniel Brown"
+            },
+            {
+              "kind": "substitution",
+              "minute": "45'",
+              "team": "Curaçao",
+              "team_id": "11678",
+              "team_side": "away",
+              "player": "Jeremy Antonisse",
+              "text": "Substitution, Curaçao. Jeremy Antonisse replaces Sontje Hansen.",
+              "player_off": "Sontje Hansen"
+            },
+            {
+              "kind": "goal",
+              "minute": "47'",
+              "team": "Germany",
+              "team_id": "481",
+              "team_side": "home",
+              "player": "Jamal Musiala",
+              "text": "Goal! Germany 4, Curaçao 1. Jamal Musiala (Germany) right footed shot from the right side of the box to the bottom left corner. Assisted by Joshua Kimmich.",
+              "assist": "Joshua Kimmich"
+            },
+            {
+              "kind": "substitution",
+              "minute": "64'",
+              "team": "Germany",
+              "team_id": "481",
+              "team_side": "home",
+              "player": "Deniz Undav",
+              "text": "Substitution, Germany. Deniz Undav replaces Jamal Musiala.",
+              "player_off": "Jamal Musiala"
+            },
+            {
+              "kind": "substitution",
+              "minute": "65'",
+              "team": "Curaçao",
+              "team_id": "11678",
+              "team_side": "away",
+              "player": "Jearl Margaritha",
+              "text": "Substitution, Curaçao. Jearl Margaritha replaces Jürgen Locadia.",
+              "player_off": "Jürgen Locadia"
+            },
+            {
+              "kind": "goal",
+              "minute": "68'",
+              "team": "Germany",
+              "team_id": "481",
+              "team_side": "home",
+              "player": "Nathaniel Brown",
+              "text": "Goal! Germany 5, Curaçao 1. Nathaniel Brown (Germany) right footed shot from the centre of the box to the bottom right corner. Assisted by Deniz Undav.",
+              "assist": "Deniz Undav"
+            },
+            {
+              "kind": "substitution",
+              "minute": "73'",
+              "team": "Germany",
+              "team_id": "481",
+              "team_side": "home",
+              "player": "Antonio Rüdiger",
+              "text": "Substitution, Germany. Antonio Rüdiger replaces Jonathan Tah.",
+              "player_off": "Jonathan Tah"
+            },
+            {
+              "kind": "substitution",
+              "minute": "73'",
+              "team": "Germany",
+              "team_id": "481",
+              "team_side": "home",
+              "player": "Leon Goretzka",
+              "text": "Substitution, Germany. Leon Goretzka replaces Felix Nmecha.",
+              "player_off": "Felix Nmecha"
+            },
+            {
+              "kind": "substitution",
+              "minute": "73'",
+              "team": "Germany",
+              "team_id": "481",
+              "team_side": "home",
+              "player": "David Raum",
+              "text": "Substitution, Germany. David Raum replaces Nathaniel Brown.",
+              "player_off": "Nathaniel Brown"
+            },
+            {
+              "kind": "goal",
+              "minute": "78'",
+              "team": "Germany",
+              "team_id": "481",
+              "team_side": "home",
+              "player": "Deniz Undav",
+              "text": "Goal! Germany 6, Curaçao 1. Deniz Undav (Germany) right footed shot from the centre of the box to the bottom left corner. Assisted by Joshua Kimmich.",
+              "assist": "Joshua Kimmich"
+            },
+            {
+              "kind": "substitution",
+              "minute": "83'",
+              "team": "Curaçao",
+              "team_id": "11678",
+              "team_side": "away",
+              "player": "Gervane Kastaneer",
+              "text": "Substitution, Curaçao. Gervane Kastaneer replaces Tahith Chong.",
+              "player_off": "Tahith Chong"
+            },
+            {
+              "kind": "substitution",
+              "minute": "83'",
+              "team": "Germany",
+              "team_id": "481",
+              "team_side": "home",
+              "player": "Waldemar Anton",
+              "text": "Substitution, Germany. Waldemar Anton replaces Joshua Kimmich.",
+              "player_off": "Joshua Kimmich"
+            },
+            {
+              "kind": "goal",
+              "minute": "88'",
+              "team": "Germany",
+              "team_id": "481",
+              "team_side": "home",
+              "player": "Kai Havertz",
+              "text": "Goal! Germany 7, Curaçao 1. Kai Havertz (Germany) left footed shot from the centre of the box to the centre of the goal. Assisted by Deniz Undav following a fast break.",
+              "assist": "Deniz Undav"
+            }
+          ]
         },
         {
           "id": "760425",
