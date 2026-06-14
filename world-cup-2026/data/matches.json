@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-14T04:05:08.869414+00:00",
+  "generated_at": "2026-06-14T06:23:53.290758+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-13T23:05:07.857338-05:00",
+  "now_local": "2026-06-14T01:23:52.856520-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -885,28 +885,6 @@
         },
         {
           "team": {
-            "id": "465",
-            "name": "Türkiye",
-            "short": "Türkiye",
-            "abbr": "TUR",
-            "flag": "🇹🇷",
-            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/tur.png"
-          },
-          "rank": 2,
-          "mp": 0,
-          "w": 0,
-          "d": 0,
-          "l": 0,
-          "gf": 0,
-          "ga": 0,
-          "gd": 0,
-          "pts": 0,
-          "advance": false,
-          "advance_label": "Advance to Round of 32",
-          "advance_color": "#81D6AC"
-        },
-        {
-          "team": {
             "id": "628",
             "name": "Australia",
             "short": "Australia",
@@ -914,14 +892,36 @@
             "flag": "🇦🇺",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/aus.png"
           },
-          "rank": 3,
-          "mp": 0,
-          "w": 0,
+          "rank": 2,
+          "mp": 1,
+          "w": 1,
           "d": 0,
           "l": 0,
-          "gf": 0,
+          "gf": 2,
           "ga": 0,
-          "gd": 0,
+          "gd": 2,
+          "pts": 3,
+          "advance": false,
+          "advance_label": "Advance to Round of 32",
+          "advance_color": "#81D6AC"
+        },
+        {
+          "team": {
+            "id": "465",
+            "name": "Türkiye",
+            "short": "Türkiye",
+            "abbr": "TUR",
+            "flag": "🇹🇷",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/tur.png"
+          },
+          "rank": 3,
+          "mp": 1,
+          "w": 0,
+          "d": 0,
+          "l": 1,
+          "gf": 0,
+          "ga": 2,
+          "gd": -2,
           "pts": 0,
           "advance": false,
           "advance_label": "Best 8 advance",
@@ -2575,7 +2575,7 @@
     },
     {
       "date": "2026-06-13",
-      "label": "Today",
+      "label": "Sat",
       "match_count": 4,
       "matches": [
         {
@@ -3129,7 +3129,7 @@
           "kickoff_time": "11:00 PM",
           "kickoff_weekday": "Sat",
           "status": "LIVE",
-          "status_short": "4'",
+          "status_short": "1'",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -3169,13 +3169,142 @@
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760421/turkiye-australia",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Australia%20vs%20T%C3%BCrkiye",
           "slug": "turkiye-at-australia",
-          "incidents": []
+          "incidents": [
+            {
+              "kind": "goal",
+              "minute": "27'",
+              "team": "Australia",
+              "team_id": "628",
+              "team_side": "home",
+              "player": "Nestory Irankunda",
+              "text": "Goal! Australia 1, Türkiye 0. Nestory Irankunda (Australia) right footed shot from the centre of the box to the bottom left corner. Assisted by Paul Okon-Engstler.",
+              "assist": "Paul Okon-Engstler"
+            },
+            {
+              "kind": "substitution",
+              "minute": "45'",
+              "team": "Türkiye",
+              "team_id": "465",
+              "team_side": "away",
+              "player": "Kenan Yildiz",
+              "text": "Substitution, Türkiye. Kenan Yildiz replaces Baris Alper Yilmaz.",
+              "player_off": "Baris Alper Yilmaz"
+            },
+            {
+              "kind": "substitution",
+              "minute": "61'",
+              "team": "Australia",
+              "team_id": "628",
+              "team_side": "home",
+              "player": "Nishan Velupillay",
+              "text": "Substitution, Australia. Nishan Velupillay replaces Nestory Irankunda.",
+              "player_off": "Nestory Irankunda"
+            },
+            {
+              "kind": "substitution",
+              "minute": "62'",
+              "team": "Türkiye",
+              "team_id": "465",
+              "team_side": "away",
+              "player": "Yunus Akgün",
+              "text": "Substitution, Türkiye. Yunus Akgün replaces Orkun Kökçü.",
+              "player_off": "Orkun Kökçü"
+            },
+            {
+              "kind": "substitution",
+              "minute": "74'",
+              "team": "Australia",
+              "team_id": "628",
+              "team_side": "home",
+              "player": "Tete Yengi",
+              "text": "Substitution, Australia. Tete Yengi replaces Mohamed Touré.",
+              "player_off": "Mohamed Toure"
+            },
+            {
+              "kind": "substitution",
+              "minute": "74'",
+              "team": "Australia",
+              "team_id": "628",
+              "team_side": "home",
+              "player": "Jason Geria",
+              "text": "Substitution, Australia. Jason Geria replaces Jacob Italiano.",
+              "player_off": "Jacob Italiano"
+            },
+            {
+              "kind": "goal",
+              "minute": "75'",
+              "team": "Australia",
+              "team_id": "628",
+              "team_side": "home",
+              "player": "Connor Metcalfe",
+              "text": "Goal! Australia 2, Türkiye 0. Connor Metcalfe (Australia) left footed shot from outside the box to the bottom right corner."
+            },
+            {
+              "kind": "substitution",
+              "minute": "81'",
+              "team": "Türkiye",
+              "team_id": "465",
+              "team_side": "away",
+              "player": "Salih Özcan",
+              "text": "Substitution, Türkiye. Salih Özcan replaces Ismail Yüksek.",
+              "player_off": "Ismail Yüksek"
+            },
+            {
+              "kind": "substitution",
+              "minute": "81'",
+              "team": "Türkiye",
+              "team_id": "465",
+              "team_side": "away",
+              "player": "Mert Müldür",
+              "text": "Substitution, Türkiye. Mert Müldür replaces Zeki Çelik.",
+              "player_off": "Zeki Çelik"
+            },
+            {
+              "kind": "substitution",
+              "minute": "84'",
+              "team": "Australia",
+              "team_id": "628",
+              "team_side": "home",
+              "player": "Aziz Behich",
+              "text": "Substitution, Australia. Aziz Behich replaces Jordan Bos.",
+              "player_off": "Jordan Bos"
+            },
+            {
+              "kind": "substitution",
+              "minute": "84'",
+              "team": "Australia",
+              "team_id": "628",
+              "team_side": "home",
+              "player": "Jackson Irvine",
+              "text": "Substitution, Australia. Jackson Irvine replaces Paul Okon-Engstler.",
+              "player_off": "Paul Okon-Engstler"
+            },
+            {
+              "kind": "substitution",
+              "minute": "85'",
+              "team": "Türkiye",
+              "team_id": "465",
+              "team_side": "away",
+              "player": "Deniz Gül",
+              "text": "Substitution, Türkiye. Deniz Gül replaces Kerem Aktürkoglu.",
+              "player_off": "Kerem Aktürkoglu"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "86'",
+              "team": "Türkiye",
+              "team_id": "465",
+              "team_side": "away",
+              "player": "Yunus Akgün",
+              "text": "Yunus Akgün (Türkiye) is shown the yellow card for a bad foul."
+            }
+          ]
         }
       ]
     },
     {
       "date": "2026-06-14",
-      "label": "Tomorrow",
+      "label": "Today",
       "match_count": 4,
       "matches": [
         {
@@ -3378,7 +3507,7 @@
     },
     {
       "date": "2026-06-15",
-      "label": "Mon",
+      "label": "Tomorrow",
       "match_count": 4,
       "matches": [
         {
