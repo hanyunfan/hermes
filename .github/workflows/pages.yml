@@ -4,6 +4,12 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+  # The fetch-wc2026 workflow can't trigger us via push (GH's GITHUB_TOKEN
+  # security policy: events fired by GITHUB_TOKEN don't chain into other
+  # workflows). So it pings this event_type after a successful data push,
+  # and we re-deploy. Code pushes still go through the `push:` path above.
+  repository_dispatch:
+    types: [refresh-wc2026-data]
 
 permissions:
   contents: read
