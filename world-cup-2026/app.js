@@ -16,6 +16,10 @@
   const REFRESH_LIVE_MS    = 30 * 1000;
   const RERENDER_TICK_MS   = 60 * 1000;
 
+  // Broadcasters that need a paid subscription to view. Free over-the-air
+  // channels (FOX, Telemundo) are NOT in this set.
+  const PAID_BROADCASTERS = new Set(["FS1", "FS2", "Peacock", "Peacock Premium"]);
+
   const $ = (sel, root = document) => root.querySelector(sel);
   const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
 
@@ -84,6 +88,7 @@
       "stage": "Stage",
       "venue": "Venue",
       "watch": "Watch",
+      "broadcast.paid.tooltip": "Paid — requires a cable or streaming subscription (not free over-the-air)",
       "link.espn": "ESPN ↗",
       "link.fox": "Fox Sports ↗",
       "status.live.short": "LIVE",
@@ -173,6 +178,7 @@
       "stage": "阶段",
       "venue": "场馆",
       "watch": "观看",
+      "broadcast.paid.tooltip": "付费频道——需要有线电视或流媒体订阅（非免费无线）",
       "link.espn": "ESPN ↗",
       "link.fox": "福克斯体育 ↗",
       "status.live.short": "直播",
@@ -901,8 +907,25 @@
     const broadcasts = node.querySelector(".broadcasts");
     stage.textContent = m.stage || "—";
     venue.textContent = m.venue?.name || "—";
-    const bcast = m.broadcasts?.length ? m.broadcasts.join(", ") : "—";
-    broadcasts.textContent = bcast;
+    // Render broadcasters; paid ones (FS1/FS2/Peacock) get a 🔒 badge +
+    // tooltip so viewers don't waste time hunting for a free stream.
+    if (m.broadcasts?.length) {
+      broadcasts.replaceChildren();
+      m.broadcasts.forEach((b, i) => {
+        if (i > 0) broadcasts.appendChild(document.createTextNode(", "));
+        if (PAID_BROADCASTERS.has(b)) {
+          const paid = document.createElement("span");
+          paid.className = "bcast-paid";
+          paid.title = t("broadcast.paid.tooltip");
+          paid.textContent = b + " 🔒";
+          broadcasts.appendChild(paid);
+        } else {
+          broadcasts.appendChild(document.createTextNode(b));
+        }
+      });
+    } else {
+      broadcasts.textContent = "—";
+    }
 
     const espn = node.querySelector("a.espn");
     const fox = node.querySelector("a.fox");

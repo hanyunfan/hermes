@@ -657,6 +657,14 @@ body {
   text-overflow: ellipsis;
 }
 .meta-val.broadcasts { color: var(--text-muted); }
+/* Paid broadcasters (FS1/FS2/Peacock) get an amber pill so viewers
+   don't waste time looking for a free stream. */
+.meta-val.broadcasts .bcast-paid {
+  color: #f59e0b;
+  font-weight: 600;
+  cursor: help;
+  border-bottom: 1px dotted rgba(245, 158, 11, 0.5);
+}
 
 .match-links {
   margin-top: 12px;
