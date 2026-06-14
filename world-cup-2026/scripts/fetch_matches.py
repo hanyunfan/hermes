@@ -111,14 +111,57 @@ _KEEP_TYPES = {"yellow-card", "red-card", "substitution"}
 _GOAL_PREFIX = "goal"
 
 
-def fetch_match_events(event_id: str, home_id: str = "", away_id: str = "") -> list[dict]:
+def _truth_from_summary(payload: dict) -> dict | None:
+    """Pull authoritative status + scores out of an ESPN summary payload.
+
+    The summary endpoint is the source of truth — the scoreboard can
+    briefly disagree (e.g. stuck at HT 0-0 while keyEvents already
+    shows goals from 51'-89'). Returns None if the header is missing.
+    """
+    header = payload.get("header") or {}
+    comps = header.get("competitions") or []
+    if not comps:
+        return None
+    comp = comps[0]
+    st = (comp.get("status") or {}).get("type") or {}
+    status_state = (st.get("state") or "").lower()
+    status_short = st.get("shortDetail") or st.get("description") or ""
+    if status_state == "pre":
+        status = "SCHEDULED"
+    elif status_state == "in":
+        status = "LIVE"
+    else:
+        status = "FINAL"
+    competitors = comp.get("competitors") or []
+    h = next((c for c in competitors if c.get("homeAway") == "home"), None)
+    a = next((c for c in competitors if c.get("homeAway") == "away"), None)
+
+    def _score(c):
+        if not c:
+            return None
+        v = c.get("score")
+        try:
+            return int(v) if v is not None else None
+        except (TypeError, ValueError):
+            return None
+
+    return {
+        "status": status,
+        "status_short": status_short,
+        "home_score": _score(h),
+        "away_score": _score(a),
+    }
+
+
+def fetch_match_events(event_id: str, home_id: str = "", away_id: str = "") -> dict:
     """Fetch goals / cards / subs for one match via the ESPN summary endpoint.
 
-    Returns a list of normalized incidents:
-        {kind, minute, team, team_side, player, [assist|player_off], text}
+    Returns:
+        {"incidents": [...], "truth": {status, status_short, home_score, away_score} | None}
 
-    The summary endpoint can lag a few seconds behind the live ticker;
-    on failure we return [] and let the caller carry on.
+    The summary endpoint is the source of truth for status + scores (the
+    scoreboard can briefly lag during state transitions). On failure we
+    return empty incidents + None truth and let the caller carry on.
     """
     url = f"{ESPN_SUMMARY}?event={event_id}"
     req = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
@@ -127,7 +170,7 @@ def fetch_match_events(event_id: str, home_id: str = "", away_id: str = "") -> l
             payload = json.load(r)
     except (urllib.error.URLError, json.JSONDecodeError, TimeoutError) as exc:
         print(f"  warn: events fetch failed for {event_id}: {exc}", file=sys.stderr)
-        return []
+        return {"incidents": [], "truth": None}
 
     out: list[dict] = []
     for e in payload.get("keyEvents") or []:
@@ -167,7 +210,7 @@ def fetch_match_events(event_id: str, home_id: str = "", away_id: str = "") -> l
         elif kind == "substitution" and secondary:
             incident["player_off"] = secondary
         out.append(incident)
-    return out
+    return {"incidents": out, "truth": _truth_from_summary(payload)}
 
 
 def attach_incidents(matches: list[dict], max_workers: int = 6) -> None:
@@ -194,10 +237,21 @@ def attach_incidents(matches: list[dict], max_workers: int = 6) -> None:
         for fut in as_completed(futures):
             m = futures[fut]
             try:
-                m["incidents"] = fut.result()
+                result = fut.result()
             except Exception as exc:  # noqa: BLE001 — best-effort
                 print(f"  warn: incidents for {m['id']} failed: {exc}", file=sys.stderr)
-                m["incidents"] = []
+                result = {"incidents": [], "truth": None}
+            m["incidents"] = result.get("incidents", [])
+            truth = result.get("truth")
+            if truth:
+                # Summary endpoint is authoritative — overrides any
+                # stale scoreboard status / score.
+                m["status"] = truth["status"]
+                m["status_short"] = truth["status_short"]
+                if truth.get("home_score") is not None:
+                    m["home"]["score"] = truth["home_score"]
+                if truth.get("away_score") is not None:
+                    m["away"]["score"] = truth["away_score"]
 
 
 def fetch_full_tournament(start_utc: datetime, end_utc: datetime) -> list[dict]:
