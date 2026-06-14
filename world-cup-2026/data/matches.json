@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-14T19:14:00.947295+00:00",
+  "generated_at": "2026-06-14T21:04:02.202204+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-14T14:13:59.265411-05:00",
+  "now_local": "2026-06-14T16:04:01.506017-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -1053,12 +1053,12 @@
       "entries": [
         {
           "team": {
-            "id": "449",
-            "name": "Netherlands",
-            "short": "Netherlands",
-            "abbr": "NED",
-            "flag": "🇳🇱",
-            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/ned.png"
+            "id": "627",
+            "name": "Japan",
+            "short": "Japan",
+            "abbr": "JPN",
+            "flag": "🇯🇵",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/jpn.png"
           },
           "rank": 1,
           "mp": 0,
@@ -1075,12 +1075,12 @@
         },
         {
           "team": {
-            "id": "627",
-            "name": "Japan",
-            "short": "Japan",
-            "abbr": "JPN",
-            "flag": "🇯🇵",
-            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/jpn.png"
+            "id": "449",
+            "name": "Netherlands",
+            "short": "Netherlands",
+            "abbr": "NED",
+            "flag": "🇳🇱",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/ned.png"
           },
           "rank": 2,
           "mp": 0,
@@ -3314,8 +3314,8 @@
           "kickoff_local_date": "2026-06-14",
           "kickoff_time": "12:00 PM",
           "kickoff_weekday": "Sun",
-          "status": "LIVE",
-          "status_short": "12'",
+          "status": "FINAL",
+          "status_short": "FT",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -3327,8 +3327,8 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/ger.png",
             "color": "FFFFFF",
             "home_away": "home",
-            "score": 1,
-            "winner": false
+            "score": 7,
+            "winner": true
           },
           "away": {
             "id": "11678",
@@ -3339,7 +3339,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/11678.png",
             "color": "0537e4",
             "home_away": "away",
-            "score": 0,
+            "score": 1,
             "winner": false
           },
           "venue": {
@@ -3402,7 +3402,7 @@
               "team_id": "481",
               "team_side": "home",
               "player": "Jamal Musiala",
-              "text": "Goal! Germany 4, Curaçao 1. Jamal Musiala (Germany) right footed shot from the right side of the box to the bottom left corner. Assisted by Joshua Kimmich.",
+              "text": "Goal! Germany 4, Curaçao 1. Jamal Musiala (Germany) right footed shot from the right side of the box to the bottom left corner. Assisted by Joshua Kimmich with a through ball.",
               "assist": "Joshua Kimmich"
             },
             {
