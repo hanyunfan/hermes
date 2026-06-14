@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-14T21:04:02.202204+00:00",
+  "generated_at": "2026-06-14T23:15:39.797764+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-14T16:04:01.506017-05:00",
+  "now_local": "2026-06-14T18:15:38.928249-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -980,12 +980,12 @@
         },
         {
           "team": {
-            "id": "209",
-            "name": "Ecuador",
-            "short": "Ecuador",
-            "abbr": "ECU",
-            "flag": "🇪🇨",
-            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/ecu.png"
+            "id": "4789",
+            "name": "Ivory Coast",
+            "short": "Ivory Coast",
+            "abbr": "CIV",
+            "flag": "🇨🇮",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/civ.png"
           },
           "rank": 2,
           "mp": 0,
@@ -1002,12 +1002,12 @@
         },
         {
           "team": {
-            "id": "4789",
-            "name": "Ivory Coast",
-            "short": "Ivory Coast",
-            "abbr": "CIV",
-            "flag": "🇨🇮",
-            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/civ.png"
+            "id": "209",
+            "name": "Ecuador",
+            "short": "Ecuador",
+            "abbr": "ECU",
+            "flag": "🇪🇨",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/ecu.png"
           },
           "rank": 3,
           "mp": 0,
@@ -1061,14 +1061,14 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/jpn.png"
           },
           "rank": 1,
-          "mp": 0,
+          "mp": 1,
           "w": 0,
-          "d": 0,
+          "d": 1,
           "l": 0,
-          "gf": 0,
-          "ga": 0,
+          "gf": 2,
+          "ga": 2,
           "gd": 0,
-          "pts": 0,
+          "pts": 1,
           "advance": false,
           "advance_label": "Advance to Round of 32",
           "advance_color": "#81D6AC"
@@ -1083,14 +1083,14 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/ned.png"
           },
           "rank": 2,
-          "mp": 0,
+          "mp": 1,
           "w": 0,
-          "d": 0,
+          "d": 1,
           "l": 0,
-          "gf": 0,
-          "ga": 0,
+          "gf": 2,
+          "ga": 2,
           "gd": 0,
-          "pts": 0,
+          "pts": 1,
           "advance": false,
           "advance_label": "Advance to Round of 32",
           "advance_color": "#81D6AC"
@@ -3502,7 +3502,7 @@
               "team_id": "481",
               "team_side": "home",
               "player": "Kai Havertz",
-              "text": "Goal! Germany 7, Curaçao 1. Kai Havertz (Germany) left footed shot from the centre of the box to the centre of the goal. Assisted by Deniz Undav following a fast break.",
+              "text": "Goal! Germany 7, Curaçao 1. Kai Havertz (Germany) left footed shot from the centre of the box to the centre of the goal. Assisted by Deniz Undav with a through ball following a fast break.",
               "assist": "Deniz Undav"
             }
           ]
@@ -3514,8 +3514,8 @@
           "kickoff_local_date": "2026-06-14",
           "kickoff_time": "3:00 PM",
           "kickoff_weekday": "Sun",
-          "status": "SCHEDULED",
-          "status_short": "Scheduled",
+          "status": "LIVE",
+          "status_short": "HT",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -3554,7 +3554,176 @@
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760425/japan-netherlands",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Netherlands%20vs%20Japan",
-          "slug": "japan-at-netherlands"
+          "slug": "japan-at-netherlands",
+          "incidents": [
+            {
+              "kind": "goal",
+              "minute": "51'",
+              "team": "Netherlands",
+              "team_id": "449",
+              "team_side": "home",
+              "player": "Virgil van Dijk",
+              "text": "Goal! Netherlands 1, Japan 0. Virgil van Dijk (Netherlands) header from the centre of the box to the bottom right corner. Assisted by Ryan Gravenberch with a cross following a set piece situation.",
+              "assist": "Ryan Gravenberch"
+            },
+            {
+              "kind": "goal",
+              "minute": "57'",
+              "team": "Japan",
+              "team_id": "627",
+              "team_side": "away",
+              "player": "Keito Nakamura",
+              "text": "Goal! Netherlands 1, Japan 1. Keito Nakamura (Japan) right footed shot from outside the box to the bottom left corner. Assisted by Takefusa Kubo.",
+              "assist": "Takefusa Kubo"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "61'",
+              "team": "Netherlands",
+              "team_id": "449",
+              "team_side": "home",
+              "player": "Crysencio Summerville",
+              "text": "Crysencio Summerville (Netherlands) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "goal",
+              "minute": "64'",
+              "team": "Netherlands",
+              "team_id": "449",
+              "team_side": "home",
+              "player": "Crysencio Summerville",
+              "text": "Goal! Netherlands 2, Japan 1. Crysencio Summerville (Netherlands) left footed shot from the right side of the box to the bottom left corner. Assisted by Ryan Gravenberch.",
+              "assist": "Ryan Gravenberch"
+            },
+            {
+              "kind": "substitution",
+              "minute": "66'",
+              "team": "Japan",
+              "team_id": "627",
+              "team_side": "away",
+              "player": "Junya Ito",
+              "text": "Substitution, Japan. Junya Ito replaces Daizen Maeda.",
+              "player_off": "Daizen Maeda"
+            },
+            {
+              "kind": "substitution",
+              "minute": "70'",
+              "team": "Netherlands",
+              "team_id": "449",
+              "team_side": "home",
+              "player": "Memphis Depay",
+              "text": "Substitution, Netherlands. Memphis Depay replaces Donyell Malen.",
+              "player_off": "Donyell Malen"
+            },
+            {
+              "kind": "substitution",
+              "minute": "70'",
+              "team": "Netherlands",
+              "team_id": "449",
+              "team_side": "home",
+              "player": "Teun Koopmeiners",
+              "text": "Substitution, Netherlands. Teun Koopmeiners replaces Crysencio Summerville.",
+              "player_off": "Crysencio Summerville"
+            },
+            {
+              "kind": "substitution",
+              "minute": "70'",
+              "team": "Netherlands",
+              "team_id": "449",
+              "team_side": "home",
+              "player": "Quinten Timber",
+              "text": "Substitution, Netherlands. Quinten Timber replaces Tijjani Reijnders.",
+              "player_off": "Tijjani Reijnders"
+            },
+            {
+              "kind": "substitution",
+              "minute": "75'",
+              "team": "Japan",
+              "team_id": "627",
+              "team_side": "away",
+              "player": "Yukinari Sugawara",
+              "text": "Substitution, Japan. Yukinari Sugawara replaces Ritsu Doan.",
+              "player_off": "Ritsu Doan"
+            },
+            {
+              "kind": "substitution",
+              "minute": "75'",
+              "team": "Japan",
+              "team_id": "627",
+              "team_side": "away",
+              "player": "Takehiro Tomiyasu",
+              "text": "Substitution, Japan. Takehiro Tomiyasu replaces Tsuyoshi Watanabe.",
+              "player_off": "Tsuyoshi Watanabe"
+            },
+            {
+              "kind": "substitution",
+              "minute": "75'",
+              "team": "Japan",
+              "team_id": "627",
+              "team_side": "away",
+              "player": "Koki Ogawa",
+              "text": "Substitution, Japan. Koki Ogawa replaces Takefusa Kubo because of an injury.",
+              "player_off": "Takefusa Kubo"
+            },
+            {
+              "kind": "substitution",
+              "minute": "81'",
+              "team": "Netherlands",
+              "team_id": "449",
+              "team_side": "home",
+              "player": "Nathan Aké",
+              "text": "Substitution, Netherlands. Nathan Aké replaces Ryan Gravenberch.",
+              "player_off": "Ryan Gravenberch"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "83'",
+              "team": "Netherlands",
+              "team_id": "449",
+              "team_side": "home",
+              "player": "Memphis Depay",
+              "text": "Memphis Depay (Netherlands) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "substitution",
+              "minute": "84'",
+              "team": "Japan",
+              "team_id": "627",
+              "team_side": "away",
+              "player": "Kento Shiogai",
+              "text": "Substitution, Japan. Kento Shiogai replaces Ayase Ueda.",
+              "player_off": "Ayase Ueda"
+            },
+            {
+              "kind": "substitution",
+              "minute": "85'",
+              "team": "Netherlands",
+              "team_id": "449",
+              "team_side": "home",
+              "player": "Brian Brobbey",
+              "text": "Substitution, Netherlands. Brian Brobbey replaces Cody Gakpo.",
+              "player_off": "Cody Gakpo"
+            },
+            {
+              "kind": "goal",
+              "minute": "89'",
+              "team": "Japan",
+              "team_id": "627",
+              "team_side": "away",
+              "player": "Daichi Kamada",
+              "text": "Goal! Netherlands 2, Japan 2. Daichi Kamada (Japan) header from the centre of the box to the top right corner. Assisted by Koki Ogawa following a corner.",
+              "assist": "Koki Ogawa"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "90'+1'",
+              "team": "Netherlands",
+              "team_id": "449",
+              "team_side": "home",
+              "player": "Micky van de Ven",
+              "text": "Micky van de Ven (Netherlands) is shown the yellow card for a bad foul."
+            }
+          ]
         },
         {
           "id": "760423",
