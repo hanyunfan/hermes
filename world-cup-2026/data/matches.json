@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-13T23:12:49.856086+00:00",
+  "generated_at": "2026-06-14T00:18:06.326709+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-13T18:12:49.239143-05:00",
+  "now_local": "2026-06-13T19:18:04.816496-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -2764,7 +2764,7 @@
           "kickoff_time": "5:00 PM",
           "kickoff_weekday": "Sat",
           "status": "LIVE",
-          "status_short": "HT",
+          "status_short": "90'+16'",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -2862,6 +2862,86 @@
               "player": "Fabinho",
               "text": "Substitution, Brazil. Fabinho replaces Casemiro.",
               "player_off": "Casemiro"
+            },
+            {
+              "kind": "substitution",
+              "minute": "61'",
+              "team": "Brazil",
+              "team_id": "205",
+              "team_side": "home",
+              "player": "Matheus Cunha",
+              "text": "Substitution, Brazil. Matheus Cunha replaces Lucas Paquetá.",
+              "player_off": "Lucas Paquetá"
+            },
+            {
+              "kind": "substitution",
+              "minute": "62'",
+              "team": "Brazil",
+              "team_id": "205",
+              "team_side": "home",
+              "player": "Luiz Henrique",
+              "text": "Substitution, Brazil. Luiz Henrique replaces Igor Thiago.",
+              "player_off": "Igor Thiago"
+            },
+            {
+              "kind": "substitution",
+              "minute": "65'",
+              "team": "Morocco",
+              "team_id": "2869",
+              "team_side": "away",
+              "player": "Samir El Mourabet",
+              "text": "Substitution, Morocco. Samir El Mourabet replaces Azzedine Ounahi.",
+              "player_off": "Azzedine Ounahi"
+            },
+            {
+              "kind": "substitution",
+              "minute": "65'",
+              "team": "Morocco",
+              "team_id": "2869",
+              "team_side": "away",
+              "player": "Chemsdine Talbi",
+              "text": "Substitution, Morocco. Chemsdine Talbi replaces Brahim Díaz.",
+              "player_off": "Brahim Díaz"
+            },
+            {
+              "kind": "substitution",
+              "minute": "80'",
+              "team": "Morocco",
+              "team_id": "2869",
+              "team_side": "away",
+              "player": "Anass Salah-Eddine",
+              "text": "Substitution, Morocco. Anass Salah-Eddine replaces Noussair Mazraoui.",
+              "player_off": "Noussair Mazraoui"
+            },
+            {
+              "kind": "substitution",
+              "minute": "80'",
+              "team": "Morocco",
+              "team_id": "2869",
+              "team_side": "away",
+              "player": "Ayoube Amaimouni",
+              "text": "Substitution, Morocco. Ayoube Amaimouni-Echghouyab replaces Bilal El Khannouss.",
+              "player_off": "Bilal El Khannouss"
+            },
+            {
+              "kind": "substitution",
+              "minute": "80'",
+              "team": "Brazil",
+              "team_id": "205",
+              "team_side": "home",
+              "player": "Danilo Santos",
+              "text": "Substitution, Brazil. Danilo Santos replaces Bruno Guimarães.",
+              "player_off": "Bruno Guimarães"
+            },
+            {
+              "kind": "substitution",
+              "minute": "89'",
+              "team": "Morocco",
+              "team_id": "2869",
+              "team_side": "away",
+              "player": "Soufiane Rahimi",
+              "text": "Substitution, Morocco. Soufiane Rahimi replaces Ismael Saibari.",
+              "player_off": "Ismael Saibari"
             }
           ]
         },
