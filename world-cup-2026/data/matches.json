@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-14T04:01:07.030365+00:00",
+  "generated_at": "2026-06-14T04:05:08.869414+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-13T23:01:06.255713-05:00",
+  "now_local": "2026-06-13T23:05:07.857338-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -2952,8 +2952,8 @@
           "kickoff_local_date": "2026-06-13",
           "kickoff_time": "8:00 PM",
           "kickoff_weekday": "Sat",
-          "status": "SCHEDULED",
-          "status_short": "Scheduled",
+          "status": "FINAL",
+          "status_short": "FT",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -2977,8 +2977,8 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/sco.png",
             "color": "1a2d69",
             "home_away": "away",
-            "score": 0,
-            "winner": false
+            "score": 1,
+            "winner": true
           },
           "venue": {
             "name": "Gillette Stadium",
@@ -2992,7 +2992,134 @@
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760418/scotland-haiti",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Haiti%20vs%20Scotland",
-          "slug": "scotland-at-haiti"
+          "slug": "scotland-at-haiti",
+          "incidents": [
+            {
+              "kind": "goal",
+              "minute": "28'",
+              "team": "Scotland",
+              "team_id": "580",
+              "team_side": "away",
+              "player": "John McGinn",
+              "text": "Goal! Haiti 0, Scotland 1. John McGinn (Scotland) left footed shot from the centre of the box to the high centre of the goal."
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "39'",
+              "team": "Haiti",
+              "team_id": "2654",
+              "team_side": "home",
+              "player": "Jean-Ricner Bellegarde",
+              "text": "Jean-Ricner Bellegarde (Haiti) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "46'",
+              "team": "Scotland",
+              "team_id": "580",
+              "team_side": "away",
+              "player": "Aaron Hickey",
+              "text": "Aaron Hickey (Scotland) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "substitution",
+              "minute": "61'",
+              "team": "Haiti",
+              "team_id": "2654",
+              "team_side": "home",
+              "player": "Josué Casimir",
+              "text": "Substitution, Haiti. Josué Casimir replaces Louicius Deedson.",
+              "player_off": "Louicius Deedson"
+            },
+            {
+              "kind": "substitution",
+              "minute": "75'",
+              "team": "Scotland",
+              "team_id": "580",
+              "team_side": "away",
+              "player": "Ryan Christie",
+              "text": "Substitution, Scotland. Ryan Christie replaces Ben Gannon-Doak.",
+              "player_off": "Ben Gannon-Doak"
+            },
+            {
+              "kind": "substitution",
+              "minute": "75'",
+              "team": "Scotland",
+              "team_id": "580",
+              "team_side": "away",
+              "player": "Lyndon Dykes",
+              "text": "Substitution, Scotland. Lyndon Dykes replaces Ché Adams.",
+              "player_off": "Ché Adams"
+            },
+            {
+              "kind": "substitution",
+              "minute": "75'",
+              "team": "Scotland",
+              "team_id": "580",
+              "team_side": "away",
+              "player": "Nathan Patterson",
+              "text": "Substitution, Scotland. Nathan Patterson replaces Aaron Hickey.",
+              "player_off": "Aaron Hickey"
+            },
+            {
+              "kind": "substitution",
+              "minute": "76'",
+              "team": "Haiti",
+              "team_id": "2654",
+              "team_side": "home",
+              "player": "Lenny Joseph",
+              "text": "Substitution, Haiti. Lenny Joseph replaces Wilson Isidor.",
+              "player_off": "Wilson Isidor"
+            },
+            {
+              "kind": "substitution",
+              "minute": "83'",
+              "team": "Scotland",
+              "team_id": "580",
+              "team_side": "away",
+              "player": "Findlay Curtis",
+              "text": "Substitution, Scotland. Findlay Curtis replaces John McGinn.",
+              "player_off": "John McGinn"
+            },
+            {
+              "kind": "substitution",
+              "minute": "83'",
+              "team": "Scotland",
+              "team_id": "580",
+              "team_side": "away",
+              "player": "Kenny McLean",
+              "text": "Substitution, Scotland. Kenny McLean replaces Lawrence Shankland.",
+              "player_off": "Lawrence Shankland"
+            },
+            {
+              "kind": "substitution",
+              "minute": "85'",
+              "team": "Haiti",
+              "team_id": "2654",
+              "team_side": "home",
+              "player": "Yassin Fortuné",
+              "text": "Substitution, Haiti. Yassin Fortuné replaces Ruben Providence.",
+              "player_off": "Ruben Providence"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "90'+1'",
+              "team": "Scotland",
+              "team_id": "580",
+              "team_side": "away",
+              "player": "Findlay Curtis",
+              "text": "Findlay Curtis (Scotland) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "90'+5'",
+              "team": "Scotland",
+              "team_id": "580",
+              "team_side": "away",
+              "player": "Kenny McLean",
+              "text": "Kenny McLean (Scotland) is shown the yellow card for a bad foul."
+            }
+          ]
         },
         {
           "id": "760421",
@@ -3001,8 +3128,8 @@
           "kickoff_local_date": "2026-06-13",
           "kickoff_time": "11:00 PM",
           "kickoff_weekday": "Sat",
-          "status": "SCHEDULED",
-          "status_short": "Scheduled",
+          "status": "LIVE",
+          "status_short": "4'",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -3012,7 +3139,7 @@
             "abbr": "AUS",
             "flag": "🇦🇺",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/aus.png",
-            "color": "2a2d7c",
+            "color": "FFCD00",
             "home_away": "home",
             "score": 0,
             "winner": false
@@ -3041,7 +3168,8 @@
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760421/turkiye-australia",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Australia%20vs%20T%C3%BCrkiye",
-          "slug": "turkiye-at-australia"
+          "slug": "turkiye-at-australia",
+          "incidents": []
         }
       ]
     },
@@ -3068,7 +3196,7 @@
             "abbr": "GER",
             "flag": "🇩🇪",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/ger.png",
-            "color": "000000",
+            "color": "FFFFFF",
             "home_away": "home",
             "score": 0,
             "winner": false
@@ -3129,7 +3257,7 @@
             "abbr": "JPN",
             "flag": "🇯🇵",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/jpn.png",
-            "color": "ed1c24",
+            "color": "000555",
             "home_away": "away",
             "score": 0,
             "winner": false
@@ -3166,7 +3294,7 @@
             "abbr": "CIV",
             "flag": "🇨🇮",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/civ.png",
-            "color": "d48c00",
+            "color": "FF8200",
             "home_away": "home",
             "score": 0,
             "winner": false
@@ -3283,7 +3411,7 @@
             "abbr": "CPV",
             "flag": "🇨🇻",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/cpv.png",
-            "color": "0000ff",
+            "color": "000080",
             "home_away": "away",
             "score": 0,
             "winner": false
@@ -3320,7 +3448,7 @@
             "abbr": "BEL",
             "flag": "🇧🇪",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/bel.png",
-            "color": "ef3340",
+            "color": "E30613",
             "home_away": "home",
             "score": 0,
             "winner": false
@@ -3369,7 +3497,7 @@
             "abbr": "KSA",
             "flag": "🇸🇦",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/ksa.png",
-            "color": "dddddd",
+            "color": "FFFFFF",
             "home_away": "home",
             "score": 0,
             "winner": false
@@ -3381,7 +3509,7 @@
             "abbr": "URU",
             "flag": "🇺🇾",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/uru.png",
-            "color": "003da5",
+            "color": "55B5E5",
             "home_away": "away",
             "score": 0,
             "winner": false
@@ -3418,7 +3546,7 @@
             "abbr": "IRN",
             "flag": "🇮🇷",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/irn.png",
-            "color": "da0000",
+            "color": "FFFFFF",
             "home_away": "home",
             "score": 0,
             "winner": false
@@ -3430,7 +3558,7 @@
             "abbr": "NZL",
             "flag": "🇳🇿",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/nzl.png",
-            "color": "273476",
+            "color": "000000",
             "home_away": "away",
             "score": 0,
             "winner": false
@@ -3474,7 +3602,7 @@
             "abbr": "FRA",
             "flag": "🇫🇷",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/fra.png",
-            "color": "0c2fff",
+            "color": "000080",
             "home_away": "home",
             "score": 0,
             "winner": false
@@ -3486,7 +3614,7 @@
             "abbr": "SEN",
             "flag": "🇸🇳",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/sen.png",
-            "color": "00853f",
+            "color": "006436",
             "home_away": "away",
             "score": 0,
             "winner": false
@@ -3523,7 +3651,7 @@
             "abbr": "IRQ",
             "flag": "🇮🇶",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/irq.png",
-            "color": "00843d",
+            "color": "0A4D2E",
             "home_away": "home",
             "score": 0,
             "winner": false
@@ -3535,7 +3663,7 @@
             "abbr": "NOR",
             "flag": "🇳🇴",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/nor.png",
-            "color": "ef2b2d",
+            "color": "C8102E",
             "home_away": "away",
             "score": 0,
             "winner": false
@@ -3584,7 +3712,7 @@
             "abbr": "ALG",
             "flag": "🇩🇿",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/alg.png",
-            "color": "5bbd19",
+            "color": "4F9A44",
             "home_away": "away",
             "score": 0,
             "winner": false
@@ -4095,7 +4223,7 @@
             "abbr": "AUS",
             "flag": "🇦🇺",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/aus.png",
-            "color": "2a2d7c",
+            "color": "FFCD00",
             "home_away": "away",
             "score": 0,
             "winner": false
@@ -4335,7 +4463,7 @@
             "abbr": "GER",
             "flag": "🇩🇪",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/ger.png",
-            "color": "000000",
+            "color": "FFFFFF",
             "home_away": "home",
             "score": 0,
             "winner": false
@@ -4347,7 +4475,7 @@
             "abbr": "CIV",
             "flag": "🇨🇮",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/civ.png",
-            "color": "d48c00",
+            "color": "FF8200",
             "home_away": "away",
             "score": 0,
             "winner": false
@@ -4445,7 +4573,7 @@
             "abbr": "JPN",
             "flag": "🇯🇵",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/jpn.png",
-            "color": "ed1c24",
+            "color": "000555",
             "home_away": "away",
             "score": 0,
             "winner": false
@@ -4501,7 +4629,7 @@
             "abbr": "KSA",
             "flag": "🇸🇦",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/ksa.png",
-            "color": "dddddd",
+            "color": "FFFFFF",
             "home_away": "away",
             "score": 0,
             "winner": false
@@ -4538,7 +4666,7 @@
             "abbr": "BEL",
             "flag": "🇧🇪",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/bel.png",
-            "color": "ef3340",
+            "color": "E30613",
             "home_away": "home",
             "score": 0,
             "winner": false
@@ -4550,7 +4678,7 @@
             "abbr": "IRN",
             "flag": "🇮🇷",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/irn.png",
-            "color": "da0000",
+            "color": "FFFFFF",
             "home_away": "away",
             "score": 0,
             "winner": false
@@ -4587,7 +4715,7 @@
             "abbr": "URU",
             "flag": "🇺🇾",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/uru.png",
-            "color": "003da5",
+            "color": "55B5E5",
             "home_away": "home",
             "score": 0,
             "winner": false
@@ -4599,7 +4727,7 @@
             "abbr": "CPV",
             "flag": "🇨🇻",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/cpv.png",
-            "color": "0000ff",
+            "color": "000080",
             "home_away": "away",
             "score": 0,
             "winner": false
@@ -4636,7 +4764,7 @@
             "abbr": "NZL",
             "flag": "🇳🇿",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/nzl.png",
-            "color": "273476",
+            "color": "000000",
             "home_away": "home",
             "score": 0,
             "winner": false
@@ -4741,7 +4869,7 @@
             "abbr": "FRA",
             "flag": "🇫🇷",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/fra.png",
-            "color": "0c2fff",
+            "color": "000080",
             "home_away": "home",
             "score": 0,
             "winner": false
@@ -4753,7 +4881,7 @@
             "abbr": "IRQ",
             "flag": "🇮🇶",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/irq.png",
-            "color": "00843d",
+            "color": "0A4D2E",
             "home_away": "away",
             "score": 0,
             "winner": false
@@ -4790,7 +4918,7 @@
             "abbr": "NOR",
             "flag": "🇳🇴",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/nor.png",
-            "color": "ef2b2d",
+            "color": "C8102E",
             "home_away": "home",
             "score": 0,
             "winner": false
@@ -4802,7 +4930,7 @@
             "abbr": "SEN",
             "flag": "🇸🇳",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/sen.png",
-            "color": "00853f",
+            "color": "006436",
             "home_away": "away",
             "score": 0,
             "winner": false
@@ -4851,7 +4979,7 @@
             "abbr": "ALG",
             "flag": "🇩🇿",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/alg.png",
-            "color": "5bbd19",
+            "color": "4F9A44",
             "home_away": "away",
             "score": 0,
             "winner": false
@@ -5411,7 +5539,7 @@
             "abbr": "CIV",
             "flag": "🇨🇮",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/civ.png",
-            "color": "d48c00",
+            "color": "FF8200",
             "home_away": "away",
             "score": 0,
             "winner": false
@@ -5460,7 +5588,7 @@
             "abbr": "GER",
             "flag": "🇩🇪",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/ger.png",
-            "color": "000000",
+            "color": "FFFFFF",
             "home_away": "away",
             "score": 0,
             "winner": false
@@ -5497,7 +5625,7 @@
             "abbr": "JPN",
             "flag": "🇯🇵",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/jpn.png",
-            "color": "ed1c24",
+            "color": "000555",
             "home_away": "home",
             "score": 0,
             "winner": false
@@ -5607,7 +5735,7 @@
             "abbr": "AUS",
             "flag": "🇦🇺",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/aus.png",
-            "color": "2a2d7c",
+            "color": "FFCD00",
             "home_away": "away",
             "score": 0,
             "winner": false
@@ -5700,7 +5828,7 @@
             "abbr": "NOR",
             "flag": "🇳🇴",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/nor.png",
-            "color": "ef2b2d",
+            "color": "C8102E",
             "home_away": "home",
             "score": 0,
             "winner": false
@@ -5712,7 +5840,7 @@
             "abbr": "FRA",
             "flag": "🇫🇷",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/fra.png",
-            "color": "0c2fff",
+            "color": "000080",
             "home_away": "away",
             "score": 0,
             "winner": false
@@ -5749,7 +5877,7 @@
             "abbr": "SEN",
             "flag": "🇸🇳",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/sen.png",
-            "color": "00853f",
+            "color": "006436",
             "home_away": "home",
             "score": 0,
             "winner": false
@@ -5761,7 +5889,7 @@
             "abbr": "IRQ",
             "flag": "🇮🇶",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/irq.png",
-            "color": "00843d",
+            "color": "0A4D2E",
             "home_away": "away",
             "score": 0,
             "winner": false
@@ -5798,7 +5926,7 @@
             "abbr": "CPV",
             "flag": "🇨🇻",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/cpv.png",
-            "color": "0000ff",
+            "color": "000080",
             "home_away": "home",
             "score": 0,
             "winner": false
@@ -5810,7 +5938,7 @@
             "abbr": "KSA",
             "flag": "🇸🇦",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/ksa.png",
-            "color": "dddddd",
+            "color": "FFFFFF",
             "home_away": "away",
             "score": 0,
             "winner": false
@@ -5847,7 +5975,7 @@
             "abbr": "URU",
             "flag": "🇺🇾",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/uru.png",
-            "color": "003da5",
+            "color": "55B5E5",
             "home_away": "home",
             "score": 0,
             "winner": false
@@ -5908,7 +6036,7 @@
             "abbr": "IRN",
             "flag": "🇮🇷",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/irn.png",
-            "color": "da0000",
+            "color": "FFFFFF",
             "home_away": "away",
             "score": 0,
             "winner": false
@@ -5945,7 +6073,7 @@
             "abbr": "NZL",
             "flag": "🇳🇿",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/nzl.png",
-            "color": "273476",
+            "color": "000000",
             "home_away": "home",
             "score": 0,
             "winner": false
@@ -5957,7 +6085,7 @@
             "abbr": "BEL",
             "flag": "🇧🇪",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/bel.png",
-            "color": "ef3340",
+            "color": "E30613",
             "home_away": "away",
             "score": 0,
             "winner": false
@@ -6197,7 +6325,7 @@
             "abbr": "ALG",
             "flag": "🇩🇿",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/alg.png",
-            "color": "5bbd19",
+            "color": "4F9A44",
             "home_away": "home",
             "score": 0,
             "winner": false
