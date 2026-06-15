@@ -24,6 +24,11 @@
   #machine-select { min-width: 280px; }
   .charts { display: grid; grid-template-columns: repeat(auto-fit, minmax(500px, 1fr)); gap: 16px; }
   .chart-card { background: #1a1d27; border-radius: 12px; padding: 16px; border: 1px solid #252a3a; }
+  /* Wide chart card spans the full grid row — used for the CPU core
+     frequency chart which shows up to 128 logical-core lines and would
+     otherwise be unreadable in a half-width column. */
+  .chart-card--wide { grid-column: 1 / -1; }
+  .chart-card--wide .chart-wrapper { height: 260px; }
   .chart-card h3 { font-size: 0.9rem; color: #aaa; margin-bottom: 12px; font-weight: 500; }
   .chart-wrapper { position: relative; height: 220px; }
   .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 16px; }
@@ -236,8 +241,8 @@
     <h3>CPU Package Temperature (°C, single line)</h3>
     <div class="chart-wrapper"><canvas id="chart-cpu-therm-package"></canvas></div>
   </div>
-  <div class="chart-card" id="cpu-core-freq-chart-card" style="display:none">
-    <h3>CPU Core Frequency (MHz, per logical core)</h3>
+  <div class="chart-card chart-card--wide" id="cpu-core-freq-chart-card" style="display:none">
+    <h3>CPU Core Frequency (MHz, per logical core) — first 16 shown; click legend to toggle</h3>
     <div class="chart-wrapper"><canvas id="chart-cpu-core-freq"></canvas></div>
   </div>
 </div>
@@ -570,19 +575,26 @@ function buildCpuThermPackageChart(canvasId) {
 }
 
 function buildCpuCoreFreqChart(canvasId) {
-  // Up to 128 logical cores — covers any current HT/SMT machine. Same
-  // reveal-on-data strategy as the temp chart.
+  // Up to 128 logical cores — covers any current HT/SMT machine.
+  // Line width is reduced to 0.5px so all 128 cores don't visually merge
+  // into a single blob. Default visibility: first 16 cores (L0..L15)
+  // — the user can click legend entries to toggle the remaining 112.
   const datasets = Array.from({ length: 128 }, (_, i) => {
     const color = CORE_COLORS[i % CORE_COLORS.length];
     return { label: 'L' + i, data: [], borderColor: '#' + color,
-             backgroundColor: 'transparent', borderWidth: 1,
-             hidden: true, pointRadius: 0 };
+             backgroundColor: 'transparent', borderWidth: 0.5,
+             hidden: i >= 16, pointRadius: 0 };
   });
   const chart = new Chart(document.getElementById(canvasId), {
     type: 'line',
     data: { datasets },
     options: {
       ...chartOptions(),
+      elements: {
+        // Tighter lines and no hover dots for the dense multi-line layout
+        point: { radius: 0, hoverRadius: 4, hitRadius: 12 },
+        line:  { tension: 0, borderWidth: 0.5 }
+      },
       scales: {
         ...chartOptions().scales,
         // Frequency floor 0 — the y-max auto-scaler in the updater raises
@@ -1878,8 +1890,10 @@ function updateCpuCoreFreqChart(allData) {
   if (maxIdx < 0) return;
 
   const datasets = charts['cpu-core-freq'].data.datasets;
+  // Always populate all 128 dataset slots with data — visibility is set
+  // by the build function (first 16 visible, rest hidden). Users click
+  // legend entries to reveal/hide additional cores.
   for (let i = 0; i <= maxIdx; i++) {
-    datasets[i].hidden = false;
     datasets[i].data = allData.map(d => {
       const f = (d.cpu_core_freq_mhz || [])[i];
       return f != null
