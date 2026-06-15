@@ -73,40 +73,96 @@ _probe_cpu()
 #
 # Safe to call when CPU_DEBUG is False: the getters return [] in <1ms.
 
-def get_cpu_core_temp():
-    """Return list[float|None] indexed by physical core id, [] on failure.
+def get_cpu_thermal():
+    """
+    Comprehensive thermal sensor dump, keyed by chip name.
 
-    Parses psutil.sensors_temperatures()['coretemp'] (Intel) or ['k10temp']
-    (AMD Zen). On AMD, k10temp usually only exposes Package/Tdie/Tctl and
-    has no per-core entries — we return [] in that case so the frontend
-    leaves the chart hidden.
+    Returns a dict like:
+      {"k10temp": [{"label": "Tdie", "current": 62.0, "high": None, "critical": None},
+                    {"label": "Tccd0", "current": 58.0, ...},
+                    ...],
+       "coretemp": [{"label": "Core 0", ...}, ...]}
+
+    Empty dict if psutil fails or no sensors are exposed.
+
+    This is the canonical "what does this kernel expose" view — the
+    frontend uses it to label chart lines dynamically so it works on
+    both Intel (coretemp: Core N) and AMD Zen 4+ (k10temp: Tdie/TccdN)
+    without code changes.
     """
     try:
         s = psutil.sensors_temperatures(fahrenheit=False)
     except Exception:
-        return []
-
-    for chip in ("coretemp", "k10temp"):
-        entries = s.get(chip) or []
-        if not entries:
-            continue
-        if chip == "k10temp":
-            # AMD Zen typically reports only Tctl/Tdie — no per-core entries.
-            return []
-        # coretemp: entries labelled 'Core 0', 'Core 12', etc. (physical ids)
-        out = []
+        return {}
+    out = {}
+    for chip, entries in (s or {}).items():
+        serialised = []
         for t in entries:
-            if not t.label or not t.label.startswith("Core "):
+            serialised.append({
+                "label":    t.label or "",
+                "current":  float(t.current) if t.current is not None else None,
+                "high":     float(t.high) if t.high is not None else None,
+                "critical": float(t.critical) if t.critical is not None else None,
+            })
+        if serialised:
+            out[chip] = serialised
+    return out
+
+
+def get_cpu_package_temp(therm):
+    """
+    Pick the best "single number" package temperature from a therm dump:
+    prefer Tdie (true silicon junction on AMD Zen 3+) > Tctl (AMD) >
+    Package id 0 (Intel coretemp) > None.
+
+    Returns float (°C) or None.
+    """
+    if not therm:
+        return None
+    preferred = []
+    for chip, entries in therm.items():
+        for t in entries:
+            label = t.get("label") or ""
+            cur = t.get("current")
+            if cur is None:
                 continue
-            try:
-                idx = int(t.label.split()[1])
-            except (ValueError, IndexError):
+            if label == "Tdie":
+                return cur
+            if label == "Tctl":
+                preferred.append(cur)
+            elif label.startswith("Package"):
+                preferred.append(cur)
+    return preferred[0] if preferred else None
+
+
+def get_cpu_therm_temp_c(therm):
+    """
+    Per-thermal-sensor temperature series, indexed by *sensor order*
+    in the dump (NOT by core id — see comment below).
+
+    For Intel coretemp with 'Core 0'...'Core N' labels this is per
+    physical core. For AMD Zen 4 k10temp with 'Tccd0'...'TccdN'
+    labels this is per CCD (typically 8/CCD on EPYC, 8 CCDs × 8 cores
+    = 64 cores total — Tccd is the closest thing to per-core on Zen 4).
+
+    We use "label order in the dump" as the array index so the
+    frontend never has to hard-code label parsing. Returns [] if no
+    sensors with "Core N" or "TccdN" labels are found. Note that
+    "Tdie" / "Tctl" are intentionally excluded — those are package
+    temperature and live in cpu_package_temp_c instead.
+    """
+    if not therm:
+        return []
+    out = []
+    for chip, entries in therm.items():
+        for t in entries:
+            label = t.get("label") or ""
+            cur = t.get("current")
+            # Only per-sensor entries (Core N or TccdN). Skip Tdie/Tctl/Package
+            if not (label.startswith("Core ") or label.startswith("Tccd")):
                 continue
-            while len(out) <= idx:
-                out.append(None)
-            out[idx] = t.current
-        return out
-    return []
+            out.append(cur if cur is not None else None)
+    return out
 
 
 def get_cpu_core_freq():
@@ -760,8 +816,15 @@ def collect(enable_nvlink=True, cpu_debug=False):
     # shape is byte-identical to the pre-feature output otherwise.
     if cpu_debug:
         stats["cpu_debug"]          = True
-        stats["cpu_core_temp_c"]    = get_cpu_core_temp()
         stats["cpu_core_freq_mhz"]  = get_cpu_core_freq()
+        # Thermal data: comprehensive dump + structured package/per-sensor.
+        # cpu_therm_temp_c replaces the old "Core N"-only cpu_core_temp_c.
+        # It works on both Intel coretemp (per physical core) and AMD Zen 4+
+        # k10temp (per CCD — the closest thing to per-core on Zen 4).
+        therm = get_cpu_thermal()
+        stats["cpu_therm_raw"]         = therm
+        stats["cpu_package_temp_c"]    = get_cpu_package_temp(therm)
+        stats["cpu_therm_temp_c"]      = get_cpu_therm_temp_c(therm)
     return stats
 
 
@@ -826,12 +889,22 @@ def daemon(interval=10, _display_name=None, cpu_debug=False):
             # CPU debug summary (compact one-liner appended to the same log line)
             debug_str = ""
             if cpu_debug:
-                temps = stats.get("cpu_core_temp_c") or []
+                pkg = stats.get("cpu_package_temp_c")
+                therms = stats.get("cpu_therm_temp_c") or []
+                raw = stats.get("cpu_therm_raw") or {}
+                # Per-sensor line with human-readable labels
+                therm_parts = []
+                for chip, entries in raw.items():
+                    for t in entries:
+                        cur = t.get("current")
+                        if cur is None:
+                            continue
+                        therm_parts.append(f"{chip}.{t.get('label') or '?'}={cur:.0f}")
+                if pkg is not None:
+                    debug_str += f" Tpkg={pkg:.0f}"
+                if therm_parts:
+                    debug_str += " T=[" + ",".join(therm_parts) + "]"
                 freqs = stats.get("cpu_core_freq_mhz") or []
-                if temps:
-                    debug_str += " Tcore=[" + ",".join(
-                        f"{t:.0f}" if t is not None else "-" for t in temps
-                    ) + "]"
                 if freqs:
                     debug_str += " Fcore=[" + ",".join(
                         f"{f:.0f}" for f in freqs

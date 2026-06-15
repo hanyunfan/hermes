@@ -228,9 +228,13 @@
     <div class="chart-wrapper"><canvas id="chart-net"></canvas></div>
   </div>
   <!-- CPU debug charts (hidden by default; shown when data carries cpu_debug=true) -->
-  <div class="chart-card" id="cpu-core-temp-chart-card" style="display:none">
-    <h3>CPU Core Temperature (°C, per physical core)</h3>
-    <div class="chart-wrapper"><canvas id="chart-cpu-core-temp"></canvas></div>
+  <div class="chart-card" id="cpu-therm-temp-chart-card" style="display:none">
+    <h3>CPU Thermal Sensors (°C, per sensor from /sys/class/thermal)</h3>
+    <div class="chart-wrapper"><canvas id="chart-cpu-therm-temp"></canvas></div>
+  </div>
+  <div class="chart-card" id="cpu-therm-package-chart-card" style="display:none">
+    <h3>CPU Package Temperature (°C, single line)</h3>
+    <div class="chart-wrapper"><canvas id="chart-cpu-therm-package"></canvas></div>
   </div>
   <div class="chart-card" id="cpu-core-freq-chart-card" style="display:none">
     <h3>CPU Core Frequency (MHz, per logical core)</h3>
@@ -363,8 +367,9 @@ function initCharts() {
   // CPU debug charts (hidden by default; only the visibility branch in
   // loadDayData flips their wrapper <div> to display:'' when cpu_debug
   // is present in any sample).
-  charts['cpu-core-temp'] = buildCpuCoreTempChart('chart-cpu-core-temp');
-  charts['cpu-core-freq'] = buildCpuCoreFreqChart('chart-cpu-core-freq');
+  charts['cpu-therm-temp']    = buildCpuThermTempChart('chart-cpu-therm-temp');
+  charts['cpu-therm-package'] = buildCpuThermPackageChart('chart-cpu-therm-package');
+  charts['cpu-core-freq']     = buildCpuCoreFreqChart('chart-cpu-core-freq');
 }
 
 const IO_COLORS = {
@@ -515,21 +520,44 @@ function initOne(key, dataKey, color) {
 }
 
 // ─── CPU debug chart builders (mirror buildTempChart, no fill, tighter lines) ─
+//
+// Each machine exposes a different set of thermal sensors (Intel coretemp
+// → "Core N", AMD Zen 4+ k10temp → "TccdN", Dell laptops → "dell_smm",
+// etc.). Rather than hard-code label parsing, the collector dumps every
+// sensor into cpu_therm_raw, and the updater below picks a stable sensor
+// order from the first sample and uses it for the whole time range.
 
-function buildCpuCoreTempChart(canvasId) {
-  // Up to 64 physical cores (largest AMD EPYC currently is 96c/128t but
-  // exposed physical indices will still be under 64 for the foreseeable
-  // future). All datasets pre-allocated hidden; updateCpuCoreTempChart
-  // reveals only the indices that carry data.
-  const datasets = Array.from({ length: 64 }, (_, i) => {
-    const color = CORE_COLORS[i % CORE_COLORS.length];
-    return { label: 'P' + i, data: [], borderColor: '#' + color,
-             backgroundColor: 'transparent', borderWidth: 1,
-             hidden: true, pointRadius: 0 };
-  });
+function buildCpuThermTempChart(canvasId) {
+  // Pre-allocate 64 dataset slots — enough for the largest current CPUs
+  // (Zen 4 EPYC has up to 12 CCDs = 12 Tccd sensors). All hidden by
+  // default; updateCpuThermTempChart reveals only the indices present.
+  const datasets = Array.from({ length: 64 }, (_, i) => ({
+    label: 'S' + i, data: [], borderColor: '#' + CORE_COLORS[i % CORE_COLORS.length],
+    backgroundColor: 'transparent', borderWidth: 1, hidden: true, pointRadius: 0
+  }));
   const chart = new Chart(document.getElementById(canvasId), {
     type: 'line',
     data: { datasets },
+    options: {
+      ...chartOptions(),
+      scales: {
+        ...chartOptions().scales,
+        y: { min: 0, max: 100, grid: { color: '#252a3a' }, ticks: { color: '#666' } }
+      }
+    }
+  });
+  return chart;
+}
+
+function buildCpuThermPackageChart(canvasId) {
+  // Single-line chart showing the package temperature (Tdie / Tctl / etc.)
+  const chart = new Chart(document.getElementById(canvasId), {
+    type: 'line',
+    data: { datasets: [{
+      label: 'Package', data: [],
+      borderColor: '#' + CORE_COLORS[0],
+      backgroundColor: 'transparent', borderWidth: 1.5, pointRadius: 2, fill: false
+    }] },
     options: {
       ...chartOptions(),
       scales: {
@@ -886,12 +914,20 @@ async function loadDayData(dateStr) {
 
   // ── CPU debug charts (only visible when any sample carries cpu_debug=true)
   const hasCpuDebug = allData.some(d => d.cpu_debug === true);
-  document.getElementById('cpu-core-temp-chart-card').style.display = hasCpuDebug ? '' : 'none';
-  document.getElementById('cpu-core-freq-chart-card').style.display = hasCpuDebug ? '' : 'none';
-  if (hasCpuDebug) {
-    updateCpuCoreTempChart(allData);
-    updateCpuCoreFreqChart(allData);
-  }
+  // Therm-temp chart: needs per-sensor data (Core N or TccdN)
+  const hasCpuThermTemp = allData.some(d =>
+    d.cpu_debug === true && Array.isArray(d.cpu_therm_temp_c) && d.cpu_therm_temp_c.length > 0
+  );
+  // Package chart: needs cpu_package_temp_c (single float, Tdie/Tctl/Package)
+  const hasCpuPackageTemp = allData.some(d =>
+    d.cpu_debug === true && d.cpu_package_temp_c != null
+  );
+  document.getElementById('cpu-therm-temp-chart-card').style.display    = hasCpuThermTemp ? '' : 'none';
+  document.getElementById('cpu-therm-package-chart-card').style.display = hasCpuPackageTemp ? '' : 'none';
+  document.getElementById('cpu-core-freq-chart-card').style.display     = hasCpuDebug ? '' : 'none';
+  if (hasCpuThermTemp)  updateCpuThermTempChart(allData);
+  if (hasCpuPackageTemp) updateCpuThermPackageChart(allData);
+  if (hasCpuDebug)       updateCpuCoreFreqChart(allData);
 
   const first = allData[0].timestamp;
   const last  = allData[allData.length - 1].timestamp;
@@ -1501,12 +1537,18 @@ async function refresh() {
 
   // ── CPU debug charts (only visible when any sample carries cpu_debug=true)
   const hasCpuDebug = allData.some(d => d.cpu_debug === true);
-  document.getElementById('cpu-core-temp-chart-card').style.display = hasCpuDebug ? '' : 'none';
-  document.getElementById('cpu-core-freq-chart-card').style.display = hasCpuDebug ? '' : 'none';
-  if (hasCpuDebug) {
-    updateCpuCoreTempChart(allData);
-    updateCpuCoreFreqChart(allData);
-  }
+  const hasCpuThermTemp = allData.some(d =>
+    d.cpu_debug === true && Array.isArray(d.cpu_therm_temp_c) && d.cpu_therm_temp_c.length > 0
+  );
+  const hasCpuPackageTemp = allData.some(d =>
+    d.cpu_debug === true && d.cpu_package_temp_c != null
+  );
+  document.getElementById('cpu-therm-temp-chart-card').style.display    = hasCpuThermTemp ? '' : 'none';
+  document.getElementById('cpu-therm-package-chart-card').style.display = hasCpuPackageTemp ? '' : 'none';
+  document.getElementById('cpu-core-freq-chart-card').style.display     = hasCpuDebug ? '' : 'none';
+  if (hasCpuThermTemp)   updateCpuThermTempChart(allData);
+  if (hasCpuPackageTemp) updateCpuThermPackageChart(allData);
+  if (hasCpuDebug)       updateCpuCoreFreqChart(allData);
 
   document.getElementById('updated').textContent =
     'Updated: ' + new Date().toLocaleTimeString() +
@@ -1746,33 +1788,84 @@ function updateTempChart(allData, gpuCount) {
   charts.temp.update();
 }
 
-function updateCpuCoreTempChart(allData) {
-  // Discover the highest physical core index that has any non-null sample.
-  let maxIdx = -1;
+function updateCpuThermTempChart(allData) {
+  // Sensor order comes from cpu_therm_raw of the first sample. All
+  // subsequent samples are expected to expose the same labels (the
+  // collector's psutil call is stable). cpu_therm_temp_c is the same
+  // data in array form, indexed in dump order.
+  if (allData.length === 0) return;
+
+  // Discover sensor labels from the first sample that has cpu_therm_raw
+  let sensorLabels = null;
   for (const d of allData) {
-    const arr = d.cpu_core_temp_c || [];
-    for (let i = arr.length - 1; i >= 0; i--) {
-      if (arr[i] != null) { maxIdx = Math.max(maxIdx, i); break; }
+    if (d.cpu_therm_raw) {
+      const labels = [];
+      for (const chip of Object.keys(d.cpu_therm_raw)) {
+        for (const t of d.cpu_therm_raw[chip]) {
+          // Skip Tdie/Tctl/Package — those are summarised in the
+          // package chart instead, to avoid duplicating the most common
+          // line in the per-sensor chart.
+          if (t.label === 'Tdie' || t.label === 'Tctl' || t.label.startsWith('Package')) continue;
+          labels.push(chip + '.' + (t.label || '?'));
+        }
+      }
+      if (labels.length) { sensorLabels = labels; break; }
     }
   }
-  if (maxIdx < 0) return; // no data — leave chart hidden
+  if (!sensorLabels || sensorLabels.length === 0) return; // no per-sensor data → keep hidden
 
-  const datasets = charts['cpu-core-temp'].data.datasets;
-  for (let i = 0; i <= maxIdx; i++) {
+  const chart = charts['cpu-therm-temp'];
+  const datasets = chart.data.datasets;
+  for (let i = 0; i < sensorLabels.length; i++) {
+    datasets[i].label = sensorLabels[i];
     datasets[i].hidden = false;
     datasets[i].data = allData.map(d => {
-      const t = (d.cpu_core_temp_c || [])[i];
-      return t != null
-        ? { x: new Date(d.timestamp), y: t }
-        : { x: new Date(d.timestamp), y: null };
+      const arr = d.cpu_therm_temp_c || [];
+      const v = arr[i];
+      return v != null ? { x: new Date(d.timestamp), y: v } : { x: new Date(d.timestamp), y: null };
     });
   }
+  // Hide the rest of the 64-slot pre-allocation
+  for (let i = sensorLabels.length; i < datasets.length; i++) datasets[i].hidden = true;
 
   // Auto-scale y to 1.1x observed max, floor 80°C
-  const allT = allData.flatMap(d => (d.cpu_core_temp_c || []).filter(t => t != null));
+  const allT = allData.flatMap(d => (d.cpu_therm_temp_c || []).filter(t => t != null));
   const max = allT.length ? Math.max(...allT) : 0;
-  charts['cpu-core-temp'].options.scales.y.max = Math.max(80, Math.ceil(max * 1.1 / 10) * 10);
-  charts['cpu-core-temp'].update();
+  chart.options.scales.y.max = Math.max(80, Math.ceil(max * 1.1 / 10) * 10);
+  chart.update();
+}
+
+function updateCpuThermPackageChart(allData) {
+  // Single-line chart driven by cpu_package_temp_c. Skip if no sample
+  // has the field, or all values are null.
+  const anyData = allData.some(d => d.cpu_package_temp_c != null);
+  if (!anyData) return;
+
+  const chart = charts['cpu-therm-package'];
+  chart.data.datasets[0].data = allData.map(d => {
+    const v = d.cpu_package_temp_c;
+    return v != null ? { x: new Date(d.timestamp), y: v } : { x: new Date(d.timestamp), y: null };
+  });
+  // Discover the source label (Tdie / Tctl / Package id N) once for the legend
+  let labelled = false;
+  for (const d of allData) {
+    if (d.cpu_therm_raw) {
+      for (const chip of Object.keys(d.cpu_therm_raw)) {
+        for (const t of d.cpu_therm_raw[chip]) {
+          if (t.label === 'Tdie')              { chart.data.datasets[0].label = chip + '.Tdie';        labelled = true; break; }
+          if (t.label === 'Tctl')              { chart.data.datasets[0].label = chip + '.Tctl';        labelled = true; break; }
+          if (t.label && t.label.startsWith('Package')) { chart.data.datasets[0].label = chip + '.' + t.label; labelled = true; break; }
+        }
+        if (labelled) break;
+      }
+      break;
+    }
+  }
+  // Auto-scale y to 1.1x observed max, floor 60°C (packages idle warmer than cores)
+  const allT = allData.map(d => d.cpu_package_temp_c).filter(v => v != null);
+  const max = allT.length ? Math.max(...allT) : 0;
+  chart.options.scales.y.max = Math.max(60, Math.ceil(max * 1.1 / 10) * 10);
+  chart.update();
 }
 
 function updateCpuCoreFreqChart(allData) {

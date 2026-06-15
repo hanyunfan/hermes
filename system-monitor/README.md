@@ -24,8 +24,9 @@
 | Network throughput | `psutil` | Per interface (e.g. eth0, ib0) |
 | System power (whole-machine) | `ipmitool dcmi` | BMC-based; requires `ipmitool` + BMC access |
 | CPU power (package) | `intel_rapl` | RAPL CPU package power |
-| **CPU core temperature** (opt-in) | `psutil.sensors_temperatures` | Per physical core (°C). Intel `coretemp` / AMD `k10temp` if exposed. Requires `--cpu-debug` flag. |
-| **CPU core frequency** (opt-in) | `psutil.cpu_freq(percpu=True)` | Per logical core (MHz). Requires `--cpu-debug` flag. |
+| **CPU thermal sensors** (opt-in) | `psutil.sensors_temperatures` | Per-sensor dump: Intel `Core 0..N` (per physical core), AMD Zen 4+ `Tccd0..N` (per CCD, the closest thing to per-core on Zen). Includes label + value + high + critical for every chip the kernel exposes. Requires `--cpu-debug`. |
+| **CPU package temperature** (opt-in) | `psutil.sensors_temperatures` | Single number — picks Tdie (AMD Zen 3+) > Tctl (AMD) > Package id 0 (Intel). Requires `--cpu-debug`. |
+| **CPU core frequency** (opt-in) | `psutil.cpu_freq(percpu=True)` | Per logical core (MHz). Requires `--cpu-debug`. |
 
 > **PCIe/NVLink**: These metrics use `nvidia-smi dmon` which needs ~3–4 seconds of sampling to produce valid numbers. The collector therefore only enables them when `interval >= 10s`. If you start with a smaller interval, a red WARNING is printed and these fields will be absent from the JSON.
 
@@ -196,9 +197,11 @@ Each line in `data/metrics_<display_name>_<YYYYMMDD>.json`:
 | `cpu_power_w` | float or null | CPU package power (W) via RAPL; null if unavailable |
 | `gpu_power` | array or null | Per-GPU power draw (see below); null if no GPU |
 | `gpu` | array or null | Per-GPU stats (see below); null if no GPU |
-| `cpu_debug` | bool | **Only present when collector is run with `--cpu-debug` flag.** Signals that the per-core arrays below are populated. |
-| `cpu_core_temp_c` | array of float or null | Per **physical** core temperature (°C); sparse — `null` for cores with no sensor. Empty `[]` on chips that only expose package temperature (e.g. AMD Zen via k10temp). Only present with `--cpu-debug`. |
-| `cpu_core_freq_mhz` | array of float | Per **logical** core current frequency (MHz). Length equals `psutil.cpu_count(logical=True)`. Only present with `--cpu-debug`. |
+| `cpu_debug` | bool | **Only present when collector is run with `--cpu-debug` flag.** Signals that the per-core + thermal fields below are populated. |
+| `cpu_therm_raw` | object | **Only present with `--cpu-debug`.** Full thermal sensor dump from `psutil.sensors_temperatures()`, keyed by chip name (e.g. `coretemp`, `k10temp`, `dell_smm`, `acpitz`). Each value is an array of `{label, current, high, critical}` objects. Use this to inspect exactly what the kernel exposes on this machine. |
+| `cpu_therm_temp_c` | array of float or null | **Only present with `--cpu-debug`.** Per-sensor temperature series in dump order, excluding `Tdie`/`Tctl`/`Package` (those live in `cpu_package_temp_c`). For Intel this is per physical core (`Core 0..N`); for AMD Zen 4+ this is per CCD (`Tccd0..N`). |
+| `cpu_package_temp_c` | float or null | **Only present with `--cpu-debug`.** Best single-number package temperature. Picks Tdie (AMD Zen 3+) > Tctl (AMD) > Package id 0 (Intel). |
+| `cpu_core_freq_mhz` | array of float | **Only present with `--cpu-debug`.** Per **logical** core current frequency (MHz). Length equals `psutil.cpu_count(logical=True)`. |
 
 `network[]` elements:
 
@@ -256,6 +259,6 @@ Each line in `data/metrics_<display_name>_<YYYYMMDD>.json`:
 
 **system_power_w is null**: Confirm `ipmitool dcmi power reading` works on that machine and that the BMC has DCMI permissions.
 
-**CPU core temperature / frequency charts don't appear**: The collector was not started with `--cpu-debug`. Restart with `python3 collector.py 10 <name> --cpu-debug`. Existing files recorded without the flag will not retroactively gain the charts — start a new data file.
+**CPU thermal / package temperature / core frequency charts don't appear**: The collector was not started with `--cpu-debug`, **or** it was started before commit `1bfbea3` (Intel-only) — restart with `python3 collector.py 10 <name> --cpu-debug` and start a new data file. The new collector emits `cpu_therm_raw`, `cpu_therm_temp_c`, and `cpu_package_temp_c` which work on both Intel `coretemp` and AMD `k10temp`; the legacy `cpu_core_temp_c` field is dropped because it was Intel-only.
 
 **Multiple collectors on same display_name**: Only one collector per `display_name` should run, otherwise data files will interleave and corrupt each other.
