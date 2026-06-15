@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-15T17:18:23.317936+00:00",
+  "generated_at": "2026-06-15T18:43:22.166099+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-15T12:18:22.737574-05:00",
+  "now_local": "2026-06-15T13:43:21.427918-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -1405,14 +1405,14 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/esp.png"
           },
           "rank": 1,
-          "mp": 0,
+          "mp": 1,
           "w": 0,
-          "d": 0,
+          "d": 1,
           "l": 0,
           "gf": 0,
           "ga": 0,
           "gd": 0,
-          "pts": 0,
+          "pts": 1,
           "advance": false,
           "advance_label": "Advance to Round of 32",
           "advance_color": "#81D6AC"
@@ -1429,28 +1429,28 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/cpv.png"
           },
           "rank": 2,
-          "mp": 0,
+          "mp": 1,
           "w": 0,
-          "d": 0,
+          "d": 1,
           "l": 0,
           "gf": 0,
           "ga": 0,
           "gd": 0,
-          "pts": 0,
+          "pts": 1,
           "advance": false,
           "advance_label": "Advance to Round of 32",
           "advance_color": "#81D6AC"
         },
         {
           "team": {
-            "id": "655",
-            "name": "Saudi Arabia",
-            "name_zh": "沙特阿拉伯",
-            "rank": 61,
-            "short": "Saudi Arabia",
-            "abbr": "KSA",
-            "flag": "🇸🇦",
-            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/ksa.png"
+            "id": "212",
+            "name": "Uruguay",
+            "name_zh": "乌拉圭",
+            "rank": 16,
+            "short": "Uruguay",
+            "abbr": "URU",
+            "flag": "🇺🇾",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/uru.png"
           },
           "rank": 3,
           "mp": 0,
@@ -1467,14 +1467,14 @@
         },
         {
           "team": {
-            "id": "212",
-            "name": "Uruguay",
-            "name_zh": "乌拉圭",
-            "rank": 16,
-            "short": "Uruguay",
-            "abbr": "URU",
-            "flag": "🇺🇾",
-            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/uru.png"
+            "id": "655",
+            "name": "Saudi Arabia",
+            "name_zh": "沙特阿拉伯",
+            "rank": 61,
+            "short": "Saudi Arabia",
+            "abbr": "KSA",
+            "flag": "🇸🇦",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/ksa.png"
           },
           "rank": 4,
           "mp": 0,
@@ -4385,8 +4385,8 @@
           "kickoff_local_date": "2026-06-15",
           "kickoff_time": "11:00 AM",
           "kickoff_weekday": "Mon",
-          "status": "LIVE",
-          "status_short": "57'",
+          "status": "FINAL",
+          "status_short": "FT",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -4439,6 +4439,105 @@
               "team_side": "away",
               "player": "Sidny Lopes Cabral",
               "text": "Sidny Cabral (Cabo Verde) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "substitution",
+              "minute": "61'",
+              "team": "Cape Verde",
+              "team_id": "2597",
+              "team_side": "away",
+              "player": "Willy Semedo",
+              "text": "Substitution, Cabo Verde. Willy Semedo replaces Jovane Cabral because of an injury.",
+              "player_off": "Jovane Cabral"
+            },
+            {
+              "kind": "substitution",
+              "minute": "61'",
+              "team": "Cape Verde",
+              "team_id": "2597",
+              "team_side": "away",
+              "player": "Deroy Duarte",
+              "text": "Substitution, Cabo Verde. Deroy Duarte replaces Laros Duarte.",
+              "player_off": "Laros Duarte"
+            },
+            {
+              "kind": "substitution",
+              "minute": "61'",
+              "team": "Cape Verde",
+              "team_id": "2597",
+              "team_side": "away",
+              "player": "Nuno da Costa",
+              "text": "Substitution, Cabo Verde. Nuno da Costa replaces Dailon Livramento.",
+              "player_off": "Dailon Livramento"
+            },
+            {
+              "kind": "substitution",
+              "minute": "71'",
+              "team": "Spain",
+              "team_id": "164",
+              "team_side": "home",
+              "player": "Mikel Merino",
+              "text": "Substitution, Spain. Mikel Merino replaces Fabián Ruiz.",
+              "player_off": "Fabián Ruiz"
+            },
+            {
+              "kind": "substitution",
+              "minute": "71'",
+              "team": "Spain",
+              "team_id": "164",
+              "team_side": "home",
+              "player": "Lamine Yamal",
+              "text": "Substitution, Spain. Lamine Yamal replaces Gavi.",
+              "player_off": "Gavi"
+            },
+            {
+              "kind": "substitution",
+              "minute": "76'",
+              "team": "Cape Verde",
+              "team_id": "2597",
+              "team_side": "away",
+              "player": "João Paulo",
+              "text": "Substitution, Cabo Verde. João Paulo replaces Sidny Cabral.",
+              "player_off": "Sidny Lopes Cabral"
+            },
+            {
+              "kind": "substitution",
+              "minute": "79'",
+              "team": "Cape Verde",
+              "team_id": "2597",
+              "team_side": "away",
+              "player": "Telmo Arcanjo",
+              "text": "Substitution, Cabo Verde. Telmo Arcanjo replaces Jamiro Monteiro.",
+              "player_off": "Jamiro Monteiro"
+            },
+            {
+              "kind": "substitution",
+              "minute": "81'",
+              "team": "Spain",
+              "team_id": "164",
+              "team_side": "home",
+              "player": "Dani Olmo",
+              "text": "Substitution, Spain. Dani Olmo replaces Ferran Torres.",
+              "player_off": "Ferran Torres"
+            },
+            {
+              "kind": "substitution",
+              "minute": "87'",
+              "team": "Spain",
+              "team_id": "164",
+              "team_side": "home",
+              "player": "Nico Williams",
+              "text": "Substitution, Spain. Nico Williams replaces Rodri.",
+              "player_off": "Rodri"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "90'+3'",
+              "team": "Spain",
+              "team_id": "164",
+              "team_side": "home",
+              "player": "Pedri",
+              "text": "Pedri (Spain) is shown the yellow card for a bad foul."
             }
           ]
         },
