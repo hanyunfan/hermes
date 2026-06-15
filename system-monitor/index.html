@@ -22,15 +22,29 @@
   .hw-info { font-size: 0.82rem; color: #888; margin-bottom: 10px; padding: 6px 12px; background: #1a1d27; border: 1px solid #252a3a; border-radius: 8px; display: inline-block; }
   .hw-info span { margin-right: 16px; }
   #machine-select { min-width: 280px; }
-  .charts { display: grid; grid-template-columns: repeat(auto-fit, minmax(500px, 1fr)); gap: 16px; }
+  /* 2-column desktop grid — keeps XL cards (CPU Thermal Sensors + CPU Core
+     Frequency) side-by-side and matches the look of the rest of the dashboard.
+     Auto-fit would give 3+ columns on wide viewports and break the pairing. */
+  .charts { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
   .chart-card { background: #1a1d27; border-radius: 12px; padding: 16px; border: 1px solid #252a3a; }
   /* Wide chart card spans the full grid row — used for the CPU core
      frequency chart which shows up to 128 logical-core lines and would
      otherwise be unreadable in a half-width column. */
   .chart-card--wide { grid-column: 1 / -1; }
   .chart-card--wide .chart-wrapper { height: 500px; }
+  /* XL chart: 2-row tall card placed side-by-side with another XL card.
+     Used for the paired CPU Thermal Sensors + CPU Core Frequency charts
+     (each ~900px wide × ~500px tall in the 2-column desktop grid). */
+  .chart-card--xl { grid-row: span 2; }
+  .chart-card--xl .chart-wrapper { min-height: 500px; }
   .chart-card h3 { font-size: 0.9rem; color: #aaa; margin-bottom: 12px; font-weight: 500; }
   .chart-wrapper { position: relative; height: 220px; }
+  /* On narrow viewports, force a single-column grid so wide/xl cards
+     stack vertically instead of stretching past the viewport. */
+  @media (max-width: 768px) {
+    .chart-grid { grid-template-columns: 1fr !important; }
+    .chart-card--xl { grid-row: span 1; }
+  }
   .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 16px; }
   .stat-card {
     background: #1a1d27; border: 1px solid #252a3a; border-radius: 10px;
@@ -232,18 +246,20 @@
     <h3>Network RX/TX (MB/s)</h3>
     <div class="chart-wrapper"><canvas id="chart-net"></canvas></div>
   </div>
-  <!-- CPU debug charts (hidden by default; shown when data carries cpu_debug=true) -->
-  <div class="chart-card" id="cpu-therm-temp-chart-card" style="display:none">
+  <!-- CPU debug charts (hidden by default; shown when data carries cpu_debug=true).
+       XL cards (Thermal Sensors + Core Frequency) are paired side-by-side in the
+       2-column grid; Package chart stays wide as a single-line strip below them. -->
+  <div class="chart-card chart-card--xl" id="cpu-core-freq-chart-card" style="display:none">
+    <h3>CPU Core Frequency (MHz, per logical core) — first 16 shown; click legend to toggle</h3>
+    <div class="chart-wrapper"><canvas id="chart-cpu-core-freq"></canvas></div>
+  </div>
+  <div class="chart-card chart-card--xl" id="cpu-therm-temp-chart-card" style="display:none">
     <h3>CPU Thermal Sensors (°C, per sensor from /sys/class/thermal)</h3>
     <div class="chart-wrapper"><canvas id="chart-cpu-therm-temp"></canvas></div>
   </div>
-  <div class="chart-card" id="cpu-therm-package-chart-card" style="display:none">
+  <div class="chart-card chart-card--wide" id="cpu-therm-package-chart-card" style="display:none">
     <h3>CPU Package Temperature (°C, single line)</h3>
     <div class="chart-wrapper"><canvas id="chart-cpu-therm-package"></canvas></div>
-  </div>
-  <div class="chart-card chart-card--wide" id="cpu-core-freq-chart-card" style="display:none">
-    <h3>CPU Core Frequency (MHz, per logical core) — first 16 shown; click legend to toggle</h3>
-    <div class="chart-wrapper"><canvas id="chart-cpu-core-freq"></canvas></div>
   </div>
 </div>
 <p class="updated" id="updated"></p>
@@ -545,6 +561,9 @@ function buildCpuThermTempChart(canvasId) {
     data: { datasets },
     options: {
       ...chartOptions(),
+      // XL chart (~500px tall) — disable aspect-ratio so the canvas fills
+      // the parent .chart-card--xl wrapper instead of cropping to 2:1.
+      maintainAspectRatio: false,
       scales: {
         ...chartOptions().scales,
         y: { min: 0, max: 100, grid: { color: '#252a3a' }, ticks: { color: '#666' } }
@@ -565,6 +584,9 @@ function buildCpuThermPackageChart(canvasId) {
     }] },
     options: {
       ...chartOptions(),
+      // Single-line wide chart — disable aspect-ratio so the canvas
+      // fills the wide wrapper instead of staying at width/2 height.
+      maintainAspectRatio: false,
       scales: {
         ...chartOptions().scales,
         y: { min: 0, max: 100, grid: { color: '#252a3a' }, ticks: { color: '#666' } }
@@ -590,6 +612,9 @@ function buildCpuCoreFreqChart(canvasId) {
     data: { datasets },
     options: {
       ...chartOptions(),
+      // XL chart (~500px tall) — disable aspect-ratio so the canvas fills
+      // the parent .chart-card--xl wrapper instead of cropping to 2:1.
+      maintainAspectRatio: false,
       elements: {
         // Tighter lines and no hover dots for the dense multi-line layout
         point: { radius: 0, hoverRadius: 4, hitRadius: 12 },
@@ -924,16 +949,39 @@ async function loadDayData(dateStr) {
   if (hasGpu) updateTempChart(allData, gpuCount);
   updateNetworkChart(allData);
 
-  // ── CPU debug charts (only visible when any sample carries cpu_debug=true)
+  // ── CPU debug charts (only visible when any sample carries cpu_debug=true).
+  // Old JSON samples (before the cpu_therm_temp_c / cpu_package_temp_c fields
+  // were added) only have cpu_therm_raw — accept either path so historical
+  // data isn't hidden after a schema extension.
   const hasCpuDebug = allData.some(d => d.cpu_debug === true);
-  // Therm-temp chart: needs per-sensor data (Core N or TccdN)
-  const hasCpuThermTemp = allData.some(d =>
-    d.cpu_debug === true && Array.isArray(d.cpu_therm_temp_c) && d.cpu_therm_temp_c.length > 0
-  );
-  // Package chart: needs cpu_package_temp_c (single float, Tdie/Tctl/Package)
-  const hasCpuPackageTemp = allData.some(d =>
-    d.cpu_debug === true && d.cpu_package_temp_c != null
-  );
+  // Therm-temp chart: needs per-sensor data — either the new flat array
+  // or the older raw dump with at least one extractable sensor.
+  const hasCpuThermTemp = allData.some(d => {
+    if (d.cpu_debug !== true) return false;
+    if (Array.isArray(d.cpu_therm_temp_c) && d.cpu_therm_temp_c.length > 0) return true;
+    if (d.cpu_therm_raw) {
+      for (const chip of Object.keys(d.cpu_therm_raw)) {
+        if ((d.cpu_therm_raw[chip] || []).length > 0) return true;
+      }
+    }
+    return false;
+  });
+  // Package chart: needs cpu_package_temp_c (single float, Tdie/Tctl/Package),
+  // OR the older raw dump from which we can extract one socket-level sensor.
+  const hasCpuPackageTemp = allData.some(d => {
+    if (d.cpu_debug !== true) return false;
+    if (d.cpu_package_temp_c != null) return true;
+    if (d.cpu_therm_raw) {
+      for (const chip of Object.keys(d.cpu_therm_raw)) {
+        for (const t of (d.cpu_therm_raw[chip] || [])) {
+          if (t && (t.label === 'Tdie' || t.label === 'Tctl' || (t.label || '').startsWith('Package'))) {
+            return t.current != null;
+          }
+        }
+      }
+    }
+    return false;
+  });
   document.getElementById('cpu-therm-temp-chart-card').style.display    = hasCpuThermTemp ? '' : 'none';
   document.getElementById('cpu-therm-package-chart-card').style.display = hasCpuPackageTemp ? '' : 'none';
   document.getElementById('cpu-core-freq-chart-card').style.display     = hasCpuDebug ? '' : 'none';
@@ -1846,12 +1894,31 @@ function updateCpuThermTempChart(allData) {
 
   const chart = charts['cpu-therm-temp'];
   const datasets = chart.data.datasets;
+  // Build a fast lookup: for each sample, pre-extract the (chip,label)-indexed
+  // value from cpu_therm_raw. Older samples (before cpu_therm_temp_c existed)
+  // only have cpu_therm_raw, so this lookup is the fallback path. Newer
+  // samples also populate cpu_therm_temp_c, which is used when available.
+  // Index order matches sensorLabels (chip + '.' + label, dump order).
+  const sampleValues = allData.map(d => {
+    if (Array.isArray(d.cpu_therm_temp_c) && d.cpu_therm_temp_c.length) {
+      return d.cpu_therm_temp_c;
+    }
+    // Fallback: pull the matching sensor reading from cpu_therm_raw in
+    // dump order so the indices line up with sensorLabels above.
+    if (d.cpu_therm_raw) {
+      const flat = [];
+      for (const chip of Object.keys(d.cpu_therm_raw)) {
+        for (const t of (d.cpu_therm_raw[chip] || [])) flat.push(t.current);
+      }
+      return flat;
+    }
+    return [];
+  });
   for (let i = 0; i < disambiguated.length; i++) {
     datasets[i].label = disambiguated[i];
     datasets[i].hidden = false;
-    datasets[i].data = allData.map(d => {
-      const arr = d.cpu_therm_temp_c || [];
-      const v = arr[i];
+    datasets[i].data = allData.map((d, idx) => {
+      const v = sampleValues[idx][i];
       return v != null ? { x: new Date(d.timestamp), y: v } : { x: new Date(d.timestamp), y: null };
     });
   }
@@ -1859,7 +1926,7 @@ function updateCpuThermTempChart(allData) {
   for (let i = disambiguated.length; i < datasets.length; i++) datasets[i].hidden = true;
 
   // Auto-scale y to 1.1x observed max, floor 80°C
-  const allT = allData.flatMap(d => (d.cpu_therm_temp_c || []).filter(t => t != null));
+  const allT = sampleValues.flat().filter(v => v != null);
   const max = allT.length ? Math.max(...allT) : 0;
   chart.options.scales.y.max = Math.max(80, Math.ceil(max * 1.1 / 10) * 10);
   chart.update();
@@ -1867,20 +1934,39 @@ function updateCpuThermTempChart(allData) {
 
 function updateCpuThermPackageChart(allData) {
   // Single-line chart driven by cpu_package_temp_c. Skip if no sample
-  // has the field, or all values are null.
-  const anyData = allData.some(d => d.cpu_package_temp_c != null);
-  if (!anyData) return;
+  // has the field, or all values are null. Older samples (before the
+  // cpu_package_temp_c field existed) only have cpu_therm_raw, so we
+  // pick the first socket-level sensor (Tdie/Tctl/Package id 0) from
+  // raw in the same priority order as the collector.
+  const socketLabels = new Set(['Tdie', 'Tctl', 'Package id 0']);
+
+  // Pick the value for each sample — prefer the new cpu_package_temp_c
+  // field, otherwise fall back to the first matching cpu_therm_raw sensor.
+  const sampleValues = allData.map(d => {
+    if (d.cpu_package_temp_c != null) return d.cpu_package_temp_c;
+    if (d.cpu_therm_raw) {
+      // Same priority as the collector: Tdie > Tctl > Package id 0.
+      for (const chip of Object.keys(d.cpu_therm_raw)) {
+        for (const t of (d.cpu_therm_raw[chip] || [])) {
+          if (t && (t.label === 'Tdie' || t.label === 'Tctl' || (t.label || '').startsWith('Package'))) {
+            return t.current != null ? t.current : null;
+          }
+        }
+      }
+    }
+    return null;
+  });
+  if (!sampleValues.some(v => v != null)) return;
 
   const chart = charts['cpu-therm-package'];
-  chart.data.datasets[0].data = allData.map(d => {
-    const v = d.cpu_package_temp_c;
+  chart.data.datasets[0].data = allData.map((d, idx) => {
+    const v = sampleValues[idx];
     return v != null ? { x: new Date(d.timestamp), y: v } : { x: new Date(d.timestamp), y: null };
   });
   // Discover the source label (Tdie / Tctl / Package id N) once for the legend.
   // Uses the same disambiguation as updateCpuThermTempChart (Tdie/Tctl/Package
   // → chip.CPU0) so the two charts label sockets consistently.
   let labelled = false;
-  const socketLabels = new Set(['Tdie', 'Tctl', 'Package id 0']);
   for (const d of allData) {
     if (d.cpu_therm_raw) {
       const seenChips = {};
@@ -1898,7 +1984,7 @@ function updateCpuThermPackageChart(allData) {
     }
   }
   // Auto-scale y to 1.1x observed max, floor 60°C (packages idle warmer than cores)
-  const allT = allData.map(d => d.cpu_package_temp_c).filter(v => v != null);
+  const allT = sampleValues.filter(v => v != null);
   const max = allT.length ? Math.max(...allT) : 0;
   chart.options.scales.y.max = Math.max(60, Math.ceil(max * 1.1 / 10) * 10);
   chart.update();
