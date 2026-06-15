@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-15T18:43:22.166099+00:00",
+  "generated_at": "2026-06-15T19:41:05.943679+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-15T13:43:21.427918-05:00",
+  "now_local": "2026-06-15T14:41:04.187047-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -4427,7 +4427,7 @@
             "Tele",
             "Peacock"
           ],
-          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760428/cape verde-spain",
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760428/cape-verde-spain",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Spain%20vs%20Cape%20Verde",
           "slug": "cape verde-at-spain",
           "incidents": [
