@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-15T15:51:15.692990+00:00",
+  "generated_at": "2026-06-15T16:27:42.752504+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-15T10:51:14.708309-05:00",
+  "now_local": "2026-06-15T11:27:41.650810-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -16,6 +16,7 @@
       {
         "id": "624",
         "name": "Algeria",
+        "name_zh": "阿尔及利亚",
         "short": "Algeria",
         "abbr": "ALG",
         "flag": "🇩🇿",
@@ -25,6 +26,7 @@
       {
         "id": "202",
         "name": "Argentina",
+        "name_zh": "阿根廷",
         "short": "Argentina",
         "abbr": "ARG",
         "flag": "🇦🇷",
@@ -34,6 +36,7 @@
       {
         "id": "628",
         "name": "Australia",
+        "name_zh": "澳大利亚",
         "short": "Australia",
         "abbr": "AUS",
         "flag": "🇦🇺",
@@ -43,6 +46,7 @@
       {
         "id": "474",
         "name": "Austria",
+        "name_zh": "奥地利",
         "short": "Austria",
         "abbr": "AUT",
         "flag": "🇦🇹",
@@ -52,6 +56,7 @@
       {
         "id": "459",
         "name": "Belgium",
+        "name_zh": "比利时",
         "short": "Belgium",
         "abbr": "BEL",
         "flag": "🇧🇪",
@@ -61,6 +66,7 @@
       {
         "id": "452",
         "name": "Bosnia-Herzegovina",
+        "name_zh": "波黑",
         "short": "Bosnia-Herz",
         "abbr": "BIH",
         "flag": "🇧🇦",
@@ -70,6 +76,7 @@
       {
         "id": "205",
         "name": "Brazil",
+        "name_zh": "巴西",
         "short": "Brazil",
         "abbr": "BRA",
         "flag": "🇧🇷",
@@ -79,6 +86,7 @@
       {
         "id": "206",
         "name": "Canada",
+        "name_zh": "加拿大",
         "short": "Canada",
         "abbr": "CAN",
         "flag": "🇨🇦",
@@ -88,6 +96,7 @@
       {
         "id": "2597",
         "name": "Cape Verde",
+        "name_zh": "佛得角",
         "short": "Cape Verde",
         "abbr": "CPV",
         "flag": "🇨🇻",
@@ -97,6 +106,7 @@
       {
         "id": "208",
         "name": "Colombia",
+        "name_zh": "哥伦比亚",
         "short": "Colombia",
         "abbr": "COL",
         "flag": "🇨🇴",
@@ -106,6 +116,7 @@
       {
         "id": "2850",
         "name": "Congo DR",
+        "name_zh": "刚果（金）",
         "short": "Congo DR",
         "abbr": "COD",
         "flag": "🇨🇩",
@@ -115,6 +126,7 @@
       {
         "id": "477",
         "name": "Croatia",
+        "name_zh": "克罗地亚",
         "short": "Croatia",
         "abbr": "CRO",
         "flag": "🇭🇷",
@@ -124,6 +136,7 @@
       {
         "id": "11678",
         "name": "Curaçao",
+        "name_zh": "库拉索",
         "short": "Curaçao",
         "abbr": "CUW",
         "flag": "🏳️",
@@ -133,6 +146,7 @@
       {
         "id": "450",
         "name": "Czechia",
+        "name_zh": "捷克",
         "short": "Czechia",
         "abbr": "CZE",
         "flag": "🇨🇿",
@@ -142,6 +156,7 @@
       {
         "id": "209",
         "name": "Ecuador",
+        "name_zh": "厄瓜多尔",
         "short": "Ecuador",
         "abbr": "ECU",
         "flag": "🇪🇨",
@@ -151,6 +166,7 @@
       {
         "id": "2620",
         "name": "Egypt",
+        "name_zh": "埃及",
         "short": "Egypt",
         "abbr": "EGY",
         "flag": "🇪🇬",
@@ -160,6 +176,7 @@
       {
         "id": "448",
         "name": "England",
+        "name_zh": "英格兰",
         "short": "England",
         "abbr": "ENG",
         "flag": "🏴",
@@ -169,6 +186,7 @@
       {
         "id": "478",
         "name": "France",
+        "name_zh": "法国",
         "short": "France",
         "abbr": "FRA",
         "flag": "🇫🇷",
@@ -178,6 +196,7 @@
       {
         "id": "481",
         "name": "Germany",
+        "name_zh": "德国",
         "short": "Germany",
         "abbr": "GER",
         "flag": "🇩🇪",
@@ -187,6 +206,7 @@
       {
         "id": "4469",
         "name": "Ghana",
+        "name_zh": "加纳",
         "short": "Ghana",
         "abbr": "GHA",
         "flag": "🇬🇭",
@@ -196,6 +216,7 @@
       {
         "id": "2654",
         "name": "Haiti",
+        "name_zh": "海地",
         "short": "Haiti",
         "abbr": "HAI",
         "flag": "🇭🇹",
@@ -205,6 +226,7 @@
       {
         "id": "469",
         "name": "Iran",
+        "name_zh": "伊朗",
         "short": "Iran",
         "abbr": "IRN",
         "flag": "🇮🇷",
@@ -214,6 +236,7 @@
       {
         "id": "4375",
         "name": "Iraq",
+        "name_zh": "伊拉克",
         "short": "Iraq",
         "abbr": "IRQ",
         "flag": "🇮🇶",
@@ -223,6 +246,7 @@
       {
         "id": "4789",
         "name": "Ivory Coast",
+        "name_zh": "科特迪瓦",
         "short": "Ivory Coast",
         "abbr": "CIV",
         "flag": "🇨🇮",
@@ -232,6 +256,7 @@
       {
         "id": "627",
         "name": "Japan",
+        "name_zh": "日本",
         "short": "Japan",
         "abbr": "JPN",
         "flag": "🇯🇵",
@@ -241,6 +266,7 @@
       {
         "id": "2917",
         "name": "Jordan",
+        "name_zh": "约旦",
         "short": "Jordan",
         "abbr": "JOR",
         "flag": "🇯🇴",
@@ -250,6 +276,7 @@
       {
         "id": "203",
         "name": "Mexico",
+        "name_zh": "墨西哥",
         "short": "Mexico",
         "abbr": "MEX",
         "flag": "🇲🇽",
@@ -259,6 +286,7 @@
       {
         "id": "2869",
         "name": "Morocco",
+        "name_zh": "摩洛哥",
         "short": "Morocco",
         "abbr": "MAR",
         "flag": "🇲🇦",
@@ -268,6 +296,7 @@
       {
         "id": "449",
         "name": "Netherlands",
+        "name_zh": "荷兰",
         "short": "Netherlands",
         "abbr": "NED",
         "flag": "🇳🇱",
@@ -277,6 +306,7 @@
       {
         "id": "2666",
         "name": "New Zealand",
+        "name_zh": "新西兰",
         "short": "New Zealand",
         "abbr": "NZL",
         "flag": "🇳🇿",
@@ -286,6 +316,7 @@
       {
         "id": "464",
         "name": "Norway",
+        "name_zh": "挪威",
         "short": "Norway",
         "abbr": "NOR",
         "flag": "🇳🇴",
@@ -295,6 +326,7 @@
       {
         "id": "2659",
         "name": "Panama",
+        "name_zh": "巴拿马",
         "short": "Panama",
         "abbr": "PAN",
         "flag": "🇵🇦",
@@ -304,6 +336,7 @@
       {
         "id": "210",
         "name": "Paraguay",
+        "name_zh": "巴拉圭",
         "short": "Paraguay",
         "abbr": "PAR",
         "flag": "🇵🇾",
@@ -313,6 +346,7 @@
       {
         "id": "482",
         "name": "Portugal",
+        "name_zh": "葡萄牙",
         "short": "Portugal",
         "abbr": "POR",
         "flag": "🇵🇹",
@@ -322,6 +356,7 @@
       {
         "id": "4398",
         "name": "Qatar",
+        "name_zh": "卡塔尔",
         "short": "Qatar",
         "abbr": "QAT",
         "flag": "🇶🇦",
@@ -331,6 +366,7 @@
       {
         "id": "655",
         "name": "Saudi Arabia",
+        "name_zh": "沙特阿拉伯",
         "short": "Saudi Arabia",
         "abbr": "KSA",
         "flag": "🇸🇦",
@@ -340,6 +376,7 @@
       {
         "id": "580",
         "name": "Scotland",
+        "name_zh": "苏格兰",
         "short": "Scotland",
         "abbr": "SCO",
         "flag": "🏴",
@@ -349,6 +386,7 @@
       {
         "id": "654",
         "name": "Senegal",
+        "name_zh": "塞内加尔",
         "short": "Senegal",
         "abbr": "SEN",
         "flag": "🇸🇳",
@@ -358,6 +396,7 @@
       {
         "id": "467",
         "name": "South Africa",
+        "name_zh": "南非",
         "short": "South Africa",
         "abbr": "RSA",
         "flag": "🇿🇦",
@@ -367,6 +406,7 @@
       {
         "id": "451",
         "name": "South Korea",
+        "name_zh": "韩国",
         "short": "South Korea",
         "abbr": "KOR",
         "flag": "🇰🇷",
@@ -376,6 +416,7 @@
       {
         "id": "164",
         "name": "Spain",
+        "name_zh": "西班牙",
         "short": "Spain",
         "abbr": "ESP",
         "flag": "🇪🇸",
@@ -385,6 +426,7 @@
       {
         "id": "466",
         "name": "Sweden",
+        "name_zh": "瑞典",
         "short": "Sweden",
         "abbr": "SWE",
         "flag": "🇸🇪",
@@ -394,6 +436,7 @@
       {
         "id": "475",
         "name": "Switzerland",
+        "name_zh": "瑞士",
         "short": "Switzerland",
         "abbr": "SUI",
         "flag": "🇨🇭",
@@ -403,6 +446,7 @@
       {
         "id": "659",
         "name": "Tunisia",
+        "name_zh": "突尼斯",
         "short": "Tunisia",
         "abbr": "TUN",
         "flag": "🇹🇳",
@@ -412,6 +456,7 @@
       {
         "id": "465",
         "name": "Türkiye",
+        "name_zh": "土耳其",
         "short": "Türkiye",
         "abbr": "TUR",
         "flag": "🇹🇷",
@@ -421,6 +466,7 @@
       {
         "id": "660",
         "name": "United States",
+        "name_zh": "美国",
         "short": "USA",
         "abbr": "USA",
         "flag": "🇺🇸",
@@ -430,6 +476,7 @@
       {
         "id": "212",
         "name": "Uruguay",
+        "name_zh": "乌拉圭",
         "short": "Uruguay",
         "abbr": "URU",
         "flag": "🇺🇾",
@@ -439,6 +486,7 @@
       {
         "id": "2570",
         "name": "Uzbekistan",
+        "name_zh": "乌兹别克斯坦",
         "short": "Uzbekistan",
         "abbr": "UZB",
         "flag": "🇺🇿",
@@ -580,6 +628,7 @@
           "team": {
             "id": "203",
             "name": "Mexico",
+            "name_zh": "墨西哥",
             "short": "Mexico",
             "abbr": "MEX",
             "flag": "🇲🇽",
@@ -602,6 +651,7 @@
           "team": {
             "id": "451",
             "name": "South Korea",
+            "name_zh": "韩国",
             "short": "South Korea",
             "abbr": "KOR",
             "flag": "🇰🇷",
@@ -624,6 +674,7 @@
           "team": {
             "id": "450",
             "name": "Czechia",
+            "name_zh": "捷克",
             "short": "Czechia",
             "abbr": "CZE",
             "flag": "🇨🇿",
@@ -646,6 +697,7 @@
           "team": {
             "id": "467",
             "name": "South Africa",
+            "name_zh": "南非",
             "short": "South Africa",
             "abbr": "RSA",
             "flag": "🇿🇦",
@@ -675,6 +727,7 @@
           "team": {
             "id": "475",
             "name": "Switzerland",
+            "name_zh": "瑞士",
             "short": "Switzerland",
             "abbr": "SUI",
             "flag": "🇨🇭",
@@ -697,6 +750,7 @@
           "team": {
             "id": "206",
             "name": "Canada",
+            "name_zh": "加拿大",
             "short": "Canada",
             "abbr": "CAN",
             "flag": "🇨🇦",
@@ -719,6 +773,7 @@
           "team": {
             "id": "4398",
             "name": "Qatar",
+            "name_zh": "卡塔尔",
             "short": "Qatar",
             "abbr": "QAT",
             "flag": "🇶🇦",
@@ -741,6 +796,7 @@
           "team": {
             "id": "452",
             "name": "Bosnia-Herzegovina",
+            "name_zh": "波黑",
             "short": "Bosnia-Herz",
             "abbr": "BIH",
             "flag": "🇧🇦",
@@ -770,6 +826,7 @@
           "team": {
             "id": "580",
             "name": "Scotland",
+            "name_zh": "苏格兰",
             "short": "Scotland",
             "abbr": "SCO",
             "flag": "🏴",
@@ -792,6 +849,7 @@
           "team": {
             "id": "2869",
             "name": "Morocco",
+            "name_zh": "摩洛哥",
             "short": "Morocco",
             "abbr": "MAR",
             "flag": "🇲🇦",
@@ -814,6 +872,7 @@
           "team": {
             "id": "205",
             "name": "Brazil",
+            "name_zh": "巴西",
             "short": "Brazil",
             "abbr": "BRA",
             "flag": "🇧🇷",
@@ -836,6 +895,7 @@
           "team": {
             "id": "2654",
             "name": "Haiti",
+            "name_zh": "海地",
             "short": "Haiti",
             "abbr": "HAI",
             "flag": "🇭🇹",
@@ -865,6 +925,7 @@
           "team": {
             "id": "660",
             "name": "United States",
+            "name_zh": "美国",
             "short": "USA",
             "abbr": "USA",
             "flag": "🇺🇸",
@@ -887,6 +948,7 @@
           "team": {
             "id": "628",
             "name": "Australia",
+            "name_zh": "澳大利亚",
             "short": "Australia",
             "abbr": "AUS",
             "flag": "🇦🇺",
@@ -909,6 +971,7 @@
           "team": {
             "id": "465",
             "name": "Türkiye",
+            "name_zh": "土耳其",
             "short": "Türkiye",
             "abbr": "TUR",
             "flag": "🇹🇷",
@@ -931,6 +994,7 @@
           "team": {
             "id": "210",
             "name": "Paraguay",
+            "name_zh": "巴拉圭",
             "short": "Paraguay",
             "abbr": "PAR",
             "flag": "🇵🇾",
@@ -960,6 +1024,7 @@
           "team": {
             "id": "481",
             "name": "Germany",
+            "name_zh": "德国",
             "short": "Germany",
             "abbr": "GER",
             "flag": "🇩🇪",
@@ -982,6 +1047,7 @@
           "team": {
             "id": "4789",
             "name": "Ivory Coast",
+            "name_zh": "科特迪瓦",
             "short": "Ivory Coast",
             "abbr": "CIV",
             "flag": "🇨🇮",
@@ -1004,6 +1070,7 @@
           "team": {
             "id": "209",
             "name": "Ecuador",
+            "name_zh": "厄瓜多尔",
             "short": "Ecuador",
             "abbr": "ECU",
             "flag": "🇪🇨",
@@ -1026,6 +1093,7 @@
           "team": {
             "id": "11678",
             "name": "Curaçao",
+            "name_zh": "库拉索",
             "short": "Curaçao",
             "abbr": "CUW",
             "flag": "🏳️",
@@ -1055,6 +1123,7 @@
           "team": {
             "id": "466",
             "name": "Sweden",
+            "name_zh": "瑞典",
             "short": "Sweden",
             "abbr": "SWE",
             "flag": "🇸🇪",
@@ -1077,6 +1146,7 @@
           "team": {
             "id": "627",
             "name": "Japan",
+            "name_zh": "日本",
             "short": "Japan",
             "abbr": "JPN",
             "flag": "🇯🇵",
@@ -1099,6 +1169,7 @@
           "team": {
             "id": "449",
             "name": "Netherlands",
+            "name_zh": "荷兰",
             "short": "Netherlands",
             "abbr": "NED",
             "flag": "🇳🇱",
@@ -1121,6 +1192,7 @@
           "team": {
             "id": "659",
             "name": "Tunisia",
+            "name_zh": "突尼斯",
             "short": "Tunisia",
             "abbr": "TUN",
             "flag": "🇹🇳",
@@ -1150,6 +1222,7 @@
           "team": {
             "id": "459",
             "name": "Belgium",
+            "name_zh": "比利时",
             "short": "Belgium",
             "abbr": "BEL",
             "flag": "🇧🇪",
@@ -1172,6 +1245,7 @@
           "team": {
             "id": "2620",
             "name": "Egypt",
+            "name_zh": "埃及",
             "short": "Egypt",
             "abbr": "EGY",
             "flag": "🇪🇬",
@@ -1194,6 +1268,7 @@
           "team": {
             "id": "469",
             "name": "Iran",
+            "name_zh": "伊朗",
             "short": "Iran",
             "abbr": "IRN",
             "flag": "🇮🇷",
@@ -1216,6 +1291,7 @@
           "team": {
             "id": "2666",
             "name": "New Zealand",
+            "name_zh": "新西兰",
             "short": "New Zealand",
             "abbr": "NZL",
             "flag": "🇳🇿",
@@ -1245,6 +1321,7 @@
           "team": {
             "id": "164",
             "name": "Spain",
+            "name_zh": "西班牙",
             "short": "Spain",
             "abbr": "ESP",
             "flag": "🇪🇸",
@@ -1267,6 +1344,7 @@
           "team": {
             "id": "2597",
             "name": "Cape Verde",
+            "name_zh": "佛得角",
             "short": "Cape Verde",
             "abbr": "CPV",
             "flag": "🇨🇻",
@@ -1289,6 +1367,7 @@
           "team": {
             "id": "655",
             "name": "Saudi Arabia",
+            "name_zh": "沙特阿拉伯",
             "short": "Saudi Arabia",
             "abbr": "KSA",
             "flag": "🇸🇦",
@@ -1311,6 +1390,7 @@
           "team": {
             "id": "212",
             "name": "Uruguay",
+            "name_zh": "乌拉圭",
             "short": "Uruguay",
             "abbr": "URU",
             "flag": "🇺🇾",
@@ -1340,6 +1420,7 @@
           "team": {
             "id": "478",
             "name": "France",
+            "name_zh": "法国",
             "short": "France",
             "abbr": "FRA",
             "flag": "🇫🇷",
@@ -1362,6 +1443,7 @@
           "team": {
             "id": "654",
             "name": "Senegal",
+            "name_zh": "塞内加尔",
             "short": "Senegal",
             "abbr": "SEN",
             "flag": "🇸🇳",
@@ -1384,6 +1466,7 @@
           "team": {
             "id": "4375",
             "name": "Iraq",
+            "name_zh": "伊拉克",
             "short": "Iraq",
             "abbr": "IRQ",
             "flag": "🇮🇶",
@@ -1406,6 +1489,7 @@
           "team": {
             "id": "464",
             "name": "Norway",
+            "name_zh": "挪威",
             "short": "Norway",
             "abbr": "NOR",
             "flag": "🇳🇴",
@@ -1435,6 +1519,7 @@
           "team": {
             "id": "202",
             "name": "Argentina",
+            "name_zh": "阿根廷",
             "short": "Argentina",
             "abbr": "ARG",
             "flag": "🇦🇷",
@@ -1457,6 +1542,7 @@
           "team": {
             "id": "624",
             "name": "Algeria",
+            "name_zh": "阿尔及利亚",
             "short": "Algeria",
             "abbr": "ALG",
             "flag": "🇩🇿",
@@ -1479,6 +1565,7 @@
           "team": {
             "id": "474",
             "name": "Austria",
+            "name_zh": "奥地利",
             "short": "Austria",
             "abbr": "AUT",
             "flag": "🇦🇹",
@@ -1501,6 +1588,7 @@
           "team": {
             "id": "2917",
             "name": "Jordan",
+            "name_zh": "约旦",
             "short": "Jordan",
             "abbr": "JOR",
             "flag": "🇯🇴",
@@ -1530,6 +1618,7 @@
           "team": {
             "id": "482",
             "name": "Portugal",
+            "name_zh": "葡萄牙",
             "short": "Portugal",
             "abbr": "POR",
             "flag": "🇵🇹",
@@ -1552,6 +1641,7 @@
           "team": {
             "id": "2850",
             "name": "Congo DR",
+            "name_zh": "刚果（金）",
             "short": "Congo DR",
             "abbr": "COD",
             "flag": "🇨🇩",
@@ -1574,6 +1664,7 @@
           "team": {
             "id": "2570",
             "name": "Uzbekistan",
+            "name_zh": "乌兹别克斯坦",
             "short": "Uzbekistan",
             "abbr": "UZB",
             "flag": "🇺🇿",
@@ -1596,6 +1687,7 @@
           "team": {
             "id": "208",
             "name": "Colombia",
+            "name_zh": "哥伦比亚",
             "short": "Colombia",
             "abbr": "COL",
             "flag": "🇨🇴",
@@ -1625,6 +1717,7 @@
           "team": {
             "id": "448",
             "name": "England",
+            "name_zh": "英格兰",
             "short": "England",
             "abbr": "ENG",
             "flag": "🏴",
@@ -1647,6 +1740,7 @@
           "team": {
             "id": "477",
             "name": "Croatia",
+            "name_zh": "克罗地亚",
             "short": "Croatia",
             "abbr": "CRO",
             "flag": "🇭🇷",
@@ -1669,6 +1763,7 @@
           "team": {
             "id": "4469",
             "name": "Ghana",
+            "name_zh": "加纳",
             "short": "Ghana",
             "abbr": "GHA",
             "flag": "🇬🇭",
@@ -1691,6 +1786,7 @@
           "team": {
             "id": "2659",
             "name": "Panama",
+            "name_zh": "巴拿马",
             "short": "Panama",
             "abbr": "PAN",
             "flag": "🇵🇦",
@@ -1732,6 +1828,7 @@
           "home": {
             "id": "203",
             "name": "Mexico",
+            "name_zh": "墨西哥",
             "short": "Mexico",
             "abbr": "MEX",
             "flag": "🇲🇽",
@@ -1744,6 +1841,7 @@
           "away": {
             "id": "467",
             "name": "South Africa",
+            "name_zh": "南非",
             "short": "South Africa",
             "abbr": "RSA",
             "flag": "🇿🇦",
@@ -1947,6 +2045,7 @@
           "home": {
             "id": "451",
             "name": "South Korea",
+            "name_zh": "韩国",
             "short": "South Korea",
             "abbr": "KOR",
             "flag": "🇰🇷",
@@ -1959,6 +2058,7 @@
           "away": {
             "id": "450",
             "name": "Czechia",
+            "name_zh": "捷克",
             "short": "Czechia",
             "abbr": "CZE",
             "flag": "🇨🇿",
@@ -2134,6 +2234,7 @@
           "home": {
             "id": "206",
             "name": "Canada",
+            "name_zh": "加拿大",
             "short": "Canada",
             "abbr": "CAN",
             "flag": "🇨🇦",
@@ -2146,6 +2247,7 @@
           "away": {
             "id": "452",
             "name": "Bosnia-Herzegovina",
+            "name_zh": "波黑",
             "short": "Bosnia-Herz",
             "abbr": "BIH",
             "flag": "🇧🇦",
@@ -2350,6 +2452,7 @@
           "home": {
             "id": "660",
             "name": "United States",
+            "name_zh": "美国",
             "short": "USA",
             "abbr": "USA",
             "flag": "🇺🇸",
@@ -2362,6 +2465,7 @@
           "away": {
             "id": "210",
             "name": "Paraguay",
+            "name_zh": "巴拉圭",
             "short": "Paraguay",
             "abbr": "PAR",
             "flag": "🇵🇾",
@@ -2592,6 +2696,7 @@
           "home": {
             "id": "4398",
             "name": "Qatar",
+            "name_zh": "卡塔尔",
             "short": "Qatar",
             "abbr": "QAT",
             "flag": "🇶🇦",
@@ -2604,6 +2709,7 @@
           "away": {
             "id": "475",
             "name": "Switzerland",
+            "name_zh": "瑞士",
             "short": "Switzerland",
             "abbr": "SUI",
             "flag": "🇨🇭",
@@ -2770,6 +2876,7 @@
           "home": {
             "id": "205",
             "name": "Brazil",
+            "name_zh": "巴西",
             "short": "Brazil",
             "abbr": "BRA",
             "flag": "🇧🇷",
@@ -2782,6 +2889,7 @@
           "away": {
             "id": "2869",
             "name": "Morocco",
+            "name_zh": "摩洛哥",
             "short": "Morocco",
             "abbr": "MAR",
             "flag": "🇲🇦",
@@ -2959,6 +3067,7 @@
           "home": {
             "id": "2654",
             "name": "Haiti",
+            "name_zh": "海地",
             "short": "Haiti",
             "abbr": "HAI",
             "flag": "🇭🇹",
@@ -2971,6 +3080,7 @@
           "away": {
             "id": "580",
             "name": "Scotland",
+            "name_zh": "苏格兰",
             "short": "Scotland",
             "abbr": "SCO",
             "flag": "🏴",
@@ -3135,6 +3245,7 @@
           "home": {
             "id": "628",
             "name": "Australia",
+            "name_zh": "澳大利亚",
             "short": "Australia",
             "abbr": "AUS",
             "flag": "🇦🇺",
@@ -3147,6 +3258,7 @@
           "away": {
             "id": "465",
             "name": "Türkiye",
+            "name_zh": "土耳其",
             "short": "Türkiye",
             "abbr": "TUR",
             "flag": "🇹🇷",
@@ -3321,6 +3433,7 @@
           "home": {
             "id": "481",
             "name": "Germany",
+            "name_zh": "德国",
             "short": "Germany",
             "abbr": "GER",
             "flag": "🇩🇪",
@@ -3333,6 +3446,7 @@
           "away": {
             "id": "11678",
             "name": "Curaçao",
+            "name_zh": "库拉索",
             "short": "Curaçao",
             "abbr": "CUW",
             "flag": "🏳️",
@@ -3521,6 +3635,7 @@
           "home": {
             "id": "449",
             "name": "Netherlands",
+            "name_zh": "荷兰",
             "short": "Netherlands",
             "abbr": "NED",
             "flag": "🇳🇱",
@@ -3533,6 +3648,7 @@
           "away": {
             "id": "627",
             "name": "Japan",
+            "name_zh": "日本",
             "short": "Japan",
             "abbr": "JPN",
             "flag": "🇯🇵",
@@ -3739,6 +3855,7 @@
           "home": {
             "id": "4789",
             "name": "Ivory Coast",
+            "name_zh": "科特迪瓦",
             "short": "Ivory Coast",
             "abbr": "CIV",
             "flag": "🇨🇮",
@@ -3751,6 +3868,7 @@
           "away": {
             "id": "209",
             "name": "Ecuador",
+            "name_zh": "厄瓜多尔",
             "short": "Ecuador",
             "abbr": "ECU",
             "flag": "🇪🇨",
@@ -3926,6 +4044,7 @@
           "home": {
             "id": "466",
             "name": "Sweden",
+            "name_zh": "瑞典",
             "short": "Sweden",
             "abbr": "SWE",
             "flag": "🇸🇪",
@@ -3938,6 +4057,7 @@
           "away": {
             "id": "659",
             "name": "Tunisia",
+            "name_zh": "突尼斯",
             "short": "Tunisia",
             "abbr": "TUN",
             "flag": "🇹🇳",
@@ -4145,13 +4265,14 @@
           "kickoff_local_date": "2026-06-15",
           "kickoff_time": "11:00 AM",
           "kickoff_weekday": "Mon",
-          "status": "SCHEDULED",
-          "status_short": "Scheduled",
+          "status": "LIVE",
+          "status_short": "26'",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
             "id": "164",
             "name": "Spain",
+            "name_zh": "西班牙",
             "short": "Spain",
             "abbr": "ESP",
             "flag": "🇪🇸",
@@ -4164,6 +4285,7 @@
           "away": {
             "id": "2597",
             "name": "Cape Verde",
+            "name_zh": "佛得角",
             "short": "Cape Verde",
             "abbr": "CPV",
             "flag": "🇨🇻",
@@ -4183,9 +4305,20 @@
             "Tele",
             "Peacock"
           ],
-          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760428/cape-verde-spain",
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760428/cape verde-spain",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Spain%20vs%20Cape%20Verde",
-          "slug": "cape verde-at-spain"
+          "slug": "cape verde-at-spain",
+          "incidents": [
+            {
+              "kind": "yellow_card",
+              "minute": "16'",
+              "team": "Cape Verde",
+              "team_id": "2597",
+              "team_side": "away",
+              "player": "Sidny Lopes Cabral",
+              "text": "Sidny Cabral (Cabo Verde) is shown the yellow card for a bad foul."
+            }
+          ]
         },
         {
           "id": "760426",
@@ -4201,6 +4334,7 @@
           "home": {
             "id": "459",
             "name": "Belgium",
+            "name_zh": "比利时",
             "short": "Belgium",
             "abbr": "BEL",
             "flag": "🇧🇪",
@@ -4213,6 +4347,7 @@
           "away": {
             "id": "2620",
             "name": "Egypt",
+            "name_zh": "埃及",
             "short": "Egypt",
             "abbr": "EGY",
             "flag": "🇪🇬",
@@ -4250,6 +4385,7 @@
           "home": {
             "id": "655",
             "name": "Saudi Arabia",
+            "name_zh": "沙特阿拉伯",
             "short": "Saudi Arabia",
             "abbr": "KSA",
             "flag": "🇸🇦",
@@ -4262,6 +4398,7 @@
           "away": {
             "id": "212",
             "name": "Uruguay",
+            "name_zh": "乌拉圭",
             "short": "Uruguay",
             "abbr": "URU",
             "flag": "🇺🇾",
@@ -4299,6 +4436,7 @@
           "home": {
             "id": "469",
             "name": "Iran",
+            "name_zh": "伊朗",
             "short": "Iran",
             "abbr": "IRN",
             "flag": "🇮🇷",
@@ -4311,6 +4449,7 @@
           "away": {
             "id": "2666",
             "name": "New Zealand",
+            "name_zh": "新西兰",
             "short": "New Zealand",
             "abbr": "NZL",
             "flag": "🇳🇿",
@@ -4355,6 +4494,7 @@
           "home": {
             "id": "478",
             "name": "France",
+            "name_zh": "法国",
             "short": "France",
             "abbr": "FRA",
             "flag": "🇫🇷",
@@ -4367,6 +4507,7 @@
           "away": {
             "id": "654",
             "name": "Senegal",
+            "name_zh": "塞内加尔",
             "short": "Senegal",
             "abbr": "SEN",
             "flag": "🇸🇳",
@@ -4404,6 +4545,7 @@
           "home": {
             "id": "4375",
             "name": "Iraq",
+            "name_zh": "伊拉克",
             "short": "Iraq",
             "abbr": "IRQ",
             "flag": "🇮🇶",
@@ -4416,6 +4558,7 @@
           "away": {
             "id": "464",
             "name": "Norway",
+            "name_zh": "挪威",
             "short": "Norway",
             "abbr": "NOR",
             "flag": "🇳🇴",
@@ -4453,6 +4596,7 @@
           "home": {
             "id": "202",
             "name": "Argentina",
+            "name_zh": "阿根廷",
             "short": "Argentina",
             "abbr": "ARG",
             "flag": "🇦🇷",
@@ -4465,6 +4609,7 @@
           "away": {
             "id": "624",
             "name": "Algeria",
+            "name_zh": "阿尔及利亚",
             "short": "Algeria",
             "abbr": "ALG",
             "flag": "🇩🇿",
@@ -4502,6 +4647,7 @@
           "home": {
             "id": "474",
             "name": "Austria",
+            "name_zh": "奥地利",
             "short": "Austria",
             "abbr": "AUT",
             "flag": "🇦🇹",
@@ -4514,6 +4660,7 @@
           "away": {
             "id": "2917",
             "name": "Jordan",
+            "name_zh": "约旦",
             "short": "Jordan",
             "abbr": "JOR",
             "flag": "🇯🇴",
@@ -4558,6 +4705,7 @@
           "home": {
             "id": "482",
             "name": "Portugal",
+            "name_zh": "葡萄牙",
             "short": "Portugal",
             "abbr": "POR",
             "flag": "🇵🇹",
@@ -4570,6 +4718,7 @@
           "away": {
             "id": "2850",
             "name": "Congo DR",
+            "name_zh": "刚果（金）",
             "short": "Congo DR",
             "abbr": "COD",
             "flag": "🇨🇩",
@@ -4607,6 +4756,7 @@
           "home": {
             "id": "448",
             "name": "England",
+            "name_zh": "英格兰",
             "short": "England",
             "abbr": "ENG",
             "flag": "🏴",
@@ -4619,6 +4769,7 @@
           "away": {
             "id": "477",
             "name": "Croatia",
+            "name_zh": "克罗地亚",
             "short": "Croatia",
             "abbr": "CRO",
             "flag": "🇭🇷",
@@ -4656,6 +4807,7 @@
           "home": {
             "id": "4469",
             "name": "Ghana",
+            "name_zh": "加纳",
             "short": "Ghana",
             "abbr": "GHA",
             "flag": "🇬🇭",
@@ -4668,6 +4820,7 @@
           "away": {
             "id": "2659",
             "name": "Panama",
+            "name_zh": "巴拿马",
             "short": "Panama",
             "abbr": "PAN",
             "flag": "🇵🇦",
@@ -4705,6 +4858,7 @@
           "home": {
             "id": "2570",
             "name": "Uzbekistan",
+            "name_zh": "乌兹别克斯坦",
             "short": "Uzbekistan",
             "abbr": "UZB",
             "flag": "🇺🇿",
@@ -4717,6 +4871,7 @@
           "away": {
             "id": "208",
             "name": "Colombia",
+            "name_zh": "哥伦比亚",
             "short": "Colombia",
             "abbr": "COL",
             "flag": "🇨🇴",
@@ -4761,6 +4916,7 @@
           "home": {
             "id": "450",
             "name": "Czechia",
+            "name_zh": "捷克",
             "short": "Czechia",
             "abbr": "CZE",
             "flag": "🇨🇿",
@@ -4773,6 +4929,7 @@
           "away": {
             "id": "467",
             "name": "South Africa",
+            "name_zh": "南非",
             "short": "South Africa",
             "abbr": "RSA",
             "flag": "🇿🇦",
@@ -4810,6 +4967,7 @@
           "home": {
             "id": "475",
             "name": "Switzerland",
+            "name_zh": "瑞士",
             "short": "Switzerland",
             "abbr": "SUI",
             "flag": "🇨🇭",
@@ -4822,6 +4980,7 @@
           "away": {
             "id": "452",
             "name": "Bosnia-Herzegovina",
+            "name_zh": "波黑",
             "short": "Bosnia-Herz",
             "abbr": "BIH",
             "flag": "🇧🇦",
@@ -4859,6 +5018,7 @@
           "home": {
             "id": "206",
             "name": "Canada",
+            "name_zh": "加拿大",
             "short": "Canada",
             "abbr": "CAN",
             "flag": "🇨🇦",
@@ -4871,6 +5031,7 @@
           "away": {
             "id": "4398",
             "name": "Qatar",
+            "name_zh": "卡塔尔",
             "short": "Qatar",
             "abbr": "QAT",
             "flag": "🇶🇦",
@@ -4908,6 +5069,7 @@
           "home": {
             "id": "203",
             "name": "Mexico",
+            "name_zh": "墨西哥",
             "short": "Mexico",
             "abbr": "MEX",
             "flag": "🇲🇽",
@@ -4920,6 +5082,7 @@
           "away": {
             "id": "451",
             "name": "South Korea",
+            "name_zh": "韩国",
             "short": "South Korea",
             "abbr": "KOR",
             "flag": "🇰🇷",
@@ -4964,6 +5127,7 @@
           "home": {
             "id": "660",
             "name": "United States",
+            "name_zh": "美国",
             "short": "USA",
             "abbr": "USA",
             "flag": "🇺🇸",
@@ -4976,6 +5140,7 @@
           "away": {
             "id": "628",
             "name": "Australia",
+            "name_zh": "澳大利亚",
             "short": "Australia",
             "abbr": "AUS",
             "flag": "🇦🇺",
@@ -5013,6 +5178,7 @@
           "home": {
             "id": "580",
             "name": "Scotland",
+            "name_zh": "苏格兰",
             "short": "Scotland",
             "abbr": "SCO",
             "flag": "🏴",
@@ -5025,6 +5191,7 @@
           "away": {
             "id": "2869",
             "name": "Morocco",
+            "name_zh": "摩洛哥",
             "short": "Morocco",
             "abbr": "MAR",
             "flag": "🇲🇦",
@@ -5062,6 +5229,7 @@
           "home": {
             "id": "205",
             "name": "Brazil",
+            "name_zh": "巴西",
             "short": "Brazil",
             "abbr": "BRA",
             "flag": "🇧🇷",
@@ -5074,6 +5242,7 @@
           "away": {
             "id": "2654",
             "name": "Haiti",
+            "name_zh": "海地",
             "short": "Haiti",
             "abbr": "HAI",
             "flag": "🇭🇹",
@@ -5111,6 +5280,7 @@
           "home": {
             "id": "465",
             "name": "Türkiye",
+            "name_zh": "土耳其",
             "short": "Türkiye",
             "abbr": "TUR",
             "flag": "🇹🇷",
@@ -5123,6 +5293,7 @@
           "away": {
             "id": "210",
             "name": "Paraguay",
+            "name_zh": "巴拉圭",
             "short": "Paraguay",
             "abbr": "PAR",
             "flag": "🇵🇾",
@@ -5167,6 +5338,7 @@
           "home": {
             "id": "449",
             "name": "Netherlands",
+            "name_zh": "荷兰",
             "short": "Netherlands",
             "abbr": "NED",
             "flag": "🇳🇱",
@@ -5179,6 +5351,7 @@
           "away": {
             "id": "466",
             "name": "Sweden",
+            "name_zh": "瑞典",
             "short": "Sweden",
             "abbr": "SWE",
             "flag": "🇸🇪",
@@ -5216,6 +5389,7 @@
           "home": {
             "id": "481",
             "name": "Germany",
+            "name_zh": "德国",
             "short": "Germany",
             "abbr": "GER",
             "flag": "🇩🇪",
@@ -5228,6 +5402,7 @@
           "away": {
             "id": "4789",
             "name": "Ivory Coast",
+            "name_zh": "科特迪瓦",
             "short": "Ivory Coast",
             "abbr": "CIV",
             "flag": "🇨🇮",
@@ -5265,6 +5440,7 @@
           "home": {
             "id": "209",
             "name": "Ecuador",
+            "name_zh": "厄瓜多尔",
             "short": "Ecuador",
             "abbr": "ECU",
             "flag": "🇪🇨",
@@ -5277,6 +5453,7 @@
           "away": {
             "id": "11678",
             "name": "Curaçao",
+            "name_zh": "库拉索",
             "short": "Curaçao",
             "abbr": "CUW",
             "flag": "🏳️",
@@ -5314,6 +5491,7 @@
           "home": {
             "id": "659",
             "name": "Tunisia",
+            "name_zh": "突尼斯",
             "short": "Tunisia",
             "abbr": "TUN",
             "flag": "🇹🇳",
@@ -5326,6 +5504,7 @@
           "away": {
             "id": "627",
             "name": "Japan",
+            "name_zh": "日本",
             "short": "Japan",
             "abbr": "JPN",
             "flag": "🇯🇵",
@@ -5370,6 +5549,7 @@
           "home": {
             "id": "164",
             "name": "Spain",
+            "name_zh": "西班牙",
             "short": "Spain",
             "abbr": "ESP",
             "flag": "🇪🇸",
@@ -5382,6 +5562,7 @@
           "away": {
             "id": "655",
             "name": "Saudi Arabia",
+            "name_zh": "沙特阿拉伯",
             "short": "Saudi Arabia",
             "abbr": "KSA",
             "flag": "🇸🇦",
@@ -5419,6 +5600,7 @@
           "home": {
             "id": "459",
             "name": "Belgium",
+            "name_zh": "比利时",
             "short": "Belgium",
             "abbr": "BEL",
             "flag": "🇧🇪",
@@ -5431,6 +5613,7 @@
           "away": {
             "id": "469",
             "name": "Iran",
+            "name_zh": "伊朗",
             "short": "Iran",
             "abbr": "IRN",
             "flag": "🇮🇷",
@@ -5468,6 +5651,7 @@
           "home": {
             "id": "212",
             "name": "Uruguay",
+            "name_zh": "乌拉圭",
             "short": "Uruguay",
             "abbr": "URU",
             "flag": "🇺🇾",
@@ -5480,6 +5664,7 @@
           "away": {
             "id": "2597",
             "name": "Cape Verde",
+            "name_zh": "佛得角",
             "short": "Cape Verde",
             "abbr": "CPV",
             "flag": "🇨🇻",
@@ -5517,6 +5702,7 @@
           "home": {
             "id": "2666",
             "name": "New Zealand",
+            "name_zh": "新西兰",
             "short": "New Zealand",
             "abbr": "NZL",
             "flag": "🇳🇿",
@@ -5529,6 +5715,7 @@
           "away": {
             "id": "2620",
             "name": "Egypt",
+            "name_zh": "埃及",
             "short": "Egypt",
             "abbr": "EGY",
             "flag": "🇪🇬",
@@ -5573,6 +5760,7 @@
           "home": {
             "id": "202",
             "name": "Argentina",
+            "name_zh": "阿根廷",
             "short": "Argentina",
             "abbr": "ARG",
             "flag": "🇦🇷",
@@ -5585,6 +5773,7 @@
           "away": {
             "id": "474",
             "name": "Austria",
+            "name_zh": "奥地利",
             "short": "Austria",
             "abbr": "AUT",
             "flag": "🇦🇹",
@@ -5622,6 +5811,7 @@
           "home": {
             "id": "478",
             "name": "France",
+            "name_zh": "法国",
             "short": "France",
             "abbr": "FRA",
             "flag": "🇫🇷",
@@ -5634,6 +5824,7 @@
           "away": {
             "id": "4375",
             "name": "Iraq",
+            "name_zh": "伊拉克",
             "short": "Iraq",
             "abbr": "IRQ",
             "flag": "🇮🇶",
@@ -5671,6 +5862,7 @@
           "home": {
             "id": "464",
             "name": "Norway",
+            "name_zh": "挪威",
             "short": "Norway",
             "abbr": "NOR",
             "flag": "🇳🇴",
@@ -5683,6 +5875,7 @@
           "away": {
             "id": "654",
             "name": "Senegal",
+            "name_zh": "塞内加尔",
             "short": "Senegal",
             "abbr": "SEN",
             "flag": "🇸🇳",
@@ -5720,6 +5913,7 @@
           "home": {
             "id": "2917",
             "name": "Jordan",
+            "name_zh": "约旦",
             "short": "Jordan",
             "abbr": "JOR",
             "flag": "🇯🇴",
@@ -5732,6 +5926,7 @@
           "away": {
             "id": "624",
             "name": "Algeria",
+            "name_zh": "阿尔及利亚",
             "short": "Algeria",
             "abbr": "ALG",
             "flag": "🇩🇿",
@@ -5776,6 +5971,7 @@
           "home": {
             "id": "482",
             "name": "Portugal",
+            "name_zh": "葡萄牙",
             "short": "Portugal",
             "abbr": "POR",
             "flag": "🇵🇹",
@@ -5788,6 +5984,7 @@
           "away": {
             "id": "2570",
             "name": "Uzbekistan",
+            "name_zh": "乌兹别克斯坦",
             "short": "Uzbekistan",
             "abbr": "UZB",
             "flag": "🇺🇿",
@@ -5825,6 +6022,7 @@
           "home": {
             "id": "448",
             "name": "England",
+            "name_zh": "英格兰",
             "short": "England",
             "abbr": "ENG",
             "flag": "🏴",
@@ -5837,6 +6035,7 @@
           "away": {
             "id": "4469",
             "name": "Ghana",
+            "name_zh": "加纳",
             "short": "Ghana",
             "abbr": "GHA",
             "flag": "🇬🇭",
@@ -5874,6 +6073,7 @@
           "home": {
             "id": "2659",
             "name": "Panama",
+            "name_zh": "巴拿马",
             "short": "Panama",
             "abbr": "PAN",
             "flag": "🇵🇦",
@@ -5886,6 +6086,7 @@
           "away": {
             "id": "477",
             "name": "Croatia",
+            "name_zh": "克罗地亚",
             "short": "Croatia",
             "abbr": "CRO",
             "flag": "🇭🇷",
@@ -5923,6 +6124,7 @@
           "home": {
             "id": "208",
             "name": "Colombia",
+            "name_zh": "哥伦比亚",
             "short": "Colombia",
             "abbr": "COL",
             "flag": "🇨🇴",
@@ -5935,6 +6137,7 @@
           "away": {
             "id": "2850",
             "name": "Congo DR",
+            "name_zh": "刚果（金）",
             "short": "Congo DR",
             "abbr": "COD",
             "flag": "🇨🇩",
@@ -5979,6 +6182,7 @@
           "home": {
             "id": "452",
             "name": "Bosnia-Herzegovina",
+            "name_zh": "波黑",
             "short": "Bosnia-Herz",
             "abbr": "BIH",
             "flag": "🇧🇦",
@@ -5991,6 +6195,7 @@
           "away": {
             "id": "4398",
             "name": "Qatar",
+            "name_zh": "卡塔尔",
             "short": "Qatar",
             "abbr": "QAT",
             "flag": "🇶🇦",
@@ -6028,6 +6233,7 @@
           "home": {
             "id": "475",
             "name": "Switzerland",
+            "name_zh": "瑞士",
             "short": "Switzerland",
             "abbr": "SUI",
             "flag": "🇨🇭",
@@ -6040,6 +6246,7 @@
           "away": {
             "id": "206",
             "name": "Canada",
+            "name_zh": "加拿大",
             "short": "Canada",
             "abbr": "CAN",
             "flag": "🇨🇦",
@@ -6077,6 +6284,7 @@
           "home": {
             "id": "2869",
             "name": "Morocco",
+            "name_zh": "摩洛哥",
             "short": "Morocco",
             "abbr": "MAR",
             "flag": "🇲🇦",
@@ -6089,6 +6297,7 @@
           "away": {
             "id": "2654",
             "name": "Haiti",
+            "name_zh": "海地",
             "short": "Haiti",
             "abbr": "HAI",
             "flag": "🇭🇹",
@@ -6126,6 +6335,7 @@
           "home": {
             "id": "580",
             "name": "Scotland",
+            "name_zh": "苏格兰",
             "short": "Scotland",
             "abbr": "SCO",
             "flag": "🏴",
@@ -6138,6 +6348,7 @@
           "away": {
             "id": "205",
             "name": "Brazil",
+            "name_zh": "巴西",
             "short": "Brazil",
             "abbr": "BRA",
             "flag": "🇧🇷",
@@ -6175,6 +6386,7 @@
           "home": {
             "id": "450",
             "name": "Czechia",
+            "name_zh": "捷克",
             "short": "Czechia",
             "abbr": "CZE",
             "flag": "🇨🇿",
@@ -6187,6 +6399,7 @@
           "away": {
             "id": "203",
             "name": "Mexico",
+            "name_zh": "墨西哥",
             "short": "Mexico",
             "abbr": "MEX",
             "flag": "🇲🇽",
@@ -6224,6 +6437,7 @@
           "home": {
             "id": "467",
             "name": "South Africa",
+            "name_zh": "南非",
             "short": "South Africa",
             "abbr": "RSA",
             "flag": "🇿🇦",
@@ -6236,6 +6450,7 @@
           "away": {
             "id": "451",
             "name": "South Korea",
+            "name_zh": "韩国",
             "short": "South Korea",
             "abbr": "KOR",
             "flag": "🇰🇷",
@@ -6280,6 +6495,7 @@
           "home": {
             "id": "11678",
             "name": "Curaçao",
+            "name_zh": "库拉索",
             "short": "Curaçao",
             "abbr": "CUW",
             "flag": "🏳️",
@@ -6292,6 +6508,7 @@
           "away": {
             "id": "4789",
             "name": "Ivory Coast",
+            "name_zh": "科特迪瓦",
             "short": "Ivory Coast",
             "abbr": "CIV",
             "flag": "🇨🇮",
@@ -6329,6 +6546,7 @@
           "home": {
             "id": "209",
             "name": "Ecuador",
+            "name_zh": "厄瓜多尔",
             "short": "Ecuador",
             "abbr": "ECU",
             "flag": "🇪🇨",
@@ -6341,6 +6559,7 @@
           "away": {
             "id": "481",
             "name": "Germany",
+            "name_zh": "德国",
             "short": "Germany",
             "abbr": "GER",
             "flag": "🇩🇪",
@@ -6378,6 +6597,7 @@
           "home": {
             "id": "627",
             "name": "Japan",
+            "name_zh": "日本",
             "short": "Japan",
             "abbr": "JPN",
             "flag": "🇯🇵",
@@ -6390,6 +6610,7 @@
           "away": {
             "id": "466",
             "name": "Sweden",
+            "name_zh": "瑞典",
             "short": "Sweden",
             "abbr": "SWE",
             "flag": "🇸🇪",
@@ -6427,6 +6648,7 @@
           "home": {
             "id": "659",
             "name": "Tunisia",
+            "name_zh": "突尼斯",
             "short": "Tunisia",
             "abbr": "TUN",
             "flag": "🇹🇳",
@@ -6439,6 +6661,7 @@
           "away": {
             "id": "449",
             "name": "Netherlands",
+            "name_zh": "荷兰",
             "short": "Netherlands",
             "abbr": "NED",
             "flag": "🇳🇱",
@@ -6476,6 +6699,7 @@
           "home": {
             "id": "210",
             "name": "Paraguay",
+            "name_zh": "巴拉圭",
             "short": "Paraguay",
             "abbr": "PAR",
             "flag": "🇵🇾",
@@ -6488,6 +6712,7 @@
           "away": {
             "id": "628",
             "name": "Australia",
+            "name_zh": "澳大利亚",
             "short": "Australia",
             "abbr": "AUS",
             "flag": "🇦🇺",
@@ -6525,6 +6750,7 @@
           "home": {
             "id": "465",
             "name": "Türkiye",
+            "name_zh": "土耳其",
             "short": "Türkiye",
             "abbr": "TUR",
             "flag": "🇹🇷",
@@ -6537,6 +6763,7 @@
           "away": {
             "id": "660",
             "name": "United States",
+            "name_zh": "美国",
             "short": "USA",
             "abbr": "USA",
             "flag": "🇺🇸",
@@ -6581,6 +6808,7 @@
           "home": {
             "id": "464",
             "name": "Norway",
+            "name_zh": "挪威",
             "short": "Norway",
             "abbr": "NOR",
             "flag": "🇳🇴",
@@ -6593,6 +6821,7 @@
           "away": {
             "id": "478",
             "name": "France",
+            "name_zh": "法国",
             "short": "France",
             "abbr": "FRA",
             "flag": "🇫🇷",
@@ -6630,6 +6859,7 @@
           "home": {
             "id": "654",
             "name": "Senegal",
+            "name_zh": "塞内加尔",
             "short": "Senegal",
             "abbr": "SEN",
             "flag": "🇸🇳",
@@ -6642,6 +6872,7 @@
           "away": {
             "id": "4375",
             "name": "Iraq",
+            "name_zh": "伊拉克",
             "short": "Iraq",
             "abbr": "IRQ",
             "flag": "🇮🇶",
@@ -6679,6 +6910,7 @@
           "home": {
             "id": "2597",
             "name": "Cape Verde",
+            "name_zh": "佛得角",
             "short": "Cape Verde",
             "abbr": "CPV",
             "flag": "🇨🇻",
@@ -6691,6 +6923,7 @@
           "away": {
             "id": "655",
             "name": "Saudi Arabia",
+            "name_zh": "沙特阿拉伯",
             "short": "Saudi Arabia",
             "abbr": "KSA",
             "flag": "🇸🇦",
@@ -6728,6 +6961,7 @@
           "home": {
             "id": "212",
             "name": "Uruguay",
+            "name_zh": "乌拉圭",
             "short": "Uruguay",
             "abbr": "URU",
             "flag": "🇺🇾",
@@ -6740,6 +6974,7 @@
           "away": {
             "id": "164",
             "name": "Spain",
+            "name_zh": "西班牙",
             "short": "Spain",
             "abbr": "ESP",
             "flag": "🇪🇸",
@@ -6777,6 +7012,7 @@
           "home": {
             "id": "2620",
             "name": "Egypt",
+            "name_zh": "埃及",
             "short": "Egypt",
             "abbr": "EGY",
             "flag": "🇪🇬",
@@ -6789,6 +7025,7 @@
           "away": {
             "id": "469",
             "name": "Iran",
+            "name_zh": "伊朗",
             "short": "Iran",
             "abbr": "IRN",
             "flag": "🇮🇷",
@@ -6826,6 +7063,7 @@
           "home": {
             "id": "2666",
             "name": "New Zealand",
+            "name_zh": "新西兰",
             "short": "New Zealand",
             "abbr": "NZL",
             "flag": "🇳🇿",
@@ -6838,6 +7076,7 @@
           "away": {
             "id": "459",
             "name": "Belgium",
+            "name_zh": "比利时",
             "short": "Belgium",
             "abbr": "BEL",
             "flag": "🇧🇪",
@@ -6882,6 +7121,7 @@
           "home": {
             "id": "477",
             "name": "Croatia",
+            "name_zh": "克罗地亚",
             "short": "Croatia",
             "abbr": "CRO",
             "flag": "🇭🇷",
@@ -6894,6 +7134,7 @@
           "away": {
             "id": "4469",
             "name": "Ghana",
+            "name_zh": "加纳",
             "short": "Ghana",
             "abbr": "GHA",
             "flag": "🇬🇭",
@@ -6931,6 +7172,7 @@
           "home": {
             "id": "2659",
             "name": "Panama",
+            "name_zh": "巴拿马",
             "short": "Panama",
             "abbr": "PAN",
             "flag": "🇵🇦",
@@ -6943,6 +7185,7 @@
           "away": {
             "id": "448",
             "name": "England",
+            "name_zh": "英格兰",
             "short": "England",
             "abbr": "ENG",
             "flag": "🏴",
@@ -6980,6 +7223,7 @@
           "home": {
             "id": "208",
             "name": "Colombia",
+            "name_zh": "哥伦比亚",
             "short": "Colombia",
             "abbr": "COL",
             "flag": "🇨🇴",
@@ -6992,6 +7236,7 @@
           "away": {
             "id": "482",
             "name": "Portugal",
+            "name_zh": "葡萄牙",
             "short": "Portugal",
             "abbr": "POR",
             "flag": "🇵🇹",
@@ -7029,6 +7274,7 @@
           "home": {
             "id": "2850",
             "name": "Congo DR",
+            "name_zh": "刚果（金）",
             "short": "Congo DR",
             "abbr": "COD",
             "flag": "🇨🇩",
@@ -7041,6 +7287,7 @@
           "away": {
             "id": "2570",
             "name": "Uzbekistan",
+            "name_zh": "乌兹别克斯坦",
             "short": "Uzbekistan",
             "abbr": "UZB",
             "flag": "🇺🇿",
@@ -7078,6 +7325,7 @@
           "home": {
             "id": "624",
             "name": "Algeria",
+            "name_zh": "阿尔及利亚",
             "short": "Algeria",
             "abbr": "ALG",
             "flag": "🇩🇿",
@@ -7090,6 +7338,7 @@
           "away": {
             "id": "474",
             "name": "Austria",
+            "name_zh": "奥地利",
             "short": "Austria",
             "abbr": "AUT",
             "flag": "🇦🇹",
@@ -7127,6 +7376,7 @@
           "home": {
             "id": "2917",
             "name": "Jordan",
+            "name_zh": "约旦",
             "short": "Jordan",
             "abbr": "JOR",
             "flag": "🇯🇴",
@@ -7139,6 +7389,7 @@
           "away": {
             "id": "202",
             "name": "Argentina",
+            "name_zh": "阿根廷",
             "short": "Argentina",
             "abbr": "ARG",
             "flag": "🇦🇷",
@@ -7183,6 +7434,7 @@
           "home": {
             "id": "5926",
             "name": "Group A 2nd Place",
+            "name_zh": "",
             "short": "2A",
             "abbr": "2A",
             "flag": "🏳️",
@@ -7195,6 +7447,7 @@
           "away": {
             "id": "5924",
             "name": "Group B 2nd Place",
+            "name_zh": "",
             "short": "2B",
             "abbr": "2B",
             "flag": "🏳️",
@@ -7239,6 +7492,7 @@
           "home": {
             "id": "5927",
             "name": "Group C Winner",
+            "name_zh": "",
             "short": "1C",
             "abbr": "1C",
             "flag": "🏳️",
@@ -7251,6 +7505,7 @@
           "away": {
             "id": "5934",
             "name": "Group F 2nd Place",
+            "name_zh": "",
             "short": "2F",
             "abbr": "2F",
             "flag": "🏳️",
@@ -7288,6 +7543,7 @@
           "home": {
             "id": "5931",
             "name": "Group E Winner",
+            "name_zh": "",
             "short": "1E",
             "abbr": "1E",
             "flag": "🏳️",
@@ -7300,6 +7556,7 @@
           "away": {
             "id": "131541",
             "name": "Third Place Group A/B/C/D/F",
+            "name_zh": "",
             "short": "3RD A/B/C/D/F",
             "abbr": "3RD",
             "flag": "🏳️",
@@ -7337,6 +7594,7 @@
           "home": {
             "id": "5933",
             "name": "Group F Winner",
+            "name_zh": "",
             "short": "1F",
             "abbr": "1F",
             "flag": "🏳️",
@@ -7349,6 +7607,7 @@
           "away": {
             "id": "5930",
             "name": "Group C 2nd Place",
+            "name_zh": "",
             "short": "2C",
             "abbr": "2C",
             "flag": "🏳️",
@@ -7393,6 +7652,7 @@
           "home": {
             "id": "5932",
             "name": "Group E 2nd Place",
+            "name_zh": "",
             "short": "2E",
             "abbr": "2E",
             "flag": "🏳️",
@@ -7405,6 +7665,7 @@
           "away": {
             "id": "131501",
             "name": "Group I 2nd Place",
+            "name_zh": "",
             "short": "2I",
             "abbr": "2I",
             "flag": "🏳️",
@@ -7442,6 +7703,7 @@
           "home": {
             "id": "131505",
             "name": "Group I Winner",
+            "name_zh": "",
             "short": "1I",
             "abbr": "1I",
             "flag": "🏳️",
@@ -7454,6 +7716,7 @@
           "away": {
             "id": "131544",
             "name": "Third Place Group C/D/F/G/H",
+            "name_zh": "",
             "short": "3RD C/D/F/G/H",
             "abbr": "3RD",
             "flag": "🏳️",
@@ -7491,6 +7754,7 @@
           "home": {
             "id": "5923",
             "name": "Group A Winner",
+            "name_zh": "",
             "short": "1A",
             "abbr": "1A",
             "flag": "🏳️",
@@ -7503,6 +7767,7 @@
           "away": {
             "id": "131545",
             "name": "Third Place Group C/E/F/H/I",
+            "name_zh": "",
             "short": "3RD C/E/F/H/I",
             "abbr": "3RD",
             "flag": "🏳️",
@@ -7547,6 +7812,7 @@
           "home": {
             "id": "131508",
             "name": "Group L Winner",
+            "name_zh": "",
             "short": "1L",
             "abbr": "1L",
             "flag": "🏳️",
@@ -7559,6 +7825,7 @@
           "away": {
             "id": "131548",
             "name": "Third Place Group E/H/I/J/K",
+            "name_zh": "",
             "short": "3RD E/H/I/J/K",
             "abbr": "3RD",
             "flag": "🏳️",
@@ -7596,6 +7863,7 @@
           "home": {
             "id": "5935",
             "name": "Group G Winner",
+            "name_zh": "",
             "short": "1G",
             "abbr": "1G",
             "flag": "🏳️",
@@ -7608,6 +7876,7 @@
           "away": {
             "id": "131542",
             "name": "Third Place Group A/E/H/I/J",
+            "name_zh": "",
             "short": "3RD A/E/H/I/J",
             "abbr": "3RD",
             "flag": "🏳️",
@@ -7645,6 +7914,7 @@
           "home": {
             "id": "5929",
             "name": "Group D Winner",
+            "name_zh": "",
             "short": "1D",
             "abbr": "1D",
             "flag": "🏳️",
@@ -7657,6 +7927,7 @@
           "away": {
             "id": "131543",
             "name": "Third Place Group B/E/F/I/J",
+            "name_zh": "",
             "short": "3RD B/E/F/I/J",
             "abbr": "3RD",
             "flag": "🏳️",
@@ -7701,6 +7972,7 @@
           "home": {
             "id": "5937",
             "name": "Group H Winner",
+            "name_zh": "",
             "short": "1H",
             "abbr": "1H",
             "flag": "🏳️",
@@ -7713,6 +7985,7 @@
           "away": {
             "id": "131502",
             "name": "Group J 2nd Place",
+            "name_zh": "",
             "short": "2J",
             "abbr": "2J",
             "flag": "🏳️",
@@ -7750,6 +8023,7 @@
           "home": {
             "id": "131503",
             "name": "Group K 2nd Place",
+            "name_zh": "",
             "short": "2K",
             "abbr": "2K",
             "flag": "🏳️",
@@ -7762,6 +8036,7 @@
           "away": {
             "id": "131504",
             "name": "Group L 2nd Place",
+            "name_zh": "",
             "short": "2L",
             "abbr": "2L",
             "flag": "🏳️",
@@ -7799,6 +8074,7 @@
           "home": {
             "id": "5925",
             "name": "Group B Winner",
+            "name_zh": "",
             "short": "1B",
             "abbr": "1B",
             "flag": "🏳️",
@@ -7811,6 +8087,7 @@
           "away": {
             "id": "131547",
             "name": "Third Place Group E/F/G/I/J",
+            "name_zh": "",
             "short": "3RD E/F/G/I/J",
             "abbr": "3RD",
             "flag": "🏳️",
@@ -7855,6 +8132,7 @@
           "home": {
             "id": "5928",
             "name": "Group D 2nd Place",
+            "name_zh": "",
             "short": "2D",
             "abbr": "2D",
             "flag": "🏳️",
@@ -7867,6 +8145,7 @@
           "away": {
             "id": "5936",
             "name": "Group G 2nd Place",
+            "name_zh": "",
             "short": "2G",
             "abbr": "2G",
             "flag": "🏳️",
@@ -7904,6 +8183,7 @@
           "home": {
             "id": "131506",
             "name": "Group J Winner",
+            "name_zh": "",
             "short": "1J",
             "abbr": "1J",
             "flag": "🏳️",
@@ -7916,6 +8196,7 @@
           "away": {
             "id": "5938",
             "name": "Group H 2nd Place",
+            "name_zh": "",
             "short": "2H",
             "abbr": "2H",
             "flag": "🏳️",
@@ -7953,6 +8234,7 @@
           "home": {
             "id": "131507",
             "name": "Group K Winner",
+            "name_zh": "",
             "short": "1K",
             "abbr": "1K",
             "flag": "🏳️",
@@ -7965,6 +8247,7 @@
           "away": {
             "id": "131546",
             "name": "Third Place Group D/E/I/J/L",
+            "name_zh": "",
             "short": "3RD D/E/I/J/L",
             "abbr": "3RD",
             "flag": "🏳️",
@@ -8009,6 +8292,7 @@
           "home": {
             "id": "131525",
             "name": "Round of 32 1 Winner",
+            "name_zh": "",
             "short": "RD32 W1",
             "abbr": "RD32",
             "flag": "🏳️",
@@ -8021,6 +8305,7 @@
           "away": {
             "id": "131527",
             "name": "Round of 32 3 Winner",
+            "name_zh": "",
             "short": "RD32 W3",
             "abbr": "RD32",
             "flag": "🏳️",
@@ -8058,6 +8343,7 @@
           "home": {
             "id": "131526",
             "name": "Round of 32 2 Winner",
+            "name_zh": "",
             "short": "RD32 W2",
             "abbr": "RD32",
             "flag": "🏳️",
@@ -8070,6 +8356,7 @@
           "away": {
             "id": "131529",
             "name": "Round of 32 5 Winner",
+            "name_zh": "",
             "short": "RD32 W5",
             "abbr": "RD32",
             "flag": "🏳️",
@@ -8114,6 +8401,7 @@
           "home": {
             "id": "131528",
             "name": "Round of 32 4 Winner",
+            "name_zh": "",
             "short": "RD32 W4",
             "abbr": "RD32",
             "flag": "🏳️",
@@ -8126,6 +8414,7 @@
           "away": {
             "id": "131530",
             "name": "Round of 32 6 Winner",
+            "name_zh": "",
             "short": "RD32 W6",
             "abbr": "RD32",
             "flag": "🏳️",
@@ -8163,6 +8452,7 @@
           "home": {
             "id": "131531",
             "name": "Round of 32 7 Winner",
+            "name_zh": "",
             "short": "RD32 W7",
             "abbr": "RD32",
             "flag": "🏳️",
@@ -8175,6 +8465,7 @@
           "away": {
             "id": "131532",
             "name": "Round of 32 8 Winner",
+            "name_zh": "",
             "short": "RD32 W8",
             "abbr": "RD32",
             "flag": "🏳️",
@@ -8219,6 +8510,7 @@
           "home": {
             "id": "131535",
             "name": "Round of 32 11 Winner",
+            "name_zh": "",
             "short": "RD32 W11",
             "abbr": "RD32",
             "flag": "🏳️",
@@ -8231,6 +8523,7 @@
           "away": {
             "id": "131536",
             "name": "Round of 32 12 Winner",
+            "name_zh": "",
             "short": "RD32 W12",
             "abbr": "RD32",
             "flag": "🏳️",
@@ -8268,6 +8561,7 @@
           "home": {
             "id": "131533",
             "name": "Round of 32 9 Winner",
+            "name_zh": "",
             "short": "RD32 W9",
             "abbr": "RD32",
             "flag": "🏳️",
@@ -8280,6 +8574,7 @@
           "away": {
             "id": "131534",
             "name": "Round of 32 10 Winner",
+            "name_zh": "",
             "short": "RD32 W10",
             "abbr": "RD32",
             "flag": "🏳️",
@@ -8324,6 +8619,7 @@
           "home": {
             "id": "131538",
             "name": "Round of 32 14 Winner",
+            "name_zh": "",
             "short": "RD32 W14",
             "abbr": "RD32",
             "flag": "🏳️",
@@ -8336,6 +8632,7 @@
           "away": {
             "id": "131540",
             "name": "Round of 32 16 Winner",
+            "name_zh": "",
             "short": "RD32 W16",
             "abbr": "RD32",
             "flag": "🏳️",
@@ -8373,6 +8670,7 @@
           "home": {
             "id": "131537",
             "name": "Round of 32 13 Winner",
+            "name_zh": "",
             "short": "RD32 W13",
             "abbr": "RD32",
             "flag": "🏳️",
@@ -8385,6 +8683,7 @@
           "away": {
             "id": "131539",
             "name": "Round of 32 15 Winner",
+            "name_zh": "",
             "short": "RD32 W15",
             "abbr": "RD32",
             "flag": "🏳️",
@@ -8429,6 +8728,7 @@
           "home": {
             "id": "19282",
             "name": "Round of 16 1 Winner",
+            "name_zh": "",
             "short": "RD16 W1",
             "abbr": "RD16 W1",
             "flag": "🏳️",
@@ -8441,6 +8741,7 @@
           "away": {
             "id": "19283",
             "name": "Round of 16 2 Winner",
+            "name_zh": "",
             "short": "RD16 W2",
             "abbr": "RD16 W2",
             "flag": "🏳️",
@@ -8485,6 +8786,7 @@
           "home": {
             "id": "19278",
             "name": "Round of 16 5 Winner",
+            "name_zh": "",
             "short": "RD16 W5",
             "abbr": "RD16 W5",
             "flag": "🏳️",
@@ -8497,6 +8799,7 @@
           "away": {
             "id": "19279",
             "name": "Round of 16 6 Winner",
+            "name_zh": "",
             "short": "RD16 W6",
             "abbr": "RD16 W6",
             "flag": "🏳️",
@@ -8541,6 +8844,7 @@
           "home": {
             "id": "19284",
             "name": "Round of 16 3 Winner",
+            "name_zh": "",
             "short": "RD16 W3",
             "abbr": "RD16 W3",
             "flag": "🏳️",
@@ -8553,6 +8857,7 @@
           "away": {
             "id": "19285",
             "name": "Round of 16 4 Winner",
+            "name_zh": "",
             "short": "RD16 W4",
             "abbr": "RD16 W4",
             "flag": "🏳️",
@@ -8590,6 +8895,7 @@
           "home": {
             "id": "19280",
             "name": "Round of 16 7 Winner",
+            "name_zh": "",
             "short": "RD16 W7",
             "abbr": "RD16 W7",
             "flag": "🏳️",
@@ -8602,6 +8908,7 @@
           "away": {
             "id": "19281",
             "name": "Round of 16 8 Winner",
+            "name_zh": "",
             "short": "RD16 W8",
             "abbr": "RD16 W8",
             "flag": "🏳️",
@@ -8646,6 +8953,7 @@
           "home": {
             "id": "17631",
             "name": "Quarterfinal 1 Winner",
+            "name_zh": "",
             "short": "QF W1",
             "abbr": "QFW1",
             "flag": "🏳️",
@@ -8658,6 +8966,7 @@
           "away": {
             "id": "17629",
             "name": "Quarterfinal 2 Winner",
+            "name_zh": "",
             "short": "QF W2",
             "abbr": "QFW2",
             "flag": "🏳️",
@@ -8702,6 +9011,7 @@
           "home": {
             "id": "17630",
             "name": "Quarterfinal 3 Winner",
+            "name_zh": "",
             "short": "QF W3",
             "abbr": "QFW3",
             "flag": "🏳️",
@@ -8714,6 +9024,7 @@
           "away": {
             "id": "17632",
             "name": "Quarterfinal 4 Winner",
+            "name_zh": "",
             "short": "QF W4",
             "abbr": "QW4",
             "flag": "🏳️",
@@ -8758,6 +9069,7 @@
           "home": {
             "id": "5958",
             "name": "Semifinal 1 Loser",
+            "name_zh": "",
             "short": "SF L1",
             "abbr": "SF L1",
             "flag": "🏳️",
@@ -8770,6 +9082,7 @@
           "away": {
             "id": "5959",
             "name": "Semifinal 2 Loser",
+            "name_zh": "",
             "short": "SF L2",
             "abbr": "SF L2",
             "flag": "🏳️",
@@ -8814,6 +9127,7 @@
           "home": {
             "id": "5960",
             "name": "Semifinal 1 Winner",
+            "name_zh": "",
             "short": "SF W1",
             "abbr": "SFW1",
             "flag": "🏳️",
@@ -8826,6 +9140,7 @@
           "away": {
             "id": "5961",
             "name": "Semifinal 2 Winner",
+            "name_zh": "",
             "short": "SF W2",
             "abbr": "SFW2",
             "flag": "🏳️",

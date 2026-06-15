@@ -219,6 +219,24 @@
     return str;
   }
 
+  // Single-language team display: zh mode shows the Chinese name,
+  // en mode shows the English short name. Knockout placeholders
+  // ("Group A Winner", etc.) have no `name_zh` entry, so they fall
+  // through to the English placeholder string — which is what we want.
+  function teamDisplayName(team) {
+    if (!team) return "—";
+    if (currentLang === "zh" && team.name_zh) return team.name_zh;
+    return team.short || team.name || "—";
+  }
+
+  // Search corpus for the team picker. Always includes both English
+  // and Chinese names regardless of the active language toggle, so
+  // typing "巴西" or "Brazil" both find Brazil.
+  function teamSearchText(team) {
+    const parts = [team.name, team.short, team.name_zh, team.abbr];
+    return parts.filter(Boolean).join(" ").toLowerCase();
+  }
+
   function loadLang() {
     try {
       const raw = localStorage.getItem(LANG_KEY);
@@ -733,7 +751,7 @@
         <td class="col-num col-pts"><strong>${e.pts}</strong></td>
         <td class="col-team">
           <span class="team-flag">${escapeHtml(e.team.flag || "")}</span>
-          <span class="team-short">${escapeHtml(e.team.short || e.team.name)}</span>
+          <span class="team-short">${escapeHtml(teamDisplayName(e.team))}</span>
         </td>
         <td class="col-rank">
           <span class="rank-num">${rank}</span>
@@ -752,7 +770,6 @@
     card.appendChild(table);
     return card;
   }
-
 
   function renderDayList(content, matches) {
     const groups = groupByDay(matches);
@@ -877,7 +894,7 @@
     const homeName = home.querySelector(".team-name");
     const homeScore = home.querySelector(".team-score");
     homeFlag.textContent = m.home.flag || "🏳️";
-    homeName.textContent = m.home.short || m.home.name || "—";
+    homeName.textContent = teamDisplayName(m.home);
     if (isLive || isFinal) {
       homeScore.textContent = m.home.score != null ? m.home.score : "—";
     } else {
@@ -890,7 +907,7 @@
     const awayName = away.querySelector(".team-name");
     const awayScore = away.querySelector(".team-score");
     awayFlag.textContent = m.away.flag || "🏳️";
-    awayName.textContent = m.away.short || m.away.name || "—";
+    awayName.textContent = teamDisplayName(m.away);
     if (isLive || isFinal) {
       awayScore.textContent = m.away.score != null ? m.away.score : "—";
     } else {
@@ -1135,8 +1152,8 @@
     if (m.status === "FINAL") node.classList.add("is-final");
     if (m.status === "FINAL" && (m.home.winner || m.away.winner)) node.classList.add("is-final-winner");
     const tz = currentTz();
-    const homeName = m.home.short || m.home.name || "TBD";
-    const awayName = m.away.short || m.away.name || "TBD";
+    const homeName = teamDisplayName(m.home) || "TBD";
+    const awayName = teamDisplayName(m.away) || "TBD";
     const homeScore = m.status === "SCHEDULED" ? "" : (m.home.score != null ? m.home.score : "");
     const awayScore = m.status === "SCHEDULED" ? "" : (m.away.score != null ? m.away.score : "");
     const homeTbd = !m.home.id;
@@ -1277,10 +1294,11 @@
       const li = document.createElement("li");
       li.className = "combo-option";
       li.dataset.id = team.id;
+      li.dataset.search = teamSearchText(team);
       li.setAttribute("role", "option");
       const selected = filters.teams.includes(team.id);
       li.setAttribute("aria-selected", String(selected));
-      li.innerHTML = `<span class="opt-flag">${team.flag || "🏳️"}</span><span>${escapeHtml(team.name)}</span><span class="opt-meta">${escapeHtml(team.abbr || "")}</span>`;
+      li.innerHTML = `<span class="opt-flag">${team.flag || "🏳️"}</span><span>${escapeHtml(teamDisplayName(team))}</span><span class="opt-meta">${escapeHtml(team.abbr || "")}</span>`;
       li.addEventListener("click", () => {
         toggleTeam(team.id);
         buildTeamList();
@@ -1309,7 +1327,7 @@
       if (!team) continue;
       const chip = document.createElement("span");
       chip.className = "chip";
-      chip.innerHTML = `<span class="opt-flag">${team.flag || "🏳️"}</span><span>${escapeHtml(team.short || team.name)}</span><button type="button" aria-label="remove">×</button>`;
+      chip.innerHTML = `<span class="opt-flag">${team.flag || "🏳️"}</span><span>${escapeHtml(teamDisplayName(team))}</span><button type="button" aria-label="remove">×</button>`;
       chip.querySelector("button").addEventListener("click", () => {
         toggleTeam(id);
         renderTeamChips();
@@ -1338,8 +1356,8 @@
   function filterTeamList() {
     const q = $("#team-search").value.trim().toLowerCase();
     $$("#team-options .combo-option").forEach((li) => {
-      const text = li.textContent.toLowerCase();
-      li.hidden = q && !text.includes(q);
+      const corpus = li.dataset.search || li.textContent.toLowerCase();
+      li.hidden = q && !corpus.includes(q);
     });
   }
 

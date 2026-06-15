@@ -39,6 +39,72 @@ DEFAULT_TZ = "America/Chicago"
 TOURNAMENT_START = date(2026, 6, 11)
 TOURNAMENT_END = date(2026, 7, 19)
 
+# ESPN's public scoreboard API is English-only (displayName,
+# shortDisplayName, abbreviation) — it carries no localized name.
+# The 48 WC 2026 nations are well-known, so we ship a hand-curated
+# 中文 mapping and surface it as `name_zh` on every team dict.
+# Front-end swaps primary name based on the active language toggle.
+# Knockout placeholders ("Group A Winner", etc.) intentionally have
+# no entry here — they fall back to the English placeholder string.
+COUNTRY_ZH = {
+    "Algeria": "阿尔及利亚",
+    "Argentina": "阿根廷",
+    "Australia": "澳大利亚",
+    "Austria": "奥地利",
+    "Belgium": "比利时",
+    "Bosnia-Herzegovina": "波黑",
+    "Brazil": "巴西",
+    "Canada": "加拿大",
+    "Cape Verde": "佛得角",
+    "Colombia": "哥伦比亚",
+    "Congo DR": "刚果（金）",
+    "Croatia": "克罗地亚",
+    "Curaçao": "库拉索",
+    "Czechia": "捷克",
+    "Ecuador": "厄瓜多尔",
+    "Egypt": "埃及",
+    "England": "英格兰",
+    "France": "法国",
+    "Germany": "德国",
+    "Ghana": "加纳",
+    "Haiti": "海地",
+    "Iran": "伊朗",
+    "Iraq": "伊拉克",
+    "Ivory Coast": "科特迪瓦",
+    "Japan": "日本",
+    "Jordan": "约旦",
+    "Mexico": "墨西哥",
+    "Morocco": "摩洛哥",
+    "Netherlands": "荷兰",
+    "New Zealand": "新西兰",
+    "Norway": "挪威",
+    "Panama": "巴拿马",
+    "Paraguay": "巴拉圭",
+    "Portugal": "葡萄牙",
+    "Qatar": "卡塔尔",
+    "Saudi Arabia": "沙特阿拉伯",
+    "Scotland": "苏格兰",
+    "Senegal": "塞内加尔",
+    "South Africa": "南非",
+    "South Korea": "韩国",
+    "Spain": "西班牙",
+    "Sweden": "瑞典",
+    "Switzerland": "瑞士",
+    "Tunisia": "突尼斯",
+    "Türkiye": "土耳其",
+    "United States": "美国",
+    "Uruguay": "乌拉圭",
+    "Uzbekistan": "乌兹别克斯坦",
+}
+
+
+def _name_zh(english: str) -> str:
+    """Look up the Chinese display name for an ESPN team name.
+    Returns "" for unknowns (knockout placeholders, future qualifiers)
+    so the front-end can fall back to the English string."""
+    return COUNTRY_ZH.get(english or "", "")
+
+
 # ESPN caps the scoreboard endpoint at ~100 events per request. The 2026
 # World Cup has 104 matches over 39 days, so we chunk into ~14-day windows.
 ESPN_MAX_RANGE_DAYS = 14
@@ -84,6 +150,7 @@ def _normalize_standing_entry(entry: dict) -> dict:
         "team": {
             "id": str(team.get("id") or ""),
             "name": team.get("displayName") or team.get("name") or "?",
+            "name_zh": _name_zh(team.get("displayName") or team.get("name") or ""),
             "short": team.get("shortDisplayName") or team.get("abbreviation") or "?",
             "abbr": team.get("abbreviation") or "",
             "flag": _flag_for_abbr(team.get("abbreviation") or ""),
@@ -294,9 +361,11 @@ def parse_competitor(comp: dict) -> dict:
         score_int = int(score_val) if score_val is not None else None
     except (TypeError, ValueError):
         score_int = None
+    en_name = team.get("displayName") or team.get("name") or "?"
     return {
         "id": team.get("id"),
-        "name": team.get("displayName") or team.get("name") or "?",
+        "name": en_name,
+        "name_zh": _name_zh(en_name),
         "short": team.get("shortDisplayName") or team.get("abbreviation") or "?",
         "abbr": team.get("abbreviation") or "",
         "flag": _flag_for_abbr(team.get("abbreviation") or ""),
@@ -539,6 +608,7 @@ def build_payload(tz_name: str) -> dict:
                 team_index[tid] = {
                     "id": tid,
                     "name": name,
+                    "name_zh": side.get("name_zh") or _name_zh(name),
                     "short": side["short"],
                     "abbr": side["abbr"],
                     "flag": side["flag"],

@@ -115,7 +115,7 @@ workflows are silently ignored):
     "end":   "2026-07-19"
   },
   "facets": {
-    "teams":  [{ "id", "name", "short", "abbr", "flag", "first_seen", "group_count" }],
+    "teams":  [{ "id", "name", "name_zh", "short", "abbr", "flag", "first_seen", "group_count" }],
     "venues": [{ "id", "name", "city", "country", "capacity" }],
     "stages": ["Group Stage", "Round of 32", "Round of 16", "Quarterfinals",
                "Semifinals", "3rd Place Match", "Final"]
@@ -166,6 +166,18 @@ workflows are silently ignored):
   ]
 }
 ```
+
+## i18n for team names
+
+ESPN's API ships English-only `displayName` / `shortDisplayName`. The
+48 WC 2026 nations are hand-curated in `scripts/fetch_matches.py`
+(`COUNTRY_ZH`) and emitted as `name_zh` on every team dict. The
+front-end picks `name_zh` when the language toggle is on `中` and
+falls back to the English string otherwise — knockout placeholders
+like "Group A Winner" have no Chinese entry, so they stay in English
+in both modes. Team search always matches against both languages via
+a `data-search` attribute on each option, so typing `巴西` or
+`Brazil` both find the same team.
 
 ## Notes
 
