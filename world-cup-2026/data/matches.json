@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-15T19:41:05.943679+00:00",
+  "generated_at": "2026-06-15T20:48:10.889713+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-15T14:41:04.187047-05:00",
+  "now_local": "2026-06-15T15:48:10.086706-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -4548,8 +4548,8 @@
           "kickoff_local_date": "2026-06-15",
           "kickoff_time": "2:00 PM",
           "kickoff_weekday": "Mon",
-          "status": "SCHEDULED",
-          "status_short": "Scheduled",
+          "status": "LIVE",
+          "status_short": "85'",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -4563,7 +4563,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/bel.png",
             "color": "E30613",
             "home_away": "home",
-            "score": 0,
+            "score": 1,
             "winner": false
           },
           "away": {
@@ -4577,7 +4577,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/egy.png",
             "color": "D20300",
             "home_away": "away",
-            "score": 0,
+            "score": 1,
             "winner": false
           },
           "venue": {
@@ -4592,7 +4592,135 @@
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760426/egypt-belgium",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Belgium%20vs%20Egypt",
-          "slug": "egypt-at-belgium"
+          "slug": "egypt-at-belgium",
+          "incidents": [
+            {
+              "kind": "yellow_card",
+              "minute": "13'",
+              "team": "Egypt",
+              "team_id": "2620",
+              "team_side": "away",
+              "player": "Marawan Attia",
+              "text": "Marwan Attia (Egypt) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "14'",
+              "team": "Belgium",
+              "team_id": "459",
+              "team_side": "home",
+              "player": "Timothy Castagne",
+              "text": "Timothy Castagne (Belgium) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "goal",
+              "minute": "19'",
+              "team": "Egypt",
+              "team_id": "2620",
+              "team_side": "away",
+              "player": "Emam Ashour",
+              "text": "Goal! Belgium 0, Egypt 1. Emam Ashour (Egypt) right footed shot from outside the box to the bottom left corner. Assisted by Mohamed Salah.",
+              "assist": "Mohamed Salah"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "34'",
+              "team": "Egypt",
+              "team_id": "2620",
+              "team_side": "away",
+              "player": "Ahmed Fatouh",
+              "text": "Ahmed Fatouh (Egypt) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "substitution",
+              "minute": "56'",
+              "team": "Belgium",
+              "team_id": "459",
+              "team_side": "home",
+              "player": "Nicolas Raskin",
+              "text": "Substitution, Belgium. Nicolas Raskin replaces Timothy Castagne.",
+              "player_off": "Timothy Castagne"
+            },
+            {
+              "kind": "substitution",
+              "minute": "56'",
+              "team": "Belgium",
+              "team_id": "459",
+              "team_side": "home",
+              "player": "Maxim De Cuyper",
+              "text": "Substitution, Belgium. Maxim De Cuyper replaces Amadou Onana.",
+              "player_off": "Amadou Onana"
+            },
+            {
+              "kind": "substitution",
+              "minute": "66'",
+              "team": "Belgium",
+              "team_id": "459",
+              "team_side": "home",
+              "player": "Romelu Lukaku",
+              "text": "Substitution, Belgium. Romelu Lukaku replaces Charles De Ketelaere.",
+              "player_off": "Charles De Ketelaere"
+            },
+            {
+              "kind": "substitution",
+              "minute": "71'",
+              "team": "Egypt",
+              "team_id": "2620",
+              "team_side": "away",
+              "player": "Ramy Rabia",
+              "text": "Substitution, Egypt. Ramy Rabia replaces Emam Ashour.",
+              "player_off": "Emam Ashour"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "75'",
+              "team": "Belgium",
+              "team_id": "459",
+              "team_side": "home",
+              "player": "Maxim De Cuyper",
+              "text": "Maxim De Cuyper (Belgium) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "substitution",
+              "minute": "76'",
+              "team": "Egypt",
+              "team_id": "2620",
+              "team_side": "away",
+              "player": "Zizo",
+              "text": "Substitution, Egypt. Zizo replaces Mostafa Zico.",
+              "player_off": "Mostafa Zico"
+            },
+            {
+              "kind": "substitution",
+              "minute": "76'",
+              "team": "Egypt",
+              "team_id": "2620",
+              "team_side": "away",
+              "player": "Hamza Abdelkarim",
+              "text": "Substitution, Egypt. Hamza Abdelkarim replaces Mohamed Salah.",
+              "player_off": "Mohamed Salah"
+            },
+            {
+              "kind": "substitution",
+              "minute": "86'",
+              "team": "Belgium",
+              "team_id": "459",
+              "team_side": "home",
+              "player": "Matias Fernandez-Pardo",
+              "text": "Matias Fernandez-Pardo (Belgium) Substitution at 86'",
+              "player_off": "Jérémy Doku"
+            },
+            {
+              "kind": "substitution",
+              "minute": "86'",
+              "team": "Belgium",
+              "team_id": "459",
+              "team_side": "home",
+              "player": "Hans Vanaken",
+              "text": "Hans Vanaken (Belgium) Substitution at 86'",
+              "player_off": "Kevin De Bruyne"
+            }
+          ]
         },
         {
           "id": "760429",
