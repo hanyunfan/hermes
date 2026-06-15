@@ -1,14 +1,14 @@
 // app.js — render the WC 2026 daily preview with filters
 // Pure ES2022, no build step, no dependencies. Caches the JSON in
-// sessionStorage; filter state persists in localStorage and URL hash.
-// "Butterfly" default view: past + today + next 3 days, in 3 columns.
+// sessionStorage. Filter state is session-only — refresh always
+// returns to DEFAULT_FILTERS (no localStorage / URL-hash write).
+// Default view: past + today + next 3 days, in 3 columns.
 
 (() => {
   "use strict";
 
   const JSON_URL = "data/matches.json";
   const CACHE_KEY = "wc2026.matches.v2";
-  const FILTER_KEY = "wc2026.filters.v4";
   const TZ_KEY = "wc2026.tz.v1";
   const LANG_KEY = "wc2026.lang.v1";
   const VIEW_KEY = "wc2026.view.v1";
@@ -435,18 +435,21 @@
   let currentView = "matches";  // matches | standings
 
   function loadFilters() {
-    const fromHash = readFiltersFromHash();
-    if (fromHash) return normalizeFilters(fromHash);
-    try {
-      const raw = localStorage.getItem(FILTER_KEY);
-      if (raw) return normalizeFilters(JSON.parse(raw));
-    } catch { /* ignore */ }
+    // Filters are intentionally session-only. On every page load we
+    // start from DEFAULT_FILTERS and ignore any prior localStorage
+    // state or URL-hash state. (Refresh → defaults, every time.)
+    // The URL hash is cleared so the address bar doesn't lie about
+    // what the page is showing.
+    if (location.hash) {
+      try { history.replaceState(null, "", location.pathname + location.search); } catch { /* ignore */ }
+    }
     return { ...DEFAULT_FILTERS };
   }
 
   function saveFilters() {
-    try { localStorage.setItem(FILTER_KEY, JSON.stringify(filters)); } catch { /* ignore */ }
-    writeFiltersToHash();
+    // No-op: filter changes are in-memory only and don't survive
+    // a page load. (The wrapper is kept so call sites don't need
+    // to change.)
   }
 
   function normalizeFilters(f) {
@@ -456,35 +459,6 @@
     out.teams = Array.isArray(out.teams) ? out.teams.slice(0, 8) : [];
     out.venues = Array.isArray(out.venues) ? out.venues.slice(0, 16) : [];
     return out;
-  }
-
-  function readFiltersFromHash() {
-    if (!location.hash || location.hash.length < 2) return null;
-    try {
-      const params = new URLSearchParams(location.hash.slice(1));
-      const r = params.get("r");
-      const s = params.get("s");
-      const t = params.get("t");
-      const v = params.get("v");
-      if (!r && !s && !t && !v) return null;
-      return {
-        range: r || DEFAULT_FILTERS.range,
-        status: s || DEFAULT_FILTERS.status,
-        teams: t ? t.split(",").filter(Boolean) : [],
-        venues: v ? v.split(",").filter(Boolean) : [],
-      };
-    } catch { return null; }
-  }
-
-  function writeFiltersToHash() {
-    const params = new URLSearchParams();
-    if (filters.range !== DEFAULT_FILTERS.range) params.set("r", filters.range);
-    if (filters.status !== DEFAULT_FILTERS.status) params.set("s", filters.status);
-    if (filters.teams.length) params.set("t", filters.teams.join(","));
-    if (filters.venues.length) params.set("v", filters.venues.join(","));
-    const newHash = params.toString();
-    const target = newHash ? `#${newHash}` : " ";
-    if (location.hash !== target) history.replaceState(null, "", target);
   }
 
   function isDefaultFilters() {
