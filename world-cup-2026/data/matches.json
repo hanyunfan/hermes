@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-14T23:58:28.679873+00:00",
+  "generated_at": "2026-06-15T04:17:48.218063+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-14T18:58:27.975162-05:00",
+  "now_local": "2026-06-14T23:17:46.564507-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -988,14 +988,14 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/civ.png"
           },
           "rank": 2,
-          "mp": 0,
-          "w": 0,
+          "mp": 1,
+          "w": 1,
           "d": 0,
           "l": 0,
-          "gf": 0,
+          "gf": 1,
           "ga": 0,
-          "gd": 0,
-          "pts": 0,
+          "gd": 1,
+          "pts": 3,
           "advance": false,
           "advance_label": "Advance to Round of 32",
           "advance_color": "#81D6AC"
@@ -1010,13 +1010,13 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/ecu.png"
           },
           "rank": 3,
-          "mp": 0,
+          "mp": 1,
           "w": 0,
           "d": 0,
-          "l": 0,
+          "l": 1,
           "gf": 0,
-          "ga": 0,
-          "gd": 0,
+          "ga": 1,
+          "gd": -1,
           "pts": 0,
           "advance": false,
           "advance_label": "Best 8 advance",
@@ -1053,6 +1053,28 @@
       "entries": [
         {
           "team": {
+            "id": "466",
+            "name": "Sweden",
+            "short": "Sweden",
+            "abbr": "SWE",
+            "flag": "🇸🇪",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/swe.png"
+          },
+          "rank": 1,
+          "mp": 1,
+          "w": 1,
+          "d": 0,
+          "l": 0,
+          "gf": 5,
+          "ga": 1,
+          "gd": 4,
+          "pts": 3,
+          "advance": false,
+          "advance_label": "Advance to Round of 32",
+          "advance_color": "#81D6AC"
+        },
+        {
+          "team": {
             "id": "627",
             "name": "Japan",
             "short": "Japan",
@@ -1060,7 +1082,7 @@
             "flag": "🇯🇵",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/jpn.png"
           },
-          "rank": 1,
+          "rank": 2,
           "mp": 1,
           "w": 0,
           "d": 1,
@@ -1082,7 +1104,7 @@
             "flag": "🇳🇱",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/ned.png"
           },
-          "rank": 2,
+          "rank": 3,
           "mp": 1,
           "w": 0,
           "d": 1,
@@ -1091,28 +1113,6 @@
           "ga": 2,
           "gd": 0,
           "pts": 1,
-          "advance": false,
-          "advance_label": "Advance to Round of 32",
-          "advance_color": "#81D6AC"
-        },
-        {
-          "team": {
-            "id": "466",
-            "name": "Sweden",
-            "short": "Sweden",
-            "abbr": "SWE",
-            "flag": "🇸🇪",
-            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/swe.png"
-          },
-          "rank": 3,
-          "mp": 0,
-          "w": 0,
-          "d": 0,
-          "l": 0,
-          "gf": 0,
-          "ga": 0,
-          "gd": 0,
-          "pts": 0,
           "advance": false,
           "advance_label": "Best 8 advance",
           "advance_color": "#B5E7CE"
@@ -1127,13 +1127,13 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/tun.png"
           },
           "rank": 4,
-          "mp": 0,
+          "mp": 1,
           "w": 0,
           "d": 0,
-          "l": 0,
-          "gf": 0,
-          "ga": 0,
-          "gd": 0,
+          "l": 1,
+          "gf": 1,
+          "ga": 5,
+          "gd": -4,
           "pts": 0,
           "advance": false,
           "advance_label": "Eliminated",
@@ -3732,8 +3732,8 @@
           "kickoff_local_date": "2026-06-14",
           "kickoff_time": "6:00 PM",
           "kickoff_weekday": "Sun",
-          "status": "LIVE",
-          "status_short": "HT",
+          "status": "FINAL",
+          "status_short": "FT",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -3745,8 +3745,8 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/civ.png",
             "color": "FF8200",
             "home_away": "home",
-            "score": 0,
-            "winner": false
+            "score": 1,
+            "winner": true
           },
           "away": {
             "id": "209",
@@ -3770,7 +3770,7 @@
             "Tele",
             "Peacock"
           ],
-          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760423/ecuador-ivory coast",
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760423/ecuador-ivory-coast",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Ivory%20Coast%20vs%20Ecuador",
           "slug": "ecuador-at-ivory coast",
           "incidents": [
@@ -3800,6 +3800,115 @@
               "team_side": "home",
               "player": "Guela Doué",
               "text": "Guéla Doué (Côte d'Ivoire) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "substitution",
+              "minute": "56'",
+              "team": "Ecuador",
+              "team_id": "209",
+              "team_side": "away",
+              "player": "Nilson Angulo",
+              "text": "Substitution, Ecuador. Nilson Angulo replaces Alan Minda.",
+              "player_off": "Alan Minda"
+            },
+            {
+              "kind": "substitution",
+              "minute": "56'",
+              "team": "Ivory Coast",
+              "team_id": "4789",
+              "team_side": "home",
+              "player": "Ange-Yoan Bonny",
+              "text": "Substitution, Côte d'Ivoire. Ange-Yoan Bonny replaces Elye Wahi.",
+              "player_off": "Elye Wahi"
+            },
+            {
+              "kind": "substitution",
+              "minute": "56'",
+              "team": "Ivory Coast",
+              "team_id": "4789",
+              "team_side": "home",
+              "player": "Amad Diallo",
+              "text": "Substitution, Côte d'Ivoire. Amad Diallo replaces Bazoumana Touré.",
+              "player_off": "Bazoumana Touré"
+            },
+            {
+              "kind": "substitution",
+              "minute": "62'",
+              "team": "Ecuador",
+              "team_id": "209",
+              "team_side": "away",
+              "player": "Jackson Porozo",
+              "text": "Substitution, Ecuador. Jackson Porozo replaces Alan Franco.",
+              "player_off": "Alan Franco"
+            },
+            {
+              "kind": "substitution",
+              "minute": "62'",
+              "team": "Ecuador",
+              "team_id": "209",
+              "team_side": "away",
+              "player": "Ángelo Preciado",
+              "text": "Substitution, Ecuador. Ángelo Preciado replaces John Yeboah.",
+              "player_off": "John Yeboah"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "73'",
+              "team": "Ecuador",
+              "team_id": "209",
+              "team_side": "away",
+              "player": "Jackson Porozo",
+              "text": "Jackson Porozo (Ecuador) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "substitution",
+              "minute": "77'",
+              "team": "Ivory Coast",
+              "team_id": "4789",
+              "team_side": "home",
+              "player": "Ibrahim Sangaré",
+              "text": "Substitution, Côte d'Ivoire. Ibrahim Sangaré replaces Seko Fofana.",
+              "player_off": "Seko Fofana"
+            },
+            {
+              "kind": "substitution",
+              "minute": "77'",
+              "team": "Ivory Coast",
+              "team_id": "4789",
+              "team_side": "home",
+              "player": "Christ Inao Oulaï",
+              "text": "Substitution, Côte d'Ivoire. Christ Inao Oulaï replaces Nicolas Pépé.",
+              "player_off": "Nicolas Pépé"
+            },
+            {
+              "kind": "substitution",
+              "minute": "77'",
+              "team": "Ecuador",
+              "team_id": "209",
+              "team_side": "away",
+              "player": "Kevin Rodríguez",
+              "text": "Substitution, Ecuador. Kevin Rodríguez replaces Enner Valencia.",
+              "player_off": "Enner Valencia"
+            },
+            {
+              "kind": "substitution",
+              "minute": "89'",
+              "team": "Ivory Coast",
+              "team_id": "4789",
+              "team_side": "home",
+              "player": "Odilon Kossounou",
+              "text": "Substitution, Côte d'Ivoire. Odilon Kossounou replaces Guéla Doué.",
+              "player_off": "Guela Doué"
+            },
+            {
+              "kind": "goal",
+              "minute": "90'",
+              "team": "Ivory Coast",
+              "team_id": "4789",
+              "team_side": "home",
+              "player": "Amad Diallo",
+              "text": "Goal! Côte d'Ivoire 1, Ecuador 0. Amad Diallo (Côte d'Ivoire) left footed shot from the centre of the box to the bottom left corner. Assisted by Wilfried Singo.",
+              "assist": "Wilfried Singo"
             }
           ]
         },
@@ -3810,8 +3919,8 @@
           "kickoff_local_date": "2026-06-14",
           "kickoff_time": "9:00 PM",
           "kickoff_weekday": "Sun",
-          "status": "SCHEDULED",
-          "status_short": "Scheduled",
+          "status": "FINAL",
+          "status_short": "FT",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -3823,8 +3932,8 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/swe.png",
             "color": "fecb00",
             "home_away": "home",
-            "score": 0,
-            "winner": false
+            "score": 5,
+            "winner": true
           },
           "away": {
             "id": "659",
@@ -3835,7 +3944,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/tun.png",
             "color": "D20300",
             "home_away": "away",
-            "score": 0,
+            "score": 1,
             "winner": false
           },
           "venue": {
@@ -3850,7 +3959,177 @@
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760424/tunisia-sweden",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Sweden%20vs%20Tunisia",
-          "slug": "tunisia-at-sweden"
+          "slug": "tunisia-at-sweden",
+          "incidents": [
+            {
+              "kind": "goal",
+              "minute": "7'",
+              "team": "Sweden",
+              "team_id": "466",
+              "team_side": "home",
+              "player": "Yasin Ayari",
+              "text": "Goal! Sweden 1, Tunisia 0. Yasin Ayari (Sweden) right footed shot from outside the box to the top right corner."
+            },
+            {
+              "kind": "goal",
+              "minute": "30'",
+              "team": "Sweden",
+              "team_id": "466",
+              "team_side": "home",
+              "player": "Alexander Isak",
+              "text": "Goal! Sweden 2, Tunisia 0. Alexander Isak (Sweden) right footed shot from outside the box to the bottom right corner. Assisted by Viktor Gyökeres following a fast break.",
+              "assist": "Viktor Gyökeres"
+            },
+            {
+              "kind": "goal",
+              "minute": "43'",
+              "team": "Tunisia",
+              "team_id": "659",
+              "team_side": "away",
+              "player": "Omar Rekik",
+              "text": "Goal! Sweden 2, Tunisia 1. Omar Rekik (Tunisia) header from the centre of the box to the bottom left corner. Assisted by Hannibal Mejbri with a cross.",
+              "assist": "Hannibal Mejbri"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "54'",
+              "team": "Tunisia",
+              "team_id": "659",
+              "team_side": "away",
+              "player": "Rani Khedira",
+              "text": "Rani Khedira (Tunisia) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "goal",
+              "minute": "59'",
+              "team": "Sweden",
+              "team_id": "466",
+              "team_side": "home",
+              "player": "Viktor Gyökeres",
+              "text": "Goal! Sweden 3, Tunisia 1. Viktor Gyökeres (Sweden) right footed shot from the centre of the box to the bottom left corner. Assisted by Alexander Isak.",
+              "assist": "Alexander Isak"
+            },
+            {
+              "kind": "substitution",
+              "minute": "65'",
+              "team": "Sweden",
+              "team_id": "466",
+              "team_side": "home",
+              "player": "Elliot Stroud",
+              "text": "Substitution, Sweden. Elliot Stroud replaces Gabriel Gudmundsson because of an injury.",
+              "player_off": "Gabriel Gudmundsson"
+            },
+            {
+              "kind": "substitution",
+              "minute": "65'",
+              "team": "Sweden",
+              "team_id": "466",
+              "team_side": "home",
+              "player": "Lucas Bergvall",
+              "text": "Substitution, Sweden. Lucas Bergvall replaces Benjamin Nygren.",
+              "player_off": "Benjamin Nygren"
+            },
+            {
+              "kind": "substitution",
+              "minute": "72'",
+              "team": "Tunisia",
+              "team_id": "659",
+              "team_side": "away",
+              "player": "Elias Achouri",
+              "text": "Substitution, Tunisia. Elias Achouri replaces Ellyes Skhiri.",
+              "player_off": "Ellyes Skhiri"
+            },
+            {
+              "kind": "substitution",
+              "minute": "72'",
+              "team": "Tunisia",
+              "team_id": "659",
+              "team_side": "away",
+              "player": "Sebastian Tounekti",
+              "text": "Substitution, Tunisia. Sebastian Tounekti replaces Elias Saad.",
+              "player_off": "Elias Saad"
+            },
+            {
+              "kind": "substitution",
+              "minute": "72'",
+              "team": "Tunisia",
+              "team_id": "659",
+              "team_side": "away",
+              "player": "Mohamed Hadj Mahmoud",
+              "text": "Substitution, Tunisia. Hadj Mahmoud replaces Yan Valery.",
+              "player_off": "Yan Valery"
+            },
+            {
+              "kind": "substitution",
+              "minute": "83'",
+              "team": "Tunisia",
+              "team_id": "659",
+              "team_side": "away",
+              "player": "Ismaël Gharbi",
+              "text": "Substitution, Tunisia. Ismaël Gharbi replaces Rani Khedira.",
+              "player_off": "Rani Khedira"
+            },
+            {
+              "kind": "substitution",
+              "minute": "84'",
+              "team": "Tunisia",
+              "team_id": "659",
+              "team_side": "away",
+              "player": "Firas Chaouat",
+              "text": "Substitution, Tunisia. Firas Chaouat replaces Anis Ben Slimane.",
+              "player_off": "Anis Slimane"
+            },
+            {
+              "kind": "substitution",
+              "minute": "84'",
+              "team": "Sweden",
+              "team_id": "466",
+              "team_side": "home",
+              "player": "Mattias Svanberg",
+              "text": "Substitution, Sweden. Mattias Svanberg replaces Jesper Karlström.",
+              "player_off": "Jesper Karlström"
+            },
+            {
+              "kind": "goal",
+              "minute": "84'",
+              "team": "Sweden",
+              "team_id": "466",
+              "team_side": "home",
+              "player": "Mattias Svanberg",
+              "text": "Goal! Sweden 4, Tunisia 1. Mattias Svanberg (Sweden) right footed shot from the centre of the box to the centre of the goal. Assisted by Alexander Isak following a set piece situation.",
+              "assist": "Alexander Isak"
+            },
+            {
+              "kind": "substitution",
+              "minute": "90'+1'",
+              "team": "Sweden",
+              "team_id": "466",
+              "team_side": "home",
+              "player": "Anthony Elanga",
+              "text": "Substitution, Sweden. Anthony Elanga replaces Alexander Isak.",
+              "player_off": "Alexander Isak"
+            },
+            {
+              "kind": "substitution",
+              "minute": "90'+1'",
+              "team": "Sweden",
+              "team_id": "466",
+              "team_side": "home",
+              "player": "Daniel Svensson",
+              "text": "Substitution, Sweden. Daniel Svensson replaces Alexander Bernhardsson.",
+              "player_off": "Alexander Bernhardsson"
+            },
+            {
+              "kind": "goal",
+              "minute": "90'+6'",
+              "team": "Sweden",
+              "team_id": "466",
+              "team_side": "home",
+              "player": "Yasin Ayari",
+              "text": "Goal! Sweden 5, Tunisia 1. Yasin Ayari (Sweden) right footed shot from outside the box to the bottom left corner. Assisted by Lucas Bergvall.",
+              "assist": "Lucas Bergvall"
+            }
+          ]
         }
       ]
     },
