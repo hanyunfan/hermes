@@ -115,7 +115,7 @@ workflows are silently ignored):
     "end":   "2026-07-19"
   },
   "facets": {
-    "teams":  [{ "id", "name", "name_zh", "short", "abbr", "flag", "first_seen", "group_count" }],
+    "teams":  [{ "id", "name", "name_zh", "rank", "short", "abbr", "flag", "first_seen", "group_count" }],
     "venues": [{ "id", "name", "city", "country", "capacity" }],
     "stages": ["Group Stage", "Round of 32", "Round of 16", "Quarterfinals",
                "Semifinals", "3rd Place Match", "Final"]
@@ -125,7 +125,7 @@ workflows are silently ignored):
       "id": "1", "name": "Group A", "abbreviation": "Group A",
       "entries": [
         {
-          "team": { "id", "name", "short", "abbr", "flag", "logo" },
+          "team": { "id", "name", "name_zh", "rank", "short", "abbr", "flag", "logo" },
           "rank": 1, "mp": 1, "w": 1, "d": 0, "l": 0,
           "gf": 2, "ga": 0, "gd": 2, "pts": 3,
           "advance": false, "advance_comment": ""
@@ -152,7 +152,7 @@ workflows are silently ignored):
           "stage_slug": "group-stage",  // group-stage | round-of-32 | round-of-16
                                       // | quarterfinals | semifinals
                                       // | 3rd-place-match | final
-          "home": { "id", "name", "short", "abbr", "flag", "logo", "color",
+          "home": { "id", "name", "name_zh", "rank", "short", "abbr", "flag", "logo", "color",
                     "home_away": "home", "score": 1, "winner": false },
           "away": { … same shape, home_away: "away" … },
           "venue":      { "name", "city", "country" },
@@ -178,6 +178,17 @@ like "Group A Winner" have no Chinese entry, so they stay in English
 in both modes. Team search always matches against both languages via
 a `data-search` attribute on each option, so typing `巴西` or
 `Brazil` both find the same team.
+
+## FIFA ranking annotation
+
+ESPN doesn't ship FIFA rankings, so `scripts/fetch_matches.py` carries
+a snapshot dict (`FIFA_RANK`, snapshot date 2026-06-11, refresh
+whenever FIFA publishes a new monthly update) and emits each team's
+ranking as `rank` on every team dict. The front-end renders this as a
+small `#N` suffix right after each team name in match cards,
+standings rows, the bracket, the team-picker dropdown, and selected
+filter chips. Numbers update on the next cron refresh after
+`FIFA_RANK` is edited.
 
 ## Notes
 

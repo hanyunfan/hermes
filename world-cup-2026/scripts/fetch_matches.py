@@ -105,6 +105,71 @@ def _name_zh(english: str) -> str:
     return COUNTRY_ZH.get(english or "", "")
 
 
+# FIFA/Coca-Cola Men's World Ranking snapshot. ESPN's scoreboard API
+# has no ranking field, so we ship a snapshot hard-coded here. Update
+# FIFA_RANK_SNAPSHOT whenever this dict is refreshed — FIFA publishes
+# updated rankings monthly. The front-end renders this as a small
+# `#N` annotation next to each team name; missing values render nothing.
+FIFA_RANK_SNAPSHOT = date(2026, 6, 11)
+FIFA_RANK = {
+    "Algeria": 28,
+    "Argentina": 1,
+    "Australia": 27,
+    "Austria": 24,
+    "Belgium": 9,
+    "Bosnia-Herzegovina": 64,
+    "Brazil": 6,
+    "Canada": 30,
+    "Cape Verde": 67,
+    "Colombia": 13,
+    "Congo DR": 46,
+    "Croatia": 11,
+    "Curaçao": 82,
+    "Czechia": 40,
+    "Ecuador": 23,
+    "Egypt": 29,
+    "England": 4,
+    "France": 3,
+    "Germany": 10,
+    "Ghana": 73,
+    "Haiti": 83,
+    "Iran": 20,
+    "Iraq": 57,
+    "Ivory Coast": 33,
+    "Japan": 18,
+    "Jordan": 63,
+    "Mexico": 14,
+    "Morocco": 7,
+    "Netherlands": 8,
+    "New Zealand": 85,
+    "Norway": 31,
+    "Panama": 34,
+    "Paraguay": 41,
+    "Portugal": 5,
+    "Qatar": 56,
+    "Saudi Arabia": 61,
+    "Scotland": 42,
+    "Senegal": 15,
+    "South Africa": 60,
+    "South Korea": 25,
+    "Spain": 2,
+    "Sweden": 38,
+    "Switzerland": 19,
+    "Tunisia": 45,
+    "Türkiye": 22,
+    "United States": 17,
+    "Uruguay": 16,
+    "Uzbekistan": 50,
+}
+
+
+def _rank(english: str) -> int | None:
+    """FIFA men's world ranking for an ESPN team name, or None when
+    the team is a knockout placeholder or a future qualifier not yet
+    in our snapshot."""
+    return FIFA_RANK.get(english or "")
+
+
 # ESPN caps the scoreboard endpoint at ~100 events per request. The 2026
 # World Cup has 104 matches over 39 days, so we chunk into ~14-day windows.
 ESPN_MAX_RANGE_DAYS = 14
@@ -151,6 +216,7 @@ def _normalize_standing_entry(entry: dict) -> dict:
             "id": str(team.get("id") or ""),
             "name": team.get("displayName") or team.get("name") or "?",
             "name_zh": _name_zh(team.get("displayName") or team.get("name") or ""),
+            "rank": _rank(team.get("displayName") or team.get("name") or ""),
             "short": team.get("shortDisplayName") or team.get("abbreviation") or "?",
             "abbr": team.get("abbreviation") or "",
             "flag": _flag_for_abbr(team.get("abbreviation") or ""),
@@ -366,6 +432,7 @@ def parse_competitor(comp: dict) -> dict:
         "id": team.get("id"),
         "name": en_name,
         "name_zh": _name_zh(en_name),
+        "rank": _rank(en_name),
         "short": team.get("shortDisplayName") or team.get("abbreviation") or "?",
         "abbr": team.get("abbreviation") or "",
         "flag": _flag_for_abbr(team.get("abbreviation") or ""),
@@ -609,6 +676,7 @@ def build_payload(tz_name: str) -> dict:
                     "id": tid,
                     "name": name,
                     "name_zh": side.get("name_zh") or _name_zh(name),
+                    "rank": side.get("rank") if side.get("rank") is not None else _rank(name),
                     "short": side["short"],
                     "abbr": side["abbr"],
                     "flag": side["flag"],

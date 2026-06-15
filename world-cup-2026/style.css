@@ -568,6 +568,21 @@ body {
   text-overflow: ellipsis;
 }
 .team.is-winner .team-name { color: var(--accent-soft); }
+
+/* Tiny `#N` FIFA ranking suffix next to team names. Inline-flow so
+   it follows the team name naturally and truncates with the parent. */
+.team-rank {
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: var(--text-dim);
+  margin-left: 4px;
+  letter-spacing: 0.01em;
+  vertical-align: baseline;
+}
+.bracket-team .bc-team-name .team-rank {
+  font-size: 0.62rem;
+  margin-left: 3px;
+}
 .team-score {
   font-size: 1.4rem;
   font-weight: 800;
