@@ -1,24 +1,20 @@
 // app.js — render the WC 2026 daily preview with filters
 // Pure ES2022, no build step, no dependencies. Caches the JSON in
-// sessionStorage. Filter state is session-only — refresh always
-// returns to DEFAULT_FILTERS (no localStorage / URL-hash write).
-// Default view: past + today + next 3 days, in 3 columns.
+// sessionStorage; filter state persists in localStorage and URL hash.
+// "Butterfly" default view: past + today + next 3 days, in 3 columns.
 
 (() => {
   "use strict";
 
   const JSON_URL = "data/matches.json";
   const CACHE_KEY = "wc2026.matches.v2";
+  const FILTER_KEY = "wc2026.filters.v4";
   const TZ_KEY = "wc2026.tz.v1";
   const LANG_KEY = "wc2026.lang.v1";
   const VIEW_KEY = "wc2026.view.v1";
   const REFRESH_INTERVAL_MS = 5 * 60 * 1000;
   const REFRESH_LIVE_MS    = 30 * 1000;
   const RERENDER_TICK_MS   = 60 * 1000;
-
-  // Broadcasters that need a paid subscription to view. Free over-the-air
-  // channels (FOX, Telemundo) are NOT in this set.
-  const PAID_BROADCASTERS = new Set(["FS1", "FS2", "Peacock", "Peacock Premium"]);
 
   const $ = (sel, root = document) => root.querySelector(sel);
   const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
@@ -88,7 +84,6 @@
       "stage": "Stage",
       "venue": "Venue",
       "watch": "Watch",
-      "broadcast.paid.tooltip": "Paid — requires a cable or streaming subscription (not free over-the-air)",
       "link.espn": "ESPN ↗",
       "link.fox": "Fox Sports ↗",
       "status.live.short": "LIVE",
@@ -178,7 +173,6 @@
       "stage": "阶段",
       "venue": "场馆",
       "watch": "观看",
-      "broadcast.paid.tooltip": "付费频道——需要有线电视或流媒体订阅（非免费无线）",
       "link.espn": "ESPN ↗",
       "link.fox": "福克斯体育 ↗",
       "status.live.short": "直播",
@@ -219,30 +213,12 @@
     return str;
   }
 
-  // Single-language team display: zh mode shows the Chinese name,
-  // en mode shows the English short name. Knockout placeholders
-  // ("Group A Winner", etc.) have no `name_zh` entry, so they fall
-  // through to the English placeholder string — which is what we want.
-  function teamDisplayName(team) {
-    if (!team) return "—";
-    if (currentLang === "zh" && team.name_zh) return team.name_zh;
-    return team.short || team.name || "—";
-  }
-
-  // Search corpus for the team picker. Always includes both English
-  // and Chinese names regardless of the active language toggle, so
-  // typing "巴西" or "Brazil" both find Brazil.
-  function teamSearchText(team) {
-    const parts = [team.name, team.short, team.name_zh, team.abbr];
-    return parts.filter(Boolean).join(" ").toLowerCase();
-  }
-
   function loadLang() {
     try {
       const raw = localStorage.getItem(LANG_KEY);
       if (raw === "zh" || raw === "en") return raw;
     } catch { /* ignore */ }
-    return "en";
+    return "zh";
   }
   function saveLang(lang) {
     try { localStorage.setItem(LANG_KEY, lang); } catch { /* ignore */ }
@@ -433,21 +409,18 @@
   let currentView = "matches";  // matches | standings
 
   function loadFilters() {
-    // Filters are intentionally session-only. On every page load we
-    // start from DEFAULT_FILTERS and ignore any prior localStorage
-    // state or URL-hash state. (Refresh → defaults, every time.)
-    // The URL hash is cleared so the address bar doesn't lie about
-    // what the page is showing.
-    if (location.hash) {
-      try { history.replaceState(null, "", location.pathname + location.search); } catch { /* ignore */ }
-    }
+    const fromHash = readFiltersFromHash();
+    if (fromHash) return normalizeFilters(fromHash);
+    try {
+      const raw = localStorage.getItem(FILTER_KEY);
+      if (raw) return normalizeFilters(JSON.parse(raw));
+    } catch { /* ignore */ }
     return { ...DEFAULT_FILTERS };
   }
 
   function saveFilters() {
-    // No-op: filter changes are in-memory only and don't survive
-    // a page load. (The wrapper is kept so call sites don't need
-    // to change.)
+    try { localStorage.setItem(FILTER_KEY, JSON.stringify(filters)); } catch { /* ignore */ }
+    writeFiltersToHash();
   }
 
   function normalizeFilters(f) {
@@ -457,6 +430,35 @@
     out.teams = Array.isArray(out.teams) ? out.teams.slice(0, 8) : [];
     out.venues = Array.isArray(out.venues) ? out.venues.slice(0, 16) : [];
     return out;
+  }
+
+  function readFiltersFromHash() {
+    if (!location.hash || location.hash.length < 2) return null;
+    try {
+      const params = new URLSearchParams(location.hash.slice(1));
+      const r = params.get("r");
+      const s = params.get("s");
+      const t = params.get("t");
+      const v = params.get("v");
+      if (!r && !s && !t && !v) return null;
+      return {
+        range: r || DEFAULT_FILTERS.range,
+        status: s || DEFAULT_FILTERS.status,
+        teams: t ? t.split(",").filter(Boolean) : [],
+        venues: v ? v.split(",").filter(Boolean) : [],
+      };
+    } catch { return null; }
+  }
+
+  function writeFiltersToHash() {
+    const params = new URLSearchParams();
+    if (filters.range !== DEFAULT_FILTERS.range) params.set("r", filters.range);
+    if (filters.status !== DEFAULT_FILTERS.status) params.set("s", filters.status);
+    if (filters.teams.length) params.set("t", filters.teams.join(","));
+    if (filters.venues.length) params.set("v", filters.venues.join(","));
+    const newHash = params.toString();
+    const target = newHash ? `#${newHash}` : " ";
+    if (location.hash !== target) history.replaceState(null, "", target);
   }
 
   function isDefaultFilters() {
@@ -653,10 +655,53 @@
         dh.innerHTML = `<span>${escapeHtml(group.label)}</span><span class="wing-day-count">${group.matches.length}</span>`;
         list.appendChild(dh);
       }
-      for (const m of group.matches) list.appendChild(buildMatchCard(m));
+      for (const m of group.matches) {
+        const card = buildMatchCard(m);
+        // Inject compact venue + broadcast row in the wing card body
+        injectWingMeta(card, m);
+        list.appendChild(card);
+      }
     }
     wrap.appendChild(list);
     return wrap;
+  }
+
+  function injectWingMeta(card, m) {
+    const body = card.querySelector(".match-body");
+    if (!body) return;
+    const venue = m.venue?.name || "";
+    const city = m.venue?.city || "";
+    const venueShort = shortenForVenue(venue);
+    const venueTitle = [venue, city].filter(Boolean).join(", ");
+    const broadcasts = Array.isArray(m.broadcasts) ? m.broadcasts : [];
+    const bcastShort = broadcasts.slice(0, 2).join(", ");
+    const bcastExtra = broadcasts.length > 2 ? ` +${broadcasts.length - 2}` : "";
+    const meta = document.createElement("div");
+    meta.className = "wing-meta";
+    if (venueShort) {
+      const v = document.createElement("span");
+      v.className = "wing-venue";
+      v.title = venueTitle;
+      v.textContent = "🏟️ " + venueShort;
+      meta.appendChild(v);
+    }
+    if (broadcasts.length) {
+      const b = document.createElement("span");
+      b.className = "wing-broadcast";
+      b.title = broadcasts.join(", ");
+      b.textContent = "📺 " + bcastShort + bcastExtra;
+      meta.appendChild(b);
+    }
+    if (meta.children.length) body.appendChild(meta);
+  }
+
+  function shortenForVenue(name) {
+    if (!name) return "";
+    // Strip "Estádio", "Stadion", "Stadium" suffix to save space
+    let s = name.replace(/\s*(Stadium|Estádio|Estadio|Stadion|Arena|Field|球埸|体育馆)\s*$/i, "").trim();
+    if (!s) s = name;
+    if (s.length > 16) s = s.slice(0, 15) + "…";
+    return s;
   }
 
   function groupByDay(matches) {
@@ -751,7 +796,7 @@
         <td class="col-num col-pts"><strong>${e.pts}</strong></td>
         <td class="col-team">
           <span class="team-flag">${escapeHtml(e.team.flag || "")}</span>
-          <span class="team-short">${escapeHtml(teamDisplayName(e.team))}</span>
+          <span class="team-short">${escapeHtml(e.team.short || e.team.name)}</span>
         </td>
         <td class="col-rank">
           <span class="rank-num">${rank}</span>
@@ -770,6 +815,7 @@
     card.appendChild(table);
     return card;
   }
+
 
   function renderDayList(content, matches) {
     const groups = groupByDay(matches);
@@ -894,7 +940,7 @@
     const homeName = home.querySelector(".team-name");
     const homeScore = home.querySelector(".team-score");
     homeFlag.textContent = m.home.flag || "🏳️";
-    homeName.textContent = teamDisplayName(m.home);
+    homeName.textContent = m.home.short || m.home.name || "—";
     if (isLive || isFinal) {
       homeScore.textContent = m.home.score != null ? m.home.score : "—";
     } else {
@@ -907,7 +953,7 @@
     const awayName = away.querySelector(".team-name");
     const awayScore = away.querySelector(".team-score");
     awayFlag.textContent = m.away.flag || "🏳️";
-    awayName.textContent = teamDisplayName(m.away);
+    awayName.textContent = m.away.short || m.away.name || "—";
     if (isLive || isFinal) {
       awayScore.textContent = m.away.score != null ? m.away.score : "—";
     } else {
@@ -924,25 +970,8 @@
     const broadcasts = node.querySelector(".broadcasts");
     stage.textContent = m.stage || "—";
     venue.textContent = m.venue?.name || "—";
-    // Render broadcasters; paid ones (FS1/FS2/Peacock) get a 🔒 badge +
-    // tooltip so viewers don't waste time hunting for a free stream.
-    if (m.broadcasts?.length) {
-      broadcasts.replaceChildren();
-      m.broadcasts.forEach((b, i) => {
-        if (i > 0) broadcasts.appendChild(document.createTextNode(", "));
-        if (PAID_BROADCASTERS.has(b)) {
-          const paid = document.createElement("span");
-          paid.className = "bcast-paid";
-          paid.title = t("broadcast.paid.tooltip");
-          paid.textContent = b + " 🔒";
-          broadcasts.appendChild(paid);
-        } else {
-          broadcasts.appendChild(document.createTextNode(b));
-        }
-      });
-    } else {
-      broadcasts.textContent = "—";
-    }
+    const bcast = m.broadcasts?.length ? m.broadcasts.join(", ") : "—";
+    broadcasts.textContent = bcast;
 
     const espn = node.querySelector("a.espn");
     const fox = node.querySelector("a.fox");
@@ -1152,8 +1181,8 @@
     if (m.status === "FINAL") node.classList.add("is-final");
     if (m.status === "FINAL" && (m.home.winner || m.away.winner)) node.classList.add("is-final-winner");
     const tz = currentTz();
-    const homeName = teamDisplayName(m.home) || "TBD";
-    const awayName = teamDisplayName(m.away) || "TBD";
+    const homeName = m.home.short || m.home.name || "TBD";
+    const awayName = m.away.short || m.away.name || "TBD";
     const homeScore = m.status === "SCHEDULED" ? "" : (m.home.score != null ? m.home.score : "");
     const awayScore = m.status === "SCHEDULED" ? "" : (m.away.score != null ? m.away.score : "");
     const homeTbd = !m.home.id;
@@ -1294,11 +1323,10 @@
       const li = document.createElement("li");
       li.className = "combo-option";
       li.dataset.id = team.id;
-      li.dataset.search = teamSearchText(team);
       li.setAttribute("role", "option");
       const selected = filters.teams.includes(team.id);
       li.setAttribute("aria-selected", String(selected));
-      li.innerHTML = `<span class="opt-flag">${team.flag || "🏳️"}</span><span>${escapeHtml(teamDisplayName(team))}</span><span class="opt-meta">${escapeHtml(team.abbr || "")}</span>`;
+      li.innerHTML = `<span class="opt-flag">${team.flag || "🏳️"}</span><span>${escapeHtml(team.name)}</span><span class="opt-meta">${escapeHtml(team.abbr || "")}</span>`;
       li.addEventListener("click", () => {
         toggleTeam(team.id);
         buildTeamList();
@@ -1327,7 +1355,7 @@
       if (!team) continue;
       const chip = document.createElement("span");
       chip.className = "chip";
-      chip.innerHTML = `<span class="opt-flag">${team.flag || "🏳️"}</span><span>${escapeHtml(teamDisplayName(team))}</span><button type="button" aria-label="remove">×</button>`;
+      chip.innerHTML = `<span class="opt-flag">${team.flag || "🏳️"}</span><span>${escapeHtml(team.short || team.name)}</span><button type="button" aria-label="remove">×</button>`;
       chip.querySelector("button").addEventListener("click", () => {
         toggleTeam(id);
         renderTeamChips();
@@ -1356,8 +1384,8 @@
   function filterTeamList() {
     const q = $("#team-search").value.trim().toLowerCase();
     $$("#team-options .combo-option").forEach((li) => {
-      const corpus = li.dataset.search || li.textContent.toLowerCase();
-      li.hidden = q && !corpus.includes(q);
+      const text = li.textContent.toLowerCase();
+      li.hidden = q && !text.includes(q);
     });
   }
 
