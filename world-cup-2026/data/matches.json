@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-15T16:56:53.661202+00:00",
+  "generated_at": "2026-06-15T17:17:05.595773+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-15T11:56:52.810292-05:00",
+  "now_local": "2026-06-15T12:17:04.840150-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -4386,7 +4386,7 @@
           "kickoff_time": "11:00 AM",
           "kickoff_weekday": "Mon",
           "status": "LIVE",
-          "status_short": "HT",
+          "status_short": "56'",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
