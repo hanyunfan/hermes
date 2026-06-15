@@ -28,7 +28,7 @@
      frequency chart which shows up to 128 logical-core lines and would
      otherwise be unreadable in a half-width column. */
   .chart-card--wide { grid-column: 1 / -1; }
-  .chart-card--wide .chart-wrapper { height: 260px; }
+  .chart-card--wide .chart-wrapper { height: 500px; }
   .chart-card h3 { font-size: 0.9rem; color: #aaa; margin-bottom: 12px; font-weight: 500; }
   .chart-wrapper { position: relative; height: 220px; }
   .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 16px; }
@@ -1814,22 +1814,40 @@ function updateCpuThermTempChart(allData) {
       const labels = [];
       for (const chip of Object.keys(d.cpu_therm_raw)) {
         for (const t of d.cpu_therm_raw[chip]) {
-          // Skip Tdie/Tctl/Package — those are summarised in the
-          // package chart instead, to avoid duplicating the most common
-          // line in the per-sensor chart.
-          if (t.label === 'Tdie' || t.label === 'Tctl' || t.label.startsWith('Package')) continue;
-          labels.push(chip + '.' + (t.label || '?'));
+          // Filter to CPU-thermal sensors only (matches collector filter).
+          const l = t.label || '';
+          if (!(l.startsWith('Core ') || l.startsWith('Tccd') ||
+                l === 'Tdie' || l === 'Tctl' || l.startsWith('Package'))) continue;
+          labels.push(chip + '.' + (l || '?'));
         }
       }
       if (labels.length) { sensorLabels = labels; break; }
     }
   }
-  if (!sensorLabels || sensorLabels.length === 0) return; // no per-sensor data → keep hidden
+  if (!sensorLabels || sensorLabels.length === 0) return;
+
+  // Disambiguate duplicate labels. When a chip exposes multiple
+  // Tdie / Tctl / Package-id entries (multi-socket systems), rename
+  // ALL occurrences to 'chip.CPU0', 'chip.CPU1', 'chip.CPU2', ... in
+  // dump order so each socket has a clearly named line. Single-socket
+  // systems also get renamed — the first Tctl becomes 'k10temp.CPU0'.
+  // All other sensors (Core N, TccdN, etc.) keep their original labels.
+  const socketLabels = new Set(['Tdie', 'Tctl', 'Package id 0']);
+  const socketCounts = {};   // keyed by chip name
+  const disambiguated = sensorLabels.map(raw => {
+    const dot = raw.lastIndexOf('.');
+    const chip = raw.slice(0, dot);
+    const label = raw.slice(dot + 1);
+    if (!socketLabels.has(label)) return raw;
+    socketCounts[chip] = (socketCounts[chip] || 0) + 1;
+    const n = socketCounts[chip];
+    return chip + '.CPU' + (n - 1);   // 1st → CPU0, 2nd → CPU1, 3rd → CPU2
+  });
 
   const chart = charts['cpu-therm-temp'];
   const datasets = chart.data.datasets;
-  for (let i = 0; i < sensorLabels.length; i++) {
-    datasets[i].label = sensorLabels[i];
+  for (let i = 0; i < disambiguated.length; i++) {
+    datasets[i].label = disambiguated[i];
     datasets[i].hidden = false;
     datasets[i].data = allData.map(d => {
       const arr = d.cpu_therm_temp_c || [];
@@ -1838,7 +1856,7 @@ function updateCpuThermTempChart(allData) {
     });
   }
   // Hide the rest of the 64-slot pre-allocation
-  for (let i = sensorLabels.length; i < datasets.length; i++) datasets[i].hidden = true;
+  for (let i = disambiguated.length; i < datasets.length; i++) datasets[i].hidden = true;
 
   // Auto-scale y to 1.1x observed max, floor 80°C
   const allT = allData.flatMap(d => (d.cpu_therm_temp_c || []).filter(t => t != null));
@@ -1858,15 +1876,21 @@ function updateCpuThermPackageChart(allData) {
     const v = d.cpu_package_temp_c;
     return v != null ? { x: new Date(d.timestamp), y: v } : { x: new Date(d.timestamp), y: null };
   });
-  // Discover the source label (Tdie / Tctl / Package id N) once for the legend
+  // Discover the source label (Tdie / Tctl / Package id N) once for the legend.
+  // Uses the same disambiguation as updateCpuThermTempChart (Tdie/Tctl/Package
+  // → chip.CPU0) so the two charts label sockets consistently.
   let labelled = false;
+  const socketLabels = new Set(['Tdie', 'Tctl', 'Package id 0']);
   for (const d of allData) {
     if (d.cpu_therm_raw) {
+      const seenChips = {};
       for (const chip of Object.keys(d.cpu_therm_raw)) {
         for (const t of d.cpu_therm_raw[chip]) {
-          if (t.label === 'Tdie')              { chart.data.datasets[0].label = chip + '.Tdie';        labelled = true; break; }
-          if (t.label === 'Tctl')              { chart.data.datasets[0].label = chip + '.Tctl';        labelled = true; break; }
-          if (t.label && t.label.startsWith('Package')) { chart.data.datasets[0].label = chip + '.' + t.label; labelled = true; break; }
+          if (socketLabels.has(t.label)) {
+            const n = (seenChips[chip] = (seenChips[chip] || 0) + 1);
+            chart.data.datasets[0].label = chip + '.CPU' + (n - 1);
+            labelled = true; break;
+          }
         }
         if (labelled) break;
       }

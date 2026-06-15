@@ -138,18 +138,21 @@ def get_cpu_package_temp(therm):
 def get_cpu_therm_temp_c(therm):
     """
     Per-thermal-sensor temperature series, indexed by *sensor order*
-    in the dump (NOT by core id — see comment below).
+    in the dump.
 
-    For Intel coretemp with 'Core 0'...'Core N' labels this is per
-    physical core. For AMD Zen 4 k10temp with 'Tccd0'...'TccdN'
-    labels this is per CCD (typically 8/CCD on EPYC, 8 CCDs × 8 cores
-    = 64 cores total — Tccd is the closest thing to per-core on Zen 4).
+    The array order matches cpu_therm_raw's iteration order
+    (chip alphabetical, sensor entry order), so the frontend can use
+    raw's labels 1:1 with this array's indices.
 
-    We use "label order in the dump" as the array index so the
-    frontend never has to hard-code label parsing. Returns [] if no
-    sensors with "Core N" or "TccdN" labels are found. Note that
-    "Tdie" / "Tctl" are intentionally excluded — those are package
-    temperature and live in cpu_package_temp_c instead.
+    Includes Tdie / Tctl / Package id N as well as per-core sensors.
+    On multi-socket systems (e.g. AMD EPYC dual-socket), the kernel
+    reports two Tctl entries (one per physical CPU package); both
+    appear here as separate array slots so the dashboard can plot
+    them as separate lines. The frontend disambiguates labels.
+
+    Returns [] if no sensors. Tdie/Tctl/Package are NOT excluded —
+    dropping them would silently lose socket temperature data on
+    machines that only expose Tctl (e.g. some EPYC 9005 series).
     """
     if not therm:
         return []
@@ -158,8 +161,11 @@ def get_cpu_therm_temp_c(therm):
         for t in entries:
             label = t.get("label") or ""
             cur = t.get("current")
-            # Only per-sensor entries (Core N or TccdN). Skip Tdie/Tctl/Package
-            if not (label.startswith("Core ") or label.startswith("Tccd")):
+            # Skip non-CPU-thermal chips (NVMe, NIC, etc.) to keep the
+            # chart focused. Core N / TccdN / Tdie / Tctl / Package *
+            # all pass through.
+            if not (label.startswith("Core ") or label.startswith("Tccd") or
+                    label == "Tdie" or label == "Tctl" or label.startswith("Package")):
                 continue
             out.append(cur if cur is not None else None)
     return out

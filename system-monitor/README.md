@@ -199,7 +199,7 @@ Each line in `data/metrics_<display_name>_<YYYYMMDD>.json`:
 | `gpu` | array or null | Per-GPU stats (see below); null if no GPU |
 | `cpu_debug` | bool | **Only present when collector is run with `--cpu-debug` flag.** Signals that the per-core + thermal fields below are populated. |
 | `cpu_therm_raw` | object | **Only present with `--cpu-debug`.** Full thermal sensor dump from `psutil.sensors_temperatures()`, keyed by chip name (e.g. `coretemp`, `k10temp`, `dell_smm`, `acpitz`). Each value is an array of `{label, current, high, critical}` objects. Use this to inspect exactly what the kernel exposes on this machine. |
-| `cpu_therm_temp_c` | array of float or null | **Only present with `--cpu-debug`.** Per-sensor temperature series in dump order, excluding `Tdie`/`Tctl`/`Package` (those live in `cpu_package_temp_c`). For Intel this is per physical core (`Core 0..N`); for AMD Zen 4+ this is per CCD (`Tccd0..N`). |
+| `cpu_therm_temp_c` | array of float or null | **Only present with `--cpu-debug`.** Per-CPU-sensor temperature series in dump order, INCLUDING `Tdie`/`Tctl`/`Package` entries. For Intel this is per physical core (`Core 0..N`); for AMD Zen 4+ this is per CCD (`Tccd0..N`); multi-socket systems expose multiple `Tctl` entries that map 1:1 to `CPU0`/`CPU1`/... in the dashboard. |
 | `cpu_package_temp_c` | float or null | **Only present with `--cpu-debug`.** Best single-number package temperature. Picks Tdie (AMD Zen 3+) > Tctl (AMD) > Package id 0 (Intel). |
 | `cpu_core_freq_mhz` | array of float | **Only present with `--cpu-debug`.** Per **logical** core current frequency (MHz). Length equals `psutil.cpu_count(logical=True)`. |
 
