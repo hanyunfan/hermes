@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-15T04:17:48.218063+00:00",
+  "generated_at": "2026-06-15T07:06:36.982341+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-14T23:17:46.564507-05:00",
+  "now_local": "2026-06-15T02:06:36.189758-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -3304,7 +3304,7 @@
     },
     {
       "date": "2026-06-14",
-      "label": "Today",
+      "label": "Sun",
       "match_count": 4,
       "matches": [
         {
@@ -4096,12 +4096,12 @@
               "team_id": "466",
               "team_side": "home",
               "player": "Mattias Svanberg",
-              "text": "Goal! Sweden 4, Tunisia 1. Mattias Svanberg (Sweden) right footed shot from the centre of the box to the centre of the goal. Assisted by Alexander Isak following a set piece situation.",
+              "text": "Goal! Sweden 4, Tunisia 1. Mattias Svanberg (Sweden) right footed shot from the centre of the box to the centre of the goal. Assisted by Alexander Isak following a set piece situation.Goal awarded following VAR Review.",
               "assist": "Alexander Isak"
             },
             {
               "kind": "substitution",
-              "minute": "90'+1'",
+              "minute": "90'",
               "team": "Sweden",
               "team_id": "466",
               "team_side": "home",
@@ -4135,7 +4135,7 @@
     },
     {
       "date": "2026-06-15",
-      "label": "Tomorrow",
+      "label": "Today",
       "match_count": 4,
       "matches": [
         {
@@ -4338,7 +4338,7 @@
     },
     {
       "date": "2026-06-16",
-      "label": "Tue",
+      "label": "Tomorrow",
       "match_count": 4,
       "matches": [
         {
