@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-15T22:13:17.935390+00:00",
+  "generated_at": "2026-06-15T23:51:42.909282+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-15T17:13:17.254567-05:00",
+  "now_local": "2026-06-15T18:51:42.135014-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -1395,14 +1395,14 @@
       "entries": [
         {
           "team": {
-            "id": "164",
-            "name": "Spain",
-            "name_zh": "西班牙",
-            "rank": 2,
-            "short": "Spain",
-            "abbr": "ESP",
-            "flag": "🇪🇸",
-            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/esp.png"
+            "id": "2597",
+            "name": "Cape Verde",
+            "name_zh": "佛得角",
+            "rank": 67,
+            "short": "Cape Verde",
+            "abbr": "CPV",
+            "flag": "🇨🇻",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/cpv.png"
           },
           "rank": 1,
           "mp": 1,
@@ -1419,14 +1419,14 @@
         },
         {
           "team": {
-            "id": "2597",
-            "name": "Cape Verde",
-            "name_zh": "佛得角",
-            "rank": 67,
-            "short": "Cape Verde",
-            "abbr": "CPV",
-            "flag": "🇨🇻",
-            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/cpv.png"
+            "id": "164",
+            "name": "Spain",
+            "name_zh": "西班牙",
+            "rank": 2,
+            "short": "Spain",
+            "abbr": "ESP",
+            "flag": "🇪🇸",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/esp.png"
           },
           "rank": 2,
           "mp": 1,
@@ -4749,8 +4749,8 @@
           "kickoff_local_date": "2026-06-15",
           "kickoff_time": "5:00 PM",
           "kickoff_weekday": "Mon",
-          "status": "LIVE",
-          "status_short": "9'",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -4791,10 +4791,9 @@
             "Tele",
             "Peacock"
           ],
-          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760429/uruguay-saudi arabia",
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760429/uruguay-saudi-arabia",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Saudi%20Arabia%20vs%20Uruguay",
-          "slug": "uruguay-at-saudi arabia",
-          "incidents": []
+          "slug": "uruguay-at-saudi arabia"
         },
         {
           "id": "760427",
