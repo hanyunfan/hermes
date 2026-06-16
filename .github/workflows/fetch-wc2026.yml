@@ -1,23 +1,14 @@
 name: Fetch WC 2026 matches
 
 on:
-  # 12× daily, every 2h UTC. Compensates for GH Actions schedule
-  # drift (observed 1-3h late, worse off-hours) by running often
-  # enough that at least one run per match window lands close to
-  # on time. Times in UTC; CDT = UTC-5 during the tournament.
+  # 48× daily, every 30 min UTC. Compensates for GH Actions schedule
+  # drift (observed 1-3h late, worse off-hours, and one 5h gap
+  # observed on 2026-06-15) by running often enough that even with
+  # extreme drift at least one run lands close to on time. Times
+  # in UTC; CDT = UTC-5 during the tournament. ~1440 GH Actions
+  # minutes / month, well under the 2000-min free tier.
   schedule:
-    - cron: "0 0 * * *"   # 00:00 UTC = 19:00 CT (prev day)
-    - cron: "0 2 * * *"   # 02:00 UTC = 21:00 CT (prev day)
-    - cron: "0 4 * * *"   # 04:00 UTC = 23:00 CT (prev day)
-    - cron: "0 6 * * *"   # 06:00 UTC = 01:00 CT
-    - cron: "0 8 * * *"   # 08:00 UTC = 03:00 CT
-    - cron: "0 10 * * *"  # 10:00 UTC = 05:00 CT
-    - cron: "0 12 * * *"  # 12:00 UTC = 07:00 CT
-    - cron: "0 14 * * *"  # 14:00 UTC = 09:00 CT
-    - cron: "0 16 * * *"  # 16:00 UTC = 11:00 CT
-    - cron: "0 18 * * *"  # 18:00 UTC = 13:00 CT
-    - cron: "0 20 * * *"  # 20:00 UTC = 15:00 CT
-    - cron: "0 22 * * *"  # 22:00 UTC = 17:00 CT
+    - cron: "*/30 * * * *"
   workflow_dispatch:
   push:
     paths:
@@ -29,7 +20,10 @@ permissions:
 
 concurrency:
   group: fetch-wc2026
-  cancel-in-progress: false
+  # When GH Actions backs up and queues multiple runs, drop the older
+  # ones in favor of the latest — the only thing that matters is
+  # that matches.json reflects the most recent ESPN state.
+  cancel-in-progress: true
 
 jobs:
   fetch:
