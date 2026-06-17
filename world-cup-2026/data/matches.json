@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-17T18:16:30.350880+00:00",
+  "generated_at": "2026-06-17T20:35:01.483991+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-17T13:16:27.864855-05:00",
+  "now_local": "2026-06-17T15:35:00.370826-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -1704,30 +1704,6 @@
       "entries": [
         {
           "team": {
-            "id": "482",
-            "name": "Portugal",
-            "name_zh": "葡萄牙",
-            "rank": 5,
-            "short": "Portugal",
-            "abbr": "POR",
-            "flag": "🇵🇹",
-            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/por.png"
-          },
-          "rank": 1,
-          "mp": 0,
-          "w": 0,
-          "d": 0,
-          "l": 0,
-          "gf": 0,
-          "ga": 0,
-          "gd": 0,
-          "pts": 0,
-          "advance": false,
-          "advance_label": "Advance to Round of 32",
-          "advance_color": "#81D6AC"
-        },
-        {
-          "team": {
             "id": "2850",
             "name": "Congo DR",
             "name_zh": "刚果（金）",
@@ -1737,29 +1713,53 @@
             "flag": "🇨🇩",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/rdc.png"
           },
-          "rank": 2,
-          "mp": 0,
+          "rank": 1,
+          "mp": 1,
           "w": 0,
-          "d": 0,
+          "d": 1,
           "l": 0,
-          "gf": 0,
-          "ga": 0,
+          "gf": 1,
+          "ga": 1,
           "gd": 0,
-          "pts": 0,
+          "pts": 1,
           "advance": false,
           "advance_label": "Advance to Round of 32",
           "advance_color": "#81D6AC"
         },
         {
           "team": {
-            "id": "2570",
-            "name": "Uzbekistan",
-            "name_zh": "乌兹别克斯坦",
-            "rank": 50,
-            "short": "Uzbekistan",
-            "abbr": "UZB",
-            "flag": "🇺🇿",
-            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/uzb.png"
+            "id": "482",
+            "name": "Portugal",
+            "name_zh": "葡萄牙",
+            "rank": 5,
+            "short": "Portugal",
+            "abbr": "POR",
+            "flag": "🇵🇹",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/por.png"
+          },
+          "rank": 2,
+          "mp": 1,
+          "w": 0,
+          "d": 1,
+          "l": 0,
+          "gf": 1,
+          "ga": 1,
+          "gd": 0,
+          "pts": 1,
+          "advance": false,
+          "advance_label": "Advance to Round of 32",
+          "advance_color": "#81D6AC"
+        },
+        {
+          "team": {
+            "id": "208",
+            "name": "Colombia",
+            "name_zh": "哥伦比亚",
+            "rank": 13,
+            "short": "Colombia",
+            "abbr": "COL",
+            "flag": "🇨🇴",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/col.png"
           },
           "rank": 3,
           "mp": 0,
@@ -1776,14 +1776,14 @@
         },
         {
           "team": {
-            "id": "208",
-            "name": "Colombia",
-            "name_zh": "哥伦比亚",
-            "rank": 13,
-            "short": "Colombia",
-            "abbr": "COL",
-            "flag": "🇨🇴",
-            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/col.png"
+            "id": "2570",
+            "name": "Uzbekistan",
+            "name_zh": "乌兹别克斯坦",
+            "rank": 50,
+            "short": "Uzbekistan",
+            "abbr": "UZB",
+            "flag": "🇺🇿",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/uzb.png"
           },
           "rank": 4,
           "mp": 0,
@@ -1807,14 +1807,14 @@
       "entries": [
         {
           "team": {
-            "id": "448",
-            "name": "England",
-            "name_zh": "英格兰",
-            "rank": 4,
-            "short": "England",
-            "abbr": "ENG",
-            "flag": "🏴",
-            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/eng.png"
+            "id": "477",
+            "name": "Croatia",
+            "name_zh": "克罗地亚",
+            "rank": 11,
+            "short": "Croatia",
+            "abbr": "CRO",
+            "flag": "🇭🇷",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/cro.png"
           },
           "rank": 1,
           "mp": 0,
@@ -1831,14 +1831,14 @@
         },
         {
           "team": {
-            "id": "477",
-            "name": "Croatia",
-            "name_zh": "克罗地亚",
-            "rank": 11,
-            "short": "Croatia",
-            "abbr": "CRO",
-            "flag": "🇭🇷",
-            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/cro.png"
+            "id": "448",
+            "name": "England",
+            "name_zh": "英格兰",
+            "rank": 4,
+            "short": "England",
+            "abbr": "ENG",
+            "flag": "🏴",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/eng.png"
           },
           "rank": 2,
           "mp": 0,
@@ -5873,8 +5873,8 @@
           "kickoff_local_date": "2026-06-17",
           "kickoff_time": "12:00 PM",
           "kickoff_weekday": "Wed",
-          "status": "LIVE",
-          "status_short": "53'",
+          "status": "FINAL",
+          "status_short": "FT",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -5966,6 +5966,104 @@
               "player": "Francisco Conceição",
               "text": "Substitution, Portugal. Francisco Conceição replaces Bernardo Silva.",
               "player_off": "Bernardo Silva"
+            },
+            {
+              "kind": "substitution",
+              "minute": "57'",
+              "team": "Congo DR",
+              "team_id": "2850",
+              "team_side": "away",
+              "player": "Noah Sadiki",
+              "text": "Substitution, Congo DR. Noah Sadiki replaces Ngal'ayel Mukau.",
+              "player_off": "Ngal'ayel Mukau"
+            },
+            {
+              "kind": "substitution",
+              "minute": "71'",
+              "team": "Portugal",
+              "team_id": "482",
+              "team_side": "home",
+              "player": "Rafael Leão",
+              "text": "Substitution, Portugal. Rafael Leão replaces Pedro Neto.",
+              "player_off": "Pedro Neto"
+            },
+            {
+              "kind": "substitution",
+              "minute": "72'",
+              "team": "Portugal",
+              "team_id": "482",
+              "team_side": "home",
+              "player": "Nélson Semedo",
+              "text": "Substitution, Portugal. Nélson Semedo replaces Nuno Mendes.",
+              "player_off": "Nuno Mendes"
+            },
+            {
+              "kind": "substitution",
+              "minute": "74'",
+              "team": "Congo DR",
+              "team_id": "2850",
+              "team_side": "away",
+              "player": "Charles Pickel",
+              "text": "Substitution, Congo DR. Charles Pickel replaces Edo Kayembe.",
+              "player_off": "Edo Kayembe"
+            },
+            {
+              "kind": "substitution",
+              "minute": "74'",
+              "team": "Congo DR",
+              "team_id": "2850",
+              "team_side": "away",
+              "player": "Joris Kayembe",
+              "text": "Substitution, Congo DR. Joris Kayembe replaces Arthur Masuaku.",
+              "player_off": "Arthur Masuaku"
+            },
+            {
+              "kind": "substitution",
+              "minute": "83'",
+              "team": "Portugal",
+              "team_id": "482",
+              "team_side": "home",
+              "player": "Gonçalo Ramos",
+              "text": "Substitution, Portugal. Gonçalo Ramos replaces Vitinha.",
+              "player_off": "Vitinha "
+            },
+            {
+              "kind": "substitution",
+              "minute": "85'",
+              "team": "Congo DR",
+              "team_id": "2850",
+              "team_side": "away",
+              "player": "Gédéon Kalulu",
+              "text": "Substitution, Congo DR. Gédéon Kalulu replaces Aaron Wan-Bissaka.",
+              "player_off": "Aaron Wan-Bissaka"
+            },
+            {
+              "kind": "substitution",
+              "minute": "85'",
+              "team": "Congo DR",
+              "team_id": "2850",
+              "team_side": "away",
+              "player": "Simon Banza",
+              "text": "Substitution, Congo DR. Simon Banza replaces Cédric Bakambu.",
+              "player_off": "Cédric Bakambu"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "88'",
+              "team": "Portugal",
+              "team_id": "482",
+              "team_side": "home",
+              "player": "Nélson Semedo",
+              "text": "Nélson Semedo (Portugal) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "90'+2'",
+              "team": "Portugal",
+              "team_id": "482",
+              "team_side": "home",
+              "player": "Tomás Araújo",
+              "text": "Tomás Araújo (Portugal) is shown the yellow card for a bad foul."
             }
           ]
         },
