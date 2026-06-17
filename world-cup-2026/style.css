@@ -1292,6 +1292,36 @@ body {
 .scorer-table tr.is-leader .col-goals strong {
   text-shadow: 0 0 12px rgba(240, 193, 75, 0.3);
 }
+.scorer-table .rank-badge {
+  display: inline-block;
+  margin-left: 4px;
+  padding: 1px 4px;
+  border-radius: 3px;
+  font-size: 0.6rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  vertical-align: middle;
+  font-variant-numeric: tabular-nums;
+}
+.scorer-table .rank-up {
+  background: rgba(74, 222, 128, 0.15);
+  color: #4ade80;
+}
+.scorer-table .rank-down {
+  background: rgba(248, 113, 113, 0.15);
+  color: #f87171;
+}
+.scorer-table .rank-new {
+  background: rgba(240, 193, 75, 0.18);
+  color: var(--accent);
+}
+.scorer-table .tour-2026 {
+  color: var(--accent);
+  font-weight: 800;
+  background: rgba(240, 193, 75, 0.12);
+  padding: 0 4px;
+  border-radius: 3px;
+}
 .scorers-notes {
   text-align: center;
   color: var(--text-dim);

@@ -83,9 +83,9 @@
       "standings.q": "Q",
       "standings.notes": "Q = qualified · q = best 3rd-place",
       "scorers.title": "Top Scorers",
-      "scorers.hint": "Current tournament tally updates live as matches finish. All-time list covers the men's final tournament, 1930–2022.",
+      "scorers.hint": "Left: live counts for this tournament. Right: all-time men's WC totals — the 2026 baseline is merged in live, so Mbappé, Cristiano Ronaldo and others climb the ranks as the tournament progresses.",
       "scorers.section.current": "This Tournament · WC 2026",
-      "scorers.section.alltime": "All-Time · 1930–2022",
+      "scorers.section.alltime": "All-Time · 1930–2026",
       "scorers.col.player": "Player",
       "scorers.col.team": "Team",
       "scorers.col.goals": "Goals",
@@ -97,7 +97,7 @@
       "scorers.col.penalties": "PK",
       "scorers.empty.current": "No goals yet — the tournament kicked off June 11. Check back after the first match.",
       "scorers.empty.alltime": "All-time list is unavailable.",
-      "scorers.notes": "MP = matches played · A = assists · PK = penalty kicks · current tournament stats aggregated from match incidents.",
+      "scorers.notes": "MP = matches played · A = assists · PK = penalty kicks · ▲/▼ shows rank change after merging WC 2026 goals · pre-2026 baseline covers the men's final tournament, 1930–2022.",
       "stage": "Stage",
       "venue": "Venue",
       "watch": "Watch",
@@ -189,9 +189,9 @@
       "standings.q": "Q",
       "standings.notes": "Q = 已晋级 · q = 成绩最好的第 3 名",
       "scorers.title": "射手榜",
-      "scorers.hint": "本届数据随比赛结束实时更新；历史榜单涵盖 1930–2022 年男足世界杯决赛圈。",
+      "scorers.hint": "左侧：2026 世界杯实时数据。右侧：男足世界杯历史总进球榜，2026 进球实时合并，姆巴佩、C罗等球员随比赛推进不断飙升。",
       "scorers.section.current": "本届 · 2026 世界杯",
-      "scorers.section.alltime": "历史总榜 · 1930–2022",
+      "scorers.section.alltime": "历史总榜 · 1930–2026",
       "scorers.col.player": "球员",
       "scorers.col.team": "球队",
       "scorers.col.goals": "进球",
@@ -203,7 +203,7 @@
       "scorers.col.penalties": "点",
       "scorers.empty.current": "尚未开赛（6 月 11 日揭幕），暂无进球数据。",
       "scorers.empty.alltime": "历史榜单暂不可用。",
-      "scorers.notes": "出场 = 出场场次 · 助 = 助攻 · 点 = 点球；本届数据从比赛事件实时汇总。",
+      "scorers.notes": "出场 = 出场场次 · 助 = 助攻 · 点 = 点球；▲/▼ 为合并 2026 进球后的排名变化；2026 之前基线涵盖 1930–2022 年男足世界杯决赛圈。",
       "stage": "阶段",
       "venue": "场馆",
       "watch": "观看",
@@ -972,6 +972,126 @@
     return out;
   }
 
+    // ─────────────────────────────────────────────────────────────
+  // Merge current-tournament goals into the all-time list.
+  //
+  // The all-time list lives in matches.json under `scorers_history`
+  // and is frozen at the end of the 2022 World Cup (Klose 16,
+  // Ronaldo 15, …). For WC 2026 we want the leaderboard to keep
+  // moving: every goal scored in 2026 should add to a player's
+  // career total and shift the rankings live.
+  //
+  // This function:
+  //   1. Takes the pre-2026 baseline.
+  //   2. Adds the current-tournament goals produced by
+  //      aggregateCurrentScorers() to the matching player.
+  //   3. Updates that player's span and tournament list to include
+  //      2026 (if they hadn't been there before).
+  //   4. Inserts brand-new entries for WC 2026 scorers who weren't
+  //      in the pre-2026 top 28 (e.g., a rookie with 1–2 goals).
+  //   5. Re-sorts and re-ranks the merged list.
+  //
+  // Matching is name-based with a few normalizations:
+  //   • Unicode NFD strip (so "Kylian Mbappé" matches "Kylian Mbappe")
+  //   • Lowercase
+  //   • Strip trailing "Jr/Sr/Junior/Senior" (Neymar Jr → Neymar)
+  //   • A small alias map for known ESPN-vs-historical mismatches
+  // ─────────────────────────────────────────────────────────────
+  const PLAYER_ALIASES = {
+    // ESPN may report the Brazilian forward as "Neymar" while the
+    // historical entry also uses "Neymar" — they match on their own.
+    // Keep this map as a safety net for any name drift we discover
+    // in future data dumps.
+  };
+  function normPlayerName(s) {
+    return (s || "")
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")  // strip combining diacritics
+      .replace(/\b(jr|sr|junior|senior)\.?$/i, "")
+      .replace(/[^a-z0-9\s]/gi, "")
+      .toLowerCase()
+      .trim();
+  }
+  function buildMergedScorersList() {
+    const baseline = (allData && allData.scorers_history) || [];
+    // First, compute the natural pre-2026 ranking. The `rank` field
+    // in HISTORICAL_SCORERS is a snapshot, but it doesn't always
+    // match the natural all-time ordering (e.g., Lato has 10G like
+    // five others but is filed at #22). Sort by goals desc with
+    // the existing rank as the tiebreak, then number 1..N. This
+    // is what we compare ▲/▼ deltas against — not the raw rank
+    // field.
+    const naturalBaseline = baseline
+      .map((h) => ({ ...h, tournaments: Array.isArray(h.tournaments) ? [...h.tournaments] : [] }))
+      .sort((a, b) => (b.goals - a.goals) || ((a.rank || 9999) - (b.rank || 9999)));
+    naturalBaseline.forEach((e, i) => (e.natural_baseline_rank = i + 1));
+
+    const merged = naturalBaseline.map((h) => ({ ...h }));
+    const byName = new Map();
+    for (const h of merged) byName.set(normPlayerName(h.player), h);
+
+    const current = aggregateCurrentScorers(allMatches || []);
+    for (const c of current) {
+      const key = normPlayerName(c.player);
+      let entry = byName.get(key);
+      if (!entry && PLAYER_ALIASES[key]) {
+        entry = byName.get(normPlayerName(PLAYER_ALIASES[key]));
+      }
+      if (entry) {
+        entry.goals = (entry.goals || 0) + c.goals;
+        if (!entry.tournaments.includes(2026)) {
+          entry.tournaments = [...entry.tournaments, 2026].sort((a, b) => a - b);
+        }
+        // Extend span: single year (e.g. "1958") and range forms both
+        // get a "–2026" appended; the merged span still reflects the
+        // earliest WC year the player appeared in.
+        if (/^\d{4}$/.test(entry.span)) {
+          entry.span = entry.span + "\u20132026";
+        } else {
+          const m = (entry.span || "").match(/^(\d{4})[\u2013-](\d{4})$/);
+          if (m) {
+            const start = parseInt(m[1], 10);
+            if (2026 > parseInt(m[2], 10)) entry.span = start + "\u20132026";
+          }
+        }
+        entry.live_2026 = c.goals;  // hint for the front-end badge
+      } else {
+        // Brand new — first-time WC scorer or someone outside the
+        // pre-2026 top 28.
+        const newEntry = {
+          rank: 999,
+          player: c.player,
+          player_zh: null,
+          country: c.team_name,
+          country_zh: c.team_zh,
+          flag: c.flag,
+          goals: c.goals,
+          tournaments: [2026],
+          span: "2026",
+          live_2026: c.goals,
+          natural_baseline_rank: null,  // not in pre-2026 top 28 — flag as NEW
+        };
+        merged.push(newEntry);
+        byName.set(key, newEntry);
+      }
+    }
+
+    // Re-rank by total goals desc. Within the same goal count, keep
+    // the natural pre-2026 order so the ▲/▼ badges only reflect
+    // real rank movement caused by 2026 goals (not alphabetic
+    // tiebreak reshuffles). New entries (natural_baseline_rank =
+    // null) go to the end of their goal group.
+    merged.sort((a, b) => {
+      if (b.goals !== a.goals) return b.goals - a.goals;
+      const ar = a.natural_baseline_rank ?? 9999;
+      const br = b.natural_baseline_rank ?? 9999;
+      if (ar !== br) return ar - br;
+      return a.player.localeCompare(b.player);
+    });
+    merged.forEach((e, i) => (e.rank = i + 1));
+    return merged;
+  }
+
   function renderScorers() {
     const content = $("#content");
     content.innerHTML = "";
@@ -993,9 +1113,9 @@
     const current = aggregateCurrentScorers(allMatches || []);
     grid.appendChild(buildScorerPane("current", t("scorers.section.current"), current, /*limit*/ 20, /*kind*/ "current"));
 
-    // Pane 2 — all-time (static)
-    const history = (allData && allData.scorers_history) || [];
-    grid.appendChild(buildScorerPane("alltime", t("scorers.section.alltime"), history, /*limit*/ 25, /*kind*/ "alltime"));
+    // Pane 2 — all-time (static + live merge of WC 2026 goals)
+    const history = buildMergedScorersList();
+    grid.appendChild(buildScorerPane("alltime", t("scorers.section.alltime"), history, /*limit*/ 30, /*kind*/ "alltime"));
 
     wrap.appendChild(grid);
 
@@ -1075,15 +1195,35 @@
           <td class="col-num col-goals"><strong>${r.goals || 0}</strong></td>
         `;
       } else {
-        const tours = (r.tournaments || []).join(" · ");
+        // Render the tournaments list with the 2026 entry wrapped in
+        // a special span so we can highlight the live portion.
+        const tourParts = (r.tournaments || []).map((y) => {
+          if (y === 2026) return `<span class="tour-2026">${y}</span>`;
+          return `${y}`;
+        });
+        const tours = tourParts.join(" · ");
+        // Rank-change badge: ▲ = climbed, ▼ = dropped, NEW = not in
+        // pre-2026 baseline,  (empty) = unchanged. We compare
+        // against natural_baseline_rank so the badge reflects real
+        // rank movement (not internal list ordering quirks).
+        let rankBadge = "";
+        if (r.natural_baseline_rank == null) {
+          rankBadge = `<span class="rank-badge rank-new" title="Not in pre-2026 top 28">NEW</span>`;
+        } else if (r.natural_baseline_rank > rank) {
+          const up = r.natural_baseline_rank - rank;
+          rankBadge = `<span class="rank-badge rank-up" title="Climbed ${up} places after merging WC 2026 goals">▲${up}</span>`;
+        } else if (r.natural_baseline_rank < rank) {
+          const dn = rank - r.natural_baseline_rank;
+          rankBadge = `<span class="rank-badge rank-down" title="Dropped ${dn} places after merging WC 2026 goals">▼${dn}</span>`;
+        }
         tr.innerHTML = `
-          <td class="col-num col-rank"><span class="rank-num">${rank}</span></td>
+          <td class="col-num col-rank"><span class="rank-num">${rank}</span>${rankBadge}</td>
           <td class="col-player"><span class="player-name">${escapeHtml(playerName || "—")}</span></td>
           <td class="col-team">
             <span class="team-flag">${escapeHtml(flag)}</span>
             <span class="team-short">${escapeHtml(teamName || "—")}</span>
           </td>
-          <td class="col-num col-tours">${escapeHtml(tours)}</td>
+          <td class="col-num col-tours">${tours}</td>
           <td class="col-span">${escapeHtml(r.span || "")}</td>
           <td class="col-num col-goals"><strong>${r.goals || 0}</strong></td>
         `;

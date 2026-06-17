@@ -149,10 +149,13 @@ HISTORICAL_SCORERS = [
     {"rank": 19, "player": "David Villa",        "player_zh": "比利亚",     "country": "Spain",              "country_zh": "西班牙", "flag": "🇪🇸", "goals": 9,  "tournaments": [2006, 2010, 2014],       "span": "2006–2014"},
     {"rank": 20, "player": "Paolo Rossi",       "player_zh": "罗西",       "country": "Italy",              "country_zh": "意大利", "flag": "🇮🇹", "goals": 9,  "tournaments": [1978, 1982, 1986],       "span": "1978–1986"},
     {"rank": 21, "player": "Christian Vieri",    "player_zh": "维埃里",     "country": "Italy",              "country_zh": "意大利", "flag": "🇮🇹", "goals": 9,  "tournaments": [1998, 2002],             "span": "1998–2002"},
-    {"rank": 22, "player": "Neymar",             "player_zh": "内马尔",     "country": "Brazil",             "country_zh": "巴西",   "flag": "🇧🇷", "goals": 8,  "tournaments": [2014, 2018, 2022],       "span": "2014–2022"},
-    {"rank": 23, "player": "Andriy Shevchenko",  "player_zh": "舍甫琴科",   "country": "Ukraine",            "country_zh": "乌克兰", "flag": "🇺🇦", "goals": 8,  "tournaments": [2006],                   "span": "2006"},
-    {"rank": 24, "player": "Rivaldo",            "player_zh": "里瓦尔多",   "country": "Brazil",             "country_zh": "巴西",   "flag": "🇧🇷", "goals": 8,  "tournaments": [1998, 2002],             "span": "1998–2002"},
-    {"rank": 25, "player": "Óscar Míguez",       "player_zh": "米格斯",     "country": "Uruguay",            "country_zh": "乌拉圭", "flag": "🇺🇾", "goals": 8,  "tournaments": [1950, 1954],             "span": "1950–1954"},
+    {"rank": 22, "player": "Grzegorz Lato",      "player_zh": "拉托",       "country": "Poland",             "country_zh": "波兰",   "flag": "🇵🇱", "goals": 10, "tournaments": [1974, 1978, 1982],       "span": "1974–1982"},
+    {"rank": 23, "player": "Neymar",             "player_zh": "内马尔",     "country": "Brazil",             "country_zh": "巴西",   "flag": "🇧🇷", "goals": 8,  "tournaments": [2014, 2018, 2022],       "span": "2014–2022"},
+    {"rank": 24, "player": "Andriy Shevchenko",  "player_zh": "舍甫琴科",   "country": "Ukraine",            "country_zh": "乌克兰", "flag": "🇺🇦", "goals": 8,  "tournaments": [2006],                   "span": "2006"},
+    {"rank": 25, "player": "Rivaldo",            "player_zh": "里瓦尔多",   "country": "Brazil",             "country_zh": "巴西",   "flag": "🇧🇷", "goals": 8,  "tournaments": [1998, 2002],             "span": "1998–2002"},
+    {"rank": 26, "player": "Óscar Míguez",       "player_zh": "米格斯",     "country": "Uruguay",            "country_zh": "乌拉圭", "flag": "🇺🇾", "goals": 8,  "tournaments": [1950, 1954],             "span": "1950–1954"},
+    {"rank": 27, "player": "Cristiano Ronaldo",  "player_zh": "C罗",          "country": "Portugal",           "country_zh": "葡萄牙", "flag": "🇵🇹", "goals": 8,  "tournaments": [2006, 2010, 2014, 2018, 2022], "span": "2006–2022"},
+    {"rank": 28, "player": "Rudi Völler",        "player_zh": "沃勒尔",     "country": "Germany",            "country_zh": "德国",   "flag": "🇩🇪", "goals": 8,  "tournaments": [1986, 1990, 1994],       "span": "1986–1994"},
 ]
 
 
