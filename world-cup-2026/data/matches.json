@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-17T02:35:43.137213+00:00",
+  "generated_at": "2026-06-17T03:32:30.236695+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-16T21:35:41.946140-05:00",
+  "now_local": "2026-06-16T22:32:28.706563-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -1611,28 +1611,28 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/arg.png"
           },
           "rank": 1,
-          "mp": 0,
-          "w": 0,
+          "mp": 1,
+          "w": 1,
           "d": 0,
           "l": 0,
-          "gf": 0,
+          "gf": 3,
           "ga": 0,
-          "gd": 0,
-          "pts": 0,
+          "gd": 3,
+          "pts": 3,
           "advance": false,
           "advance_label": "Advance to Round of 32",
           "advance_color": "#81D6AC"
         },
         {
           "team": {
-            "id": "624",
-            "name": "Algeria",
-            "name_zh": "阿尔及利亚",
-            "rank": 28,
-            "short": "Algeria",
-            "abbr": "ALG",
-            "flag": "🇩🇿",
-            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/alg.png"
+            "id": "474",
+            "name": "Austria",
+            "name_zh": "奥地利",
+            "rank": 24,
+            "short": "Austria",
+            "abbr": "AUT",
+            "flag": "🇦🇹",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/aut.png"
           },
           "rank": 2,
           "mp": 0,
@@ -1649,14 +1649,14 @@
         },
         {
           "team": {
-            "id": "474",
-            "name": "Austria",
-            "name_zh": "奥地利",
-            "rank": 24,
-            "short": "Austria",
-            "abbr": "AUT",
-            "flag": "🇦🇹",
-            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/aut.png"
+            "id": "2917",
+            "name": "Jordan",
+            "name_zh": "约旦",
+            "rank": 63,
+            "short": "Jordan",
+            "abbr": "JOR",
+            "flag": "🇯🇴",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/jor.png"
           },
           "rank": 3,
           "mp": 0,
@@ -1673,23 +1673,23 @@
         },
         {
           "team": {
-            "id": "2917",
-            "name": "Jordan",
-            "name_zh": "约旦",
-            "rank": 63,
-            "short": "Jordan",
-            "abbr": "JOR",
-            "flag": "🇯🇴",
-            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/jor.png"
+            "id": "624",
+            "name": "Algeria",
+            "name_zh": "阿尔及利亚",
+            "rank": 28,
+            "short": "Algeria",
+            "abbr": "ALG",
+            "flag": "🇩🇿",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/alg.png"
           },
           "rank": 4,
-          "mp": 0,
+          "mp": 1,
           "w": 0,
           "d": 0,
-          "l": 0,
+          "l": 1,
           "gf": 0,
-          "ga": 0,
-          "gd": 0,
+          "ga": 3,
+          "gd": -3,
           "pts": 0,
           "advance": false,
           "advance_label": "Eliminated",
@@ -1944,7 +1944,7 @@
             "abbr": "RSA",
             "flag": "🇿🇦",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/rsa.png",
-            "color": "087d5a",
+            "color": "FFB81C",
             "home_away": "away",
             "score": 0,
             "winner": false
@@ -2820,7 +2820,7 @@
             "abbr": "SUI",
             "flag": "🇨🇭",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/sui.png",
-            "color": "d72b2c",
+            "color": "FF0000",
             "home_away": "away",
             "score": 1,
             "winner": false
@@ -3002,7 +3002,7 @@
             "abbr": "MAR",
             "flag": "🇲🇦",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/mar.png",
-            "color": "009060",
+            "color": "df2027",
             "home_away": "away",
             "score": 1,
             "winner": false
@@ -5131,8 +5131,8 @@
           "kickoff_local_date": "2026-06-16",
           "kickoff_time": "2:00 PM",
           "kickoff_weekday": "Tue",
-          "status": "SCHEDULED",
-          "status_short": "Scheduled",
+          "status": "FINAL",
+          "status_short": "FT",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -5146,8 +5146,8 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/fra.png",
             "color": "000080",
             "home_away": "home",
-            "score": 0,
-            "winner": false
+            "score": 3,
+            "winner": true
           },
           "away": {
             "id": "654",
@@ -5160,7 +5160,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/sen.png",
             "color": "006436",
             "home_away": "away",
-            "score": 0,
+            "score": 1,
             "winner": false
           },
           "venue": {
@@ -5175,7 +5175,118 @@
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760432/senegal-france",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20France%20vs%20Senegal",
-          "slug": "senegal-at-france"
+          "slug": "senegal-at-france",
+          "incidents": [
+            {
+              "kind": "goal",
+              "minute": "66'",
+              "team": "France",
+              "team_id": "478",
+              "team_side": "home",
+              "player": "Kylian Mbappé",
+              "text": "Goal! France 1, Senegal 0. Kylian Mbappé (France) right footed shot from the centre of the box to the centre of the goal. Assisted by Michael Olise with a through ball.",
+              "assist": "Michael Olise"
+            },
+            {
+              "kind": "substitution",
+              "minute": "75'",
+              "team": "Senegal",
+              "team_id": "654",
+              "team_side": "away",
+              "player": "Ibrahim Mbaye",
+              "text": "Substitution, Senegal. Ibrahim Mbaye replaces Ismaïla Sarr.",
+              "player_off": "Ismaïla Sarr"
+            },
+            {
+              "kind": "substitution",
+              "minute": "76'",
+              "team": "Senegal",
+              "team_id": "654",
+              "team_side": "away",
+              "player": "Habib Diarra",
+              "text": "Substitution, Senegal. Habib Diarra replaces Lamine Camara.",
+              "player_off": "Lamine Camara"
+            },
+            {
+              "kind": "substitution",
+              "minute": "80'",
+              "team": "France",
+              "team_id": "478",
+              "team_side": "home",
+              "player": "Bradley Barcola",
+              "text": "Substitution, France. Bradley Barcola replaces Ousmane Dembélé.",
+              "player_off": "Ousmane Dembélé"
+            },
+            {
+              "kind": "goal",
+              "minute": "82'",
+              "team": "France",
+              "team_id": "478",
+              "team_side": "home",
+              "player": "Bradley Barcola",
+              "text": "Goal! France 2, Senegal 0. Bradley Barcola (France) right footed shot from the right side of the box to the bottom right corner. Assisted by Adrien Rabiot with a through ball following a fast break.",
+              "assist": "Adrien Rabiot"
+            },
+            {
+              "kind": "substitution",
+              "minute": "83'",
+              "team": "Senegal",
+              "team_id": "654",
+              "team_side": "away",
+              "player": "Iliman Ndiaye",
+              "text": "Substitution, Senegal. Iliman Ndiaye replaces Pape Gueye.",
+              "player_off": "Pape Gueye"
+            },
+            {
+              "kind": "substitution",
+              "minute": "83'",
+              "team": "Senegal",
+              "team_id": "654",
+              "team_side": "away",
+              "player": "Bamba Dieng",
+              "text": "Substitution, Senegal. Bamba Dieng replaces Nicolas Jackson.",
+              "player_off": "Nicolas Jackson"
+            },
+            {
+              "kind": "substitution",
+              "minute": "87'",
+              "team": "France",
+              "team_id": "478",
+              "team_side": "home",
+              "player": "Rayan Cherki",
+              "text": "Substitution, France. Rayan Cherki replaces Désiré Doué.",
+              "player_off": "Désiré Doué"
+            },
+            {
+              "kind": "substitution",
+              "minute": "88'",
+              "team": "Senegal",
+              "team_id": "654",
+              "team_side": "away",
+              "player": "Pathé Ciss",
+              "text": "Substitution, Senegal. Pathé Ciss replaces Idrissa Gueye.",
+              "player_off": "Idrissa Gueye"
+            },
+            {
+              "kind": "goal",
+              "minute": "90'+5'",
+              "team": "Senegal",
+              "team_id": "654",
+              "team_side": "away",
+              "player": "Ibrahim Mbaye",
+              "text": "Goal! France 2, Senegal 1. Ibrahim Mbaye (Senegal) right footed shot from the right side of the box to the top right corner. Assisted by Iliman Ndiaye following a fast break.",
+              "assist": "Iliman Ndiaye"
+            },
+            {
+              "kind": "goal",
+              "minute": "90'+6'",
+              "team": "France",
+              "team_id": "478",
+              "team_side": "home",
+              "player": "Kylian Mbappé",
+              "text": "Goal! France 3, Senegal 1. Kylian Mbappé (France) right footed shot from outside the box to the top left corner."
+            }
+          ]
         },
         {
           "id": "760430",
@@ -5184,8 +5295,8 @@
           "kickoff_local_date": "2026-06-16",
           "kickoff_time": "5:00 PM",
           "kickoff_weekday": "Tue",
-          "status": "SCHEDULED",
-          "status_short": "Scheduled",
+          "status": "FINAL",
+          "status_short": "FT",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -5199,7 +5310,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/irq.png",
             "color": "0A4D2E",
             "home_away": "home",
-            "score": 0,
+            "score": 1,
             "winner": false
           },
           "away": {
@@ -5213,8 +5324,8 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/nor.png",
             "color": "C8102E",
             "home_away": "away",
-            "score": 0,
-            "winner": false
+            "score": 4,
+            "winner": true
           },
           "venue": {
             "name": "Gillette Stadium",
@@ -5228,7 +5339,157 @@
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760430/norway-iraq",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Iraq%20vs%20Norway",
-          "slug": "norway-at-iraq"
+          "slug": "norway-at-iraq",
+          "incidents": [
+            {
+              "kind": "goal",
+              "minute": "29'",
+              "team": "Norway",
+              "team_id": "464",
+              "team_side": "away",
+              "player": "Erling Haaland",
+              "text": "Goal! Iraq 0, Norway 1. Erling Haaland (Norway) left footed shot from very close range to the top right corner. Assisted by David Møller Wolfe with a cross.",
+              "assist": "David Møller Wolfe"
+            },
+            {
+              "kind": "goal",
+              "minute": "39'",
+              "team": "Iraq",
+              "team_id": "4375",
+              "team_side": "home",
+              "player": "Aymen Hussein",
+              "text": "Goal! Iraq 1, Norway 1. Aymen Hussein (Iraq) header from the centre of the box to the bottom right corner. Assisted by Amir Al Ammari with a cross.",
+              "assist": "Amir Al-Ammari"
+            },
+            {
+              "kind": "goal",
+              "minute": "43'",
+              "team": "Norway",
+              "team_id": "464",
+              "team_side": "away",
+              "player": "Erling Haaland",
+              "text": "Goal! Iraq 1, Norway 2. Erling Haaland (Norway) right footed shot from very close range to the centre of the goal."
+            },
+            {
+              "kind": "substitution",
+              "minute": "59'",
+              "team": "Iraq",
+              "team_id": "4375",
+              "team_side": "home",
+              "player": "Zidane Iqbal",
+              "text": "Substitution, Iraq. Zidane Iqbal replaces Zaid Ismael.",
+              "player_off": "Zaid Ismael"
+            },
+            {
+              "kind": "substitution",
+              "minute": "59'",
+              "team": "Iraq",
+              "team_id": "4375",
+              "team_side": "home",
+              "player": "Marko Farji",
+              "text": "Substitution, Iraq. Marko Farji replaces Ali Al Hamadi.",
+              "player_off": "Ali Al-Hamadi"
+            },
+            {
+              "kind": "substitution",
+              "minute": "73'",
+              "team": "Norway",
+              "team_id": "464",
+              "team_side": "away",
+              "player": "Andreas Schjelderup",
+              "text": "Substitution, Norway. Andreas Schjelderup replaces Antonio Nusa.",
+              "player_off": "Antonio Nusa"
+            },
+            {
+              "kind": "substitution",
+              "minute": "73'",
+              "team": "Norway",
+              "team_id": "464",
+              "team_side": "away",
+              "player": "Kristian Thorstvedt",
+              "text": "Substitution, Norway. Kristian Thorstvedt replaces Fredrik Aursnes.",
+              "player_off": "Fredrik Aursnes"
+            },
+            {
+              "kind": "substitution",
+              "minute": "73'",
+              "team": "Norway",
+              "team_id": "464",
+              "team_side": "away",
+              "player": "Oscar Bobb",
+              "text": "Substitution, Norway. Oscar Bobb replaces Alexander Sørloth.",
+              "player_off": "Alexander Sørloth"
+            },
+            {
+              "kind": "substitution",
+              "minute": "73'",
+              "team": "Norway",
+              "team_id": "464",
+              "team_side": "away",
+              "player": "Leo Østigard",
+              "text": "Substitution, Norway. Leo Østigård replaces David Møller Wolfe because of an injury.",
+              "player_off": "David Møller Wolfe"
+            },
+            {
+              "kind": "substitution",
+              "minute": "73'",
+              "team": "Iraq",
+              "team_id": "4375",
+              "team_side": "home",
+              "player": "Mustafa Saadoon",
+              "text": "Substitution, Iraq. Mustafa Saadoon replaces Hussein Ali.",
+              "player_off": "Hussein Ali"
+            },
+            {
+              "kind": "substitution",
+              "minute": "73'",
+              "team": "Iraq",
+              "team_id": "4375",
+              "team_side": "home",
+              "player": "Ahmed Qasim",
+              "text": "Substitution, Iraq. Ahmed Qasem replaces Ali Jasim because of an injury.",
+              "player_off": "Ali Jasim"
+            },
+            {
+              "kind": "goal",
+              "minute": "76'",
+              "team": "Norway",
+              "team_id": "464",
+              "team_side": "away",
+              "player": "Leo Østigard",
+              "text": "Goal! Iraq 1, Norway 3. Leo Østigård (Norway) header from very close range to the high centre of the goal. Assisted by Martin Ødegaard with a cross following a corner.",
+              "assist": "Martin Ødegaard"
+            },
+            {
+              "kind": "substitution",
+              "minute": "78'",
+              "team": "Iraq",
+              "team_id": "4375",
+              "team_side": "home",
+              "player": "Mohanad Ali",
+              "text": "Substitution, Iraq. Mohanad Ali replaces Ibrahim Bayesh.",
+              "player_off": "Ibrahim Bayesh"
+            },
+            {
+              "kind": "substitution",
+              "minute": "81'",
+              "team": "Norway",
+              "team_id": "464",
+              "team_side": "away",
+              "player": "Patrick Berg",
+              "text": "Substitution, Norway. Patrick Berg replaces Martin Ødegaard.",
+              "player_off": "Martin Ødegaard"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "86'",
+              "team": "Iraq",
+              "team_id": "4375",
+              "team_side": "home",
+              "player": "Zaid Tahseen",
+              "text": "Zaid Tahseen (Iraq) is shown the yellow card for a bad foul."
+            }
+          ]
         },
         {
           "id": "760433",
@@ -5237,8 +5498,8 @@
           "kickoff_local_date": "2026-06-16",
           "kickoff_time": "8:00 PM",
           "kickoff_weekday": "Tue",
-          "status": "SCHEDULED",
-          "status_short": "Scheduled",
+          "status": "FINAL",
+          "status_short": "FT",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -5252,8 +5513,8 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/arg.png",
             "color": "74acdf",
             "home_away": "home",
-            "score": 0,
-            "winner": false
+            "score": 3,
+            "winner": true
           },
           "away": {
             "id": "624",
@@ -5281,7 +5542,138 @@
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760433/algeria-argentina",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Argentina%20vs%20Algeria",
-          "slug": "algeria-at-argentina"
+          "slug": "algeria-at-argentina",
+          "incidents": [
+            {
+              "kind": "goal",
+              "minute": "17'",
+              "team": "Argentina",
+              "team_id": "202",
+              "team_side": "home",
+              "player": "Lionel Messi",
+              "text": "Goal! Argentina 1, Algeria 0. Lionel Messi (Argentina) left footed shot from outside the box to the top right corner. Assisted by Rodrigo De Paul.",
+              "assist": "Rodrigo De Paul"
+            },
+            {
+              "kind": "substitution",
+              "minute": "45'",
+              "team": "Argentina",
+              "team_id": "202",
+              "team_side": "home",
+              "player": "Nahuel Molina",
+              "text": "Substitution, Argentina. Nahuel Molina replaces Gonzalo Montiel.",
+              "player_off": "Gonzalo Montiel"
+            },
+            {
+              "kind": "substitution",
+              "minute": "55'",
+              "team": "Argentina",
+              "team_id": "202",
+              "team_side": "home",
+              "player": "Nico González",
+              "text": "Substitution, Argentina. Nico González replaces Thiago Almada.",
+              "player_off": "Thiago Almada"
+            },
+            {
+              "kind": "substitution",
+              "minute": "55'",
+              "team": "Argentina",
+              "team_id": "202",
+              "team_side": "home",
+              "player": "Julián Álvarez",
+              "text": "Substitution, Argentina. Julián Alvarez replaces Lautaro Martínez.",
+              "player_off": "Lautaro Martínez"
+            },
+            {
+              "kind": "goal",
+              "minute": "60'",
+              "team": "Argentina",
+              "team_id": "202",
+              "team_side": "home",
+              "player": "Lionel Messi",
+              "text": "Goal! Argentina 2, Algeria 0. Lionel Messi (Argentina) right footed shot from the centre of the box to the bottom right corner."
+            },
+            {
+              "kind": "substitution",
+              "minute": "64'",
+              "team": "Algeria",
+              "team_id": "624",
+              "team_side": "away",
+              "player": "Houssem Aouar",
+              "text": "Substitution, Algeria. Houssem Aouar replaces Hicham Boudaoui.",
+              "player_off": "Hicham Boudaoui"
+            },
+            {
+              "kind": "substitution",
+              "minute": "64'",
+              "team": "Algeria",
+              "team_id": "624",
+              "team_side": "away",
+              "player": "Mohamed Amoura",
+              "text": "Substitution, Algeria. Mohammed Amoura replaces Amine Gouiri.",
+              "player_off": "Amine Gouiri"
+            },
+            {
+              "kind": "substitution",
+              "minute": "64'",
+              "team": "Algeria",
+              "team_id": "624",
+              "team_side": "away",
+              "player": "Riyad Mahrez",
+              "text": "Substitution, Algeria. Riyad Mahrez replaces Anis Hadj Moussa.",
+              "player_off": "Anis Hadj Moussa"
+            },
+            {
+              "kind": "goal",
+              "minute": "76'",
+              "team": "Argentina",
+              "team_id": "202",
+              "team_side": "home",
+              "player": "Lionel Messi",
+              "text": "Goal! Argentina 3, Algeria 0. Lionel Messi (Argentina) left footed shot from the centre of the box to the bottom left corner. Assisted by Nico González.",
+              "assist": "Nico González"
+            },
+            {
+              "kind": "substitution",
+              "minute": "80'",
+              "team": "Argentina",
+              "team_id": "202",
+              "team_side": "home",
+              "player": "Nico Paz",
+              "text": "Substitution, Argentina. Nico Paz replaces Lionel Messi.",
+              "player_off": "Lionel Messi"
+            },
+            {
+              "kind": "substitution",
+              "minute": "80'",
+              "team": "Argentina",
+              "team_id": "202",
+              "team_side": "home",
+              "player": "Nicolás Otamendi",
+              "text": "Substitution, Argentina. Nicolás Otamendi replaces Cristian Romero.",
+              "player_off": "Cristian Romero"
+            },
+            {
+              "kind": "substitution",
+              "minute": "81'",
+              "team": "Algeria",
+              "team_id": "624",
+              "team_side": "away",
+              "player": "Adil Boulbina",
+              "text": "Substitution, Algeria. Adil Boulbina replaces Nabil Bentaleb.",
+              "player_off": "Nabil Bentaleb"
+            },
+            {
+              "kind": "substitution",
+              "minute": "82'",
+              "team": "Algeria",
+              "team_id": "624",
+              "team_side": "away",
+              "player": "Ramiz Zerrouki",
+              "text": "Substitution, Algeria. Ramiz Zerrouki replaces Ibrahim Maza.",
+              "player_off": "Ibrahim Maza"
+            }
+          ]
         },
         {
           "id": "760431",
@@ -5469,7 +5861,7 @@
             "abbr": "GHA",
             "flag": "🇬🇭",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/gha.png",
-            "color": "ce2931",
+            "color": "fbd632",
             "home_away": "home",
             "score": 0,
             "winner": false
@@ -5522,7 +5914,7 @@
             "abbr": "UZB",
             "flag": "🇺🇿",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/uzb.png",
-            "color": "0081d6",
+            "color": "ffffff",
             "home_away": "home",
             "score": 0,
             "winner": false
@@ -5596,7 +5988,7 @@
             "abbr": "RSA",
             "flag": "🇿🇦",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/rsa.png",
-            "color": "087d5a",
+            "color": "FFB81C",
             "home_away": "away",
             "score": 0,
             "winner": false
@@ -5635,7 +6027,7 @@
             "abbr": "SUI",
             "flag": "🇨🇭",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/sui.png",
-            "color": "d72b2c",
+            "color": "FF0000",
             "home_away": "home",
             "score": 0,
             "winner": false
@@ -5868,7 +6260,7 @@
             "abbr": "MAR",
             "flag": "🇲🇦",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/mar.png",
-            "color": "009060",
+            "color": "df2027",
             "home_away": "away",
             "score": 0,
             "winner": false
@@ -6691,7 +7083,7 @@
             "abbr": "UZB",
             "flag": "🇺🇿",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/uzb.png",
-            "color": "0081d6",
+            "color": "ffffff",
             "home_away": "away",
             "score": 0,
             "winner": false
@@ -6744,7 +7136,7 @@
             "abbr": "GHA",
             "flag": "🇬🇭",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/gha.png",
-            "color": "ce2931",
+            "color": "fbd632",
             "home_away": "away",
             "score": 0,
             "winner": false
