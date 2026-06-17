@@ -1,14 +1,19 @@
 name: Fetch WC 2026 matches
 
 on:
-  # 48× daily, every 30 min UTC. Compensates for GH Actions schedule
-  # drift (observed 1-3h late, worse off-hours, and one 5h gap
-  # observed on 2026-06-15) by running often enough that even with
-  # extreme drift at least one run lands close to on time. Times
-  # in UTC; CDT = UTC-5 during the tournament. ~1440 GH Actions
-  # minutes / month, well under the 2000-min free tier.
+  # Match window: 11:00–04:00 CT (16:00–04:59 UTC). Refresh every
+  # 20 min so live scores, half-time updates, lineups, and final
+  # results land within a few minutes. Peak hours (14:00 + 20:00 CT,
+  # ~12 matches each) get naturally dense coverage from the cadence.
+  # Quiet hours: 04:00–11:00 CT (09:00–15:59 UTC). One daily refresh
+  # at 04:00 CT to pick up any overnight standings / corrections.
+  # Times in UTC; CDT = UTC-5 during the tournament. ~40 runs/day,
+  # ~1200 GH Actions minutes / month, well under the 2000-min free
+  # tier.
   schedule:
-    - cron: "*/30 * * * *"
+    - cron: "*/20 16-23 * * *"
+    - cron: "*/20 0-4 * * *"
+    - cron: "0 9 * * *"
   workflow_dispatch:
   push:
     paths:
