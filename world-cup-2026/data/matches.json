@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-17T01:37:36.880888+00:00",
+  "generated_at": "2026-06-17T02:02:25.855564+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-16T20:37:36.083970-05:00",
+  "now_local": "2026-06-16T21:02:24.923216-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -5295,8 +5295,8 @@
           "kickoff_local_date": "2026-06-16",
           "kickoff_time": "5:00 PM",
           "kickoff_weekday": "Tue",
-          "status": "SCHEDULED",
-          "status_short": "Scheduled",
+          "status": "FINAL",
+          "status_short": "FT",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -5310,7 +5310,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/irq.png",
             "color": "0A4D2E",
             "home_away": "home",
-            "score": 0,
+            "score": 1,
             "winner": false
           },
           "away": {
@@ -5324,8 +5324,8 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/nor.png",
             "color": "C8102E",
             "home_away": "away",
-            "score": 0,
-            "winner": false
+            "score": 4,
+            "winner": true
           },
           "venue": {
             "name": "Gillette Stadium",
@@ -5339,7 +5339,157 @@
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760430/norway-iraq",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Iraq%20vs%20Norway",
-          "slug": "norway-at-iraq"
+          "slug": "norway-at-iraq",
+          "incidents": [
+            {
+              "kind": "goal",
+              "minute": "29'",
+              "team": "Norway",
+              "team_id": "464",
+              "team_side": "away",
+              "player": "Erling Haaland",
+              "text": "Goal! Iraq 0, Norway 1. Erling Haaland (Norway) left footed shot from very close range to the top right corner. Assisted by David Møller Wolfe with a cross.",
+              "assist": "David Møller Wolfe"
+            },
+            {
+              "kind": "goal",
+              "minute": "39'",
+              "team": "Iraq",
+              "team_id": "4375",
+              "team_side": "home",
+              "player": "Aymen Hussein",
+              "text": "Goal! Iraq 1, Norway 1. Aymen Hussein (Iraq) header from the centre of the box to the bottom right corner. Assisted by Amir Al Ammari with a cross.",
+              "assist": "Amir Al-Ammari"
+            },
+            {
+              "kind": "goal",
+              "minute": "43'",
+              "team": "Norway",
+              "team_id": "464",
+              "team_side": "away",
+              "player": "Erling Haaland",
+              "text": "Goal! Iraq 1, Norway 2. Erling Haaland (Norway) right footed shot from very close range to the centre of the goal."
+            },
+            {
+              "kind": "substitution",
+              "minute": "59'",
+              "team": "Iraq",
+              "team_id": "4375",
+              "team_side": "home",
+              "player": "Zidane Iqbal",
+              "text": "Substitution, Iraq. Zidane Iqbal replaces Zaid Ismael.",
+              "player_off": "Zaid Ismael"
+            },
+            {
+              "kind": "substitution",
+              "minute": "59'",
+              "team": "Iraq",
+              "team_id": "4375",
+              "team_side": "home",
+              "player": "Marko Farji",
+              "text": "Substitution, Iraq. Marko Farji replaces Ali Al Hamadi.",
+              "player_off": "Ali Al-Hamadi"
+            },
+            {
+              "kind": "substitution",
+              "minute": "73'",
+              "team": "Norway",
+              "team_id": "464",
+              "team_side": "away",
+              "player": "Andreas Schjelderup",
+              "text": "Substitution, Norway. Andreas Schjelderup replaces Antonio Nusa.",
+              "player_off": "Antonio Nusa"
+            },
+            {
+              "kind": "substitution",
+              "minute": "73'",
+              "team": "Norway",
+              "team_id": "464",
+              "team_side": "away",
+              "player": "Kristian Thorstvedt",
+              "text": "Substitution, Norway. Kristian Thorstvedt replaces Fredrik Aursnes.",
+              "player_off": "Fredrik Aursnes"
+            },
+            {
+              "kind": "substitution",
+              "minute": "73'",
+              "team": "Norway",
+              "team_id": "464",
+              "team_side": "away",
+              "player": "Leo Østigard",
+              "text": "Substitution, Norway. Leo Østigård replaces David Møller Wolfe because of an injury.",
+              "player_off": "David Møller Wolfe"
+            },
+            {
+              "kind": "substitution",
+              "minute": "73'",
+              "team": "Norway",
+              "team_id": "464",
+              "team_side": "away",
+              "player": "Oscar Bobb",
+              "text": "Substitution, Norway. Oscar Bobb replaces Alexander Sørloth.",
+              "player_off": "Alexander Sørloth"
+            },
+            {
+              "kind": "substitution",
+              "minute": "73'",
+              "team": "Iraq",
+              "team_id": "4375",
+              "team_side": "home",
+              "player": "Mustafa Saadoon",
+              "text": "Substitution, Iraq. Mustafa Saadoon replaces Hussein Ali.",
+              "player_off": "Hussein Ali"
+            },
+            {
+              "kind": "substitution",
+              "minute": "73'",
+              "team": "Iraq",
+              "team_id": "4375",
+              "team_side": "home",
+              "player": "Ahmed Qasim",
+              "text": "Substitution, Iraq. Ahmed Qasem replaces Ali Jasim because of an injury.",
+              "player_off": "Ali Jasim"
+            },
+            {
+              "kind": "goal",
+              "minute": "76'",
+              "team": "Norway",
+              "team_id": "464",
+              "team_side": "away",
+              "player": "Leo Østigard",
+              "text": "Goal! Iraq 1, Norway 3. Leo Østigård (Norway) header from very close range to the high centre of the goal. Assisted by Martin Ødegaard with a cross following a corner.",
+              "assist": "Martin Ødegaard"
+            },
+            {
+              "kind": "substitution",
+              "minute": "78'",
+              "team": "Iraq",
+              "team_id": "4375",
+              "team_side": "home",
+              "player": "Mohanad Ali",
+              "text": "Substitution, Iraq. Mohanad Ali replaces Ibrahim Bayesh.",
+              "player_off": "Ibrahim Bayesh"
+            },
+            {
+              "kind": "substitution",
+              "minute": "81'",
+              "team": "Norway",
+              "team_id": "464",
+              "team_side": "away",
+              "player": "Patrick Berg",
+              "text": "Substitution, Norway. Patrick Berg replaces Martin Ødegaard.",
+              "player_off": "Martin Ødegaard"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "86'",
+              "team": "Iraq",
+              "team_id": "4375",
+              "team_side": "home",
+              "player": "Zaid Tahseen",
+              "text": "Zaid Tahseen (Iraq) is shown the yellow card for a bad foul."
+            }
+          ]
         },
         {
           "id": "760433",
@@ -5348,8 +5498,8 @@
           "kickoff_local_date": "2026-06-16",
           "kickoff_time": "8:00 PM",
           "kickoff_weekday": "Tue",
-          "status": "SCHEDULED",
-          "status_short": "Scheduled",
+          "status": "LIVE",
+          "status_short": "HT",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -5363,7 +5513,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/arg.png",
             "color": "74acdf",
             "home_away": "home",
-            "score": 0,
+            "score": 1,
             "winner": false
           },
           "away": {
@@ -5392,7 +5542,19 @@
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760433/algeria-argentina",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Argentina%20vs%20Algeria",
-          "slug": "algeria-at-argentina"
+          "slug": "algeria-at-argentina",
+          "incidents": [
+            {
+              "kind": "goal",
+              "minute": "17'",
+              "team": "Argentina",
+              "team_id": "202",
+              "team_side": "home",
+              "player": "Lionel Messi",
+              "text": "Goal! Argentina 1, Algeria 0. Lionel Messi (Argentina) left footed shot from outside the box to the top right corner. Assisted by Rodrigo De Paul.",
+              "assist": "Rodrigo De Paul"
+            }
+          ]
         },
         {
           "id": "760431",
