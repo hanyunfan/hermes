@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-17T20:35:01.483991+00:00",
+  "generated_at": "2026-06-17T22:45:28.352417+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-17T15:35:00.370826-05:00",
+  "now_local": "2026-06-17T17:45:27.516301-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -1807,30 +1807,6 @@
       "entries": [
         {
           "team": {
-            "id": "477",
-            "name": "Croatia",
-            "name_zh": "克罗地亚",
-            "rank": 11,
-            "short": "Croatia",
-            "abbr": "CRO",
-            "flag": "🇭🇷",
-            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/cro.png"
-          },
-          "rank": 1,
-          "mp": 0,
-          "w": 0,
-          "d": 0,
-          "l": 0,
-          "gf": 0,
-          "ga": 0,
-          "gd": 0,
-          "pts": 0,
-          "advance": false,
-          "advance_label": "Advance to Round of 32",
-          "advance_color": "#81D6AC"
-        },
-        {
-          "team": {
             "id": "448",
             "name": "England",
             "name_zh": "英格兰",
@@ -1839,6 +1815,30 @@
             "abbr": "ENG",
             "flag": "🏴",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/eng.png"
+          },
+          "rank": 1,
+          "mp": 1,
+          "w": 1,
+          "d": 0,
+          "l": 0,
+          "gf": 4,
+          "ga": 2,
+          "gd": 2,
+          "pts": 3,
+          "advance": false,
+          "advance_label": "Advance to Round of 32",
+          "advance_color": "#81D6AC"
+        },
+        {
+          "team": {
+            "id": "2659",
+            "name": "Panama",
+            "name_zh": "巴拿马",
+            "rank": 34,
+            "short": "Panama",
+            "abbr": "PAN",
+            "flag": "🇵🇦",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/pan.png"
           },
           "rank": 2,
           "mp": 0,
@@ -1879,23 +1879,23 @@
         },
         {
           "team": {
-            "id": "2659",
-            "name": "Panama",
-            "name_zh": "巴拿马",
-            "rank": 34,
-            "short": "Panama",
-            "abbr": "PAN",
-            "flag": "🇵🇦",
-            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/pan.png"
+            "id": "477",
+            "name": "Croatia",
+            "name_zh": "克罗地亚",
+            "rank": 11,
+            "short": "Croatia",
+            "abbr": "CRO",
+            "flag": "🇭🇷",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/cro.png"
           },
           "rank": 4,
-          "mp": 0,
+          "mp": 1,
           "w": 0,
           "d": 0,
-          "l": 0,
-          "gf": 0,
-          "ga": 0,
-          "gd": 0,
+          "l": 1,
+          "gf": 2,
+          "ga": 4,
+          "gd": -2,
           "pts": 0,
           "advance": false,
           "advance_label": "Eliminated",
@@ -5915,7 +5915,7 @@
             "Tele",
             "Peacock"
           ],
-          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760435/congo dr-portugal",
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760435/congo-dr-portugal",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Portugal%20vs%20Congo%20DR",
           "slug": "congo dr-at-portugal",
           "incidents": [
@@ -6074,8 +6074,8 @@
           "kickoff_local_date": "2026-06-17",
           "kickoff_time": "3:00 PM",
           "kickoff_weekday": "Wed",
-          "status": "SCHEDULED",
-          "status_short": "Scheduled",
+          "status": "FINAL",
+          "status_short": "FT",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -6089,7 +6089,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/eng.png",
             "color": "ffffff",
             "home_away": "home",
-            "score": 0,
+            "score": 4,
             "winner": false
           },
           "away": {
@@ -6103,7 +6103,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/cro.png",
             "color": "ff0000",
             "home_away": "away",
-            "score": 0,
+            "score": 2,
             "winner": false
           },
           "venue": {
@@ -6118,7 +6118,159 @@
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760437/croatia-england",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20England%20vs%20Croatia",
-          "slug": "croatia-at-england"
+          "slug": "croatia-at-england",
+          "incidents": [
+            {
+              "kind": "goal",
+              "minute": "36'",
+              "team": "Croatia",
+              "team_id": "477",
+              "team_side": "away",
+              "player": "Martin Baturina",
+              "text": "Goal! England 1, Croatia 1. Martin Baturina (Croatia) right footed shot from outside the box to the top left corner. Assisted by Petar Sucic.",
+              "assist": "Petar Sucic"
+            },
+            {
+              "kind": "goal",
+              "minute": "42'",
+              "team": "England",
+              "team_id": "448",
+              "team_side": "home",
+              "player": "Harry Kane",
+              "text": "Goal! England 2, Croatia 1. Harry Kane (England) header from the centre of the box to the bottom left corner. Assisted by Declan Rice with a cross following a corner.",
+              "assist": "Declan Rice"
+            },
+            {
+              "kind": "goal",
+              "minute": "45'+5'",
+              "team": "Croatia",
+              "team_id": "477",
+              "team_side": "away",
+              "player": "Petar Musa",
+              "text": "Goal! England 2, Croatia 2. Petar Musa (Croatia) right footed shot from the centre of the box to the centre of the goal. Assisted by Ivan Perisic with a headed pass.",
+              "assist": "Ivan Perisic"
+            },
+            {
+              "kind": "goal",
+              "minute": "47'",
+              "team": "England",
+              "team_id": "448",
+              "team_side": "home",
+              "player": "Jude Bellingham",
+              "text": "Goal! England 3, Croatia 2. Jude Bellingham (England) right footed shot from the right side of the box to the bottom left corner. Assisted by Elliot Anderson.",
+              "assist": "Elliot Anderson"
+            },
+            {
+              "kind": "substitution",
+              "minute": "58'",
+              "team": "Croatia",
+              "team_id": "477",
+              "team_side": "away",
+              "player": "Mateo Kovacic",
+              "text": "Substitution, Croatia. Mateo Kovacic replaces Luka Modric.",
+              "player_off": "Luka Modric"
+            },
+            {
+              "kind": "substitution",
+              "minute": "66'",
+              "team": "Croatia",
+              "team_id": "477",
+              "team_side": "away",
+              "player": "Igor Matanovic",
+              "text": "Substitution, Croatia. Igor Matanovic replaces Petar Musa.",
+              "player_off": "Petar Musa"
+            },
+            {
+              "kind": "substitution",
+              "minute": "66'",
+              "team": "Croatia",
+              "team_id": "477",
+              "team_side": "away",
+              "player": "Marco Pasalic",
+              "text": "Substitution, Croatia. Marco Pasalic replaces Luka Vuskovic.",
+              "player_off": "Luka Vuskovic"
+            },
+            {
+              "kind": "substitution",
+              "minute": "72'",
+              "team": "England",
+              "team_id": "448",
+              "team_side": "home",
+              "player": "Morgan Rogers",
+              "text": "Substitution, England. Morgan Rogers replaces Declan Rice.",
+              "player_off": "Declan Rice"
+            },
+            {
+              "kind": "substitution",
+              "minute": "72'",
+              "team": "England",
+              "team_id": "448",
+              "team_side": "home",
+              "player": "Bukayo Saka",
+              "text": "Substitution, England. Bukayo Saka replaces Noni Madueke.",
+              "player_off": "Noni Madueke"
+            },
+            {
+              "kind": "substitution",
+              "minute": "72'",
+              "team": "England",
+              "team_id": "448",
+              "team_side": "home",
+              "player": "Marcus Rashford",
+              "text": "Substitution, England. Marcus Rashford replaces Anthony Gordon.",
+              "player_off": "Anthony Gordon"
+            },
+            {
+              "kind": "substitution",
+              "minute": "78'",
+              "team": "Croatia",
+              "team_id": "477",
+              "team_side": "away",
+              "player": "Nikola Vlasic",
+              "text": "Substitution, Croatia. Nikola Vlasic replaces Martin Baturina.",
+              "player_off": "Martin Baturina"
+            },
+            {
+              "kind": "substitution",
+              "minute": "79'",
+              "team": "Croatia",
+              "team_id": "477",
+              "team_side": "away",
+              "player": "Andrej Kramaric",
+              "text": "Substitution, Croatia. Andrej Kramaric replaces Mario Pasalic.",
+              "player_off": "Mario Pasalic"
+            },
+            {
+              "kind": "substitution",
+              "minute": "80'",
+              "team": "England",
+              "team_id": "448",
+              "team_side": "home",
+              "player": "Djed Spence",
+              "text": "Substitution, England. Djed Spence replaces Jude Bellingham.",
+              "player_off": "Jude Bellingham"
+            },
+            {
+              "kind": "goal",
+              "minute": "85'",
+              "team": "England",
+              "team_id": "448",
+              "team_side": "home",
+              "player": "Marcus Rashford",
+              "text": "Goal! England 4, Croatia 2. Marcus Rashford (England) right footed shot from the centre of the box to the bottom right corner. Assisted by Bukayo Saka.",
+              "assist": "Bukayo Saka"
+            },
+            {
+              "kind": "substitution",
+              "minute": "87'",
+              "team": "England",
+              "team_id": "448",
+              "team_side": "home",
+              "player": "Marc Guéhi",
+              "text": "Substitution, England. Marc Guéhi replaces John Stones.",
+              "player_off": "John Stones"
+            }
+          ]
         },
         {
           "id": "760434",
