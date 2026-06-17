@@ -1157,13 +1157,14 @@
           <th class="col-player">${escapeHtml(t("scorers.col.player"))}</th>
           ${isCurrent
             ? `<th class="col-team">${escapeHtml(t("scorers.col.team"))}</th>
+               <th class="col-num col-goals" title="${escapeHtml(t("scorers.col.goals"))}">${escapeHtml(t("scorers.col.goals"))}</th>
                <th class="col-num col-mp" title="${escapeHtml(t("scorers.col.mp"))}">${escapeHtml(t("scorers.col.mp"))}</th>
                <th class="col-num col-a" title="${escapeHtml(t("scorers.col.assists"))}">${escapeHtml(t("scorers.col.assists"))}</th>
                <th class="col-num col-pk" title="${escapeHtml(t("scorers.col.penalties"))}">${escapeHtml(t("scorers.col.penalties"))}</th>`
             : `<th class="col-team">${escapeHtml(t("scorers.col.country"))}</th>
+               <th class="col-num col-goals" title="${escapeHtml(t("scorers.col.goals"))}">${escapeHtml(t("scorers.col.goals"))}</th>
                <th class="col-num col-tours" title="${escapeHtml(t("scorers.col.tournaments"))}">${escapeHtml(t("scorers.col.tournaments"))}</th>
                <th class="col-span" title="${escapeHtml(t("scorers.col.span"))}">${escapeHtml(t("scorers.col.span"))}</th>`}
-          <th class="col-num col-goals" title="${escapeHtml(t("scorers.col.goals"))}">${escapeHtml(t("scorers.col.goals"))}</th>
         </tr>
       </thead>
       <tbody></tbody>
@@ -1189,10 +1190,10 @@
             <span class="team-flag">${escapeHtml(flag)}</span>
             <span class="team-short">${escapeHtml(teamName || "—")}</span>
           </td>
+          <td class="col-num col-goals"><strong>${r.goals || 0}</strong></td>
           <td class="col-num">${r.matches_played || 0}</td>
           <td class="col-num">${r.assists || 0}</td>
           <td class="col-num ${r.penalty_kicks ? "is-pk" : ""}">${r.penalty_kicks || 0}</td>
-          <td class="col-num col-goals"><strong>${r.goals || 0}</strong></td>
         `;
       } else {
         // Render the tournaments list with the 2026 entry wrapped in
@@ -1223,9 +1224,9 @@
             <span class="team-flag">${escapeHtml(flag)}</span>
             <span class="team-short">${escapeHtml(teamName || "—")}</span>
           </td>
+          <td class="col-num col-goals"><strong>${r.goals || 0}</strong></td>
           <td class="col-num col-tours">${tours}</td>
           <td class="col-span">${escapeHtml(r.span || "")}</td>
-          <td class="col-num col-goals"><strong>${r.goals || 0}</strong></td>
         `;
       }
       tbody.appendChild(tr);

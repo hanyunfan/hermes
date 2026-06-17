@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-17T02:06:49.775848+00:00",
+  "generated_at": "2026-06-17T02:35:43.137213+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-16T21:06:48.999102-05:00",
+  "now_local": "2026-06-16T21:35:41.946140-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -1944,7 +1944,7 @@
             "abbr": "RSA",
             "flag": "🇿🇦",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/rsa.png",
-            "color": "FFB81C",
+            "color": "087d5a",
             "home_away": "away",
             "score": 0,
             "winner": false
@@ -2820,7 +2820,7 @@
             "abbr": "SUI",
             "flag": "🇨🇭",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/sui.png",
-            "color": "FF0000",
+            "color": "d72b2c",
             "home_away": "away",
             "score": 1,
             "winner": false
@@ -3002,7 +3002,7 @@
             "abbr": "MAR",
             "flag": "🇲🇦",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/mar.png",
-            "color": "df2027",
+            "color": "009060",
             "home_away": "away",
             "score": 1,
             "winner": false
@@ -5131,8 +5131,8 @@
           "kickoff_local_date": "2026-06-16",
           "kickoff_time": "2:00 PM",
           "kickoff_weekday": "Tue",
-          "status": "FINAL",
-          "status_short": "FT",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -5146,8 +5146,8 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/fra.png",
             "color": "000080",
             "home_away": "home",
-            "score": 3,
-            "winner": true
+            "score": 0,
+            "winner": false
           },
           "away": {
             "id": "654",
@@ -5160,7 +5160,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/sen.png",
             "color": "006436",
             "home_away": "away",
-            "score": 1,
+            "score": 0,
             "winner": false
           },
           "venue": {
@@ -5175,118 +5175,7 @@
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760432/senegal-france",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20France%20vs%20Senegal",
-          "slug": "senegal-at-france",
-          "incidents": [
-            {
-              "kind": "goal",
-              "minute": "66'",
-              "team": "France",
-              "team_id": "478",
-              "team_side": "home",
-              "player": "Kylian Mbappé",
-              "text": "Goal! France 1, Senegal 0. Kylian Mbappé (France) right footed shot from the centre of the box to the centre of the goal. Assisted by Michael Olise with a through ball.",
-              "assist": "Michael Olise"
-            },
-            {
-              "kind": "substitution",
-              "minute": "75'",
-              "team": "Senegal",
-              "team_id": "654",
-              "team_side": "away",
-              "player": "Ibrahim Mbaye",
-              "text": "Substitution, Senegal. Ibrahim Mbaye replaces Ismaïla Sarr.",
-              "player_off": "Ismaïla Sarr"
-            },
-            {
-              "kind": "substitution",
-              "minute": "76'",
-              "team": "Senegal",
-              "team_id": "654",
-              "team_side": "away",
-              "player": "Habib Diarra",
-              "text": "Substitution, Senegal. Habib Diarra replaces Lamine Camara.",
-              "player_off": "Lamine Camara"
-            },
-            {
-              "kind": "substitution",
-              "minute": "80'",
-              "team": "France",
-              "team_id": "478",
-              "team_side": "home",
-              "player": "Bradley Barcola",
-              "text": "Substitution, France. Bradley Barcola replaces Ousmane Dembélé.",
-              "player_off": "Ousmane Dembélé"
-            },
-            {
-              "kind": "goal",
-              "minute": "82'",
-              "team": "France",
-              "team_id": "478",
-              "team_side": "home",
-              "player": "Bradley Barcola",
-              "text": "Goal! France 2, Senegal 0. Bradley Barcola (France) right footed shot from the right side of the box to the bottom right corner. Assisted by Adrien Rabiot with a through ball following a fast break.",
-              "assist": "Adrien Rabiot"
-            },
-            {
-              "kind": "substitution",
-              "minute": "83'",
-              "team": "Senegal",
-              "team_id": "654",
-              "team_side": "away",
-              "player": "Iliman Ndiaye",
-              "text": "Substitution, Senegal. Iliman Ndiaye replaces Pape Gueye.",
-              "player_off": "Pape Gueye"
-            },
-            {
-              "kind": "substitution",
-              "minute": "83'",
-              "team": "Senegal",
-              "team_id": "654",
-              "team_side": "away",
-              "player": "Bamba Dieng",
-              "text": "Substitution, Senegal. Bamba Dieng replaces Nicolas Jackson.",
-              "player_off": "Nicolas Jackson"
-            },
-            {
-              "kind": "substitution",
-              "minute": "87'",
-              "team": "France",
-              "team_id": "478",
-              "team_side": "home",
-              "player": "Rayan Cherki",
-              "text": "Substitution, France. Rayan Cherki replaces Désiré Doué.",
-              "player_off": "Désiré Doué"
-            },
-            {
-              "kind": "substitution",
-              "minute": "88'",
-              "team": "Senegal",
-              "team_id": "654",
-              "team_side": "away",
-              "player": "Pathé Ciss",
-              "text": "Substitution, Senegal. Pathé Ciss replaces Idrissa Gueye.",
-              "player_off": "Idrissa Gueye"
-            },
-            {
-              "kind": "goal",
-              "minute": "90'+5'",
-              "team": "Senegal",
-              "team_id": "654",
-              "team_side": "away",
-              "player": "Ibrahim Mbaye",
-              "text": "Goal! France 2, Senegal 1. Ibrahim Mbaye (Senegal) right footed shot from the right side of the box to the top right corner. Assisted by Iliman Ndiaye following a fast break.",
-              "assist": "Iliman Ndiaye"
-            },
-            {
-              "kind": "goal",
-              "minute": "90'+6'",
-              "team": "France",
-              "team_id": "478",
-              "team_side": "home",
-              "player": "Kylian Mbappé",
-              "text": "Goal! France 3, Senegal 1. Kylian Mbappé (France) right footed shot from outside the box to the top left corner."
-            }
-          ]
+          "slug": "senegal-at-france"
         },
         {
           "id": "760430",
@@ -5295,8 +5184,8 @@
           "kickoff_local_date": "2026-06-16",
           "kickoff_time": "5:00 PM",
           "kickoff_weekday": "Tue",
-          "status": "FINAL",
-          "status_short": "FT",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -5310,7 +5199,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/irq.png",
             "color": "0A4D2E",
             "home_away": "home",
-            "score": 1,
+            "score": 0,
             "winner": false
           },
           "away": {
@@ -5324,8 +5213,8 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/nor.png",
             "color": "C8102E",
             "home_away": "away",
-            "score": 4,
-            "winner": true
+            "score": 0,
+            "winner": false
           },
           "venue": {
             "name": "Gillette Stadium",
@@ -5339,157 +5228,7 @@
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760430/norway-iraq",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Iraq%20vs%20Norway",
-          "slug": "norway-at-iraq",
-          "incidents": [
-            {
-              "kind": "goal",
-              "minute": "29'",
-              "team": "Norway",
-              "team_id": "464",
-              "team_side": "away",
-              "player": "Erling Haaland",
-              "text": "Goal! Iraq 0, Norway 1. Erling Haaland (Norway) left footed shot from very close range to the top right corner. Assisted by David Møller Wolfe with a cross.",
-              "assist": "David Møller Wolfe"
-            },
-            {
-              "kind": "goal",
-              "minute": "39'",
-              "team": "Iraq",
-              "team_id": "4375",
-              "team_side": "home",
-              "player": "Aymen Hussein",
-              "text": "Goal! Iraq 1, Norway 1. Aymen Hussein (Iraq) header from the centre of the box to the bottom right corner. Assisted by Amir Al Ammari with a cross.",
-              "assist": "Amir Al-Ammari"
-            },
-            {
-              "kind": "goal",
-              "minute": "43'",
-              "team": "Norway",
-              "team_id": "464",
-              "team_side": "away",
-              "player": "Erling Haaland",
-              "text": "Goal! Iraq 1, Norway 2. Erling Haaland (Norway) right footed shot from very close range to the centre of the goal."
-            },
-            {
-              "kind": "substitution",
-              "minute": "59'",
-              "team": "Iraq",
-              "team_id": "4375",
-              "team_side": "home",
-              "player": "Zidane Iqbal",
-              "text": "Substitution, Iraq. Zidane Iqbal replaces Zaid Ismael.",
-              "player_off": "Zaid Ismael"
-            },
-            {
-              "kind": "substitution",
-              "minute": "59'",
-              "team": "Iraq",
-              "team_id": "4375",
-              "team_side": "home",
-              "player": "Marko Farji",
-              "text": "Substitution, Iraq. Marko Farji replaces Ali Al Hamadi.",
-              "player_off": "Ali Al-Hamadi"
-            },
-            {
-              "kind": "substitution",
-              "minute": "73'",
-              "team": "Norway",
-              "team_id": "464",
-              "team_side": "away",
-              "player": "Andreas Schjelderup",
-              "text": "Substitution, Norway. Andreas Schjelderup replaces Antonio Nusa.",
-              "player_off": "Antonio Nusa"
-            },
-            {
-              "kind": "substitution",
-              "minute": "73'",
-              "team": "Norway",
-              "team_id": "464",
-              "team_side": "away",
-              "player": "Kristian Thorstvedt",
-              "text": "Substitution, Norway. Kristian Thorstvedt replaces Fredrik Aursnes.",
-              "player_off": "Fredrik Aursnes"
-            },
-            {
-              "kind": "substitution",
-              "minute": "73'",
-              "team": "Norway",
-              "team_id": "464",
-              "team_side": "away",
-              "player": "Leo Østigard",
-              "text": "Substitution, Norway. Leo Østigård replaces David Møller Wolfe because of an injury.",
-              "player_off": "David Møller Wolfe"
-            },
-            {
-              "kind": "substitution",
-              "minute": "73'",
-              "team": "Norway",
-              "team_id": "464",
-              "team_side": "away",
-              "player": "Oscar Bobb",
-              "text": "Substitution, Norway. Oscar Bobb replaces Alexander Sørloth.",
-              "player_off": "Alexander Sørloth"
-            },
-            {
-              "kind": "substitution",
-              "minute": "73'",
-              "team": "Iraq",
-              "team_id": "4375",
-              "team_side": "home",
-              "player": "Mustafa Saadoon",
-              "text": "Substitution, Iraq. Mustafa Saadoon replaces Hussein Ali.",
-              "player_off": "Hussein Ali"
-            },
-            {
-              "kind": "substitution",
-              "minute": "73'",
-              "team": "Iraq",
-              "team_id": "4375",
-              "team_side": "home",
-              "player": "Ahmed Qasim",
-              "text": "Substitution, Iraq. Ahmed Qasem replaces Ali Jasim because of an injury.",
-              "player_off": "Ali Jasim"
-            },
-            {
-              "kind": "goal",
-              "minute": "76'",
-              "team": "Norway",
-              "team_id": "464",
-              "team_side": "away",
-              "player": "Leo Østigard",
-              "text": "Goal! Iraq 1, Norway 3. Leo Østigård (Norway) header from very close range to the high centre of the goal. Assisted by Martin Ødegaard with a cross following a corner.",
-              "assist": "Martin Ødegaard"
-            },
-            {
-              "kind": "substitution",
-              "minute": "78'",
-              "team": "Iraq",
-              "team_id": "4375",
-              "team_side": "home",
-              "player": "Mohanad Ali",
-              "text": "Substitution, Iraq. Mohanad Ali replaces Ibrahim Bayesh.",
-              "player_off": "Ibrahim Bayesh"
-            },
-            {
-              "kind": "substitution",
-              "minute": "81'",
-              "team": "Norway",
-              "team_id": "464",
-              "team_side": "away",
-              "player": "Patrick Berg",
-              "text": "Substitution, Norway. Patrick Berg replaces Martin Ødegaard.",
-              "player_off": "Martin Ødegaard"
-            },
-            {
-              "kind": "yellow_card",
-              "minute": "86'",
-              "team": "Iraq",
-              "team_id": "4375",
-              "team_side": "home",
-              "player": "Zaid Tahseen",
-              "text": "Zaid Tahseen (Iraq) is shown the yellow card for a bad foul."
-            }
-          ]
+          "slug": "norway-at-iraq"
         },
         {
           "id": "760433",
@@ -5498,8 +5237,8 @@
           "kickoff_local_date": "2026-06-16",
           "kickoff_time": "8:00 PM",
           "kickoff_weekday": "Tue",
-          "status": "LIVE",
-          "status_short": "HT",
+          "status": "SCHEDULED",
+          "status_short": "Scheduled",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -5513,7 +5252,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/arg.png",
             "color": "74acdf",
             "home_away": "home",
-            "score": 1,
+            "score": 0,
             "winner": false
           },
           "away": {
@@ -5542,19 +5281,7 @@
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760433/algeria-argentina",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Argentina%20vs%20Algeria",
-          "slug": "algeria-at-argentina",
-          "incidents": [
-            {
-              "kind": "goal",
-              "minute": "17'",
-              "team": "Argentina",
-              "team_id": "202",
-              "team_side": "home",
-              "player": "Lionel Messi",
-              "text": "Goal! Argentina 1, Algeria 0. Lionel Messi (Argentina) left footed shot from outside the box to the top right corner. Assisted by Rodrigo De Paul.",
-              "assist": "Rodrigo De Paul"
-            }
-          ]
+          "slug": "algeria-at-argentina"
         },
         {
           "id": "760431",
@@ -5742,7 +5469,7 @@
             "abbr": "GHA",
             "flag": "🇬🇭",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/gha.png",
-            "color": "fbd632",
+            "color": "ce2931",
             "home_away": "home",
             "score": 0,
             "winner": false
@@ -5795,7 +5522,7 @@
             "abbr": "UZB",
             "flag": "🇺🇿",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/uzb.png",
-            "color": "ffffff",
+            "color": "0081d6",
             "home_away": "home",
             "score": 0,
             "winner": false
@@ -5869,7 +5596,7 @@
             "abbr": "RSA",
             "flag": "🇿🇦",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/rsa.png",
-            "color": "FFB81C",
+            "color": "087d5a",
             "home_away": "away",
             "score": 0,
             "winner": false
@@ -5908,7 +5635,7 @@
             "abbr": "SUI",
             "flag": "🇨🇭",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/sui.png",
-            "color": "FF0000",
+            "color": "d72b2c",
             "home_away": "home",
             "score": 0,
             "winner": false
@@ -6141,7 +5868,7 @@
             "abbr": "MAR",
             "flag": "🇲🇦",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/mar.png",
-            "color": "df2027",
+            "color": "009060",
             "home_away": "away",
             "score": 0,
             "winner": false
@@ -6964,7 +6691,7 @@
             "abbr": "UZB",
             "flag": "🇺🇿",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/uzb.png",
-            "color": "ffffff",
+            "color": "0081d6",
             "home_away": "away",
             "score": 0,
             "winner": false
@@ -7017,7 +6744,7 @@
             "abbr": "GHA",
             "flag": "🇬🇭",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/gha.png",
-            "color": "fbd632",
+            "color": "ce2931",
             "home_away": "away",
             "score": 0,
             "winner": false

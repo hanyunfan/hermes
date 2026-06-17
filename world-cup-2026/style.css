@@ -1219,7 +1219,22 @@ body {
 .scorer-table thead .col-player,
 .scorer-table thead .col-team,
 .scorer-table thead .col-span { text-align: left; padding-left: 10px; }
-.scorer-table thead .col-goals { color: var(--accent); }
+.scorer-table thead .col-goals {
+  color: var(--accent);
+  background: rgba(240, 193, 75, 0.08);
+  position: sticky;
+  right: 0;
+  z-index: 1;
+  box-shadow: -1px 0 0 var(--border);
+}
+.scorer-table tbody .col-goals {
+  background: rgba(11, 17, 32, 0.4);
+  position: sticky;
+  right: 0;
+  z-index: 1;
+  box-shadow: -1px 0 0 var(--border);
+  min-width: 56px;
+}
 .scorer-table tbody td {
   padding: 7px 6px;
   text-align: center;
