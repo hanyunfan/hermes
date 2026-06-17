@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-16T23:24:58.791061+00:00",
+  "generated_at": "2026-06-17T01:37:36.880888+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-16T18:24:51.735792-05:00",
+  "now_local": "2026-06-16T20:37:36.083970-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -1498,6 +1498,30 @@
       "entries": [
         {
           "team": {
+            "id": "464",
+            "name": "Norway",
+            "name_zh": "挪威",
+            "rank": 31,
+            "short": "Norway",
+            "abbr": "NOR",
+            "flag": "🇳🇴",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/nor.png"
+          },
+          "rank": 1,
+          "mp": 1,
+          "w": 1,
+          "d": 0,
+          "l": 0,
+          "gf": 4,
+          "ga": 1,
+          "gd": 3,
+          "pts": 3,
+          "advance": false,
+          "advance_label": "Advance to Round of 32",
+          "advance_color": "#81D6AC"
+        },
+        {
+          "team": {
             "id": "478",
             "name": "France",
             "name_zh": "法国",
@@ -1507,7 +1531,7 @@
             "flag": "🇫🇷",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/fra.png"
           },
-          "rank": 1,
+          "rank": 2,
           "mp": 1,
           "w": 1,
           "d": 0,
@@ -1522,54 +1546,6 @@
         },
         {
           "team": {
-            "id": "4375",
-            "name": "Iraq",
-            "name_zh": "伊拉克",
-            "rank": 57,
-            "short": "Iraq",
-            "abbr": "IRQ",
-            "flag": "🇮🇶",
-            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/irq.png"
-          },
-          "rank": 2,
-          "mp": 0,
-          "w": 0,
-          "d": 0,
-          "l": 0,
-          "gf": 0,
-          "ga": 0,
-          "gd": 0,
-          "pts": 0,
-          "advance": false,
-          "advance_label": "Advance to Round of 32",
-          "advance_color": "#81D6AC"
-        },
-        {
-          "team": {
-            "id": "464",
-            "name": "Norway",
-            "name_zh": "挪威",
-            "rank": 31,
-            "short": "Norway",
-            "abbr": "NOR",
-            "flag": "🇳🇴",
-            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/nor.png"
-          },
-          "rank": 3,
-          "mp": 0,
-          "w": 0,
-          "d": 0,
-          "l": 0,
-          "gf": 0,
-          "ga": 0,
-          "gd": 0,
-          "pts": 0,
-          "advance": false,
-          "advance_label": "Best 8 advance",
-          "advance_color": "#B5E7CE"
-        },
-        {
-          "team": {
             "id": "654",
             "name": "Senegal",
             "name_zh": "塞内加尔",
@@ -1579,7 +1555,7 @@
             "flag": "🇸🇳",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/sen.png"
           },
-          "rank": 4,
+          "rank": 3,
           "mp": 1,
           "w": 0,
           "d": 0,
@@ -1587,6 +1563,30 @@
           "gf": 1,
           "ga": 3,
           "gd": -2,
+          "pts": 0,
+          "advance": false,
+          "advance_label": "Best 8 advance",
+          "advance_color": "#B5E7CE"
+        },
+        {
+          "team": {
+            "id": "4375",
+            "name": "Iraq",
+            "name_zh": "伊拉克",
+            "rank": 57,
+            "short": "Iraq",
+            "abbr": "IRQ",
+            "flag": "🇮🇶",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/irq.png"
+          },
+          "rank": 4,
+          "mp": 1,
+          "w": 0,
+          "d": 0,
+          "l": 1,
+          "gf": 1,
+          "ga": 4,
+          "gd": -3,
           "pts": 0,
           "advance": false,
           "advance_label": "Eliminated",
@@ -1944,7 +1944,7 @@
             "abbr": "RSA",
             "flag": "🇿🇦",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/rsa.png",
-            "color": "087d5a",
+            "color": "FFB81C",
             "home_away": "away",
             "score": 0,
             "winner": false
@@ -2820,7 +2820,7 @@
             "abbr": "SUI",
             "flag": "🇨🇭",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/sui.png",
-            "color": "d72b2c",
+            "color": "FF0000",
             "home_away": "away",
             "score": 1,
             "winner": false
@@ -3002,7 +3002,7 @@
             "abbr": "MAR",
             "flag": "🇲🇦",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/mar.png",
-            "color": "009060",
+            "color": "df2027",
             "home_away": "away",
             "score": 1,
             "winner": false
@@ -5131,8 +5131,8 @@
           "kickoff_local_date": "2026-06-16",
           "kickoff_time": "2:00 PM",
           "kickoff_weekday": "Tue",
-          "status": "SCHEDULED",
-          "status_short": "Scheduled",
+          "status": "FINAL",
+          "status_short": "FT",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -5146,8 +5146,8 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/fra.png",
             "color": "000080",
             "home_away": "home",
-            "score": 0,
-            "winner": false
+            "score": 3,
+            "winner": true
           },
           "away": {
             "id": "654",
@@ -5160,7 +5160,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/sen.png",
             "color": "006436",
             "home_away": "away",
-            "score": 0,
+            "score": 1,
             "winner": false
           },
           "venue": {
@@ -5175,7 +5175,118 @@
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760432/senegal-france",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20France%20vs%20Senegal",
-          "slug": "senegal-at-france"
+          "slug": "senegal-at-france",
+          "incidents": [
+            {
+              "kind": "goal",
+              "minute": "66'",
+              "team": "France",
+              "team_id": "478",
+              "team_side": "home",
+              "player": "Kylian Mbappé",
+              "text": "Goal! France 1, Senegal 0. Kylian Mbappé (France) right footed shot from the centre of the box to the centre of the goal. Assisted by Michael Olise with a through ball.",
+              "assist": "Michael Olise"
+            },
+            {
+              "kind": "substitution",
+              "minute": "75'",
+              "team": "Senegal",
+              "team_id": "654",
+              "team_side": "away",
+              "player": "Ibrahim Mbaye",
+              "text": "Substitution, Senegal. Ibrahim Mbaye replaces Ismaïla Sarr.",
+              "player_off": "Ismaïla Sarr"
+            },
+            {
+              "kind": "substitution",
+              "minute": "76'",
+              "team": "Senegal",
+              "team_id": "654",
+              "team_side": "away",
+              "player": "Habib Diarra",
+              "text": "Substitution, Senegal. Habib Diarra replaces Lamine Camara.",
+              "player_off": "Lamine Camara"
+            },
+            {
+              "kind": "substitution",
+              "minute": "80'",
+              "team": "France",
+              "team_id": "478",
+              "team_side": "home",
+              "player": "Bradley Barcola",
+              "text": "Substitution, France. Bradley Barcola replaces Ousmane Dembélé.",
+              "player_off": "Ousmane Dembélé"
+            },
+            {
+              "kind": "goal",
+              "minute": "82'",
+              "team": "France",
+              "team_id": "478",
+              "team_side": "home",
+              "player": "Bradley Barcola",
+              "text": "Goal! France 2, Senegal 0. Bradley Barcola (France) right footed shot from the right side of the box to the bottom right corner. Assisted by Adrien Rabiot with a through ball following a fast break.",
+              "assist": "Adrien Rabiot"
+            },
+            {
+              "kind": "substitution",
+              "minute": "83'",
+              "team": "Senegal",
+              "team_id": "654",
+              "team_side": "away",
+              "player": "Iliman Ndiaye",
+              "text": "Substitution, Senegal. Iliman Ndiaye replaces Pape Gueye.",
+              "player_off": "Pape Gueye"
+            },
+            {
+              "kind": "substitution",
+              "minute": "83'",
+              "team": "Senegal",
+              "team_id": "654",
+              "team_side": "away",
+              "player": "Bamba Dieng",
+              "text": "Substitution, Senegal. Bamba Dieng replaces Nicolas Jackson.",
+              "player_off": "Nicolas Jackson"
+            },
+            {
+              "kind": "substitution",
+              "minute": "87'",
+              "team": "France",
+              "team_id": "478",
+              "team_side": "home",
+              "player": "Rayan Cherki",
+              "text": "Substitution, France. Rayan Cherki replaces Désiré Doué.",
+              "player_off": "Désiré Doué"
+            },
+            {
+              "kind": "substitution",
+              "minute": "88'",
+              "team": "Senegal",
+              "team_id": "654",
+              "team_side": "away",
+              "player": "Pathé Ciss",
+              "text": "Substitution, Senegal. Pathé Ciss replaces Idrissa Gueye.",
+              "player_off": "Idrissa Gueye"
+            },
+            {
+              "kind": "goal",
+              "minute": "90'+5'",
+              "team": "Senegal",
+              "team_id": "654",
+              "team_side": "away",
+              "player": "Ibrahim Mbaye",
+              "text": "Goal! France 2, Senegal 1. Ibrahim Mbaye (Senegal) right footed shot from the right side of the box to the top right corner. Assisted by Iliman Ndiaye following a fast break.",
+              "assist": "Iliman Ndiaye"
+            },
+            {
+              "kind": "goal",
+              "minute": "90'+6'",
+              "team": "France",
+              "team_id": "478",
+              "team_side": "home",
+              "player": "Kylian Mbappé",
+              "text": "Goal! France 3, Senegal 1. Kylian Mbappé (France) right footed shot from outside the box to the top left corner."
+            }
+          ]
         },
         {
           "id": "760430",
@@ -5469,7 +5580,7 @@
             "abbr": "GHA",
             "flag": "🇬🇭",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/gha.png",
-            "color": "ce2931",
+            "color": "fbd632",
             "home_away": "home",
             "score": 0,
             "winner": false
@@ -5522,7 +5633,7 @@
             "abbr": "UZB",
             "flag": "🇺🇿",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/uzb.png",
-            "color": "0081d6",
+            "color": "ffffff",
             "home_away": "home",
             "score": 0,
             "winner": false
@@ -5596,7 +5707,7 @@
             "abbr": "RSA",
             "flag": "🇿🇦",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/rsa.png",
-            "color": "087d5a",
+            "color": "FFB81C",
             "home_away": "away",
             "score": 0,
             "winner": false
@@ -5635,7 +5746,7 @@
             "abbr": "SUI",
             "flag": "🇨🇭",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/sui.png",
-            "color": "d72b2c",
+            "color": "FF0000",
             "home_away": "home",
             "score": 0,
             "winner": false
@@ -5868,7 +5979,7 @@
             "abbr": "MAR",
             "flag": "🇲🇦",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/mar.png",
-            "color": "009060",
+            "color": "df2027",
             "home_away": "away",
             "score": 0,
             "winner": false
@@ -6691,7 +6802,7 @@
             "abbr": "UZB",
             "flag": "🇺🇿",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/uzb.png",
-            "color": "0081d6",
+            "color": "ffffff",
             "home_away": "away",
             "score": 0,
             "winner": false
@@ -6744,7 +6855,7 @@
             "abbr": "GHA",
             "flag": "🇬🇭",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/gha.png",
-            "color": "ce2931",
+            "color": "fbd632",
             "home_away": "away",
             "score": 0,
             "winner": false
