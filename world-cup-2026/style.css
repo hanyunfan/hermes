@@ -1128,6 +1128,180 @@ body {
   letter-spacing: 0.02em;
 }
 
+/* ─── Scorers view ──────────────────────────────────────────── */
+.scorers-section {
+  margin-top: 4px;
+}
+.scorers-head {
+  text-align: center;
+  margin-bottom: 18px;
+}
+.scorers-title {
+  font-size: clamp(1.3rem, 3vw, 1.6rem);
+  font-weight: 700;
+  margin: 0 0 6px;
+  background: linear-gradient(180deg, #fff 30%, #c4cce0 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.scorers-hint {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  margin: 0 auto;
+  max-width: 640px;
+}
+.scorers-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 14px;
+  align-items: start;
+}
+.scorer-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow);
+  overflow-x: auto;
+  overflow-y: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.scorer-card--current {
+  border-color: rgba(240, 193, 75, 0.25);
+}
+.scorer-head {
+  background: linear-gradient(180deg, var(--bg-elev) 0%, var(--bg-card) 100%);
+  border-bottom: 1px solid var(--border);
+  padding: 10px 14px;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+}
+.scorer-pane-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.scorer-card--current .scorer-pane-title::before {
+  content: "🔴 ";
+  font-size: 0.7em;
+  vertical-align: middle;
+}
+.scorer-pane-count {
+  color: var(--text-dim);
+  font-size: 0.75rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.scorer-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+  font-size: 0.82rem;
+  table-layout: auto;
+}
+.scorer-table thead th {
+  font-weight: 600;
+  color: var(--text-dim);
+  padding: 8px 6px;
+  text-align: center;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  border-bottom: 1px solid var(--border);
+  background: rgba(11, 17, 32, 0.4);
+  white-space: nowrap;
+}
+.scorer-table thead .col-player,
+.scorer-table thead .col-team,
+.scorer-table thead .col-span { text-align: left; padding-left: 10px; }
+.scorer-table thead .col-goals { color: var(--accent); }
+.scorer-table tbody td {
+  padding: 7px 6px;
+  text-align: center;
+  border-top: 1px solid rgba(35, 49, 82, 0.4);
+}
+.scorer-table tbody tr:first-child td { border-top: 0; }
+.scorer-table .col-rank {
+  width: 32px;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+.scorer-table .rank-num { display: inline-block; min-width: 1em; }
+.scorer-table .col-player {
+  text-align: left;
+  padding-left: 10px;
+  min-width: 120px;
+}
+.scorer-table .player-name {
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: inline-block;
+  max-width: 100%;
+}
+.scorer-table .col-team {
+  text-align: left;
+  padding-left: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 100px;
+}
+.scorer-table .team-flag { font-size: 0.95rem; line-height: 1; }
+.scorer-table .team-short {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--text);
+  font-size: 0.82rem;
+}
+.scorer-table .col-goals strong {
+  color: var(--accent);
+  font-size: 1.05rem;
+}
+.scorer-table .col-span {
+  text-align: left;
+  padding-left: 10px;
+  white-space: nowrap;
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  letter-spacing: 0.02em;
+}
+.scorer-table .col-tours {
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  white-space: nowrap;
+}
+.scorer-table .is-pk {
+  color: #f87171;
+  font-weight: 600;
+}
+.scorer-table tr.is-leader {
+  background: linear-gradient(90deg, rgba(240, 193, 75, 0.10) 0%, transparent 70%);
+}
+.scorer-table tr.is-leader .rank-num {
+  color: var(--accent);
+  font-weight: 800;
+}
+.scorer-table tr.is-leader .col-goals strong {
+  text-shadow: 0 0 12px rgba(240, 193, 75, 0.3);
+}
+.scorers-notes {
+  text-align: center;
+  color: var(--text-dim);
+  font-size: 0.72rem;
+  margin: 14px auto 0;
+  max-width: 720px;
+  letter-spacing: 0.02em;
+  line-height: 1.5;
+}
+
 .lang-toggle {
   display: inline-flex;
   align-items: center;

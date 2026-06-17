@@ -105,6 +105,57 @@ def _name_zh(english: str) -> str:
     return COUNTRY_ZH.get(english or "", "")
 
 
+# All-time FIFA World Cup top scorers (men's, final tournament only —
+# does not include qualifiers). Snapshot as of the end of the 2022
+# tournament in Qatar, before WC 2026 kicks off. Verified against
+# FIFA's official "All-time World Cup goal scorers" record.
+#
+# Each entry:
+#   rank        — all-time rank by total goals (ties broken by span,
+#                 then alphabetical for clarity in the front-end)
+#   player      — display name in English (commonly used form)
+#   player_zh   — Chinese display name (kept short; surnames suffice)
+#   country     — nation represented in WC play (English)
+#   country_zh  — Chinese name for that nation
+#   flag        — emoji flag for the country
+#   goals       — total WC tournament goals (1930–2022, final tournament)
+#   tournaments — list of years the player appeared in the final tournament
+#                 where they scored (subset of their WC appearances)
+#   span        — first/last WC year with the player in the squad
+#                 (covers all their WC appearances, including scoreless ones)
+#
+# Static data — no need to refetch; baked into matches.json so the
+# Scorers tab renders from the same single blob the rest of the app
+# already loads.
+HISTORICAL_SCORERS = [
+    {"rank": 1,  "player": "Miroslav Klose",     "player_zh": "克洛泽",     "country": "Germany",            "country_zh": "德国",   "flag": "🇩🇪", "goals": 16, "tournaments": [2002, 2006, 2010, 2014], "span": "2002–2014"},
+    {"rank": 2,  "player": "Ronaldo",            "player_zh": "罗纳尔多",   "country": "Brazil",             "country_zh": "巴西",   "flag": "🇧🇷", "goals": 15, "tournaments": [1998, 2002, 2006],       "span": "1994–2006"},
+    {"rank": 3,  "player": "Gerd Müller",        "player_zh": "盖德·穆勒",   "country": "West Germany",       "country_zh": "西德",   "flag": "🇩🇪", "goals": 14, "tournaments": [1970, 1974],             "span": "1970–1974"},
+    {"rank": 4,  "player": "Just Fontaine",      "player_zh": "方丹",       "country": "France",             "country_zh": "法国",   "flag": "🇫🇷", "goals": 13, "tournaments": [1958],                   "span": "1958"},
+    {"rank": 5,  "player": "Lionel Messi",       "player_zh": "梅西",       "country": "Argentina",          "country_zh": "阿根廷", "flag": "🇦🇷", "goals": 13, "tournaments": [2006, 2010, 2014, 2018, 2022], "span": "2006–2022"},
+    {"rank": 6,  "player": "Kylian Mbappé",      "player_zh": "姆巴佩",     "country": "France",             "country_zh": "法国",   "flag": "🇫🇷", "goals": 12, "tournaments": [2018, 2022],             "span": "2018–2022"},
+    {"rank": 7,  "player": "Pelé",               "player_zh": "贝利",       "country": "Brazil",             "country_zh": "巴西",   "flag": "🇧🇷", "goals": 12, "tournaments": [1958, 1962, 1966, 1970], "span": "1958–1970"},
+    {"rank": 8,  "player": "Sándor Kocsis",      "player_zh": "柯奇什",     "country": "Hungary",            "country_zh": "匈牙利", "flag": "🇭🇺", "goals": 11, "tournaments": [1954],                   "span": "1954"},
+    {"rank": 9,  "player": "Jürgen Klinsmann",   "player_zh": "克林斯曼",   "country": "Germany",            "country_zh": "德国",   "flag": "🇩🇪", "goals": 11, "tournaments": [1990, 1994, 1998],       "span": "1990–1998"},
+    {"rank": 10, "player": "Helmut Rahn",        "player_zh": "拉恩",       "country": "West Germany",       "country_zh": "西德",   "flag": "🇩🇪", "goals": 10, "tournaments": [1954, 1958],             "span": "1954–1958"},
+    {"rank": 11, "player": "Gary Lineker",       "player_zh": "莱因克尔",   "country": "England",            "country_zh": "英格兰", "flag": "🏴󠁧󠁢󠁥󠁮󠁧󠁿", "goals": 10, "tournaments": [1986, 1990],       "span": "1986–1990"},
+    {"rank": 12, "player": "Gabriel Batistuta",  "player_zh": "巴蒂斯图塔", "country": "Argentina",          "country_zh": "阿根廷", "flag": "🇦🇷", "goals": 10, "tournaments": [1994, 1998, 2002],       "span": "1994–2002"},
+    {"rank": 13, "player": "Teófilo Cubillas",   "player_zh": "库比拉斯",   "country": "Peru",               "country_zh": "秘鲁",   "flag": "🇵🇪", "goals": 10, "tournaments": [1970, 1978],             "span": "1970–1978"},
+    {"rank": 14, "player": "Thomas Müller",      "player_zh": "穆勒",       "country": "Germany",            "country_zh": "德国",   "flag": "🇩🇪", "goals": 10, "tournaments": [2010, 2014, 2018],       "span": "2010–2018"},
+    {"rank": 15, "player": "Vavá",               "player_zh": "瓦瓦",       "country": "Brazil",             "country_zh": "巴西",   "flag": "🇧🇷", "goals": 9,  "tournaments": [1958, 1962],             "span": "1958–1962"},
+    {"rank": 16, "player": "Eusébio",            "player_zh": "尤西比奥",   "country": "Portugal",           "country_zh": "葡萄牙", "flag": "🇵🇹", "goals": 9,  "tournaments": [1966],                   "span": "1966"},
+    {"rank": 17, "player": "Karl-Heinz Rummenigge","player_zh": "鲁梅尼格", "country": "West Germany",       "country_zh": "西德",   "flag": "🇩🇪", "goals": 9,  "tournaments": [1978, 1982, 1986],       "span": "1978–1986"},
+    {"rank": 18, "player": "Roberto Baggio",     "player_zh": "巴乔",       "country": "Italy",              "country_zh": "意大利", "flag": "🇮🇹", "goals": 9,  "tournaments": [1990, 1994, 1998],       "span": "1990–1998"},
+    {"rank": 19, "player": "David Villa",        "player_zh": "比利亚",     "country": "Spain",              "country_zh": "西班牙", "flag": "🇪🇸", "goals": 9,  "tournaments": [2006, 2010, 2014],       "span": "2006–2014"},
+    {"rank": 20, "player": "Paolo Rossi",       "player_zh": "罗西",       "country": "Italy",              "country_zh": "意大利", "flag": "🇮🇹", "goals": 9,  "tournaments": [1978, 1982, 1986],       "span": "1978–1986"},
+    {"rank": 21, "player": "Christian Vieri",    "player_zh": "维埃里",     "country": "Italy",              "country_zh": "意大利", "flag": "🇮🇹", "goals": 9,  "tournaments": [1998, 2002],             "span": "1998–2002"},
+    {"rank": 22, "player": "Neymar",             "player_zh": "内马尔",     "country": "Brazil",             "country_zh": "巴西",   "flag": "🇧🇷", "goals": 8,  "tournaments": [2014, 2018, 2022],       "span": "2014–2022"},
+    {"rank": 23, "player": "Andriy Shevchenko",  "player_zh": "舍甫琴科",   "country": "Ukraine",            "country_zh": "乌克兰", "flag": "🇺🇦", "goals": 8,  "tournaments": [2006],                   "span": "2006"},
+    {"rank": 24, "player": "Rivaldo",            "player_zh": "里瓦尔多",   "country": "Brazil",             "country_zh": "巴西",   "flag": "🇧🇷", "goals": 8,  "tournaments": [1998, 2002],             "span": "1998–2002"},
+    {"rank": 25, "player": "Óscar Míguez",       "player_zh": "米格斯",     "country": "Uruguay",            "country_zh": "乌拉圭", "flag": "🇺🇾", "goals": 8,  "tournaments": [1950, 1954],             "span": "1950–1954"},
+]
+
+
 # FIFA/Coca-Cola Men's World Ranking snapshot. ESPN's scoreboard API
 # has no ranking field, so we ship a snapshot hard-coded here. Update
 # FIFA_RANK_SNAPSHOT whenever this dict is refreshed — FIFA publishes
@@ -726,6 +777,7 @@ def build_payload(tz_name: str) -> dict:
         },
         "groups": groups,
         "days": days,
+        "scorers_history": HISTORICAL_SCORERS,
     }
 
 

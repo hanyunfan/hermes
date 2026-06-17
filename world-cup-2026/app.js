@@ -30,6 +30,7 @@
       "view.label": "View",
       "view.matches": "Matches",
       "view.standings": "Standings",
+      "view.scorers": "Scorers",
       "filter.time": "Time",
       "filter.status": "Status",
       "filter.teams": "Teams",
@@ -81,6 +82,22 @@
       "standings.empty": "No group standings yet — the group stage starts June 11.",
       "standings.q": "Q",
       "standings.notes": "Q = qualified · q = best 3rd-place",
+      "scorers.title": "Top Scorers",
+      "scorers.hint": "Current tournament tally updates live as matches finish. All-time list covers the men's final tournament, 1930–2022.",
+      "scorers.section.current": "This Tournament · WC 2026",
+      "scorers.section.alltime": "All-Time · 1930–2022",
+      "scorers.col.player": "Player",
+      "scorers.col.team": "Team",
+      "scorers.col.goals": "Goals",
+      "scorers.col.mp": "MP",
+      "scorers.col.assists": "A",
+      "scorers.col.country": "Country",
+      "scorers.col.tournaments": "Tournaments",
+      "scorers.col.span": "Span",
+      "scorers.col.penalties": "PK",
+      "scorers.empty.current": "No goals yet — the tournament kicked off June 11. Check back after the first match.",
+      "scorers.empty.alltime": "All-time list is unavailable.",
+      "scorers.notes": "MP = matches played · A = assists · PK = penalty kicks · current tournament stats aggregated from match incidents.",
       "stage": "Stage",
       "venue": "Venue",
       "watch": "Watch",
@@ -119,6 +136,7 @@
       "view.label": "视图",
       "view.matches": "比赛",
       "view.standings": "积分",
+      "view.scorers": "射手榜",
       "filter.time": "时间",
       "filter.status": "状态",
       "filter.teams": "球队",
@@ -170,6 +188,22 @@
       "standings.empty": "小组赛尚未开赛（6 月 11 日开始），暂无积分数据。",
       "standings.q": "Q",
       "standings.notes": "Q = 已晋级 · q = 成绩最好的第 3 名",
+      "scorers.title": "射手榜",
+      "scorers.hint": "本届数据随比赛结束实时更新；历史榜单涵盖 1930–2022 年男足世界杯决赛圈。",
+      "scorers.section.current": "本届 · 2026 世界杯",
+      "scorers.section.alltime": "历史总榜 · 1930–2022",
+      "scorers.col.player": "球员",
+      "scorers.col.team": "球队",
+      "scorers.col.goals": "进球",
+      "scorers.col.mp": "出场",
+      "scorers.col.assists": "助",
+      "scorers.col.country": "国家",
+      "scorers.col.tournaments": "参赛届数",
+      "scorers.col.span": "跨度",
+      "scorers.col.penalties": "点",
+      "scorers.empty.current": "尚未开赛（6 月 11 日揭幕），暂无进球数据。",
+      "scorers.empty.alltime": "历史榜单暂不可用。",
+      "scorers.notes": "出场 = 出场场次 · 助 = 助攻 · 点 = 点球；本届数据从比赛事件实时汇总。",
       "stage": "阶段",
       "venue": "场馆",
       "watch": "观看",
@@ -432,7 +466,7 @@
   let filters = { ...DEFAULT_FILTERS };
   let allData = null;
   let allMatches = [];
-  let currentView = "matches";  // matches | standings
+  let currentView = "matches";  // matches | standings | scorers
 
   function loadFilters() {
     // Filters are intentionally session-only. On every page load we
@@ -574,6 +608,10 @@
   function render() {
     if (currentView === "standings") {
       renderStandings();
+      return;
+    }
+    if (currentView === "scorers") {
+      renderScorers();
       return;
     }
     const matches = applyFilters();
@@ -817,6 +855,246 @@
   }
 
 
+  // ─────────────────────────────────────────────────────────────
+  // Render: scorers — two side-by-side panes
+  //   • Current tournament — aggregated from each match's `incidents`
+  //     (kind === "goal"). Re-derives on every render so it tracks the
+  //     rolling JSON without a separate API call.
+  //   • All-time — static list baked into matches.json under
+  //     `scorers_history`. Covers 1930–2022, men's final tournament.
+  // ─────────────────────────────────────────────────────────────
+  function aggregateCurrentScorers(matches) {
+    const byPlayer = new Map();  // key -> { player, team_id, team_name, team_zh, flag, goals, assists, matches:Set, penalty_kicks, minutes:[] }
+    function bumpSet(m, key) {
+      const cur = byPlayer.get(key);
+      if (cur) return cur;
+      const next = {
+        player: m.player,
+        player_zh: null,  // filled in lazily via team search if available
+        team_id: m.team_id,
+        team_name: m.team,
+        team_zh: null,
+        flag: "",
+        goals: 0,
+        assists: 0,
+        penalty_kicks: 0,
+        matches: new Set(),
+        minutes: [],
+      };
+      byPlayer.set(key, next);
+      return next;
+    }
+
+    // First pass — count goals, assists, penalties, distinct matches,
+    // and remember the most recent minute scored.
+    for (const match of matches) {
+      const incs = match.incidents || [];
+      if (incs.length === 0) continue;
+      const playerTeam = { home: match.home, away: match.away };
+      for (const inc of incs) {
+        if (inc.kind !== "goal") continue;
+        // ESPN tags own goals with the team that benefited from them,
+        // not the player. Detect via the incident text and skip the
+        // player entry — their name should not appear in the scorers
+        // list. We still let the legitimate scorer through.
+        const txt = (inc.text || "").toLowerCase();
+        if (txt.includes("own goal") || txt.includes("own-goal")) continue;
+        const scorerKey = `goal|${inc.player}|${inc.team_id || inc.team || "?"}`;
+        const s = bumpSet(inc, scorerKey);
+        if (match.id) s.matches.add(match.id);
+        s.goals += 1;
+        s.minutes.push(inc.minute || "");
+        // ESPN encodes the scoring text in `text` — it usually mentions
+        // "(penalty kick)" / "Penalty" when it's a PK. Cheap string
+        // sniff; we don't have a structured field.
+        const text = (inc.text || "").toLowerCase();
+        if (text.includes("penalty")) s.penalty_kicks += 1;
+        // Walk assist: the same match's incidents may carry an assist
+        // on the goal itself (`inc.assist`), or there may be a separate
+        // assist-flavored entry. ESPN nests assists inside the goal
+        // incident's `text` field, so we read it from `inc.assist`.
+        if (inc.assist) {
+          // The assist is attributed to the OTHER side.
+          const otherSide = inc.team_side === "home" ? "away" : "home";
+          const assistKey = `goal|${inc.assist}|${(playerTeam[otherSide] || {}).id || "?"}`;
+          // We may not have a separate incident for the assister;
+          // ensure an entry exists.
+          const a = byPlayer.get(assistKey) || {
+            player: inc.assist,
+            player_zh: null,
+            team_id: (playerTeam[otherSide] || {}).id,
+            team_name: (playerTeam[otherSide] || {}).name,
+            team_zh: (playerTeam[otherSide] || {}).name_zh,
+            flag: (playerTeam[otherSide] || {}).flag,
+            goals: 0,
+            assists: 0,
+            penalty_kicks: 0,
+            matches: new Set(),
+            minutes: [],
+          };
+          byPlayer.set(assistKey, a);
+          if (match.id) a.matches.add(match.id);
+          a.assists += 1;
+        }
+      }
+    }
+
+    // Second pass — fill in team flag / Chinese name from the match
+    // sides when we have the team_id handy.
+    for (const m of matches) {
+      for (const side of [m.home, m.away]) {
+        for (const entry of byPlayer.values()) {
+          if (entry.team_id && String(entry.team_id) === String(side.id)) {
+            if (!entry.flag && side.flag) entry.flag = side.flag;
+            if (!entry.team_zh && side.name_zh) entry.team_zh = side.name_zh;
+          }
+        }
+      }
+    }
+
+    // Materialize — promote Set to count, freeze, sort by goals desc.
+    const out = [];
+    for (const e of byPlayer.values()) {
+      out.push({
+        player: e.player,
+        team_id: e.team_id,
+        team_name: e.team_name,
+        team_zh: e.team_zh,
+        flag: e.flag,
+        goals: e.goals,
+        assists: e.assists,
+        penalty_kicks: e.penalty_kicks,
+        matches_played: e.matches.size,
+        minutes: e.minutes,
+      });
+    }
+    out.sort((a, b) => (b.goals - a.goals) || (b.assists - a.assists) || a.player.localeCompare(b.player));
+    return out;
+  }
+
+  function renderScorers() {
+    const content = $("#content");
+    content.innerHTML = "";
+    const countEl = $("#result-count");
+    if (countEl) countEl.textContent = "";
+
+    const wrap = document.createElement("section");
+    wrap.className = "scorers-section";
+    const head = document.createElement("header");
+    head.className = "scorers-head";
+    head.innerHTML = `<h2 class="scorers-title">${escapeHtml(t("scorers.title"))}</h2>
+      <p class="scorers-hint">${escapeHtml(t("scorers.hint"))}</p>`;
+    wrap.appendChild(head);
+
+    const grid = document.createElement("div");
+    grid.className = "scorers-grid";
+
+    // Pane 1 — current tournament (live)
+    const current = aggregateCurrentScorers(allMatches || []);
+    grid.appendChild(buildScorerPane("current", t("scorers.section.current"), current, /*limit*/ 20, /*kind*/ "current"));
+
+    // Pane 2 — all-time (static)
+    const history = (allData && allData.scorers_history) || [];
+    grid.appendChild(buildScorerPane("alltime", t("scorers.section.alltime"), history, /*limit*/ 25, /*kind*/ "alltime"));
+
+    wrap.appendChild(grid);
+
+    const note = document.createElement("p");
+    note.className = "scorers-notes";
+    note.textContent = t("scorers.notes");
+    wrap.appendChild(note);
+
+    content.appendChild(wrap);
+  }
+
+  function buildScorerPane(kind, title, rows, limit, rowKind) {
+    const card = document.createElement("div");
+    card.className = `scorer-card scorer-card--${kind}`;
+
+    const head = document.createElement("header");
+    head.className = "scorer-head";
+    head.innerHTML = `<span class="scorer-pane-title">${escapeHtml(title)}</span>
+      <span class="scorer-pane-count">${rows.length}</span>`;
+    card.appendChild(head);
+
+    const isEmpty = rows.length === 0;
+    if (isEmpty) {
+      const empty = document.createElement("div");
+      empty.className = "empty";
+      const key = kind === "current" ? "scorers.empty.current" : "scorers.empty.alltime";
+      empty.innerHTML = `<div>${escapeHtml(t(key))}</div>`;
+      card.appendChild(empty);
+      return card;
+    }
+
+    const table = document.createElement("table");
+    table.className = "scorer-table";
+    const isCurrent = rowKind === "current";
+    table.innerHTML = `
+      <thead>
+        <tr>
+          <th class="col-num">#</th>
+          <th class="col-player">${escapeHtml(t("scorers.col.player"))}</th>
+          ${isCurrent
+            ? `<th class="col-team">${escapeHtml(t("scorers.col.team"))}</th>
+               <th class="col-num col-mp" title="${escapeHtml(t("scorers.col.mp"))}">${escapeHtml(t("scorers.col.mp"))}</th>
+               <th class="col-num col-a" title="${escapeHtml(t("scorers.col.assists"))}">${escapeHtml(t("scorers.col.assists"))}</th>
+               <th class="col-num col-pk" title="${escapeHtml(t("scorers.col.penalties"))}">${escapeHtml(t("scorers.col.penalties"))}</th>`
+            : `<th class="col-team">${escapeHtml(t("scorers.col.country"))}</th>
+               <th class="col-num col-tours" title="${escapeHtml(t("scorers.col.tournaments"))}">${escapeHtml(t("scorers.col.tournaments"))}</th>
+               <th class="col-span" title="${escapeHtml(t("scorers.col.span"))}">${escapeHtml(t("scorers.col.span"))}</th>`}
+          <th class="col-num col-goals" title="${escapeHtml(t("scorers.col.goals"))}">${escapeHtml(t("scorers.col.goals"))}</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    `;
+    const tbody = table.querySelector("tbody");
+    const maxGoals = rows.length ? (rows[0].goals || 0) : 0;
+    rows.slice(0, limit).forEach((r, i) => {
+      const tr = document.createElement("tr");
+      if (r.goals === maxGoals && maxGoals > 0) tr.classList.add("is-leader");
+      const rank = r.rank || (i + 1);
+      const playerName = isCurrent
+        ? (currentLang === "zh" ? r.player : r.player)  // ESPN only ships English player names; keep as-is
+        : (currentLang === "zh" && r.player_zh ? r.player_zh : r.player);
+      const teamName = isCurrent
+        ? (currentLang === "zh" && r.team_zh ? r.team_zh : r.team_name)
+        : (currentLang === "zh" && r.country_zh ? r.country_zh : r.country);
+      const flag = r.flag || "🏳️";
+      if (isCurrent) {
+        tr.innerHTML = `
+          <td class="col-num col-rank"><span class="rank-num">${rank}</span></td>
+          <td class="col-player"><span class="player-name">${escapeHtml(playerName || "—")}</span></td>
+          <td class="col-team">
+            <span class="team-flag">${escapeHtml(flag)}</span>
+            <span class="team-short">${escapeHtml(teamName || "—")}</span>
+          </td>
+          <td class="col-num">${r.matches_played || 0}</td>
+          <td class="col-num">${r.assists || 0}</td>
+          <td class="col-num ${r.penalty_kicks ? "is-pk" : ""}">${r.penalty_kicks || 0}</td>
+          <td class="col-num col-goals"><strong>${r.goals || 0}</strong></td>
+        `;
+      } else {
+        const tours = (r.tournaments || []).join(" · ");
+        tr.innerHTML = `
+          <td class="col-num col-rank"><span class="rank-num">${rank}</span></td>
+          <td class="col-player"><span class="player-name">${escapeHtml(playerName || "—")}</span></td>
+          <td class="col-team">
+            <span class="team-flag">${escapeHtml(flag)}</span>
+            <span class="team-short">${escapeHtml(teamName || "—")}</span>
+          </td>
+          <td class="col-num col-tours">${escapeHtml(tours)}</td>
+          <td class="col-span">${escapeHtml(r.span || "")}</td>
+          <td class="col-num col-goals"><strong>${r.goals || 0}</strong></td>
+        `;
+      }
+      tbody.appendChild(tr);
+    });
+    card.appendChild(table);
+    return card;
+  }
+
+
   function renderDayList(content, matches) {
     const groups = groupByDay(matches);
     for (const group of groups) {
@@ -1003,6 +1281,13 @@
     const section = $("#bracket-section");
     const container = $("#bracket-butterfly");
     if (!section || !container) return;
+    // The bracket is only relevant alongside the match list. The
+    // scorers view treats the bracket as out of scope; standings
+    // keeps the existing "bracket below standings" behavior.
+    if (currentView === "scorers") {
+      section.hidden = true;
+      return;
+    }
     const stages = ["round-of-32", "round-of-16", "quarterfinals", "semifinals"];
     const hasKOs = allMatches.some((m) => m.stage_slug && stages.includes(m.stage_slug));
     if (!hasKOs) {
@@ -1459,7 +1744,7 @@
   function loadView() {
     try {
       const raw = localStorage.getItem(VIEW_KEY);
-      if (raw === "standings" || raw === "matches") return raw;
+      if (raw === "standings" || raw === "matches" || raw === "scorers") return raw;
     } catch { /* ignore */ }
     return "matches";
   }
@@ -1467,12 +1752,18 @@
     try { localStorage.setItem(VIEW_KEY, v); } catch { /* ignore */ }
   }
   function setView(v) {
-    currentView = (v === "standings") ? "standings" : "matches";
+    if (v === "standings" || v === "scorers" || v === "matches") currentView = v;
     saveView(currentView);
     updateViewPills();
-    // Hide filters when in standings view
+    // Hide filters in any non-match view (standings, scorers).
     const filterEl = $("#filters");
-    if (filterEl) filterEl.hidden = currentView === "standings";
+    if (filterEl) filterEl.hidden = currentView !== "matches";
+    // The knockout bracket only makes sense next to the match list.
+    // Hide it on the scorers view (alternate view, not a supplement
+    // to the match list). Standings keeps the bracket below it for
+    // backwards compatibility.
+    const bracketEl = $("#bracket-section");
+    if (bracketEl && currentView === "scorers") bracketEl.hidden = true;
     if (allData) render();
   }
   function updateViewPills() {
@@ -1577,10 +1868,14 @@
     updateLangPills();
     updateViewPills();
     updateVenueTrigger();
-    // Apply persisted view (hide filters if standings)
-    if (currentView === "standings") {
+    // Apply persisted view (hide filters if standings or scorers)
+    if (currentView !== "matches") {
       const filterEl = $("#filters");
       if (filterEl) filterEl.hidden = true;
+      if (currentView === "scorers") {
+        const bracketEl = $("#bracket-section");
+        if (bracketEl) bracketEl.hidden = true;
+      }
     }
 
     $("#refresh-btn").addEventListener("click", async () => {
