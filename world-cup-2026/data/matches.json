@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-17T10:22:49.436663+00:00",
+  "generated_at": "2026-06-17T18:16:30.350880+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-17T05:22:47.735870-05:00",
+  "now_local": "2026-06-17T13:16:27.864855-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -4488,7 +4488,7 @@
               "team_side": "home",
               "player": "Lamine Yamal",
               "text": "Substitution, Spain. Lamine Yamal replaces Gavi.",
-              "player_off": "Gavi"
+              "player_off": "Gavi "
             },
             {
               "kind": "substitution",
@@ -4528,7 +4528,7 @@
               "team_side": "home",
               "player": "Nico Williams",
               "text": "Substitution, Spain. Nico Williams replaces Rodri.",
-              "player_off": "Rodri"
+              "player_off": "Rodri "
             },
             {
               "kind": "yellow_card",
@@ -4536,7 +4536,7 @@
               "team": "Spain",
               "team_id": "164",
               "team_side": "home",
-              "player": "Pedri",
+              "player": "Pedri ",
               "text": "Pedri (Spain) is shown the yellow card for a bad foul."
             }
           ]
@@ -4829,7 +4829,7 @@
               "team": "Uruguay",
               "team_id": "212",
               "team_side": "away",
-              "player": "Agustín Canobbio",
+              "player": "Agustín Cano",
               "text": "Substitution, Uruguay. Agustín Canobbio replaces Darwin Núñez.",
               "player_off": "Darwin Núñez"
             },
@@ -5873,8 +5873,8 @@
           "kickoff_local_date": "2026-06-17",
           "kickoff_time": "12:00 PM",
           "kickoff_weekday": "Wed",
-          "status": "SCHEDULED",
-          "status_short": "Scheduled",
+          "status": "LIVE",
+          "status_short": "53'",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -5888,7 +5888,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/por.png",
             "color": "da291c",
             "home_away": "home",
-            "score": 0,
+            "score": 1,
             "winner": false
           },
           "away": {
@@ -5902,7 +5902,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/rdc.png",
             "color": "418fde",
             "home_away": "away",
-            "score": 0,
+            "score": 1,
             "winner": false
           },
           "venue": {
@@ -5915,9 +5915,59 @@
             "Tele",
             "Peacock"
           ],
-          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760435/congo-dr-portugal",
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760435/congo dr-portugal",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Portugal%20vs%20Congo%20DR",
-          "slug": "congo dr-at-portugal"
+          "slug": "congo dr-at-portugal",
+          "incidents": [
+            {
+              "kind": "goal",
+              "minute": "6'",
+              "team": "Portugal",
+              "team_id": "482",
+              "team_side": "home",
+              "player": "João Neves",
+              "text": "Goal! Portugal 1, Congo DR 0. João Neves (Portugal) header from the centre of the box to the bottom right corner. Assisted by Pedro Neto with a cross.",
+              "assist": "Pedro Neto"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "13'",
+              "team": "Portugal",
+              "team_id": "482",
+              "team_side": "home",
+              "player": "Bernardo Silva",
+              "text": "Bernardo Silva (Portugal) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "32'",
+              "team": "Congo DR",
+              "team_id": "2850",
+              "team_side": "away",
+              "player": "Chancel Mbemba",
+              "text": "Chancel Mbemba (Congo DR) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "goal",
+              "minute": "45'+5'",
+              "team": "Congo DR",
+              "team_id": "2850",
+              "team_side": "away",
+              "player": "Yoane Wissa",
+              "text": "Goal! Portugal 1, Congo DR 1. Yoane Wissa (Congo DR) header from very close range to the top left corner. Assisted by Arthur Masuaku with a cross following a corner.",
+              "assist": "Arthur Masuaku"
+            },
+            {
+              "kind": "substitution",
+              "minute": "45'",
+              "team": "Portugal",
+              "team_id": "482",
+              "team_side": "home",
+              "player": "Francisco Conceição",
+              "text": "Substitution, Portugal. Francisco Conceição replaces Bernardo Silva.",
+              "player_off": "Bernardo Silva"
+            }
+          ]
         },
         {
           "id": "760437",
