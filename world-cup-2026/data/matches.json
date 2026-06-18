@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-18T00:16:17.695000+00:00",
+  "generated_at": "2026-06-18T02:53:46.109906+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-17T19:16:15.820965-05:00",
+  "now_local": "2026-06-17T21:53:44.011398-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -1841,14 +1841,14 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/gha.png"
           },
           "rank": 2,
-          "mp": 0,
-          "w": 0,
+          "mp": 1,
+          "w": 1,
           "d": 0,
           "l": 0,
-          "gf": 0,
+          "gf": 1,
           "ga": 0,
-          "gd": 0,
-          "pts": 0,
+          "gd": 1,
+          "pts": 3,
           "advance": false,
           "advance_label": "Advance to Round of 32",
           "advance_color": "#81D6AC"
@@ -1865,13 +1865,13 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/pan.png"
           },
           "rank": 3,
-          "mp": 0,
+          "mp": 1,
           "w": 0,
           "d": 0,
-          "l": 0,
+          "l": 1,
           "gf": 0,
-          "ga": 0,
-          "gd": 0,
+          "ga": 1,
+          "gd": -1,
           "pts": 0,
           "advance": false,
           "advance_label": "Best 8 advance",
@@ -5721,8 +5721,7 @@
           },
           "broadcasts": [
             "FS1",
-            "Tele",
-            "Peacock"
+            "Tele"
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760431/jordan-austria",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Austria%20vs%20Jordan",
@@ -6226,19 +6225,19 @@
               "team": "Croatia",
               "team_id": "477",
               "team_side": "away",
-              "player": "Nikola Vlasic",
-              "text": "Substitution, Croatia. Nikola Vlasic replaces Martin Baturina.",
-              "player_off": "Martin Baturina"
-            },
-            {
-              "kind": "substitution",
-              "minute": "79'",
-              "team": "Croatia",
-              "team_id": "477",
-              "team_side": "away",
               "player": "Andrej Kramaric",
               "text": "Substitution, Croatia. Andrej Kramaric replaces Mario Pasalic.",
               "player_off": "Mario Pasalic"
+            },
+            {
+              "kind": "substitution",
+              "minute": "78'",
+              "team": "Croatia",
+              "team_id": "477",
+              "team_side": "away",
+              "player": "Nikola Vlasic",
+              "text": "Substitution, Croatia. Nikola Vlasic replaces Martin Baturina.",
+              "player_off": "Martin Baturina"
             },
             {
               "kind": "substitution",
@@ -6279,8 +6278,8 @@
           "kickoff_local_date": "2026-06-17",
           "kickoff_time": "6:00 PM",
           "kickoff_weekday": "Wed",
-          "status": "LIVE",
-          "status_short": "54'",
+          "status": "FINAL",
+          "status_short": "FT",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -6294,7 +6293,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/gha.png",
             "color": "fbd632",
             "home_away": "home",
-            "score": 0,
+            "score": 1,
             "winner": false
           },
           "away": {
@@ -6319,7 +6318,7 @@
           "broadcasts": [
             "FS1",
             "Tele",
-            "Peacock"
+            "FOX One"
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760434/panama-ghana",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Ghana%20vs%20Panama",
@@ -6343,6 +6342,114 @@
               "player": "Benjamin Asare",
               "text": "Substitution, Ghana. Benjamin Asare replaces Lawrence Ati Zigi because of an injury.",
               "player_off": "Lawrence Ati Zigi"
+            },
+            {
+              "kind": "substitution",
+              "minute": "58'",
+              "team": "Ghana",
+              "team_id": "4469",
+              "team_side": "home",
+              "player": "Brandon Thomas-Asante",
+              "text": "Substitution, Ghana. Brandon Thomas-Asante replaces Kamaldeen Sulemana.",
+              "player_off": "Kamaldeen Sulemana"
+            },
+            {
+              "kind": "substitution",
+              "minute": "58'",
+              "team": "Ghana",
+              "team_id": "4469",
+              "team_side": "home",
+              "player": "Fatawu Issahaku",
+              "text": "Substitution, Ghana. Abdul Fatawu replaces Ernest Nuamah.",
+              "player_off": "Ernest Nuamah"
+            },
+            {
+              "kind": "substitution",
+              "minute": "63'",
+              "team": "Panama",
+              "team_id": "2659",
+              "team_side": "away",
+              "player": "José Fajardo",
+              "text": "Substitution, Panama. José Fajardo replaces Cecilio Waterman.",
+              "player_off": "Cecilio Waterman"
+            },
+            {
+              "kind": "substitution",
+              "minute": "63'",
+              "team": "Panama",
+              "team_id": "2659",
+              "team_side": "away",
+              "player": "Azarias Londoño",
+              "text": "Substitution, Panama. Azarías Londoño replaces Cristian Martínez.",
+              "player_off": "Cristian Martínez"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "72'",
+              "team": "Panama",
+              "team_id": "2659",
+              "team_side": "away",
+              "player": "César Blackman",
+              "text": "César Blackman (Panama) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "substitution",
+              "minute": "74'",
+              "team": "Panama",
+              "team_id": "2659",
+              "team_side": "away",
+              "player": "Ismael Díaz",
+              "text": "Substitution, Panama. Ismael Díaz replaces José Luis Rodríguez.",
+              "player_off": "José Luis Rodríguez"
+            },
+            {
+              "kind": "substitution",
+              "minute": "78'",
+              "team": "Ghana",
+              "team_id": "4469",
+              "team_side": "home",
+              "player": "Kwasi Sibo",
+              "text": "Substitution, Ghana. Kwasi Sibo replaces Elisha Owusu.",
+              "player_off": "Elisha Owusu"
+            },
+            {
+              "kind": "substitution",
+              "minute": "87'",
+              "team": "Ghana",
+              "team_id": "4469",
+              "team_side": "home",
+              "player": "Prince Adu",
+              "text": "Substitution, Ghana. Prince Adu replaces Jordan Ayew.",
+              "player_off": "Jordan Ayew"
+            },
+            {
+              "kind": "substitution",
+              "minute": "90'",
+              "team": "Panama",
+              "team_id": "2659",
+              "team_side": "away",
+              "player": "Aníbal Godoy",
+              "text": "Substitution, Panama. Aníbal Godoy replaces César Blackman.",
+              "player_off": "César Blackman"
+            },
+            {
+              "kind": "goal",
+              "minute": "90'+5'",
+              "team": "Ghana",
+              "team_id": "4469",
+              "team_side": "home",
+              "player": "Caleb Yirenkyi",
+              "text": "Goal! Ghana 1, Panama 0. Caleb Yirenkyi (Ghana) right footed shot from very close range to the top right corner following a fast break.",
+              "assist": "Brandon Thomas-Asante"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "90'+9'",
+              "team": "Panama",
+              "team_id": "2659",
+              "team_side": "away",
+              "player": "Carlos Harvey",
+              "text": "Carlos Harvey (Panama) is shown the yellow card for a bad foul."
             }
           ]
         },
@@ -6393,7 +6500,7 @@
           "broadcasts": [
             "FS1",
             "Tele",
-            "Peacock"
+            "FOX One"
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760436/colombia-uzbekistan",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Uzbekistan%20vs%20Colombia",
@@ -6453,7 +6560,7 @@
           "broadcasts": [
             "FOX",
             "Tele",
-            "Peacock"
+            "FOX One"
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760438/south-africa-czechia",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Czechia%20vs%20South%20Africa",
@@ -6506,7 +6613,7 @@
           "broadcasts": [
             "FOX",
             "Tele",
-            "Peacock"
+            "FOX One"
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760439/bosnia-herzegovina-switzerland",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Switzerland%20vs%20Bosnia-Herzegovina",
@@ -6559,7 +6666,7 @@
           "broadcasts": [
             "FS1",
             "Tele",
-            "Peacock"
+            "FOX One"
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760440/qatar-canada",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Canada%20vs%20Qatar",
@@ -6612,7 +6719,7 @@
           "broadcasts": [
             "FOX",
             "Tele",
-            "Peacock"
+            "FOX One"
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760441/south-korea-mexico",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Mexico%20vs%20South%20Korea",
@@ -6672,7 +6779,7 @@
           "broadcasts": [
             "FOX",
             "Tele",
-            "Peacock"
+            "FOX One"
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760442/australia-united-states",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20United%20States%20vs%20Australia",
@@ -6725,7 +6832,7 @@
           "broadcasts": [
             "FOX",
             "Tele",
-            "Peacock"
+            "FOX One"
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760445/morocco-scotland",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Scotland%20vs%20Morocco",
@@ -6778,7 +6885,7 @@
           "broadcasts": [
             "FOX",
             "Tele",
-            "Peacock"
+            "FOX One"
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760444/haiti-brazil",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Brazil%20vs%20Haiti",
@@ -6831,7 +6938,7 @@
           "broadcasts": [
             "FS1",
             "Tele",
-            "Peacock"
+            "FOX One"
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760443/paraguay-turkiye",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20T%C3%BCrkiye%20vs%20Paraguay",
@@ -6891,7 +6998,7 @@
           "broadcasts": [
             "FOX",
             "Tele",
-            "Peacock"
+            "FOX One"
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760447/sweden-netherlands",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Netherlands%20vs%20Sweden",
@@ -6944,7 +7051,7 @@
           "broadcasts": [
             "FOX",
             "Tele",
-            "Peacock"
+            "FOX One"
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760448/ivory-coast-germany",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Germany%20vs%20Ivory%20Coast",
@@ -6997,7 +7104,7 @@
           "broadcasts": [
             "FS1",
             "Tele",
-            "Peacock"
+            "FOX One"
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760446/curacao-ecuador",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Ecuador%20vs%20Cura%C3%A7ao",
@@ -7050,7 +7157,7 @@
           "broadcasts": [
             "FS1",
             "Tele",
-            "Peacock"
+            "FOX One"
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760449/japan-tunisia",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Tunisia%20vs%20Japan",
@@ -7110,7 +7217,7 @@
           "broadcasts": [
             "FOX",
             "Tele",
-            "Peacock"
+            "FOX One"
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760453/saudi-arabia-spain",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Spain%20vs%20Saudi%20Arabia",
@@ -7163,7 +7270,7 @@
           "broadcasts": [
             "FS1",
             "Tele",
-            "Peacock"
+            "FOX One"
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760451/iran-belgium",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Belgium%20vs%20Iran",
@@ -7216,7 +7323,7 @@
           "broadcasts": [
             "FS1",
             "Tele",
-            "Peacock"
+            "FOX One"
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760450/cape-verde-uruguay",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Uruguay%20vs%20Cape%20Verde",
@@ -7269,7 +7376,7 @@
           "broadcasts": [
             "FS1",
             "Tele",
-            "Peacock"
+            "FOX One"
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760452/egypt-new-zealand",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20New%20Zealand%20vs%20Egypt",
@@ -7329,7 +7436,7 @@
           "broadcasts": [
             "FOX",
             "Tele",
-            "Peacock"
+            "FOX One"
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760456/austria-argentina",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Argentina%20vs%20Austria",
@@ -7382,7 +7489,7 @@
           "broadcasts": [
             "FOX",
             "Tele",
-            "Peacock"
+            "FOX One"
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760457/iraq-france",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20France%20vs%20Iraq",
@@ -7435,7 +7542,7 @@
           "broadcasts": [
             "FOX",
             "Tele",
-            "Peacock"
+            "FOX One"
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760454/senegal-norway",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Norway%20vs%20Senegal",
@@ -7488,7 +7595,7 @@
           "broadcasts": [
             "FS1",
             "Tele",
-            "Peacock"
+            "FOX One"
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760455/algeria-jordan",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Jordan%20vs%20Algeria",
@@ -7548,7 +7655,7 @@
           "broadcasts": [
             "FOX",
             "Tele",
-            "Peacock"
+            "FOX One"
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760461/uzbekistan-portugal",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Portugal%20vs%20Uzbekistan",
@@ -7601,7 +7708,7 @@
           "broadcasts": [
             "FOX",
             "Tele",
-            "Peacock"
+            "FOX One"
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760458/ghana-england",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20England%20vs%20Ghana",
@@ -7654,7 +7761,7 @@
           "broadcasts": [
             "FOX",
             "Tele",
-            "Peacock"
+            "FOX One"
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760460/croatia-panama",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Panama%20vs%20Croatia",
@@ -7707,7 +7814,7 @@
           "broadcasts": [
             "FS1",
             "Tele",
-            "Peacock"
+            "FOX One"
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760459/congo-dr-colombia",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Colombia%20vs%20Congo%20DR",
@@ -7767,7 +7874,7 @@
           "broadcasts": [
             "FS1",
             "Tele",
-            "Peacock"
+            "FOX One"
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760462/qatar-bosnia-herzegovina",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Bosnia-Herzegovina%20vs%20Qatar",
@@ -7820,7 +7927,7 @@
           "broadcasts": [
             "FOX",
             "Tele",
-            "Peacock"
+            "FOX One"
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760463/canada-switzerland",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Switzerland%20vs%20Canada",
@@ -7873,7 +7980,7 @@
           "broadcasts": [
             "FS1",
             "Tele",
-            "Peacock"
+            "FOX One"
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760464/haiti-morocco",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Morocco%20vs%20Haiti",
@@ -7926,7 +8033,7 @@
           "broadcasts": [
             "FOX",
             "Tele",
-            "Peacock"
+            "FOX One"
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760465/brazil-scotland",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Scotland%20vs%20Brazil",
@@ -7979,7 +8086,7 @@
           "broadcasts": [
             "FOX",
             "Tele",
-            "Peacock"
+            "FOX One"
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760467/mexico-czechia",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Czechia%20vs%20Mexico",
@@ -8032,7 +8139,7 @@
           "broadcasts": [
             "FS1",
             "Tele",
-            "Peacock"
+            "FOX One"
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760466/south-korea-south-africa",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20South%20Africa%20vs%20South%20Korea",
@@ -8092,7 +8199,7 @@
           "broadcasts": [
             "FS1",
             "Tele",
-            "Peacock"
+            "FOX One"
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760473/ivory-coast-curacao",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Cura%C3%A7ao%20vs%20Ivory%20Coast",
@@ -8145,7 +8252,7 @@
           "broadcasts": [
             "FOX",
             "Tele",
-            "Peacock"
+            "FOX One"
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760468/germany-ecuador",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Ecuador%20vs%20Germany",
@@ -8198,7 +8305,7 @@
           "broadcasts": [
             "FS1",
             "Tele",
-            "Peacock"
+            "FOX One"
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760471/sweden-japan",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Japan%20vs%20Sweden",
@@ -8251,7 +8358,7 @@
           "broadcasts": [
             "FOX",
             "Tele",
-            "Peacock"
+            "FOX One"
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760472/netherlands-tunisia",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Tunisia%20vs%20Netherlands",
@@ -8304,7 +8411,7 @@
           "broadcasts": [
             "FS1",
             "Tele",
-            "Peacock"
+            "FOX One"
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760469/australia-paraguay",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Paraguay%20vs%20Australia",
@@ -8357,7 +8464,7 @@
           "broadcasts": [
             "FOX",
             "Tele",
-            "Peacock"
+            "FOX One"
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760470/united-states-turkiye",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20T%C3%BCrkiye%20vs%20United%20States",
@@ -8417,7 +8524,7 @@
           "broadcasts": [
             "FOX",
             "Tele",
-            "Peacock"
+            "FOX One"
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760475/france-norway",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Norway%20vs%20France",
@@ -8470,7 +8577,7 @@
           "broadcasts": [
             "FS1",
             "Tele",
-            "Peacock"
+            "FOX One"
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760474/iraq-senegal",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Senegal%20vs%20Iraq",
@@ -8523,7 +8630,7 @@
           "broadcasts": [
             "FS1",
             "Tele",
-            "Peacock"
+            "FOX One"
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760478/saudi-arabia-cape-verde",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Cape%20Verde%20vs%20Saudi%20Arabia",
@@ -8576,7 +8683,7 @@
           "broadcasts": [
             "FOX",
             "Tele",
-            "Peacock"
+            "FOX One"
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760479/spain-uruguay",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Uruguay%20vs%20Spain",
@@ -8629,7 +8736,7 @@
           "broadcasts": [
             "FS1",
             "Tele",
-            "Peacock"
+            "FOX One"
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760476/iran-egypt",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Egypt%20vs%20Iran",
@@ -8682,7 +8789,7 @@
           "broadcasts": [
             "FOX",
             "Tele",
-            "Peacock"
+            "FOX One"
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760477/belgium-new-zealand",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20New%20Zealand%20vs%20Belgium",
@@ -8742,7 +8849,7 @@
           "broadcasts": [
             "FS1",
             "Tele",
-            "Peacock"
+            "FOX One"
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760480/ghana-croatia",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Croatia%20vs%20Ghana",
@@ -8795,7 +8902,7 @@
           "broadcasts": [
             "FOX",
             "Tele",
-            "Peacock"
+            "FOX One"
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760485/england-panama",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Panama%20vs%20England",
@@ -8848,7 +8955,7 @@
           "broadcasts": [
             "FOX",
             "Tele",
-            "Peacock"
+            "FOX One"
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760481/portugal-colombia",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Colombia%20vs%20Portugal",
@@ -8901,7 +9008,7 @@
           "broadcasts": [
             "FS1",
             "Tele",
-            "Peacock"
+            "FOX One"
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760482/uzbekistan-congo-dr",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Congo%20DR%20vs%20Uzbekistan",
@@ -8954,7 +9061,7 @@
           "broadcasts": [
             "FS1",
             "Tele",
-            "Peacock"
+            "FOX One"
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760484/austria-algeria",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Algeria%20vs%20Austria",
@@ -9007,7 +9114,7 @@
           "broadcasts": [
             "FOX",
             "Tele",
-            "Peacock"
+            "FOX One"
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760483/argentina-jordan",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Jordan%20vs%20Argentina",
@@ -9067,7 +9174,7 @@
           "broadcasts": [
             "FOX",
             "Tele",
-            "Peacock"
+            "FOX One"
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760486/group-b-2nd-place-group-a-2nd-place",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Group%20A%202nd%20Place%20vs%20Group%20B%202nd%20Place",
@@ -9127,7 +9234,7 @@
           "broadcasts": [
             "FOX",
             "Tele",
-            "Peacock"
+            "FOX One"
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760487/group-f-2nd-place-group-c-winner",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Group%20C%20Winner%20vs%20Group%20F%202nd%20Place",
@@ -9180,7 +9287,7 @@
           "broadcasts": [
             "FOX",
             "Tele",
-            "Peacock"
+            "FOX One"
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760489/third-place-group-abcdf-group-e-winner",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Group%20E%20Winner%20vs%20Third%20Place%20Group%20A/B/C/D/F",
@@ -9233,7 +9340,7 @@
           "broadcasts": [
             "FOX",
             "Tele",
-            "Peacock"
+            "FOX One"
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760488/group-c-2nd-place-group-f-winner",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Group%20F%20Winner%20vs%20Group%20C%202nd%20Place",
@@ -9293,7 +9400,7 @@
           "broadcasts": [
             "FOX",
             "Tele",
-            "Peacock"
+            "FOX One"
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760490/group-i-2nd-place-group-e-2nd-place",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Group%20E%202nd%20Place%20vs%20Group%20I%202nd%20Place",
@@ -9346,7 +9453,7 @@
           "broadcasts": [
             "FOX",
             "Tele",
-            "Peacock"
+            "FOX One"
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760492/third-place-group-cdfgh-group-i-winner",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Group%20I%20Winner%20vs%20Third%20Place%20Group%20C/D/F/G/H",
@@ -9399,7 +9506,7 @@
           "broadcasts": [
             "FOX",
             "Tele",
-            "Peacock"
+            "FOX One"
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760491/third-place-group-cefhi-group-a-winner",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Group%20A%20Winner%20vs%20Third%20Place%20Group%20C/E/F/H/I",
@@ -9459,7 +9566,7 @@
           "broadcasts": [
             "FOX",
             "Tele",
-            "Peacock"
+            "FOX One"
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760495/third-place-group-ehijk-group-l-winner",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Group%20L%20Winner%20vs%20Third%20Place%20Group%20E/H/I/J/K",
@@ -9512,7 +9619,7 @@
           "broadcasts": [
             "FS1",
             "Tele",
-            "Peacock"
+            "FOX One"
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760493/third-place-group-aehij-group-g-winner",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Group%20G%20Winner%20vs%20Third%20Place%20Group%20A/E/H/I/J",
@@ -9565,7 +9672,7 @@
           "broadcasts": [
             "FOX",
             "Tele",
-            "Peacock"
+            "FOX One"
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760494/third-place-group-befij-group-d-winner",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Group%20D%20Winner%20vs%20Third%20Place%20Group%20B/E/F/I/J",
@@ -9625,7 +9732,7 @@
           "broadcasts": [
             "FOX",
             "Tele",
-            "Peacock"
+            "FOX One"
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760497/group-j-2nd-place-group-h-winner",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Group%20H%20Winner%20vs%20Group%20J%202nd%20Place",
@@ -9678,7 +9785,7 @@
           "broadcasts": [
             "FOX",
             "Tele",
-            "Peacock"
+            "FOX One"
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760496/group-l-2nd-place-group-k-2nd-place",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Group%20K%202nd%20Place%20vs%20Group%20L%202nd%20Place",
@@ -9731,7 +9838,7 @@
           "broadcasts": [
             "FS1",
             "Tele",
-            "Peacock"
+            "FOX One"
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760498/third-place-group-efgij-group-b-winner",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Group%20B%20Winner%20vs%20Third%20Place%20Group%20E/F/G/I/J",
@@ -9791,7 +9898,7 @@
           "broadcasts": [
             "FOX",
             "Tele",
-            "Peacock"
+            "FOX One"
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760499/group-g-2nd-place-group-d-2nd-place",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Group%20D%202nd%20Place%20vs%20Group%20G%202nd%20Place",
@@ -9844,7 +9951,7 @@
           "broadcasts": [
             "FOX",
             "Tele",
-            "Peacock"
+            "FOX One"
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760500/group-h-2nd-place-group-j-winner",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Group%20J%20Winner%20vs%20Group%20H%202nd%20Place",
@@ -9897,7 +10004,7 @@
           "broadcasts": [
             "FOX",
             "Tele",
-            "Peacock"
+            "FOX One"
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760501/third-place-group-deijl-group-k-winner",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Group%20K%20Winner%20vs%20Third%20Place%20Group%20D/E/I/J/L",
@@ -9957,7 +10064,7 @@
           "broadcasts": [
             "FOX",
             "Tele",
-            "Peacock"
+            "FOX One"
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760502/round-of-32-3-winner-round-of-32-1-winner",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Round%20of%2032%201%20Winner%20vs%20Round%20of%2032%203%20Winner",
@@ -10010,7 +10117,7 @@
           "broadcasts": [
             "FOX",
             "Tele",
-            "Peacock"
+            "FOX One"
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760503/round-of-32-5-winner-round-of-32-2-winner",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Round%20of%2032%202%20Winner%20vs%20Round%20of%2032%205%20Winner",
@@ -10070,7 +10177,7 @@
           "broadcasts": [
             "FOX",
             "Tele",
-            "Peacock"
+            "FOX One"
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760504/round-of-32-6-winner-round-of-32-4-winner",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Round%20of%2032%204%20Winner%20vs%20Round%20of%2032%206%20Winner",
@@ -10123,7 +10230,7 @@
           "broadcasts": [
             "FOX",
             "Tele",
-            "Peacock"
+            "FOX One"
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760505/round-of-32-8-winner-round-of-32-7-winner",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Round%20of%2032%207%20Winner%20vs%20Round%20of%2032%208%20Winner",
@@ -10183,7 +10290,7 @@
           "broadcasts": [
             "FOX",
             "Tele",
-            "Peacock"
+            "FOX One"
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760506/round-of-32-12-winner-round-of-32-11-winner",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Round%20of%2032%2011%20Winner%20vs%20Round%20of%2032%2012%20Winner",
@@ -10236,7 +10343,7 @@
           "broadcasts": [
             "FOX",
             "Tele",
-            "Peacock"
+            "FOX One"
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760507/round-of-32-10-winner-round-of-32-9-winner",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Round%20of%2032%209%20Winner%20vs%20Round%20of%2032%2010%20Winner",
@@ -10296,7 +10403,7 @@
           "broadcasts": [
             "FOX",
             "Tele",
-            "Peacock"
+            "FOX One"
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760509/round-of-32-16-winner-round-of-32-14-winner",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Round%20of%2032%2014%20Winner%20vs%20Round%20of%2032%2016%20Winner",
@@ -10349,7 +10456,7 @@
           "broadcasts": [
             "FOX",
             "Tele",
-            "Peacock"
+            "FOX One"
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760508/round-of-32-15-winner-round-of-32-13-winner",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Round%20of%2032%2013%20Winner%20vs%20Round%20of%2032%2015%20Winner",
@@ -10409,7 +10516,7 @@
           "broadcasts": [
             "FOX",
             "Tele",
-            "Peacock"
+            "FOX One"
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760510/round-of-16-2-winner-round-of-16-1-winner",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Round%20of%2016%201%20Winner%20vs%20Round%20of%2016%202%20Winner",
@@ -10469,7 +10576,7 @@
           "broadcasts": [
             "FOX",
             "Tele",
-            "Peacock"
+            "FOX One"
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760511/round-of-16-6-winner-round-of-16-5-winner",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Round%20of%2016%205%20Winner%20vs%20Round%20of%2016%206%20Winner",
@@ -10529,7 +10636,7 @@
           "broadcasts": [
             "FOX",
             "Tele",
-            "Peacock"
+            "FOX One"
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760512/round-of-16-4-winner-round-of-16-3-winner",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Round%20of%2016%203%20Winner%20vs%20Round%20of%2016%204%20Winner",
@@ -10582,7 +10689,7 @@
           "broadcasts": [
             "FOX",
             "Tele",
-            "Peacock"
+            "FOX One"
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760513/round-of-16-8-winner-round-of-16-7-winner",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Round%20of%2016%207%20Winner%20vs%20Round%20of%2016%208%20Winner",
@@ -10642,7 +10749,7 @@
           "broadcasts": [
             "FOX",
             "Tele",
-            "Peacock"
+            "FOX One"
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760514/quarterfinal-2-winner-quarterfinal-1-winner",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Quarterfinal%201%20Winner%20vs%20Quarterfinal%202%20Winner",
@@ -10702,7 +10809,7 @@
           "broadcasts": [
             "FOX",
             "Tele",
-            "Peacock"
+            "FOX One"
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760515/quarterfinal-4-winner-quarterfinal-3-winner",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Quarterfinal%203%20Winner%20vs%20Quarterfinal%204%20Winner",
@@ -10762,7 +10869,7 @@
           "broadcasts": [
             "FOX",
             "Tele",
-            "Peacock"
+            "FOX One"
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760516/semifinal-2-loser-semifinal-1-loser",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Semifinal%201%20Loser%20vs%20Semifinal%202%20Loser",
@@ -10822,7 +10929,7 @@
           "broadcasts": [
             "FOX",
             "Tele",
-            "Peacock"
+            "FOX One"
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760517/semifinal-2-winner-semifinal-1-winner",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Semifinal%201%20Winner%20vs%20Semifinal%202%20Winner",
