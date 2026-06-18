@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-18T17:21:34.262581+00:00",
+  "generated_at": "2026-06-18T18:26:02.986575+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-18T12:21:33.431374-05:00",
+  "now_local": "2026-06-18T13:26:02.039248-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -732,14 +732,14 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/cze.png"
           },
           "rank": 3,
-          "mp": 1,
+          "mp": 2,
           "w": 0,
-          "d": 0,
+          "d": 1,
           "l": 1,
-          "gf": 1,
-          "ga": 2,
+          "gf": 2,
+          "ga": 3,
           "gd": -1,
-          "pts": 0,
+          "pts": 1,
           "advance": false,
           "advance_label": "Best 8 advance",
           "advance_color": "#B5E7CE"
@@ -756,14 +756,14 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/rsa.png"
           },
           "rank": 4,
-          "mp": 1,
+          "mp": 2,
           "w": 0,
-          "d": 0,
+          "d": 1,
           "l": 1,
-          "gf": 0,
-          "ga": 2,
+          "gf": 1,
+          "ga": 3,
           "gd": -2,
-          "pts": 0,
+          "pts": 1,
           "advance": false,
           "advance_label": "Eliminated",
           "advance_color": "#FF7F84"
@@ -6679,8 +6679,8 @@
           "kickoff_local_date": "2026-06-18",
           "kickoff_time": "11:00 AM",
           "kickoff_weekday": "Thu",
-          "status": "LIVE",
-          "status_short": "60'",
+          "status": "FINAL",
+          "status_short": "FT",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -6708,7 +6708,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/rsa.png",
             "color": "FFB81C",
             "home_away": "away",
-            "score": 0,
+            "score": 1,
             "winner": false
           },
           "venue": {
@@ -6721,7 +6721,7 @@
             "Tele",
             "FOX One"
           ],
-          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760438/south africa-czechia",
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760438/south-africa-czechia",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Czechia%20vs%20South%20Africa",
           "slug": "south africa-at-czechia",
           "incidents": [
@@ -6782,6 +6782,65 @@
               "player": "Jaroslav Zelený",
               "text": "Substitution, Czechia. Jaroslav Zeleny replaces Alexandr Sojka.",
               "player_off": "Alexandr Sojka"
+            },
+            {
+              "kind": "substitution",
+              "minute": "66'",
+              "team": "South Africa",
+              "team_id": "467",
+              "team_side": "away",
+              "player": "Evidence Makgopa",
+              "text": "Substitution, South Africa. Evidence Makgopa replaces Iqraam Rayners.",
+              "player_off": "Iqraam Rayners"
+            },
+            {
+              "kind": "substitution",
+              "minute": "67'",
+              "team": "Czechia",
+              "team_id": "450",
+              "team_side": "home",
+              "player": "Tomás Soucek",
+              "text": "Substitution, Czechia. Tomás Soucek replaces Michal Sadílek.",
+              "player_off": "Michal Sadílek"
+            },
+            {
+              "kind": "substitution",
+              "minute": "67'",
+              "team": "Czechia",
+              "team_id": "450",
+              "team_side": "home",
+              "player": "Lukás Provod",
+              "text": "Substitution, Czechia. Lukás Provod replaces Adam Hlozek.",
+              "player_off": "Adam Hlozek"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "75'",
+              "team": "Czechia",
+              "team_id": "450",
+              "team_side": "home",
+              "player": "Ladislav Krejcí",
+              "text": "Ladislav Krejcí (Czechia) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "substitution",
+              "minute": "78'",
+              "team": "Czechia",
+              "team_id": "450",
+              "team_side": "home",
+              "player": "David Zima",
+              "text": "Substitution, Czechia. David Zima replaces Lukás Cerv.",
+              "player_off": "Lukás Cerv"
+            },
+            {
+              "kind": "substitution",
+              "minute": "84'",
+              "team": "South Africa",
+              "team_id": "467",
+              "team_side": "away",
+              "player": "Kamogelo Sebelebele",
+              "text": "Substitution, South Africa. Kamogelo Sebelebele replaces Thapelo Maseko.",
+              "player_off": "Thapelo Maseko"
             }
           ]
         },
