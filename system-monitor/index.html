@@ -37,6 +37,18 @@
      (each ~900px wide × ~500px tall in the 2-column desktop grid). */
   .chart-card--xl { grid-row: span 2; }
   .chart-card--xl .chart-wrapper { min-height: 500px; }
+  /* Preset buttons for the CPU Core Frequency chart — quick way to flip
+     core visibility without clicking 128 individual legend entries. */
+  .freq-presets { display: flex; gap: 6px; margin-bottom: 10px; flex-wrap: wrap; }
+  .freq-presets button {
+    background: #1a1d27; color: #bbb; border: 1px solid #2c3142;
+    border-radius: 6px; padding: 4px 10px; font-size: 0.78rem; cursor: pointer;
+    font-family: inherit;
+  }
+  .freq-presets button:hover { background: #252a3a; color: #fff; }
+  .freq-presets button.active {
+    background: #2d5a8e; color: #fff; border-color: #4a7dba;
+  }
   .chart-card h3 { font-size: 0.9rem; color: #aaa; margin-bottom: 12px; font-weight: 500; }
   .chart-wrapper { position: relative; height: 220px; }
   /* On narrow viewports, force a single-column grid so wide/xl cards
@@ -250,7 +262,13 @@
        XL cards (Thermal Sensors + Core Frequency) are paired side-by-side in the
        2-column grid; Package chart stays wide as a single-line strip below them. -->
   <div class="chart-card chart-card--xl" id="cpu-core-freq-chart-card" style="display:none">
-    <h3>CPU Core Frequency (MHz, per logical core) — first 16 shown; click legend to toggle</h3>
+    <h3>CPU Core Frequency (MHz, per logical core) — click legend to toggle cores</h3>
+    <div class="freq-presets" id="freq-presets">
+      <button type="button" data-preset="none">Hide all</button>
+      <button type="button" data-preset="l0">Show L0 only</button>
+      <button type="button" data-preset="16">Show L0–L15</button>
+      <button type="button" data-preset="all">Show all</button>
+    </div>
     <div class="chart-wrapper"><canvas id="chart-cpu-core-freq"></canvas></div>
   </div>
   <div class="chart-card chart-card--xl" id="cpu-therm-temp-chart-card" style="display:none">
@@ -391,6 +409,36 @@ function initCharts() {
   charts['cpu-therm-temp']    = buildCpuThermTempChart('chart-cpu-therm-temp');
   charts['cpu-therm-package'] = buildCpuThermPackageChart('chart-cpu-therm-package');
   charts['cpu-core-freq']     = buildCpuCoreFreqChart('chart-cpu-core-freq');
+
+  // Preset buttons under the CPU Core Frequency chart — quick way to flip
+  // 128 dataset visibilities in one click. "Show L0–L15" mirrors the previous
+  // default; "Show all" is a stress test for ~100 overlapping lines.
+  const freqChart = charts['cpu-core-freq'];
+  const freqPresets = document.getElementById('freq-presets');
+  if (freqPresets) {
+    const applyPreset = (mode) => {
+      const ds = freqChart.data.datasets;
+      for (let i = 0; i < ds.length; i++) {
+        if (mode === 'none')      ds[i].hidden = true;
+        else if (mode === 'l0')   ds[i].hidden = (i !== 0);
+        else if (mode === '16')   ds[i].hidden = (i >= 16);
+        else if (mode === 'all')  ds[i].hidden = false;
+      }
+      freqChart.update();
+      // Mark the active button — when the user later clicks legend entries
+      // individually the marker is dropped (no preset currently matches).
+      freqPresets.querySelectorAll('button').forEach(b => {
+        b.classList.toggle('active', b.dataset.preset === mode);
+      });
+    };
+    freqPresets.addEventListener('click', (e) => {
+      const btn = e.target.closest('button[data-preset]');
+      if (!btn) return;
+      applyPreset(btn.dataset.preset);
+    });
+    // Reflect the build-time default (L0 only) on the initial paint.
+    freqPresets.querySelector('button[data-preset="l0"]')?.classList.add('active');
+  }
 }
 
 const IO_COLORS = {
@@ -599,13 +647,16 @@ function buildCpuThermPackageChart(canvasId) {
 function buildCpuCoreFreqChart(canvasId) {
   // Up to 128 logical cores — covers any current HT/SMT machine.
   // Line width is reduced to 0.5px so all 128 cores don't visually merge
-  // into a single blob. Default visibility: first 16 cores (L0..L15)
-  // — the user can click legend entries to toggle the remaining 112.
+  // into a single blob. Default visibility: ONLY core 0 is shown — with
+  // 128 logical cores on a server CPU, even 16 lines on one chart becomes
+  // an unreadable blob, so we start with a single representative core and
+  // let the user click legend entries to add more (or use the Select All
+  // / Show L0–L15 / Hide All controls below the chart).
   const datasets = Array.from({ length: 128 }, (_, i) => {
     const color = CORE_COLORS[i % CORE_COLORS.length];
     return { label: 'L' + i, data: [], borderColor: '#' + color,
-             backgroundColor: 'transparent', borderWidth: 0.5,
-             hidden: i >= 16, pointRadius: 0 };
+             backgroundColor: 'transparent', borderWidth: 1.2,
+             hidden: i >= 1, pointRadius: 0 };
   });
   const chart = new Chart(document.getElementById(canvasId), {
     type: 'line',
