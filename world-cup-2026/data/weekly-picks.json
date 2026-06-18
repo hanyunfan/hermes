@@ -1,0 +1,1311 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-06-18T18:20:41+00:00",
+  "timezone": "America/Chicago",
+  "now_local": "2026-06-18T13:20:41-05:00",
+  "round_label": {
+    "zh": "小组赛第 2 轮",
+    "en": "Matchday 2"
+  },
+  "round_date_range": [
+    "2026-06-18",
+    "2026-06-23"
+  ],
+  "match_count": 16,
+  "manual_count": 16,
+  "last_manual_update": "2026-06-18T21:25:27+00:00",
+  "round_intro_zh": "小组赛第二轮全面打响。首轮已让本轮的六分战和出线生死战全部摆上台面：A 组 Mexico vs South Korea——两支首轮全胜的队伍正面碰撞，谁先摸到 16 强门票？B 组四队齐平 1 分，瑞士 vs 波黑、加拿大 vs 卡塔尔，赢者立刻占得先机。\n\n本周 16 场必看里，最不能错过的有 4 场：Mexico vs South Korea（A 组头名之争，本周最关键）、England vs Ghana（欧洲新王 vs 非洲劲旅，英格兰的真正考验）、Argentina vs Austria（卫冕冠军首战）、Germany vs Ivory Coast（德国首战，对手是非洲杯冠军）。",
+  "round_intro_en": "Matchday 2 is here and the stakes are suddenly real. Eight teams opened with wins and the second-leg matchups are now six-pointers: Mexico vs South Korea in Group A, plus a four-way logjam in Group B where Switzerland, Bosnia, Canada, and Qatar are all level on 1pt. Heavyweights England, Germany, Spain, France, and Argentina all face mid-tier opposition this round — a slip here shakes the group standings before MD3 even arrives.\n\nOf the 16 must-watch games this week, four you really can't miss: Mexico–South Korea (Thu 8 PM CT, top of Group A), England–Ghana (Tue 3 PM CT, the Three Lions' first real test), Argentina–Austria (Tue 12 PM CT, the world champions against a crafty European side), and Germany–Ivory Coast (Sun 3 PM CT, a tricky opener for the Germans against the Africa Cup of Nations holders).",
+  "manual_note_zh": "排序按推荐分降序。6/18 下午（CT）发出的版本，赛果随时更新。",
+  "manual_note_en": "Sorted by recommendation score, descending. Issued Thu 18 Jun afternoon CT; results will evolve.",
+  "matches": [
+    {
+      "match_id": "760438",
+      "kickoff_utc": "2026-06-18T16:00:00+00:00",
+      "kickoff_local": "2026-06-18T11:00:00-05:00",
+      "kickoff_local_date": "2026-06-18",
+      "kickoff_time": "11:00 AM",
+      "kickoff_weekday": "Thu",
+      "stage": "Group Stage",
+      "stage_slug": "group-stage",
+      "venue": "Mercedes-Benz Stadium",
+      "venue_city": "Atlanta, Georgia",
+      "espn_url": "https://www.espn.com/soccer/match/_/gameId/760438/south-africa-czechia",
+      "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Czechia%20vs%20South%20Africa",
+      "home": {
+        "id": "450",
+        "name": "Czechia",
+        "name_zh": "捷克",
+        "flag": "🇨🇿",
+        "abbr": "CZE",
+        "rank": 40
+      },
+      "away": {
+        "id": "467",
+        "name": "South Africa",
+        "name_zh": "南非",
+        "flag": "🇿🇦",
+        "abbr": "RSA",
+        "rank": 60
+      },
+      "group_name": "Group A",
+      "home_group_rank": 3,
+      "home_pts": 0,
+      "home_mp": 1,
+      "away_group_rank": 4,
+      "away_pts": 0,
+      "away_mp": 1,
+      "stakes_kind": "must_win",
+      "stakes_score_auto": 8,
+      "stakes_verdict_auto": "must",
+      "stakes_narrative_zh": "双方首轮均落败，本场再输基本出局。",
+      "stakes_narrative_en": "Both lost MD1 — another loss likely eliminates.",
+      "verdict": "must",
+      "score": 8,
+      "headline_zh": "败者的最后机会",
+      "headline_en": "Last shot for the losers",
+      "watch_for_zh": [
+        "两队都输了 MD1，再输基本告别小组赛",
+        "A 组大概率是墨西哥和韩国争前二，这场的胜者仍有理论机会",
+        "捷克反击 vs 南非身体流，战术对位值得看",
+        "南非要避免成为第一支被淘汰的非洲球队"
+      ],
+      "watch_for_en": [
+        "Both sides lost MD1 — another loss likely eliminates them",
+        "Group A is likely Mexico-SK for top 2, so a win keeps slim hopes alive",
+        "Czech counter-attack vs South African physicality — a clean tactical matchup",
+        "South Africa wants to avoid being the first African team knocked out"
+      ],
+      "key_players_zh": [
+        "希克 #10（捷克头号射手）",
+        "莫迪巴 #15（南非中场组织者）",
+        "罗恩文·威廉姆斯 #1（南非队长 / 门将）"
+      ],
+      "key_players_en": [
+        "Patrik Schick #10 (Czech top scorer)",
+        "Daylo Claasen #15 (SA midfielder)",
+        "Ronwen Williams #1 (SA captain / keeper)"
+      ],
+      "news_focus_zh": "两队教练都面临被淘汰的现实压力",
+      "news_focus_en": "Coaches on both benches are coaching for their tournament lives",
+      "record_potential_zh": [
+        "希克若梅开二度，将追平捷克世界杯个人进球纪录（3 球）"
+      ],
+      "record_potential_en": [
+        "Schick can match the Czech all-time WC goal record (3) with a brace"
+      ],
+      "why_skip_zh": null,
+      "why_skip_en": null,
+      "verdict_override": null,
+      "score_override": null
+    },
+    {
+      "match_id": "760439",
+      "kickoff_utc": "2026-06-18T19:00:00+00:00",
+      "kickoff_local": "2026-06-18T14:00:00-05:00",
+      "kickoff_local_date": "2026-06-18",
+      "kickoff_time": "2:00 PM",
+      "kickoff_weekday": "Thu",
+      "stage": "Group Stage",
+      "stage_slug": "group-stage",
+      "venue": "SoFi Stadium",
+      "venue_city": "Inglewood, California",
+      "espn_url": "https://www.espn.com/soccer/match/_/gameId/760439/bosnia-herzegovina-switzerland",
+      "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Switzerland%20vs%20Bosnia-Herzegovina",
+      "home": {
+        "id": "475",
+        "name": "Switzerland",
+        "name_zh": "瑞士",
+        "flag": "🇨🇭",
+        "abbr": "SUI",
+        "rank": 19
+      },
+      "away": {
+        "id": "452",
+        "name": "Bosnia-Herzegovina",
+        "name_zh": "波黑",
+        "flag": "🇧🇦",
+        "abbr": "BIH",
+        "rank": 64
+      },
+      "group_name": "Group B",
+      "home_group_rank": 1,
+      "home_pts": 1,
+      "home_mp": 1,
+      "away_group_rank": 4,
+      "away_pts": 1,
+      "away_mp": 1,
+      "stakes_kind": "must_win",
+      "stakes_score_auto": 8,
+      "stakes_verdict_auto": "must",
+      "stakes_narrative_zh": "小组四队齐平，本场是拉开差距的第一次机会。",
+      "stakes_narrative_en": "All four sides level — first chance to break away.",
+      "verdict": "must",
+      "score": 8,
+      "headline_zh": "B 组 1 分混战：欧洲内战",
+      "headline_en": "Group B logjam: European derby",
+      "watch_for_zh": [
+        "B 组四队 1 分平局，赢者领跑",
+        "瑞士过去 3 届世界杯都从小组出线（2014, 2018, 2022）",
+        "波黑首次独立参加世界杯（2014 年小组出局后等了 12 年）",
+        "两队踢法接近，节奏会很快"
+      ],
+      "watch_for_en": [
+        "All four Group B teams on 1pt — winner takes the lead",
+        "Switzerland have advanced from the group in 3 straight World Cups (2014, 2018, 2022)",
+        "Bosnia's first solo World Cup after 12 years (last appearance 2014, group stage exit)",
+        "Similar styles — expect a high-tempo, technical game"
+      ],
+      "key_players_zh": [
+        "沙奇里 #10（瑞士传奇，本届可能是告别赛）",
+        "哲科 #11（波黑 40 岁老将，本场若进球将破世界杯最年长进球纪录）",
+        "扎卡 #10（瑞士中场核心）",
+        "皮亚尼奇 #10（波黑中场大师）"
+      ],
+      "key_players_en": [
+        "Xherdan Shaqiri #10 (Swiss legend, likely his last WC)",
+        "Edin Džeko #11 (Bosnia, 40yo — would break oldest-WC-scorer record)",
+        "Granit Xhaka #10 (Swiss midfield engine)",
+        "Miralem Pjanić #10 (Bosnia midfield maestro)"
+      ],
+      "news_focus_zh": "沙奇里世界杯 6 球 4 助攻——3 届都有进球",
+      "news_focus_en": "Shaqiri has 6 WC goals + 4 assists across 3 tournaments — uniquely clutch",
+      "record_potential_zh": [
+        "哲科（40 岁）若进球将成为世界杯决赛圈最年长进球球员",
+        "沙奇里若进球将成为瑞士世界杯历史最佳射手（追平 7 球）"
+      ],
+      "record_potential_en": [
+        "Džeko at 40 would be the oldest-ever WC final-tournament scorer",
+        "Shaqiri can tie the Swiss all-time WC goals record (7)"
+      ],
+      "why_skip_zh": null,
+      "why_skip_en": null,
+      "verdict_override": null,
+      "score_override": null
+    },
+    {
+      "match_id": "760440",
+      "kickoff_utc": "2026-06-18T22:00:00+00:00",
+      "kickoff_local": "2026-06-18T17:00:00-05:00",
+      "kickoff_local_date": "2026-06-18",
+      "kickoff_time": "5:00 PM",
+      "kickoff_weekday": "Thu",
+      "stage": "Group Stage",
+      "stage_slug": "group-stage",
+      "venue": "BC Place",
+      "venue_city": "Vancouver",
+      "espn_url": "https://www.espn.com/soccer/match/_/gameId/760440/qatar-canada",
+      "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Canada%20vs%20Qatar",
+      "home": {
+        "id": "206",
+        "name": "Canada",
+        "name_zh": "加拿大",
+        "flag": "🇨🇦",
+        "abbr": "CAN",
+        "rank": 30
+      },
+      "away": {
+        "id": "4398",
+        "name": "Qatar",
+        "name_zh": "卡塔尔",
+        "flag": "🇶🇦",
+        "abbr": "QAT",
+        "rank": 56
+      },
+      "group_name": "Group B",
+      "home_group_rank": 2,
+      "home_pts": 1,
+      "home_mp": 1,
+      "away_group_rank": 3,
+      "away_pts": 1,
+      "away_mp": 1,
+      "stakes_kind": "must_win",
+      "stakes_score_auto": 8,
+      "stakes_verdict_auto": "must",
+      "stakes_narrative_zh": "小组四队齐平，本场是拉开差距的第一次机会。",
+      "stakes_narrative_en": "All four sides level — first chance to break away.",
+      "verdict": "must",
+      "score": 8,
+      "headline_zh": "B 组 1 分混战：东道主对决",
+      "headline_en": "Group B logjam: host nation showdown",
+      "watch_for_zh": [
+        "B 组四队 1 分平局，本场赢者立刻领跑",
+        "加拿大作为 2026 联合东道主之一，全场压力巨大",
+        "卡塔尔作为 2022 东道主，亚洲杯冠军后陷入低谷",
+        "两队首轮都是 1-1，本场大概率是真正的卡位战"
+      ],
+      "watch_for_en": [
+        "All four Group B teams on 1pt — winner takes the lead",
+        "Canada as a 2026 co-host carries enormous home pressure",
+        "Qatar as 2022 hosts have declined since their Asian Cup win",
+        "Both opened with 1-1 draws — a true 6-pointer"
+      ],
+      "key_players_zh": [
+        "乔纳森·戴维 #10（加拿大队长，里尔前锋）",
+        "阿克拉姆·阿菲夫 #11（卡塔尔队长，亚洲杯 MVP）",
+        "阿尔方索·戴维斯 #19（拜仁边后卫）"
+      ],
+      "key_players_en": [
+        "Jonathan David #10 (Canada captain, Lille striker)",
+        "Akram Afif #11 (Qatar captain, Asian Cup MVP)",
+        "Alphonso Davies #19 (Bayern LB)"
+      ],
+      "news_focus_zh": "戴维斯健康是加拿大的关键——上届世界杯他就是绝对核心",
+      "news_focus_en": "Davies' fitness is Canada's whole tournament — he carried them in 2022",
+      "record_potential_zh": [],
+      "record_potential_en": [],
+      "why_skip_zh": null,
+      "why_skip_en": null,
+      "verdict_override": null,
+      "score_override": null
+    },
+    {
+      "match_id": "760441",
+      "kickoff_utc": "2026-06-19T01:00:00+00:00",
+      "kickoff_local": "2026-06-18T20:00:00-05:00",
+      "kickoff_local_date": "2026-06-18",
+      "kickoff_time": "8:00 PM",
+      "kickoff_weekday": "Thu",
+      "stage": "Group Stage",
+      "stage_slug": "group-stage",
+      "venue": "Estadio Akron",
+      "venue_city": "Guadalajara",
+      "espn_url": "https://www.espn.com/soccer/match/_/gameId/760441/south-korea-mexico",
+      "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Mexico%20vs%20South%20Korea",
+      "home": {
+        "id": "203",
+        "name": "Mexico",
+        "name_zh": "墨西哥",
+        "flag": "🇲🇽",
+        "abbr": "MEX",
+        "rank": 14
+      },
+      "away": {
+        "id": "451",
+        "name": "South Korea",
+        "name_zh": "韩国",
+        "flag": "🇰🇷",
+        "abbr": "KOR",
+        "rank": 25
+      },
+      "group_name": "Group A",
+      "home_group_rank": 1,
+      "home_pts": 3,
+      "home_mp": 1,
+      "away_group_rank": 2,
+      "away_pts": 3,
+      "away_mp": 1,
+      "stakes_kind": "must_win",
+      "stakes_score_auto": 9,
+      "stakes_verdict_auto": "must",
+      "stakes_narrative_zh": "双方首轮全胜，第二轮正面交锋——赢者基本锁定出线。",
+      "stakes_narrative_en": "Both won MD1 — winner likely seals qualification.",
+      "verdict": "must",
+      "score": 9,
+      "headline_zh": "A 组王座之战",
+      "headline_en": "Group A's throne match",
+      "watch_for_zh": [
+        "A 组头名直接对话，赢者基本锁定 16 强甚至小组第一",
+        "孙兴慜 vs 墨西哥快速边路——亚洲一哥与中北美劲旅的全面较量",
+        "墨西哥在 16 场比赛中仅输 1 场，主场氛围拉满",
+        "韩国 6 届世界杯首轮都晋级，能否延续？"
+      ],
+      "watch_for_en": [
+        "Top of Group A face-to-face — winner likely seals top spot and a Round-of-32 ticket",
+        "Son Heung-min vs Mexico's rapid wingers — the Asian star against a CONCACAF powerhouse",
+        "Mexico have lost just 1 of 16 recent matches; atmosphere will be electric",
+        "South Korea have advanced from the group in 6 of their last 6 World Cups — can they make it 7?"
+      ],
+      "key_players_zh": [
+        "孙兴慜 #7（韩国队长，热刺边锋）",
+        "劳尔·希门尼斯 #9（墨西哥首发中锋）",
+        "黄喜灿 #11（韩国狼队前锋）",
+        "埃德松·阿尔瓦雷斯 #4（墨西哥后腰）"
+      ],
+      "key_players_en": [
+        "Son Heung-min #7 (Korea captain, Tottenham)",
+        "Raúl Jiménez #9 (Mexico starter, 100+ caps)",
+        "Hwang Hee-chan #11 (Korea, Wolves winger)",
+        "Edson Álvarez #4 (Mexico, West Ham defensive mid)"
+      ],
+      "news_focus_zh": "孙兴慜在英超已无大伤病，本届状态是 2018 以来最佳",
+      "news_focus_en": "Son is in his best shape since 2018 — coming off a full Premier League season",
+      "record_potential_zh": [
+        "孙兴慜若梅开二度，将追平朴智星 3 球韩国世界杯个人纪录",
+        "墨西哥若取胜将创造队史世界杯最长开局连胜纪录（5 连胜）"
+      ],
+      "record_potential_en": [
+        "Son can equal Park Ji-sung's 3-goal Korea WC record with a brace",
+        "A Mexico win would set a national-record 5-game WC win streak"
+      ],
+      "why_skip_zh": null,
+      "why_skip_en": null,
+      "verdict_override": null,
+      "score_override": null
+    },
+    {
+      "match_id": "760442",
+      "kickoff_utc": "2026-06-19T19:00:00+00:00",
+      "kickoff_local": "2026-06-19T14:00:00-05:00",
+      "kickoff_local_date": "2026-06-19",
+      "kickoff_time": "2:00 PM",
+      "kickoff_weekday": "Fri",
+      "stage": "Group Stage",
+      "stage_slug": "group-stage",
+      "venue": "Lumen Field",
+      "venue_city": "Seattle, Washington",
+      "espn_url": "https://www.espn.com/soccer/match/_/gameId/760442/australia-united-states",
+      "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20United%20States%20vs%20Australia",
+      "home": {
+        "id": "660",
+        "name": "United States",
+        "name_zh": "美国",
+        "flag": "🇺🇸",
+        "abbr": "USA",
+        "rank": 17
+      },
+      "away": {
+        "id": "628",
+        "name": "Australia",
+        "name_zh": "澳大利亚",
+        "flag": "🇦🇺",
+        "abbr": "AUS",
+        "rank": 27
+      },
+      "group_name": "Group D",
+      "home_group_rank": 1,
+      "home_pts": 3,
+      "home_mp": 1,
+      "away_group_rank": 2,
+      "away_pts": 3,
+      "away_mp": 1,
+      "stakes_kind": "must_win",
+      "stakes_score_auto": 9,
+      "stakes_verdict_auto": "must",
+      "stakes_narrative_zh": "双方首轮全胜，第二轮正面交锋——赢者基本锁定出线。",
+      "stakes_narrative_en": "Both won MD1 — winner likely seals qualification.",
+      "verdict": "must",
+      "score": 9,
+      "headline_zh": "美国主场首秀",
+      "headline_en": "USA's home opener",
+      "watch_for_zh": [
+        "2026 联合东道主首次登场，全场 70,000+ 美国球迷",
+        "美国队 12 年来首次世界杯之旅",
+        "澳大利亚首轮 1-3 输给加纳，本场再输基本回家",
+        "美国阵容年轻（平均 24 岁），活力十足"
+      ],
+      "watch_for_en": [
+        "Co-hosts' tournament debut — 70,000+ home fans expected",
+        "USA's first WC appearance in 12 years",
+        "Australia lost MD1 1-3 to Ghana — another loss likely eliminates them",
+        "Young USA squad (avg age 24) — pure energy"
+      ],
+      "key_players_zh": [
+        "克里斯蒂安·普利西奇 #10（队长，AC 米兰边锋）",
+        "蒂莫西·维阿 #9（尤文前锋，小蒂姆·维阿之子）",
+        "小马特·特纳 #1（美国首发门将）"
+      ],
+      "key_players_en": [
+        "Christian Pulisic #10 (captain, AC Milan winger)",
+        "Timothy Weah #9 (Juventus striker, son of George)",
+        "Matt Turner #1 (USA starting GK)"
+      ],
+      "news_focus_zh": "美国队训练中一直强调开局 15 分钟的强度",
+      "news_focus_en": "USA training focus has been the first 15 minutes of intensity",
+      "record_potential_zh": [
+        "普利西奇若进球将成为美国队史世界杯最年长队长进球者",
+        "美国若取胜将是 2002 年后首次世界杯主场胜"
+      ],
+      "record_potential_en": [
+        "Pulisic would be the oldest US WC captain to score",
+        "A USA win would be their first WC home win since 2002"
+      ],
+      "why_skip_zh": null,
+      "why_skip_en": null,
+      "verdict_override": null,
+      "score_override": null
+    },
+    {
+      "match_id": "760443",
+      "kickoff_utc": "2026-06-20T03:00:00+00:00",
+      "kickoff_local": "2026-06-19T22:00:00-05:00",
+      "kickoff_local_date": "2026-06-19",
+      "kickoff_time": "10:00 PM",
+      "kickoff_weekday": "Fri",
+      "stage": "Group Stage",
+      "stage_slug": "group-stage",
+      "venue": "Levi's Stadium",
+      "venue_city": "Santa Clara, California",
+      "espn_url": "https://www.espn.com/soccer/match/_/gameId/760443/paraguay-turkiye",
+      "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20T%C3%BCrkiye%20vs%20Paraguay",
+      "home": {
+        "id": "465",
+        "name": "Türkiye",
+        "name_zh": "土耳其",
+        "flag": "🇹🇷",
+        "abbr": "TUR",
+        "rank": 22
+      },
+      "away": {
+        "id": "210",
+        "name": "Paraguay",
+        "name_zh": "巴拉圭",
+        "flag": "🇵🇾",
+        "abbr": "PAR",
+        "rank": 41
+      },
+      "group_name": "Group D",
+      "home_group_rank": 3,
+      "home_pts": 0,
+      "home_mp": 1,
+      "away_group_rank": 4,
+      "away_pts": 0,
+      "away_mp": 1,
+      "stakes_kind": "must_win",
+      "stakes_score_auto": 8,
+      "stakes_verdict_auto": "must",
+      "stakes_narrative_zh": "双方首轮均落败，本场再输基本出局。",
+      "stakes_narrative_en": "Both lost MD1 — another loss likely eliminates.",
+      "verdict": "must",
+      "score": 8,
+      "headline_zh": "D 组两败队对决",
+      "headline_en": "Group D's elimination game",
+      "watch_for_zh": [
+        "两队首轮都输球，输家大概率直接出局",
+        "土耳其 2002 年世界杯第三名的辉煌过后已多年未参赛",
+        "巴拉圭连续 5 届世界杯（2010 起）有 3 次小组出线",
+        "比赛风格直接——土耳其边路 vs 巴拉圭防守反击"
+      ],
+      "watch_for_en": [
+        "Both teams lost MD1 — loser is likely out",
+        "Türkiye's first WC since their 2002 third-place run",
+        "Paraguay have qualified for 5 straight WCs and advanced 3 times",
+        "Direct style matchup — Turkish wings vs Paraguayan counter"
+      ],
+      "key_players_zh": [
+        "阿尔达·图兰 #10（土耳其老将，可能告别赛）",
+        "阿尔扬·伊尔迪兹 #19（土耳其 19 岁新星，尤文图斯）",
+        "米格尔·阿尔米隆 #10（巴拉圭，纽卡斯尔边锋）"
+      ],
+      "key_players_en": [
+        "Arda Turan #10 (Türkiye veteran, likely final WC)",
+        "Kenan Yıldız #19 (Türkiye, 19yo Juve breakout)",
+        "Miguel Almirón #10 (Paraguay, Newcastle winger)"
+      ],
+      "news_focus_zh": "伊尔迪兹是本届世界杯最受关注的 19 岁新星之一",
+      "news_focus_en": "Yıldız is one of WC 2026's most-watched teenage stars",
+      "record_potential_zh": [],
+      "record_potential_en": [],
+      "why_skip_zh": "两队都缺顶级球星，比赛强度可能不高",
+      "why_skip_en": "Both sides lack top-tier stars — intensity may be low",
+      "verdict_override": null,
+      "score_override": null
+    },
+    {
+      "match_id": "760448",
+      "kickoff_utc": "2026-06-20T20:00:00+00:00",
+      "kickoff_local": "2026-06-20T15:00:00-05:00",
+      "kickoff_local_date": "2026-06-20",
+      "kickoff_time": "3:00 PM",
+      "kickoff_weekday": "Sat",
+      "stage": "Group Stage",
+      "stage_slug": "group-stage",
+      "venue": "BMO Field",
+      "venue_city": "Toronto",
+      "espn_url": "https://www.espn.com/soccer/match/_/gameId/760448/ivory-coast-germany",
+      "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Germany%20vs%20Ivory%20Coast",
+      "home": {
+        "id": "481",
+        "name": "Germany",
+        "name_zh": "德国",
+        "flag": "🇩🇪",
+        "abbr": "GER",
+        "rank": 10
+      },
+      "away": {
+        "id": "4789",
+        "name": "Ivory Coast",
+        "name_zh": "科特迪瓦",
+        "flag": "🇨🇮",
+        "abbr": "CIV",
+        "rank": 33
+      },
+      "group_name": "Group E",
+      "home_group_rank": 1,
+      "home_pts": 3,
+      "home_mp": 1,
+      "away_group_rank": 2,
+      "away_pts": 3,
+      "away_mp": 1,
+      "stakes_kind": "must_win",
+      "stakes_score_auto": 10,
+      "stakes_verdict_auto": "must",
+      "stakes_narrative_zh": "双方首轮全胜，第二轮正面交锋——赢者基本锁定出线。",
+      "stakes_narrative_en": "Both won MD1 — winner likely seals qualification.",
+      "verdict": "must",
+      "score": 10,
+      "headline_zh": "德国战车首战",
+      "headline_en": "Germany's tournament opener",
+      "watch_for_zh": [
+        "德国 2024 欧洲杯止步 8 强，急需世界杯救赎",
+        "科特迪瓦是非洲杯冠军（2023），非洲最强队之一",
+        "德国过去 4 届世界杯有 3 届首战没赢（2018 输墨西哥、2022 输日本）",
+        "德国中场（克罗斯回归？）vs 非洲杯 MVP"
+      ],
+      "watch_for_en": [
+        "Germany bounced from Euro 2024 QF — need WC redemption",
+        "Ivory Coast are AFCON 2023 champions, among Africa's best",
+        "Germany have lost their WC opener in 3 of the last 4 (2018, 2022)",
+        "German midfield (Kroos return?) vs AFCON MVP"
+      ],
+      "key_players_zh": [
+        "托尼·克罗斯 #8（如果首发，这可能是他最后一届世界杯）",
+        "贾马尔·穆西亚拉 #10（拜仁，21 岁天才）",
+        "塞巴斯蒂安·哈勒 #9（多特蒙德前锋）"
+      ],
+      "key_players_en": [
+        "Toni Kroos #8 (if he starts, this is his final WC)",
+        "Jamal Musiala #10 (Bayern, 21yo genius)",
+        "Sébastien Haller #9 (Dortmund striker)"
+      ],
+      "news_focus_zh": "克罗斯的最终决定是德国足球最大悬念之一",
+      "news_focus_en": "Kroos' final decision is the biggest German football storyline",
+      "record_potential_zh": [
+        "克罗斯若首发将成为德国世界杯最年长中场球员之一",
+        "穆西亚拉若进球将成为 2006 年后德国世界杯最年轻进球者"
+      ],
+      "record_potential_en": [
+        "Kroos would be among the oldest German midfielders ever at a WC",
+        "Musiala would be the youngest German WC scorer since 2006"
+      ],
+      "why_skip_zh": null,
+      "why_skip_en": null,
+      "verdict_override": null,
+      "score_override": null
+    },
+    {
+      "match_id": "760446",
+      "kickoff_utc": "2026-06-21T00:00:00+00:00",
+      "kickoff_local": "2026-06-20T19:00:00-05:00",
+      "kickoff_local_date": "2026-06-20",
+      "kickoff_time": "7:00 PM",
+      "kickoff_weekday": "Sat",
+      "stage": "Group Stage",
+      "stage_slug": "group-stage",
+      "venue": "GEHA Field at Arrowhead Stadium",
+      "venue_city": "Kansas City, Missouri",
+      "espn_url": "https://www.espn.com/soccer/match/_/gameId/760446/curacao-ecuador",
+      "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Ecuador%20vs%20Cura%C3%A7ao",
+      "home": {
+        "id": "209",
+        "name": "Ecuador",
+        "name_zh": "厄瓜多尔",
+        "flag": "🇪🇨",
+        "abbr": "ECU",
+        "rank": 23
+      },
+      "away": {
+        "id": "11678",
+        "name": "Curaçao",
+        "name_zh": "库拉索",
+        "flag": "🏳️",
+        "abbr": "CUW",
+        "rank": 82
+      },
+      "group_name": "Group E",
+      "home_group_rank": 3,
+      "home_pts": 0,
+      "home_mp": 1,
+      "away_group_rank": 4,
+      "away_pts": 0,
+      "away_mp": 1,
+      "stakes_kind": "must_win",
+      "stakes_score_auto": 8,
+      "stakes_verdict_auto": "must",
+      "stakes_narrative_zh": "双方首轮均落败，本场再输基本出局。",
+      "stakes_narrative_en": "Both lost MD1 — another loss likely eliminates.",
+      "verdict": "must",
+      "score": 8,
+      "headline_zh": "南美对加勒比的低调对决",
+      "headline_en": "South America vs the Caribbean",
+      "watch_for_zh": [
+        "厄瓜多尔 FIFA 第 30，南美传统强队",
+        "库拉索首次参加世界杯（人口 15 万的小国）",
+        "两队首轮都输了——再输基本告别小组赛",
+        "技术差距明显，但库拉索有荷兰归化球员"
+      ],
+      "watch_for_en": [
+        "Ecuador (FIFA #30) are traditional South American side",
+        "Curaçao's first-ever WC (population 150,000!)",
+        "Both lost MD1 — another loss likely eliminates",
+        "Talent gap clear, but Curaçao have Dutch-trained players"
+      ],
+      "key_players_zh": [
+        "恩纳·瓦伦西亚 #13（厄瓜多尔队长，50+ 场）"
+      ],
+      "key_players_en": [
+        "Enner Valencia #13 (Ecuador captain, 50+ caps)"
+      ],
+      "news_focus_zh": "库拉索晋级是本届世界杯最大黑马故事之一",
+      "news_focus_en": "Curaçao's qualification is one of WC 2026's biggest underdog stories",
+      "record_potential_zh": [],
+      "record_potential_en": [],
+      "why_skip_zh": "两队都不在世界排名前 20，对中立球迷吸引力有限",
+      "why_skip_en": "Neither team is top-20 FIFA — limited appeal for neutral fans",
+      "verdict_override": null,
+      "score_override": null
+    },
+    {
+      "match_id": "760453",
+      "kickoff_utc": "2026-06-21T16:00:00+00:00",
+      "kickoff_local": "2026-06-21T11:00:00-05:00",
+      "kickoff_local_date": "2026-06-21",
+      "kickoff_time": "11:00 AM",
+      "kickoff_weekday": "Sun",
+      "stage": "Group Stage",
+      "stage_slug": "group-stage",
+      "venue": "Mercedes-Benz Stadium",
+      "venue_city": "Atlanta, Georgia",
+      "espn_url": "https://www.espn.com/soccer/match/_/gameId/760453/saudi-arabia-spain",
+      "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Spain%20vs%20Saudi%20Arabia",
+      "home": {
+        "id": "164",
+        "name": "Spain",
+        "name_zh": "西班牙",
+        "flag": "🇪🇸",
+        "abbr": "ESP",
+        "rank": 2
+      },
+      "away": {
+        "id": "655",
+        "name": "Saudi Arabia",
+        "name_zh": "沙特阿拉伯",
+        "flag": "🇸🇦",
+        "abbr": "KSA",
+        "rank": 61
+      },
+      "group_name": "Group H",
+      "home_group_rank": 3,
+      "home_pts": 1,
+      "home_mp": 1,
+      "away_group_rank": 2,
+      "away_pts": 1,
+      "away_mp": 1,
+      "stakes_kind": "must_win",
+      "stakes_score_auto": 9,
+      "stakes_verdict_auto": "must",
+      "stakes_narrative_zh": "小组四队齐平，本场是拉开差距的第一次机会。",
+      "stakes_narrative_en": "All four sides level — first chance to break away.",
+      "verdict": "must",
+      "score": 9,
+      "headline_zh": "西班牙首战",
+      "headline_en": "Spain's tournament debut",
+      "watch_for_zh": [
+        "西班牙 2024 欧洲杯冠军，FIFA 排名第 3",
+        "沙特阿拉伯 2022 世界杯曾爆冷击败阿根廷",
+        "西班牙过去 2 届世界杯（2018, 2022）都表现低于预期",
+        "亚马尔 17 岁——西班牙天才边锋"
+      ],
+      "watch_for_en": [
+        "Spain are Euro 2024 champions, FIFA #3",
+        "Saudi Arabia famously beat Argentina in 2022",
+        "Spain have underperformed in last 2 WCs (2018 R16, 2022 R16)",
+        "Lamine Yamal, 17, is Spanish football's new star"
+      ],
+      "key_players_zh": [
+        "拉明·亚马尔 #19（巴萨，17 岁天才）",
+        "尼科·威廉姆斯 #11（毕尔巴鄂边锋）",
+        "罗德里 #6（曼城，中场大脑）"
+      ],
+      "key_players_en": [
+        "Lamine Yamal #19 (Barça, 17yo)",
+        "Nico Williams #11 (Athletic Bilbao winger)",
+        "Rodri #6 (Man City, midfield brain)"
+      ],
+      "news_focus_zh": "亚马尔今夏获得金童奖，是西班牙国家英雄",
+      "news_focus_en": "Yamal won the Golden Boy award — Spanish national hero status",
+      "record_potential_zh": [
+        "亚马尔若进球将成为西班牙世界杯最年轻进球者",
+        "罗德里若首发将是 2008 后西班牙中场传承的关键"
+      ],
+      "record_potential_en": [
+        "Yamal would be Spain's youngest-ever WC scorer",
+        "Rodri's start continues Spain's 2008-era midfield legacy"
+      ],
+      "why_skip_zh": null,
+      "why_skip_en": null,
+      "verdict_override": null,
+      "score_override": null
+    },
+    {
+      "match_id": "760451",
+      "kickoff_utc": "2026-06-21T19:00:00+00:00",
+      "kickoff_local": "2026-06-21T14:00:00-05:00",
+      "kickoff_local_date": "2026-06-21",
+      "kickoff_time": "2:00 PM",
+      "kickoff_weekday": "Sun",
+      "stage": "Group Stage",
+      "stage_slug": "group-stage",
+      "venue": "SoFi Stadium",
+      "venue_city": "Inglewood, California",
+      "espn_url": "https://www.espn.com/soccer/match/_/gameId/760451/iran-belgium",
+      "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Belgium%20vs%20Iran",
+      "home": {
+        "id": "459",
+        "name": "Belgium",
+        "name_zh": "比利时",
+        "flag": "🇧🇪",
+        "abbr": "BEL",
+        "rank": 9
+      },
+      "away": {
+        "id": "469",
+        "name": "Iran",
+        "name_zh": "伊朗",
+        "flag": "🇮🇷",
+        "abbr": "IRN",
+        "rank": 20
+      },
+      "group_name": "Group G",
+      "home_group_rank": 3,
+      "home_pts": 1,
+      "home_mp": 1,
+      "away_group_rank": 2,
+      "away_pts": 1,
+      "away_mp": 1,
+      "stakes_kind": "must_win",
+      "stakes_score_auto": 10,
+      "stakes_verdict_auto": "must",
+      "stakes_narrative_zh": "小组四队齐平，本场是拉开差距的第一次机会。",
+      "stakes_narrative_en": "All four sides level — first chance to break away.",
+      "verdict": "must",
+      "score": 10,
+      "headline_zh": "比利时黄金一代告别赛？",
+      "headline_en": "Belgium's golden generation farewell?",
+      "watch_for_zh": [
+        "比利时 2018 年第三，但过去 2 届大赛都早早出局",
+        "德布劳内 33 岁，这很可能是他最后一届世界杯",
+        "伊朗是亚洲最强队之一，首轮 0-0 战平乌拉圭",
+        "比利时阵容老化，急需新血"
+      ],
+      "watch_for_en": [
+        "Belgium were 2018 third, but exited early in 2 recent tournaments",
+        "De Bruyne is 33 — likely his final WC",
+        "Iran are Asia's strongest, drew 0-0 with Uruguay in MD1",
+        "Aging Belgian squad needs new blood"
+      ],
+      "key_players_zh": [
+        "凯文·德布劳内 #7（曼城，33 岁）",
+        "罗梅卢·卢卡库 #9（中锋，那不勒斯租借回归）",
+        "阿扎尔 #10（皇马，34 岁，可能告别赛）"
+      ],
+      "key_players_en": [
+        "Kevin De Bruyne #7 (Man City, 33)",
+        "Romelu Lukaku #9 (Napoli, on loan)",
+        "Eden Hazard #10 (Real Madrid, 34, likely final WC)"
+      ],
+      "news_focus_zh": "德布劳内 vs 伊朗中场——比利时创造力的考验",
+      "news_focus_en": "De Bruyne vs Iranian midfield — Belgium's creativity test",
+      "record_potential_zh": [
+        "德布劳内若助攻将追平比利时世界杯助攻纪录",
+        "阿扎尔若进球将是比利时 2 名球员在多届世界杯进球"
+      ],
+      "record_potential_en": [
+        "De Bruyne can match Belgium's WC assist record",
+        "Hazard would join Lukaku as a multi-WC Belgian scorer"
+      ],
+      "why_skip_zh": null,
+      "why_skip_en": null,
+      "verdict_override": null,
+      "score_override": null
+    },
+    {
+      "match_id": "760450",
+      "kickoff_utc": "2026-06-21T22:00:00+00:00",
+      "kickoff_local": "2026-06-21T17:00:00-05:00",
+      "kickoff_local_date": "2026-06-21",
+      "kickoff_time": "5:00 PM",
+      "kickoff_weekday": "Sun",
+      "stage": "Group Stage",
+      "stage_slug": "group-stage",
+      "venue": "Hard Rock Stadium",
+      "venue_city": "Miami Gardens, Florida",
+      "espn_url": "https://www.espn.com/soccer/match/_/gameId/760450/cape-verde-uruguay",
+      "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Uruguay%20vs%20Cape%20Verde",
+      "home": {
+        "id": "212",
+        "name": "Uruguay",
+        "name_zh": "乌拉圭",
+        "flag": "🇺🇾",
+        "abbr": "URU",
+        "rank": 16
+      },
+      "away": {
+        "id": "2597",
+        "name": "Cape Verde",
+        "name_zh": "佛得角",
+        "flag": "🇨🇻",
+        "abbr": "CPV",
+        "rank": 67
+      },
+      "group_name": "Group H",
+      "home_group_rank": 1,
+      "home_pts": 1,
+      "home_mp": 1,
+      "away_group_rank": 4,
+      "away_pts": 1,
+      "away_mp": 1,
+      "stakes_kind": "must_win",
+      "stakes_score_auto": 8,
+      "stakes_verdict_auto": "must",
+      "stakes_narrative_zh": "小组四队齐平，本场是拉开差距的第一次机会。",
+      "stakes_narrative_en": "All four sides level — first chance to break away.",
+      "verdict": "must",
+      "score": 8,
+      "headline_zh": "苏亚雷斯告别世界杯？",
+      "headline_en": "Suárez's last World Cup?",
+      "watch_for_zh": [
+        "苏亚雷斯 39 岁——几乎肯定是最后一届",
+        "乌拉圭首战闷平韩国，3 分是必须",
+        "佛得角首次参加世界杯（人口 60 万）",
+        "乌拉圭过去 2 届世界杯都小组出局"
+      ],
+      "watch_for_en": [
+        "Suárez is 39 — almost certainly his final WC",
+        "Uruguay drew 0-0 with Korea in MD1, must win",
+        "Cape Verde's first WC (population 600,000!)",
+        "Uruguay exited the group in 2022 and 2018 — need to break the cycle"
+      ],
+      "key_players_zh": [
+        "路易斯·苏亚雷斯 #9（39 岁，本场可能是告别赛）",
+        "达尔文·努涅斯 #19（利物浦前锋）",
+        "费德里科·巴尔韦德 #15（皇马中场）"
+      ],
+      "key_players_en": [
+        "Luis Suárez #9 (39, likely final WC)",
+        "Darwin Núñez #19 (Liverpool striker)",
+        "Federico Valverde #15 (Real Madrid midfielder)"
+      ],
+      "news_focus_zh": "苏亚雷斯 2010 年手球、2014 年咬人——世界杯故事最多的球员之一",
+      "news_focus_en": "Suárez: 2010 handball, 2014 bite — one of the WC's most storied characters",
+      "record_potential_zh": [
+        "苏亚雷斯若进球将成为世界杯历史第二年长进球者（仅次于 42 岁的米拉）",
+        "努涅斯若梅开二度将创乌拉圭单届世界杯进球纪录"
+      ],
+      "record_potential_en": [
+        "Suárez would be the 2nd-oldest WC scorer ever (behind 42yo Roger Milla)",
+        "A Núñez brace would set Uruguay's single-WC scoring record"
+      ],
+      "why_skip_zh": null,
+      "why_skip_en": null,
+      "verdict_override": null,
+      "score_override": null
+    },
+    {
+      "match_id": "760452",
+      "kickoff_utc": "2026-06-22T01:00:00+00:00",
+      "kickoff_local": "2026-06-21T20:00:00-05:00",
+      "kickoff_local_date": "2026-06-21",
+      "kickoff_time": "8:00 PM",
+      "kickoff_weekday": "Sun",
+      "stage": "Group Stage",
+      "stage_slug": "group-stage",
+      "venue": "BC Place",
+      "venue_city": "Vancouver",
+      "espn_url": "https://www.espn.com/soccer/match/_/gameId/760452/egypt-new-zealand",
+      "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20New%20Zealand%20vs%20Egypt",
+      "home": {
+        "id": "2666",
+        "name": "New Zealand",
+        "name_zh": "新西兰",
+        "flag": "🇳🇿",
+        "abbr": "NZL",
+        "rank": 85
+      },
+      "away": {
+        "id": "2620",
+        "name": "Egypt",
+        "name_zh": "埃及",
+        "flag": "🇪🇬",
+        "abbr": "EGY",
+        "rank": 29
+      },
+      "group_name": "Group G",
+      "home_group_rank": 1,
+      "home_pts": 1,
+      "home_mp": 1,
+      "away_group_rank": 4,
+      "away_pts": 1,
+      "away_mp": 1,
+      "stakes_kind": "must_win",
+      "stakes_score_auto": 8,
+      "stakes_verdict_auto": "must",
+      "stakes_narrative_zh": "小组四队齐平，本场是拉开差距的第一次机会。",
+      "stakes_narrative_en": "All four sides level — first chance to break away.",
+      "verdict": "must",
+      "score": 8,
+      "headline_zh": "大洋洲对北非的低调对决",
+      "headline_en": "Oceania vs North Africa",
+      "watch_for_zh": [
+        "新西兰 2010 年后首次回归世界杯",
+        "埃及 2018 年后首次，萨拉赫领衔",
+        "两队首轮都输了（新西兰 0-2 输给西班牙，埃及 0-1 输给比利时）",
+        "萨拉赫的状态是埃及唯一希望"
+      ],
+      "watch_for_en": [
+        "New Zealand's first WC since 2010",
+        "Egypt's first since 2018, led by Salah",
+        "Both lost MD1 (NZ 0-2 Spain, Egypt 0-1 Belgium)",
+        "Salah is Egypt's only hope"
+      ],
+      "key_players_zh": [
+        "穆罕默德·萨拉赫 #10（埃及，利物浦）",
+        "克里斯·伍德 #9（新西兰，英冠诺丁汉森林）"
+      ],
+      "key_players_en": [
+        "Mohamed Salah #10 (Egypt, Liverpool)",
+        "Chris Wood #9 (New Zealand, Nottingham Forest)"
+      ],
+      "news_focus_zh": "萨拉赫 32 岁，本届可能也是告别赛",
+      "news_focus_en": "Salah is 32 — this could be his final WC",
+      "record_potential_zh": [
+        "萨拉赫若梅开二度将成为埃及世界杯历史最佳射手"
+      ],
+      "record_potential_en": [
+        "Salah would become Egypt's all-time WC top scorer with a brace"
+      ],
+      "why_skip_zh": "两队都缺乏世界杯经验，对中立球迷吸引力有限",
+      "why_skip_en": "Both teams lack WC experience — limited appeal for neutrals",
+      "verdict_override": null,
+      "score_override": null
+    },
+    {
+      "match_id": "760456",
+      "kickoff_utc": "2026-06-22T17:00:00+00:00",
+      "kickoff_local": "2026-06-22T12:00:00-05:00",
+      "kickoff_local_date": "2026-06-22",
+      "kickoff_time": "12:00 PM",
+      "kickoff_weekday": "Mon",
+      "stage": "Group Stage",
+      "stage_slug": "group-stage",
+      "venue": "AT&T Stadium",
+      "venue_city": "Arlington, Texas",
+      "espn_url": "https://www.espn.com/soccer/match/_/gameId/760456/austria-argentina",
+      "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Argentina%20vs%20Austria",
+      "home": {
+        "id": "202",
+        "name": "Argentina",
+        "name_zh": "阿根廷",
+        "flag": "🇦🇷",
+        "abbr": "ARG",
+        "rank": 1
+      },
+      "away": {
+        "id": "474",
+        "name": "Austria",
+        "name_zh": "奥地利",
+        "flag": "🇦🇹",
+        "abbr": "AUT",
+        "rank": 24
+      },
+      "group_name": "Group J",
+      "home_group_rank": 1,
+      "home_pts": 3,
+      "home_mp": 1,
+      "away_group_rank": 2,
+      "away_pts": 3,
+      "away_mp": 1,
+      "stakes_kind": "must_win",
+      "stakes_score_auto": 10,
+      "stakes_verdict_auto": "must",
+      "stakes_narrative_zh": "双方首轮全胜，第二轮正面交锋——赢者基本锁定出线。",
+      "stakes_narrative_en": "Both won MD1 — winner likely seals qualification.",
+      "verdict": "must",
+      "score": 10,
+      "headline_zh": "卫冕冠军首战",
+      "headline_en": "Champions' defense begins",
+      "watch_for_zh": [
+        "阿根廷 2022 世界杯冠军，本届是卫冕首战",
+        "奥地利 FIFA 排名第 23，欧洲中游劲旅",
+        "阿根廷过去 4 届世界杯有 3 届首战没赢",
+        "梅西 38 岁——是否出场仍存悬念"
+      ],
+      "watch_for_en": [
+        "Argentina are 2022 champions — first defense",
+        "Austria FIFA #23, solid European mid-tier",
+        "Argentina have failed to win their WC opener in 3 of last 4",
+        "Messi is 38 — selection still a question"
+      ],
+      "key_players_zh": [
+        "莱昂内尔·梅西 #10（38 岁，2022 金球奖）",
+        "朱利安·阿尔瓦雷斯 #9（马竞，本赛季 30+ 进球）",
+        "恩佐·费尔南德斯 #8（切尔西中场）"
+      ],
+      "key_players_en": [
+        "Lionel Messi #10 (38, 2022 Ballon d'Or)",
+        "Julián Álvarez #9 (Atlético, 30+ goals this season)",
+        "Enzo Fernández #8 (Chelsea midfielder)"
+      ],
+      "news_focus_zh": "斯卡洛尼的战术 + 阿尔瓦雷斯的状态是阿根廷卫冕关键",
+      "news_focus_en": "Scaloni's tactics + Álvarez's form are Argentina's title defense key",
+      "record_potential_zh": [
+        "梅西若进球将成为世界杯历史第二年长进球者",
+        "阿尔瓦雷斯若梅开二度将与 2022 自己的纪录持平"
+      ],
+      "record_potential_en": [
+        "Messi would be 2nd-oldest WC scorer ever",
+        "Álvarez would match his own 2022 goals record with a brace"
+      ],
+      "why_skip_zh": null,
+      "why_skip_en": null,
+      "verdict_override": null,
+      "score_override": null
+    },
+    {
+      "match_id": "760457",
+      "kickoff_utc": "2026-06-22T21:00:00+00:00",
+      "kickoff_local": "2026-06-22T16:00:00-05:00",
+      "kickoff_local_date": "2026-06-22",
+      "kickoff_time": "4:00 PM",
+      "kickoff_weekday": "Mon",
+      "stage": "Group Stage",
+      "stage_slug": "group-stage",
+      "venue": "Lincoln Financial Field",
+      "venue_city": "Philadelphia, Pennsylvania",
+      "espn_url": "https://www.espn.com/soccer/match/_/gameId/760457/iraq-france",
+      "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20France%20vs%20Iraq",
+      "home": {
+        "id": "478",
+        "name": "France",
+        "name_zh": "法国",
+        "flag": "🇫🇷",
+        "abbr": "FRA",
+        "rank": 3
+      },
+      "away": {
+        "id": "4375",
+        "name": "Iraq",
+        "name_zh": "伊拉克",
+        "flag": "🇮🇶",
+        "abbr": "IRQ",
+        "rank": 57
+      },
+      "group_name": "Group I",
+      "home_group_rank": 2,
+      "home_pts": 3,
+      "home_mp": 1,
+      "away_group_rank": 4,
+      "away_pts": 0,
+      "away_mp": 1,
+      "stakes_kind": "must_win",
+      "stakes_score_auto": 9,
+      "stakes_verdict_auto": "must",
+      "stakes_narrative_zh": "首轮胜者对阵劲旅，弱旅再输基本告别小组赛。",
+      "stakes_narrative_en": "Group leader faces a tough test — upset risk is real.",
+      "verdict": "must",
+      "score": 9,
+      "headline_zh": "卫冕亚军首战",
+      "headline_en": "2022 finalists' opener",
+      "watch_for_zh": [
+        "法国 2022 年亚军，2018 年冠军",
+        "姆巴佩 26 岁——冲击世界杯历史射手榜前 10",
+        "伊拉克亚洲杯表现稳定但世界杯是另一个级别",
+        "法国过去 2 届欧洲杯都止步 16 强"
+      ],
+      "watch_for_en": [
+        "France were 2022 finalists, 2018 champions",
+        "Mbappé is 26 — chasing top-10 all-time WC scorers",
+        "Iraq are stable in Asia but WC is a different level",
+        "France have been knocked out in Euro R16 in 2 of last 3"
+      ],
+      "key_players_zh": [
+        "基利安·姆巴佩 #10（皇马，26 岁）",
+        "迈克尔·奥利塞 #11（水晶宫，本赛季爆发）",
+        "阿德里安·拉比奥 #14（马赛，老将中场）"
+      ],
+      "key_players_en": [
+        "Kylian Mbappé #10 (Real Madrid, 26)",
+        "Michael Olise #11 (Crystal Palace, breakout season)",
+        "Adrien Rabiot #14 (Marseille veteran midfielder)"
+      ],
+      "news_focus_zh": "姆巴佩已 12 球，2018 年 19 岁就夺冠",
+      "news_focus_en": "Mbappé has 12 WC goals already — won it at 19 in 2018",
+      "record_potential_zh": [
+        "姆巴佩若梅开二度将与齐达内（14 球）持平法国世界杯纪录",
+        "姆巴佩若进球将追平贝利 12 球世界杯 24 岁前纪录"
+      ],
+      "record_potential_en": [
+        "Mbappé can equal Zidane's 14-goal French WC record with a brace",
+        "Mbappé can match Pelé's pre-25 WC goals record (12) with a goal"
+      ],
+      "why_skip_zh": null,
+      "why_skip_en": null,
+      "verdict_override": null,
+      "score_override": null
+    },
+    {
+      "match_id": "760454",
+      "kickoff_utc": "2026-06-23T00:00:00+00:00",
+      "kickoff_local": "2026-06-22T19:00:00-05:00",
+      "kickoff_local_date": "2026-06-22",
+      "kickoff_time": "7:00 PM",
+      "kickoff_weekday": "Mon",
+      "stage": "Group Stage",
+      "stage_slug": "group-stage",
+      "venue": "MetLife Stadium",
+      "venue_city": "East Rutherford, New Jersey",
+      "espn_url": "https://www.espn.com/soccer/match/_/gameId/760454/senegal-norway",
+      "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Norway%20vs%20Senegal",
+      "home": {
+        "id": "464",
+        "name": "Norway",
+        "name_zh": "挪威",
+        "flag": "🇳🇴",
+        "abbr": "NOR",
+        "rank": 31
+      },
+      "away": {
+        "id": "654",
+        "name": "Senegal",
+        "name_zh": "塞内加尔",
+        "flag": "🇸🇳",
+        "abbr": "SEN",
+        "rank": 15
+      },
+      "group_name": "Group I",
+      "home_group_rank": 1,
+      "home_pts": 3,
+      "home_mp": 1,
+      "away_group_rank": 3,
+      "away_pts": 0,
+      "away_mp": 1,
+      "stakes_kind": "must_win",
+      "stakes_score_auto": 8,
+      "stakes_verdict_auto": "must",
+      "stakes_narrative_zh": "首轮胜者对阵劲旅，弱旅再输基本告别小组赛。",
+      "stakes_narrative_en": "Group leader faces a tough test — upset risk is real.",
+      "verdict": "must",
+      "score": 8,
+      "headline_zh": "H 组头名之争",
+      "headline_en": "Group H's top-of-table clash",
+      "watch_for_zh": [
+        "H 组首轮两队都赢了——本场赢者基本锁定头名",
+        "挪威 24 年来首次世界杯之旅（哈兰德 25 岁！）",
+        "塞内加尔 2002 年世界杯 8 强——非洲传统强队",
+        "哈兰德 vs 马内的对决——两个联赛金靴"
+      ],
+      "watch_for_en": [
+        "Both H teams won MD1 — winner likely takes the group",
+        "Norway's first WC in 24 years (with Haaland, 25!)",
+        "Senegal were 2002 WC QF — traditional African powerhouse",
+        "Haaland vs Mané — two league Golden Boots face-to-face"
+      ],
+      "key_players_zh": [
+        "埃尔林·哈兰德 #9（曼城，挪威 25 岁）",
+        "萨迪奥·马内 #10（沙特联，传奇前锋）",
+        "马丁·厄德高 #10（阿森纳，挪威队长）"
+      ],
+      "key_players_en": [
+        "Erling Haaland #9 (Man City, 25, Norway captain)",
+        "Sadio Mané #10 (Saudi Pro League, Senegal legend)",
+        "Martin Ødegaard #10 (Arsenal, Norway creator)"
+      ],
+      "news_focus_zh": "哈兰德在曼城的进球率史上最高（场均 1.0+）",
+      "news_focus_en": "Haaland's Man City scoring rate is the highest in PL history",
+      "record_potential_zh": [
+        "哈兰德世界杯首秀——若进球将成为挪威 24 年来首位世界杯进球者",
+        "马内若进球将以 5 球追平塞内加尔世界杯历史纪录"
+      ],
+      "record_potential_en": [
+        "Haaland's WC debut — a goal would end Norway's 24-year WC scoring drought",
+        "Mané can match Senegal's all-time WC goal record (5) with one goal"
+      ],
+      "why_skip_zh": null,
+      "why_skip_en": null,
+      "verdict_override": null,
+      "score_override": null
+    },
+    {
+      "match_id": "760458",
+      "kickoff_utc": "2026-06-23T20:00:00+00:00",
+      "kickoff_local": "2026-06-23T15:00:00-05:00",
+      "kickoff_local_date": "2026-06-23",
+      "kickoff_time": "3:00 PM",
+      "kickoff_weekday": "Tue",
+      "stage": "Group Stage",
+      "stage_slug": "group-stage",
+      "venue": "Gillette Stadium",
+      "venue_city": "Foxborough, Massachusetts",
+      "espn_url": "https://www.espn.com/soccer/match/_/gameId/760458/ghana-england",
+      "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20England%20vs%20Ghana",
+      "home": {
+        "id": "448",
+        "name": "England",
+        "name_zh": "英格兰",
+        "flag": "🏴",
+        "abbr": "ENG",
+        "rank": 4
+      },
+      "away": {
+        "id": "4469",
+        "name": "Ghana",
+        "name_zh": "加纳",
+        "flag": "🇬🇭",
+        "abbr": "GHA",
+        "rank": 73
+      },
+      "group_name": "Group L",
+      "home_group_rank": 1,
+      "home_pts": 3,
+      "home_mp": 1,
+      "away_group_rank": 2,
+      "away_pts": 3,
+      "away_mp": 1,
+      "stakes_kind": "must_win",
+      "stakes_score_auto": 10,
+      "stakes_verdict_auto": "must",
+      "stakes_narrative_zh": "双方首轮全胜，第二轮正面交锋——赢者基本锁定出线。",
+      "stakes_narrative_en": "Both won MD1 — winner likely seals qualification.",
+      "verdict": "must",
+      "score": 10,
+      "headline_zh": "英格兰真正考验",
+      "headline_en": "England's real test",
+      "watch_for_zh": [
+        "英格兰首轮 4-2 击败克罗地亚，B 队状态火热",
+        "加纳首轮 1-0 绝杀巴拿马，非洲黑马",
+        "加纳 2010 年世界杯 8 强，2014 年也小组出线",
+        "贝林厄姆和凯恩状态正佳"
+      ],
+      "watch_for_en": [
+        "England opened 4-2 vs Croatia — Bellingham and Kane firing",
+        "Ghana won 1-0 vs Panama with a last-minute goal",
+        "Ghana were 2010 WC QF and 2014 WC group-stage winners",
+        "Bellingham and Kane in peak form"
+      ],
+      "key_players_zh": [
+        "裘德·贝林厄姆 #10（皇马，金童奖）",
+        "哈里·凯恩 #9（拜仁，英格兰队长）",
+        "托马斯·帕尔特伊 #5（阿森纳，加纳队长）"
+      ],
+      "key_players_en": [
+        "Jude Bellingham #10 (Real Madrid, Golden Boy)",
+        "Harry Kane #9 (Bayern, England captain)",
+        "Thomas Partey #5 (Arsenal, Ghana captain)"
+      ],
+      "news_focus_zh": "贝林厄姆本赛季在皇马踢中场——是金球奖热门",
+      "news_focus_en": "Bellingham has played midfield at Real this season — Ballon d'Or contender",
+      "record_potential_zh": [
+        "贝林厄姆若进球将创英格兰最年轻连续 2 届世界杯进球纪录",
+        "凯恩若梅开二度将成为英格兰世界杯历史最佳射手"
+      ],
+      "record_potential_en": [
+        "Bellingham would be England's youngest to score in 2 straight WCs",
+        "Kane can become England's all-time WC top scorer with a brace"
+      ],
+      "why_skip_zh": null,
+      "why_skip_en": null,
+      "verdict_override": null,
+      "score_override": null
+    }
+  ]
+}

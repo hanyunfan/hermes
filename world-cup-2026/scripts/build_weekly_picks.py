@@ -1,40 +1,54 @@
 #!/usr/bin/env python3
 """
-Build the AI-recommend skeleton for "today" from data/matches.json.
+Build the "weekly picks" skeleton for the current round from
+data/matches.json.
 
-This script does ONLY the deterministic / numeric side of the AI
-recommendation tab — it computes group-stage stakes (which team needs
-what result to advance / stay alive / qualify for the round of 32),
-ranks matches by stakes + marquee appeal, and emits a per-match
-skeleton to data/ai-recommend.json with the subjective fields left
-null/empty for manual enrichment.
+Picks the current or next matchday/round of matches, computes the
+deterministic half (group-stage stakes, 0-10 score, must/lively/skip
+verdict), and writes a per-match skeleton to data/weekly-picks.json
+with the subjective fields left null/empty for manual enrichment.
+
+Round-window logic
+──────────────────
+The script shows the matches in the *current* tournament round —
+the next ROUND_WINDOW_DAYS of matches from today. Each WC 2026
+group-stage matchday spans ~6 days (groups are staggered), so a
+"weekly" digest of 6 days naturally covers one matchday. The window
+is then capped at ROUND_MAX_MATCHES matches, prioritized by stakes
+score then kickoff time. The window default can be overridden with
+--window N.
+
+The window includes matches that are SCHEDULED, LIVE, or FINAL — so
+post-game analysis stays visible for matches earlier in the round.
 
 Manual enrichment workflow (the whole point of this tab):
   1. Run this script to refresh the auto fields.
-     python3 scripts/build_ai_recommend.py
-  2. Open data/ai-recommend.json — fill in `headline_*`, `watch_for_*`,
-     `key_players_*`, `news_focus_*`, `record_potential_*`, `why_skip_*`,
-     `intro_*`, `manual_note_*` with today's analysis.
+     python3 scripts/build_weekly_picks.py
+  2. Open data/weekly-picks.json — fill in `headline_*`, `watch_for_*`,
+     `key_players_*`, `news_focus_*`, `record_potential_*`,
+     `why_skip_*`, `round_intro_*`, `manual_note_*` with this
+     round's analysis.
   3. Commit + push → GitHub Pages redeploys.
 
-The script is idempotent: if a manual analysis already exists (any
-`headline_zh` or `headline_en` populated on a match), it keeps the
-existing text and only refreshes the auto fields and timestamps. To
-force a full rewrite (rare — usually only when the date changes),
-pass --force.
+The script is idempotent: a re-run preserves manual fields. A round
+rollover (different date range OR different round label) wipes them
+so stale analysis doesn't leak into the new round. Use --force to
+ignore manual fields entirely.
 
 Usage:
-    python3 scripts/build_ai_recommend.py
-    python3 scripts/build_ai_recommend.py --tz America/Chicago
-    python3 scripts/build_ai_recommend.py --tz Europe/London
-    python3 scripts/build_ai_recommend.py --force
+    python3 scripts/build_weekly_picks.py
+    python3 scripts/build_weekly_picks.py --tz America/Chicago
+    python3 scripts/build_weekly_picks.py --tz Europe/London
+    python3 scripts/build_weekly_picks.py --force
+    python3 scripts/build_weekly_picks.py --window 5
 """
 from __future__ import annotations
 
 import argparse
 import json
 import sys
-from datetime import date, datetime, timezone
+from collections import defaultdict
+from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
@@ -42,17 +56,35 @@ DEFAULT_TZ = "America/Chicago"
 HERE = Path(__file__).resolve().parent
 DATA_DIR = HERE.parent / "data"
 INPUT_PATH = DATA_DIR / "matches.json"
-OUTPUT_PATH = DATA_DIR / "ai-recommend.json"
+OUTPUT_PATH = DATA_DIR / "weekly-picks.json"
 
 SCHEMA_VERSION = 1
 
-# ── verdict helpers ────────────────────────────────────────────
-# We classify each match into one of three buckets based on auto-
-# derived signals. The subjective text still wins in the UI — this
-# just gives Frank (and the script) a starting point.
+# Hard cap on picks per round — keeps the digest readable. The
+# earliest-N + highest-stakes picks win.
+ROUND_MAX_MATCHES = 16
 
+# How many days the digest spans. WC 2026 group-stage matchdays run
+# ~6 days (groups are staggered), so 6 days naturally captures one
+# full matchday. The window default can be overridden via --window.
+ROUND_WINDOW_DAYS = 6
+
+# Tournament-round labels. The script tries to derive a round label
+# automatically (e.g. "Matchday 2", "Round of 32") from each match's
+# stage_slug; this dict is the human-readable mapping.
+ROUND_LABELS = {
+    "group-stage":      {"zh": "小组赛",        "en": "Group Stage"},
+    "round-of-32":      {"zh": "1/8 决赛",      "en": "Round of 32"},
+    "round-of-16":      {"zh": "1/4 决赛前",    "en": "Round of 16"},
+    "quarterfinals":    {"zh": "四分之一决赛",  "en": "Quarterfinals"},
+    "semifinals":       {"zh": "半决赛",        "en": "Semifinals"},
+    "3rd-place":        {"zh": "三四名决赛",    "en": "Third-Place"},
+    "final":            {"zh": "决赛",          "en": "Final"},
+}
+
+# ── verdict helpers ────────────────────────────────────────────
 VERDICT_MUST = "must"        # 必看
-VERDICT_LIVELY = "lively"     # 还行 / 可看可不看
+VERDICT_LIVELY = "lively"     # 可看可不看
 VERDICT_SKIPPABLE = "skip"    # 可不看
 
 # FIFA ranks that count as "marquee" for the auto score.
@@ -65,35 +97,112 @@ def load_matches(path: Path) -> dict:
 
 
 def today_in_tz(tz_name: str) -> date:
-    tz = ZoneInfo(tz_name)
-    return datetime.now(tz).date()
+    return datetime.now(ZoneInfo(tz_name)).date()
 
 
-def collect_today_matches(matches_doc: dict, tz_name: str, day: date) -> list[dict]:
-    """Pull all matches whose local kickoff date == `day` in `tz_name`."""
+# ── round-window selection ─────────────────────────────────────
+def _kickoff_local_date(m: dict, tz: ZoneInfo) -> date | None:
+    ku = m.get("kickoff_utc")
+    if not ku:
+        return None
+    try:
+        return datetime.fromisoformat(ku.replace("Z", "+00:00")).astimezone(tz).date()
+    except Exception:
+        return None
+
+
+def collect_round_matches(
+    matches_doc: dict,
+    tz_name: str,
+    today_d: date,
+    window_days: int = ROUND_WINDOW_DAYS,
+) -> list[dict]:
+    """Return matches in the current round window.
+
+    Window = [today, today + window_days] in the display timezone.
+    We include SCHEDULED, LIVE, and FINAL matches so post-game
+    analysis stays visible for matches earlier in the window.
+    Skip HALFTIME / POSTPONED / CANCELED.
+    """
     tz = ZoneInfo(tz_name)
+    end_d = today_d + timedelta(days=window_days - 1)
     out = []
     for day_block in matches_doc.get("days", []):
         for m in day_block.get("matches", []):
-            ku = m.get("kickoff_utc")
-            if not ku:
+            d = _kickoff_local_date(m, tz)
+            if d is None:
                 continue
-            try:
-                d = datetime.fromisoformat(ku.replace("Z", "+00:00")).astimezone(tz).date()
-            except Exception:
-                continue
-            if d == day:
+            if today_d <= d <= end_d:
+                if m.get("status") in ("HALFTIME", "POSTPONED", "CANCELED"):
+                    continue
                 out.append(m)
     out.sort(key=lambda m: m.get("kickoff_utc", ""))
     return out
 
 
-def build_group_index(matches_doc: dict) -> dict:
-    """Map team_id → {group_name, group_abbr, pts, mp, w, d, l, gf, ga, gd, rank}.
+def round_label(matches: list[dict], tz_name: str) -> dict:
+    """Pick a round label for the picked matches.
 
-    Built from the standings payload, which already reflects every
-    match played through the most recent fetch.
+    For group stage, derive "Matchday N" by looking at how many
+    group-stage matches each team has already played (`mp` in
+    standings): 0 → MD1, 1 → MD2, 2 → MD3. If teams are split across
+    matchdays (the schedule staggers groups), use the dominant one.
+    For knockout rounds, use the dominant stage_slug.
     """
+    if not matches:
+        return {"zh": "本轮", "en": "This Round"}
+    stage_counts: dict[str, int] = defaultdict(int)
+    for m in matches:
+        stage_counts[m.get("stage_slug") or "unknown"] += 1
+    dominant = max(stage_counts, key=stage_counts.get)
+
+    if dominant == "group-stage":
+        # Derive MD number from the median mp of teams in the picked
+        # matches. Most group matches are "MD1" (mp=0) for early
+        # tournament, "MD2" (mp=1) for mid, "MD3" (mp=2) for late.
+        # We pull mp from the most-recent standings attached to each
+        # match via the document's groups list.
+        team_to_mp: dict[str, int] = {}
+        for g in _doc_cache.get("groups", []):
+            for e in g.get("entries", []):
+                tid = str(e.get("team", {}).get("id") or "")
+                if tid:
+                    team_to_mp[tid] = e.get("mp", 0)
+        mps = []
+        for m in matches:
+            for side in (m.get("home") or {}, m.get("away") or {}):
+                tid = str(side.get("id") or "")
+                if tid in team_to_mp:
+                    mps.append(team_to_mp[tid])
+        # Median mp → next matchday = median + 1
+        if mps:
+            mps.sort()
+            median_mp = mps[len(mps) // 2]
+            md_num = median_mp + 1
+            md_num = max(1, min(3, md_num))
+        else:
+            md_num = 1
+        return {
+            "zh": f"小组赛第 {md_num} 轮",
+            "en": f"Matchday {md_num}",
+        }
+
+    base = ROUND_LABELS.get(dominant, {"zh": dominant, "en": dominant})
+    return base
+
+
+def round_date_range(matches: list[dict], tz_name: str) -> tuple[date, date] | None:
+    if not matches:
+        return None
+    tz = ZoneInfo(tz_name)
+    dates = sorted({_kickoff_local_date(m, tz) for m in matches if _kickoff_local_date(m, tz) is not None})
+    if not dates:
+        return None
+    return dates[0], dates[-1]
+
+
+def build_group_index(matches_doc: dict) -> dict:
+    """Map team_id → {group_name, rank, pts, mp, w, d, l, gf, ga, gd}."""
     idx: dict[str, dict] = {}
     for g in matches_doc.get("groups", []):
         gname = g.get("abbreviation") or g.get("name") or ""
@@ -118,12 +227,21 @@ def build_group_index(matches_doc: dict) -> dict:
     return idx
 
 
-def md_for_team(team_id: str, matches_doc: dict, today_iso: str) -> int | None:
+# ── stakes computation ─────────────────────────────────────────
+def _doc_cache_set(doc: dict) -> None:
+    global _doc_cache
+    _doc_cache = doc
+
+
+_doc_cache: dict = {}
+
+
+def md_for_team(team_id: str, today_iso: str) -> int:
     """Matchday number for `team_id` after counting its own matches
     scheduled on or before today (in UTC). 1, 2, or 3 in the group
-    stage. Returns None if no group games are scheduled yet (knockout)."""
+    stage. Returns 0 if no group games are scheduled yet."""
     count = 0
-    for day_block in matches_doc.get("days", []):
+    for day_block in _doc_cache.get("days", []):
         for m in day_block.get("matches", []):
             if m.get("stage_slug") != "group-stage":
                 continue
@@ -132,16 +250,15 @@ def md_for_team(team_id: str, matches_doc: dict, today_iso: str) -> int | None:
             ku = m.get("kickoff_utc", "")
             if ku and ku[:10] <= today_iso:
                 count += 1
-    return count or None
+    return count
 
 
 def compute_stakes(
     match: dict,
     standings_idx: dict,
     today_iso: str,
-    matches_doc: dict,
 ) -> dict:
-    """Return the auto-derived stake narrative for one match.
+    """Auto-derived stake narrative for one match.
 
     Returns a dict with:
       - kind: "group_decider" | "must_win" | "dead_rubber" |
@@ -167,23 +284,28 @@ def compute_stakes(
     # ── group stage ──
     h = standings_idx.get(home_id)
     a = standings_idx.get(away_id)
-
-    # MD1 = first matchday. If both teams have played 0 games, this is
-    # an opener (every team alive, no dead rubbers yet). Use a single
-    # source of truth: count *this* match as MD(cnt+1).
     h_md = (h["mp"] if h else 0) + 1
     a_md = (a["mp"] if a else 0) + 1
     md_num = max(h_md, a_md)
-
     h_pts = h["pts"] if h else 0
     a_pts = a["pts"] if a else 0
-    h_rank = h["rank"] if h and h.get("rank") else None
-    a_rank = a["rank"] if a and a.get("rank") else None
 
-    # After MD2, top 2 are usually clear; MD3 is when elimination math
-    # gets interesting. Pre-MD2 (opener) everything is wide open.
+    # Helper: are all four teams in this group level on points?
+    def group_tied() -> bool:
+        if not h or not a:
+            return False
+        gid = h.get("group_name")
+        if not gid:
+            return False
+        pts_set = set()
+        for g in _doc_cache.get("groups", []):
+            if g.get("abbreviation") != gid:
+                continue
+            for e in g.get("entries", []):
+                pts_set.add(e.get("pts", 0))
+        return len(pts_set) == 1
+
     if md_num == 1:
-        # Opener — wide open. Marquee teams get a bump.
         marquee = (
             (match.get("home", {}).get("rank") in MARQUEE_RANKS)
             or (match.get("away", {}).get("rank") in MARQUEE_RANKS)
@@ -198,53 +320,23 @@ def compute_stakes(
         }
 
     if md_num == 3:
-        # Final matchday — always decisive math.
-        # If either team has 0 pts they're already out (unless the
-        # group is so lopsided that others can't catch up).
         h_alive = h is None or h_pts > 0 or h_md == 3
         a_alive = a is None or a_pts > 0 or a_md == 3
         if not h_alive or not a_alive:
-            score = 6
-            verdict = VERDICT_LIVELY
-            kind = "dead_rubber"
-            zh = "末轮，但有球队已无晋级可能。"
-            en = "Final matchday, but a team has already been eliminated."
-        else:
-            score = 9
-            verdict = VERDICT_MUST
-            kind = "group_decider"
-            zh = "末轮出线生死战。"
-            en = "Final matchday — qualification on the line."
-        return {"kind": kind, "score": score, "verdict": verdict, "narrative_zh": zh, "narrative_en": en}
-
-    # md_num == 2 — middle matchday. Heuristic:
-    #   • Both teams at 3 pts → "six-pointer" decider
-    #   • One at 3, one at 0 → favorite vs underdog, fairly high stakes
-    #   • Both at 0 → both desperate, must-win for both
-    #   • One at 3+, one at 0 with weak opponent → quieter
-    # Helper: are all four teams in this group level on points?
-    # When yes, MD2 is the first chance to break away — quietly
-    # tense even if neither team is "top".
-    def group_tied() -> bool:
-        if not h or not a:
-            return False
-        gid = None
-        for g in matches_doc.get("groups", []):
-            for e in g.get("entries", []):
-                if str(e.get("team", {}).get("id")) == home_id:
-                    gid = g.get("abbreviation")
-                    break
-            if gid:
-                break
-        if not gid:
-            return False
-        pts_set = set()
-        for g in matches_doc.get("groups", []):
-            if g.get("abbreviation") != gid:
-                continue
-            for e in g.get("entries", []):
-                pts_set.add(e.get("pts", 0))
-        return len(pts_set) == 1
+            return {
+                "kind": "dead_rubber",
+                "score": 6,
+                "verdict": VERDICT_LIVELY,
+                "narrative_zh": "末轮，但有球队已无晋级可能。",
+                "narrative_en": "Final matchday, but a team has already been eliminated.",
+            }
+        return {
+            "kind": "group_decider",
+            "score": 9,
+            "verdict": VERDICT_MUST,
+            "narrative_zh": "末轮出线生死战。",
+            "narrative_en": "Final matchday — qualification on the line.",
+        }
 
     if h_pts == 3 and a_pts == 3:
         return {
@@ -254,7 +346,7 @@ def compute_stakes(
             "narrative_zh": "双方首轮全胜，第二轮正面交锋——赢者基本锁定出线。",
             "narrative_en": "Both won MD1 — winner likely seals qualification.",
         }
-    if (h_pts == 0 and a_pts == 0):
+    if h_pts == 0 and a_pts == 0:
         return {
             "kind": "must_win",
             "score": 8,
@@ -271,9 +363,7 @@ def compute_stakes(
             "narrative_en": "All four sides level — first chance to break away.",
         }
     if {h_pts, a_pts} == {3, 0}:
-        laggard_rank = a_rank if h_pts == 3 else h_rank
-        # Bump score if the trailing team is highly ranked (i.e. this
-        # is an upset risk match, not a routine walkover).
+        laggard_rank = (a["rank"] if h_pts == 3 else h["rank"]) if (h and a) else None
         if laggard_rank is not None and laggard_rank <= 15:
             return {
                 "kind": "must_win",
@@ -290,7 +380,6 @@ def compute_stakes(
             "narrative_en": "Group leader vs underdog — storylines still possible.",
         }
 
-    # One team on 1 pt (draw), other on 0 or 3 — middling stakes.
     return {
         "kind": "regular",
         "score": 6,
@@ -300,29 +389,13 @@ def compute_stakes(
     }
 
 
-# Tiny helpers that keep `compute_stakes` readable. We carry the
-# loaded document around via a global cache so md_for_team can use
-# it without threading it through every call site.
-_doc_cache: dict = {}
-
-
-def recompute_stakes(match, standings_idx, today_iso, doc):
-    """Recompute stakes with the document in scope (avoids globals)."""
-    global _doc_cache
-    _doc_cache = doc
-    return compute_stakes(match, standings_idx, today_iso, doc)
-
-
-# ── verdict auto-ranking ───────────────────────────────────────
 def auto_score_match(match: dict, stakes: dict) -> int:
-    """Combine stakes score + marquee team bonus into a 0–10 score."""
     base = stakes["score"]
     h_rank = match.get("home", {}).get("rank")
     a_rank = match.get("away", {}).get("rank")
     bonus = 0
     if h_rank in MARQUEE_RANKS or a_rank in MARQUEE_RANKS:
         bonus += 1
-    # Both teams top-20 → huge marquee bump.
     if (h_rank or 99) <= 20 and (a_rank or 99) <= 20:
         bonus += 1
     return min(10, base + bonus)
@@ -357,8 +430,6 @@ def find_existing_match(existing: dict | None, match_id: str) -> dict | None:
 
 
 def preserve_manual_fields(new: dict, old: dict | None) -> None:
-    """Carry over subjective fields from an older revision so a
-    re-run of this script doesn't wipe today's manual analysis."""
     if not old:
         return
     keep_keys = (
@@ -377,28 +448,51 @@ def preserve_manual_fields(new: dict, old: dict | None) -> None:
 
 
 def is_manually_enriched(match: dict) -> bool:
-    """A match counts as 'enriched' if either headline is populated."""
     return bool(match.get("headline_zh") or match.get("headline_en"))
 
 
 # ── main builder ───────────────────────────────────────────────
-def build(matches_doc: dict, tz_name: str, force: bool = False) -> dict:
+def build(matches_doc: dict, tz_name: str, force: bool = False, window_days: int = ROUND_WINDOW_DAYS) -> dict:
     tz = ZoneInfo(tz_name)
     now_local = datetime.now(tz)
     today_local = now_local.date()
-    today_iso = today_local.isoformat()
-    # today_iso is local-date-in-tz, but it's also a UTC prefix that
-    # sorts correctly because all dates we compare are YYYY-MM-DD.
     today_iso_utc = now_local.astimezone(timezone.utc).date().isoformat()
+    _doc_cache_set(matches_doc)
 
     standings_idx = build_group_index(matches_doc)
-    today_matches = collect_today_matches(matches_doc, tz_name, today_local)
+    round_matches = collect_round_matches(matches_doc, tz_name, today_local, window_days=window_days)
+    # Cap picks per round.
+    if len(round_matches) > ROUND_MAX_MATCHES:
+        # Score first, then kickoff time, then take the top N.
+        scored = []
+        for m in round_matches:
+            stakes = compute_stakes(m, standings_idx, today_iso_utc)
+            scored.append((auto_score_match(m, stakes), m.get("kickoff_utc", ""), m))
+        scored.sort(key=lambda x: (-x[0], x[1]))
+        round_matches = [m for _, _, m in scored[:ROUND_MAX_MATCHES]]
+        round_matches.sort(key=lambda m: m.get("kickoff_utc", ""))
+
+    label = round_label(round_matches, tz_name)
+    date_range = round_date_range(round_matches, tz_name)
+    if date_range:
+        lo, hi = date_range
+        date_range_iso = [lo.isoformat(), hi.isoformat()]
+    else:
+        date_range_iso = [today_local.isoformat(), today_local.isoformat()]
 
     existing = None if force else load_existing_output(OUTPUT_PATH)
+    # Round identity = (label_zh, date_range). On rollover, manual
+    # fields get wiped so last round's prose doesn't leak in.
+    new_round_key = (label["zh"], tuple(date_range_iso))
+    existing_round_key = (
+        (existing or {}).get("round_label", {}).get("zh"),
+        tuple((existing or {}).get("round_date_range") or []),
+    )
+    round_changed = existing_round_key != new_round_key
 
     out_matches = []
-    for m in today_matches:
-        stakes = recompute_stakes(m, standings_idx, today_iso_utc, matches_doc)
+    for m in round_matches:
+        stakes = compute_stakes(m, standings_idx, today_iso_utc)
         score = auto_score_match(m, stakes)
         verdict = auto_verdict(score)
         home = m.get("home", {}) or {}
@@ -407,16 +501,11 @@ def build(matches_doc: dict, tz_name: str, force: bool = False) -> dict:
         h_entry = standings_idx.get(str(home.get("id") or "")) or {}
         a_entry = standings_idx.get(str(away.get("id") or "")) or {}
 
-        # `record_potential` is left for manual enrichment; we pre-fill
-        # the auto-detected items that a script can safely know: a
-        # player's all-time rank (Mbappé climbing to top of all-time,
-        # etc.) is too speculative for a deterministic script, so this
-        # list starts empty.
-
         new_entry = {
             "match_id": str(m.get("id") or ""),
             "kickoff_utc": m.get("kickoff_utc"),
             "kickoff_local": m.get("kickoff_local"),
+            "kickoff_local_date": m.get("kickoff_local_date"),
             "kickoff_time": m.get("kickoff_time"),
             "kickoff_weekday": m.get("kickoff_weekday"),
             "stage": m.get("stage"),
@@ -457,9 +546,6 @@ def build(matches_doc: dict, tz_name: str, force: bool = False) -> dict:
             "stakes_narrative_zh": stakes["narrative_zh"],
             "stakes_narrative_en": stakes["narrative_en"],
 
-            # Manual fields — populated by the analyst (Claude, on
-            # request from Frank). Default to null so the UI can show
-            # a clear "awaiting analysis" placeholder.
             "verdict": verdict,
             "score": score,
             "headline_zh": None,
@@ -478,9 +564,9 @@ def build(matches_doc: dict, tz_name: str, force: bool = False) -> dict:
             "score_override": None,
         }
 
-        old = find_existing_match(existing, new_entry["match_id"])
-        preserve_manual_fields(new_entry, old)
-        # Honor overrides from a prior manual pass too.
+        if not round_changed:
+            old = find_existing_match(existing, new_entry["match_id"])
+            preserve_manual_fields(new_entry, old)
         if new_entry.get("verdict_override"):
             new_entry["verdict"] = new_entry["verdict_override"]
         if new_entry.get("score_override") is not None:
@@ -497,49 +583,34 @@ def build(matches_doc: dict, tz_name: str, force: bool = False) -> dict:
     )
 
     manual_count = sum(1 for m in out_matches if is_manually_enriched(m))
-    last_manual = existing.get("last_manual_update") if existing else None
-    if existing and existing.get("date_local") != today_iso:
-        # Date rolled over — wipe the manual signals so the stale
-        # analysis from yesterday doesn't leak into today's tab.
-        for m in out_matches:
-            for k in (
-                "headline_zh", "headline_en",
-                "watch_for_zh", "watch_for_en",
-                "key_players_zh", "key_players_en",
-                "news_focus_zh", "news_focus_en",
-                "record_potential_zh", "record_potential_en",
-                "why_skip_zh", "why_skip_en",
-                "verdict_override", "score_override",
-                "manual_author",
-            ):
-                m[k] = None if not isinstance(m.get(k), list) else []
-        last_manual = None
-        manual_count = 0
+    last_manual = (existing or {}).get("last_manual_update") if not round_changed else None
 
     doc = {
         "schema_version": SCHEMA_VERSION,
         "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "timezone": tz_name,
         "now_local": now_local.isoformat(timespec="seconds"),
-        "date_local": today_iso,
+        "round_label": label,
+        "round_date_range": date_range_iso,
         "match_count": len(out_matches),
         "manual_count": manual_count,
         "last_manual_update": last_manual,
-        "intro_zh": (existing or {}).get("intro_zh"),
-        "intro_en": (existing or {}).get("intro_en"),
-        "manual_note_zh": (existing or {}).get("manual_note_zh"),
-        "manual_note_en": (existing or {}).get("manual_note_en"),
+        "round_intro_zh": (existing or {}).get("round_intro_zh") if not round_changed else None,
+        "round_intro_en": (existing or {}).get("round_intro_en") if not round_changed else None,
+        "manual_note_zh": (existing or {}).get("manual_note_zh") if not round_changed else None,
+        "manual_note_en": (existing or {}).get("manual_note_en") if not round_changed else None,
         "matches": out_matches,
     }
     return doc
 
 
 def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(description="Build AI-recommend skeleton from matches.json")
+    parser = argparse.ArgumentParser(description="Build weekly-picks skeleton from matches.json")
     parser.add_argument("--tz", default=DEFAULT_TZ, help="display timezone (default: America/Chicago)")
     parser.add_argument("--in", dest="in_path", default=str(INPUT_PATH), help="path to matches.json")
-    parser.add_argument("--out", dest="out_path", default=str(OUTPUT_PATH), help="path to ai-recommend.json")
+    parser.add_argument("--out", dest="out_path", default=str(OUTPUT_PATH), help="path to weekly-picks.json")
     parser.add_argument("--force", action="store_true", help="ignore existing manual enrichment")
+    parser.add_argument("--window", type=int, default=None, help="override round-window auto-detect (days)")
     parser.add_argument("--dry-run", action="store_true", help="print JSON to stdout, don't write")
     args = parser.parse_args(argv)
 
@@ -550,7 +621,7 @@ def main(argv: list[str] | None = None) -> int:
         return 2
 
     matches_doc = load_matches(in_path)
-    doc = build(matches_doc, args.tz, force=args.force)
+    doc = build(matches_doc, args.tz, force=args.force, window_days=args.window or ROUND_WINDOW_DAYS)
 
     if args.dry_run:
         print(json.dumps(doc, ensure_ascii=False, indent=2))
@@ -560,8 +631,13 @@ def main(argv: list[str] | None = None) -> int:
     with out_path.open("w", encoding="utf-8") as f:
         json.dump(doc, f, ensure_ascii=False, indent=2)
         f.write("\n")
-    manual = doc["manual_count"]
-    print(f"wrote {out_path} ({doc['match_count']} matches, {manual} manually enriched, date={doc['date_local']})")
+    label_en = doc["round_label"]["en"]
+    rng = doc["round_date_range"]
+    print(
+        f"wrote {out_path} ({doc['match_count']} matches, "
+        f"{doc['manual_count']} manually enriched, "
+        f"round={label_en}, dates={rng[0]}..{rng[1]})"
+    )
     return 0
 
 

@@ -18,7 +18,7 @@ on:
   push:
     paths:
       - "world-cup-2026/scripts/fetch_matches.py"
-      - "world-cup-2026/scripts/build_ai_recommend.py"
+      - "world-cup-2026/scripts/build_weekly_picks.py"
       - ".github/workflows/fetch-wc2026.yml"
 
 permissions:
@@ -52,7 +52,7 @@ jobs:
           echo "First 40 lines of matches.json:"
           head -40 data/matches.json
 
-      - name: Build AI-recommend skeleton
+      - name: Build weekly-picks skeleton
         working-directory: world-cup-2026
         # Refreshes the auto fields (group-stage stakes, score) every
         # cycle. Manual subjective fields (headline, watch_for, etc.)
@@ -60,12 +60,12 @@ jobs:
         # date rollover wipes them. The script is a no-op when the
         # today's match list is empty (e.g. cold window).
         run: |
-          if [ ! -f data/ai-recommend.json ]; then
-            python3 scripts/build_ai_recommend.py --tz America/Chicago
-            echo "First run: wrote fresh ai-recommend.json"
+          if [ ! -f data/weekly-picks.json ]; then
+            python3 scripts/build_weekly_picks.py --tz America/Chicago
+            echo "First run: wrote fresh weekly-picks.json"
           else
-            python3 scripts/build_ai_recommend.py --tz America/Chicago
-            echo "Refreshed ai-recommend.json (manual fields preserved)"
+            python3 scripts/build_weekly_picks.py --tz America/Chicago
+            echo "Refreshed weekly-picks.json (manual fields preserved)"
           fi
 
       - name: Commit & push
@@ -73,13 +73,13 @@ jobs:
         env:
           TRIGGER: ${{ github.event_name }}
         run: |
-          if git diff --quiet data/matches.json data/ai-recommend.json; then
+          if git diff --quiet data/matches.json data/weekly-picks.json; then
             echo "No changes to data/"
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/matches.json data/ai-recommend.json
+          git add data/matches.json data/weekly-picks.json
           TS=$(date -u '+%Y-%m-%d %H:%M UTC')
           case "$TRIGGER" in
             schedule) SUFFIX=" (scheduled)" ;;

@@ -130,34 +130,36 @@
       "footer.source": "Source",
       "tz.times.in": "Times in {tz}",
 
-      // AI Must-Watch Today tab
-      "ai.title": "AI Must-Watch Today",
-      "ai.hint": "Hand-curated daily picks — which matches deserve your evening, which you can skip, and why. Stakes (advancement math) are auto-computed; the rest is written by an analyst after reviewing today's fixtures.",
-      "ai.verdict.must": "Must watch",
-      "ai.verdict.lively": "Worth a look",
-      "ai.verdict.skip": "Skippable",
-      "ai.score": "Score {n}/10",
-      "ai.match.kickoff": "Kickoff",
-      "ai.match.stage": "Stage",
-      "ai.match.venue": "Venue",
-      "ai.match.stakes": "Stakes",
-      "ai.match.watch": "What to watch",
-      "ai.match.players": "Players to watch",
-      "ai.match.news": "News angle",
-      "ai.match.records": "Record watch",
-      "ai.match.why_skip": "Why you can skip",
-      "ai.match.links": "More",
-      "ai.empty.title": "No AI picks yet for today.",
-      "ai.empty.hint": "Auto-refresh writes a skeleton every cycle. The analyst fills in the rest on request — ask for today's analysis and the picks will appear here within minutes.",
-      "ai.empty.ask": "Ask in Telegram for today's picks.",
-      "ai.stale.title": "These picks are from {date}.",
-      "ai.stale.hint": "The next batch of picks is generated when the analyst reviews today's fixtures. Check back later, or ask in Telegram.",
-      "ai.manual.fresh": "Analyst pick · {when}",
-      "ai.manual.never": "Skeleton only — awaiting analyst review.",
-      "ai.manual.partial": "Analyst pick in progress · {n}/{total} matches reviewed.",
-      "ai.section.must": "Must watch",
-      "ai.section.lively": "Worth a look",
-      "ai.section.skip": "Skippable",
+      // 本周看点 tab (Weekly Picks)
+      "weekly.title": "Weekly Picks",
+      "weekly.hint": "Hand-curated picks for this matchday / round — which matches are worth your evening, which you can skip, and why. Stakes (advancement math) are auto-computed; the rest is written by an analyst after reviewing the round's fixtures.",
+      "weekly.verdict.must": "Must watch",
+      "weekly.verdict.lively": "Worth a look",
+      "weekly.verdict.skip": "Skippable",
+      "weekly.score": "Score {n}/10",
+      "weekly.match.kickoff": "Kickoff",
+      "weekly.match.stage": "Stage",
+      "weekly.match.venue": "Venue",
+      "weekly.match.stakes": "Stakes",
+      "weekly.match.watch": "What to watch",
+      "weekly.match.players": "Players to watch",
+      "weekly.match.news": "News angle",
+      "weekly.match.records": "Record watch",
+      "weekly.match.why_skip": "Why you can skip",
+      "weekly.match.links": "More",
+      "weekly.empty.title": "No picks yet for this round.",
+      "weekly.empty.hint": "Auto-refresh writes a skeleton every cycle. The analyst fills in the rest on request — ask for this round's analysis and the picks will appear here within minutes.",
+      "weekly.empty.ask": "Ask in Telegram for this round's picks.",
+      "weekly.stale.title": "These picks are from {round}.",
+      "weekly.stale.hint": "The next batch of picks is generated when the analyst reviews the round's fixtures. Check back later, or ask in Telegram.",
+      "weekly.manual.fresh": "Analyst pick · {when}",
+      "weekly.manual.never": "Skeleton only — awaiting analyst review.",
+      "weekly.manual.partial": "Analyst pick in progress · {n}/{total} matches reviewed.",
+      "weekly.section.must": "Must watch",
+      "weekly.section.lively": "Worth a look",
+      "weekly.section.skip": "Skippable",
+      "weekly.day.today": "Today",
+      "weekly.day.tomorrow": "Tomorrow",
     },
     zh: {
       "page.title": "2026 国际足联世界杯 — 每日预告",
@@ -267,33 +269,33 @@
       "tz.times.in": "时间显示：{tz}",
 
       // AI 推荐今日必看 tab
-      "ai.title": "AI 推荐今日必看",
-      "ai.hint": "每天人工挑出的场次——哪场值得熬到深夜，哪场可以放心跳过，理由是什么。球队升降级关键由程序自动算；其余字段由分析师根据当日对阵手写。",
-      "ai.verdict.must": "必看",
-      "ai.verdict.lively": "可以看看",
-      "ai.verdict.skip": "可跳过",
-      "ai.score": "推荐分 {n}/10",
-      "ai.match.kickoff": "开球",
-      "ai.match.stage": "阶段",
-      "ai.match.venue": "球场",
-      "ai.match.stakes": "球队升降级关键",
-      "ai.match.watch": "看点",
-      "ai.match.players": "重点球员",
-      "ai.match.news": "新闻关注点",
-      "ai.match.records": "破纪录可能性",
-      "ai.match.why_skip": "跳过的理由",
-      "ai.match.links": "更多",
-      "ai.empty.title": "今日还没有 AI 推荐。",
-      "ai.empty.hint": "每次自动刷新会写入骨架数据，分析师补充主观判断后在 Telegram 留言即可，分钟级上线。",
-      "ai.empty.ask": "在 Telegram 问一句\"今天看哪场\"即可生成。",
-      "ai.stale.title": "当前推荐来自 {date}。",
-      "ai.stale.hint": "今日推荐会在分析师审阅对阵后生成，请稍后再来，或在 Telegram 留言。",
-      "ai.manual.fresh": "分析师已选 · {when}",
-      "ai.manual.never": "仅有骨架，等待分析师审阅。",
-      "ai.manual.partial": "分析师进行中 · {n}/{total} 场已评。",
-      "ai.section.must": "必看场次",
-      "ai.section.lively": "可以看看",
-      "ai.section.skip": "可跳过",
+      "weekly.title": "本周看点",
+      "weekly.hint": "本轮/本周挑出的场次——哪场值得熬到深夜，哪场可以放心跳过，理由是什么。球队升降级关键由程序自动算；其余字段由分析师根据当日对阵手写。",
+      "weekly.verdict.must": "必看",
+      "weekly.verdict.lively": "可以看看",
+      "weekly.verdict.skip": "可跳过",
+      "weekly.score": "推荐分 {n}/10",
+      "weekly.match.kickoff": "开球",
+      "weekly.match.stage": "阶段",
+      "weekly.match.venue": "球场",
+      "weekly.match.stakes": "球队升降级关键",
+      "weekly.match.watch": "看点",
+      "weekly.match.players": "重点球员",
+      "weekly.match.news": "新闻关注点",
+      "weekly.match.records": "破纪录可能性",
+      "weekly.match.why_skip": "跳过的理由",
+      "weekly.match.links": "更多",
+      "weekly.empty.title": "本轮还没有推荐。",
+      "weekly.empty.hint": "每次自动刷新会写入骨架数据，分析师补充主观判断后在 Telegram 留言即可，分钟级上线。",
+      "weekly.empty.ask": "在 Telegram 问一句\"本周看哪场\"即可生成。",
+      "weekly.stale.title": "当前推荐来自 {date}。",
+      "weekly.stale.hint": "本轮推荐会在分析师审阅对阵后生成，请稍后再来，或在 Telegram 留言。",
+      "weekly.manual.fresh": "分析师已选 · {when}",
+      "weekly.manual.never": "仅有骨架，等待分析师审阅。",
+      "weekly.manual.partial": "分析师进行中 · {n}/{total} 场已评。",
+      "weekly.section.must": "必看场次",
+      "weekly.section.lively": "可以看看",
+      "weekly.section.skip": "可跳过",
     },
   };
 
@@ -674,8 +676,8 @@
       renderScorers();
       return;
     }
-    if (currentView === "ai") {
-      renderAi();
+    if (currentView === "weekly") {
+      renderWeekly();
       return;
     }
     const matches = applyFilters();
@@ -1301,52 +1303,52 @@
 
 
   // ────────────────────────────────────────────────────────────
-  // AI Must-Watch Today view
+  // Weekly Picks view
   //
-  // Pulls from data/ai-recommend.json (a small, mostly-static file
+  // Pulls from data/weekly-picks.json (a small, mostly-static file
   // refreshed by scripts/build_ai_recommend.py and curated by hand).
   // The view degrades gracefully: missing file → "no picks yet"
   // empty state; stale date → "these picks are from {date}".
   // ────────────────────────────────────────────────────────────
-  const AI_JSON_URL = "data/ai-recommend.json";
-  const AI_CACHE_KEY = "wc2026.ai.v1";
-  const AI_CACHE_TTL_MS = 5 * 60 * 1000;
+  const WEEKLY_JSON_URL = "data/weekly-picks.json";
+  const WEEKLY_CACHE_KEY = "wc2026.weekly.v1";
+  const WEEKLY_CACHE_TTL_MS = 5 * 60 * 1000;
 
-  let aiData = null;
-  let aiLoading = false;
+  let weeklyData = null;
+  let weeklyLoading = false;
 
-  async function loadAi(force = false) {
-    if (!force && aiData) return aiData;
+  async function loadWeekly(force = false) {
+    if (!force && weeklyData) return weeklyData;
     if (!force) {
       try {
-        const raw = sessionStorage.getItem(AI_CACHE_KEY);
+        const raw = sessionStorage.getItem(WEEKLY_CACHE_KEY);
         if (raw) {
           const { at, data } = JSON.parse(raw);
-          if (Date.now() - at < AI_CACHE_TTL_MS) {
-            aiData = data;
+          if (Date.now() - at < WEEKLY_CACHE_TTL_MS) {
+            weeklyData = data;
             return data;
           }
         }
       } catch { /* ignore */ }
     }
-    if (aiLoading) return aiData;
-    aiLoading = true;
+    if (weeklyLoading) return weeklyData;
+    weeklyLoading = true;
     try {
-      const res = await fetch(`${AI_JSON_URL}?t=${Date.now()}`, { cache: "no-store" });
+      const res = await fetch(`${WEEKLY_JSON_URL}?t=${Date.now()}`, { cache: "no-store" });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const data = await res.json();
-      aiData = data;
-      try { sessionStorage.setItem(AI_CACHE_KEY, JSON.stringify({ at: Date.now(), data })); } catch { /* ignore */ }
+      weeklyData = data;
+      try { sessionStorage.setItem(WEEKLY_CACHE_KEY, JSON.stringify({ at: Date.now(), data })); } catch { /* ignore */ }
       return data;
     } catch (e) {
       // Stale-while-error: keep whatever we had, surface the error to the caller.
       throw e;
     } finally {
-      aiLoading = false;
+      weeklyLoading = false;
     }
   }
 
-  function aiTeamName(side) {
+  function weeklyTeamName(side) {
     if (!side) return "—";
     if (currentLang === "zh" && side.name_zh) return side.name_zh;
     return side.name || "—";
@@ -1364,8 +1366,8 @@
     return iso;
   }
 
-  function aiLastManualLabel(data) {
-    if (!data || !data.last_manual_update) return t("ai.manual.never");
+  function weeklyLastManualLabel(data) {
+    if (!data || !data.last_manual_update) return t("weekly.manual.never");
     const when = data.last_manual_update;
     let rel = "";
     try {
@@ -1377,55 +1379,58 @@
       else if (ms < day) rel = t("relative.h.ago", { n: Math.round(ms / hour) });
       else rel = t("relative.d.ago", { n: Math.round(ms / day) });
     } catch { rel = when.slice(0, 16).replace("T", " "); }
-    return t("ai.manual.fresh", { when: rel });
+    return t("weekly.manual.fresh", { when: rel });
   }
 
-  function renderAi() {
+  function renderWeekly() {
     const content = $("#content");
     content.innerHTML = "";
     const countEl = $("#result-count");
     if (countEl) countEl.textContent = "";
 
-    // Show a quick loading placeholder; loadAi resolves fast on cache hit.
+    // Show a quick loading placeholder; loadWeekly resolves fast on cache hit.
     const placeholder = document.createElement("div");
     placeholder.className = "loading";
     placeholder.textContent = t("loading");
     content.appendChild(placeholder);
 
-    loadAi().then((data) => {
+    loadWeekly().then((data) => {
       content.innerHTML = "";
       const countEl2 = $("#result-count");
       if (countEl2) countEl2.textContent = "";
 
       // Empty / missing file
       if (!data || !data.matches || data.matches.length === 0) {
-        renderAiEmpty(content);
+        renderWeeklyEmpty(content);
         return;
       }
 
-      // Date-local in the user's display timezone — compare against
-      // the picks' date to detect a stale day.
+      // Stale-round check: if the picks' date range is fully in the
+      // past, show a banner.
       const tz = currentTz();
       const todayIso = dateInTz(new Date(), tz);
-      const picksDate = data.date_local;
-      const isStale = picksDate && picksDate !== todayIso;
+      const dateRange = data.round_date_range || [];
+      const isStale = dateRange.length === 2 && dateRange[1] < todayIso;
 
       const wrap = document.createElement("section");
-      wrap.className = "ai-section";
+      wrap.className = "weekly-section";
 
       // Header
       const head = document.createElement("header");
-      head.className = "ai-head";
-      const manual = data.manual_count > 0 ? aiLastManualLabel(data) : null;
+      head.className = "weekly-head";
+      const manual = data.manual_count > 0 ? weeklyLastManualLabel(data) : null;
       const totalCount = data.matches.length;
+      const roundLabel = (data.round_label || {})[currentLang] || t("weekly.title");
+      const rangeText = dateRange.length === 2
+        ? `${dateRange[0]} → ${dateRange[1]}`
+        : "";
       head.innerHTML = `
-        <h2 class="ai-title">${escapeHtml(t("ai.title"))}</h2>
-        <p class="ai-hint">${escapeHtml(t("ai.hint"))}</p>
-        <p class="ai-meta">
-          <span class="ai-meta-date">${escapeHtml(t("day.today", { date: picksDate }))}</span>
-          <span class="ai-meta-dot">·</span>
-          <span class="ai-meta-count">${escapeHtml(t("n.matches", { n: totalCount }))}</span>
-          ${manual ? `<span class="ai-meta-dot">·</span><span class="ai-meta-manual">${escapeHtml(manual)}</span>` : ""}
+        <h2 class="weekly-title">${escapeHtml(t("weekly.title"))}</h2>
+        <p class="weekly-round-label">${escapeHtml(roundLabel)}${rangeText ? ` <span class="weekly-round-range">· ${escapeHtml(rangeText)}</span>` : ""}</p>
+        <p class="weekly-hint">${escapeHtml(t("weekly.hint"))}</p>
+        <p class="weekly-meta">
+          <span class="weekly-meta-count">${escapeHtml(t("n.matches", { n: totalCount }))}</span>
+          ${manual ? `<span class="weekly-meta-dot">·</span><span class="weekly-meta-manual">${escapeHtml(manual)}</span>` : ""}
         </p>
       `;
       wrap.appendChild(head);
@@ -1433,63 +1438,98 @@
       // Stale-date banner
       if (isStale) {
         const banner = document.createElement("div");
-        banner.className = "ai-stale";
+        banner.className = "weekly-stale";
         banner.innerHTML = `
-          <strong>${escapeHtml(t("ai.stale.title", { date: picksDate }))}</strong>
-          <span class="ai-stale-hint">${escapeHtml(t("ai.stale.hint"))}</span>
+          <strong>${escapeHtml(t("weekly.stale.title", { round: roundLabel }))}</strong>
+          <span class="weekly-stale-hint">${escapeHtml(t("weekly.stale.hint"))}</span>
         `;
         wrap.appendChild(banner);
       }
 
-      // Intro paragraphs (manual, optional)
-      const intro = currentLang === "zh" ? data.intro_zh : data.intro_en;
+      // Round intro (manual, optional)
+      const intro = currentLang === "zh" ? data.round_intro_zh : data.round_intro_en;
       if (intro) {
-        const p = document.createElement("p");
-        p.className = "ai-intro";
-        p.textContent = intro;
+        const p = document.createElement("div");
+        p.className = "weekly-intro";
+        // Allow multi-paragraph intros (\n\n splits). Lightweight
+        // markdown-ish handling: paragraphs separated by blank lines.
+        const paragraphs = String(intro).split(/\n\s*\n/).map((para) =>
+          `<p>${escapeHtml(para).replace(/\n/g, "<br/>")}</p>`
+        ).join("");
+        p.innerHTML = paragraphs;
         wrap.appendChild(p);
       }
 
       // Manual in-progress hint
       if (data.manual_count > 0 && data.manual_count < totalCount) {
         const note = document.createElement("p");
-        note.className = "ai-partial";
-        note.textContent = t("ai.manual.partial", { n: data.manual_count, total: totalCount });
+        note.className = "weekly-partial";
+        note.textContent = t("weekly.manual.partial", { n: data.manual_count, total: totalCount });
         wrap.appendChild(note);
       }
 
-      // Group matches by verdict
+      // Group matches by verdict. Within each bucket, group by date
+      // so the user can see "what's on tomorrow" at a glance.
       const buckets = {
-        must: { label: t("ai.section.must"), items: [] },
-        lively: { label: t("ai.section.lively"), items: [] },
-        skip: { label: t("ai.section.skip"), items: [] },
+        must:   { items: [] },
+        lively: { items: [] },
+        skip:   { items: [] },
       };
       for (const m of data.matches) {
         const v = m.verdict || m.stakes_verdict_auto || "lively";
-        if (!buckets[v]) buckets[v] = { label: v, items: [] };
+        if (!buckets[v]) buckets[v] = { items: [] };
         buckets[v].items.push(m);
       }
       const bucketOrder = ["must", "lively", "skip"];
+      const todayIso2 = todayIso;
       for (const key of bucketOrder) {
         const b = buckets[key];
         if (!b.items.length) continue;
         const section = document.createElement("section");
-        section.className = `ai-bucket ai-bucket--${key}`;
+        section.className = `weekly-bucket weekly-bucket--${key}`;
         const bhead = document.createElement("header");
-        bhead.className = "ai-bucket-head";
+        bhead.className = "weekly-bucket-head";
         const verdictLabel =
-          key === "must" ? t("ai.verdict.must")
-          : key === "lively" ? t("ai.verdict.lively")
-          : t("ai.verdict.skip");
-        bhead.innerHTML = `<span class="ai-bucket-title">${escapeHtml(verdictLabel)}</span><span class="ai-bucket-count">${b.items.length}</span>`;
+          key === "must" ? t("weekly.verdict.must")
+          : key === "lively" ? t("weekly.verdict.lively")
+          : t("weekly.verdict.skip");
+        bhead.innerHTML = `<span class="weekly-bucket-title">${escapeHtml(verdictLabel)}</span><span class="weekly-bucket-count">${b.items.length}</span>`;
         section.appendChild(bhead);
-        const list = document.createElement("ul");
-        list.className = "ai-list";
-        list.setAttribute("role", "list");
+
+        // Group within bucket by local kickoff date, preserving the
+        // overall sort (must > lively > skip, then by time).
+        const byDate = new Map();
         for (const m of b.items) {
-          list.appendChild(buildAiCard(m));
+          const d = m.kickoff_local_date || m.kickoff_utc?.slice(0, 10) || "—";
+          if (!byDate.has(d)) byDate.set(d, []);
+          byDate.get(d).push(m);
         }
-        section.appendChild(list);
+        const showDateHeader = byDate.size > 1;
+        for (const [date, items] of byDate) {
+          if (showDateHeader) {
+            const dh = document.createElement("div");
+            dh.className = "weekly-day-head";
+            // Compute "tomorrow" once per render. Use a non-shadowing
+            // var name so the outer `t` i18n function stays reachable.
+            const tomorrowDate = (() => {
+              const d = new Date(todayIso2 + "T00:00:00Z");
+              d.setUTCDate(d.getUTCDate() + 1);
+              return d.toISOString().slice(0, 10);
+            })();
+            const label = date === todayIso2
+              ? `${t("weekly.day.today")} · ${date}`
+              : date === tomorrowDate
+                ? `${t("weekly.day.tomorrow")} · ${date}`
+                : date;
+            dh.textContent = label;
+            section.appendChild(dh);
+          }
+          const list = document.createElement("ul");
+          list.className = "weekly-list";
+          list.setAttribute("role", "list");
+          for (const m of items) list.appendChild(buildWeeklyCard(m));
+          section.appendChild(list);
+        }
         wrap.appendChild(section);
       }
 
@@ -1497,7 +1537,7 @@
       const note = currentLang === "zh" ? data.manual_note_zh : data.manual_note_en;
       if (note) {
         const p = document.createElement("p");
-        p.className = "ai-foot-note";
+        p.className = "weekly-foot-note";
         p.textContent = note;
         wrap.appendChild(p);
       }
@@ -1505,32 +1545,32 @@
       content.appendChild(wrap);
     }).catch((err) => {
       content.innerHTML = "";
-      renderAiEmpty(content, err);
+      renderWeeklyEmpty(content, err);
     });
   }
 
-  function renderAiEmpty(content, err) {
+  function renderWeeklyEmpty(content, err) {
     const div = document.createElement("div");
     div.className = "empty";
     const errBlock = err && !/HTTP\s*404/i.test(String(err))
       ? `<div class="empty-hint" style="opacity:.6">${escapeHtml(String(err))}</div>`
       : "";
-    div.innerHTML = `<div>${escapeHtml(t("ai.empty.title"))}</div>
-      <div class="empty-hint">${escapeHtml(t("ai.empty.hint"))}</div>
-      <div class="empty-hint">${escapeHtml(t("ai.empty.ask"))}</div>
+    div.innerHTML = `<div>${escapeHtml(t("weekly.empty.title"))}</div>
+      <div class="empty-hint">${escapeHtml(t("weekly.empty.hint"))}</div>
+      <div class="empty-hint">${escapeHtml(t("weekly.empty.ask"))}</div>
       ${errBlock}`;
     content.appendChild(div);
   }
 
-  function buildAiCard(m) {
+  function buildWeeklyCard(m) {
     const li = document.createElement("li");
-    li.className = "ai-card";
+    li.className = "weekly-card";
     li.dataset.verdict = m.verdict || "lively";
 
     const home = m.home || {};
     const away = m.away || {};
-    const homeName = aiTeamName(home);
-    const awayName = aiTeamName(away);
+    const homeName = weeklyTeamName(home);
+    const awayName = weeklyTeamName(away);
     const headline = currentLang === "zh" ? m.headline_zh : m.headline_en;
     const stakes = m.stakes_narrative_zh && m.stakes_narrative_en
       ? (currentLang === "zh" ? m.stakes_narrative_zh : m.stakes_narrative_en)
@@ -1544,39 +1584,39 @@
 
     // Verdict badge + score
     const verdictKey = m.verdict || "lively";
-    const verdictLabel = verdictKey === "must" ? t("ai.verdict.must")
-      : verdictKey === "lively" ? t("ai.verdict.lively")
-      : t("ai.verdict.skip");
+    const verdictLabel = verdictKey === "must" ? t("weekly.verdict.must")
+      : verdictKey === "lively" ? t("weekly.verdict.lively")
+      : t("weekly.verdict.skip");
 
     const head = document.createElement("header");
-    head.className = "ai-card-head";
+    head.className = "weekly-card-head";
     head.innerHTML = `
-      <div class="ai-card-time">
-        <span class="ai-card-time-main">${escapeHtml(m.kickoff_time || "")}</span>
-        ${m.stage ? `<span class="ai-card-stage">${escapeHtml(m.stage)}</span>` : ""}
-        ${m.group_name ? `<span class="ai-card-group">${escapeHtml(m.group_name)}</span>` : ""}
+      <div class="weekly-card-time">
+        <span class="weekly-card-time-main">${escapeHtml(m.kickoff_time || "")}</span>
+        ${m.stage ? `<span class="weekly-card-stage">${escapeHtml(m.stage)}</span>` : ""}
+        ${m.group_name ? `<span class="weekly-card-group">${escapeHtml(m.group_name)}</span>` : ""}
       </div>
-      <div class="ai-card-verdict">
-        <span class="ai-verdict-badge ai-verdict-badge--${verdictKey}">${escapeHtml(verdictLabel)}</span>
-        ${score != null ? `<span class="ai-score">${escapeHtml(t("ai.score", { n: score }))}</span>` : ""}
+      <div class="weekly-card-verdict">
+        <span class="weekly-verdict-badge weekly-verdict-badge--${verdictKey}">${escapeHtml(verdictLabel)}</span>
+        ${score != null ? `<span class="weekly-score">${escapeHtml(t("weekly.score", { n: score }))}</span>` : ""}
       </div>
     `;
     li.appendChild(head);
 
     // Matchup
     const teams = document.createElement("div");
-    teams.className = "ai-card-teams";
+    teams.className = "weekly-card-teams";
     teams.innerHTML = `
-      <div class="ai-team">
-        <span class="ai-team-flag">${escapeHtml(home.flag || "")}</span>
-        <span class="ai-team-name">${escapeHtml(homeName)}</span>
-        ${home.rank ? `<span class="ai-team-rank">#${home.rank}</span>` : ""}
+      <div class="weekly-team">
+        <span class="weekly-team-flag">${escapeHtml(home.flag || "")}</span>
+        <span class="weekly-team-name">${escapeHtml(homeName)}</span>
+        ${home.rank ? `<span class="weekly-team-rank">#${home.rank}</span>` : ""}
       </div>
-      <div class="ai-team-sep">vs</div>
-      <div class="ai-team">
-        <span class="ai-team-flag">${escapeHtml(away.flag || "")}</span>
-        <span class="ai-team-name">${escapeHtml(awayName)}</span>
-        ${away.rank ? `<span class="ai-team-rank">#${away.rank}</span>` : ""}
+      <div class="weekly-team-sep">vs</div>
+      <div class="weekly-team">
+        <span class="weekly-team-flag">${escapeHtml(away.flag || "")}</span>
+        <span class="weekly-team-name">${escapeHtml(awayName)}</span>
+        ${away.rank ? `<span class="weekly-team-rank">#${away.rank}</span>` : ""}
       </div>
     `;
     li.appendChild(teams);
@@ -1584,47 +1624,47 @@
     // Headline (manual)
     if (headline) {
       const h = document.createElement("h3");
-      h.className = "ai-card-headline";
+      h.className = "weekly-card-headline";
       h.textContent = headline;
       li.appendChild(h);
     }
 
     // Stakes block (always present — comes from auto script)
     if (stakes) {
-      li.appendChild(aiBlock(t("ai.match.stakes"), stakes, "ai-block--stakes"));
+      li.appendChild(weeklyBlock(t("weekly.match.stakes"), stakes, "weekly-block--stakes"));
     }
 
     // Why-skip block (only for skip / lively)
     if (whySkip && (verdictKey === "skip" || verdictKey === "lively")) {
-      li.appendChild(aiBlock(t("ai.match.why_skip"), whySkip, "ai-block--skip"));
+      li.appendChild(weeklyBlock(t("weekly.match.why_skip"), whySkip, "weekly-block--skip"));
     }
 
     // Watch-for list
     if (watch.length) {
-      li.appendChild(aiListBlock(t("ai.match.watch"), watch, "ai-block--watch"));
+      li.appendChild(weeklyListBlock(t("weekly.match.watch"), watch, "weekly-block--watch"));
     }
 
     // Players
     if (players.length) {
-      li.appendChild(aiListBlock(t("ai.match.players"), players, "ai-block--players"));
+      li.appendChild(weeklyListBlock(t("weekly.match.players"), players, "weekly-block--players"));
     }
 
     // News focus
     if (news) {
-      li.appendChild(aiBlock(t("ai.match.news"), news, "ai-block--news"));
+      li.appendChild(weeklyBlock(t("weekly.match.news"), news, "weekly-block--news"));
     }
 
     // Records
     if (records.length) {
-      li.appendChild(aiListBlock(t("ai.match.records"), records, "ai-block--records"));
+      li.appendChild(weeklyListBlock(t("weekly.match.records"), records, "weekly-block--records"));
     }
 
     // Awaiting-analysis placeholder when a card has nothing manual yet
     const hasManual = headline || watch.length || players.length || news || records.length || whySkip;
     if (!hasManual) {
       const ph = document.createElement("div");
-      ph.className = "ai-awaiting";
-      ph.textContent = t("ai.manual.never");
+      ph.className = "weekly-awaiting";
+      ph.textContent = t("weekly.manual.never");
       li.appendChild(ph);
     }
 
@@ -1634,27 +1674,27 @@
     if (m.fox_url) links.push(`<a class="link fox" target="_blank" rel="noopener noreferrer" href="${escapeHtml(m.fox_url)}">${escapeHtml(t("link.fox"))}</a>`);
     if (m.venue || links.length) {
       const foot = document.createElement("footer");
-      foot.className = "ai-card-foot";
+      foot.className = "weekly-card-foot";
       const venueBits = [];
-      if (m.venue) venueBits.push(`<span class="ai-card-venue" title="${escapeHtml([m.venue, m.venue_city].filter(Boolean).join(", "))}">🏟️ ${escapeHtml(m.venue)}</span>`);
-      foot.innerHTML = venueBits.join("") + (links.length ? `<span class="ai-card-links">${links.join("")}</span>` : "");
+      if (m.venue) venueBits.push(`<span class="weekly-card-venue" title="${escapeHtml([m.venue, m.venue_city].filter(Boolean).join(", "))}">🏟️ ${escapeHtml(m.venue)}</span>`);
+      foot.innerHTML = venueBits.join("") + (links.length ? `<span class="weekly-card-links">${links.join("")}</span>` : "");
       li.appendChild(foot);
     }
 
     return li;
   }
 
-  function aiBlock(label, text, cls) {
+  function weeklyBlock(label, text, cls) {
     const div = document.createElement("div");
-    div.className = `ai-block ${cls || ""}`;
-    div.innerHTML = `<span class="ai-block-label">${escapeHtml(label)}</span><span class="ai-block-text">${escapeHtml(text)}</span>`;
+    div.className = `weekly-block ${cls || ""}`;
+    div.innerHTML = `<span class="weekly-block-label">${escapeHtml(label)}</span><span class="weekly-block-text">${escapeHtml(text)}</span>`;
     return div;
   }
-  function aiListBlock(label, items, cls) {
+  function weeklyListBlock(label, items, cls) {
     const div = document.createElement("div");
-    div.className = `ai-block ${cls || ""}`;
+    div.className = `weekly-block ${cls || ""}`;
     const ul = items.map((it) => `<li>${escapeHtml(it)}</li>`).join("");
-    div.innerHTML = `<span class="ai-block-label">${escapeHtml(label)}</span><ul class="ai-block-list">${ul}</ul>`;
+    div.innerHTML = `<span class="weekly-block-label">${escapeHtml(label)}</span><ul class="weekly-block-list">${ul}</ul>`;
     return div;
   }
 
@@ -2307,7 +2347,7 @@
   function loadView() {
     try {
       const raw = localStorage.getItem(VIEW_KEY);
-      if (raw === "standings" || raw === "matches" || raw === "scorers" || raw === "ai") return raw;
+      if (raw === "standings" || raw === "matches" || raw === "scorers" || raw === "weekly") return raw;
     } catch { /* ignore */ }
     return "matches";
   }
@@ -2315,7 +2355,7 @@
     try { localStorage.setItem(VIEW_KEY, v); } catch { /* ignore */ }
   }
   function setView(v) {
-    if (v === "standings" || v === "scorers" || v === "matches" || v === "ai") currentView = v;
+    if (v === "standings" || v === "scorers" || v === "matches" || v === "weekly") currentView = v;
     saveView(currentView);
     updateViewPills();
     // Hide filters in any non-match view (standings, scorers, ai).
