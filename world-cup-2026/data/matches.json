@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-17T22:45:28.352417+00:00",
+  "generated_at": "2026-06-18T00:16:17.695000+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-17T17:45:27.516301-05:00",
+  "now_local": "2026-06-17T19:16:15.820965-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -1831,14 +1831,14 @@
         },
         {
           "team": {
-            "id": "2659",
-            "name": "Panama",
-            "name_zh": "巴拿马",
-            "rank": 34,
-            "short": "Panama",
-            "abbr": "PAN",
-            "flag": "🇵🇦",
-            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/pan.png"
+            "id": "4469",
+            "name": "Ghana",
+            "name_zh": "加纳",
+            "rank": 73,
+            "short": "Ghana",
+            "abbr": "GHA",
+            "flag": "🇬🇭",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/gha.png"
           },
           "rank": 2,
           "mp": 0,
@@ -1855,14 +1855,14 @@
         },
         {
           "team": {
-            "id": "4469",
-            "name": "Ghana",
-            "name_zh": "加纳",
-            "rank": 73,
-            "short": "Ghana",
-            "abbr": "GHA",
-            "flag": "🇬🇭",
-            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/gha.png"
+            "id": "2659",
+            "name": "Panama",
+            "name_zh": "巴拿马",
+            "rank": 34,
+            "short": "Panama",
+            "abbr": "PAN",
+            "flag": "🇵🇦",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/pan.png"
           },
           "rank": 3,
           "mp": 0,
@@ -6090,7 +6090,7 @@
             "color": "ffffff",
             "home_away": "home",
             "score": 4,
-            "winner": false
+            "winner": true
           },
           "away": {
             "id": "477",
@@ -6279,8 +6279,8 @@
           "kickoff_local_date": "2026-06-17",
           "kickoff_time": "6:00 PM",
           "kickoff_weekday": "Wed",
-          "status": "SCHEDULED",
-          "status_short": "Scheduled",
+          "status": "LIVE",
+          "status_short": "54'",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -6323,7 +6323,28 @@
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760434/panama-ghana",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Ghana%20vs%20Panama",
-          "slug": "panama-at-ghana"
+          "slug": "panama-at-ghana",
+          "incidents": [
+            {
+              "kind": "yellow_card",
+              "minute": "16'",
+              "team": "Ghana",
+              "team_id": "4469",
+              "team_side": "home",
+              "player": "Caleb Yirenkyi",
+              "text": "Caleb Yirenkyi (Ghana) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "substitution",
+              "minute": "45'",
+              "team": "Ghana",
+              "team_id": "4469",
+              "team_side": "home",
+              "player": "Benjamin Asare",
+              "text": "Substitution, Ghana. Benjamin Asare replaces Lawrence Ati Zigi because of an injury.",
+              "player_off": "Lawrence Ati Zigi"
+            }
+          ]
         },
         {
           "id": "760436",
