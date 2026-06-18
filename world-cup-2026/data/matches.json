@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-18T21:53:53.318070+00:00",
+  "generated_at": "2026-06-18T23:18:18.628025+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-18T16:53:50.616830-05:00",
+  "now_local": "2026-06-18T18:18:18.001542-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -7080,8 +7080,8 @@
           "kickoff_local_date": "2026-06-18",
           "kickoff_time": "5:00 PM",
           "kickoff_weekday": "Thu",
-          "status": "SCHEDULED",
-          "status_short": "Scheduled",
+          "status": "LIVE",
+          "status_short": "56'",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -7095,7 +7095,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/can.png",
             "color": "ed2224",
             "home_away": "home",
-            "score": 0,
+            "score": 3,
             "winner": false
           },
           "away": {
@@ -7124,7 +7124,103 @@
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760440/qatar-canada",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Canada%20vs%20Qatar",
-          "slug": "qatar-at-canada"
+          "slug": "qatar-at-canada",
+          "incidents": [
+            {
+              "kind": "yellow_card",
+              "minute": "9'",
+              "team": "Canada",
+              "team_id": "206",
+              "team_side": "home",
+              "player": "Derek Cornelius",
+              "text": "Derek Cornelius (Canada) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "goal",
+              "minute": "16'",
+              "team": "Canada",
+              "team_id": "206",
+              "team_side": "home",
+              "player": "Cyle Larin",
+              "text": "Goal! Canada 1, Qatar 0. Cyle Larin (Canada) left footed shot from very close range to the bottom right corner following a corner."
+            },
+            {
+              "kind": "goal",
+              "minute": "29'",
+              "team": "Canada",
+              "team_id": "206",
+              "team_side": "home",
+              "player": "Jonathan David",
+              "text": "Goal! Canada 2, Qatar 0. Jonathan David (Canada) right footed shot from the right side of the box to the bottom right corner."
+            },
+            {
+              "kind": "red_card",
+              "minute": "33'",
+              "team": "Qatar",
+              "team_id": "4398",
+              "team_side": "away",
+              "player": "Homam Ahmed",
+              "text": "Homam El Amin (Qatar) is shown the red card."
+            },
+            {
+              "kind": "substitution",
+              "minute": "40'",
+              "team": "Qatar",
+              "team_id": "4398",
+              "team_side": "away",
+              "player": "Sultan Al-Brake",
+              "text": "Substitution, Qatar. Sultan Al Brake replaces Yusuf Abdurisag.",
+              "player_off": "Yusuf Abdurisag"
+            },
+            {
+              "kind": "goal",
+              "minute": "45'+3'",
+              "team": "Canada",
+              "team_id": "206",
+              "team_side": "home",
+              "player": "Jonathan David",
+              "text": "Goal! Canada 3, Qatar 0. Jonathan David (Canada) right footed shot from very close range to the centre of the goal."
+            },
+            {
+              "kind": "substitution",
+              "minute": "45'",
+              "team": "Qatar",
+              "team_id": "4398",
+              "team_side": "away",
+              "player": "Ahmed Fathy",
+              "text": "Substitution, Qatar. Ahmed Fathy replaces Edmílson Junior.",
+              "player_off": "Edmílson Junior"
+            },
+            {
+              "kind": "substitution",
+              "minute": "45'",
+              "team": "Qatar",
+              "team_id": "4398",
+              "team_side": "away",
+              "player": "Mohamed Manai",
+              "text": "Substitution, Qatar. Mohammad Al Manai replaces Jassem Gaber.",
+              "player_off": "Jassem Gaber"
+            },
+            {
+              "kind": "substitution",
+              "minute": "45'",
+              "team": "Canada",
+              "team_id": "206",
+              "team_side": "home",
+              "player": "Moïse Bombito",
+              "text": "Substitution, Canada. Moïse Bombito replaces Derek Cornelius.",
+              "player_off": "Derek Cornelius"
+            },
+            {
+              "kind": "red_card",
+              "minute": "53'",
+              "team": "Qatar",
+              "team_id": "4398",
+              "team_side": "away",
+              "player": "Assim Madibo",
+              "text": "Assim Madibo (Qatar) is shown the red card."
+            }
+          ]
         },
         {
           "id": "760441",
