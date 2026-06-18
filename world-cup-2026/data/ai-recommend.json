@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-06-18T16:56:34+00:00",
+  "generated_at": "2026-06-18T17:21:34+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-18T11:56:34-05:00",
+  "now_local": "2026-06-18T12:21:34-05:00",
   "date_local": "2026-06-18",
   "match_count": 4,
   "manual_count": 0,
@@ -22,7 +22,7 @@
       "stage_slug": "group-stage",
       "venue": "Mercedes-Benz Stadium",
       "venue_city": "Atlanta, Georgia",
-      "espn_url": "https://www.espn.com/soccer/match/_/gameId/760438/south-africa-czechia",
+      "espn_url": "https://www.espn.com/soccer/match/_/gameId/760438/south africa-czechia",
       "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Czechia%20vs%20South%20Africa",
       "home": {
         "id": "450",
