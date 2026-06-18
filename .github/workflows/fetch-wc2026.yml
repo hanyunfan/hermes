@@ -18,6 +18,7 @@ on:
   push:
     paths:
       - "world-cup-2026/scripts/fetch_matches.py"
+      - "world-cup-2026/scripts/build_ai_recommend.py"
       - ".github/workflows/fetch-wc2026.yml"
 
 permissions:
@@ -51,25 +52,41 @@ jobs:
           echo "First 40 lines of matches.json:"
           head -40 data/matches.json
 
+      - name: Build AI-recommend skeleton
+        working-directory: world-cup-2026
+        # Refreshes the auto fields (group-stage stakes, score) every
+        # cycle. Manual subjective fields (headline, watch_for, etc.)
+        # are preserved across runs by the script itself; only the
+        # date rollover wipes them. The script is a no-op when the
+        # today's match list is empty (e.g. cold window).
+        run: |
+          if [ ! -f data/ai-recommend.json ]; then
+            python3 scripts/build_ai_recommend.py --tz America/Chicago
+            echo "First run: wrote fresh ai-recommend.json"
+          else
+            python3 scripts/build_ai_recommend.py --tz America/Chicago
+            echo "Refreshed ai-recommend.json (manual fields preserved)"
+          fi
+
       - name: Commit & push
         working-directory: world-cup-2026
         env:
           TRIGGER: ${{ github.event_name }}
         run: |
-          if git diff --quiet data/matches.json; then
-            echo "No changes to data/matches.json"
+          if git diff --quiet data/matches.json data/ai-recommend.json; then
+            echo "No changes to data/"
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/matches.json
+          git add data/matches.json data/ai-recommend.json
           TS=$(date -u '+%Y-%m-%d %H:%M UTC')
           case "$TRIGGER" in
             schedule) SUFFIX=" (scheduled)" ;;
             push)     SUFFIX=" (push)" ;;
             *)        SUFFIX="" ;;
           esac
-          git commit -m "ci: refresh matches ${TS}${SUFFIX}"
+          git commit -m "ci: refresh data ${TS}${SUFFIX}"
           git push
           # Ping pages.yml via repository_dispatch. GITHUB_TOKEN-pushed
           # commits can't trigger another workflow's `push:` event

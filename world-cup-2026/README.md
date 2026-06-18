@@ -13,6 +13,13 @@ Bilingual EN / 中.
 - **Butterfly view** — auto-bucketed by day (Today / Tomorrow / Day +2…)
   in a two-column wing layout
 - **Standings** — group tables with W/D/L/GF/GA/GD/pts
+- **Scorers** — current-tournament top scorers + all-time merged list
+  (WC 2026 goals layered on the 1930–2022 baseline)
+- **AI Must-Watch Today** — hand-curated daily picks: which matches
+  are worth your evening, which are skippable, and why. Group-stage
+  stakes are auto-computed; the rest is filled in by an analyst on
+  request. See [`data/ai-recommend.json`](data/ai-recommend.json) and
+  [`scripts/build_ai_recommend.py`](scripts/build_ai_recommend.py).
 - **Knockout bracket** — double-wing butterfly with SVG connecting
   lines; placeholders fill in as the group stage completes
 - **Filters** — time range, status, multi-team search, multi-venue
@@ -25,12 +32,54 @@ Bilingual EN / 中.
 ```
 ESPN public scoreboard API
         ↓
-scripts/fetch_matches.py  ──── fetch & normalize to America/Chicago
+scripts/fetch_matches.py       ──── fetch & normalize to America/Chicago
         ↓
-data/matches.json          ──── committed to repo
+data/matches.json              ──── committed to repo
         ↓
-index.html + app.js + style.css  ──── GH Pages
+scripts/build_ai_recommend.py  ──── compute today's stakes, write skeleton
+        ↓
+data/ai-recommend.json         ──── committed to repo (manual fields preserved)
+        ↓
+index.html + app.js + style.css ──── GH Pages
 ```
+
+### AI Must-Watch Today — manual workflow
+
+The auto script writes the deterministic half of the AI tab: it picks
+today's matches, looks up the live group standings, and classifies each
+match as `must` / `lively` / `skip` with a numeric score. The
+subjective half (headline, what to watch, key players, news angle,
+record watch, why you can skip it) is filled in by the analyst after
+looking at the day's fixtures.
+
+To refresh today's picks:
+
+1. Run the skeleton builder locally:
+
+   ```sh
+   cd world-cup-2026
+   python3 scripts/build_ai_recommend.py
+   ```
+
+2. Open `data/ai-recommend.json` and fill in the `*_zh` and `*_en`
+   fields for each match (headline, watch_for, key_players,
+   news_focus, record_potential, why_skip, intro, manual_note). Set
+   `last_manual_update` to the current ISO-8601 UTC timestamp.
+
+3. Commit and push:
+
+   ```sh
+   git add data/ai-recommend.json
+   git commit -m "ai: today's picks $(date -u '+%Y-%m-%d')"
+   git push
+   ```
+
+   GH Pages redeploys automatically.
+
+Re-running `build_ai_recommend.py` on the same day **preserves** the
+manual fields and only refreshes the auto-derived stakes/score. On
+date rollover it wipes them so yesterday's analysis doesn't leak into
+today's tab. Use `--force` to ignore the manual fields entirely.
 
 ### Refresh triggers
 

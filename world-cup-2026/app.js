@@ -31,6 +31,7 @@
       "view.matches": "Matches",
       "view.standings": "Standings",
       "view.scorers": "Scorers",
+      "view.ai": "AI Must-Watch Today",
       "filter.time": "Time",
       "filter.status": "Status",
       "filter.teams": "Teams",
@@ -128,6 +129,35 @@
       "footer.refresh": "Refreshed every 20 min during the match window (11:00–04:00 CT) and once overnight at 04:00 CT",
       "footer.source": "Source",
       "tz.times.in": "Times in {tz}",
+
+      // AI Must-Watch Today tab
+      "ai.title": "AI Must-Watch Today",
+      "ai.hint": "Hand-curated daily picks — which matches deserve your evening, which you can skip, and why. Stakes (advancement math) are auto-computed; the rest is written by an analyst after reviewing today's fixtures.",
+      "ai.verdict.must": "Must watch",
+      "ai.verdict.lively": "Worth a look",
+      "ai.verdict.skip": "Skippable",
+      "ai.score": "Score {n}/10",
+      "ai.match.kickoff": "Kickoff",
+      "ai.match.stage": "Stage",
+      "ai.match.venue": "Venue",
+      "ai.match.stakes": "Stakes",
+      "ai.match.watch": "What to watch",
+      "ai.match.players": "Players to watch",
+      "ai.match.news": "News angle",
+      "ai.match.records": "Record watch",
+      "ai.match.why_skip": "Why you can skip",
+      "ai.match.links": "More",
+      "ai.empty.title": "No AI picks yet for today.",
+      "ai.empty.hint": "Auto-refresh writes a skeleton every cycle. The analyst fills in the rest on request — ask for today's analysis and the picks will appear here within minutes.",
+      "ai.empty.ask": "Ask in Telegram for today's picks.",
+      "ai.stale.title": "These picks are from {date}.",
+      "ai.stale.hint": "The next batch of picks is generated when the analyst reviews today's fixtures. Check back later, or ask in Telegram.",
+      "ai.manual.fresh": "Analyst pick · {when}",
+      "ai.manual.never": "Skeleton only — awaiting analyst review.",
+      "ai.manual.partial": "Analyst pick in progress · {n}/{total} matches reviewed.",
+      "ai.section.must": "Must watch",
+      "ai.section.lively": "Worth a look",
+      "ai.section.skip": "Skippable",
     },
     zh: {
       "page.title": "2026 国际足联世界杯 — 每日预告",
@@ -137,6 +167,7 @@
       "view.matches": "比赛",
       "view.standings": "积分",
       "view.scorers": "射手榜",
+      "view.ai": "AI 推荐今日必看",
       "filter.time": "时间",
       "filter.status": "状态",
       "filter.teams": "球队",
@@ -234,6 +265,35 @@
       "footer.refresh": "比赛时段（11:00–04:00 CT）每 20 分钟刷新一次，凌晨 04:00 CT 再补一次冷数据",
       "footer.source": "源码",
       "tz.times.in": "时间显示：{tz}",
+
+      // AI 推荐今日必看 tab
+      "ai.title": "AI 推荐今日必看",
+      "ai.hint": "每天人工挑出的场次——哪场值得熬到深夜，哪场可以放心跳过，理由是什么。球队升降级关键由程序自动算；其余字段由分析师根据当日对阵手写。",
+      "ai.verdict.must": "必看",
+      "ai.verdict.lively": "可以看看",
+      "ai.verdict.skip": "可跳过",
+      "ai.score": "推荐分 {n}/10",
+      "ai.match.kickoff": "开球",
+      "ai.match.stage": "阶段",
+      "ai.match.venue": "球场",
+      "ai.match.stakes": "球队升降级关键",
+      "ai.match.watch": "看点",
+      "ai.match.players": "重点球员",
+      "ai.match.news": "新闻关注点",
+      "ai.match.records": "破纪录可能性",
+      "ai.match.why_skip": "跳过的理由",
+      "ai.match.links": "更多",
+      "ai.empty.title": "今日还没有 AI 推荐。",
+      "ai.empty.hint": "每次自动刷新会写入骨架数据，分析师补充主观判断后在 Telegram 留言即可，分钟级上线。",
+      "ai.empty.ask": "在 Telegram 问一句\"今天看哪场\"即可生成。",
+      "ai.stale.title": "当前推荐来自 {date}。",
+      "ai.stale.hint": "今日推荐会在分析师审阅对阵后生成，请稍后再来，或在 Telegram 留言。",
+      "ai.manual.fresh": "分析师已选 · {when}",
+      "ai.manual.never": "仅有骨架，等待分析师审阅。",
+      "ai.manual.partial": "分析师进行中 · {n}/{total} 场已评。",
+      "ai.section.must": "必看场次",
+      "ai.section.lively": "可以看看",
+      "ai.section.skip": "可跳过",
     },
   };
 
@@ -466,7 +526,7 @@
   let filters = { ...DEFAULT_FILTERS };
   let allData = null;
   let allMatches = [];
-  let currentView = "matches";  // matches | standings | scorers
+  let currentView = "matches";  // matches | standings | scorers | ai
 
   function loadFilters() {
     // Filters are intentionally session-only. On every page load we
@@ -612,6 +672,10 @@
     }
     if (currentView === "scorers") {
       renderScorers();
+      return;
+    }
+    if (currentView === "ai") {
+      renderAi();
       return;
     }
     const matches = applyFilters();
@@ -1235,6 +1299,364 @@
     return card;
   }
 
+
+  // ────────────────────────────────────────────────────────────
+  // AI Must-Watch Today view
+  //
+  // Pulls from data/ai-recommend.json (a small, mostly-static file
+  // refreshed by scripts/build_ai_recommend.py and curated by hand).
+  // The view degrades gracefully: missing file → "no picks yet"
+  // empty state; stale date → "these picks are from {date}".
+  // ────────────────────────────────────────────────────────────
+  const AI_JSON_URL = "data/ai-recommend.json";
+  const AI_CACHE_KEY = "wc2026.ai.v1";
+  const AI_CACHE_TTL_MS = 5 * 60 * 1000;
+
+  let aiData = null;
+  let aiLoading = false;
+
+  async function loadAi(force = false) {
+    if (!force && aiData) return aiData;
+    if (!force) {
+      try {
+        const raw = sessionStorage.getItem(AI_CACHE_KEY);
+        if (raw) {
+          const { at, data } = JSON.parse(raw);
+          if (Date.now() - at < AI_CACHE_TTL_MS) {
+            aiData = data;
+            return data;
+          }
+        }
+      } catch { /* ignore */ }
+    }
+    if (aiLoading) return aiData;
+    aiLoading = true;
+    try {
+      const res = await fetch(`${AI_JSON_URL}?t=${Date.now()}`, { cache: "no-store" });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data = await res.json();
+      aiData = data;
+      try { sessionStorage.setItem(AI_CACHE_KEY, JSON.stringify({ at: Date.now(), data })); } catch { /* ignore */ }
+      return data;
+    } catch (e) {
+      // Stale-while-error: keep whatever we had, surface the error to the caller.
+      throw e;
+    } finally {
+      aiLoading = false;
+    }
+  }
+
+  function aiTeamName(side) {
+    if (!side) return "—";
+    if (currentLang === "zh" && side.name_zh) return side.name_zh;
+    return side.name || "—";
+  }
+
+  function relativeDateLabel(iso, nowIso) {
+    // iso / nowIso: YYYY-MM-DD. Returns a friendly relative label.
+    if (!iso || !nowIso) return iso || "";
+    const a = new Date(iso + "T00:00:00Z").getTime();
+    const b = new Date(nowIso + "T00:00:00Z").getTime();
+    const diffDays = Math.round((a - b) / 86_400_000);
+    if (diffDays === 0) return t("day.today", { date: iso }).replace(/^[^·]*·\s*/, "");
+    if (diffDays === 1) return iso;
+    if (diffDays === -1) return iso;
+    return iso;
+  }
+
+  function aiLastManualLabel(data) {
+    if (!data || !data.last_manual_update) return t("ai.manual.never");
+    const when = data.last_manual_update;
+    let rel = "";
+    try {
+      const dt = new Date(when);
+      const ms = Date.now() - dt.getTime();
+      const minute = 60_000, hour = 3_600_000, day = 86_400_000;
+      if (ms < 0) rel = when.slice(0, 16).replace("T", " ");
+      else if (ms < hour) rel = t("relative.m.ago", { n: Math.max(1, Math.round(ms / minute)) });
+      else if (ms < day) rel = t("relative.h.ago", { n: Math.round(ms / hour) });
+      else rel = t("relative.d.ago", { n: Math.round(ms / day) });
+    } catch { rel = when.slice(0, 16).replace("T", " "); }
+    return t("ai.manual.fresh", { when: rel });
+  }
+
+  function renderAi() {
+    const content = $("#content");
+    content.innerHTML = "";
+    const countEl = $("#result-count");
+    if (countEl) countEl.textContent = "";
+
+    // Show a quick loading placeholder; loadAi resolves fast on cache hit.
+    const placeholder = document.createElement("div");
+    placeholder.className = "loading";
+    placeholder.textContent = t("loading");
+    content.appendChild(placeholder);
+
+    loadAi().then((data) => {
+      content.innerHTML = "";
+      const countEl2 = $("#result-count");
+      if (countEl2) countEl2.textContent = "";
+
+      // Empty / missing file
+      if (!data || !data.matches || data.matches.length === 0) {
+        renderAiEmpty(content);
+        return;
+      }
+
+      // Date-local in the user's display timezone — compare against
+      // the picks' date to detect a stale day.
+      const tz = currentTz();
+      const todayIso = dateInTz(new Date(), tz);
+      const picksDate = data.date_local;
+      const isStale = picksDate && picksDate !== todayIso;
+
+      const wrap = document.createElement("section");
+      wrap.className = "ai-section";
+
+      // Header
+      const head = document.createElement("header");
+      head.className = "ai-head";
+      const manual = data.manual_count > 0 ? aiLastManualLabel(data) : null;
+      const totalCount = data.matches.length;
+      head.innerHTML = `
+        <h2 class="ai-title">${escapeHtml(t("ai.title"))}</h2>
+        <p class="ai-hint">${escapeHtml(t("ai.hint"))}</p>
+        <p class="ai-meta">
+          <span class="ai-meta-date">${escapeHtml(t("day.today", { date: picksDate }))}</span>
+          <span class="ai-meta-dot">·</span>
+          <span class="ai-meta-count">${escapeHtml(t("n.matches", { n: totalCount }))}</span>
+          ${manual ? `<span class="ai-meta-dot">·</span><span class="ai-meta-manual">${escapeHtml(manual)}</span>` : ""}
+        </p>
+      `;
+      wrap.appendChild(head);
+
+      // Stale-date banner
+      if (isStale) {
+        const banner = document.createElement("div");
+        banner.className = "ai-stale";
+        banner.innerHTML = `
+          <strong>${escapeHtml(t("ai.stale.title", { date: picksDate }))}</strong>
+          <span class="ai-stale-hint">${escapeHtml(t("ai.stale.hint"))}</span>
+        `;
+        wrap.appendChild(banner);
+      }
+
+      // Intro paragraphs (manual, optional)
+      const intro = currentLang === "zh" ? data.intro_zh : data.intro_en;
+      if (intro) {
+        const p = document.createElement("p");
+        p.className = "ai-intro";
+        p.textContent = intro;
+        wrap.appendChild(p);
+      }
+
+      // Manual in-progress hint
+      if (data.manual_count > 0 && data.manual_count < totalCount) {
+        const note = document.createElement("p");
+        note.className = "ai-partial";
+        note.textContent = t("ai.manual.partial", { n: data.manual_count, total: totalCount });
+        wrap.appendChild(note);
+      }
+
+      // Group matches by verdict
+      const buckets = {
+        must: { label: t("ai.section.must"), items: [] },
+        lively: { label: t("ai.section.lively"), items: [] },
+        skip: { label: t("ai.section.skip"), items: [] },
+      };
+      for (const m of data.matches) {
+        const v = m.verdict || m.stakes_verdict_auto || "lively";
+        if (!buckets[v]) buckets[v] = { label: v, items: [] };
+        buckets[v].items.push(m);
+      }
+      const bucketOrder = ["must", "lively", "skip"];
+      for (const key of bucketOrder) {
+        const b = buckets[key];
+        if (!b.items.length) continue;
+        const section = document.createElement("section");
+        section.className = `ai-bucket ai-bucket--${key}`;
+        const bhead = document.createElement("header");
+        bhead.className = "ai-bucket-head";
+        const verdictLabel =
+          key === "must" ? t("ai.verdict.must")
+          : key === "lively" ? t("ai.verdict.lively")
+          : t("ai.verdict.skip");
+        bhead.innerHTML = `<span class="ai-bucket-title">${escapeHtml(verdictLabel)}</span><span class="ai-bucket-count">${b.items.length}</span>`;
+        section.appendChild(bhead);
+        const list = document.createElement("ul");
+        list.className = "ai-list";
+        list.setAttribute("role", "list");
+        for (const m of b.items) {
+          list.appendChild(buildAiCard(m));
+        }
+        section.appendChild(list);
+        wrap.appendChild(section);
+      }
+
+      // Manual note (footer of analyst)
+      const note = currentLang === "zh" ? data.manual_note_zh : data.manual_note_en;
+      if (note) {
+        const p = document.createElement("p");
+        p.className = "ai-foot-note";
+        p.textContent = note;
+        wrap.appendChild(p);
+      }
+
+      content.appendChild(wrap);
+    }).catch((err) => {
+      content.innerHTML = "";
+      renderAiEmpty(content, err);
+    });
+  }
+
+  function renderAiEmpty(content, err) {
+    const div = document.createElement("div");
+    div.className = "empty";
+    const errBlock = err && !/HTTP\s*404/i.test(String(err))
+      ? `<div class="empty-hint" style="opacity:.6">${escapeHtml(String(err))}</div>`
+      : "";
+    div.innerHTML = `<div>${escapeHtml(t("ai.empty.title"))}</div>
+      <div class="empty-hint">${escapeHtml(t("ai.empty.hint"))}</div>
+      <div class="empty-hint">${escapeHtml(t("ai.empty.ask"))}</div>
+      ${errBlock}`;
+    content.appendChild(div);
+  }
+
+  function buildAiCard(m) {
+    const li = document.createElement("li");
+    li.className = "ai-card";
+    li.dataset.verdict = m.verdict || "lively";
+
+    const home = m.home || {};
+    const away = m.away || {};
+    const homeName = aiTeamName(home);
+    const awayName = aiTeamName(away);
+    const headline = currentLang === "zh" ? m.headline_zh : m.headline_en;
+    const stakes = m.stakes_narrative_zh && m.stakes_narrative_en
+      ? (currentLang === "zh" ? m.stakes_narrative_zh : m.stakes_narrative_en)
+      : null;
+    const watch = currentLang === "zh" ? (m.watch_for_zh || []) : (m.watch_for_en || []);
+    const players = currentLang === "zh" ? (m.key_players_zh || []) : (m.key_players_en || []);
+    const news = currentLang === "zh" ? m.news_focus_zh : m.news_focus_en;
+    const records = currentLang === "zh" ? (m.record_potential_zh || []) : (m.record_potential_en || []);
+    const whySkip = currentLang === "zh" ? m.why_skip_zh : m.why_skip_en;
+    const score = m.score != null ? m.score : m.stakes_score_auto;
+
+    // Verdict badge + score
+    const verdictKey = m.verdict || "lively";
+    const verdictLabel = verdictKey === "must" ? t("ai.verdict.must")
+      : verdictKey === "lively" ? t("ai.verdict.lively")
+      : t("ai.verdict.skip");
+
+    const head = document.createElement("header");
+    head.className = "ai-card-head";
+    head.innerHTML = `
+      <div class="ai-card-time">
+        <span class="ai-card-time-main">${escapeHtml(m.kickoff_time || "")}</span>
+        ${m.stage ? `<span class="ai-card-stage">${escapeHtml(m.stage)}</span>` : ""}
+        ${m.group_name ? `<span class="ai-card-group">${escapeHtml(m.group_name)}</span>` : ""}
+      </div>
+      <div class="ai-card-verdict">
+        <span class="ai-verdict-badge ai-verdict-badge--${verdictKey}">${escapeHtml(verdictLabel)}</span>
+        ${score != null ? `<span class="ai-score">${escapeHtml(t("ai.score", { n: score }))}</span>` : ""}
+      </div>
+    `;
+    li.appendChild(head);
+
+    // Matchup
+    const teams = document.createElement("div");
+    teams.className = "ai-card-teams";
+    teams.innerHTML = `
+      <div class="ai-team">
+        <span class="ai-team-flag">${escapeHtml(home.flag || "")}</span>
+        <span class="ai-team-name">${escapeHtml(homeName)}</span>
+        ${home.rank ? `<span class="ai-team-rank">#${home.rank}</span>` : ""}
+      </div>
+      <div class="ai-team-sep">vs</div>
+      <div class="ai-team">
+        <span class="ai-team-flag">${escapeHtml(away.flag || "")}</span>
+        <span class="ai-team-name">${escapeHtml(awayName)}</span>
+        ${away.rank ? `<span class="ai-team-rank">#${away.rank}</span>` : ""}
+      </div>
+    `;
+    li.appendChild(teams);
+
+    // Headline (manual)
+    if (headline) {
+      const h = document.createElement("h3");
+      h.className = "ai-card-headline";
+      h.textContent = headline;
+      li.appendChild(h);
+    }
+
+    // Stakes block (always present — comes from auto script)
+    if (stakes) {
+      li.appendChild(aiBlock(t("ai.match.stakes"), stakes, "ai-block--stakes"));
+    }
+
+    // Why-skip block (only for skip / lively)
+    if (whySkip && (verdictKey === "skip" || verdictKey === "lively")) {
+      li.appendChild(aiBlock(t("ai.match.why_skip"), whySkip, "ai-block--skip"));
+    }
+
+    // Watch-for list
+    if (watch.length) {
+      li.appendChild(aiListBlock(t("ai.match.watch"), watch, "ai-block--watch"));
+    }
+
+    // Players
+    if (players.length) {
+      li.appendChild(aiListBlock(t("ai.match.players"), players, "ai-block--players"));
+    }
+
+    // News focus
+    if (news) {
+      li.appendChild(aiBlock(t("ai.match.news"), news, "ai-block--news"));
+    }
+
+    // Records
+    if (records.length) {
+      li.appendChild(aiListBlock(t("ai.match.records"), records, "ai-block--records"));
+    }
+
+    // Awaiting-analysis placeholder when a card has nothing manual yet
+    const hasManual = headline || watch.length || players.length || news || records.length || whySkip;
+    if (!hasManual) {
+      const ph = document.createElement("div");
+      ph.className = "ai-awaiting";
+      ph.textContent = t("ai.manual.never");
+      li.appendChild(ph);
+    }
+
+    // Footer: venue + links
+    const links = [];
+    if (m.espn_url) links.push(`<a class="link espn" target="_blank" rel="noopener noreferrer" href="${escapeHtml(m.espn_url)}">${escapeHtml(t("link.espn"))}</a>`);
+    if (m.fox_url) links.push(`<a class="link fox" target="_blank" rel="noopener noreferrer" href="${escapeHtml(m.fox_url)}">${escapeHtml(t("link.fox"))}</a>`);
+    if (m.venue || links.length) {
+      const foot = document.createElement("footer");
+      foot.className = "ai-card-foot";
+      const venueBits = [];
+      if (m.venue) venueBits.push(`<span class="ai-card-venue" title="${escapeHtml([m.venue, m.venue_city].filter(Boolean).join(", "))}">🏟️ ${escapeHtml(m.venue)}</span>`);
+      foot.innerHTML = venueBits.join("") + (links.length ? `<span class="ai-card-links">${links.join("")}</span>` : "");
+      li.appendChild(foot);
+    }
+
+    return li;
+  }
+
+  function aiBlock(label, text, cls) {
+    const div = document.createElement("div");
+    div.className = `ai-block ${cls || ""}`;
+    div.innerHTML = `<span class="ai-block-label">${escapeHtml(label)}</span><span class="ai-block-text">${escapeHtml(text)}</span>`;
+    return div;
+  }
+  function aiListBlock(label, items, cls) {
+    const div = document.createElement("div");
+    div.className = `ai-block ${cls || ""}`;
+    const ul = items.map((it) => `<li>${escapeHtml(it)}</li>`).join("");
+    div.innerHTML = `<span class="ai-block-label">${escapeHtml(label)}</span><ul class="ai-block-list">${ul}</ul>`;
+    return div;
+  }
 
   function renderDayList(content, matches) {
     const groups = groupByDay(matches);
@@ -1885,7 +2307,7 @@
   function loadView() {
     try {
       const raw = localStorage.getItem(VIEW_KEY);
-      if (raw === "standings" || raw === "matches" || raw === "scorers") return raw;
+      if (raw === "standings" || raw === "matches" || raw === "scorers" || raw === "ai") return raw;
     } catch { /* ignore */ }
     return "matches";
   }
@@ -1893,18 +2315,19 @@
     try { localStorage.setItem(VIEW_KEY, v); } catch { /* ignore */ }
   }
   function setView(v) {
-    if (v === "standings" || v === "scorers" || v === "matches") currentView = v;
+    if (v === "standings" || v === "scorers" || v === "matches" || v === "ai") currentView = v;
     saveView(currentView);
     updateViewPills();
-    // Hide filters in any non-match view (standings, scorers).
+    // Hide filters in any non-match view (standings, scorers, ai).
     const filterEl = $("#filters");
     if (filterEl) filterEl.hidden = currentView !== "matches";
     // The knockout bracket only makes sense next to the match list.
-    // Hide it on the scorers view (alternate view, not a supplement
-    // to the match list). Standings keeps the bracket below it for
-    // backwards compatibility.
+    // Hide it on alternate views. Standings keeps the bracket below
+    // it for backwards compatibility.
     const bracketEl = $("#bracket-section");
-    if (bracketEl && currentView === "scorers") bracketEl.hidden = true;
+    if (bracketEl) {
+      bracketEl.hidden = currentView !== "matches" && currentView !== "standings";
+    }
     if (allData) render();
   }
   function updateViewPills() {
@@ -2013,10 +2436,8 @@
     if (currentView !== "matches") {
       const filterEl = $("#filters");
       if (filterEl) filterEl.hidden = true;
-      if (currentView === "scorers") {
-        const bracketEl = $("#bracket-section");
-        if (bracketEl) bracketEl.hidden = true;
-      }
+      const bracketEl = $("#bracket-section");
+      if (bracketEl && currentView !== "standings") bracketEl.hidden = true;
     }
 
     $("#refresh-btn").addEventListener("click", async () => {
