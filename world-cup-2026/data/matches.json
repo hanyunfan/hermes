@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-18T21:03:13.329793+00:00",
+  "generated_at": "2026-06-18T21:31:29.997122+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-18T16:03:12.202120-05:00",
+  "now_local": "2026-06-18T16:31:28.849897-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -6851,8 +6851,8 @@
           "kickoff_local_date": "2026-06-18",
           "kickoff_time": "2:00 PM",
           "kickoff_weekday": "Thu",
-          "status": "SCHEDULED",
-          "status_short": "Scheduled",
+          "status": "FINAL",
+          "status_short": "FT",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -6866,8 +6866,8 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/sui.png",
             "color": "FF0000",
             "home_away": "home",
-            "score": 0,
-            "winner": false
+            "score": 4,
+            "winner": true
           },
           "away": {
             "id": "452",
@@ -6880,7 +6880,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/bih.png",
             "color": "112855",
             "home_away": "away",
-            "score": 0,
+            "score": 1,
             "winner": false
           },
           "venue": {
@@ -6895,7 +6895,183 @@
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760439/bosnia-herzegovina-switzerland",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Switzerland%20vs%20Bosnia-Herzegovina",
-          "slug": "bosnia-herzegovina-at-switzerland"
+          "slug": "bosnia-herzegovina-at-switzerland",
+          "incidents": [
+            {
+              "kind": "yellow_card",
+              "minute": "59'",
+              "team": "Bosnia-Herzegovina",
+              "team_id": "452",
+              "team_side": "away",
+              "player": "Amar Dedic",
+              "text": "Amar Dedic (Bosnia and Herzegovina) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "61'",
+              "team": "Bosnia-Herzegovina",
+              "team_id": "452",
+              "team_side": "away",
+              "player": "Edin Dzeko",
+              "text": "Edin Dzeko (Bosnia and Herzegovina) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "substitution",
+              "minute": "63'",
+              "team": "Bosnia-Herzegovina",
+              "team_id": "452",
+              "team_side": "away",
+              "player": "Ivan Basic",
+              "text": "Substitution, Bosnia and Herzegovina. Ivan Basic replaces Benjamin Tahirovic.",
+              "player_off": "Benjamin Tahirovic"
+            },
+            {
+              "kind": "substitution",
+              "minute": "64'",
+              "team": "Bosnia-Herzegovina",
+              "team_id": "452",
+              "team_side": "away",
+              "player": "Esmir Bajraktarevic",
+              "text": "Substitution, Bosnia and Herzegovina. Esmir Bajraktarevic replaces Edin Dzeko.",
+              "player_off": "Edin Dzeko"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "65'",
+              "team": "Switzerland",
+              "team_id": "475",
+              "team_side": "home",
+              "player": "Nico Elvedi",
+              "text": "Nico Elvedi (Switzerland) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "substitution",
+              "minute": "71'",
+              "team": "Switzerland",
+              "team_id": "475",
+              "team_side": "home",
+              "player": "Djibril Sow",
+              "text": "Substitution, Switzerland. Djibril Sow replaces Michel Aebischer.",
+              "player_off": "Michel Aebischer"
+            },
+            {
+              "kind": "substitution",
+              "minute": "71'",
+              "team": "Switzerland",
+              "team_id": "475",
+              "team_side": "home",
+              "player": "Johan Manzambi",
+              "text": "Substitution, Switzerland. Johan Manzambi replaces Dan Ndoye.",
+              "player_off": "Dan Ndoye"
+            },
+            {
+              "kind": "substitution",
+              "minute": "71'",
+              "team": "Switzerland",
+              "team_id": "475",
+              "team_side": "home",
+              "player": "Rubén Vargas",
+              "text": "Substitution, Switzerland. Rubén Vargas replaces Fabian Rieder.",
+              "player_off": "Fabian Rieder"
+            },
+            {
+              "kind": "goal",
+              "minute": "74'",
+              "team": "Switzerland",
+              "team_id": "475",
+              "team_side": "home",
+              "player": "Johan Manzambi",
+              "text": "Goal! Switzerland 1, Bosnia and Herzegovina 0. Johan Manzambi (Switzerland) right footed shot from the centre of the box to the top right corner."
+            },
+            {
+              "kind": "red_card",
+              "minute": "80'",
+              "team": "Bosnia-Herzegovina",
+              "team_id": "452",
+              "team_side": "away",
+              "player": "Tarik Muharemovic",
+              "text": "Tarik Muharemovic (Bosnia and Herzegovina) is shown the red card."
+            },
+            {
+              "kind": "goal",
+              "minute": "84'",
+              "team": "Switzerland",
+              "team_id": "475",
+              "team_side": "home",
+              "player": "Rubén Vargas",
+              "text": "Goal! Switzerland 2, Bosnia and Herzegovina 0. Rubén Vargas (Switzerland) right footed shot from the centre of the box to the bottom right corner. Assisted by Breel Embolo.",
+              "assist": "Breel Embolo"
+            },
+            {
+              "kind": "substitution",
+              "minute": "86'",
+              "team": "Bosnia-Herzegovina",
+              "team_id": "452",
+              "team_side": "away",
+              "player": "Jovo Lukic",
+              "text": "Substitution, Bosnia and Herzegovina. Jovo Lukic replaces Ermedin Demirovic.",
+              "player_off": "Ermedin Demirovic"
+            },
+            {
+              "kind": "substitution",
+              "minute": "86'",
+              "team": "Bosnia-Herzegovina",
+              "team_id": "452",
+              "team_side": "away",
+              "player": "Amir Hadziahmetovic",
+              "text": "Substitution, Bosnia and Herzegovina. Amir Hadziahmetovic replaces Ivan Sunjic.",
+              "player_off": "Ivan Sunjic"
+            },
+            {
+              "kind": "substitution",
+              "minute": "86'",
+              "team": "Switzerland",
+              "team_id": "475",
+              "team_side": "home",
+              "player": "Luca Jaquez",
+              "text": "Substitution, Switzerland. Luca Jaquez replaces Silvan Widmer.",
+              "player_off": "Silvan Widmer"
+            },
+            {
+              "kind": "substitution",
+              "minute": "89'",
+              "team": "Switzerland",
+              "team_id": "475",
+              "team_side": "home",
+              "player": "Cedric Itten",
+              "text": "Substitution, Switzerland. Cedric Itten replaces Breel Embolo.",
+              "player_off": "Breel Embolo"
+            },
+            {
+              "kind": "goal",
+              "minute": "90'",
+              "team": "Switzerland",
+              "team_id": "475",
+              "team_side": "home",
+              "player": "Johan Manzambi",
+              "text": "Goal! Switzerland 3, Bosnia and Herzegovina 0. Johan Manzambi (Switzerland) right footed shot from the centre of the box to the centre of the goal. Assisted by Rubén Vargas.",
+              "assist": "Rubén Vargas"
+            },
+            {
+              "kind": "substitution",
+              "minute": "90'+1'",
+              "team": "Bosnia-Herzegovina",
+              "team_id": "452",
+              "team_side": "away",
+              "player": "Ermin Mahmic",
+              "text": "Substitution, Bosnia and Herzegovina. Ermin Mahmic replaces Kerim Alajbegovic.",
+              "player_off": "Kerim Alajbegovic"
+            },
+            {
+              "kind": "goal",
+              "minute": "90'+3'",
+              "team": "Bosnia-Herzegovina",
+              "team_id": "452",
+              "team_side": "away",
+              "player": "Ermin Mahmic",
+              "text": "Goal! Switzerland 3, Bosnia and Herzegovina 1. Ermin Mahmic (Bosnia and Herzegovina) right footed shot from the centre of the box to the high centre of the goal following a corner."
+            }
+          ]
         },
         {
           "id": "760440",
