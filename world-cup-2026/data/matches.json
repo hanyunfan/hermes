@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-18T02:53:46.109906+00:00",
+  "generated_at": "2026-06-18T07:30:03.944760+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-17T21:53:44.011398-05:00",
+  "now_local": "2026-06-18T02:30:03.233892-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -1704,6 +1704,30 @@
       "entries": [
         {
           "team": {
+            "id": "208",
+            "name": "Colombia",
+            "name_zh": "哥伦比亚",
+            "rank": 13,
+            "short": "Colombia",
+            "abbr": "COL",
+            "flag": "🇨🇴",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/col.png"
+          },
+          "rank": 1,
+          "mp": 1,
+          "w": 1,
+          "d": 0,
+          "l": 0,
+          "gf": 3,
+          "ga": 1,
+          "gd": 2,
+          "pts": 3,
+          "advance": false,
+          "advance_label": "Advance to Round of 32",
+          "advance_color": "#81D6AC"
+        },
+        {
+          "team": {
             "id": "2850",
             "name": "Congo DR",
             "name_zh": "刚果（金）",
@@ -1713,7 +1737,7 @@
             "flag": "🇨🇩",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/rdc.png"
           },
-          "rank": 1,
+          "rank": 2,
           "mp": 1,
           "w": 0,
           "d": 1,
@@ -1737,7 +1761,7 @@
             "flag": "🇵🇹",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/por.png"
           },
-          "rank": 2,
+          "rank": 3,
           "mp": 1,
           "w": 0,
           "d": 1,
@@ -1746,30 +1770,6 @@
           "ga": 1,
           "gd": 0,
           "pts": 1,
-          "advance": false,
-          "advance_label": "Advance to Round of 32",
-          "advance_color": "#81D6AC"
-        },
-        {
-          "team": {
-            "id": "208",
-            "name": "Colombia",
-            "name_zh": "哥伦比亚",
-            "rank": 13,
-            "short": "Colombia",
-            "abbr": "COL",
-            "flag": "🇨🇴",
-            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/col.png"
-          },
-          "rank": 3,
-          "mp": 0,
-          "w": 0,
-          "d": 0,
-          "l": 0,
-          "gf": 0,
-          "ga": 0,
-          "gd": 0,
-          "pts": 0,
           "advance": false,
           "advance_label": "Best 8 advance",
           "advance_color": "#B5E7CE"
@@ -1786,13 +1786,13 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/uzb.png"
           },
           "rank": 4,
-          "mp": 0,
+          "mp": 1,
           "w": 0,
           "d": 0,
-          "l": 0,
-          "gf": 0,
-          "ga": 0,
-          "gd": 0,
+          "l": 1,
+          "gf": 1,
+          "ga": 3,
+          "gd": -2,
           "pts": 0,
           "advance": false,
           "advance_label": "Eliminated",
@@ -5862,7 +5862,7 @@
     },
     {
       "date": "2026-06-17",
-      "label": "Today",
+      "label": "Wed",
       "match_count": 4,
       "matches": [
         {
@@ -6294,7 +6294,7 @@
             "color": "fbd632",
             "home_away": "home",
             "score": 1,
-            "winner": false
+            "winner": true
           },
           "away": {
             "id": "2659",
@@ -6460,8 +6460,8 @@
           "kickoff_local_date": "2026-06-17",
           "kickoff_time": "9:00 PM",
           "kickoff_weekday": "Wed",
-          "status": "SCHEDULED",
-          "status_short": "Scheduled",
+          "status": "FINAL",
+          "status_short": "FT",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -6475,7 +6475,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/uzb.png",
             "color": "ffffff",
             "home_away": "home",
-            "score": 0,
+            "score": 1,
             "winner": false
           },
           "away": {
@@ -6489,8 +6489,8 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/col.png",
             "color": "fbd632",
             "home_away": "away",
-            "score": 0,
-            "winner": false
+            "score": 3,
+            "winner": true
           },
           "venue": {
             "name": "Estadio Banorte",
@@ -6504,13 +6504,172 @@
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760436/colombia-uzbekistan",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Uzbekistan%20vs%20Colombia",
-          "slug": "colombia-at-uzbekistan"
+          "slug": "colombia-at-uzbekistan",
+          "incidents": [
+            {
+              "kind": "yellow_card",
+              "minute": "7'",
+              "team": "Colombia",
+              "team_id": "208",
+              "team_side": "away",
+              "player": "Johan Mojica",
+              "text": "Johan Mojica (Colombia) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "34'",
+              "team": "Uzbekistan",
+              "team_id": "2570",
+              "team_side": "home",
+              "player": "Abdukodir Khusanov",
+              "text": "Abdukodir Khusanov (Uzbekistan) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "goal",
+              "minute": "40'",
+              "team": "Colombia",
+              "team_id": "208",
+              "team_side": "away",
+              "player": "Daniel Muñoz",
+              "text": "Goal! Uzbekistan 0, Colombia 1. Daniel Muñoz (Colombia) right footed shot from the centre of the box to the high centre of the goal. Assisted by Luis Díaz with a through ball.",
+              "assist": "Luis Díaz"
+            },
+            {
+              "kind": "substitution",
+              "minute": "45'",
+              "team": "Uzbekistan",
+              "team_id": "2570",
+              "team_side": "home",
+              "player": "Dostonbek Khamdamov",
+              "text": "Substitution, Uzbekistan. Dostonbek Khamdamov replaces Oston Urunov.",
+              "player_off": "Oston Urunov"
+            },
+            {
+              "kind": "substitution",
+              "minute": "45'",
+              "team": "Uzbekistan",
+              "team_id": "2570",
+              "team_side": "home",
+              "player": "Farrukh Sayfiev",
+              "text": "Substitution, Uzbekistan. Farrukh Sayfiev replaces Sherzod Nasrullaev.",
+              "player_off": "Sherzod Nasrullaev"
+            },
+            {
+              "kind": "goal",
+              "minute": "60'",
+              "team": "Uzbekistan",
+              "team_id": "2570",
+              "team_side": "home",
+              "player": "Abbosbek Fayzullaev",
+              "text": "Goal! Uzbekistan 1, Colombia 1. Abbosbek Fayzullaev (Uzbekistan) header from very close range to the top left corner."
+            },
+            {
+              "kind": "goal",
+              "minute": "65'",
+              "team": "Colombia",
+              "team_id": "208",
+              "team_side": "away",
+              "player": "Luis Díaz",
+              "text": "Goal! Uzbekistan 1, Colombia 2. Luis Díaz (Colombia) right footed shot from the centre of the box to the bottom right corner. Assisted by Gustavo Puerta.",
+              "assist": "Gustavo Puerta"
+            },
+            {
+              "kind": "substitution",
+              "minute": "72'",
+              "team": "Colombia",
+              "team_id": "208",
+              "team_side": "away",
+              "player": "Jáminton Campaz",
+              "text": "Substitution, Colombia. Jaminton Campaz replaces James Rodríguez.",
+              "player_off": "James Rodríguez"
+            },
+            {
+              "kind": "substitution",
+              "minute": "77'",
+              "team": "Uzbekistan",
+              "team_id": "2570",
+              "team_side": "home",
+              "player": "Jakhongir Urozov",
+              "text": "Substitution, Uzbekistan. Jakhongir Urozov replaces Rustam Ashurmatov because of an injury.",
+              "player_off": "Rustam Ashurmatov"
+            },
+            {
+              "kind": "substitution",
+              "minute": "77'",
+              "team": "Uzbekistan",
+              "team_id": "2570",
+              "team_side": "home",
+              "player": "Azizbek Amonov",
+              "text": "Substitution, Uzbekistan. Azizbek Amonov replaces Abbosbek Fayzullaev.",
+              "player_off": "Abbosbek Fayzullaev"
+            },
+            {
+              "kind": "substitution",
+              "minute": "80'",
+              "team": "Colombia",
+              "team_id": "208",
+              "team_side": "away",
+              "player": "Richard Ríos",
+              "text": "Substitution, Colombia. Richard Ríos replaces Gustavo Puerta.",
+              "player_off": "Gustavo Puerta"
+            },
+            {
+              "kind": "substitution",
+              "minute": "80'",
+              "team": "Colombia",
+              "team_id": "208",
+              "team_side": "away",
+              "player": "Cucho Hernández",
+              "text": "Substitution, Colombia. Cucho Hernández replaces Luis Suárez.",
+              "player_off": "Luis Suárez"
+            },
+            {
+              "kind": "substitution",
+              "minute": "90'+3'",
+              "team": "Colombia",
+              "team_id": "208",
+              "team_side": "away",
+              "player": "Andrés Gómez",
+              "text": "Substitution, Colombia. Andrés Gómez replaces Luis Díaz.",
+              "player_off": "Luis Díaz"
+            },
+            {
+              "kind": "substitution",
+              "minute": "90'+3'",
+              "team": "Colombia",
+              "team_id": "208",
+              "team_side": "away",
+              "player": "Kevin Castaño",
+              "text": "Substitution, Colombia. Kevin Castaño replaces Jhon Arias.",
+              "player_off": "Jhon Arias"
+            },
+            {
+              "kind": "substitution",
+              "minute": "90'+3'",
+              "team": "Uzbekistan",
+              "team_id": "2570",
+              "team_side": "home",
+              "player": "Igor Sergeev",
+              "text": "Substitution, Uzbekistan. Igor Sergeev replaces Eldor Shomurodov.",
+              "player_off": "Eldor Shomurodov"
+            },
+            {
+              "kind": "goal",
+              "minute": "90'+9'",
+              "team": "Colombia",
+              "team_id": "208",
+              "team_side": "away",
+              "player": "Jáminton Campaz",
+              "text": "Goal! Uzbekistan 1, Colombia 3. Jaminton Campaz (Colombia) header from the centre of the box to the bottom left corner. Assisted by Cucho Hernández with a cross.",
+              "assist": "Cucho Hernández"
+            }
+          ]
         }
       ]
     },
     {
       "date": "2026-06-18",
-      "label": "Tomorrow",
+      "label": "Today",
       "match_count": 4,
       "matches": [
         {
@@ -6729,7 +6888,7 @@
     },
     {
       "date": "2026-06-19",
-      "label": "Fri",
+      "label": "Tomorrow",
       "match_count": 4,
       "matches": [
         {
