@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-18T18:26:02.986575+00:00",
+  "generated_at": "2026-06-18T21:03:13.329793+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-18T13:26:02.039248-05:00",
+  "now_local": "2026-06-18T16:03:12.202120-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -787,14 +787,14 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/sui.png"
           },
           "rank": 1,
-          "mp": 1,
-          "w": 0,
+          "mp": 2,
+          "w": 1,
           "d": 1,
           "l": 0,
-          "gf": 1,
-          "ga": 1,
-          "gd": 0,
-          "pts": 1,
+          "gf": 5,
+          "ga": 2,
+          "gd": 3,
+          "pts": 4,
           "advance": false,
           "advance_label": "Advance to Round of 32",
           "advance_color": "#81D6AC"
@@ -825,30 +825,6 @@
         },
         {
           "team": {
-            "id": "4398",
-            "name": "Qatar",
-            "name_zh": "卡塔尔",
-            "rank": 56,
-            "short": "Qatar",
-            "abbr": "QAT",
-            "flag": "🇶🇦",
-            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/qat.png"
-          },
-          "rank": 3,
-          "mp": 1,
-          "w": 0,
-          "d": 1,
-          "l": 0,
-          "gf": 1,
-          "ga": 1,
-          "gd": 0,
-          "pts": 1,
-          "advance": false,
-          "advance_label": "Best 8 advance",
-          "advance_color": "#B5E7CE"
-        },
-        {
-          "team": {
             "id": "452",
             "name": "Bosnia-Herzegovina",
             "name_zh": "波黑",
@@ -857,6 +833,30 @@
             "abbr": "BIH",
             "flag": "🇧🇦",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/bih.png"
+          },
+          "rank": 3,
+          "mp": 2,
+          "w": 0,
+          "d": 1,
+          "l": 1,
+          "gf": 2,
+          "ga": 5,
+          "gd": -3,
+          "pts": 1,
+          "advance": false,
+          "advance_label": "Best 8 advance",
+          "advance_color": "#B5E7CE"
+        },
+        {
+          "team": {
+            "id": "4398",
+            "name": "Qatar",
+            "name_zh": "卡塔尔",
+            "rank": 56,
+            "short": "Qatar",
+            "abbr": "QAT",
+            "flag": "🇶🇦",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/qat.png"
           },
           "rank": 4,
           "mp": 1,
@@ -6439,7 +6439,7 @@
               "team_id": "4469",
               "team_side": "home",
               "player": "Caleb Yirenkyi",
-              "text": "Goal! Ghana 1, Panama 0. Caleb Yirenkyi (Ghana) right footed shot from very close range to the top right corner following a fast break.",
+              "text": "Goal! Ghana 1, Panama 0. Caleb Yirenkyi (Ghana) right footed shot from very close range to the top right corner. Assisted by Brandon Thomas-Asante following a fast break.",
               "assist": "Brandon Thomas-Asante"
             },
             {
