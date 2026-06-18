@@ -260,10 +260,16 @@ def compute_stakes(
 ) -> dict:
     """Auto-derived stake narrative for one match.
 
+    Score is on a 1–5 scale:
+      5 = must-watch (highest stakes)
+      4 = must-watch (real consequences)
+      3 = lively (worth a look, storylines but no do-or-die)
+      2 = skippable (lopsided or low-stakes)
+      1 = skippable (dead rubber / opener with no marquee)
+
     Returns a dict with:
-      - kind: "group_decider" | "must_win" | "dead_rubber" |
-              "knockout" | "opener" | "regular"
-      - score: 0–10 base interest (before subjective override)
+      - kind: stakes classification (see verdicts below)
+      - score: 1–5 base interest (before marquee bonus)
       - verdict: "must" | "lively" | "skip"
       - narrative_zh / narrative_en: one-line stakes summary
     """
@@ -271,11 +277,11 @@ def compute_stakes(
     away_id = str(match.get("away", {}).get("id") or "")
     stage_slug = match.get("stage_slug") or ""
 
-    # ── knockout: trivial — always lively (no math needed) ──
+    # ── knockout: 4 base (single elimination is always interesting) ──
     if stage_slug and stage_slug != "group-stage":
         return {
             "kind": "knockout",
-            "score": 8,
+            "score": 4,
             "verdict": VERDICT_LIVELY,
             "narrative_zh": "淘汰赛，一场定胜负。",
             "narrative_en": "Knockout — single elimination.",
@@ -289,6 +295,8 @@ def compute_stakes(
     md_num = max(h_md, a_md)
     h_pts = h["pts"] if h else 0
     a_pts = a["pts"] if a else 0
+    h_alive = (h is None) or (h_pts > 0) or (h_md == 3)
+    a_alive = (a is None) or (a_pts > 0) or (a_md == 3)
 
     # Helper: are all four teams in this group level on points?
     def group_tied() -> bool:
@@ -306,42 +314,45 @@ def compute_stakes(
         return len(pts_set) == 1
 
     if md_num == 1:
-        marquee = (
-            (match.get("home", {}).get("rank") in MARQUEE_RANKS)
-            or (match.get("away", {}).get("rank") in MARQUEE_RANKS)
-        )
-        score = 7 if marquee else 5
+        # Opener: group is wide open, but no immediate stakes.
+        # Marquee (top-10) teams get +1 from the auto_score bonus.
         return {
             "kind": "opener",
-            "score": score,
-            "verdict": VERDICT_MUST if marquee else VERDICT_LIVELY,
+            "score": 1,
+            "verdict": VERDICT_SKIPPABLE,
             "narrative_zh": "小组赛首轮，双方均无积分，一切皆有可能。",
             "narrative_en": "Group opener — both sides start from zero.",
         }
 
     if md_num == 3:
-        h_alive = h is None or h_pts > 0 or h_md == 3
-        a_alive = a is None or a_pts > 0 or a_md == 3
-        if not h_alive or not a_alive:
+        if h_alive and a_alive:
             return {
-                "kind": "dead_rubber",
-                "score": 6,
+                "kind": "group_decider",
+                "score": 4,
+                "verdict": VERDICT_MUST,
+                "narrative_zh": "末轮出线生死战。",
+                "narrative_en": "Final matchday — qualification on the line.",
+            }
+        if h_alive or a_alive:
+            return {
+                "kind": "lively",
+                "score": 3,
                 "verdict": VERDICT_LIVELY,
                 "narrative_zh": "末轮，但有球队已无晋级可能。",
                 "narrative_en": "Final matchday, but a team has already been eliminated.",
             }
         return {
-            "kind": "group_decider",
-            "score": 9,
-            "verdict": VERDICT_MUST,
-            "narrative_zh": "末轮出线生死战。",
-            "narrative_en": "Final matchday — qualification on the line.",
+            "kind": "dead_rubber",
+            "score": 1,
+            "verdict": VERDICT_SKIPPABLE,
+            "narrative_zh": "末轮，双方均已无晋级可能。",
+            "narrative_en": "Final matchday, dead rubber — both teams already out.",
         }
 
     if h_pts == 3 and a_pts == 3:
         return {
-            "kind": "must_win",
-            "score": 9,
+            "kind": "six_pointer",
+            "score": 4,
             "verdict": VERDICT_MUST,
             "narrative_zh": "双方首轮全胜，第二轮正面交锋——赢者基本锁定出线。",
             "narrative_en": "Both won MD1 — winner likely seals qualification.",
@@ -349,40 +360,52 @@ def compute_stakes(
     if h_pts == 0 and a_pts == 0:
         return {
             "kind": "must_win",
-            "score": 8,
+            "score": 4,
             "verdict": VERDICT_MUST,
             "narrative_zh": "双方首轮均落败，本场再输基本出局。",
             "narrative_en": "Both lost MD1 — another loss likely eliminates.",
         }
     if h_pts == 1 and a_pts == 1 and group_tied():
+        # Four-way tied groups: real storylines but no do-or-die yet.
+        # Without marquee bonus, this is lively (3). With top-10
+        # involved, it climbs to must (4) or 5.
         return {
-            "kind": "must_win",
-            "score": 8,
-            "verdict": VERDICT_MUST,
+            "kind": "four_way_tied",
+            "score": 3,
+            "verdict": VERDICT_LIVELY,
             "narrative_zh": "小组四队齐平，本场是拉开差距的第一次机会。",
             "narrative_en": "All four sides level — first chance to break away.",
         }
     if {h_pts, a_pts} == {3, 0}:
-        laggard_rank = (a["rank"] if h_pts == 3 else h["rank"]) if (h and a) else None
-        if laggard_rank is not None and laggard_rank <= 15:
+        # Compare the underdog's FIFA rank (from the match dict, NOT
+        # the standings — standings['rank'] is the position within
+        # the group, which is always 1–4 and useless for tiering).
+        laggard_fifa_rank = (
+            match.get("away", {}).get("rank") if h_pts == 3
+            else match.get("home", {}).get("rank")
+        )
+        if laggard_fifa_rank is not None and laggard_fifa_rank <= 15:
             return {
-                "kind": "must_win",
-                "score": 8,
-                "verdict": VERDICT_MUST,
+                "kind": "upset_watch",
+                "score": 3,
+                "verdict": VERDICT_LIVELY,
                 "narrative_zh": "首轮胜者对阵劲旅，弱旅再输基本告别小组赛。",
                 "narrative_en": "Group leader faces a tough test — upset risk is real.",
             }
         return {
-            "kind": "regular",
-            "score": 6,
-            "verdict": VERDICT_LIVELY,
+            "kind": "routine",
+            "score": 2,
+            "verdict": VERDICT_SKIPPABLE,
             "narrative_zh": "首轮胜者迎战弱旅，悬念不大但仍有故事。",
             "narrative_en": "Group leader vs underdog — storylines still possible.",
         }
 
+    # Asymmetric MD2 cases (3-1, 1-0, 0-1, 1-3): one team has
+    # breathing room, the other needs points. Real storylines but
+    # not do-or-die. Lively.
     return {
-        "kind": "regular",
-        "score": 6,
+        "kind": "asymmetric",
+        "score": 3,
         "verdict": VERDICT_LIVELY,
         "narrative_zh": "小组赛第二轮常规对决。",
         "narrative_en": "Standard MD2 fixture.",
@@ -390,21 +413,25 @@ def compute_stakes(
 
 
 def auto_score_match(match: dict, stakes: dict) -> int:
+    """Combine stakes base + marquee bonus. Cap at 5.
+
+    Marquee bonus is deliberately tight: +1 if either side is in the
+    FIFA top 10. This lets marquee matchups climb from 3 to 4, or
+    from 4 to 5, but a routine non-marquee game stays at its base.
+    """
     base = stakes["score"]
     h_rank = match.get("home", {}).get("rank")
     a_rank = match.get("away", {}).get("rank")
     bonus = 0
     if h_rank in MARQUEE_RANKS or a_rank in MARQUEE_RANKS:
         bonus += 1
-    if (h_rank or 99) <= 20 and (a_rank or 99) <= 20:
-        bonus += 1
-    return min(10, base + bonus)
+    return min(5, max(1, base + bonus))
 
 
 def auto_verdict(score: int) -> str:
-    if score >= 8:
+    if score >= 4:
         return VERDICT_MUST
-    if score >= 6:
+    if score >= 3:
         return VERDICT_LIVELY
     return VERDICT_SKIPPABLE
 
