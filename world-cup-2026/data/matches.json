@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-19T19:58:27.401664+00:00",
+  "generated_at": "2026-06-19T21:15:51.679706+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-19T14:58:26.526240-05:00",
+  "now_local": "2026-06-19T16:15:50.522615-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -993,14 +993,14 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/usa.png"
           },
           "rank": 1,
-          "mp": 1,
-          "w": 1,
+          "mp": 2,
+          "w": 2,
           "d": 0,
           "l": 0,
-          "gf": 4,
+          "gf": 6,
           "ga": 1,
-          "gd": 3,
-          "pts": 3,
+          "gd": 5,
+          "pts": 6,
           "advance": false,
           "advance_label": "Advance to Round of 32",
           "advance_color": "#81D6AC"
@@ -1017,13 +1017,13 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/aus.png"
           },
           "rank": 2,
-          "mp": 1,
+          "mp": 2,
           "w": 1,
           "d": 0,
-          "l": 0,
+          "l": 1,
           "gf": 2,
-          "ga": 0,
-          "gd": 2,
+          "ga": 2,
+          "gd": 0,
           "pts": 3,
           "advance": false,
           "advance_label": "Advance to Round of 32",
@@ -7506,8 +7506,8 @@
           "kickoff_local_date": "2026-06-19",
           "kickoff_time": "2:00 PM",
           "kickoff_weekday": "Fri",
-          "status": "SCHEDULED",
-          "status_short": "Scheduled",
+          "status": "FINAL",
+          "status_short": "FT",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -7521,8 +7521,8 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/usa.png",
             "color": "d42339",
             "home_away": "home",
-            "score": 0,
-            "winner": false
+            "score": 2,
+            "winner": true
           },
           "away": {
             "id": "628",
@@ -7550,7 +7550,181 @@
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760442/australia-united-states",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20United%20States%20vs%20Australia",
-          "slug": "australia-at-united states"
+          "slug": "australia-at-united states",
+          "incidents": [
+            {
+              "kind": "yellow_card",
+              "minute": "16'",
+              "team": "Australia",
+              "team_id": "628",
+              "team_side": "away",
+              "player": "Jordan Bos",
+              "text": "Jordan Bos (Australia) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "32'",
+              "team": "Australia",
+              "team_id": "628",
+              "team_side": "away",
+              "player": "Alessandro Circati",
+              "text": "Alessandro Circati (Australia) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "goal",
+              "minute": "43'",
+              "team": "United States",
+              "team_id": "660",
+              "team_side": "home",
+              "player": "Alex Freeman",
+              "text": "Goal! USA 2, Australia 0. Alex Freeman (USA) header from very close range to the bottom right corner following a set piece situation.Goal awarded following VAR Review."
+            },
+            {
+              "kind": "substitution",
+              "minute": "45'",
+              "team": "Australia",
+              "team_id": "628",
+              "team_side": "away",
+              "player": "Jason Geria",
+              "text": "Substitution, Australia. Jason Geria replaces Cameron Burgess.",
+              "player_off": "Cameron Burgess"
+            },
+            {
+              "kind": "substitution",
+              "minute": "45'",
+              "team": "Australia",
+              "team_id": "628",
+              "team_side": "away",
+              "player": "Connor Metcalfe",
+              "text": "Substitution, Australia. Connor Metcalfe replaces Nishan Velupillay.",
+              "player_off": "Nishan Velupillay"
+            },
+            {
+              "kind": "substitution",
+              "minute": "45'",
+              "team": "Australia",
+              "team_id": "628",
+              "team_side": "away",
+              "player": "Nestory Irankunda",
+              "text": "Substitution, Australia. Nestory Irankunda replaces Mohamed Touré.",
+              "player_off": "Mohamed Toure"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "56'",
+              "team": "United States",
+              "team_id": "660",
+              "team_side": "home",
+              "player": "Antonee Robinson",
+              "text": "Antonee Robinson (USA) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "substitution",
+              "minute": "61'",
+              "team": "Australia",
+              "team_id": "628",
+              "team_side": "away",
+              "player": "Cristian Volpato",
+              "text": "Substitution, Australia. Cristian Volpato replaces Mathew Leckie because of an injury.",
+              "player_off": "Mathew Leckie"
+            },
+            {
+              "kind": "substitution",
+              "minute": "74'",
+              "team": "United States",
+              "team_id": "660",
+              "team_side": "home",
+              "player": "Sebastian Berhalter",
+              "text": "Substitution, USA. Sebastian Berhalter replaces Ricardo Pepi.",
+              "player_off": "Ricardo Pepi"
+            },
+            {
+              "kind": "substitution",
+              "minute": "78'",
+              "team": "Australia",
+              "team_id": "628",
+              "team_side": "away",
+              "player": "Jackson Irvine",
+              "text": "Substitution, Australia. Jackson Irvine replaces Paul Okon-Engstler.",
+              "player_off": "Paul Okon-Engstler"
+            },
+            {
+              "kind": "substitution",
+              "minute": "80'",
+              "team": "United States",
+              "team_id": "660",
+              "team_side": "home",
+              "player": "Joe Scally",
+              "text": "Substitution, USA. Joe Scally replaces Sergiño Dest.",
+              "player_off": "Sergiño Dest"
+            },
+            {
+              "kind": "substitution",
+              "minute": "80'",
+              "team": "United States",
+              "team_id": "660",
+              "team_side": "home",
+              "player": "Auston Trusty",
+              "text": "Substitution, USA. Auston Trusty replaces Antonee Robinson.",
+              "player_off": "Antonee Robinson"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "88'",
+              "team": "Australia",
+              "team_id": "628",
+              "team_side": "away",
+              "player": "Harry Souttar",
+              "text": "Harry Souttar (Australia) is shown the yellow card."
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "89'",
+              "team": "United States",
+              "team_id": "660",
+              "team_side": "home",
+              "player": "Folarin Balogun",
+              "text": "Folarin Balogun (USA) is shown the yellow card."
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "89'",
+              "team": "Australia",
+              "team_id": "628",
+              "team_side": "away",
+              "player": "Jacob Italiano",
+              "text": "Jacob Italiano (Australia) is shown the yellow card."
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "90'+3'",
+              "team": "United States",
+              "team_id": "660",
+              "team_side": "home",
+              "player": "Chris Richards",
+              "text": "Chris Richards (USA) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "substitution",
+              "minute": "90'+6'",
+              "team": "United States",
+              "team_id": "660",
+              "team_side": "home",
+              "player": "Haji Wright",
+              "text": "Substitution, USA. Haji Wright replaces Folarin Balogun.",
+              "player_off": "Folarin Balogun"
+            },
+            {
+              "kind": "substitution",
+              "minute": "90'+6'",
+              "team": "United States",
+              "team_id": "660",
+              "team_side": "home",
+              "player": "Giovanni Reyna",
+              "text": "Substitution, USA. Giovanni Reyna replaces Weston McKennie.",
+              "player_off": "Weston McKennie"
+            }
+          ]
         },
         {
           "id": "760445",
