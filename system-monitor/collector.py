@@ -923,18 +923,254 @@ def daemon(interval=10, _display_name=None, cpu_debug=False):
         time.sleep(interval)
 
 
+# ─── TUI mode (--tui) ───────────────────────────────────────────────────────
+# Mirrors the Syllo/nvtop look-and-feel: bars + per-GPU rows + footer.
+# Pure ANSI escape sequences — no curses/blessed dependency. Activated by
+# `--tui <interval> <display_name>` instead of the daemon's positional args.
+#
+# Layout (≈80×24 terminal):
+#   ╭─ <hostname> ───────────── <utc-time> ───── <interval>s ─╮
+#   │  CPU  <type> <Nc/Nt>  <bar> <pct>% <freq>             │
+#   │  MEM  <type> <total>   <bar> <pct>% <used>/<total>    │
+#   │  SYS  <total>W  CPU=…W  GPU0=…W  …                    │
+#   │  GPU<i> <name>  <bar> <pct>% <temp>°C <freq> <pwr>/<lim>│
+#   │  NET  <iface> RX=… TX=…                                │
+#   │  q: quit  space: pause  r: refresh  ?: help             │
+#   ╰──────────────────────────────────────────────────────────╯
+#
+# See DESIGN-tui.md for the design rationale and edge-case handling.
+
+# Low-level ANSI helpers. Each writes directly to stdout and flushes so
+# the render feels "live" even on slower shells.
+def _ansi(code): return f"\033[{code}m"
+
+def _term_write(s):
+    sys.stdout.write(s); sys.stdout.flush()
+
+def _alt_screen_on():  _term_write("\033[?1049h")   # switch to alt buffer
+def _alt_screen_off(): _term_write("\033[?1049l")   # back to main buffer
+def _hide_cursor():    _term_write("\033[?25l")
+def _show_cursor():    _term_write("\033[?25h")
+def _clear_screen():   _term_write("\033[2J\033[H")
+
+def _bar(pct, width=20):
+    """Return a coloured bar string of fixed character width.
+
+    Green <60%, yellow 60–85%, red ≥85% — same thresholds as htop."""
+    pct = max(0.0, min(100.0, pct or 0.0))
+    filled = int(round(pct * width / 100.0))
+    color = "31" if pct >= 85 else "33" if pct >= 60 else "32"
+    fill_ch  = "█"
+    empty_ch = "░"
+    return (f"\033[{color}m{fill_ch * filled}"
+            f"\033[37m{empty_ch * (width - filled)}\033[0m")
+
+def _fmt_bytes_mb(mb):
+    if mb is None: return "?"
+    if mb >= 1024:  return f"{mb/1024:.1f}G"
+    return f"{mb:.0f}M"
+
+def _fmt_freq(mhz):
+    if mhz is None: return "?"
+    if mhz >= 1000: return f"{mhz/1000:.1f}GHz"
+    return f"{mhz:.0f}MHz"
+
+def _read_key_nonblocking(timeout=0.0):
+    """Best-effort single keypress read. Returns '' on no-input / unavailable.
+
+    Uses select() on stdin (POSIX) — falls back to '' on non-POSIX so the
+    TUI still works on Windows for development, just without key handling."""
+    if not sys.stdin or not sys.stdin.isatty(): return ''
+    try:
+        import select
+        r, _, _ = select.select([sys.stdin], [], [], timeout)
+        if not r: return ''
+        ch = sys.stdin.read(1)
+        # Consume any trailing bytes for escape sequences (arrow keys etc.)
+        if ch == '\x1b':
+            r2, _, _ = select.select([sys.stdin], [], [], 0.05)
+            if r2: sys.stdin.read(2)
+        return ch
+    except Exception:
+        return ''
+
+def _tui_render(stats, interval, paused=False, error=None):
+    """Build one frame of the TUI and write it to stdout.
+
+    Strategy: build the entire frame as a list of strings, then write once.
+    Cursor-home (\033[H) at the start, clear-to-end (\033[J) at the end so
+    leftover rows from a previous (taller) frame disappear cleanly."""
+    lines = []
+    accent = "\033[36m"   # cyan
+    dim    = "\033[90m"
+    bold   = "\033[1m"
+    rst    = "\033[0m"
+
+    # ── Header bar ──
+    ts = stats.get("timestamp", "")[:19]
+    header = f"{accent}╭─ {bold}{stats.get('hostname','?')}{rst}{accent} "
+    header += "─" * max(0, 18 - len(stats.get('hostname','')))
+    header += f" {ts} ── {interval}s ─╮{rst}"
+    lines.append(header)
+
+    # ── CPU row ──
+    cpu_label = f"{accent}│{rst}  CPU  "
+    cpu_name  = stats.get("cpu_type") or "?"
+    # Shorten Intel/AMD marketing fluff
+    cpu_name  = cpu_name.replace("Intel(R) Core(TM) ", "").replace("CPU ", "")
+    cpu_name  = cpu_name.replace("AMD ", "").replace("Ryzen ", "R")
+    ncpu = stats.get("cpu_count", 0)
+    cpu_pct = stats.get("cpu_percent", 0)
+    # CPU freq from psutil (best-effort; may be None on some kernels)
+    try:
+        cf = psutil.cpu_freq()
+        cpu_freq = _fmt_freq(cf.current if cf else None)
+    except Exception:
+        cpu_freq = "?"
+    lines.append(f"{cpu_label}{cpu_name:<22} {_bar(cpu_pct)} {cpu_pct:5.1f}%  {cpu_freq}")
+
+    # ── MEM row ──
+    mem_pct  = stats.get("memory_percent", 0)
+    mem_used = _fmt_bytes_mb(stats.get("memory_used_mb"))
+    mem_tot  = _fmt_bytes_mb(stats.get("memory_total_mb"))
+    lines.append(f"{accent}│{rst}  MEM  {'':22} {_bar(mem_pct)} {mem_pct:5.1f}%  {mem_used}/{mem_tot}")
+
+    # ── SYS row (system power breakdown) ──
+    sys_w = stats.get("system_power_w")
+    if sys_w is not None or stats.get("cpu_power_w") is not None or stats.get("gpu_power"):
+        parts = []
+        if sys_w is not None: parts.append(f"{sys_w:.0f}W")
+        if stats.get("cpu_power_w") is not None:
+            parts.append(f"CPU={stats['cpu_power_w']:.0f}W")
+        for gp in (stats.get("gpu_power") or []):
+            parts.append(f"GPU{gp['id']}={gp.get('power_w','?')}W")
+        lines.append(f"{accent}│{rst}  SYS  {' '.join(parts)}")
+
+    # ── GPU rows (one per GPU) ──
+    gpus = stats.get("gpu") or []
+    gpwr = stats.get("gpu_power") or []
+    for i, g in enumerate(gpus):
+        name = (g.get("name") or f"GPU{i}").replace("NVIDIA ", "").replace("AMD ", "")
+        # Bar driven by utilization (fallback to power%)
+        util = g.get("utilization")
+        if util is None and i < len(gpwr) and gpwr[i].get("power_limit_w"):
+            util = (gpwr[i].get("power_w") or 0) / gpwr[i]["power_limit_w"] * 100
+        temp = g.get("temperature_c")
+        temp_s = f"{temp:.0f}°C" if temp is not None else "?"
+        freq = _fmt_freq(g.get("frequency_mhz"))
+        if i < len(gpwr):
+            pw = gpwr[i].get("power_w")
+            pl = gpwr[i].get("power_limit_w")
+            pw_s = f"{pw:.0f}/{pl:.0f}W" if pw is not None and pl else f"{pw:.0f}W" if pw else "?"
+        else:
+            pw_s = "?"
+        lines.append(f"{accent}│{rst}  GPU{i} {name[:18]:<18} {_bar(util)} {util or 0:5.1f}%  {temp_s}  {freq}  {pw_s}")
+
+    # ── NET row (aggregate across interfaces) ──
+    netifs = stats.get("network") or []
+    if netifs:
+        rx_total = sum(n.get("rx_mbs", 0) or 0 for n in netifs)
+        tx_total = sum(n.get("tx_mbs", 0) or 0 for n in netifs)
+        ifaces = " ".join(f"{n['name']}" for n in netifs)
+        lines.append(f"{accent}│{rst}  NET  {ifaces[:24]:<24} RX={rx_total:.1f}MB/s  TX={tx_total:.1f}MB/s")
+
+    # ── Footer ──
+    if error:
+        footer = f"{accent}╰─{rst}  {bold}\033[31mERR: {error}\033[0m  {dim}q: quit  space: pause  r: refresh{rst}  {accent}─╯{rst}"
+    elif paused:
+        footer = f"{accent}╰─{rst}  \033[33m⏸ PAUSED\033[0m  {dim}q: quit  space: resume  r: refresh{rst}  {accent}─╯{rst}"
+    else:
+        footer = f"{accent}╰─{rst}  {dim}q: quit  space: pause  r: refresh  ?: help{rst}  {accent}─╯{rst}"
+    lines.append(footer)
+
+    # Compose frame and emit in one write — paints in <5ms typically.
+    frame = "\033[H" + "\n".join(lines) + "\n\033[J"
+    _term_write(frame)
+
+def tui(interval=2, _display_name=None, cpu_debug=False):
+    """Run the collector as an interactive nvtop-style TUI.
+
+    Loops at `interval` seconds, renders one frame per cycle, and listens
+    for keys between cycles:
+      q / Q / Ctrl-C  quit
+      space           pause/resume (rendered frame stays, no new data)
+      r               force-refresh (skip the sleep, re-collect now)
+      ?               toggle a one-frame help overlay (TODO if needed)
+    Falls back to a clean exit on SIGINT/SIGTERM, restoring the terminal."""
+    global display_name
+    display_name = _display_name
+    if not sys.stdout.isatty():
+        print("TUI mode requires a TTY. Re-run from a real terminal.", file=sys.stderr)
+        sys.exit(1)
+
+    # Switch to alt screen + hide cursor + clear. Save state so we can
+    # restore on exit (atexit handler covers the crash path).
+    import signal
+    _alt_screen_on(); _hide_cursor(); _clear_screen()
+
+    def _cleanup(*_):
+        _show_cursor(); _alt_screen_off()
+        sys.stdout.write("\n"); sys.stdout.flush()
+        sys.exit(0)
+    signal.signal(signal.SIGINT,  _cleanup)
+    signal.signal(signal.SIGTERM, _cleanup)
+
+    paused = False
+    last_err = None
+    enable_nvlink = (interval >= 10)
+    print(f"Collecting TUI on [{HOSTNAME}], interval={interval}s, NVLink={'on' if enable_nvlink else 'off'}{', cpu-debug=on' if cpu_debug else ''}",
+          file=sys.stderr)
+    try:
+        while True:
+            try:
+                stats = collect(enable_nvlink=enable_nvlink, cpu_debug=cpu_debug)
+                last_err = None
+            except Exception as e:
+                stats = {"timestamp": datetime.now(timezone.utc).isoformat(),
+                         "hostname": HOSTNAME,
+                         "cpu_type": CPU_TYPE, "cpu_count": CPU_COUNT}
+                last_err = str(e)
+            _tui_render(stats, interval, paused=paused, error=last_err)
+
+            # Sleep in short slices so keypresses feel instant.
+            slept = 0.0
+            slice_s = 0.1
+            while slept < interval:
+                key = _read_key_nonblocking(slice_s)
+                if key:
+                    if key in ('q', 'Q'): return
+                    if key == ' ':          paused = not paused
+                    if key in ('r', 'R'):   break  # out of sleep loop → re-collect
+                slept += slice_s
+    finally:
+        _cleanup()
+
+
 if __name__ == "__main__":
     _probe_gpu()
     args = sys.argv[1:]
     cpu_debug = "--cpu-debug" in args
     if cpu_debug:
         args.remove("--cpu-debug")
+    tui_mode = "--tui" in args
+    if tui_mode:
+        args.remove("--tui")
     if len(args) < 2:
-        print("Usage: python3 collector.py <interval> <display_name> [--cpu-debug]")
-        print("  <interval>    : polling interval in seconds (e.g. 10)")
+        print("Usage:")
+        print("  python3 collector.py <interval> <display_name> [--cpu-debug]")
+        print("     — daemon mode: writes per-cycle JSON to data/")
+        print("  python3 collector.py --tui <interval> <display_name> [--cpu-debug]")
+        print("     — interactive nvtop-style TUI on the local terminal")
+        print("  <interval>    : polling interval in seconds (e.g. 10 for daemon, 1–5 for TUI)")
         print("  <display_name>: machine description, used in JSON filename and frontend (e.g. XE9785L_MI355X)")
         print("  --cpu-debug   : opt-in flag to record per-core CPU temperature + frequency")
+        print("  --tui         : render an interactive TUI instead of writing JSON files")
         sys.exit(1)
+
     interval = int(args[0])
     _display_name = args[1]
-    daemon(interval, _display_name, cpu_debug=cpu_debug)
+    if tui_mode:
+        tui(interval, _display_name, cpu_debug=cpu_debug)
+    else:
+        daemon(interval, _display_name, cpu_debug=cpu_debug)
+

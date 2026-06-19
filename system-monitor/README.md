@@ -71,10 +71,11 @@ pip install psutil
 ### 2. Start the collector
 
 ```bash
-# Usage: python3 collector.py <interval> <display_name> [--cpu-debug]
+# Usage: python3 collector.py <interval> <display_name> [--cpu-debug] [--tui]
 #   <interval>    : polling interval in seconds (e.g. 10)
 #   <display_name>: machine identifier used in JSON filename and frontend (e.g. XE9785L_MI355X)
 #   --cpu-debug   : opt-in flag to record per-core CPU temperature + frequency
+#   --tui         : render an interactive nvtop-style TUI instead of writing JSON files
 
 # Run once to test:
 python3 collector.py 10 XE9785L_MI355X            # AMD MI355X machine
@@ -87,6 +88,12 @@ python3 collector.py 5 XE9680_A100                 # red WARNING printed
 
 # CPU debug mode (opt-in) — adds per-core temperature and frequency charts:
 python3 collector.py 10 XE9785L_MI355X --cpu-debug
+
+# Interactive TUI (nvtop-style) — runs in your terminal, no JSON output.
+# Useful for ad-hoc inspection without setting up the full dashboard.
+# q: quit   space: pause   r: force-refresh   ?: help
+python3 collector.py --tui 2 XE9785L_MI355X
+python3 collector.py --tui 2 XE9785L_MI355X --cpu-debug   # with per-core data
 
 # Or install as a systemd service (auto-starts on boot):
 sudo cp system-monitor.service /etc/systemd/system/
