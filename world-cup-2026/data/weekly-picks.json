@@ -12,8 +12,8 @@
     "2026-06-23"
   ],
   "match_count": 16,
-  "manual_count": 15,
-  "last_manual_update": "2026-06-18T21:52:42+00:00",
+  "manual_count": 16,
+  "last_manual_update": "2026-06-19T14:05:00+00:00",
   "round_intro_zh": "小组赛第二轮全面打响。首轮已让本轮的六分战和出线生死战全部摆上台面：A 组 Mexico vs South Korea——两支首轮全胜的队伍正面碰撞，谁先摸到 16 强门票？B 组四队齐平 1 分，瑞士 vs 波黑、加拿大 vs 卡塔尔，赢者立刻占得先机。\n\n本周 16 场必看里，最不能错过的有 4 场：Mexico vs South Korea（A 组头名之争，本周最关键）、England vs Ghana（欧洲新王 vs 非洲劲旅，英格兰的真正考验）、Argentina vs Austria（卫冕冠军首战）、Germany vs Ivory Coast（德国首战，对手是非洲杯冠军）。",
   "round_intro_en": "Matchday 2 is here and the stakes are suddenly real. Eight teams opened with wins and the second-leg matchups are now six-pointers: Mexico vs South Korea in Group A, plus a four-way logjam in Group B where Switzerland, Bosnia, Canada, and Qatar are all level on 1pt. Heavyweights England, Germany, Spain, France, and Argentina all face mid-tier opposition this round — a slip here shakes the group standings before MD3 even arrives.\n\nOf the 16 must-watch games this week, four you really can't miss: Mexico–South Korea (Thu 8 PM CT, top of Group A), England–Ghana (Tue 3 PM CT, the Three Lions' first real test), Argentina–Austria (Tue 12 PM CT, the world champions against a crafty European side), and Germany–Ivory Coast (Sun 3 PM CT, a tricky opener for the Germans against the Africa Cup of Nations holders).",
   "manual_note_zh": "排序按推荐分降序。6/18 下午（CT）发出的版本，赛果随时更新。",
@@ -226,16 +226,42 @@
       "stakes_narrative_en": "Final matchday — qualification on the line.",
       "verdict": "must",
       "score": 4,
-      "headline_zh": null,
-      "headline_en": null,
-      "watch_for_zh": [],
-      "watch_for_en": [],
-      "key_players_zh": [],
-      "key_players_en": [],
-      "news_focus_zh": null,
-      "news_focus_en": null,
-      "record_potential_zh": [],
-      "record_potential_en": [],
+      "headline_zh": "东道主突围：加拿大冲 16 强",
+      "headline_en": "Co-host breakout: Canada chase the R16",
+      "watch_for_zh": [
+        "B 组头名 4 分对垫底 1 分，加拿大主场赢球几乎锁定 16 强",
+        "卡塔尔再输基本告别小组赛——2022 世界杯东道主本届命运大反转",
+        "BC Place 5.4 万座爆满，加拿大 1986 年后最重大的足球事件",
+        "阿方索·戴维斯从拜仁回归，攻防两端都是绝对核心",
+        "阿克拉姆·阿菲夫是卡塔尔唯一能制造威胁的球员（2023 亚洲杯金靴 + MVP）"
+      ],
+      "watch_for_en": [
+        "Canada (4 pts, top of B) vs Qatar (1 pt, bottom) — home win likely seals R16",
+        "Qatar likely eliminated with a loss — cruel fate reversal for the 2022 hosts",
+        "BC Place sold out at 54k — biggest Canadian football moment since 1986",
+        "Alphonso Davies back from Bayern — engine on both flanks",
+        "Akram Afif (2023 Asian Cup top scorer + MVP) is Qatar's only real threat"
+      ],
+      "key_players_zh": [
+        "阿方索·戴维斯 #19（加拿大队长，拜仁慕尼黑左后卫）",
+        "乔纳森·戴维 #9（加拿大主力前锋，里尔 / 尤文图斯转会中）",
+        "阿克拉姆·阿菲夫 #11（卡塔尔队长，萨德俱乐部）"
+      ],
+      "key_players_en": [
+        "Alphonso Davies #19 (Canada captain, Bayern Munich LB)",
+        "Jonathan David #9 (Canada striker, Lille → Juventus)",
+        "Akram Afif #11 (Qatar captain, Al Sadd)"
+      ],
+      "news_focus_zh": "加拿大 1986 后首次世界杯，主场氛围拉满——戴维斯 + 戴维的欧洲级锋线 vs 卡塔尔亚洲冠军班底",
+      "news_focus_en": "Canada's first WC since 1986, electric BC Place — Davies + David frontline vs Qatar's Asian champions",
+      "record_potential_zh": [
+        "戴维若进球将成为加拿大世界杯历史首位进球者",
+        "加拿大若取胜将是 1986 年后首场世界杯胜利"
+      ],
+      "record_potential_en": [
+        "David would be Canada's first-ever WC goalscorer",
+        "A win would be Canada's first WC victory since 1986"
+      ],
       "why_skip_zh": null,
       "why_skip_en": null,
       "verdict_override": null,
