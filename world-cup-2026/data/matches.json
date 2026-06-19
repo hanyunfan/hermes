@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-19T21:15:51.679706+00:00",
+  "generated_at": "2026-06-19T22:31:12.271277+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-19T16:15:50.522615-05:00",
+  "now_local": "2026-06-19T17:31:10.754070-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -1001,7 +1001,7 @@
           "ga": 1,
           "gd": 5,
           "pts": 6,
-          "advance": false,
+          "advance": true,
           "advance_label": "Advance to Round of 32",
           "advance_color": "#81D6AC"
         },
@@ -7522,7 +7522,7 @@
             "color": "d42339",
             "home_away": "home",
             "score": 2,
-            "winner": true
+            "winner": false
           },
           "away": {
             "id": "628",
@@ -7548,7 +7548,7 @@
             "Tele",
             "FOX One"
           ],
-          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760442/australia-united-states",
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760442/australia-united states",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20United%20States%20vs%20Australia",
           "slug": "australia-at-united states",
           "incidents": [
