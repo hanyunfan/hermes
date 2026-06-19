@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-19T02:26:59.979590+00:00",
+  "generated_at": "2026-06-19T03:40:53.046600+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-18T21:26:58.208042-05:00",
+  "now_local": "2026-06-18T22:40:52.186363-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -684,15 +684,15 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/mex.png"
           },
           "rank": 1,
-          "mp": 1,
-          "w": 1,
+          "mp": 2,
+          "w": 2,
           "d": 0,
           "l": 0,
-          "gf": 2,
+          "gf": 3,
           "ga": 0,
-          "gd": 2,
-          "pts": 3,
-          "advance": false,
+          "gd": 3,
+          "pts": 6,
+          "advance": true,
           "advance_label": "Advance to Round of 32",
           "advance_color": "#81D6AC"
         },
@@ -708,13 +708,13 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/kors.png"
           },
           "rank": 2,
-          "mp": 1,
+          "mp": 2,
           "w": 1,
           "d": 0,
-          "l": 0,
+          "l": 1,
           "gf": 2,
-          "ga": 1,
-          "gd": 1,
+          "ga": 2,
+          "gd": 0,
           "pts": 3,
           "advance": false,
           "advance_label": "Advance to Round of 32",
@@ -7317,8 +7317,8 @@
           "kickoff_local_date": "2026-06-18",
           "kickoff_time": "8:00 PM",
           "kickoff_weekday": "Thu",
-          "status": "LIVE",
-          "status_short": "67'",
+          "status": "FINAL",
+          "status_short": "FT",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -7409,6 +7409,86 @@
               "team_side": "away",
               "player": "Paik Seung-Ho",
               "text": "Paik Seung-Ho (Korea Republic) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "substitution",
+              "minute": "71'",
+              "team": "Mexico",
+              "team_id": "203",
+              "team_side": "home",
+              "player": "Orbelín Pineda",
+              "text": "Substitution, Mexico. Orbelín Pineda replaces Brian Gutiérrez.",
+              "player_off": "Brian Gutiérrez"
+            },
+            {
+              "kind": "substitution",
+              "minute": "71'",
+              "team": "Mexico",
+              "team_id": "203",
+              "team_side": "home",
+              "player": "Obed Vargas",
+              "text": "Substitution, Mexico. Obed Vargas replaces Luis Romo.",
+              "player_off": "Luis Romo"
+            },
+            {
+              "kind": "substitution",
+              "minute": "71'",
+              "team": "South Korea",
+              "team_id": "451",
+              "team_side": "away",
+              "player": "Eom Ji-Sung",
+              "text": "Substitution, Korea Republic. Eom Ji-Sung replaces Kim Moon-Hwan.",
+              "player_off": "Kim Moon-Hwan"
+            },
+            {
+              "kind": "substitution",
+              "minute": "71'",
+              "team": "South Korea",
+              "team_id": "451",
+              "team_side": "away",
+              "player": "Yang Hyun-Jun",
+              "text": "Substitution, Korea Republic. Yang Hyun-Jun replaces Seol Young-Woo.",
+              "player_off": "Seol Young-Woo"
+            },
+            {
+              "kind": "substitution",
+              "minute": "77'",
+              "team": "South Korea",
+              "team_id": "451",
+              "team_side": "away",
+              "player": "Cho Gue-Sung",
+              "text": "Substitution, Korea Republic. Cho Gue-Sung replaces Paik Seung-Ho.",
+              "player_off": "Paik Seung-Ho"
+            },
+            {
+              "kind": "substitution",
+              "minute": "80'",
+              "team": "Mexico",
+              "team_id": "203",
+              "team_side": "home",
+              "player": "Israel Reyes",
+              "text": "Substitution, Mexico. Israel Reyes replaces Roberto Alvarado.",
+              "player_off": "Roberto Alvarado"
+            },
+            {
+              "kind": "substitution",
+              "minute": "80'",
+              "team": "Mexico",
+              "team_id": "203",
+              "team_side": "home",
+              "player": "Santiago Gimenez",
+              "text": "Substitution, Mexico. Santiago Giménez replaces Raúl Jiménez.",
+              "player_off": "Raúl Jiménez"
+            },
+            {
+              "kind": "substitution",
+              "minute": "84'",
+              "team": "Mexico",
+              "team_id": "203",
+              "team_side": "home",
+              "player": "César Huerta",
+              "text": "Substitution, Mexico. César Huerta replaces Julián Quiñones.",
+              "player_off": "Julián Quiñones"
             }
           ]
         }
