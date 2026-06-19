@@ -1031,7 +1031,7 @@ def _tui_render(state, interval, error=None):
     out += _render_top_strip(state, top_rows, cols)
     out.append(_tui_separator(cols, "─"))
     out += _render_sparkline_grid(state, spark_rows, spark_w, cols,
-                                  label_w=label_w, value_w=value_w)
+                                  label_w=label_w, value_w=value_w, interval=interval)
     out.append(_tui_separator(cols, "─"))
     out += _render_log_strip(state, log_rows, cols)
     out.append(_render_footer(state, cols, error))
@@ -1107,52 +1107,159 @@ def _render_top_strip(state, max_rows, cols):
     return rows[:max_rows]
 
 
-def _render_sparkline_grid(state, max_rows, spark_w, cols, label_w=12, value_w=22):
-    """L2: one sparkline per metric, scrolling history.
+def _render_sparkline_grid(state, max_rows, spark_w, cols, label_w=12, value_w=22, interval=2):
+    """L2: grouped sparkline grid.
 
-    Each row: label column | sparkline of `spark_w` chars | current value
-    column (right-aligned to value_w). Auto-scales per-buffer unless the
-    metric has a fixed range (CPU/MEM/GPU util)."""
-    dim = "\033[90m"; rst = "\033[0m"
+    Returns rows of the form:
+        ── GROUP HEADER ─────────────────
+          label    ┤▆▅▄▃▂┤   35.0%
+
+    Groups are emitted in priority order; a group is skipped entirely if
+    none of its series have data. Each row is framed by `─┤` on the left
+    and `┤─` on the right so the time axis is visually obvious (newest
+    at the right bracket, oldest at the left). Every sparkline row is
+    followed by a thin X-axis tick row (`─Xs ago ─── now`) so the user
+    can read the time window the sparkline covers.
+
+    A single-sample sparkline (just one point in the buffer) is rendered
+    centred in its column rather than flush-right, so the row reads as
+    "a measurement in progress" instead of "a single bar at the end".
+    """
+    dim = "\033[90m"; rst = "\033[0m"; accent = "\033[36m"
     rows = []
 
     history = state["history"]
+    gpus = state.get("last", {}).get("gpu") or []
+    cpu_debug_on = bool(state.get("have_cpu_debug"))
 
+    # The X-axis tick row only makes sense if there's actually a time
+    # history to read. Show it just below the first sparkline group.
+    age_str = _spark_age_label(history.get("cpu_pct"), interval)
 
-    # Define (label, history_key, current_formatter, fixed_max) tuples.
-    # Only entries whose data is present are rendered.
-    series = []
-    series.append(("CPU %",       "cpu_pct",  lambda v: f"{v:5.1f}%",  100.0))
-    series.append(("MEM %",       "mem_pct",  lambda v: f"{v:5.1f}%",  100.0))
-    for i in range(len(state.get("last", {}).get("gpu") or [])):
-        series.append((f"GPU{i} util",   ("gpu_util", i), lambda v: f"{v:5.0f}%",  100.0))
-        series.append((f"GPU{i} mem",    ("gpu_mem",  i), lambda v: _fmt_bytes_mb(v * 1024), None))
-        series.append((f"GPU{i} power",  ("gpu_pwr",  i), lambda v: f"{v:5.0f}W", None))
-        series.append((f"GPU{i} temp",   ("gpu_temp", i), lambda v: f"{v:5.0f}°C", None))
-    series.append(("NET RX",     "net_rx",   lambda v: f"{v:6.1f} MB/s", None))
-    series.append(("NET TX",     "net_tx",   lambda v: f"{v:6.1f} MB/s", None))
+    # ── Group 1: CPU + MEMORY (always present) ────────────────────────
+    rows.append(f"{accent}{'─' * 2} SYSTEM {'─' * max(0, cols - 11)}{rst}")
+    for label, key, fmt, fixed_max in [
+        ("CPU %",   "cpu_pct", lambda v: f"{v:5.1f}%",  100.0),
+        ("MEM %",   "mem_pct", lambda v: f"{v:5.1f}%",  100.0),
+    ]:
+        if len(rows) >= max_rows: return rows
+        rows.append(_fmt_spark_row(history, label, key, fmt, spark_w, label_w, value_w))
+    if age_str and len(rows) < max_rows:
+        rows.append(f"  {dim}{' ' * (label_w - 2)}{age_str}{rst}")
+
+    # ── Group 2: NETWORK ─────────────────────────────────────────────
+    rows.append(f"{accent}{'─' * 2} NETWORK {'─' * max(0, cols - 12)}{rst}")
+    for label, key, fmt, fixed_max in [
+        ("NET RX", "net_rx", lambda v: f"{v:6.1f} MB/s", None),
+        ("NET TX", "net_tx", lambda v: f"{v:6.1f} MB/s", None),
+    ]:
+        if len(rows) >= max_rows: return rows
+        rows.append(_fmt_spark_row(history, label, key, fmt, spark_w, label_w, value_w))
     if state.get("have_pcie"):
-        series.append(("PCIe/NVLink", "pcie",  lambda v: f"{v:6.2f} GB/s", None))
-    if state.get("have_cpu_debug"):
-        series.append(("CPU temp °C", "cpu_temp", lambda v: f"{v:5.1f}°C", None))
-        series.append(("CPU freq MHz","cpu_freq", lambda v: f"{v:5.0f}MHz", None))
+        if len(rows) >= max_rows: return rows
+        rows.append(f"{dim}  (PCIe+NVLink aggregated across all GPUs){rst}")
+        rows.append(_fmt_spark_row(history, "PCIe/NVL", "pcie",
+                                   lambda v: f"{v:6.2f} GB/s",
+                                   spark_w, label_w, value_w))
 
-    for label, key, fmt, fixed_max in series:
-        if len(rows) >= max_rows: break
-        buf = _resolve_buf(history, key)
-        if buf is None: continue
-        vals = buf.values()
-        if not vals:
-            current = "  —  "
-        else:
-            current = fmt(vals[-1])
-        vmin, vmax = (0, fixed_max) if fixed_max is not None else (None, None)
-        sl = _sparkline(buf, spark_w, vmin, vmax)
-        # Truncate value column if it would overflow the row width.
-        cur_disp = current[:value_w]
-        rows.append(f"  {label:<{label_w-2}}{sl}  {cur_disp:>{value_w}}")
+    # ── Group 3: per-GPU rows (one block per GPU) ─────────────────────
+    for i in range(len(gpus)):
+        rows.append(f"{accent}{'─' * 2} GPU{i} {'─' * max(0, cols - 9)}{rst}")
+        for label, key, fmt, fixed_max in [
+            (f"GPU{i} util",   ("gpu_util", i), lambda v: f"{v:5.0f}%",   100.0),
+            (f"GPU{i} mem",    ("gpu_mem",  i), lambda v: _fmt_bytes_mb(v * 1024), None),
+            (f"GPU{i} power",  ("gpu_pwr",  i), lambda v: f"{v:5.0f}W",   None),
+            (f"GPU{i} temp",   ("gpu_temp", i), lambda v: f"{v:5.0f}°C",  None),
+        ]:
+            if len(rows) >= max_rows: return rows
+            rows.append(_fmt_spark_row(history, label, key, fmt, spark_w, label_w, value_w))
+
+    # ── Group 4: DEBUG — per-core / per-sensor CPU breakdown ──────────
+    if cpu_debug_on:
+        rows.append(f"{accent}{'─' * 2} DEBUG (CPU per-core) {'─' * max(0, cols - 22)}{rst}")
+        # Package / mean: existing "cpu_temp" and "cpu_freq" buffers.
+        if len(rows) < max_rows:
+            rows.append(_fmt_spark_row(history, "Pkg temp °C", "cpu_temp",
+                                       lambda v: f"{v:5.1f}°C", spark_w, label_w, value_w))
+        if len(rows) < max_rows:
+            rows.append(_fmt_spark_row(history, "Mean freq", "cpu_freq",
+                                       lambda v: f"{v:5.0f}MHz", spark_w, label_w, value_w))
+        # Min / max / per-CCD temperature: derived from cpu_therm_temp_c[]
+        # on the latest sample. We compute these ad-hoc every frame rather
+        # than maintaining separate ring buffers (saves memory + simplifies
+        # state, since the underlying per-sensor values are mostly stable).
+        therms = state.get("last", {}).get("cpu_therm_temp_c") or []
+        valid = [t for t in therms if t is not None]
+        if valid and len(rows) < max_rows:
+            rows.append(f"{dim}  CPU therm sensors ({len(valid)}):  "
+                        f"min={min(valid):.0f}°C  max={max(valid):.0f}°C  "
+                        f"avg={sum(valid)/len(valid):.1f}°C{rst}")
+            # Sparkline of the max temperature across sensors over time.
+            # Note: cpu_temp_max history buffer is appended in _push_sample(),
+            # not here — appending during render would conflate multiple
+            # frames per cycle into the ring buffer and break the time axis.
+            if len(rows) < max_rows:
+                rows.append(_fmt_spark_row(history, "Max T °C", "cpu_temp_max",
+                                           lambda v: f"{v:5.0f}°C",
+                                           spark_w, label_w, value_w))
+        # Per-core freq min/max: derived from cpu_core_freq_mhz[].
+        freqs = state.get("last", {}).get("cpu_core_freq_mhz") or []
+        f_valid = [f for f in freqs if f]
+        if f_valid and len(rows) < max_rows:
+            rows.append(f"{dim}  CPU core freq ({len(f_valid)} cores):  "
+                        f"min={min(f_valid):.0f}MHz  max={max(f_valid):.0f}MHz  "
+                        f"avg={sum(f_valid)/len(f_valid):.0f}MHz{rst}")
+            # Same as above — min/max buffers are appended in _push_sample().
+            if len(rows) < max_rows:
+                rows.append(_fmt_spark_row(history, "F min", "cpu_freq_min",
+                                           lambda v: f"{v:5.0f}MHz",
+                                           spark_w, label_w, value_w))
+            if len(rows) < max_rows:
+                rows.append(_fmt_spark_row(history, "F max", "cpu_freq_max",
+                                           lambda v: f"{v:5.0f}MHz",
+                                           spark_w, label_w, value_w))
 
     return rows if rows else [f"{dim}(no metrics to chart){rst}"]
+
+
+def _spark_age_label(buf, interval):
+    """Return a small X-axis label like '─4m ago ──────── now' that
+    sits below a sparkline group and tells the user how far back the
+    leftmost sample is. Returns '' if the buffer is empty or the
+    sparkline is too narrow to label usefully."""
+    if buf is None or len(buf.values()) == 0:
+        return ""
+    secs = (len(buf.values()) - 1) * interval
+    if secs >= 60:
+        return f"─{secs // 60}m ago ──────────────── now"
+    if secs >= 10:
+        return f"─{secs}s ago ────────────────── now"
+    return f"─{secs}s ago ───────── now"
+
+
+def _fmt_spark_row(history, label, key, fmt, spark_w, label_w, value_w, interval=2):
+    """Format one sparkline row: `  LABEL<10> ─┤SPARK_W┤─  CURRENT>20`.
+
+    The left `─┤` and right `┤─` brackets frame the sparkline so the
+    time axis is visually obvious (newest sample at the right bracket,
+    oldest at the left). A 1-sample buffer is rendered centred in the
+    column instead of flush-right, which otherwise looks like a static
+    bar instead of a time series in progress."""
+    dim = "\033[90m"; rst = "\033[0m"
+    buf = _resolve_buf(history, key)
+    if buf is None:
+        return f"  {label:<{label_w-2}}─┤{' ' * spark_w}┤─  {'—':>{value_w}}"
+    vals = buf.values()
+    if not vals:
+        current = "  —  "
+    else:
+        current = fmt(vals[-1])
+    if len(vals) == 1:
+        sl = " " * (spark_w // 2 - 1) + _SPARK[0] + " " * (spark_w - spark_w // 2)
+    else:
+        sl = _sparkline(buf, spark_w, vmin=0.0, vmax=None)
+    cur_disp = current[:value_w]
+    return f"  {label:<{label_w-2}}─┤{sl}┤─  {cur_disp:>{value_w}}"
 
 
 def _render_log_strip(state, max_rows, cols):
@@ -1290,15 +1397,24 @@ def _push_sample(state, stats):
     hist["net_rx"].append(rx_total)
     hist["net_tx"].append(tx_total)
 
-    # PCIe / NVLink: use the first GPU's PCIe+NVLink value if present, else 0.
+    # PCIe / NVLink: aggregate across ALL GPUs (sum NVL + PCIe rx/tx).
+    # Without this, a 0-GPU box shows nothing and a multi-GPU box only
+    # shows GPU0's link — both wrong for "what's on the bus overall".
     pcie_val = 0.0
     have_pcie = False
-    if gpus and gpwr:
-        g, p = gpus[0], gpwr[0]
-        nvl = (p.get("nvlrx_mbs") or 0) + (p.get("nvltx_mbs") or 0)
-        pci = (g.get("rxpci_mbs") or 0) + (g.get("txpci_mbs") or 0)
-        if nvl or pci:
-            pcie_val = (nvl + pci) / 1024.0   # MB/s → GB/s
+    if gpus or gpwr:
+        nvl_total = 0.0
+        for p in gpwr:
+            nvl_total += (p.get("nvlrx_mbs") or 0) + (p.get("nvltx_mbs") or 0)
+        pci_total = 0.0
+        for g in gpus:
+            pci_total += (g.get("rxpci_mbs") or 0) + (g.get("txpci_mbs") or 0)
+        # Also fall back to pcie_bandwidth_mbs on gpu_power entries (older collector)
+        if nvl_total == 0 and pci_total == 0:
+            for p in gpwr:
+                nvl_total += (p.get("pcie_bandwidth_mbs") or 0)
+        if nvl_total or pci_total:
+            pcie_val = (nvl_total + pci_total) / 1024.0   # MB/s → GB/s
             have_pcie = True
     hist["pcie"].append(pcie_val if have_pcie else None)
     state["have_pcie"] = state.get("have_pcie", False) or have_pcie
@@ -1330,6 +1446,21 @@ def _push_sample(state, stats):
         state["last"]["cpu_freq_str"] = _fmt_freq(cf.current if cf else None)
     except Exception:
         state["last"]["cpu_freq_str"] = "?"
+
+    # Per-sensor / per-core min/max series for the DEBUG group. These need
+    # to be appended once per cycle, not on every render frame — pushing
+    # here keeps the ring buffer's sample timing aligned with the other
+    # sparklines (so a 30-sample history actually covers 30 cycles).
+    if stats.get("cpu_debug"):
+        therms = stats.get("cpu_therm_temp_c") or []
+        valid = [t for t in therms if t is not None]
+        if valid:
+            state["history"].setdefault("cpu_temp_max", _RingBuf(120)).append(max(valid))
+        freqs = stats.get("cpu_core_freq_mhz") or []
+        f_valid = [f for f in freqs if f]
+        if f_valid:
+            state["history"].setdefault("cpu_freq_min", _RingBuf(120)).append(min(f_valid))
+            state["history"].setdefault("cpu_freq_max", _RingBuf(120)).append(max(f_valid))
 
     # Append to log (one entry per sample).
     state["log"].append({
@@ -1418,7 +1549,10 @@ def tui(interval=2, _display_name=None, cpu_debug=False):
             pass
 
     state = _tui_state(CPU_TYPE, CPU_COUNT)
-    enable_nvlink = (interval >= 10)
+    # Always enable NVLink/PCIe monitoring in TUI mode — the user is
+    # sitting at the TTY precisely because they want to see link metrics,
+    # and we want them to appear without having to wait 10s between samples.
+    enable_nvlink = True
     print(f"Collecting TUI on [{HOSTNAME}], interval={interval}s, NVLink={'on' if enable_nvlink else 'off'}{', cpu-debug=on' if cpu_debug else ''}",
           file=sys.stderr)
     last_err = None
