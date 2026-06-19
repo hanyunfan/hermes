@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-06-18T23:18:18+00:00",
+  "generated_at": "2026-06-19T02:17:31+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-18T18:18:18-05:00",
+  "now_local": "2026-06-18T21:17:31-05:00",
   "round_label": {
     "zh": "小组赛第 2 轮",
     "en": "Matchday 2"
@@ -12,7 +12,7 @@
     "2026-06-23"
   ],
   "match_count": 16,
-  "manual_count": 16,
+  "manual_count": 15,
   "last_manual_update": "2026-06-18T21:52:42+00:00",
   "round_intro_zh": "小组赛第二轮全面打响。首轮已让本轮的六分战和出线生死战全部摆上台面：A 组 Mexico vs South Korea——两支首轮全胜的队伍正面碰撞，谁先摸到 16 强门票？B 组四队齐平 1 分，瑞士 vs 波黑、加拿大 vs 卡塔尔，赢者立刻占得先机。\n\n本周 16 场必看里，最不能错过的有 4 场：Mexico vs South Korea（A 组头名之争，本周最关键）、England vs Ghana（欧洲新王 vs 非洲劲旅，英格兰的真正考验）、Argentina vs Austria（卫冕冠军首战）、Germany vs Ivory Coast（德国首战，对手是非洲杯冠军）。",
   "round_intro_en": "Matchday 2 is here and the stakes are suddenly real. Eight teams opened with wins and the second-leg matchups are now six-pointers: Mexico vs South Korea in Group A, plus a four-way logjam in Group B where Switzerland, Bosnia, Canada, and Qatar are all level on 1pt. Heavyweights England, Germany, Spain, France, and Argentina all face mid-tier opposition this round — a slip here shakes the group standings before MD3 even arrives.\n\nOf the 16 must-watch games this week, four you really can't miss: Mexico–South Korea (Thu 8 PM CT, top of Group A), England–Ghana (Tue 3 PM CT, the Three Lions' first real test), Argentina–Austria (Tue 12 PM CT, the world champions against a crafty European side), and Germany–Ivory Coast (Sun 3 PM CT, a tricky opener for the Germans against the Africa Cup of Nations holders).",
@@ -129,7 +129,7 @@
         "rank": 64
       },
       "group_name": "Group B",
-      "home_group_rank": 1,
+      "home_group_rank": 2,
       "home_pts": 4,
       "home_mp": 2,
       "away_group_rank": 3,
@@ -178,6 +178,64 @@
         "Džeko at 40 would be the oldest-ever WC final-tournament scorer",
         "Shaqiri can tie the Swiss all-time WC goals record (7)"
       ],
+      "why_skip_zh": null,
+      "why_skip_en": null,
+      "verdict_override": null,
+      "score_override": null
+    },
+    {
+      "match_id": "760440",
+      "kickoff_utc": "2026-06-18T22:00:00+00:00",
+      "kickoff_local": "2026-06-18T17:00:00-05:00",
+      "kickoff_local_date": "2026-06-18",
+      "kickoff_time": "5:00 PM",
+      "kickoff_weekday": "Thu",
+      "stage": "Group Stage",
+      "stage_slug": "group-stage",
+      "venue": "BC Place",
+      "venue_city": "Vancouver",
+      "espn_url": "https://www.espn.com/soccer/match/_/gameId/760440/qatar-canada",
+      "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Canada%20vs%20Qatar",
+      "home": {
+        "id": "206",
+        "name": "Canada",
+        "name_zh": "加拿大",
+        "flag": "🇨🇦",
+        "abbr": "CAN",
+        "rank": 30
+      },
+      "away": {
+        "id": "4398",
+        "name": "Qatar",
+        "name_zh": "卡塔尔",
+        "flag": "🇶🇦",
+        "abbr": "QAT",
+        "rank": 56
+      },
+      "group_name": "Group B",
+      "home_group_rank": 1,
+      "home_pts": 4,
+      "home_mp": 2,
+      "away_group_rank": 4,
+      "away_pts": 1,
+      "away_mp": 2,
+      "stakes_kind": "group_decider",
+      "stakes_score_auto": 4,
+      "stakes_verdict_auto": "must",
+      "stakes_narrative_zh": "末轮出线生死战。",
+      "stakes_narrative_en": "Final matchday — qualification on the line.",
+      "verdict": "must",
+      "score": 4,
+      "headline_zh": null,
+      "headline_en": null,
+      "watch_for_zh": [],
+      "watch_for_en": [],
+      "key_players_zh": [],
+      "key_players_en": [],
+      "news_focus_zh": null,
+      "news_focus_en": null,
+      "record_potential_zh": [],
+      "record_potential_en": [],
       "why_skip_zh": null,
       "why_skip_en": null,
       "verdict_override": null,
@@ -1136,88 +1194,6 @@
       ],
       "why_skip_zh": "两队都不是传统强队，对中立球迷吸引力有限",
       "why_skip_en": "Neither team is a traditional power — limited appeal for neutrals",
-      "verdict_override": null,
-      "score_override": null
-    },
-    {
-      "match_id": "760461",
-      "kickoff_utc": "2026-06-23T17:00:00+00:00",
-      "kickoff_local": "2026-06-23T12:00:00-05:00",
-      "kickoff_local_date": "2026-06-23",
-      "kickoff_time": "12:00 PM",
-      "kickoff_weekday": "Tue",
-      "stage": "Group Stage",
-      "stage_slug": "group-stage",
-      "venue": "NRG Stadium",
-      "venue_city": "Houston, Texas",
-      "espn_url": "https://www.espn.com/soccer/match/_/gameId/760461/uzbekistan-portugal",
-      "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Portugal%20vs%20Uzbekistan",
-      "home": {
-        "id": "482",
-        "name": "Portugal",
-        "name_zh": "葡萄牙",
-        "flag": "🇵🇹",
-        "abbr": "POR",
-        "rank": 5
-      },
-      "away": {
-        "id": "2570",
-        "name": "Uzbekistan",
-        "name_zh": "乌兹别克斯坦",
-        "flag": "🇺🇿",
-        "abbr": "UZB",
-        "rank": 50
-      },
-      "group_name": "Group K",
-      "home_group_rank": 3,
-      "home_pts": 1,
-      "home_mp": 1,
-      "away_group_rank": 4,
-      "away_pts": 0,
-      "away_mp": 1,
-      "stakes_kind": "asymmetric",
-      "stakes_score_auto": 4,
-      "stakes_verdict_auto": "must",
-      "stakes_narrative_zh": "小组赛第二轮常规对决。",
-      "stakes_narrative_en": "Standard MD2 fixture.",
-      "verdict": "must",
-      "score": 4,
-      "headline_zh": "C 罗最后一届",
-      "headline_en": "Ronaldo's last dance",
-      "watch_for_zh": [
-        "C 罗 41 岁——这绝对是他最后一届世界杯",
-        "葡萄牙首轮 1-1 战平刚果 DR，本场必须赢",
-        "乌兹别克斯坦首次参加世界杯",
-        "B 费、若昂·菲利克斯组成中场"
-      ],
-      "watch_for_en": [
-        "Ronaldo is 41 — definitively his final WC",
-        "Portugal drew 1-1 with Congo DR in MD1, must win",
-        "Uzbekistan's first-ever WC",
-        "Bruno Fernandes + João Félix lead the midfield"
-      ],
-      "key_players_zh": [
-        "克里斯蒂亚诺·罗纳尔多 #7（葡萄牙队长，41 岁）",
-        "布鲁诺·费尔南德斯 #8（曼联，中场大脑）",
-        "若昂·菲利克斯 #15（巴萨）"
-      ],
-      "key_players_en": [
-        "Cristiano Ronaldo #7 (Portugal captain, 41)",
-        "Bruno Fernandes #8 (Man United)",
-        "João Félix #15 (Barcelona)"
-      ],
-      "news_focus_zh": "C 罗是否首发仍是葡萄牙最大悬念",
-      "news_focus_en": "Whether Ronaldo starts remains Portugal's biggest question",
-      "record_potential_zh": [
-        "C 罗若进球将成为世界杯决赛圈历史最年长进球球员（41 岁）",
-        "C 罗若破门将追平克洛泽 16 球世界杯总进球纪录"
-      ],
-      "record_potential_en": [
-        "Ronaldo would be the oldest WC final-tournament scorer ever (41)",
-        "Ronaldo can equal Klose's 16-goal WC all-time record with a goal"
-      ],
-      "why_skip_zh": null,
-      "why_skip_en": null,
       "verdict_override": null,
       "score_override": null
     },
