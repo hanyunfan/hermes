@@ -1,163 +1,201 @@
-# TUI Mode for collector.py — Design Doc
+# TUI Mode for collector.py — Design Doc (v2)
 
-> Status: implemented in commit `<pending>`
-> Date: 2026-06-18
-> Author: Claude (drafted) + Frank (direction)
+> Status: v2 implemented, supersedes the v1 single-frame design.
+> Date: 2026-06-19 (v1) → 2026-06-19 (v2)
+> Author: Frank (direction) + Claude (drafted + implemented)
 
 ## Goal
 
-Add an opt-in `--tui` flag to `collector.py` that runs an interactive
-top-style TUI on the local terminal instead of writing JSON to disk.
-Look-and-feel mirrors [Syllo/nvtop](https://github.com/Syllo/nvtop):
-multiple labeled bars (CPU, RAM, GPU, NET) refreshed every interval,
-with a single-line footer for key bindings.
+Render an interactive nvtop-style terminal UI on the local TTY instead
+of writing JSON. The UI must:
 
-## Why pure-ANSI instead of curses/blessed
+1. **Fill the screen** (no big white gaps at the bottom)
+2. **Show real-time log strip** like nvtop's bottom event pane
+3. **Mirror the dashboard** — every chart card in `index.html`
+   should have a TUI counterpart (sparkline + current value)
 
-- **No new dependency**: collector.py ships with stdlib only. Adding
-  `curses` or `blessed` would force every machine (CI, GH Pages
-  builder, simple bare-metal) to install extras.
-- **Works in any TTY**: ANSI escape sequences are interpreted by
-  every reasonable terminal emulator (iTerm2, gnome-terminal,
-  Windows Terminal, tmux/screen, VSCode integrated terminal).
-- **Smaller code path**: ~200 lines vs curses/blessed which would
-  be 500+ lines of abstraction over the same primitives.
+## v1 → v2 changes
 
-## UI layout (≈ 80×24 viewport)
+| v1 issue | v2 fix |
+|---|---|
+| 8 lines of content + blank rows below | 3-layer layout fills the terminal |
+| Only current snapshot, no history | Sparklines over a 60-sample ring buffer per series |
+| No event log | Bottom strip: last N samples as one-line summaries, scrollable with ↑↓ |
+| 5 metrics shown | 11+ metrics — one sparkline per webpage chart (CPU util / MEM / GPU util / GPU mem / GPU power / GPU temp / Net RX / Net TX / PCIe+NVLink / CPU temp / CPU core freq) |
+
+## Layout (3-layer, fits 80×24+ terminals)
 
 ```
-╭─ frank-XPS-8960 ───────── 2026-06-18 14:30:00 ────── ⟳ 2s ─╮
-│                                                             │
-│  CPU  i7-14700K  28c/28t  ███████████░░░░░░░  35%  3.4GHz  │
-│  MEM  DDR5 62GB          ████████░░░░░░░░░░  52%  16/62GB  │
-│  SYS  342W   CPU=45W  GPU0=120W GPU1=118W ...               │
-│                                                             │
-│  GPU0 RTX 4090  ████████░░░░ 78%  72°C  1.8GHz  380W/450W  │
-│  GPU1 RTX 4090  ████░░░░░░░░ 41%  58°C  1.2GHz  185W/450W  │
-│  ...                                                        │
-│                                                             │
-│  NET  eth0 RX=124MB/s  TX=89MB/s                            │
-│                                                             │
-│  q: quit   space: pause   r: refresh now   ?: help          │
-╰─────────────────────────────────────────────────────────────╯
+╭─ frank-XPS-8960 ───── 14:24:42 ──── 2s ── 28c/56t ────────╮
+│  ← L1: Top stat strip (3-4 rows, current snapshot + bars) │
+│  CPU  i7-14700K   ░░░░░░░░░░░░░░░░░░░░   0.1%  1.8GHz    │
+│  MEM  DDR5 31G    ██░░░░░░░░░░░░░░░░░░   8.5%  2.6G/31G  │
+│  SYS  62W (CPU=9W)                                         │
+│  GPU0 L4 AD104    ░░░░░░░░░░░░░░░░░░░░   0%  32°C  0W     │
+│  ... GPU1 ...                                              │
+│  NET  enp3s0 RX=0.0 TX=0.0 MB/s                            │
+├────────────────────────────────────────────────────────────┤
+│  ← L2: Sparkline grid (one row per metric, scrolls history)│
+│  CPU  %        ▆▆▅▄▃▂▁▁▂▃▅▆▇▆▅   0.1% / 100%             │
+│  MEM  %        ██▆▅▃▂▂▃▄▅▆▇▆▅▆   8.5%                    │
+│  GPU0 util     ░▁▂▃▅▆▇▆▅▃▂▁▂▃▅▆   0% / 100%              │
+│  GPU0 mem      ████████████████  4500M/24G                 │
+│  GPU0 power    ▆▇▆▅▃▂▁▁▂▃▄▅▆▇▆   280W/350W               │
+│  GPU0 temp     ▆▆▆▇▇▇▆▆▅▅▅▆▇▇▇   72°C / 95°C             │
+│  NET  RX       ▃▄▅▆▇▆▅▄▃▂▁▂▃▄▅▆▆   124 MB/s              │
+│  NET  TX       ▁▂▃▂▁▁▂▃▄▅▆▇▆▅▄▃   89 MB/s               │
+│  PCIe+NVLink   ▂▃▄▃▂▁▁▂▃▄▅▆▇▆▅   1.2GB/s                 │
+│  CPU temp °C   ▅▆▇▇▆▅▄▃▃▄▅▆▇▇▆   48°C k10temp.Tctl       │  ← only with --cpu-debug
+│  CPU freq MHz  ▆▇▆▅▄▃▂▂▃▄▅▆▇▆▅   L0=4200MHz              │  ← only with --cpu-debug
+├────────────────────────────────────────────────────────────┤
+│  ← L3: Log strip (nvtop-style event pane, scrollable)     │
+│  14:24:42  CPU=0.1% MEM=8.5% GPU0=0% T=32°C P=0W ...    │
+│  14:24:40  CPU=2.3% MEM=8.5% GPU0=12% T=33°C P=15W ...   │
+│  14:24:38  CPU=5.1% MEM=8.6% GPU0=24% T=34°C P=42W ...   │
+│  ↑↓: scroll log     PgUp/PgDn: page     G: jump to latest │
+├────────────────────────────────────────────────────────────┤
+│  q quit  space pause  r refresh  ?: help                 │
+╰────────────────────────────────────────────────────────────╯
 ```
-
-### Sections (top → bottom)
-
-1. **Header bar**: hostname, current UTC time, refresh interval
-2. **CPU row**: name + core/thread count + bar + % + freq (if available)
-3. **MEM row**: type + total + bar + % + used/total
-4. **SYS row**: system power + per-component breakdown
-5. **GPU rows** (1 per GPU): name + bar + % + temp + freq + power/limit
-6. **NET row**: per-interface RX/TX
-7. **Footer**: key bindings
-
-### Bar rendering
-
-A bar is a fixed-width sequence of `█` (filled) and `░` (empty)
-characters. Width 20 chars, color: green <60%, yellow 60–85%, red >85%.
-Color is per-bar (whole bar one color) — using the same `bar(pct)` helper
-in every row keeps the layout consistent.
 
 ## Code shape
 
-### New functions in collector.py
+### New module-level components
 
 ```python
-# ── ANSI helpers ──
-def _ansi(code): return f"\033[{code}m"
-def _cursor_home():   sys.stdout.write("\033[H")
-def _hide_cursor():   sys.stdout.write("\033[?25l")
-def _show_cursor():   sys.stdout.write("\033[?25h")
-def _clear_screen():  sys.stdout.write("\033[2J")
-def _clear_line():    sys.stdout.write("\033[K")
-def _alt_screen_on(): sys.stdout.write("\033[?1049h")
-def _alt_screen_off():sys.stdout.write("\033[?1049l")
+import shutil     # terminal_size
 
-def _bar(pct, width=20):
-    filled = max(0, min(width, int(round((pct or 0) * width / 100))))
-    color = "31" if pct >= 85 else "33" if pct >= 60 else "32"  # red/yel/grn
-    return f"\033[{color}m" + "█" * filled + "\033[37m" + "░" * (width - filled) + "\033[0m"
+# Unicode block-element sparkline characters, low → high.
+_SPARK = "▁▂▃▄▅▆▇█"
 
-def _fmt_bytes_mb(mb):
-    if mb is None: return "?"
-    if mb >= 1024: return f"{mb/1024:.1f}G"
-    return f"{mb:.0f}M"
+class _RingBuf:
+    """Fixed-size ring buffer of floats. .append(v) adds, .values() reads
+    in insertion order. Used to feed sparklines with N most-recent samples."""
+    def __init__(self, cap): self.cap = cap; self._d = collections.deque(maxlen=cap)
+    def append(self, v):    self._d.append(v)
+    def values(self):        return list(self._d)
 
-# ── Render one frame ──
-def _tui_render(stats, interval, paused=False):
+def _sparkline(buf, width, vmin=None, vmax=None):
+    """Render a sparkline of `width` chars from a _RingBuf.
+    Auto-scales to [vmin, vmax] if not given (NaN-safe)."""
+    vals = buf.values()
+    if not vals: return " " * width
+    if vmin is None: vmin = min(vals)
+    if vmax is None: vmax = max(vals)
+    span = max(1e-9, vmax - vmin)
+    # Take the most recent `width` samples
+    vals = vals[-width:]
     out = []
-    out.append("╭─ " + stats["hostname"] + " ─" + ...)
-    out.append("│  CPU  " + ...)
-    ...
-    sys.stdout.write("\n".join(out) + "\033[J")  # \033[J clears from cursor to end
-
-# ── Main TUI loop ──
-def tui(interval=2, _display_name=None, cpu_debug=False):
-    global display_name
-    display_name = _display_name
-    _alt_screen_on(); _hide_cursor()
-    try:
-        while True:
-            stats = collect(cpu_debug=cpu_debug)
-            _tui_render(stats, interval)
-            # Non-blocking key read
-            ...
-            time.sleep(interval)
-    finally:
-        _show_cursor(); _alt_screen_off()
+    for v in vals:
+        idx = int((v - vmin) / span * (len(_SPARK) - 1))
+        idx = max(0, min(len(_SPARK) - 1, idx))
+        out.append(_SPARK[idx])
+    # Pad left if we don't have enough history yet
+    return (" " * (width - len(out))) + "".join(out)
 ```
 
-### CLI changes
+### TUI state (lives in `tui()` local scope, passed to `_tui_render`)
 
 ```python
-if __name__ == "__main__":
-    ...
-    if "--tui" in args:
-        args.remove("--tui")
-        if len(args) < 2:
-            print("Usage: python3 collector.py --tui <interval> <display_name> [--cpu-debug]")
-            sys.exit(1)
-        tui(int(args[0]), args[1], cpu_debug=cpu_debug)
-    else:
-        # legacy daemon mode
-        daemon(int(args[0]), args[1], cpu_debug=cpu_debug)
+@dataclass-like dict
+state = {
+    "history": {           # _RingBuf per series, cap=120 (= 4 min @ 2s)
+        "cpu_pct": _RingBuf(120),
+        "mem_pct": _RingBuf(120),
+        "gpu_util": [_RingBuf(120) for _ in range(8)],
+        "gpu_mem":  [_RingBuf(120) for _ in range(8)],
+        "gpu_pwr":  [_RingBuf(120) for _ in range(8)],
+        "gpu_temp": [_RingBuf(120) for _ in range(8)],
+        "net_rx":   _RingBuf(120),
+        "net_tx":   _RingBuf(120),
+        "pcie":     _RingBuf(120),
+        "cpu_temp": _RingBuf(120),
+        "cpu_freq": _RingBuf(120),
+    },
+    "log":       collections.deque(maxlen=200),  # scrollable event log
+    "log_scroll": 0,                              # 0 = newest at bottom; +N = scrolled up N
+    "paused":    False,
+}
 ```
+
+### Render function
+
+```python
+def _tui_render(state, interval):
+    cols, rows = shutil.get_terminal_size((80, 24))
+    # Allocate vertical space: top strip ≤ 6 rows, sparklines dynamic, log ≤ 8 rows
+    LOG_ROWS = min(8, max(3, rows // 5))
+    TOP_ROWS = min(8, max(4, (rows - LOG_ROWS) // 4))
+    SPARK_ROWS = rows - TOP_ROWS - LOG_ROWS - 4   # 4 for separators + footer
+    spark_w = cols - 32   # leave room for label + current value + units
+
+    out = []
+    out += _render_top(state, TOP_ROWS)            # current snapshot
+    out += [_tui_separator(cols)]
+    out += _render_sparks(state, SPARK_ROWS, spark_w)
+    out += [_tui_separator(cols)]
+    out += _render_log(state, LOG_ROWS, cols, log_scroll)
+    out += [_tui_footer(state, cols)]
+    sys.stdout.write("\033[H" + "\n".join(out) + "\033[J")
+```
+
+### Key bindings (extended)
+
+| Key | Action |
+|---|---|
+| q / Q / Ctrl-C | quit (terminal restored) |
+| space | pause/resume data collection |
+| r | force-refresh (skip sleep, re-collect now) |
+| ↑ / ↓ | scroll log strip up/down |
+| PgUp / PgDn | page through log |
+| G / g | jump log to newest |
+| ? | toggle a help overlay (TODO if needed) |
+
+### Terminal-size adaptivity
+
+- ≥80×24: full layout (3 layers)
+- <24 rows: collapse sparkline grid to 1 row per metric (or auto-truncate)
+- <80 cols: shrink sparkline width, abbreviate labels ("CPUu" instead of "CPU util")
 
 ## Edge cases
 
-1. **No GPU**: skip GPU rows, leave section blank
-2. **No network data**: skip NET row
-3. **No system_power_w**: hide SYS row
-4. **CPU freq unavailable**: show "?" for freq
-5. **Terminal <80 cols**: wrap lines (don't truncate — nvtop also wraps)
-6. **TTY detection**: if `sys.stdout.isatty()` is False, fall back to
-   single-stamp print + exit. (No point rendering to a pipe.)
-7. **Resize**: SIGWINCH handler rebuilds the header; rest of layout
-   is width-independent via wrap.
+1. **No GPU**: skip all GPU sparklines + GPU top rows
+2. **No network**: skip NET sparkline, top NET row shows "—"
+3. **No system_power_w**: skip SYS top row, no power sparkline
+4. **No per-core data** (no `--cpu-debug`): skip CPU temp + CPU freq sparklines
+5. **Terminal too small**: truncate rows from the bottom (log first, then sparklines)
+6. **TTY shrinks during runtime**: `SIGWINCH` re-renders with new dims on next cycle
+7. **History not yet full** (< width samples): sparkline left-pads with spaces
 
 ## Testing plan
 
 ```bash
-# 1. Local smoke (Intel i7-14700K + 0 GPU, no network)
-python3 collector.py --tui 2 test_machine
-# Expected: TUI appears, refreshes every 2s, q quits cleanly
+# 1. Local smoke (Intel i7-14700K + L4 GPU no nvidia-smi, no --cpu-debug)
+python3 collector.py --tui 2 test
+# Expected: 3-layer TUI fills 80×24, ~5-7 sparklines visible, log strip scrolls
 
 # 2. With --cpu-debug
-python3 collector.py --tui 2 test_machine --cpu-debug
-# Expected: same UI, no extra output (debug data is JSON-only)
+python3 collector.py --tui 2 test --cpu-debug
+# Expected: extra CPU temp + freq sparklines appear
 
-# 3. Non-TTY (piped to file)
-python3 collector.py --tui 2 test_machine | head
-# Expected: clear error message, exit 1
+# 3. Resize terminal mid-run
+# resize the window narrower → sparkline width adjusts
 
-# 4. Remote machine (post-push)
-ssh node004 "python3 /home/frank/hermes/system-monitor/collector.py --tui 2 node004"
-# Expected: GPU rows visible, system_power visible
+# 4. Scroll log
+# press ↓ a few times → log scrolls up, showing older samples
+
+# 5. Non-TTY
+python3 collector.py --tui 2 test | head
+# Expected: clean error, exit 1
+
+# 6. Pause + resume
+# press space → log strip shows ⏸ PAUSED, no new data
+# press space again → resumes
 ```
 
-## Diff estimate
+## Diff estimate (v1 → v2)
 
-- ~200 lines added (mostly render + helpers)
-- ~10 lines changed in `__main__`
-- 0 lines changed in collect() — TUI reuses everything
+- ~200 lines removed (the old _tui_render + its hand-built layout)
+- ~350 lines added (history buffers, sparkline helper, 3-layer layout, scroll)
+- ~30 lines changed in tui() main loop (key handling for ↑↓ etc.)
+- ~10 lines changed in __main__ (no behaviour change, just usage text)
