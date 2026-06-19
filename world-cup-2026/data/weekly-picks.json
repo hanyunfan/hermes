@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-06-19T09:02:24+00:00",
+  "generated_at": "2026-06-19T17:58:03+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-19T04:02:24-05:00",
+  "now_local": "2026-06-19T12:58:03-05:00",
   "round_label": {
     "zh": "小组赛第 2 轮",
     "en": "Matchday 2"
@@ -1192,89 +1192,6 @@
       "manual_author": "claude"
     },
     {
-      "match_id": "760462",
-      "kickoff_utc": "2026-06-24T19:00:00+00:00",
-      "kickoff_local": "2026-06-24T14:00:00-05:00",
-      "kickoff_local_date": "2026-06-24",
-      "kickoff_time": "2:00 PM",
-      "kickoff_weekday": "Wed",
-      "stage": "Group Stage",
-      "stage_slug": "group-stage",
-      "venue": "Lumen Field",
-      "venue_city": "Seattle, Washington",
-      "espn_url": "https://www.espn.com/soccer/match/_/gameId/760462/qatar-bosnia-herzegovina",
-      "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Bosnia-Herzegovina%20vs%20Qatar",
-      "home": {
-        "id": "452",
-        "name": "Bosnia-Herzegovina",
-        "name_zh": "波黑",
-        "flag": "🇧🇦",
-        "abbr": "BIH",
-        "rank": 64
-      },
-      "away": {
-        "id": "4398",
-        "name": "Qatar",
-        "name_zh": "卡塔尔",
-        "flag": "🇶🇦",
-        "abbr": "QAT",
-        "rank": 56
-      },
-      "group_name": "Group B",
-      "home_group_rank": 3,
-      "home_pts": 1,
-      "home_mp": 2,
-      "away_group_rank": 4,
-      "away_pts": 1,
-      "away_mp": 2,
-      "stakes_kind": "group_decider",
-      "stakes_score_auto": 4,
-      "stakes_verdict_auto": "must",
-      "stakes_narrative_zh": "末轮出线生死战。",
-      "stakes_narrative_en": "Final matchday — qualification on the line.",
-      "verdict": "skip",
-      "score": 2,
-      "headline_zh": "B 组末轮尊严之战",
-      "headline_en": "Group B's final-day dead rubber",
-      "watch_for_zh": [
-        "B 组末轮——但两队都已基本出局",
-        "波黑 1 分、卡塔尔 1 分，即便赢球最多 4 分",
-        "加拿大（4 分，净胜球 +6）和瑞士（4 分，+3）将争头名",
-        "波黑 2014 世界杯小组赛后 12 年再次参赛",
-        "卡塔尔 2022 东道主本届命运继续走底——首战输加拿大 0-6"
-      ],
-      "watch_for_en": [
-        "Final matchday — but both teams are essentially out",
-        "Bosnia 1pt, Qatar 1pt — even a win tops out at 4pts",
-        "Canada (4pts, GD +6) and Switzerland (4pts, +3) are playing for 1st",
-        "Bosnia's first WC since 2014 (12-year wait)",
-        "Qatar — 2022 hosts continue their slide (lost 6-0 to Canada in MD2)"
-      ],
-      "key_players_zh": [
-        "埃丁·哲科 #11（波黑 40 岁老将）",
-        "米拉勒姆·皮亚尼奇 #10（波黑中场大师）",
-        "阿克拉姆·阿菲夫 #11（卡塔尔队长）"
-      ],
-      "key_players_en": [
-        "Edin Džeko #11 (Bosnia, 40yo veteran)",
-        "Miralem Pjanić #10 (Bosnia midfield maestro)",
-        "Akram Afif #11 (Qatar captain)"
-      ],
-      "news_focus_zh": "哲科 40 岁仍首发出场——这很可能是他最后一届世界杯",
-      "news_focus_en": "Džeko at 40 still starting — almost certainly his final WC",
-      "record_potential_zh": [
-        "哲科若进球（40 岁）将成为世界杯决赛圈最年长进球球员"
-      ],
-      "record_potential_en": [
-        "Džeko at 40 would be the oldest-ever WC final-tournament scorer"
-      ],
-      "why_skip_zh": "两队都已基本出局，胜负不影响小组出线大势",
-      "why_skip_en": "Both essentially eliminated — result won't shift group math",
-      "verdict_override": "skip",
-      "score_override": 2,
-      "manual_author": "claude"
-    },
-    {
       "match_id": "760463",
       "kickoff_utc": "2026-06-24T19:00:00+00:00",
       "kickoff_local": "2026-06-24T14:00:00-05:00",
@@ -1359,6 +1276,89 @@
       "why_skip_en": null,
       "verdict_override": null,
       "score_override": null,
+      "manual_author": "claude"
+    },
+    {
+      "match_id": "760462",
+      "kickoff_utc": "2026-06-24T19:00:00+00:00",
+      "kickoff_local": "2026-06-24T14:00:00-05:00",
+      "kickoff_local_date": "2026-06-24",
+      "kickoff_time": "2:00 PM",
+      "kickoff_weekday": "Wed",
+      "stage": "Group Stage",
+      "stage_slug": "group-stage",
+      "venue": "Lumen Field",
+      "venue_city": "Seattle, Washington",
+      "espn_url": "https://www.espn.com/soccer/match/_/gameId/760462/qatar-bosnia-herzegovina",
+      "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Bosnia-Herzegovina%20vs%20Qatar",
+      "home": {
+        "id": "452",
+        "name": "Bosnia-Herzegovina",
+        "name_zh": "波黑",
+        "flag": "🇧🇦",
+        "abbr": "BIH",
+        "rank": 64
+      },
+      "away": {
+        "id": "4398",
+        "name": "Qatar",
+        "name_zh": "卡塔尔",
+        "flag": "🇶🇦",
+        "abbr": "QAT",
+        "rank": 56
+      },
+      "group_name": "Group B",
+      "home_group_rank": 3,
+      "home_pts": 1,
+      "home_mp": 2,
+      "away_group_rank": 4,
+      "away_pts": 1,
+      "away_mp": 2,
+      "stakes_kind": "group_decider",
+      "stakes_score_auto": 4,
+      "stakes_verdict_auto": "must",
+      "stakes_narrative_zh": "末轮出线生死战。",
+      "stakes_narrative_en": "Final matchday — qualification on the line.",
+      "verdict": "skip",
+      "score": 2,
+      "headline_zh": "B 组末轮尊严之战",
+      "headline_en": "Group B's final-day dead rubber",
+      "watch_for_zh": [
+        "B 组末轮——但两队都已基本出局",
+        "波黑 1 分、卡塔尔 1 分，即便赢球最多 4 分",
+        "加拿大（4 分，净胜球 +6）和瑞士（4 分，+3）将争头名",
+        "波黑 2014 世界杯小组赛后 12 年再次参赛",
+        "卡塔尔 2022 东道主本届命运继续走底——首战输加拿大 0-6"
+      ],
+      "watch_for_en": [
+        "Final matchday — but both teams are essentially out",
+        "Bosnia 1pt, Qatar 1pt — even a win tops out at 4pts",
+        "Canada (4pts, GD +6) and Switzerland (4pts, +3) are playing for 1st",
+        "Bosnia's first WC since 2014 (12-year wait)",
+        "Qatar — 2022 hosts continue their slide (lost 6-0 to Canada in MD2)"
+      ],
+      "key_players_zh": [
+        "埃丁·哲科 #11（波黑 40 岁老将）",
+        "米拉勒姆·皮亚尼奇 #10（波黑中场大师）",
+        "阿克拉姆·阿菲夫 #11（卡塔尔队长）"
+      ],
+      "key_players_en": [
+        "Edin Džeko #11 (Bosnia, 40yo veteran)",
+        "Miralem Pjanić #10 (Bosnia midfield maestro)",
+        "Akram Afif #11 (Qatar captain)"
+      ],
+      "news_focus_zh": "哲科 40 岁仍首发出场——这很可能是他最后一届世界杯",
+      "news_focus_en": "Džeko at 40 still starting — almost certainly his final WC",
+      "record_potential_zh": [
+        "哲科若进球（40 岁）将成为世界杯决赛圈最年长进球球员"
+      ],
+      "record_potential_en": [
+        "Džeko at 40 would be the oldest-ever WC final-tournament scorer"
+      ],
+      "why_skip_zh": "两队都已基本出局，胜负不影响小组出线大势",
+      "why_skip_en": "Both essentially eliminated — result won't shift group math",
+      "verdict_override": "skip",
+      "score_override": 2,
       "manual_author": "claude"
     }
   ]
