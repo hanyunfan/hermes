@@ -1,11 +1,11 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-06-20T21:47:23+00:00",
+  "generated_at": "2026-06-20T23:09:09+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-20T16:47:23-05:00",
+  "now_local": "2026-06-20T18:09:09-05:00",
   "round_label": {
-    "zh": "小组赛第 2 轮",
-    "en": "Matchday 2"
+    "zh": "小组赛第 3 轮",
+    "en": "Matchday 3"
   },
   "round_date_range": [
     "2026-06-20",
@@ -88,7 +88,7 @@
       "stage_slug": "group-stage",
       "venue": "BMO Field",
       "venue_city": "Toronto",
-      "espn_url": "https://www.espn.com/soccer/match/_/gameId/760448/ivory coast-germany",
+      "espn_url": "https://www.espn.com/soccer/match/_/gameId/760448/ivory-coast-germany",
       "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Germany%20vs%20Ivory%20Coast",
       "home": {
         "id": "481",
@@ -108,16 +108,16 @@
       },
       "group_name": "Group E",
       "home_group_rank": 1,
-      "home_pts": 3,
-      "home_mp": 1,
+      "home_pts": 6,
+      "home_mp": 2,
       "away_group_rank": 2,
       "away_pts": 3,
-      "away_mp": 1,
-      "stakes_kind": "six_pointer",
+      "away_mp": 2,
+      "stakes_kind": "group_decider",
       "stakes_score_auto": 5,
       "stakes_verdict_auto": "must",
-      "stakes_narrative_zh": "双方首轮全胜，第二轮正面交锋——赢者基本锁定出线。",
-      "stakes_narrative_en": "Both won MD1 — winner likely seals qualification.",
+      "stakes_narrative_zh": "末轮出线生死战。",
+      "stakes_narrative_en": "Final matchday — qualification on the line.",
       "verdict": "must",
       "score": 5,
       "headline_zh": null,

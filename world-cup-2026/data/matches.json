@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-20T21:47:23.472492+00:00",
+  "generated_at": "2026-06-20T23:09:09.615073+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-20T16:47:22.413571-05:00",
+  "now_local": "2026-06-20T18:09:07.501990-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -1096,15 +1096,15 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/ger.png"
           },
           "rank": 1,
-          "mp": 1,
-          "w": 1,
+          "mp": 2,
+          "w": 2,
           "d": 0,
           "l": 0,
-          "gf": 7,
-          "ga": 1,
-          "gd": 6,
-          "pts": 3,
-          "advance": false,
+          "gf": 9,
+          "ga": 2,
+          "gd": 7,
+          "pts": 6,
+          "advance": true,
           "advance_label": "Advance to Round of 32",
           "advance_color": "#81D6AC"
         },
@@ -1120,13 +1120,13 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/civ.png"
           },
           "rank": 2,
-          "mp": 1,
+          "mp": 2,
           "w": 1,
           "d": 0,
-          "l": 0,
-          "gf": 1,
-          "ga": 0,
-          "gd": 1,
+          "l": 1,
+          "gf": 2,
+          "ga": 2,
+          "gd": 0,
           "pts": 3,
           "advance": false,
           "advance_label": "Advance to Round of 32",
@@ -8567,8 +8567,8 @@
           "kickoff_local_date": "2026-06-20",
           "kickoff_time": "3:00 PM",
           "kickoff_weekday": "Sat",
-          "status": "LIVE",
-          "status_short": "85'",
+          "status": "FINAL",
+          "status_short": "FT",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -8582,8 +8582,8 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/ger.png",
             "color": "FFFFFF",
             "home_away": "home",
-            "score": 1,
-            "winner": false
+            "score": 2,
+            "winner": true
           },
           "away": {
             "id": "4789",
@@ -8609,7 +8609,7 @@
             "Tele",
             "FOX One"
           ],
-          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760448/ivory coast-germany",
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760448/ivory-coast-germany",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Germany%20vs%20Ivory%20Coast",
           "slug": "ivory coast-at-germany",
           "incidents": [
@@ -8711,6 +8711,36 @@
               "player": "Guela Doué",
               "text": "Substitution, Côte d'Ivoire. Guéla Doué replaces Wilfried Singo because of an injury.",
               "player_off": "Wilfried Singo"
+            },
+            {
+              "kind": "substitution",
+              "minute": "85'",
+              "team": "Ivory Coast",
+              "team_id": "4789",
+              "team_side": "away",
+              "player": "Nicolas Pépé",
+              "text": "Substitution, Côte d'Ivoire. Nicolas Pépé replaces Yan Diomande.",
+              "player_off": "Yan Diomande"
+            },
+            {
+              "kind": "substitution",
+              "minute": "85'",
+              "team": "Germany",
+              "team_id": "481",
+              "team_side": "home",
+              "player": "Leon Goretzka",
+              "text": "Substitution, Germany. Leon Goretzka replaces Kai Havertz.",
+              "player_off": "Kai Havertz"
+            },
+            {
+              "kind": "goal",
+              "minute": "90'+4'",
+              "team": "Germany",
+              "team_id": "481",
+              "team_side": "home",
+              "player": "Deniz Undav",
+              "text": "Goal! Germany 2, Côte d'Ivoire 1. Deniz Undav (Germany) left footed shot from the centre of the box to the bottom left corner. Assisted by Felix Nmecha with a through ball.",
+              "assist": "Felix Nmecha"
             }
           ]
         },
