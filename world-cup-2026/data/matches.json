@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-20T06:57:15.759397+00:00",
+  "generated_at": "2026-06-20T17:26:35.147244+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-20T01:57:14.816388-05:00",
+  "now_local": "2026-06-20T12:26:33.842438-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -8325,8 +8325,8 @@
           "kickoff_local_date": "2026-06-20",
           "kickoff_time": "12:00 PM",
           "kickoff_weekday": "Sat",
-          "status": "SCHEDULED",
-          "status_short": "Scheduled",
+          "status": "LIVE",
+          "status_short": "26'",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -8340,7 +8340,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/ned.png",
             "color": "fb5d00",
             "home_away": "home",
-            "score": 0,
+            "score": 2,
             "winner": false
           },
           "away": {
@@ -8369,7 +8369,29 @@
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760447/sweden-netherlands",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Netherlands%20vs%20Sweden",
-          "slug": "sweden-at-netherlands"
+          "slug": "sweden-at-netherlands",
+          "incidents": [
+            {
+              "kind": "goal",
+              "minute": "5'",
+              "team": "Netherlands",
+              "team_id": "449",
+              "team_side": "home",
+              "player": "Brian Brobbey",
+              "text": "Goal! Netherlands 1, Sweden 0. Brian Brobbey (Netherlands) right footed shot from very close range to the centre of the goal. Assisted by Cody Gakpo with a cross.",
+              "assist": "Cody Gakpo"
+            },
+            {
+              "kind": "goal",
+              "minute": "17'",
+              "team": "Netherlands",
+              "team_id": "449",
+              "team_side": "home",
+              "player": "Brian Brobbey",
+              "text": "Goal! Netherlands 2, Sweden 0. Brian Brobbey (Netherlands) right footed shot from very close range to the bottom left corner. Assisted by Denzel Dumfries with a cross.",
+              "assist": "Denzel Dumfries"
+            }
+          ]
         },
         {
           "id": "760448",
@@ -11004,15 +11026,15 @@
           "stage": "Round of 32",
           "stage_slug": "round-of-32",
           "home": {
-            "id": "5929",
-            "name": "Group D Winner",
-            "name_zh": "",
-            "rank": null,
-            "short": "1D",
-            "abbr": "1D",
-            "flag": "🏳️",
-            "logo": "",
-            "color": "000000",
+            "id": "660",
+            "name": "United States",
+            "name_zh": "美国",
+            "rank": 17,
+            "short": "USA",
+            "abbr": "USA",
+            "flag": "🇺🇸",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/usa.png",
+            "color": "d42339",
             "home_away": "home",
             "score": 0,
             "winner": false
@@ -11041,9 +11063,9 @@
             "Tele",
             "FOX One"
           ],
-          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760494/third-place-group-befij-group-d-winner",
-          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Group%20D%20Winner%20vs%20Third%20Place%20Group%20B/E/F/I/J",
-          "slug": "third place group b/e/f/i/j-at-group d winner"
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760494/third-place-group-befij-united-states",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20United%20States%20vs%20Third%20Place%20Group%20B/E/F/I/J",
+          "slug": "third place group b/e/f/i/j-at-united states"
         }
       ]
     },
