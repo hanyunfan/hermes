@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-20T02:44:29.848909+00:00",
+  "generated_at": "2026-06-20T06:57:15.759397+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-19T21:44:29.004798-05:00",
+  "now_local": "2026-06-20T01:57:14.816388-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -1031,30 +1031,6 @@
         },
         {
           "team": {
-            "id": "465",
-            "name": "Türkiye",
-            "name_zh": "土耳其",
-            "rank": 22,
-            "short": "Türkiye",
-            "abbr": "TUR",
-            "flag": "🇹🇷",
-            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/tur.png"
-          },
-          "rank": 3,
-          "mp": 1,
-          "w": 0,
-          "d": 0,
-          "l": 1,
-          "gf": 0,
-          "ga": 2,
-          "gd": -2,
-          "pts": 0,
-          "advance": false,
-          "advance_label": "Best 8 advance",
-          "advance_color": "#B5E7CE"
-        },
-        {
-          "team": {
             "id": "210",
             "name": "Paraguay",
             "name_zh": "巴拉圭",
@@ -1064,13 +1040,37 @@
             "flag": "🇵🇾",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/par.png"
           },
-          "rank": 4,
-          "mp": 1,
-          "w": 0,
+          "rank": 3,
+          "mp": 2,
+          "w": 1,
           "d": 0,
           "l": 1,
-          "gf": 1,
+          "gf": 2,
           "ga": 4,
+          "gd": -2,
+          "pts": 3,
+          "advance": false,
+          "advance_label": "Best 8 advance",
+          "advance_color": "#B5E7CE"
+        },
+        {
+          "team": {
+            "id": "465",
+            "name": "Türkiye",
+            "name_zh": "土耳其",
+            "rank": 22,
+            "short": "Türkiye",
+            "abbr": "TUR",
+            "flag": "🇹🇷",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/tur.png"
+          },
+          "rank": 4,
+          "mp": 2,
+          "w": 0,
+          "d": 0,
+          "l": 2,
+          "gf": 0,
+          "ga": 3,
           "gd": -3,
           "pts": 0,
           "advance": false,
@@ -7496,7 +7496,7 @@
     },
     {
       "date": "2026-06-19",
-      "label": "Today",
+      "label": "Fri",
       "match_count": 4,
       "matches": [
         {
@@ -7906,8 +7906,8 @@
           "kickoff_local_date": "2026-06-19",
           "kickoff_time": "7:30 PM",
           "kickoff_weekday": "Fri",
-          "status": "SCHEDULED",
-          "status_short": "Scheduled",
+          "status": "FINAL",
+          "status_short": "FT",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -7921,8 +7921,8 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/bra.png",
             "color": "fee000",
             "home_away": "home",
-            "score": 0,
-            "winner": false
+            "score": 3,
+            "winner": true
           },
           "away": {
             "id": "2654",
@@ -7950,7 +7950,174 @@
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760444/haiti-brazil",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Brazil%20vs%20Haiti",
-          "slug": "haiti-at-brazil"
+          "slug": "haiti-at-brazil",
+          "incidents": [
+            {
+              "kind": "yellow_card",
+              "minute": "4'",
+              "team": "Haiti",
+              "team_id": "2654",
+              "team_side": "away",
+              "player": "Carlens Arcus",
+              "text": "Carlens Arcus (Haiti) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "goal",
+              "minute": "23'",
+              "team": "Brazil",
+              "team_id": "205",
+              "team_side": "home",
+              "player": "Matheus Cunha",
+              "text": "Goal! Brazil 1, Haiti 0. Matheus Cunha (Brazil) left footed shot from the centre of the box to the bottom left corner following a fast break."
+            },
+            {
+              "kind": "goal",
+              "minute": "36'",
+              "team": "Brazil",
+              "team_id": "205",
+              "team_side": "home",
+              "player": "Matheus Cunha",
+              "text": "Goal! Brazil 2, Haiti 0. Matheus Cunha (Brazil) left footed shot from the left side of the box to the top left corner. Assisted by Vinícius Júnior with a through ball following a fast break.",
+              "assist": "Vinícius Júnior"
+            },
+            {
+              "kind": "substitution",
+              "minute": "40'",
+              "team": "Brazil",
+              "team_id": "205",
+              "team_side": "home",
+              "player": "Rayan",
+              "text": "Substitution, Brazil. Rayan replaces Raphinha because of an injury.",
+              "player_off": "Raphinha "
+            },
+            {
+              "kind": "goal",
+              "minute": "45'+3'",
+              "team": "Brazil",
+              "team_id": "205",
+              "team_side": "home",
+              "player": "Vinícius Júnior",
+              "text": "Goal! Brazil 3, Haiti 0. Vinícius Júnior (Brazil) right footed shot from the left side of the box to the centre of the goal. Assisted by Lucas Paquetá with a through ball.",
+              "assist": "Lucas Paquetá"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "45'+4'",
+              "team": "Haiti",
+              "team_id": "2654",
+              "team_side": "away",
+              "player": "Frantzdy Pierrot",
+              "text": "Frantzdy Pierrot (Haiti) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "substitution",
+              "minute": "45'",
+              "team": "Haiti",
+              "team_id": "2654",
+              "team_side": "away",
+              "player": "Dominique Simon",
+              "text": "Substitution, Haiti. Dominique Simon replaces Carlens Arcus.",
+              "player_off": "Carlens Arcus"
+            },
+            {
+              "kind": "substitution",
+              "minute": "45'",
+              "team": "Haiti",
+              "team_id": "2654",
+              "team_side": "away",
+              "player": "Wilson Isidor",
+              "text": "Substitution, Haiti. Wilson Isidor replaces Frantzdy Pierrot.",
+              "player_off": "Frantzdy Pierrot"
+            },
+            {
+              "kind": "substitution",
+              "minute": "62'",
+              "team": "Haiti",
+              "team_id": "2654",
+              "team_side": "away",
+              "player": "Louicius Deedson",
+              "text": "Substitution, Haiti. Louicius Deedson replaces Josué Casimir.",
+              "player_off": "Josué Casimir"
+            },
+            {
+              "kind": "substitution",
+              "minute": "64'",
+              "team": "Brazil",
+              "team_id": "205",
+              "team_side": "home",
+              "player": "Gabriel Martinelli",
+              "text": "Substitution, Brazil. Gabriel Martinelli replaces Lucas Paquetá.",
+              "player_off": "Lucas Paquetá"
+            },
+            {
+              "kind": "substitution",
+              "minute": "64'",
+              "team": "Brazil",
+              "team_id": "205",
+              "team_side": "home",
+              "player": "Endrick",
+              "text": "Substitution, Brazil. Endrick replaces Matheus Cunha.",
+              "player_off": "Matheus Cunha"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "65'",
+              "team": "Brazil",
+              "team_id": "205",
+              "team_side": "home",
+              "player": "Douglas Santos",
+              "text": "Douglas Santos (Brazil) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "substitution",
+              "minute": "71'",
+              "team": "Haiti",
+              "team_id": "2654",
+              "team_side": "away",
+              "player": "Lenny Joseph",
+              "text": "Substitution, Haiti. Lenny Joseph replaces Ruben Providence.",
+              "player_off": "Ruben Providence"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "72'",
+              "team": "Haiti",
+              "team_id": "2654",
+              "team_side": "away",
+              "player": "Danley Jean Jacques",
+              "text": "Danley Jean Jacques (Haiti) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "substitution",
+              "minute": "81'",
+              "team": "Brazil",
+              "team_id": "205",
+              "team_side": "home",
+              "player": "Danilo Santos",
+              "text": "Substitution, Brazil. Danilo Santos replaces Vinícius Júnior.",
+              "player_off": "Vinícius Júnior"
+            },
+            {
+              "kind": "substitution",
+              "minute": "81'",
+              "team": "Brazil",
+              "team_id": "205",
+              "team_side": "home",
+              "player": "Éderson",
+              "text": "Substitution, Brazil. Éderson Silva replaces Bruno Guimarães.",
+              "player_off": "Bruno Guimarães"
+            },
+            {
+              "kind": "substitution",
+              "minute": "81'",
+              "team": "Haiti",
+              "team_id": "2654",
+              "team_side": "away",
+              "player": "Derrick Etienne Jr.",
+              "text": "Substitution, Haiti. Derrick Etienne replaces Jean-Ricner Bellegarde.",
+              "player_off": "Jean-Ricner Bellegarde"
+            }
+          ]
         },
         {
           "id": "760443",
@@ -7959,8 +8126,8 @@
           "kickoff_local_date": "2026-06-19",
           "kickoff_time": "10:00 PM",
           "kickoff_weekday": "Fri",
-          "status": "SCHEDULED",
-          "status_short": "Scheduled",
+          "status": "FINAL",
+          "status_short": "FT",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -7988,8 +8155,8 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/par.png",
             "color": "ea2300",
             "home_away": "away",
-            "score": 0,
-            "winner": false
+            "score": 1,
+            "winner": true
           },
           "venue": {
             "name": "Levi's Stadium",
@@ -8003,13 +8170,152 @@
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760443/paraguay-turkiye",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20T%C3%BCrkiye%20vs%20Paraguay",
-          "slug": "paraguay-at-turkiye"
+          "slug": "paraguay-at-turkiye",
+          "incidents": [
+            {
+              "kind": "goal",
+              "minute": "2'",
+              "team": "Paraguay",
+              "team_id": "210",
+              "team_side": "away",
+              "player": "Matías Galarza",
+              "text": "Goal! Türkiye 0, Paraguay 1. Matías Galarza (Paraguay) left footed shot from outside the box to the bottom right corner. Assisted by Julio Enciso.",
+              "assist": "Julio Enciso"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "4'",
+              "team": "Paraguay",
+              "team_id": "210",
+              "team_side": "away",
+              "player": "Matías Galarza",
+              "text": "Matías Galarza (Paraguay) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "red_card",
+              "minute": "45'+3'",
+              "team": "Paraguay",
+              "team_id": "210",
+              "team_side": "away",
+              "player": "Miguel Almirón",
+              "text": "Miguel Almirón (Paraguay) is shown the red card."
+            },
+            {
+              "kind": "substitution",
+              "minute": "45'",
+              "team": "Paraguay",
+              "team_id": "210",
+              "team_side": "away",
+              "player": "Damián Bobadilla",
+              "text": "Substitution, Paraguay. Damián Bobadilla replaces Isidro Pitta.",
+              "player_off": "Isidro Pitta"
+            },
+            {
+              "kind": "substitution",
+              "minute": "45'",
+              "team": "Türkiye",
+              "team_id": "465",
+              "team_side": "home",
+              "player": "Baris Alper Yilmaz",
+              "text": "Substitution, Türkiye. Baris Alper Yilmaz replaces Kerem Aktürkoglu.",
+              "player_off": "Kerem Aktürkoglu"
+            },
+            {
+              "kind": "substitution",
+              "minute": "60'",
+              "team": "Türkiye",
+              "team_id": "465",
+              "team_side": "home",
+              "player": "Can Uzun",
+              "text": "Substitution, Türkiye. Can Uzun replaces Ismail Yüksek.",
+              "player_off": "Ismail Yüksek"
+            },
+            {
+              "kind": "substitution",
+              "minute": "60'",
+              "team": "Türkiye",
+              "team_id": "465",
+              "team_side": "home",
+              "player": "Deniz Gül",
+              "text": "Substitution, Türkiye. Deniz Gül replaces Yunus Akgün.",
+              "player_off": "Yunus Akgün"
+            },
+            {
+              "kind": "substitution",
+              "minute": "67'",
+              "team": "Paraguay",
+              "team_id": "210",
+              "team_side": "away",
+              "player": "Gustavo Velázquez",
+              "text": "Substitution, Paraguay. Gustavo Velázquez replaces Diego Gómez because of an injury.",
+              "player_off": "Diego Gómez"
+            },
+            {
+              "kind": "substitution",
+              "minute": "70'",
+              "team": "Türkiye",
+              "team_id": "465",
+              "team_side": "home",
+              "player": "Eren Elmali",
+              "text": "Substitution, Türkiye. Eren Elmali replaces Ferdi Kadioglu.",
+              "player_off": "Ferdi Kadioglu"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "71'",
+              "team": "Türkiye",
+              "team_id": "465",
+              "team_side": "home",
+              "player": "Eren Elmali",
+              "text": "Eren Elmali (Türkiye) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "substitution",
+              "minute": "81'",
+              "team": "Paraguay",
+              "team_id": "210",
+              "team_side": "away",
+              "player": "Alexandro Maidana",
+              "text": "Substitution, Paraguay. Alexandro Maidana replaces Juan José Cáceres.",
+              "player_off": "Juan Jose Cáceres"
+            },
+            {
+              "kind": "substitution",
+              "minute": "86'",
+              "team": "Türkiye",
+              "team_id": "465",
+              "team_side": "home",
+              "player": "Orkun Kökçü",
+              "text": "Substitution, Türkiye. Orkun Kökçü replaces Abdülkerim Bardakci.",
+              "player_off": "Abdülkerim Bardakçi"
+            },
+            {
+              "kind": "substitution",
+              "minute": "90'+2'",
+              "team": "Paraguay",
+              "team_id": "210",
+              "team_side": "away",
+              "player": "Gabriel Ávalos",
+              "text": "Substitution, Paraguay. Gabriel Ávalos replaces Julio Enciso because of an injury.",
+              "player_off": "Julio Enciso"
+            },
+            {
+              "kind": "substitution",
+              "minute": "90'+2'",
+              "team": "Paraguay",
+              "team_id": "210",
+              "team_side": "away",
+              "player": "José Canale",
+              "text": "Substitution, Paraguay. José Canale replaces Matías Galarza because of an injury.",
+              "player_off": "Matías Galarza"
+            }
+          ]
         }
       ]
     },
     {
       "date": "2026-06-20",
-      "label": "Tomorrow",
+      "label": "Today",
       "match_count": 4,
       "matches": [
         {
@@ -8228,7 +8534,7 @@
     },
     {
       "date": "2026-06-21",
-      "label": "Sun",
+      "label": "Tomorrow",
       "match_count": 4,
       "matches": [
         {
