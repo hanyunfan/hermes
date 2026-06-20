@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-20T00:09:20.774191+00:00",
+  "generated_at": "2026-06-20T02:44:29.848909+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-19T19:09:19.999094-05:00",
+  "now_local": "2026-06-19T21:44:29.004798-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -880,6 +880,30 @@
       "entries": [
         {
           "team": {
+            "id": "205",
+            "name": "Brazil",
+            "name_zh": "巴西",
+            "rank": 6,
+            "short": "Brazil",
+            "abbr": "BRA",
+            "flag": "🇧🇷",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/bra.png"
+          },
+          "rank": 1,
+          "mp": 2,
+          "w": 1,
+          "d": 1,
+          "l": 0,
+          "gf": 4,
+          "ga": 1,
+          "gd": 3,
+          "pts": 4,
+          "advance": false,
+          "advance_label": "Advance to Round of 32",
+          "advance_color": "#81D6AC"
+        },
+        {
+          "team": {
             "id": "2869",
             "name": "Morocco",
             "name_zh": "摩洛哥",
@@ -889,7 +913,7 @@
             "flag": "🇲🇦",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/mar.png"
           },
-          "rank": 1,
+          "rank": 2,
           "mp": 2,
           "w": 1,
           "d": 1,
@@ -913,7 +937,7 @@
             "flag": "🏴",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/sco.png"
           },
-          "rank": 2,
+          "rank": 3,
           "mp": 2,
           "w": 1,
           "d": 0,
@@ -922,30 +946,6 @@
           "ga": 1,
           "gd": 0,
           "pts": 3,
-          "advance": false,
-          "advance_label": "Advance to Round of 32",
-          "advance_color": "#81D6AC"
-        },
-        {
-          "team": {
-            "id": "205",
-            "name": "Brazil",
-            "name_zh": "巴西",
-            "rank": 6,
-            "short": "Brazil",
-            "abbr": "BRA",
-            "flag": "🇧🇷",
-            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/bra.png"
-          },
-          "rank": 3,
-          "mp": 1,
-          "w": 0,
-          "d": 1,
-          "l": 0,
-          "gf": 1,
-          "ga": 1,
-          "gd": 0,
-          "pts": 1,
           "advance": false,
           "advance_label": "Best 8 advance",
           "advance_color": "#B5E7CE"
@@ -962,13 +962,13 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/hai.png"
           },
           "rank": 4,
-          "mp": 1,
+          "mp": 2,
           "w": 0,
           "d": 0,
-          "l": 1,
+          "l": 2,
           "gf": 0,
-          "ga": 1,
-          "gd": -1,
+          "ga": 4,
+          "gd": -4,
           "pts": 0,
           "advance": false,
           "advance_label": "Eliminated",
@@ -7733,8 +7733,8 @@
           "kickoff_local_date": "2026-06-19",
           "kickoff_time": "5:00 PM",
           "kickoff_weekday": "Fri",
-          "status": "SCHEDULED",
-          "status_short": "Scheduled",
+          "status": "FINAL",
+          "status_short": "FT",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -7762,8 +7762,8 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/mar.png",
             "color": "df2027",
             "home_away": "away",
-            "score": 0,
-            "winner": false
+            "score": 1,
+            "winner": true
           },
           "venue": {
             "name": "Gillette Stadium",
@@ -7777,7 +7777,127 @@
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760445/morocco-scotland",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Scotland%20vs%20Morocco",
-          "slug": "morocco-at-scotland"
+          "slug": "morocco-at-scotland",
+          "incidents": [
+            {
+              "kind": "goal",
+              "minute": "2'",
+              "team": "Morocco",
+              "team_id": "2869",
+              "team_side": "away",
+              "player": "Ismael Saibari",
+              "text": "Goal! Scotland 0, Morocco 1. Ismael Saibari (Morocco) right footed shot from the right side of the box to the high centre of the goal. Assisted by Brahim Díaz with a through ball.",
+              "assist": "Brahim Díaz"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "23'",
+              "team": "Morocco",
+              "team_id": "2869",
+              "team_side": "away",
+              "player": "Issa Diop",
+              "text": "Issa Diop (Morocco) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "substitution",
+              "minute": "60'",
+              "team": "Scotland",
+              "team_id": "580",
+              "team_side": "home",
+              "player": "Ben Gannon-Doak",
+              "text": "Substitution, Scotland. Ben Gannon-Doak replaces Kieran Tierney because of an injury.",
+              "player_off": "Kieran Tierney"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "65'",
+              "team": "Scotland",
+              "team_id": "580",
+              "team_side": "home",
+              "player": "Andy Robertson",
+              "text": "Andy Robertson (Scotland) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "substitution",
+              "minute": "71'",
+              "team": "Scotland",
+              "team_id": "580",
+              "team_side": "home",
+              "player": "Lyndon Dykes",
+              "text": "Substitution, Scotland. Lyndon Dykes replaces Ché Adams.",
+              "player_off": "Ché Adams"
+            },
+            {
+              "kind": "substitution",
+              "minute": "71'",
+              "team": "Scotland",
+              "team_id": "580",
+              "team_side": "home",
+              "player": "Kenny McLean",
+              "text": "Substitution, Scotland. Kenny McLean replaces Ryan Christie.",
+              "player_off": "Ryan Christie"
+            },
+            {
+              "kind": "substitution",
+              "minute": "84'",
+              "team": "Morocco",
+              "team_id": "2869",
+              "team_side": "away",
+              "player": "Soufiane Rahimi",
+              "text": "Substitution, Morocco. Soufiane Rahimi replaces Ismael Saibari.",
+              "player_off": "Ismael Saibari"
+            },
+            {
+              "kind": "substitution",
+              "minute": "84'",
+              "team": "Morocco",
+              "team_id": "2869",
+              "team_side": "away",
+              "player": "Chemsdine Talbi",
+              "text": "Substitution, Morocco. Chemsdine Talbi replaces Bilal El Khannouss.",
+              "player_off": "Bilal El Khannouss"
+            },
+            {
+              "kind": "substitution",
+              "minute": "84'",
+              "team": "Morocco",
+              "team_id": "2869",
+              "team_side": "away",
+              "player": "Ayoube Amaimouni",
+              "text": "Substitution, Morocco. Ayoube Amaimouni-Echghouyab replaces Brahim Díaz.",
+              "player_off": "Brahim Díaz"
+            },
+            {
+              "kind": "substitution",
+              "minute": "89'",
+              "team": "Scotland",
+              "team_id": "580",
+              "team_side": "home",
+              "player": "Anthony Ralston",
+              "text": "Substitution, Scotland. Anthony Ralston replaces Nathan Patterson.",
+              "player_off": "Nathan Patterson"
+            },
+            {
+              "kind": "substitution",
+              "minute": "89'",
+              "team": "Scotland",
+              "team_id": "580",
+              "team_side": "home",
+              "player": "Ross Stewart",
+              "text": "Substitution, Scotland. Ross Stewart replaces John McGinn.",
+              "player_off": "John McGinn"
+            },
+            {
+              "kind": "substitution",
+              "minute": "90'",
+              "team": "Morocco",
+              "team_id": "2869",
+              "team_side": "away",
+              "player": "Samir El Mourabet",
+              "text": "Substitution, Morocco. Samir El Mourabet replaces Azzedine Ounahi.",
+              "player_off": "Azzedine Ounahi"
+            }
+          ]
         },
         {
           "id": "760444",
