@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-20T18:55:35.142927+00:00",
+  "generated_at": "2026-06-20T20:15:41.062793+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-20T13:55:34.027030-05:00",
+  "now_local": "2026-06-20T15:15:40.021378-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -1189,6 +1189,30 @@
       "entries": [
         {
           "team": {
+            "id": "449",
+            "name": "Netherlands",
+            "name_zh": "荷兰",
+            "rank": 8,
+            "short": "Netherlands",
+            "abbr": "NED",
+            "flag": "🇳🇱",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/ned.png"
+          },
+          "rank": 1,
+          "mp": 2,
+          "w": 1,
+          "d": 1,
+          "l": 0,
+          "gf": 7,
+          "ga": 3,
+          "gd": 4,
+          "pts": 4,
+          "advance": false,
+          "advance_label": "Advance to Round of 32",
+          "advance_color": "#81D6AC"
+        },
+        {
+          "team": {
             "id": "466",
             "name": "Sweden",
             "name_zh": "瑞典",
@@ -1198,14 +1222,14 @@
             "flag": "🇸🇪",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/swe.png"
           },
-          "rank": 1,
-          "mp": 1,
+          "rank": 2,
+          "mp": 2,
           "w": 1,
           "d": 0,
-          "l": 0,
-          "gf": 5,
-          "ga": 1,
-          "gd": 4,
+          "l": 1,
+          "gf": 6,
+          "ga": 6,
+          "gd": 0,
           "pts": 3,
           "advance": false,
           "advance_label": "Advance to Round of 32",
@@ -1221,30 +1245,6 @@
             "abbr": "JPN",
             "flag": "🇯🇵",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/jpn.png"
-          },
-          "rank": 2,
-          "mp": 1,
-          "w": 0,
-          "d": 1,
-          "l": 0,
-          "gf": 2,
-          "ga": 2,
-          "gd": 0,
-          "pts": 1,
-          "advance": false,
-          "advance_label": "Advance to Round of 32",
-          "advance_color": "#81D6AC"
-        },
-        {
-          "team": {
-            "id": "449",
-            "name": "Netherlands",
-            "name_zh": "荷兰",
-            "rank": 8,
-            "short": "Netherlands",
-            "abbr": "NED",
-            "flag": "🇳🇱",
-            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/ned.png"
           },
           "rank": 3,
           "mp": 1,
@@ -8325,8 +8325,8 @@
           "kickoff_local_date": "2026-06-20",
           "kickoff_time": "12:00 PM",
           "kickoff_weekday": "Sat",
-          "status": "LIVE",
-          "status_short": "90'+4'",
+          "status": "FINAL",
+          "status_short": "FT",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -8341,7 +8341,7 @@
             "color": "fb5d00",
             "home_away": "home",
             "score": 5,
-            "winner": false
+            "winner": true
           },
           "away": {
             "id": "466",
