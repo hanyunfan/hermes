@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-20T17:26:35.147244+00:00",
+  "generated_at": "2026-06-20T18:55:35.142927+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-20T12:26:33.842438-05:00",
+  "now_local": "2026-06-20T13:55:34.027030-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -8326,7 +8326,7 @@
           "kickoff_time": "12:00 PM",
           "kickoff_weekday": "Sat",
           "status": "LIVE",
-          "status_short": "26'",
+          "status_short": "90'+4'",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -8340,7 +8340,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/ned.png",
             "color": "fb5d00",
             "home_away": "home",
-            "score": 2,
+            "score": 5,
             "winner": false
           },
           "away": {
@@ -8354,7 +8354,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/swe.png",
             "color": "fecb00",
             "home_away": "away",
-            "score": 0,
+            "score": 1,
             "winner": false
           },
           "venue": {
@@ -8390,6 +8390,173 @@
               "player": "Brian Brobbey",
               "text": "Goal! Netherlands 2, Sweden 0. Brian Brobbey (Netherlands) right footed shot from very close range to the bottom left corner. Assisted by Denzel Dumfries with a cross.",
               "assist": "Denzel Dumfries"
+            },
+            {
+              "kind": "substitution",
+              "minute": "45'",
+              "team": "Netherlands",
+              "team_id": "449",
+              "team_side": "home",
+              "player": "Crysencio Summerville",
+              "text": "Substitution, Netherlands. Crysencio Summerville replaces Donyell Malen.",
+              "player_off": "Donyell Malen"
+            },
+            {
+              "kind": "goal",
+              "minute": "47'",
+              "team": "Netherlands",
+              "team_id": "449",
+              "team_side": "home",
+              "player": "Cody Gakpo",
+              "text": "Goal! Netherlands 3, Sweden 0. Cody Gakpo (Netherlands) left footed shot from very close range to the centre of the goal. Assisted by Denzel Dumfries with a cross.",
+              "assist": "Denzel Dumfries"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "53'",
+              "team": "Sweden",
+              "team_id": "466",
+              "team_side": "away",
+              "player": "Gabriel Gudmundsson",
+              "text": "Gabriel Gudmundsson (Sweden) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "goal",
+              "minute": "54'",
+              "team": "Netherlands",
+              "team_id": "449",
+              "team_side": "home",
+              "player": "Cody Gakpo",
+              "text": "Goal! Netherlands 4, Sweden 0. Cody Gakpo (Netherlands) right footed shot from the left side of the box to the bottom left corner. Assisted by Crysencio Summerville following a fast break.",
+              "assist": "Crysencio Summerville"
+            },
+            {
+              "kind": "substitution",
+              "minute": "55'",
+              "team": "Sweden",
+              "team_id": "466",
+              "team_side": "away",
+              "player": "Anthony Elanga",
+              "text": "Substitution, Sweden. Anthony Elanga replaces Alexander Bernhardsson.",
+              "player_off": "Alexander Bernhardsson"
+            },
+            {
+              "kind": "substitution",
+              "minute": "56'",
+              "team": "Sweden",
+              "team_id": "466",
+              "team_side": "away",
+              "player": "Besfort Zeneli",
+              "text": "Substitution, Sweden. Besfort Zeneli replaces Jesper Karlström.",
+              "player_off": "Jesper Karlström"
+            },
+            {
+              "kind": "substitution",
+              "minute": "56'",
+              "team": "Sweden",
+              "team_id": "466",
+              "team_side": "away",
+              "player": "Lucas Bergvall",
+              "text": "Substitution, Sweden. Lucas Bergvall replaces Benjamin Nygren.",
+              "player_off": "Benjamin Nygren"
+            },
+            {
+              "kind": "goal",
+              "minute": "59'",
+              "team": "Sweden",
+              "team_id": "466",
+              "team_side": "away",
+              "player": "Anthony Elanga",
+              "text": "Goal! Netherlands 4, Sweden 1. Anthony Elanga (Sweden) left footed shot from the centre of the box to the bottom left corner. Assisted by Alexander Isak with a through ball following a fast break.",
+              "assist": "Alexander Isak"
+            },
+            {
+              "kind": "substitution",
+              "minute": "59'",
+              "team": "Netherlands",
+              "team_id": "449",
+              "team_side": "home",
+              "player": "Teun Koopmeiners",
+              "text": "Substitution, Netherlands. Teun Koopmeiners replaces Frenkie de Jong.",
+              "player_off": "Frenkie de Jong"
+            },
+            {
+              "kind": "substitution",
+              "minute": "59'",
+              "team": "Netherlands",
+              "team_id": "449",
+              "team_side": "home",
+              "player": "Guus Til",
+              "text": "Substitution, Netherlands. Guus Til replaces Tijjani Reijnders.",
+              "player_off": "Tijjani Reijnders"
+            },
+            {
+              "kind": "substitution",
+              "minute": "72'",
+              "team": "Netherlands",
+              "team_id": "449",
+              "team_side": "home",
+              "player": "Memphis Depay",
+              "text": "Substitution, Netherlands. Memphis Depay replaces Brian Brobbey.",
+              "player_off": "Brian Brobbey"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "75'",
+              "team": "Sweden",
+              "team_id": "466",
+              "team_side": "away",
+              "player": "Yasin Ayari",
+              "text": "Yasin Ayari (Sweden) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "substitution",
+              "minute": "79'",
+              "team": "Sweden",
+              "team_id": "466",
+              "team_side": "away",
+              "player": "Taha Ali",
+              "text": "Substitution, Sweden. Taha Ali replaces Yasin Ayari.",
+              "player_off": "Yasin Ayari"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "80'",
+              "team": "Sweden",
+              "team_id": "466",
+              "team_side": "away",
+              "player": "Lucas Bergvall",
+              "text": "Lucas Bergvall (Sweden) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "goal",
+              "minute": "89'",
+              "team": "Netherlands",
+              "team_id": "449",
+              "team_side": "home",
+              "player": "Crysencio Summerville",
+              "text": "Goal! Netherlands 5, Sweden 1. Crysencio Summerville (Netherlands) right footed shot from outside the box to the bottom left corner. Assisted by Memphis Depay.",
+              "assist": "Memphis Depay"
+            },
+            {
+              "kind": "substitution",
+              "minute": "90'",
+              "team": "Netherlands",
+              "team_id": "449",
+              "team_side": "home",
+              "player": "Noa Lang",
+              "text": "Substitution, Netherlands. Noa Lang replaces Cody Gakpo.",
+              "player_off": "Cody Gakpo"
+            },
+            {
+              "kind": "substitution",
+              "minute": "90'+3'",
+              "team": "Sweden",
+              "team_id": "466",
+              "team_side": "away",
+              "player": "Elliot Stroud",
+              "text": "Substitution, Sweden. Elliot Stroud replaces Gabriel Gudmundsson.",
+              "player_off": "Gabriel Gudmundsson"
             }
           ]
         },
