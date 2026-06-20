@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-20T20:15:41.062793+00:00",
+  "generated_at": "2026-06-20T21:47:23.472492+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-20T15:15:40.021378-05:00",
+  "now_local": "2026-06-20T16:47:22.413571-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -8567,8 +8567,8 @@
           "kickoff_local_date": "2026-06-20",
           "kickoff_time": "3:00 PM",
           "kickoff_weekday": "Sat",
-          "status": "SCHEDULED",
-          "status_short": "Scheduled",
+          "status": "LIVE",
+          "status_short": "85'",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -8582,7 +8582,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/ger.png",
             "color": "FFFFFF",
             "home_away": "home",
-            "score": 0,
+            "score": 1,
             "winner": false
           },
           "away": {
@@ -8596,7 +8596,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/civ.png",
             "color": "FF8200",
             "home_away": "away",
-            "score": 0,
+            "score": 1,
             "winner": false
           },
           "venue": {
@@ -8609,9 +8609,110 @@
             "Tele",
             "FOX One"
           ],
-          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760448/ivory-coast-germany",
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760448/ivory coast-germany",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Germany%20vs%20Ivory%20Coast",
-          "slug": "ivory coast-at-germany"
+          "slug": "ivory coast-at-germany",
+          "incidents": [
+            {
+              "kind": "goal",
+              "minute": "30'",
+              "team": "Ivory Coast",
+              "team_id": "4789",
+              "team_side": "away",
+              "player": "Franck Kessié",
+              "text": "Goal! Germany 0, Côte d'Ivoire 1. Franck Kessie (Côte d'Ivoire) right footed shot from the centre of the box to the bottom left corner."
+            },
+            {
+              "kind": "substitution",
+              "minute": "45'",
+              "team": "Germany",
+              "team_id": "481",
+              "team_side": "home",
+              "player": "Antonio Rüdiger",
+              "text": "Substitution, Germany. Antonio Rüdiger replaces Nico Schlotterbeck because of an injury.",
+              "player_off": "Nico Schlotterbeck"
+            },
+            {
+              "kind": "substitution",
+              "minute": "60'",
+              "team": "Germany",
+              "team_id": "481",
+              "team_side": "home",
+              "player": "Jamie Leweling",
+              "text": "Substitution, Germany. Jamie Leweling replaces Leroy Sané.",
+              "player_off": "Leroy Sané"
+            },
+            {
+              "kind": "substitution",
+              "minute": "60'",
+              "team": "Germany",
+              "team_id": "481",
+              "team_side": "home",
+              "player": "Deniz Undav",
+              "text": "Substitution, Germany. Deniz Undav replaces Jamal Musiala.",
+              "player_off": "Jamal Musiala"
+            },
+            {
+              "kind": "substitution",
+              "minute": "60'",
+              "team": "Germany",
+              "team_id": "481",
+              "team_side": "home",
+              "player": "Nadiem Amiri",
+              "text": "Substitution, Germany. Nadiem Amiri replaces Aleksandar Pavlovic.",
+              "player_off": "Aleksandar Pavlovic"
+            },
+            {
+              "kind": "goal",
+              "minute": "68'",
+              "team": "Germany",
+              "team_id": "481",
+              "team_side": "home",
+              "player": "Deniz Undav",
+              "text": "Goal! Germany 1, Côte d'Ivoire 1. Deniz Undav (Germany) left footed shot from very close range to the high centre of the goal. Assisted by Nadiem Amiri with a cross.",
+              "assist": "Nadiem Amiri"
+            },
+            {
+              "kind": "substitution",
+              "minute": "75'",
+              "team": "Ivory Coast",
+              "team_id": "4789",
+              "team_side": "away",
+              "player": "Evann Guessand",
+              "text": "Substitution, Côte d'Ivoire. Evann Guessand replaces Ange-Yoan Bonny.",
+              "player_off": "Ange-Yoan Bonny"
+            },
+            {
+              "kind": "substitution",
+              "minute": "75'",
+              "team": "Ivory Coast",
+              "team_id": "4789",
+              "team_side": "away",
+              "player": "Seko Fofana",
+              "text": "Substitution, Côte d'Ivoire. Seko Fofana replaces Ibrahim Sangaré.",
+              "player_off": "Ibrahim Sangaré"
+            },
+            {
+              "kind": "substitution",
+              "minute": "75'",
+              "team": "Ivory Coast",
+              "team_id": "4789",
+              "team_side": "away",
+              "player": "Simon Adingra",
+              "text": "Substitution, Côte d'Ivoire. Simon Adingra replaces Amad Diallo.",
+              "player_off": "Amad Diallo"
+            },
+            {
+              "kind": "substitution",
+              "minute": "82'",
+              "team": "Ivory Coast",
+              "team_id": "4789",
+              "team_side": "away",
+              "player": "Guela Doué",
+              "text": "Substitution, Côte d'Ivoire. Guéla Doué replaces Wilfried Singo because of an injury.",
+              "player_off": "Wilfried Singo"
+            }
+          ]
         },
         {
           "id": "760446",

@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-06-20T20:15:41+00:00",
+  "generated_at": "2026-06-20T21:47:23+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-20T15:15:41-05:00",
+  "now_local": "2026-06-20T16:47:23-05:00",
   "round_label": {
     "zh": "小组赛第 2 轮",
     "en": "Matchday 2"
@@ -88,7 +88,7 @@
       "stage_slug": "group-stage",
       "venue": "BMO Field",
       "venue_city": "Toronto",
-      "espn_url": "https://www.espn.com/soccer/match/_/gameId/760448/ivory-coast-germany",
+      "espn_url": "https://www.espn.com/soccer/match/_/gameId/760448/ivory coast-germany",
       "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Germany%20vs%20Ivory%20Coast",
       "home": {
         "id": "481",
