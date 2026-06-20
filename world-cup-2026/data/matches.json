@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-19T22:31:12.271277+00:00",
+  "generated_at": "2026-06-20T00:09:20.774191+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-19T17:31:10.754070-05:00",
+  "now_local": "2026-06-19T19:09:19.999094-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -880,30 +880,6 @@
       "entries": [
         {
           "team": {
-            "id": "580",
-            "name": "Scotland",
-            "name_zh": "苏格兰",
-            "rank": 42,
-            "short": "Scotland",
-            "abbr": "SCO",
-            "flag": "🏴",
-            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/sco.png"
-          },
-          "rank": 1,
-          "mp": 1,
-          "w": 1,
-          "d": 0,
-          "l": 0,
-          "gf": 1,
-          "ga": 0,
-          "gd": 1,
-          "pts": 3,
-          "advance": false,
-          "advance_label": "Advance to Round of 32",
-          "advance_color": "#81D6AC"
-        },
-        {
-          "team": {
             "id": "2869",
             "name": "Morocco",
             "name_zh": "摩洛哥",
@@ -913,15 +889,39 @@
             "flag": "🇲🇦",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/mar.png"
           },
-          "rank": 2,
-          "mp": 1,
-          "w": 0,
+          "rank": 1,
+          "mp": 2,
+          "w": 1,
           "d": 1,
           "l": 0,
+          "gf": 2,
+          "ga": 1,
+          "gd": 1,
+          "pts": 4,
+          "advance": false,
+          "advance_label": "Advance to Round of 32",
+          "advance_color": "#81D6AC"
+        },
+        {
+          "team": {
+            "id": "580",
+            "name": "Scotland",
+            "name_zh": "苏格兰",
+            "rank": 42,
+            "short": "Scotland",
+            "abbr": "SCO",
+            "flag": "🏴",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/sco.png"
+          },
+          "rank": 2,
+          "mp": 2,
+          "w": 1,
+          "d": 0,
+          "l": 1,
           "gf": 1,
           "ga": 1,
           "gd": 0,
-          "pts": 1,
+          "pts": 3,
           "advance": false,
           "advance_label": "Advance to Round of 32",
           "advance_color": "#81D6AC"
@@ -7522,7 +7522,7 @@
             "color": "d42339",
             "home_away": "home",
             "score": 2,
-            "winner": false
+            "winner": true
           },
           "away": {
             "id": "628",
@@ -7548,7 +7548,7 @@
             "Tele",
             "FOX One"
           ],
-          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760442/australia-united states",
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760442/australia-united-states",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20United%20States%20vs%20Australia",
           "slug": "australia-at-united states",
           "incidents": [
