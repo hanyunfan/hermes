@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-21T19:03:37.157803+00:00",
+  "generated_at": "2026-06-21T20:52:31.290953+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-21T14:03:35.885731-05:00",
+  "now_local": "2026-06-21T15:52:29.973461-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -9205,7 +9205,7 @@
               "team_id": "164",
               "team_side": "home",
               "player": "Lamine Yamal",
-              "text": "Goal! Spain 1, Saudi Arabia 0. Lamine Yamal (Spain) right footed shot from the right side of the six yard box to the bottom right corner. Assisted by Mikel Oyarzabal with a cross following a fast break.",
+              "text": "Goal! Spain 1, Saudi Arabia 0. Lamine Yamal (Spain) right footed shot from the right side of the six yard box to the bottom right corner. Assisted by Mikel Oyarzabal with a cross.",
               "assist": "Mikel Oyarzabal"
             },
             {
@@ -9355,8 +9355,8 @@
           "kickoff_local_date": "2026-06-21",
           "kickoff_time": "2:00 PM",
           "kickoff_weekday": "Sun",
-          "status": "SCHEDULED",
-          "status_short": "Scheduled",
+          "status": "LIVE",
+          "status_short": "86'",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -9399,7 +9399,126 @@
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760451/iran-belgium",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Belgium%20vs%20Iran",
-          "slug": "iran-at-belgium"
+          "slug": "iran-at-belgium",
+          "incidents": [
+            {
+              "kind": "yellow_card",
+              "minute": "3'",
+              "team": "Belgium",
+              "team_id": "459",
+              "team_side": "home",
+              "player": "Romelu Lukaku",
+              "text": "Romelu Lukaku (Belgium) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "33'",
+              "team": "Iran",
+              "team_id": "469",
+              "team_side": "away",
+              "player": "Saeid Ezatolahi",
+              "text": "Saeid Ezatolahi (IR Iran) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "substitution",
+              "minute": "45'",
+              "team": "Iran",
+              "team_id": "469",
+              "team_side": "away",
+              "player": "Alireza Jahanbakhsh",
+              "text": "Substitution, IR Iran. Alireza Jahanbakhsh replaces Saleh Hardani.",
+              "player_off": "Saleh Hardani"
+            },
+            {
+              "kind": "substitution",
+              "minute": "58'",
+              "team": "Belgium",
+              "team_id": "459",
+              "team_side": "home",
+              "player": "Timothy Castagne",
+              "text": "Substitution, Belgium. Timothy Castagne replaces Thomas Meunier.",
+              "player_off": "Thomas Meunier"
+            },
+            {
+              "kind": "substitution",
+              "minute": "58'",
+              "team": "Belgium",
+              "team_id": "459",
+              "team_side": "home",
+              "player": "Hans Vanaken",
+              "text": "Substitution, Belgium. Hans Vanaken replaces Nicolas Raskin.",
+              "player_off": "Nicolas Raskin"
+            },
+            {
+              "kind": "substitution",
+              "minute": "58'",
+              "team": "Belgium",
+              "team_id": "459",
+              "team_side": "home",
+              "player": "Dodi Lukébakio",
+              "text": "Substitution, Belgium. Dodi Lukébakio replaces Alexis Saelemaekers.",
+              "player_off": "Alexis Saelemaekers"
+            },
+            {
+              "kind": "substitution",
+              "minute": "66'",
+              "team": "Iran",
+              "team_id": "469",
+              "team_side": "away",
+              "player": "Mehdi Torabi",
+              "text": "Substitution, IR Iran. Mehdi Torabi replaces Mohammad Mohebbi.",
+              "player_off": "Mohammad Mohebbi"
+            },
+            {
+              "kind": "substitution",
+              "minute": "66'",
+              "team": "Iran",
+              "team_id": "469",
+              "team_side": "away",
+              "player": "Milad Mohammadi",
+              "text": "Substitution, IR Iran. Milad Mohammadi replaces Ehsan Hajisafi.",
+              "player_off": "Ehsan Hajsafi"
+            },
+            {
+              "kind": "red_card",
+              "minute": "66'",
+              "team": "Belgium",
+              "team_id": "459",
+              "team_side": "home",
+              "player": "Nathan Ngoy",
+              "text": "Nathan Ngoy (Belgium) is shown the red card."
+            },
+            {
+              "kind": "substitution",
+              "minute": "73'",
+              "team": "Belgium",
+              "team_id": "459",
+              "team_side": "home",
+              "player": "Arthur Theate",
+              "text": "Substitution, Belgium. Arthur Theate replaces Romelu Lukaku.",
+              "player_off": "Romelu Lukaku"
+            },
+            {
+              "kind": "substitution",
+              "minute": "79'",
+              "team": "Iran",
+              "team_id": "469",
+              "team_side": "away",
+              "player": "Shahriyar Moghanloo",
+              "text": "Substitution, IR Iran. Shahriyar Moghanloo replaces Saman Ghoddos.",
+              "player_off": "Saman Ghoddos"
+            },
+            {
+              "kind": "substitution",
+              "minute": "85'",
+              "team": "Iran",
+              "team_id": "469",
+              "team_side": "away",
+              "player": "Amirhossein Hosseinzadeh",
+              "text": "Substitution, IR Iran. Amirhossein Hosseinzadeh replaces Saeid Ezatolahi.",
+              "player_off": "Saeid Ezatolahi"
+            }
+          ]
         },
         {
           "id": "760450",
