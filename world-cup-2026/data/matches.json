@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-21T20:52:31.290953+00:00",
+  "generated_at": "2026-06-21T21:16:08.202455+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-21T15:52:29.973461-05:00",
+  "now_local": "2026-06-21T16:16:07.301489-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -553,24 +553,6 @@
         "last_kickoff_iso": "2026-07-07"
       },
       {
-        "id": "SoFi Stadium",
-        "name": "SoFi Stadium",
-        "city": "Inglewood, California",
-        "country": "USA",
-        "match_count": 8,
-        "next_kickoff_iso": "2026-06-21",
-        "last_kickoff_iso": "2026-07-10"
-      },
-      {
-        "id": "Mercedes-Benz Stadium",
-        "name": "Mercedes-Benz Stadium",
-        "city": "Atlanta, Georgia",
-        "country": "USA",
-        "match_count": 8,
-        "next_kickoff_iso": "2026-06-21",
-        "last_kickoff_iso": "2026-07-15"
-      },
-      {
         "id": "Hard Rock Stadium",
         "name": "Hard Rock Stadium",
         "city": "Miami Gardens, Florida",
@@ -677,6 +659,24 @@
         "match_count": 6,
         "next_kickoff_iso": "2026-06-24",
         "last_kickoff_iso": "2026-07-06"
+      },
+      {
+        "id": "Mercedes-Benz Stadium",
+        "name": "Mercedes-Benz Stadium",
+        "city": "Atlanta, Georgia",
+        "country": "USA",
+        "match_count": 8,
+        "next_kickoff_iso": "2026-06-24",
+        "last_kickoff_iso": "2026-07-15"
+      },
+      {
+        "id": "SoFi Stadium",
+        "name": "SoFi Stadium",
+        "city": "Inglewood, California",
+        "country": "USA",
+        "match_count": 8,
+        "next_kickoff_iso": "2026-06-25",
+        "last_kickoff_iso": "2026-07-10"
       },
       {
         "id": "GEHA Field at Arrowhead Stadium",
@@ -1324,30 +1324,6 @@
       "entries": [
         {
           "team": {
-            "id": "2666",
-            "name": "New Zealand",
-            "name_zh": "新西兰",
-            "rank": 85,
-            "short": "New Zealand",
-            "abbr": "NZL",
-            "flag": "🇳🇿",
-            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/nzl.png"
-          },
-          "rank": 1,
-          "mp": 1,
-          "w": 0,
-          "d": 1,
-          "l": 0,
-          "gf": 2,
-          "ga": 2,
-          "gd": 0,
-          "pts": 1,
-          "advance": false,
-          "advance_label": "Advance to Round of 32",
-          "advance_color": "#81D6AC"
-        },
-        {
-          "team": {
             "id": "469",
             "name": "Iran",
             "name_zh": "伊朗",
@@ -1357,15 +1333,15 @@
             "flag": "🇮🇷",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/irn.png"
           },
-          "rank": 2,
-          "mp": 1,
+          "rank": 1,
+          "mp": 2,
           "w": 0,
-          "d": 1,
+          "d": 2,
           "l": 0,
           "gf": 2,
           "ga": 2,
           "gd": 0,
-          "pts": 1,
+          "pts": 2,
           "advance": false,
           "advance_label": "Advance to Round of 32",
           "advance_color": "#81D6AC"
@@ -1381,13 +1357,37 @@
             "flag": "🇧🇪",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/bel.png"
           },
+          "rank": 2,
+          "mp": 2,
+          "w": 0,
+          "d": 2,
+          "l": 0,
+          "gf": 1,
+          "ga": 1,
+          "gd": 0,
+          "pts": 2,
+          "advance": false,
+          "advance_label": "Advance to Round of 32",
+          "advance_color": "#81D6AC"
+        },
+        {
+          "team": {
+            "id": "2666",
+            "name": "New Zealand",
+            "name_zh": "新西兰",
+            "rank": 85,
+            "short": "New Zealand",
+            "abbr": "NZL",
+            "flag": "🇳🇿",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/nzl.png"
+          },
           "rank": 3,
           "mp": 1,
           "w": 0,
           "d": 1,
           "l": 0,
-          "gf": 1,
-          "ga": 1,
+          "gf": 2,
+          "ga": 2,
           "gd": 0,
           "pts": 1,
           "advance": false,
@@ -9387,8 +9387,8 @@
           "kickoff_local_date": "2026-06-21",
           "kickoff_time": "2:00 PM",
           "kickoff_weekday": "Sun",
-          "status": "LIVE",
-          "status_short": "86'",
+          "status": "FINAL",
+          "status_short": "FT",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -9549,6 +9549,16 @@
               "player": "Amirhossein Hosseinzadeh",
               "text": "Substitution, IR Iran. Amirhossein Hosseinzadeh replaces Saeid Ezatolahi.",
               "player_off": "Saeid Ezatolahi"
+            },
+            {
+              "kind": "substitution",
+              "minute": "87'",
+              "team": "Belgium",
+              "team_id": "459",
+              "team_side": "home",
+              "player": "Matias Fernandez-Pardo",
+              "text": "Substitution, Belgium. Matias Fernandez-Pardo replaces Kevin De Bruyne.",
+              "player_off": "Kevin De Bruyne"
             }
           ]
         },
