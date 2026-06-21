@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-21T16:40:02.982442+00:00",
+  "generated_at": "2026-06-21T17:27:43.087340+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-21T11:40:02.036015-05:00",
+  "now_local": "2026-06-21T12:27:42.213611-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -9153,7 +9153,7 @@
           "kickoff_time": "11:00 AM",
           "kickoff_weekday": "Sun",
           "status": "LIVE",
-          "status_short": "39'",
+          "status_short": "64'",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -9167,7 +9167,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/esp.png",
             "color": "c60b1e",
             "home_away": "home",
-            "score": 3,
+            "score": 4,
             "winner": false
           },
           "away": {
@@ -9236,6 +9236,95 @@
               "team_side": "away",
               "player": "Salem Al-Dawsari",
               "text": "Salem Al Dawsari (Saudi Arabia) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "substitution",
+              "minute": "45'",
+              "team": "Spain",
+              "team_id": "164",
+              "team_side": "home",
+              "player": "Yéremy Pino",
+              "text": "Substitution, Spain. Yéremy Pino replaces Lamine Yamal.",
+              "player_off": "Lamine Yamal"
+            },
+            {
+              "kind": "substitution",
+              "minute": "45'",
+              "team": "Spain",
+              "team_id": "164",
+              "team_side": "home",
+              "player": "Ferran Torres",
+              "text": "Substitution, Spain. Ferran Torres replaces Mikel Oyarzabal.",
+              "player_off": "Mikel Oyarzabal"
+            },
+            {
+              "kind": "substitution",
+              "minute": "45'",
+              "team": "Saudi Arabia",
+              "team_id": "655",
+              "team_side": "away",
+              "player": "Mohamed Kanno",
+              "text": "Substitution, Saudi Arabia. Mohamed Kanno replaces Abdullah Al Khaibari.",
+              "player_off": "Abdullah Al-Khaibari"
+            },
+            {
+              "kind": "substitution",
+              "minute": "45'",
+              "team": "Saudi Arabia",
+              "team_id": "655",
+              "team_side": "away",
+              "player": "Abdullah Al-Hamdan",
+              "text": "Substitution, Saudi Arabia. Abdullah Al Hamddan replaces Musab Al Juwayr.",
+              "player_off": "Musab Al-Juwayr"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "60'",
+              "team": "Saudi Arabia",
+              "team_id": "655",
+              "team_side": "away",
+              "player": "Mohamed Kanno",
+              "text": "Mohamed Kanno (Saudi Arabia) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "substitution",
+              "minute": "60'",
+              "team": "Saudi Arabia",
+              "team_id": "655",
+              "team_side": "away",
+              "player": "Mohammed Abu Al-Shamat",
+              "text": "Substitution, Saudi Arabia. Mohammed Abu Al Shamat replaces Feras Al Brikan.",
+              "player_off": "Feras Al-Brikan"
+            },
+            {
+              "kind": "substitution",
+              "minute": "60'",
+              "team": "Saudi Arabia",
+              "team_id": "655",
+              "team_side": "away",
+              "player": "Ala Al-Hajji",
+              "text": "Substitution, Saudi Arabia. Alaa Al Hejji replaces Abdulelah Al Amri.",
+              "player_off": "Abdulelah Al-Amri"
+            },
+            {
+              "kind": "substitution",
+              "minute": "61'",
+              "team": "Spain",
+              "team_id": "164",
+              "team_side": "home",
+              "player": "Mikel Merino",
+              "text": "Substitution, Spain. Mikel Merino replaces Dani Olmo.",
+              "player_off": "Dani Olmo"
+            },
+            {
+              "kind": "substitution",
+              "minute": "61'",
+              "team": "Spain",
+              "team_id": "164",
+              "team_side": "home",
+              "player": "Nico Williams",
+              "text": "Substitution, Spain. Nico Williams replaces Álex Baena.",
+              "player_off": "Álex Baena"
             }
           ]
         },
