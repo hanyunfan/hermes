@@ -472,6 +472,23 @@
       return `${get("year")}-${get("month")}-${get("day")}`;
     } catch { return date.toISOString().slice(0, 10); }
   }
+
+  // Weekday abbreviation, language-aware. EN: "Mon"/"Tue"/...; ZH: "周一"/"周二"/...
+  const WEEKDAY_EN_SHORT = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  const WEEKDAY_ZH_SHORT = ["周日", "周一", "周二", "周三", "周四", "周五", "周六"];
+  function weekdayShort(iso) {
+    if (!iso) return "";
+    const d = new Date(iso + "T00:00:00Z"); // ISO is YYYY-MM-DD → UTC midnight, day-of-week is stable
+    if (isNaN(d.getTime())) return "";
+    const dow = d.getUTCDay();
+    return currentLang === "zh" ? WEEKDAY_ZH_SHORT[dow] : WEEKDAY_EN_SHORT[dow];
+  }
+  // Format an ISO date with a trailing weekday abbrev, in the current language.
+  // Used for headers, range labels, and anywhere a bare "YYYY-MM-DD" is shown.
+  function formatDateWithDow(iso) {
+    if (!iso) return "";
+    return `${iso} ${weekdayShort(iso)}`;
+  }
   function addDays(iso, n) {
     const d = new Date(iso + "T00:00:00Z");
     d.setUTCDate(d.getUTCDate() + n);
@@ -822,7 +839,7 @@
       .sort((a, b) => a[0].localeCompare(b[0]))
       .map(([d, items]) => ({
         date: d,
-        label: d === today ? t("day.today", { date: d }) : d === tomorrow ? t("day.tomorrow", { date: d }) : t("day.other", { date: d }),
+        label: d === today ? t("day.today", { date: formatDateWithDow(d) }) : d === tomorrow ? t("day.tomorrow", { date: formatDateWithDow(d) }) : t("day.other", { date: formatDateWithDow(d) }),
         matches: items,
       }));
   }
@@ -1422,7 +1439,7 @@
       const totalCount = data.matches.length;
       const roundLabel = (data.round_label || {})[currentLang] || t("weekly.title");
       const rangeText = dateRange.length === 2
-        ? `${dateRange[0]} → ${dateRange[1]}`
+        ? `${formatDateWithDow(dateRange[0])} → ${formatDateWithDow(dateRange[1])}`
         : "";
       head.innerHTML = `
         <h2 class="weekly-title">${escapeHtml(t("weekly.title"))}</h2>
@@ -1517,10 +1534,10 @@
               return d.toISOString().slice(0, 10);
             })();
             const label = date === todayIso2
-              ? `${t("weekly.day.today")} · ${date}`
+              ? `${t("weekly.day.today")} · ${formatDateWithDow(date)}`
               : date === tomorrowDate
-                ? `${t("weekly.day.tomorrow")} · ${date}`
-                : date;
+                ? `${t("weekly.day.tomorrow")} · ${formatDateWithDow(date)}`
+                : formatDateWithDow(date);
             dh.textContent = label;
             section.appendChild(dh);
           }
