@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-21T03:26:00.390194+00:00",
+  "generated_at": "2026-06-21T08:14:09.429453+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-20T22:25:59.108177-05:00",
+  "now_local": "2026-06-21T03:14:08.394266-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -1213,30 +1213,6 @@
         },
         {
           "team": {
-            "id": "466",
-            "name": "Sweden",
-            "name_zh": "瑞典",
-            "rank": 38,
-            "short": "Sweden",
-            "abbr": "SWE",
-            "flag": "🇸🇪",
-            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/swe.png"
-          },
-          "rank": 2,
-          "mp": 2,
-          "w": 1,
-          "d": 0,
-          "l": 1,
-          "gf": 6,
-          "ga": 6,
-          "gd": 0,
-          "pts": 3,
-          "advance": false,
-          "advance_label": "Advance to Round of 32",
-          "advance_color": "#81D6AC"
-        },
-        {
-          "team": {
             "id": "627",
             "name": "Japan",
             "name_zh": "日本",
@@ -1246,15 +1222,39 @@
             "flag": "🇯🇵",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/jpn.png"
           },
-          "rank": 3,
-          "mp": 1,
-          "w": 0,
+          "rank": 2,
+          "mp": 2,
+          "w": 1,
           "d": 1,
           "l": 0,
-          "gf": 2,
+          "gf": 6,
           "ga": 2,
+          "gd": 4,
+          "pts": 4,
+          "advance": false,
+          "advance_label": "Advance to Round of 32",
+          "advance_color": "#81D6AC"
+        },
+        {
+          "team": {
+            "id": "466",
+            "name": "Sweden",
+            "name_zh": "瑞典",
+            "rank": 38,
+            "short": "Sweden",
+            "abbr": "SWE",
+            "flag": "🇸🇪",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/swe.png"
+          },
+          "rank": 3,
+          "mp": 2,
+          "w": 1,
+          "d": 0,
+          "l": 1,
+          "gf": 6,
+          "ga": 6,
           "gd": 0,
-          "pts": 1,
+          "pts": 3,
           "advance": false,
           "advance_label": "Best 8 advance",
           "advance_color": "#B5E7CE"
@@ -1271,13 +1271,13 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/tun.png"
           },
           "rank": 4,
-          "mp": 1,
+          "mp": 2,
           "w": 0,
           "d": 0,
-          "l": 1,
+          "l": 2,
           "gf": 1,
-          "ga": 5,
-          "gd": -4,
+          "ga": 9,
+          "gd": -8,
           "pts": 0,
           "advance": false,
           "advance_label": "Eliminated",
@@ -8315,7 +8315,7 @@
     },
     {
       "date": "2026-06-20",
-      "label": "Today",
+      "label": "Sat",
       "match_count": 4,
       "matches": [
         {
@@ -8950,8 +8950,8 @@
           "kickoff_local_date": "2026-06-20",
           "kickoff_time": "11:00 PM",
           "kickoff_weekday": "Sat",
-          "status": "SCHEDULED",
-          "status_short": "Scheduled",
+          "status": "FINAL",
+          "status_short": "FT",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -8979,8 +8979,8 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/jpn.png",
             "color": "000555",
             "home_away": "away",
-            "score": 0,
-            "winner": false
+            "score": 4,
+            "winner": true
           },
           "venue": {
             "name": "Estadio BBVA",
@@ -8994,13 +8994,155 @@
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760449/japan-tunisia",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Tunisia%20vs%20Japan",
-          "slug": "japan-at-tunisia"
+          "slug": "japan-at-tunisia",
+          "incidents": [
+            {
+              "kind": "goal",
+              "minute": "4'",
+              "team": "Japan",
+              "team_id": "627",
+              "team_side": "away",
+              "player": "Daichi Kamada",
+              "text": "Goal! Tunisia 0, Japan 1. Daichi Kamada (Japan) left footed shot from very close range to the centre of the goal. Assisted by Keito Nakamura.",
+              "assist": "Keito Nakamura"
+            },
+            {
+              "kind": "goal",
+              "minute": "31'",
+              "team": "Japan",
+              "team_id": "627",
+              "team_side": "away",
+              "player": "Ayase Ueda",
+              "text": "Goal! Tunisia 0, Japan 2. Ayase Ueda (Japan) right footed shot from the right side of the box to the bottom left corner. Assisted by Ko Itakura following a fast break.",
+              "assist": "Kou Itakura"
+            },
+            {
+              "kind": "substitution",
+              "minute": "45'",
+              "team": "Tunisia",
+              "team_id": "659",
+              "team_side": "home",
+              "player": "Ismaël Gharbi",
+              "text": "Substitution, Tunisia. Ismaël Gharbi replaces Elias Saad.",
+              "player_off": "Elias Saad"
+            },
+            {
+              "kind": "substitution",
+              "minute": "45'",
+              "team": "Tunisia",
+              "team_id": "659",
+              "team_side": "home",
+              "player": "Mohamed Amine Ben Hamida",
+              "text": "Substitution, Tunisia. Mohamed Amine Ben Hmida replaces Dylan Bronn.",
+              "player_off": "Dylan Bronn"
+            },
+            {
+              "kind": "substitution",
+              "minute": "64'",
+              "team": "Tunisia",
+              "team_id": "659",
+              "team_side": "home",
+              "player": "Firas Chaouat",
+              "text": "Substitution, Tunisia. Firas Chaouat replaces Sebastian Tounekti.",
+              "player_off": "Sebastian Tounekti"
+            },
+            {
+              "kind": "goal",
+              "minute": "69'",
+              "team": "Japan",
+              "team_id": "627",
+              "team_side": "away",
+              "player": "Junya Ito",
+              "text": "Goal! Tunisia 0, Japan 3. Junya Ito (Japan) right footed shot from the centre of the box to the bottom right corner. Assisted by Ayase Ueda with a through ball.",
+              "assist": "Ayase Ueda"
+            },
+            {
+              "kind": "substitution",
+              "minute": "73'",
+              "team": "Japan",
+              "team_id": "627",
+              "team_side": "away",
+              "player": "Junnosuke Suzuki",
+              "text": "Substitution, Japan. Junnosuke Suzuki replaces Daichi Kamada.",
+              "player_off": "Daichi Kamada"
+            },
+            {
+              "kind": "substitution",
+              "minute": "74'",
+              "team": "Japan",
+              "team_id": "627",
+              "team_side": "away",
+              "player": "Yukinari Sugawara",
+              "text": "Substitution, Japan. Yukinari Sugawara replaces Ritsu Doan.",
+              "player_off": "Ritsu Doan"
+            },
+            {
+              "kind": "substitution",
+              "minute": "79'",
+              "team": "Japan",
+              "team_id": "627",
+              "team_side": "away",
+              "player": "Yuito Suzuki",
+              "text": "Substitution, Japan. Yuito Suzuki replaces Keito Nakamura.",
+              "player_off": "Keito Nakamura"
+            },
+            {
+              "kind": "substitution",
+              "minute": "79'",
+              "team": "Japan",
+              "team_id": "627",
+              "team_side": "away",
+              "player": "Ayumu Seko",
+              "text": "Substitution, Japan. Ayumu Seko replaces Takehiro Tomiyasu.",
+              "player_off": "Takehiro Tomiyasu"
+            },
+            {
+              "kind": "goal",
+              "minute": "83'",
+              "team": "Japan",
+              "team_id": "627",
+              "team_side": "away",
+              "player": "Ayase Ueda",
+              "text": "Goal! Tunisia 0, Japan 4. Ayase Ueda (Japan) header from the centre of the box to the bottom right corner. Assisted by Kaishu Sano with a cross.",
+              "assist": "Kaishu Sano"
+            },
+            {
+              "kind": "substitution",
+              "minute": "84'",
+              "team": "Japan",
+              "team_id": "627",
+              "team_side": "away",
+              "player": "Keisuke Goto",
+              "text": "Substitution, Japan. Keisuke Goto replaces Ayase Ueda.",
+              "player_off": "Ayase Ueda"
+            },
+            {
+              "kind": "substitution",
+              "minute": "90'+1'",
+              "team": "Tunisia",
+              "team_id": "659",
+              "team_side": "home",
+              "player": "Rani Khedira",
+              "text": "Substitution, Tunisia. Rani Khedira replaces Ellyes Skhiri.",
+              "player_off": "Ellyes Skhiri"
+            },
+            {
+              "kind": "substitution",
+              "minute": "90'+1'",
+              "team": "Tunisia",
+              "team_id": "659",
+              "team_side": "home",
+              "player": "Elias Achouri",
+              "text": "Substitution, Tunisia. Elias Achouri replaces Ali Abdi.",
+              "player_off": "Ali Abdi"
+            }
+          ]
         }
       ]
     },
     {
       "date": "2026-06-21",
-      "label": "Tomorrow",
+      "label": "Today",
       "match_count": 4,
       "matches": [
         {
@@ -9219,7 +9361,7 @@
     },
     {
       "date": "2026-06-22",
-      "label": "Mon",
+      "label": "Tomorrow",
       "match_count": 4,
       "matches": [
         {
