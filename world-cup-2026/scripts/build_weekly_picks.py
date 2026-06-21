@@ -111,6 +111,48 @@ def _kickoff_local_date(m: dict, tz: ZoneInfo) -> date | None:
         return None
 
 
+def detect_current_stage(matches_doc: dict, today_d: date) -> str | None:
+    """Pick the tournament stage that the current/next picks digest
+    should cover.
+
+    Logic (in order):
+      1. The stage whose date range contains today (in-progress).
+         Ties broken by latest first-kickoff (deeper rounds win).
+      2. The next stage with first-kickoff > today (upcoming).
+      3. None if no matches are scheduled.
+
+    This lets the CI run `build_weekly_picks.py` with no args and
+    have it always target the round the user actually wants to see,
+    instead of mis-firing a 6-day window that mixes adjacent stages.
+    """
+    tz = ZoneInfo("America/Chicago")  # stage detection uses CT calendar dates
+    first_kickoff: dict[str, date] = {}
+    last_kickoff: dict[str, date] = {}
+    for day_block in matches_doc.get("days", []):
+        for m in day_block.get("matches", []):
+            stage = m.get("stage_slug")
+            if not stage:
+                continue
+            d = _kickoff_local_date(m, tz)
+            if d is None:
+                continue
+            cur_first = first_kickoff.get(stage)
+            if cur_first is None or d < cur_first:
+                first_kickoff[stage] = d
+            cur_last = last_kickoff.get(stage)
+            if cur_last is None or d > cur_last:
+                last_kickoff[stage] = d
+
+    in_progress = [s for s, lo in first_kickoff.items()
+                   if lo <= today_d <= last_kickoff[s]]
+    if in_progress:
+        return max(in_progress, key=lambda s: first_kickoff[s])
+    upcoming = [s for s in first_kickoff if first_kickoff[s] > today_d]
+    if upcoming:
+        return min(upcoming, key=lambda s: first_kickoff[s])
+    return None
+
+
 def collect_round_matches(
     matches_doc: dict,
     tz_name: str,
@@ -128,7 +170,7 @@ def collect_round_matches(
     If `stage_filter` is set (e.g. "round-of-32"), only matches
     whose stage_slug matches are returned, and the date window is
     widened to cover the whole stage (looking back from today
-    AND ahead up to +60 days) so a single round is captured
+    AND ahead up to +90 days) so a single round is captured
     cleanly even mid-tournament.
     """
     tz = ZoneInfo(tz_name)
@@ -494,6 +536,45 @@ def is_manually_enriched(match: dict) -> bool:
     return bool(match.get("headline_zh") or match.get("headline_en"))
 
 
+# Tournament stages in chronological order. The "later" a stage,
+# the deeper in the bracket — used to decide whether the existing
+# file's picks are for a later round than the auto-detected current
+# one (in which case we should NOT overwrite).
+STAGE_ORDER = [
+    "group-stage",
+    "round-of-32",
+    "round-of-16",
+    "quarterfinals",
+    "semifinals",
+    "3rd-place-match",
+    "final",
+]
+
+
+def stage_index(stage_slug: str | None) -> int:
+    if not stage_slug:
+        return -1
+    try:
+        return STAGE_ORDER.index(stage_slug)
+    except ValueError:
+        return -1
+
+
+def existing_round_stage(existing: dict | None) -> str | None:
+    """Read the stage_slug of the existing file's round, if any.
+
+    Falls back to the first match's stage_slug if round_label is
+    not informative (e.g. group-stage is a single stage with
+    multiple matchdays inside, so the stage is encoded per-match).
+    """
+    if not existing:
+        return None
+    matches = existing.get("matches") or []
+    if matches and matches[0].get("stage_slug"):
+        return matches[0]["stage_slug"]
+    return None
+
+
 # ── main builder ───────────────────────────────────────────────
 def build(matches_doc: dict, tz_name: str, force: bool = False, window_days: int = ROUND_WINDOW_DAYS, stage_filter_override: str | None = None) -> dict:
     tz = ZoneInfo(tz_name)
@@ -503,7 +584,14 @@ def build(matches_doc: dict, tz_name: str, force: bool = False, window_days: int
     _doc_cache_set(matches_doc)
 
     standings_idx = build_group_index(matches_doc)
-    stage_filter = stage_filter_override  # bound by caller
+    # Auto-pick the current stage if caller didn't pass --stage.
+    # The CI calls this script with no args; without auto-detect
+    # the 6-day window would skip the upcoming R32 (first kickoff
+    # +7 days from today) and the script would build MD3 picks
+    # and wipe any existing R32 manual enrichment.
+    stage_filter = stage_filter_override
+    if stage_filter is None:
+        stage_filter = detect_current_stage(matches_doc, today_local)
     round_matches = collect_round_matches(
         matches_doc, tz_name, today_local,
         window_days=window_days,
@@ -537,6 +625,30 @@ def build(matches_doc: dict, tz_name: str, force: bool = False, window_days: int
         tuple((existing or {}).get("round_date_range") or []),
     )
     round_changed = existing_round_key != new_round_key
+
+    # Guard: if the existing file is for a LATER stage in the
+    # tournament than what we just auto-detected, the user has
+    # pre-staged future-round picks and we must not overwrite them
+    # with current-round picks. Skip the build entirely and let
+    # the existing file stand.
+    # Applies only to auto-detect (no explicit --stage). When the
+    # caller passes --stage explicitly, they're saying exactly what
+    # they want — let --force be the universal "I really mean it" knob.
+    existing_stage = existing_round_stage(existing)
+    if (
+        not force
+        and stage_filter_override is None
+        and existing
+        and stage_index(existing_stage) > stage_index(stage_filter or "")
+    ):
+        print(
+            f"skip: existing file is for stage '{existing_stage}', "
+            f"auto-detect says current stage is '{stage_filter}' — "
+            f"leaving weekly-picks.json alone (use --stage {existing_stage} to refresh, "
+            f"or --force to overwrite)",
+            file=sys.stderr,
+        )
+        return existing
 
     out_matches = []
     for m in round_matches:
