@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-21T08:14:09.429453+00:00",
+  "generated_at": "2026-06-21T16:40:02.982442+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-21T03:14:08.394266-05:00",
+  "now_local": "2026-06-21T11:40:02.036015-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -8015,9 +8015,9 @@
               "team": "Haiti",
               "team_id": "2654",
               "team_side": "away",
-              "player": "Dominique Simon",
-              "text": "Substitution, Haiti. Dominique Simon replaces Carlens Arcus.",
-              "player_off": "Carlens Arcus"
+              "player": "Wilson Isidor",
+              "text": "Substitution, Haiti. Wilson Isidor replaces Frantzdy Pierrot.",
+              "player_off": "Frantzdy Pierrot"
             },
             {
               "kind": "substitution",
@@ -8025,9 +8025,9 @@
               "team": "Haiti",
               "team_id": "2654",
               "team_side": "away",
-              "player": "Wilson Isidor",
-              "text": "Substitution, Haiti. Wilson Isidor replaces Frantzdy Pierrot.",
-              "player_off": "Frantzdy Pierrot"
+              "player": "Dominique Simon",
+              "text": "Substitution, Haiti. Dominique Simon replaces Carlens Arcus.",
+              "player_off": "Carlens Arcus"
             },
             {
               "kind": "substitution",
@@ -9152,8 +9152,8 @@
           "kickoff_local_date": "2026-06-21",
           "kickoff_time": "11:00 AM",
           "kickoff_weekday": "Sun",
-          "status": "SCHEDULED",
-          "status_short": "Scheduled",
+          "status": "LIVE",
+          "status_short": "39'",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -9167,7 +9167,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/esp.png",
             "color": "c60b1e",
             "home_away": "home",
-            "score": 0,
+            "score": 3,
             "winner": false
           },
           "away": {
@@ -9194,9 +9194,50 @@
             "Tele",
             "FOX One"
           ],
-          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760453/saudi-arabia-spain",
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760453/saudi arabia-spain",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Spain%20vs%20Saudi%20Arabia",
-          "slug": "saudi arabia-at-spain"
+          "slug": "saudi arabia-at-spain",
+          "incidents": [
+            {
+              "kind": "goal",
+              "minute": "10'",
+              "team": "Spain",
+              "team_id": "164",
+              "team_side": "home",
+              "player": "Lamine Yamal",
+              "text": "Goal! Spain 1, Saudi Arabia 0. Lamine Yamal (Spain) right footed shot from the right side of the six yard box to the bottom right corner. Assisted by Mikel Oyarzabal with a cross following a fast break.",
+              "assist": "Mikel Oyarzabal"
+            },
+            {
+              "kind": "goal",
+              "minute": "21'",
+              "team": "Spain",
+              "team_id": "164",
+              "team_side": "home",
+              "player": "Mikel Oyarzabal",
+              "text": "Goal! Spain 2, Saudi Arabia 0. Mikel Oyarzabal (Spain) left footed shot from the left side of the six yard box to the bottom right corner. Assisted by Aymeric Laporte with a headed pass following a corner.",
+              "assist": "Aymeric Laporte"
+            },
+            {
+              "kind": "goal",
+              "minute": "24'",
+              "team": "Spain",
+              "team_id": "164",
+              "team_side": "home",
+              "player": "Mikel Oyarzabal",
+              "text": "Goal! Spain 3, Saudi Arabia 0. Mikel Oyarzabal (Spain) left footed shot from very close range to the top right corner. Assisted by Dani Olmo with a headed pass.",
+              "assist": "Dani Olmo"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "30'",
+              "team": "Saudi Arabia",
+              "team_id": "655",
+              "team_side": "away",
+              "player": "Salem Al-Dawsari",
+              "text": "Salem Al Dawsari (Saudi Arabia) is shown the yellow card for a bad foul."
+            }
+          ]
         },
         {
           "id": "760451",
