@@ -116,6 +116,7 @@ def collect_round_matches(
     tz_name: str,
     today_d: date,
     window_days: int = ROUND_WINDOW_DAYS,
+    stage_filter: str | None = None,
 ) -> list[dict]:
     """Return matches in the current round window.
 
@@ -123,16 +124,31 @@ def collect_round_matches(
     We include SCHEDULED, LIVE, and FINAL matches so post-game
     analysis stays visible for matches earlier in the window.
     Skip HALFTIME / POSTPONED / CANCELED.
+
+    If `stage_filter` is set (e.g. "round-of-32"), only matches
+    whose stage_slug matches are returned, and the date window is
+    widened to cover the whole stage (looking back from today
+    AND ahead up to +60 days) so a single round is captured
+    cleanly even mid-tournament.
     """
     tz = ZoneInfo(tz_name)
-    end_d = today_d + timedelta(days=window_days - 1)
+    # Stage-filtered mode: span the whole stage, anchored to today.
+    # -60d captures any in-progress stage; +90d covers the rest of WC.
+    if stage_filter:
+        start_d = today_d - timedelta(days=60)
+        end_d = today_d + timedelta(days=90)
+    else:
+        start_d = today_d
+        end_d = today_d + timedelta(days=window_days - 1)
     out = []
     for day_block in matches_doc.get("days", []):
         for m in day_block.get("matches", []):
+            if stage_filter and m.get("stage_slug") != stage_filter:
+                continue
             d = _kickoff_local_date(m, tz)
             if d is None:
                 continue
-            if today_d <= d <= end_d:
+            if start_d <= d <= end_d:
                 if m.get("status") in ("HALFTIME", "POSTPONED", "CANCELED"):
                     continue
                 out.append(m)
@@ -479,7 +495,7 @@ def is_manually_enriched(match: dict) -> bool:
 
 
 # ── main builder ───────────────────────────────────────────────
-def build(matches_doc: dict, tz_name: str, force: bool = False, window_days: int = ROUND_WINDOW_DAYS) -> dict:
+def build(matches_doc: dict, tz_name: str, force: bool = False, window_days: int = ROUND_WINDOW_DAYS, stage_filter_override: str | None = None) -> dict:
     tz = ZoneInfo(tz_name)
     now_local = datetime.now(tz)
     today_local = now_local.date()
@@ -487,7 +503,12 @@ def build(matches_doc: dict, tz_name: str, force: bool = False, window_days: int
     _doc_cache_set(matches_doc)
 
     standings_idx = build_group_index(matches_doc)
-    round_matches = collect_round_matches(matches_doc, tz_name, today_local, window_days=window_days)
+    stage_filter = stage_filter_override  # bound by caller
+    round_matches = collect_round_matches(
+        matches_doc, tz_name, today_local,
+        window_days=window_days,
+        stage_filter=stage_filter,
+    )
     # Cap picks per round.
     if len(round_matches) > ROUND_MAX_MATCHES:
         # Score first, then kickoff time, then take the top N.
@@ -638,6 +659,9 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--out", dest="out_path", default=str(OUTPUT_PATH), help="path to weekly-picks.json")
     parser.add_argument("--force", action="store_true", help="ignore existing manual enrichment")
     parser.add_argument("--window", type=int, default=None, help="override round-window auto-detect (days)")
+    parser.add_argument("--stage", dest="stage", default=None,
+                        help="filter to a specific stage_slug (e.g. 'round-of-32', 'group-stage'). "
+                             "When set, the date window is widened to span the whole stage.")
     parser.add_argument("--dry-run", action="store_true", help="print JSON to stdout, don't write")
     args = parser.parse_args(argv)
 
@@ -648,7 +672,12 @@ def main(argv: list[str] | None = None) -> int:
         return 2
 
     matches_doc = load_matches(in_path)
-    doc = build(matches_doc, args.tz, force=args.force, window_days=args.window or ROUND_WINDOW_DAYS)
+    doc = build(
+        matches_doc, args.tz,
+        force=args.force,
+        window_days=args.window or ROUND_WINDOW_DAYS,
+        stage_filter_override=args.stage,
+    )
 
     if args.dry_run:
         print(json.dumps(doc, ensure_ascii=False, indent=2))
@@ -663,7 +692,7 @@ def main(argv: list[str] | None = None) -> int:
     print(
         f"wrote {out_path} ({doc['match_count']} matches, "
         f"{doc['manual_count']} manually enriched, "
-        f"round={label_en}, dates={rng[0]}..{rng[1]})"
+        f"round={label_en}, dates={rng[0]}..{rng[1]}, stage_filter={args.stage or 'auto'})"
     )
     return 0
 
