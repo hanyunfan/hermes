@@ -1326,13 +1326,102 @@
   // refreshed by scripts/build_ai_recommend.py and curated by hand).
   // The view degrades gracefully: missing file → "no picks yet"
   // empty state; stale date → "these picks are from {date}".
+  //
+  // v2 schema supports multiple rounds per file. The user picks
+  // which round to view via a pill row above the picks; the
+  // selection is remembered in localStorage.
   // ────────────────────────────────────────────────────────────
   const WEEKLY_JSON_URL = "data/weekly-picks.json";
   const WEEKLY_CACHE_KEY = "wc2026.weekly.v1";
   const WEEKLY_CACHE_TTL_MS = 5 * 60 * 1000;
+  const WEEKLY_ROUND_KEY = "wc2026.weekly.round";
 
   let weeklyData = null;
   let weeklyLoading = false;
+  let weeklyRounds = [];      // normalized round list
+  let weeklySelectedIdx = 0;  // index into weeklyRounds
+
+  function normalizeWeeklyRounds(raw) {
+    if (!raw) return [];
+    // v2: {schema_version:2, rounds:[{...}]}
+    if (raw.schema_version === 2 && Array.isArray(raw.rounds)) {
+      return raw.rounds.map((r) => ({
+        round_id: r.round_id || r.round_label?.zh || "round",
+        stage_slug: r.stage_slug || (r.matches?.[0]?.stage_slug) || null,
+        round_label: r.round_label || { zh: "本轮", en: "This round" },
+        round_date_range: r.round_date_range || [],
+        round_intro_zh: r.round_intro_zh || null,
+        round_intro_en: r.round_intro_en || null,
+        manual_count: r.manual_count || 0,
+        last_manual_update: r.last_manual_update || null,
+        matches: r.matches || [],
+      }));
+    }
+    // v1 (legacy): single round at top level. Wrap it as a one-round list.
+    if (Array.isArray(raw.matches)) {
+      return [{
+        round_id: "v1",
+        stage_slug: raw.matches[0]?.stage_slug || null,
+        round_label: raw.round_label || { zh: "本轮", en: "This round" },
+        round_date_range: raw.round_date_range || [],
+        round_intro_zh: raw.round_intro_zh || null,
+        round_intro_en: raw.round_intro_en || null,
+        manual_count: raw.manual_count || 0,
+        last_manual_update: raw.last_manual_update || null,
+        matches: raw.matches,
+      }];
+    }
+    return [];
+  }
+
+  function pickDefaultRoundIdx(rounds, todayIso) {
+    if (!rounds.length) return -1;
+    const today = new Date(todayIso + "T00:00:00Z").getTime();
+
+    // Bucket rounds by date-status; weight by whether they have
+    // manual content (the analyst-written prose). A round with 0
+    // manual entries is just an auto-built skeleton — useful for
+    // reference, but the user usually wants to see the round they
+    // (or the analyst) actually wrote prose for.
+    const scoreRound = (r) => {
+      const has = (r.manual_count || 0) > 0 ? 1 : 0;
+      // Use the latest kickoff date as a stable recency tiebreaker.
+      const lo = (r.round_date_range || [])[0] || "";
+      return [has, lo];
+    };
+    const inProgress = [], finished = [], upcoming = [];
+    rounds.forEach((r, i) => {
+      const rng = r.round_date_range || [];
+      if (rng.length < 2) return;
+      const lo = new Date(rng[0] + "T00:00:00Z").getTime();
+      const hi = new Date(rng[1] + "T00:00:00Z").getTime();
+      if (lo <= today && today <= hi) inProgress.push({ i, lo });
+      else if (hi < today) finished.push({ i, hi });
+      else upcoming.push({ i, lo });
+    });
+    const pickFrom = (arr) => {
+      if (!arr.length) return -1;
+      arr.sort((a, b) => {
+        const sa = scoreRound(rounds[a.i]);
+        const sb = scoreRound(rounds[b.i]);
+        // Sort by [has_manual desc, lo desc] — has_manual first.
+        if (sa[0] !== sb[0]) return sb[0] - sa[0];
+        return b.lo - a.lo;
+      });
+      return arr[0].i;
+    };
+    return pickFrom(inProgress) >= 0 ? pickFrom(inProgress)
+         : pickFrom(finished)   >= 0 ? pickFrom(finished)
+         : pickFrom(upcoming)   >= 0 ? pickFrom(upcoming)
+         : 0;
+  }
+
+  function weeklyRoundShortLabel(r, lang) {
+    const lbl = (r.round_label || {})[lang] || r.round_label?.zh || "—";
+    const rng = r.round_date_range || [];
+    if (rng.length < 2) return lbl;
+    return `${lbl} · ${formatDateWithDow(rng[0])}`;
+  }
 
   async function loadWeekly(force = false) {
     if (!force && weeklyData) return weeklyData;
@@ -1411,159 +1500,210 @@
     placeholder.textContent = t("loading");
     content.appendChild(placeholder);
 
-    loadWeekly().then((data) => {
+    loadWeekly().then((raw) => {
       content.innerHTML = "";
       const countEl2 = $("#result-count");
       if (countEl2) countEl2.textContent = "";
 
-      // Empty / missing file
-      if (!data || !data.matches || data.matches.length === 0) {
+      // Normalize v1 (single round) or v2 (rounds[]) into a uniform list.
+      weeklyData = raw;
+      weeklyRounds = normalizeWeeklyRounds(raw);
+
+      if (weeklyRounds.length === 0) {
         renderWeeklyEmpty(content);
         return;
       }
 
-      // Stale-round check: if the picks' date range is fully in the
-      // past, show a banner.
+      // Pick the round to show: user's saved preference (if still
+      // exists) wins; otherwise the default (in-progress → recent
+      // finished → next upcoming → 0).
       const tz = currentTz();
       const todayIso = dateInTz(new Date(), tz);
-      const dateRange = data.round_date_range || [];
-      const isStale = dateRange.length === 2 && dateRange[1] < todayIso;
-
-      const wrap = document.createElement("section");
-      wrap.className = "weekly-section";
-
-      // Header
-      const head = document.createElement("header");
-      head.className = "weekly-head";
-      const manual = data.manual_count > 0 ? weeklyLastManualLabel(data) : null;
-      const totalCount = data.matches.length;
-      const roundLabel = (data.round_label || {})[currentLang] || t("weekly.title");
-      const rangeText = dateRange.length === 2
-        ? `${formatDateWithDow(dateRange[0])} → ${formatDateWithDow(dateRange[1])}`
-        : "";
-      head.innerHTML = `
-        <h2 class="weekly-title">${escapeHtml(t("weekly.title"))}</h2>
-        <p class="weekly-round-label">${escapeHtml(roundLabel)}${rangeText ? ` <span class="weekly-round-range">· ${escapeHtml(rangeText)}</span>` : ""}</p>
-        <p class="weekly-hint">${escapeHtml(t("weekly.hint"))}</p>
-        <p class="weekly-meta">
-          <span class="weekly-meta-count">${escapeHtml(t("n.matches", { n: totalCount }))}</span>
-          ${manual ? `<span class="weekly-meta-dot">·</span><span class="weekly-meta-manual">${escapeHtml(manual)}</span>` : ""}
-        </p>
-      `;
-      wrap.appendChild(head);
-
-      // Stale-date banner
-      if (isStale) {
-        const banner = document.createElement("div");
-        banner.className = "weekly-stale";
-        banner.innerHTML = `
-          <strong>${escapeHtml(t("weekly.stale.title", { round: roundLabel }))}</strong>
-          <span class="weekly-stale-hint">${escapeHtml(t("weekly.stale.hint"))}</span>
-        `;
-        wrap.appendChild(banner);
-      }
-
-      // Round intro (manual, optional)
-      const intro = currentLang === "zh" ? data.round_intro_zh : data.round_intro_en;
-      if (intro) {
-        const p = document.createElement("div");
-        p.className = "weekly-intro";
-        // Allow multi-paragraph intros (\n\n splits). Lightweight
-        // markdown-ish handling: paragraphs separated by blank lines.
-        const paragraphs = String(intro).split(/\n\s*\n/).map((para) =>
-          `<p>${escapeHtml(para).replace(/\n/g, "<br/>")}</p>`
-        ).join("");
-        p.innerHTML = paragraphs;
-        wrap.appendChild(p);
-      }
-
-      // Manual in-progress hint
-      if (data.manual_count > 0 && data.manual_count < totalCount) {
-        const note = document.createElement("p");
-        note.className = "weekly-partial";
-        note.textContent = t("weekly.manual.partial", { n: data.manual_count, total: totalCount });
-        wrap.appendChild(note);
-      }
-
-      // Group matches by verdict. Within each bucket, group by date
-      // so the user can see "what's on tomorrow" at a glance.
-      const buckets = {
-        must:   { items: [] },
-        lively: { items: [] },
-        skip:   { items: [] },
-      };
-      for (const m of data.matches) {
-        const v = m.verdict || m.stakes_verdict_auto || "lively";
-        if (!buckets[v]) buckets[v] = { items: [] };
-        buckets[v].items.push(m);
-      }
-      const bucketOrder = ["must", "lively", "skip"];
-      const todayIso2 = todayIso;
-      for (const key of bucketOrder) {
-        const b = buckets[key];
-        if (!b.items.length) continue;
-        const section = document.createElement("section");
-        section.className = `weekly-bucket weekly-bucket--${key}`;
-        const bhead = document.createElement("header");
-        bhead.className = "weekly-bucket-head";
-        const verdictLabel =
-          key === "must" ? t("weekly.verdict.must")
-          : key === "lively" ? t("weekly.verdict.lively")
-          : t("weekly.verdict.skip");
-        bhead.innerHTML = `<span class="weekly-bucket-title">${escapeHtml(verdictLabel)}</span><span class="weekly-bucket-count">${b.items.length}</span>`;
-        section.appendChild(bhead);
-
-        // Group within bucket by local kickoff date, preserving the
-        // overall sort (must > lively > skip, then by time).
-        const byDate = new Map();
-        for (const m of b.items) {
-          const d = m.kickoff_local_date || m.kickoff_utc?.slice(0, 10) || "—";
-          if (!byDate.has(d)) byDate.set(d, []);
-          byDate.get(d).push(m);
-        }
-        const showDateHeader = byDate.size > 1;
-        for (const [date, items] of byDate) {
-          if (showDateHeader) {
-            const dh = document.createElement("div");
-            dh.className = "weekly-day-head";
-            // Compute "tomorrow" once per render. Use a non-shadowing
-            // var name so the outer `t` i18n function stays reachable.
-            const tomorrowDate = (() => {
-              const d = new Date(todayIso2 + "T00:00:00Z");
-              d.setUTCDate(d.getUTCDate() + 1);
-              return d.toISOString().slice(0, 10);
-            })();
-            const label = date === todayIso2
-              ? `${t("weekly.day.today")} · ${formatDateWithDow(date)}`
-              : date === tomorrowDate
-                ? `${t("weekly.day.tomorrow")} · ${formatDateWithDow(date)}`
-                : formatDateWithDow(date);
-            dh.textContent = label;
-            section.appendChild(dh);
-          }
-          const list = document.createElement("ul");
-          list.className = "weekly-list";
-          list.setAttribute("role", "list");
-          for (const m of items) list.appendChild(buildWeeklyCard(m));
-          section.appendChild(list);
-        }
-        wrap.appendChild(section);
-      }
-
-      // Manual note (footer of analyst)
-      const note = currentLang === "zh" ? data.manual_note_zh : data.manual_note_en;
-      if (note) {
-        const p = document.createElement("p");
-        p.className = "weekly-foot-note";
-        p.textContent = note;
-        wrap.appendChild(p);
-      }
-
-      content.appendChild(wrap);
+      let savedId = null;
+      try { savedId = localStorage.getItem(WEEKLY_ROUND_KEY); } catch {}
+      let idx = weeklyRounds.findIndex((r) => r.round_id === savedId);
+      if (idx < 0) idx = pickDefaultRoundIdx(weeklyRounds, todayIso);
+      if (idx < 0) idx = 0;
+      weeklySelectedIdx = idx;
+      renderWeeklyRound(content, weeklyRounds[idx], todayIso, tz);
     }).catch((err) => {
-      content.innerHTML = "";
       renderWeeklyEmpty(content, err);
     });
+  }
+
+  function renderWeeklyRound(content, round, todayIso, tz) {
+    // Empty-round fallback.
+    if (!round || !round.matches || round.matches.length === 0) {
+      renderWeeklyEmpty(content);
+      return;
+    }
+
+    // Round selector (pill row). Only render when there's more than 1
+    // round in the file; otherwise the title is enough.
+    if (weeklyRounds.length > 1) {
+      const picker = document.createElement("div");
+      picker.className = "weekly-round-picker";
+      picker.setAttribute("role", "tablist");
+      picker.setAttribute("aria-label", "Round");
+      for (let i = 0; i < weeklyRounds.length; i++) {
+        const r = weeklyRounds[i];
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "weekly-round-pill" + (i === weeklySelectedIdx ? " is-active" : "");
+        btn.setAttribute("role", "tab");
+        btn.setAttribute("aria-selected", String(i === weeklySelectedIdx));
+        btn.dataset.idx = String(i);
+        btn.textContent = weeklyRoundShortLabel(r, currentLang);
+        btn.addEventListener("click", () => {
+          if (i === weeklySelectedIdx) return;
+          weeklySelectedIdx = i;
+          try { localStorage.setItem(WEEKLY_ROUND_KEY, r.round_id); } catch {}
+          // Re-render in place.
+          const newContent = $("#content");
+          newContent.innerHTML = "";
+          renderWeeklyRound(newContent, weeklyRounds[i], todayIso, tz);
+        });
+        picker.appendChild(btn);
+      }
+      content.appendChild(picker);
+    }
+
+    // Stale-round banner: if the picks' date range is fully in the past.
+    const dateRange = round.round_date_range || [];
+    const isStale = dateRange.length === 2 && dateRange[1] < todayIso;
+
+    const wrap = document.createElement("section");
+    wrap.className = "weekly-section";
+
+    // Header
+    const head = document.createElement("header");
+    head.className = "weekly-head";
+    const totalCount = round.matches.length;
+    const roundLabel = (round.round_label || {})[currentLang] || t("weekly.title");
+    const rangeText = dateRange.length === 2
+      ? `${formatDateWithDow(dateRange[0])} → ${formatDateWithDow(dateRange[1])}`
+      : "";
+    const manualLabel = round.last_manual_update
+      ? weeklyLastManualLabel({ last_manual_update: round.last_manual_update })
+      : null;
+    const showManual = round.manual_count > 0 && manualLabel;
+    head.innerHTML = `
+      <h2 class="weekly-title">${escapeHtml(t("weekly.title"))}</h2>
+      <p class="weekly-round-label">${escapeHtml(roundLabel)}${rangeText ? ` <span class="weekly-round-range">· ${escapeHtml(rangeText)}</span>` : ""}</p>
+      <p class="weekly-hint">${escapeHtml(t("weekly.hint"))}</p>
+      <p class="weekly-meta">
+        <span class="weekly-meta-count">${escapeHtml(t("n.matches", { n: totalCount }))}</span>
+        ${showManual ? `<span class="weekly-meta-dot">·</span><span class="weekly-meta-manual">${escapeHtml(manualLabel)}</span>` : ""}
+      </p>
+    `;
+    wrap.appendChild(head);
+
+    // Stale-date banner
+    if (isStale) {
+      const banner = document.createElement("div");
+      banner.className = "weekly-stale";
+      banner.innerHTML = `
+        <strong>${escapeHtml(t("weekly.stale.title", { round: roundLabel }))}</strong>
+        <span class="weekly-stale-hint">${escapeHtml(t("weekly.stale.hint"))}</span>
+      `;
+      wrap.appendChild(banner);
+    }
+
+    // Round intro (manual, optional)
+    const intro = currentLang === "zh" ? round.round_intro_zh : round.round_intro_en;
+    if (intro) {
+      const p = document.createElement("div");
+      p.className = "weekly-intro";
+      // Allow multi-paragraph intros (\n\n splits). Lightweight
+      // markdown-ish handling: paragraphs separated by blank lines.
+      const paragraphs = String(intro).split(/\n\s*\n/).map((para) =>
+        `<p>${escapeHtml(para).replace(/\n/g, "<br/>")}</p>`
+      ).join("");
+      p.innerHTML = paragraphs;
+      wrap.appendChild(p);
+    }
+
+    // Manual in-progress hint
+    if (round.manual_count > 0 && round.manual_count < totalCount) {
+      const note = document.createElement("p");
+      note.className = "weekly-partial";
+      note.textContent = t("weekly.manual.partial", { n: round.manual_count, total: totalCount });
+      wrap.appendChild(note);
+    }
+
+    // Group matches by verdict. Within each bucket, group by date
+    // so the user can see "what's on tomorrow" at a glance.
+    const buckets = {
+      must:   { items: [] },
+      lively: { items: [] },
+      skip:   { items: [] },
+    };
+    for (const m of round.matches) {
+      const v = m.verdict || m.stakes_verdict_auto || "lively";
+      if (!buckets[v]) buckets[v] = { items: [] };
+      buckets[v].items.push(m);
+    }
+    const bucketOrder = ["must", "lively", "skip"];
+    const todayIso2 = todayIso;
+    for (const key of bucketOrder) {
+      const b = buckets[key];
+      if (!b.items.length) continue;
+      const section = document.createElement("section");
+      section.className = `weekly-bucket weekly-bucket--${key}`;
+      const bhead = document.createElement("header");
+      bhead.className = "weekly-bucket-head";
+      const verdictLabel =
+        key === "must" ? t("weekly.verdict.must")
+        : key === "lively" ? t("weekly.verdict.lively")
+        : t("weekly.verdict.skip");
+      bhead.innerHTML = `<span class="weekly-bucket-title">${escapeHtml(verdictLabel)}</span><span class="weekly-bucket-count">${b.items.length}</span>`;
+      section.appendChild(bhead);
+
+      // Group within bucket by local kickoff date, preserving the
+      // overall sort (must > lively > skip, then by time).
+      const byDate = new Map();
+      for (const m of b.items) {
+        const d = m.kickoff_local_date || m.kickoff_utc?.slice(0, 10) || "—";
+        if (!byDate.has(d)) byDate.set(d, []);
+        byDate.get(d).push(m);
+      }
+      const showDateHeader = byDate.size > 1;
+      for (const [date, items] of byDate) {
+        if (showDateHeader) {
+          const dh = document.createElement("div");
+          dh.className = "weekly-day-head";
+          const tomorrowDate = (() => {
+            const d = new Date(todayIso2 + "T00:00:00Z");
+            d.setUTCDate(d.getUTCDate() + 1);
+            return d.toISOString().slice(0, 10);
+          })();
+          const label = date === todayIso2
+            ? `${t("weekly.day.today")} · ${formatDateWithDow(date)}`
+            : date === tomorrowDate
+              ? `${t("weekly.day.tomorrow")} · ${formatDateWithDow(date)}`
+              : formatDateWithDow(date);
+          dh.textContent = label;
+          section.appendChild(dh);
+        }
+        const list = document.createElement("ul");
+        list.className = "weekly-list";
+        list.setAttribute("role", "list");
+        for (const m of items) list.appendChild(buildWeeklyCard(m));
+        section.appendChild(list);
+      }
+      wrap.appendChild(section);
+    }
+
+    // Manual note (footer of analyst)
+    const note = currentLang === "zh" ? round.manual_note_zh : round.manual_note_en;
+    if (note) {
+      const p = document.createElement("p");
+      p.className = "weekly-foot-note";
+      p.textContent = note;
+      wrap.appendChild(p);
+    }
+
+    content.appendChild(wrap);
   }
 
   function renderWeeklyEmpty(content, err) {

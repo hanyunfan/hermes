@@ -1796,7 +1796,40 @@ body {
   }
 }
 
-/* ─── Weekly Picks view ─────────────────────────────────── */
+/* ─── Weekly Picks view ─────────────────────────────────────── */
+.weekly-round-picker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: center;
+  margin: 0 0 16px;
+  padding: 4px;
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.weekly-round-pill {
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--text-muted);
+  font-family: inherit;
+  font-size: 0.84rem;
+  padding: 7px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.12s, color 0.12s, border-color 0.12s;
+}
+.weekly-round-pill:hover {
+  background: var(--bg-card-hover);
+  color: var(--text);
+}
+.weekly-round-pill.is-active {
+  background: var(--bg-card);
+  border-color: var(--accent);
+  color: var(--accent);
+  font-weight: 600;
+}
 .weekly-section {
   margin-top: 4px;
 }
