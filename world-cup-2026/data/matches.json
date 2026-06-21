@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-21T17:27:43.087340+00:00",
+  "generated_at": "2026-06-21T19:03:37.157803+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-21T12:27:42.213611-05:00",
+  "now_local": "2026-06-21T14:03:35.885731-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -1395,6 +1395,30 @@
       "entries": [
         {
           "team": {
+            "id": "164",
+            "name": "Spain",
+            "name_zh": "西班牙",
+            "rank": 2,
+            "short": "Spain",
+            "abbr": "ESP",
+            "flag": "🇪🇸",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/esp.png"
+          },
+          "rank": 1,
+          "mp": 2,
+          "w": 1,
+          "d": 1,
+          "l": 0,
+          "gf": 4,
+          "ga": 0,
+          "gd": 4,
+          "pts": 4,
+          "advance": false,
+          "advance_label": "Advance to Round of 32",
+          "advance_color": "#81D6AC"
+        },
+        {
+          "team": {
             "id": "212",
             "name": "Uruguay",
             "name_zh": "乌拉圭",
@@ -1404,7 +1428,7 @@
             "flag": "🇺🇾",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/uru.png"
           },
-          "rank": 1,
+          "rank": 2,
           "mp": 1,
           "w": 0,
           "d": 1,
@@ -1428,38 +1452,14 @@
             "flag": "🇸🇦",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/ksa.png"
           },
-          "rank": 2,
-          "mp": 1,
-          "w": 0,
-          "d": 1,
-          "l": 0,
-          "gf": 1,
-          "ga": 1,
-          "gd": 0,
-          "pts": 1,
-          "advance": false,
-          "advance_label": "Advance to Round of 32",
-          "advance_color": "#81D6AC"
-        },
-        {
-          "team": {
-            "id": "164",
-            "name": "Spain",
-            "name_zh": "西班牙",
-            "rank": 2,
-            "short": "Spain",
-            "abbr": "ESP",
-            "flag": "🇪🇸",
-            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/esp.png"
-          },
           "rank": 3,
-          "mp": 1,
+          "mp": 2,
           "w": 0,
           "d": 1,
-          "l": 0,
-          "gf": 0,
-          "ga": 0,
-          "gd": 0,
+          "l": 1,
+          "gf": 1,
+          "ga": 5,
+          "gd": -4,
           "pts": 1,
           "advance": false,
           "advance_label": "Best 8 advance",
@@ -9152,8 +9152,8 @@
           "kickoff_local_date": "2026-06-21",
           "kickoff_time": "11:00 AM",
           "kickoff_weekday": "Sun",
-          "status": "LIVE",
-          "status_short": "64'",
+          "status": "FINAL",
+          "status_short": "FT",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -9168,7 +9168,7 @@
             "color": "c60b1e",
             "home_away": "home",
             "score": 4,
-            "winner": false
+            "winner": true
           },
           "away": {
             "id": "655",
@@ -9194,7 +9194,7 @@
             "Tele",
             "FOX One"
           ],
-          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760453/saudi arabia-spain",
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760453/saudi-arabia-spain",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Spain%20vs%20Saudi%20Arabia",
           "slug": "saudi arabia-at-spain",
           "incidents": [
@@ -9325,6 +9325,26 @@
               "player": "Nico Williams",
               "text": "Substitution, Spain. Nico Williams replaces Álex Baena.",
               "player_off": "Álex Baena"
+            },
+            {
+              "kind": "substitution",
+              "minute": "70'",
+              "team": "Spain",
+              "team_id": "164",
+              "team_side": "home",
+              "player": "Fabián Ruiz",
+              "text": "Substitution, Spain. Fabián Ruiz replaces Pedri.",
+              "player_off": "Pedri "
+            },
+            {
+              "kind": "substitution",
+              "minute": "90'",
+              "team": "Saudi Arabia",
+              "team_id": "655",
+              "team_side": "away",
+              "player": "Khalid Al-Ghannam",
+              "text": "Substitution, Saudi Arabia. Khalid Al Ghannam replaces Nasser Al Dawsari.",
+              "player_off": "Nasser Al-Dawsari"
             }
           ]
         },
