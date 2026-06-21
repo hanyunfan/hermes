@@ -58,7 +58,7 @@ DATA_DIR = HERE.parent / "data"
 INPUT_PATH = DATA_DIR / "matches.json"
 OUTPUT_PATH = DATA_DIR / "weekly-picks.json"
 
-SCHEMA_VERSION = 1
+SCHEMA_VERSION = 2
 
 # Hard cap on picks per round — keeps the digest readable. The
 # earliest-N + highest-stakes picks win.
@@ -167,21 +167,68 @@ def collect_round_matches(
     analysis stays visible for matches earlier in the window.
     Skip HALFTIME / POSTPONED / CANCELED.
 
-    If `stage_filter` is set (e.g. "round-of-32"), only matches
-    whose stage_slug matches are returned, and the date window is
-    widened to cover the whole stage (looking back from today
-    AND ahead up to +90 days) so a single round is captured
-    cleanly even mid-tournament.
+    If `stage_filter` is set:
+      - Knockout stages (R32, R16, QF, SF, F): the date window is
+        widened to cover the whole stage (-60d to +90d) so a single
+        round is captured cleanly even mid-tournament.
+      - group-stage: keep the default `window_days` window because
+        group stage has 3 matchdays; we only want the current one
+        (e.g. MD3 = today + 6d).
+
+    Group-stage is per-matchday (MD1/MD2/MD3), not per-calendar-window.
+    We figure out which matchday a match belongs to by counting each
+    team's group games scheduled BEFORE that match's kickoff; a match
+    is in MDn when both teams are about to play their nth group game.
+    For the picks digest we filter to matches where md_num == the
+    dominant matchday (or the one auto-detect picked) so the digest
+    doesn't accidentally include stragglers from an adjacent MD.
     """
     tz = ZoneInfo(tz_name)
-    # Stage-filtered mode: span the whole stage, anchored to today.
-    # -60d captures any in-progress stage; +90d covers the rest of WC.
-    if stage_filter:
+    widen_for_stage = (
+        stage_filter is not None and stage_filter != "group-stage"
+    )
+    if widen_for_stage:
         start_d = today_d - timedelta(days=60)
         end_d = today_d + timedelta(days=90)
     else:
         start_d = today_d
         end_d = today_d + timedelta(days=window_days - 1)
+
+    # Build per-team per-match "md at kickoff" by counting how many
+    # group-stage games each team has scheduled strictly before this
+    # match's kickoff. Game 1 = MD1 (mp before = 0), Game 2 = MD2, etc.
+    md_at_kickoff: dict[str, int] = {}  # match_id -> int (1, 2, or 3)
+    team_kickoffs: dict[str, list[str]] = {}  # team_id -> sorted list of kickoff_utc
+    for day_block in matches_doc.get("days", []):
+        for m in day_block.get("matches", []):
+            if m.get("stage_slug") != "group-stage":
+                continue
+            ku = m.get("kickoff_utc", "")
+            for side in (m.get("home", {}), m.get("away", {})):
+                tid = str(side.get("id") or "")
+                if not tid:
+                    continue
+                team_kickoffs.setdefault(tid, []).append(ku)
+    for tid, ks in team_kickoffs.items():
+        team_kickoffs[tid] = sorted(ks)
+    for day_block in matches_doc.get("days", []):
+        for m in day_block.get("matches", []):
+            if m.get("stage_slug") != "group-stage":
+                continue
+            ku = m.get("kickoff_utc", "")
+            mids = []
+            for side in (m.get("home", {}), m.get("away", {})):
+                tid = str(side.get("id") or "")
+                ks = team_kickoffs.get(tid) or []
+                # mp BEFORE this match = how many of this team's
+                # group kickoffs are strictly before this match's.
+                # (Only count FINISHED + SCHEDULED + LIVE — scheduled
+                # is "to be played" so it counts; CANCELLED doesn't.)
+                mp = sum(1 for k in ks if k < ku)
+                mids.append(mp + 1)  # this match will be mp+1 in the standings
+            # If both teams agree, use it; otherwise fall back to min
+            md_at_kickoff[str(m.get("id") or "")] = min(mids) if mids else 1
+
     out = []
     for day_block in matches_doc.get("days", []):
         for m in day_block.get("matches", []):
@@ -190,12 +237,17 @@ def collect_round_matches(
             d = _kickoff_local_date(m, tz)
             if d is None:
                 continue
-            if start_d <= d <= end_d:
-                if m.get("status") in ("HALFTIME", "POSTPONED", "CANCELED"):
-                    continue
-                out.append(m)
+            if not (start_d <= d <= end_d):
+                continue
+            if m.get("status") in ("HALFTIME", "POSTPONED", "CANCELED"):
+                continue
+            out.append(m)
     out.sort(key=lambda m: m.get("kickoff_utc", ""))
     return out
+
+
+def _md_for_match(mid: str, md_at_kickoff: dict[str, int]) -> int:
+    return md_at_kickoff.get(str(mid) or "", 1)
 
 
 def round_label(matches: list[dict], tz_name: str) -> dict:
@@ -566,17 +618,184 @@ def existing_round_stage(existing: dict | None) -> str | None:
     Falls back to the first match's stage_slug if round_label is
     not informative (e.g. group-stage is a single stage with
     multiple matchdays inside, so the stage is encoded per-match).
+    Works for both v1 (single round at top level) and v2 (rounds[]
+    with matches[].stage_slug).
     """
     if not existing:
         return None
+    # v2: walk all rounds and return the latest stage_slug seen.
+    if existing.get("schema_version") == 2:
+        rounds = existing.get("rounds") or []
+        for r in reversed(rounds):
+            matches = r.get("matches") or []
+            if matches and matches[0].get("stage_slug"):
+                return matches[0]["stage_slug"]
+        return None
+    # v1 (legacy): top-level matches list.
     matches = existing.get("matches") or []
     if matches and matches[0].get("stage_slug"):
         return matches[0]["stage_slug"]
     return None
 
 
+# ── v2 multi-round schema helpers ───────────────────────────────
+def round_id_for(round_dict: dict) -> str:
+    """Stable id for a round, derived from stage_slug + date range.
+    Used as the upsert key inside the v2 rounds[] array.
+
+    Group-stage rounds get a per-matchday sub-id (md1, md2, md3) so
+    multiple matchdays can coexist without colliding on (group-stage, date).
+    """
+    rng = round_dict.get("round_date_range") or []
+    if not rng:
+        return (round_dict.get("round_label") or {}).get("zh") or "round"
+    stage = round_dict.get("stage_slug") or "round"
+    label_zh = (round_dict.get("round_label") or {}).get("zh") or ""
+    if stage == "group-stage" and "第" in label_zh and "轮" in label_zh:
+        # e.g. "小组赛第 2 轮" → "group-stage-md2"
+        try:
+            n = int(label_zh.split("第")[1].split("轮")[0].strip())
+            return f"group-stage-md{n}-{rng[0]}-{rng[1]}"
+        except Exception:
+            pass
+    return f"{stage}-{rng[0]}-{rng[1]}"
+
+
+def migrate_v1_to_v2(doc: dict) -> dict:
+    """Wrap a v1 single-round document into the v2 multi-round shape.
+
+    v1: {schema_version:1, round_label, round_date_range, matches, ...}
+    v2: {schema_version:2, rounds:[{round_label, round_date_range, matches, ...}]}
+    """
+    if not doc or doc.get("schema_version") == 2:
+        return doc
+    matches = doc.get("matches") or []
+    # Round-level stage_slug was not part of v1; derive it from the
+    # first match (all matches in a v1 round share the same stage).
+    stage_slug = matches[0].get("stage_slug") if matches else None
+    rd = {
+        "round_id": round_id_for(doc),
+        "stage_slug": stage_slug,
+        "round_label": doc.get("round_label"),
+        "round_date_range": doc.get("round_date_range"),
+        "round_intro_zh": doc.get("round_intro_zh"),
+        "round_intro_en": doc.get("round_intro_en"),
+        "manual_note_zh": doc.get("manual_note_zh"),
+        "manual_note_en": doc.get("manual_note_en"),
+        "last_manual_update": doc.get("last_manual_update"),
+        "generated_at": doc.get("generated_at"),
+        "match_count": doc.get("match_count") or len(matches),
+        "manual_count": doc.get("manual_count") or 0,
+        "matches": matches,
+    }
+    return {
+        "schema_version": 2,
+        "generated_at": doc.get("generated_at"),
+        "timezone": doc.get("timezone"),
+        "now_local": doc.get("now_local"),
+        "match_count": rd["match_count"],
+        "manual_count": rd["manual_count"],
+        "rounds": [rd],
+    }
+
+
+def find_round(rounds: list[dict], new_round: dict) -> tuple[int, dict | None]:
+    """Locate an existing round whose identity matches the new one.
+
+    Identity = (stage_slug, round_label.zh) — the date range is
+    metadata, not part of identity, because a re-run with a slightly
+    different window (e.g. MD3 window from 6/21-6/26 vs 6/21-6/27)
+    should still upsert into the same round.
+    """
+    new_stage = new_round.get("stage_slug")
+    new_label_zh = (new_round.get("round_label") or {}).get("zh")
+    for i, r in enumerate(rounds):
+        if r.get("stage_slug") == new_stage \
+                and (r.get("round_label") or {}).get("zh") == new_label_zh:
+            return i, r
+    return -1, None
+
+
+def upsert_round(v2_doc: dict, new_round: dict) -> dict:
+    """Insert or update a round inside a v2 doc. Sorts rounds by the
+    first kickoff date so the array is stable across writes."""
+    rounds = v2_doc.get("rounds") or []
+    idx, _ = find_round(rounds, new_round)
+    if idx >= 0:
+        rounds[idx] = new_round
+    else:
+        rounds.append(new_round)
+    rounds.sort(key=lambda r: ((r.get("round_date_range") or ["9999-99-99"])[0],
+                                (r.get("round_label") or {}).get("zh") or ""))
+    v2_doc["rounds"] = rounds
+    if new_round.get("generated_at"):
+        v2_doc["generated_at"] = new_round["generated_at"]
+    # Aggregate rollup at the envelope level (handy for the front-end).
+    v2_doc["match_count"] = sum(len(r.get("matches") or []) for r in rounds)
+    v2_doc["manual_count"] = sum(
+        sum(1 for m in (r.get("matches") or []) if m.get("headline_zh") or m.get("headline_en"))
+        for r in rounds
+    )
+    return v2_doc
+
+
+def pick_default_round(rounds: list[dict], today_iso: str) -> int:
+    """Pick the round the user most likely wants to see by default.
+
+    Preference:
+      1. In-progress: today ∈ [date_range[0], date_range[1]].
+         Tie-break by latest date_range[0] (deeper round wins).
+      2. Most-recently finished: latest date_range[1] < today.
+      3. Next upcoming: earliest date_range[0] > today.
+      4. Fallback: 0.
+    """
+    if not rounds:
+        return -1
+    try:
+        today = date.fromisoformat(today_iso)
+    except Exception:
+        return 0
+    in_progress, finished, upcoming = [], [], []
+    for i, r in enumerate(rounds):
+        rng = r.get("round_date_range") or []
+        if len(rng) < 2:
+            continue
+        try:
+            lo = date.fromisoformat(rng[0])
+            hi = date.fromisoformat(rng[1])
+        except Exception:
+            continue
+        if lo <= today <= hi:
+            in_progress.append((i, lo))
+        elif hi < today:
+            finished.append((i, hi))
+        else:
+            upcoming.append((i, lo))
+    if in_progress:
+        in_progress.sort(key=lambda x: x[1], reverse=True)
+        return in_progress[0][0]
+    if finished:
+        finished.sort(key=lambda x: x[1], reverse=True)
+        return finished[0][0]
+    if upcoming:
+        upcoming.sort(key=lambda x: x[1])
+        return upcoming[0][0]
+    return 0
+
+
 # ── main builder ───────────────────────────────────────────────
-def build(matches_doc: dict, tz_name: str, force: bool = False, window_days: int = ROUND_WINDOW_DAYS, stage_filter_override: str | None = None) -> dict:
+def build(matches_doc: dict, tz_name: str, force: bool = False, window_days: int = ROUND_WINDOW_DAYS, stage_filter_override: str | None = None, existing_round: dict | None = None) -> dict:
+    """Build a single round's picks (a "round dict").
+
+    Returns a dict suitable for placing inside v2's `rounds[]` array.
+    Manual fields (headline, watch_for, etc.) are preserved per
+    match_id by reading from `existing_round` when present.
+
+    The caller is responsible for the v2 envelope (load + upsert +
+    write). Pass `existing_round=None` for a fresh build, or the
+    matching round from the existing v2 file to preserve manual
+    fields across runs.
+    """
     tz = ZoneInfo(tz_name)
     now_local = datetime.now(tz)
     today_local = now_local.date()
@@ -597,6 +816,57 @@ def build(matches_doc: dict, tz_name: str, force: bool = False, window_days: int
         window_days=window_days,
         stage_filter=stage_filter,
     )
+
+    # For group stage specifically, the picks digest is one
+    # matchday (MD1 / MD2 / MD3), not a calendar window. If the
+    # window accidentally strays across an MD boundary (because
+    # groups are staggered, MD2 and MD3 share 6/23-6/24), filter
+    # to the dominant MD by median mp of teams in the picked set.
+    if stage_filter == "group-stage" and round_matches:
+        mp_counts: dict[str, int] = {}
+        for m in round_matches:
+            for side in (m.get("home") or {}, m.get("away") or {}):
+                tid = str(side.get("id") or "")
+                if not tid:
+                    continue
+                # mp BEFORE this match = count of this team's group
+                # kickoffs strictly before this match's.
+                team_mp = 0
+                for db in matches_doc.get("days", []):
+                    for mm in db.get("matches", []):
+                        if mm.get("stage_slug") != "group-stage":
+                            continue
+                        if str(mm.get("home", {}).get("id")) == tid or str(mm.get("away", {}).get("id")) == tid:
+                            if (mm.get("kickoff_utc") or "") < (m.get("kickoff_utc") or ""):
+                                team_mp += 1
+                mp_counts[tid] = max(mp_counts.get(tid, 0), team_mp)
+        all_mps = sorted(mp_counts.values())
+        if all_mps:
+            median_mp = all_mps[len(all_mps) // 2]
+            target_md = median_mp + 1
+            target_mp_before = median_mp
+            # Filter to matches where both teams are at this MD
+            # (their mp before the match equals target_mp_before).
+            def is_target_md(match):
+                for side in (match.get("home") or {}, match.get("away") or {}):
+                    tid = str(side.get("id") or "")
+                    ku = match.get("kickoff_utc") or ""
+                    # Count this team's group matches strictly before this one
+                    cnt = 0
+                    for db in matches_doc.get("days", []):
+                        for mm in db.get("matches", []):
+                            if mm.get("stage_slug") != "group-stage":
+                                continue
+                            if (str(mm.get("home", {}).get("id")) == tid
+                                    or str(mm.get("away", {}).get("id")) == tid):
+                                if (mm.get("kickoff_utc") or "") < ku:
+                                    cnt += 1
+                    if cnt != target_mp_before:
+                        return False
+                return True
+            filtered = [m for m in round_matches if is_target_md(m)]
+            if filtered:
+                round_matches = filtered
     # Cap picks per round.
     if len(round_matches) > ROUND_MAX_MATCHES:
         # Score first, then kickoff time, then take the top N.
@@ -609,46 +879,48 @@ def build(matches_doc: dict, tz_name: str, force: bool = False, window_days: int
         round_matches.sort(key=lambda m: m.get("kickoff_utc", ""))
 
     label = round_label(round_matches, tz_name)
-    date_range = round_date_range(round_matches, tz_name)
+    # For group stage, the round's date range should cover the entire
+    # matchday (not just the digest window) so a re-run with a slightly
+    # different window still upserts into the same round. For knockout
+    # stages the window is already the whole stage.
+    if stage_filter == "group-stage":
+        all_md = [
+            m for day_block in matches_doc.get("days", [])
+            for m in day_block.get("matches", [])
+            if m.get("stage_slug") == "group-stage"
+            # Same mp-before filter as the digest, so we only count
+            # matches that are actually in this matchday.
+            and all(
+                sum(
+                    1
+                    for db in matches_doc.get("days", [])
+                    for mm in db.get("matches", [])
+                    if mm.get("stage_slug") == "group-stage"
+                    and (str(mm.get("home", {}).get("id")) == str(side.get("id") or "")
+                         or str(mm.get("away", {}).get("id")) == str(side.get("id") or ""))
+                    and (mm.get("kickoff_utc") or "") < (m.get("kickoff_utc") or "")
+                ) == 2
+                for side in (m.get("home") or {}, m.get("away") or {})
+            )
+        ]
+        date_range = round_date_range(all_md, tz_name) if all_md else round_date_range(round_matches, tz_name)
+    else:
+        date_range = round_date_range(round_matches, tz_name)
     if date_range:
         lo, hi = date_range
         date_range_iso = [lo.isoformat(), hi.isoformat()]
     else:
         date_range_iso = [today_local.isoformat(), today_local.isoformat()]
 
-    existing = None if force else load_existing_output(OUTPUT_PATH)
-    # Round identity = (label_zh, date_range). On rollover, manual
-    # fields get wiped so last round's prose doesn't leak in.
-    new_round_key = (label["zh"], tuple(date_range_iso))
-    existing_round_key = (
-        (existing or {}).get("round_label", {}).get("zh"),
-        tuple((existing or {}).get("round_date_range") or []),
-    )
-    round_changed = existing_round_key != new_round_key
-
-    # Guard: if the existing file is for a LATER stage in the
-    # tournament than what we just auto-detected, the user has
-    # pre-staged future-round picks and we must not overwrite them
-    # with current-round picks. Skip the build entirely and let
-    # the existing file stand.
-    # Applies only to auto-detect (no explicit --stage). When the
-    # caller passes --stage explicitly, they're saying exactly what
-    # they want — let --force be the universal "I really mean it" knob.
-    existing_stage = existing_round_stage(existing)
-    if (
-        not force
-        and stage_filter_override is None
-        and existing
-        and stage_index(existing_stage) > stage_index(stage_filter or "")
-    ):
-        print(
-            f"skip: existing file is for stage '{existing_stage}', "
-            f"auto-detect says current stage is '{stage_filter}' — "
-            f"leaving weekly-picks.json alone (use --stage {existing_stage} to refresh, "
-            f"or --force to overwrite)",
-            file=sys.stderr,
+    # Round identity for the guard. If we have an existing_round that
+    # matches (stage_slug, label_zh), it's the same round identity —
+    # manual fields are preserved. Otherwise this is a fresh build.
+    same_round = False
+    if existing_round:
+        same_round = (
+            existing_round.get("stage_slug") == stage_filter
+            and (existing_round.get("round_label") or {}).get("zh") == label["zh"]
         )
-        return existing
 
     out_matches = []
     for m in round_matches:
@@ -724,8 +996,8 @@ def build(matches_doc: dict, tz_name: str, force: bool = False, window_days: int
             "score_override": None,
         }
 
-        if not round_changed:
-            old = find_existing_match(existing, new_entry["match_id"])
+        if same_round and not force:
+            old = find_existing_match(existing_round, new_entry["match_id"])
             preserve_manual_fields(new_entry, old)
         if new_entry.get("verdict_override"):
             new_entry["verdict"] = new_entry["verdict_override"]
@@ -743,25 +1015,27 @@ def build(matches_doc: dict, tz_name: str, force: bool = False, window_days: int
     )
 
     manual_count = sum(1 for m in out_matches if is_manually_enriched(m))
-    last_manual = (existing or {}).get("last_manual_update") if not round_changed else None
+    last_manual = (
+        (existing_round or {}).get("last_manual_update")
+        if same_round and not force
+        else None
+    )
 
-    doc = {
-        "schema_version": SCHEMA_VERSION,
-        "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
-        "timezone": tz_name,
-        "now_local": now_local.isoformat(timespec="seconds"),
+    return {
+        "round_id": round_id_for({"round_label": label, "round_date_range": date_range_iso, "stage_slug": stage_filter}),
+        "stage_slug": stage_filter,
         "round_label": label,
         "round_date_range": date_range_iso,
         "match_count": len(out_matches),
         "manual_count": manual_count,
         "last_manual_update": last_manual,
-        "round_intro_zh": (existing or {}).get("round_intro_zh") if not round_changed else None,
-        "round_intro_en": (existing or {}).get("round_intro_en") if not round_changed else None,
-        "manual_note_zh": (existing or {}).get("manual_note_zh") if not round_changed else None,
-        "manual_note_en": (existing or {}).get("manual_note_en") if not round_changed else None,
+        "round_intro_zh": (existing_round or {}).get("round_intro_zh") if same_round and not force else None,
+        "round_intro_en": (existing_round or {}).get("round_intro_en") if same_round and not force else None,
+        "manual_note_zh": (existing_round or {}).get("manual_note_zh") if same_round and not force else None,
+        "manual_note_en": (existing_round or {}).get("manual_note_en") if same_round and not force else None,
+        "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "matches": out_matches,
     }
-    return doc
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -784,26 +1058,64 @@ def main(argv: list[str] | None = None) -> int:
         return 2
 
     matches_doc = load_matches(in_path)
-    doc = build(
+
+    # Load existing v2 doc (migrating v1 on the fly).
+    existing_doc = None if args.force else load_existing_output(out_path)
+    v2_doc = migrate_v1_to_v2(existing_doc) if existing_doc else {
+        "schema_version": 2,
+        "generated_at": None,
+        "timezone": args.tz,
+        "now_local": None,
+        "rounds": [],
+    }
+
+    # Build (or refresh) the matching round inside the v2 envelope.
+    # Detect the stage we should write (mirror the build() logic so
+    # we can look up the matching existing round for manual preservation).
+    # In v2, each round is independent — the current stage's picks get
+    # upserted (preserving manual fields), other rounds stay untouched.
+    tz = ZoneInfo(args.tz)
+    stage_filter = args.stage or detect_current_stage(matches_doc, datetime.now(tz).date())
+    # Find the existing round to preserve from. With auto-detect, we
+    # look for a round whose stage matches. With --stage, we look for
+    # the matching label+range (computed from a tiny dry build).
+    existing_round_for_preserve = None
+    rounds = v2_doc.get("rounds") or []
+    if stage_filter:
+        for r in rounds:
+            if r.get("stage_slug") == stage_filter:
+                existing_round_for_preserve = r
+                break
+
+    new_round = build(
         matches_doc, args.tz,
         force=args.force,
         window_days=args.window or ROUND_WINDOW_DAYS,
         stage_filter_override=args.stage,
+        existing_round=existing_round_for_preserve,
     )
 
+    v2_doc = upsert_round(v2_doc, new_round)
+    v2_doc["timezone"] = args.tz
+    v2_doc["now_local"] = datetime.now(tz).isoformat(timespec="seconds")
+
     if args.dry_run:
-        print(json.dumps(doc, ensure_ascii=False, indent=2))
+        print(json.dumps(v2_doc, ensure_ascii=False, indent=2))
         return 0
 
     out_path.parent.mkdir(parents=True, exist_ok=True)
     with out_path.open("w", encoding="utf-8") as f:
-        json.dump(doc, f, ensure_ascii=False, indent=2)
+        json.dump(v2_doc, f, ensure_ascii=False, indent=2)
         f.write("\n")
-    label_en = doc["round_label"]["en"]
-    rng = doc["round_date_range"]
+    label_en = new_round["round_label"]["en"]
+    rng = new_round["round_date_range"]
+    total = v2_doc["match_count"]
+    total_manual = v2_doc["manual_count"]
     print(
-        f"wrote {out_path} ({doc['match_count']} matches, "
-        f"{doc['manual_count']} manually enriched, "
+        f"wrote {out_path} ({len(new_round['matches'])} matches in this round, "
+        f"{new_round['manual_count']} manually enriched; "
+        f"file now has {len(rounds)} round(s), {total} matches total, "
+        f"{total_manual} manually enriched; "
         f"round={label_en}, dates={rng[0]}..{rng[1]}, stage_filter={args.stage or 'auto'})"
     )
     return 0
