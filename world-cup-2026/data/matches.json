@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-20T23:09:09.615073+00:00",
+  "generated_at": "2026-06-21T01:58:28.012653+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-20T18:09:07.501990-05:00",
+  "now_local": "2026-06-20T20:58:24.485421-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -1144,14 +1144,14 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/ecu.png"
           },
           "rank": 3,
-          "mp": 1,
+          "mp": 2,
           "w": 0,
-          "d": 0,
+          "d": 1,
           "l": 1,
           "gf": 0,
           "ga": 1,
           "gd": -1,
-          "pts": 0,
+          "pts": 1,
           "advance": false,
           "advance_label": "Best 8 advance",
           "advance_color": "#B5E7CE"
@@ -1168,14 +1168,14 @@
             "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/11678.png"
           },
           "rank": 4,
-          "mp": 1,
+          "mp": 2,
           "w": 0,
-          "d": 0,
+          "d": 1,
           "l": 1,
           "gf": 1,
           "ga": 7,
           "gd": -6,
-          "pts": 0,
+          "pts": 1,
           "advance": false,
           "advance_label": "Eliminated",
           "advance_color": "#FF7F84"
@@ -8751,8 +8751,8 @@
           "kickoff_local_date": "2026-06-20",
           "kickoff_time": "7:00 PM",
           "kickoff_weekday": "Sat",
-          "status": "SCHEDULED",
-          "status_short": "Scheduled",
+          "status": "FINAL",
+          "status_short": "FT",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -8795,7 +8795,153 @@
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760446/curacao-ecuador",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Ecuador%20vs%20Cura%C3%A7ao",
-          "slug": "curacao-at-ecuador"
+          "slug": "curacao-at-ecuador",
+          "incidents": [
+            {
+              "kind": "yellow_card",
+              "minute": "38'",
+              "team": "Ecuador",
+              "team_id": "209",
+              "team_side": "home",
+              "player": "Jordy Alcívar",
+              "text": "Jordy Alcívar (Ecuador) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "39'",
+              "team": "Curaçao",
+              "team_id": "11678",
+              "team_side": "away",
+              "player": "Leandro Bacuna",
+              "text": "Leandro Bacuna (Curaçao) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "substitution",
+              "minute": "45'",
+              "team": "Ecuador",
+              "team_id": "209",
+              "team_side": "home",
+              "player": "Kevin Rodríguez",
+              "text": "Substitution, Ecuador. Kevin Rodríguez replaces Jordy Alcívar.",
+              "player_off": "Jordy Alcívar"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "53'",
+              "team": "Curaçao",
+              "team_id": "11678",
+              "team_side": "away",
+              "player": "Juninho Bacuna",
+              "text": "Juninho Bacuna (Curaçao) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "56'",
+              "team": "Curaçao",
+              "team_id": "11678",
+              "team_side": "away",
+              "player": "Livano Comenencia",
+              "text": "Livano Comenencia (Curaçao) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "substitution",
+              "minute": "70'",
+              "team": "Ecuador",
+              "team_id": "209",
+              "team_side": "home",
+              "player": "Nilson Angulo",
+              "text": "Substitution, Ecuador. Nilson Angulo replaces Pervis Estupiñán.",
+              "player_off": "Pervis Estupiñán"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "75'",
+              "team": "Curaçao",
+              "team_id": "11678",
+              "team_side": "away",
+              "player": "Juriën Gaari",
+              "text": "Juriën Gaari (Curaçao) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "substitution",
+              "minute": "75'",
+              "team": "Curaçao",
+              "team_id": "11678",
+              "team_side": "away",
+              "player": "Kenji Gorré",
+              "text": "Substitution, Curaçao. Kenji Gorré replaces Juninho Bacuna.",
+              "player_off": "Juninho Bacuna"
+            },
+            {
+              "kind": "substitution",
+              "minute": "76'",
+              "team": "Curaçao",
+              "team_id": "11678",
+              "team_side": "away",
+              "player": "Roshon van Eijma",
+              "text": "Substitution, Curaçao. Roshon van Eijma replaces Deveron Fonville.",
+              "player_off": "Deveron Fonville"
+            },
+            {
+              "kind": "substitution",
+              "minute": "76'",
+              "team": "Curaçao",
+              "team_id": "11678",
+              "team_side": "away",
+              "player": "Jearl Margaritha",
+              "text": "Substitution, Curaçao. Jearl Margaritha replaces Tahith Chong.",
+              "player_off": "Tahith Chong"
+            },
+            {
+              "kind": "substitution",
+              "minute": "83'",
+              "team": "Ecuador",
+              "team_id": "209",
+              "team_side": "home",
+              "player": "Ángelo Preciado",
+              "text": "Substitution, Ecuador. Ángelo Preciado replaces Alan Franco.",
+              "player_off": "Alan Franco"
+            },
+            {
+              "kind": "substitution",
+              "minute": "83'",
+              "team": "Curaçao",
+              "team_id": "11678",
+              "team_side": "away",
+              "player": "Gervane Kastaneer",
+              "text": "Substitution, Curaçao. Gervane Kastaneer replaces Jürgen Locadia because of an injury.",
+              "player_off": "Jürgen Locadia"
+            },
+            {
+              "kind": "substitution",
+              "minute": "84'",
+              "team": "Curaçao",
+              "team_id": "11678",
+              "team_side": "away",
+              "player": "Godfried Roemeratoe",
+              "text": "Substitution, Curaçao. Godfried Roemeratoe replaces Livano Comenencia.",
+              "player_off": "Livano Comenencia"
+            },
+            {
+              "kind": "substitution",
+              "minute": "89'",
+              "team": "Ecuador",
+              "team_id": "209",
+              "team_side": "home",
+              "player": "Jordy Caicedo",
+              "text": "Substitution, Ecuador. Jordy Caicedo replaces John Yeboah.",
+              "player_off": "John Yeboah"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "90'+1'",
+              "team": "Curaçao",
+              "team_id": "11678",
+              "team_side": "away",
+              "player": "Gervane Kastaneer",
+              "text": "Gervane Kastaneer (Curaçao) is shown the yellow card for a bad foul."
+            }
+          ]
         },
         {
           "id": "760449",
@@ -9560,7 +9706,7 @@
           },
           "broadcasts": [
             "FS1",
-            "Tele",
+            "Universo",
             "FOX One"
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760462/qatar-bosnia-herzegovina",
@@ -9666,7 +9812,7 @@
           },
           "broadcasts": [
             "FS1",
-            "Tele",
+            "Universo",
             "FOX One"
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760464/haiti-morocco",
@@ -9825,7 +9971,7 @@
           },
           "broadcasts": [
             "FS1",
-            "Tele",
+            "Universo",
             "FOX One"
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760466/south-korea-south-africa",
@@ -9885,7 +10031,7 @@
           },
           "broadcasts": [
             "FS1",
-            "Tele",
+            "Universo",
             "FOX One"
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760473/ivory-coast-curacao",
@@ -9991,7 +10137,7 @@
           },
           "broadcasts": [
             "FS1",
-            "Tele",
+            "Universo",
             "FOX One"
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760471/sweden-japan",
@@ -10097,7 +10243,7 @@
           },
           "broadcasts": [
             "FS1",
-            "Tele",
+            "Universo",
             "FOX One"
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760469/australia-paraguay",
@@ -10263,7 +10409,7 @@
           },
           "broadcasts": [
             "FS1",
-            "Tele",
+            "Universo",
             "FOX One"
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760474/iraq-senegal",
@@ -10316,7 +10462,7 @@
           },
           "broadcasts": [
             "FS1",
-            "Tele",
+            "Universo",
             "FOX One"
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760478/saudi-arabia-cape-verde",
@@ -10475,7 +10621,7 @@
           },
           "broadcasts": [
             "FOX",
-            "Tele",
+            "Universo",
             "FOX One"
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760477/belgium-new-zealand",
@@ -10535,7 +10681,7 @@
           },
           "broadcasts": [
             "FS1",
-            "Tele",
+            "Universo",
             "FOX One"
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760480/ghana-croatia",
@@ -10694,7 +10840,7 @@
           },
           "broadcasts": [
             "FS1",
-            "Tele",
+            "Universo",
             "FOX One"
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760482/uzbekistan-congo-dr",
@@ -10747,7 +10893,7 @@
           },
           "broadcasts": [
             "FS1",
-            "Tele",
+            "Universo",
             "FOX One"
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760484/austria-algeria",
@@ -10939,15 +11085,15 @@
           "stage": "Round of 32",
           "stage_slug": "round-of-32",
           "home": {
-            "id": "5931",
-            "name": "Group E Winner",
-            "name_zh": "",
-            "rank": null,
-            "short": "1E",
-            "abbr": "1E",
-            "flag": "🏳️",
-            "logo": "",
-            "color": "000000",
+            "id": "481",
+            "name": "Germany",
+            "name_zh": "德国",
+            "rank": 10,
+            "short": "Germany",
+            "abbr": "GER",
+            "flag": "🇩🇪",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/ger.png",
+            "color": "FFFFFF",
             "home_away": "home",
             "score": 0,
             "winner": false
@@ -10977,8 +11123,8 @@
             "FOX One"
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760489/third-place-group-abcdf-group-e-winner",
-          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Group%20E%20Winner%20vs%20Third%20Place%20Group%20A/B/C/D/F",
-          "slug": "third place group a/b/c/d/f-at-group e winner"
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Germany%20vs%20Third%20Place%20Group%20A/B/C/D/F",
+          "slug": "third place group a/b/c/d/f-at-germany"
         },
         {
           "id": "760488",
