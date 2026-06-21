@@ -32,6 +32,7 @@
       "view.standings": "Standings",
       "view.scorers": "Scorers",
       "view.weekly": "Weekly Picks",
+      "view.odds": "Knockout Odds",
       "filter.time": "Time",
       "filter.status": "Status",
       "filter.teams": "Teams",
@@ -170,6 +171,7 @@
       "view.standings": "积分",
       "view.scorers": "射手榜",
       "view.weekly": "本周看点",
+      "view.odds": "出线概率",
       "filter.time": "时间",
       "filter.status": "状态",
       "filter.teams": "球队",
@@ -695,6 +697,10 @@
     }
     if (currentView === "weekly") {
       renderWeekly();
+      return;
+    }
+    if (currentView === "odds") {
+      renderOdds();
       return;
     }
     const matches = applyFilters();
@@ -2687,6 +2693,181 @@
     div.className = "error";
     div.innerHTML = `<strong>${escapeHtml(t("error.title"))}</strong><br />${escapeHtml(String(err))}<br /><br />${escapeHtml(t("error.hint"))}`;
     content.appendChild(div);
+  }
+
+  // ───────────────────────────────────────────────────────────────
+  // Render: Knockout Odds (per-group position probabilities)
+  //
+  // Loads data/knockout-odds.json (computed by
+  // scripts/compute_knockout_odds.py via Monte Carlo). Renders a
+  // grid of group cards, each with 4 team rows showing a stacked
+  // bar of {1st / 2nd / 3rd / 4th} probabilities and an overall
+  // "advance to R32" badge.
+  // ───────────────────────────────────────────────────────────────
+  const ODDS_JSON_URL = "data/knockout-odds.json";
+  const ODDS_CACHE_KEY = "wc2026.odds.v1";
+  const ODDS_CACHE_TTL_MS = 5 * 60 * 1000;
+  let oddsData = null;
+  let oddsLoading = false;
+
+  async function loadOdds(force = false) {
+    if (!force && oddsData) return oddsData;
+    if (!force) {
+      try {
+        const raw = sessionStorage.getItem(ODDS_CACHE_KEY);
+        if (raw) {
+          const { at, data } = JSON.parse(raw);
+          if (Date.now() - at < ODDS_CACHE_TTL_MS) {
+            oddsData = data;
+            return data;
+          }
+        }
+      } catch { /* ignore */ }
+    }
+    if (oddsLoading) return oddsData;
+    oddsLoading = true;
+    try {
+      const res = await fetch(`${ODDS_JSON_URL}?t=${Date.now()}`, { cache: "no-store" });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data = await res.json();
+      oddsData = data;
+      try { sessionStorage.setItem(ODDS_CACHE_KEY, JSON.stringify({ at: Date.now(), data })); } catch { /* ignore */ }
+      return data;
+    } finally {
+      oddsLoading = false;
+    }
+  }
+
+  function formatPct(p) {
+    if (p == null) return "—";
+    if (p >= 99.95) return "100%";
+    if (p < 0.05) return "0%";
+    return `${p.toFixed(1)}%`;
+  }
+
+  function renderOdds() {
+    const content = $("#content");
+    content.innerHTML = "";
+    const countEl = $("#result-count");
+    if (countEl) countEl.textContent = "";
+    const placeholder = document.createElement("div");
+    placeholder.className = "loading";
+    placeholder.textContent = t("loading");
+    content.appendChild(placeholder);
+
+    loadOdds().then((data) => {
+      content.innerHTML = "";
+      if (!data || !data.groups || data.groups.length === 0) {
+        renderOddsEmpty(content);
+        return;
+      }
+      renderOddsBody(content, data);
+    }).catch((err) => {
+      content.innerHTML = "";
+      renderOddsEmpty(content, err);
+    });
+  }
+
+  function renderOddsEmpty(content, err) {
+    const div = document.createElement("div");
+    div.className = "empty";
+    const errBlock = err && !/HTTP\s*404/i.test(String(err))
+      ? `<div class="empty-hint" style="opacity:.6">${escapeHtml(String(err))}</div>`
+      : "";
+    div.innerHTML = `<div>${escapeHtml(t("odds.empty.title", "No knockout odds yet."))}</div>
+      <div class="empty-hint">${escapeHtml(t("odds.empty.hint", "Run scripts/compute_knockout_odds.py to generate."))}</div>
+      ${errBlock}`;
+    content.appendChild(div);
+  }
+
+  function renderOddsBody(content, data) {
+    const wrap = document.createElement("section");
+    wrap.className = "odds-section";
+
+    const head = document.createElement("header");
+    head.className = "odds-head";
+    const win = data.match_window || [];
+    const winRange = win.length === 2
+      ? `${formatDateWithDow(win[0])} → ${formatDateWithDow(win[1])}`
+      : "";
+    head.innerHTML = `
+      <h2 class="odds-title">${escapeHtml(t("odds.title", "Knockout Odds"))}</h2>
+      <p class="odds-hint">${escapeHtml(t("odds.hint", "Each team's chance of finishing 1st / 2nd / 3rd / 4th in their group, computed by Monte Carlo simulation over the remaining group-stage matches. Top 2 + 8 best 3rd advance to the Round of 32."))}</p>
+      <p class="odds-meta">
+        <span>${escapeHtml(t("odds.sims", "Sims"))}: ${(data.n_simulations || 10000).toLocaleString()}</span>
+        ${winRange ? `<span class="odds-meta-dot">·</span><span>${escapeHtml(winRange)}</span>` : ""}
+      </p>
+    `;
+    wrap.appendChild(head);
+
+    const grid = document.createElement("div");
+    grid.className = "odds-grid";
+    for (const g of data.groups) {
+      grid.appendChild(buildOddsGroupCard(g));
+    }
+    wrap.appendChild(grid);
+
+    const legend = document.createElement("div");
+    legend.className = "odds-legend";
+    legend.innerHTML = `
+      <span class="odds-legend-item"><span class="odds-bar odds-bar--1"></span>${escapeHtml(t("odds.legend.1", "1st in group"))}</span>
+      <span class="odds-legend-item"><span class="odds-bar odds-bar--2"></span>${escapeHtml(t("odds.legend.2", "2nd"))}</span>
+      <span class="odds-legend-item"><span class="odds-bar odds-bar--3"></span>${escapeHtml(t("odds.legend.3", "3rd (best 8 advance)"))}</span>
+      <span class="odds-legend-item"><span class="odds-bar odds-bar--4"></span>${escapeHtml(t("odds.legend.4", "4th (out)"))}</span>
+    `;
+    wrap.appendChild(legend);
+
+    content.appendChild(wrap);
+  }
+
+  function buildOddsGroupCard(g) {
+    const card = document.createElement("article");
+    card.className = "odds-group-card";
+
+    const head = document.createElement("header");
+    head.className = "odds-group-head";
+    const remainingTxt = (g.remaining_matches || []).map((m) =>
+      `${m.home_abbr}–${m.away_abbr}`
+    ).join(", ");
+    head.innerHTML = `
+      <h3 class="odds-group-name">${escapeHtml(g.name)}</h3>
+      <p class="odds-group-remaining">${remainingTxt ? escapeHtml(remainingTxt) : escapeHtml(t("odds.group.complete", "Group complete"))}</p>
+    `;
+    card.appendChild(head);
+
+    for (const t of (g.teams || [])) {
+      card.appendChild(buildOddsTeamRow(t));
+    }
+    return card;
+  }
+
+  function buildOddsTeamRow(t) {
+    const row = document.createElement("div");
+    row.className = "odds-team";
+
+    const advanceColor = t.p_advance >= 80 ? "high" : t.p_advance >= 30 ? "mid" : "low";
+    row.innerHTML = `
+      <div class="odds-team-head">
+        <span class="odds-team-flag">${escapeHtml(t.flag || "")}</span>
+        <span class="odds-team-name">${escapeHtml(currentLang === "zh" && t.name_zh ? t.name_zh : t.name)}</span>
+        <span class="odds-team-rank">#${t.rank ?? "—"}</span>
+        <span class="odds-team-pts">${t.current_pts} ${escapeHtml(t("odds.pts", "pts"))}</span>
+        <span class="odds-team-advance odds-team-advance--${advanceColor}" title="${escapeHtml(t("odds.advance.tip", "Chance of advancing to the Round of 32 (top 2 + best 3rd)"))}">${formatPct(t.p_advance)}</span>
+      </div>
+      <div class="odds-bar-row" aria-label="${escapeHtml(t.name)} finish probabilities">
+        <div class="odds-bar odds-bar--1" style="width: ${t.p_1st}%" title="${escapeHtml(t.name)}: 1st ${formatPct(t.p_1st)}"></div>
+        <div class="odds-bar odds-bar--2" style="width: ${t.p_2nd}%" title="${escapeHtml(t.name)}: 2nd ${formatPct(t.p_2nd)}"></div>
+        <div class="odds-bar odds-bar--3" style="width: ${t.p_3rd}%" title="${escapeHtml(t.name)}: 3rd ${formatPct(t.p_3rd)}"></div>
+        <div class="odds-bar odds-bar--4" style="width: ${t.p_4th}%" title="${escapeHtml(t.name)}: 4th ${formatPct(t.p_4th)}"></div>
+      </div>
+      <div class="odds-pct-row">
+        <span class="odds-pct">${formatPct(t.p_1st)}</span>
+        <span class="odds-pct">${formatPct(t.p_2nd)}</span>
+        <span class="odds-pct">${formatPct(t.p_3rd)}</span>
+        <span class="odds-pct">${formatPct(t.p_4th)}</span>
+      </div>
+    `;
+    return row;
   }
 
   if (document.readyState === "loading") {

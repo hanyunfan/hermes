@@ -2182,6 +2182,174 @@ body {
   font-style: italic;
 }
 
+/* ─── Knockout Odds view ─────────────────────────────────── */
+.odds-section { margin-top: 4px; }
+.odds-head {
+  text-align: center;
+  margin-bottom: 18px;
+}
+.odds-title {
+  font-size: clamp(1.3rem, 3vw, 1.6rem);
+  font-weight: 700;
+  margin: 0 0 6px;
+  background: linear-gradient(180deg, #fff 30%, #c4cce0 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.odds-hint {
+  max-width: 720px;
+  margin: 0 auto 8px;
+  color: var(--text-muted);
+  font-size: 0.86rem;
+  line-height: 1.5;
+}
+.odds-meta {
+  margin: 0;
+  color: var(--text-dim);
+  font-size: 0.78rem;
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.odds-meta-dot { color: var(--text-dim); }
+.odds-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 12px;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+.odds-group-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px 14px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.odds-group-head {
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 8px;
+  margin-bottom: 2px;
+}
+.odds-group-name {
+  font-size: 0.95rem;
+  font-weight: 700;
+  margin: 0 0 2px;
+  color: var(--accent);
+  letter-spacing: 0.04em;
+}
+.odds-group-remaining {
+  margin: 0;
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  font-variant-numeric: tabular-nums;
+}
+.odds-team {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 6px 0;
+  border-top: 1px solid rgba(35, 49, 82, 0.4);
+}
+.odds-team:first-of-type { border-top: 0; }
+.odds-team-head {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.86rem;
+}
+.odds-team-flag { font-size: 1rem; }
+.odds-team-name {
+  font-weight: 600;
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.odds-team-rank {
+  color: var(--text-dim);
+  font-size: 0.72rem;
+  font-variant-numeric: tabular-nums;
+}
+.odds-team-pts {
+  color: var(--text-muted);
+  font-size: 0.74rem;
+  font-variant-numeric: tabular-nums;
+}
+.odds-team-advance {
+  font-size: 0.78rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  padding: 2px 6px;
+  border-radius: 4px;
+  min-width: 44px;
+  text-align: center;
+}
+.odds-team-advance--high {
+  background: rgba(129, 214, 172, 0.15);
+  color: #81d6ac;
+  border: 1px solid rgba(129, 214, 172, 0.4);
+}
+.odds-team-advance--mid {
+  background: rgba(240, 193, 75, 0.12);
+  color: var(--accent);
+  border: 1px solid rgba(240, 193, 75, 0.4);
+}
+.odds-team-advance--low {
+  background: rgba(140, 152, 179, 0.1);
+  color: var(--text-dim);
+  border: 1px solid rgba(140, 152, 179, 0.25);
+}
+.odds-bar-row {
+  display: flex;
+  height: 6px;
+  border-radius: 3px;
+  overflow: hidden;
+  background: var(--bg-elev);
+  gap: 1px;
+}
+.odds-bar {
+  height: 100%;
+  transition: width 0.4s ease;
+  min-width: 0;
+}
+.odds-bar--1 { background: linear-gradient(90deg, #f0c14b, #f8d97a); }
+.odds-bar--2 { background: linear-gradient(90deg, #b6c1d6, #8c98b3); }
+.odds-bar--3 { background: linear-gradient(90deg, #cd7f32, #e0995a); }
+.odds-bar--4 { background: linear-gradient(90deg, #4a5468, #5a6582); }
+.odds-pct-row {
+  display: flex;
+  font-size: 0.68rem;
+  color: var(--text-dim);
+  font-variant-numeric: tabular-nums;
+  gap: 0;
+}
+.odds-pct { flex: 1 1 0; text-align: center; }
+.odds-legend {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin: 18px auto 0;
+  padding: 8px 12px;
+  max-width: 720px;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+.odds-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
 @media (max-width: 640px) {
   .weekly-card-teams { gap: 6px; }
   .weekly-team { font-size: 0.95rem; }

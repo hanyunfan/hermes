@@ -1,0 +1,1144 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-06-21T21:17:31+00:00",
+  "n_simulations": 10000,
+  "match_window": [
+    "2026-06-21",
+    "2026-06-27"
+  ],
+  "model": "elo + rank-gap-shrunk draw",
+  "groups": [
+    {
+      "name": "Group A",
+      "remaining_matches": [
+        {
+          "match_id": "760467",
+          "home_id": "450",
+          "away_id": "203",
+          "home_abbr": "CZE",
+          "away_abbr": "MEX",
+          "date": "2026-06-24"
+        },
+        {
+          "match_id": "760466",
+          "home_id": "467",
+          "away_id": "451",
+          "home_abbr": "RSA",
+          "away_abbr": "KOR",
+          "date": "2026-06-24"
+        }
+      ],
+      "teams": [
+        {
+          "id": "203",
+          "abbr": "MEX",
+          "name": "Mexico",
+          "name_zh": "墨西哥",
+          "flag": "🇲🇽",
+          "rank": 14,
+          "current_pts": 6,
+          "current_gd": 3,
+          "current_mp": 2,
+          "p_1st": 100.0,
+          "p_2nd": 0.0,
+          "p_3rd": 0.0,
+          "p_4th": 0.0,
+          "p_advance": 100.0
+        },
+        {
+          "id": "451",
+          "abbr": "KOR",
+          "name": "South Korea",
+          "name_zh": "韩国",
+          "flag": "🇰🇷",
+          "rank": 25,
+          "current_pts": 3,
+          "current_gd": 0,
+          "current_mp": 2,
+          "p_1st": 0.0,
+          "p_2nd": 64.8,
+          "p_3rd": 23.3,
+          "p_4th": 11.9,
+          "p_advance": 64.8
+        },
+        {
+          "id": "450",
+          "abbr": "CZE",
+          "name": "Czechia",
+          "name_zh": "捷克",
+          "flag": "🇨🇿",
+          "rank": 40,
+          "current_pts": 1,
+          "current_gd": -1,
+          "current_mp": 2,
+          "p_1st": 0.0,
+          "p_2nd": 11.9,
+          "p_3rd": 55.5,
+          "p_4th": 32.6,
+          "p_advance": 11.9
+        },
+        {
+          "id": "467",
+          "abbr": "RSA",
+          "name": "South Africa",
+          "name_zh": "南非",
+          "flag": "🇿🇦",
+          "rank": 60,
+          "current_pts": 1,
+          "current_gd": -2,
+          "current_mp": 2,
+          "p_1st": 0.0,
+          "p_2nd": 23.3,
+          "p_3rd": 21.2,
+          "p_4th": 55.5,
+          "p_advance": 23.3
+        }
+      ]
+    },
+    {
+      "name": "Group B",
+      "remaining_matches": [
+        {
+          "match_id": "760462",
+          "home_id": "452",
+          "away_id": "4398",
+          "home_abbr": "BIH",
+          "away_abbr": "QAT",
+          "date": "2026-06-24"
+        },
+        {
+          "match_id": "760463",
+          "home_id": "475",
+          "away_id": "206",
+          "home_abbr": "SUI",
+          "away_abbr": "CAN",
+          "date": "2026-06-24"
+        }
+      ],
+      "teams": [
+        {
+          "id": "206",
+          "abbr": "CAN",
+          "name": "Canada",
+          "name_zh": "加拿大",
+          "flag": "🇨🇦",
+          "rank": 30,
+          "current_pts": 4,
+          "current_gd": 6,
+          "current_mp": 2,
+          "p_1st": 65.1,
+          "p_2nd": 34.9,
+          "p_3rd": 0.0,
+          "p_4th": 0.0,
+          "p_advance": 100.0
+        },
+        {
+          "id": "475",
+          "abbr": "SUI",
+          "name": "Switzerland",
+          "name_zh": "瑞士",
+          "flag": "🇨🇭",
+          "rank": 19,
+          "current_pts": 4,
+          "current_gd": 3,
+          "current_mp": 2,
+          "p_1st": 34.9,
+          "p_2nd": 65.1,
+          "p_3rd": 0.0,
+          "p_4th": 0.0,
+          "p_advance": 100.0
+        },
+        {
+          "id": "452",
+          "abbr": "BIH",
+          "name": "Bosnia-Herzegovina",
+          "name_zh": "波黑",
+          "flag": "🇧🇦",
+          "rank": 64,
+          "current_pts": 1,
+          "current_gd": -3,
+          "current_mp": 2,
+          "p_1st": 0.0,
+          "p_2nd": 0.0,
+          "p_3rd": 65.8,
+          "p_4th": 34.2,
+          "p_advance": 0.0
+        },
+        {
+          "id": "4398",
+          "abbr": "QAT",
+          "name": "Qatar",
+          "name_zh": "卡塔尔",
+          "flag": "🇶🇦",
+          "rank": 56,
+          "current_pts": 1,
+          "current_gd": -6,
+          "current_mp": 2,
+          "p_1st": 0.0,
+          "p_2nd": 0.0,
+          "p_3rd": 34.2,
+          "p_4th": 65.8,
+          "p_advance": 0.0
+        }
+      ]
+    },
+    {
+      "name": "Group C",
+      "remaining_matches": [
+        {
+          "match_id": "760464",
+          "home_id": "2869",
+          "away_id": "2654",
+          "home_abbr": "MAR",
+          "away_abbr": "HAI",
+          "date": "2026-06-24"
+        },
+        {
+          "match_id": "760465",
+          "home_id": "580",
+          "away_id": "205",
+          "home_abbr": "SCO",
+          "away_abbr": "BRA",
+          "date": "2026-06-24"
+        }
+      ],
+      "teams": [
+        {
+          "id": "205",
+          "abbr": "BRA",
+          "name": "Brazil",
+          "name_zh": "巴西",
+          "flag": "🇧🇷",
+          "rank": 6,
+          "current_pts": 4,
+          "current_gd": 3,
+          "current_mp": 2,
+          "p_1st": 53.9,
+          "p_2nd": 24.8,
+          "p_3rd": 21.3,
+          "p_4th": 0.0,
+          "p_advance": 78.7
+        },
+        {
+          "id": "2869",
+          "abbr": "MAR",
+          "name": "Morocco",
+          "name_zh": "摩洛哥",
+          "flag": "🇲🇦",
+          "rank": 7,
+          "current_pts": 4,
+          "current_gd": 1,
+          "current_mp": 2,
+          "p_1st": 29.6,
+          "p_2nd": 57.9,
+          "p_3rd": 12.5,
+          "p_4th": 0.0,
+          "p_advance": 87.5
+        },
+        {
+          "id": "580",
+          "abbr": "SCO",
+          "name": "Scotland",
+          "name_zh": "苏格兰",
+          "flag": "🏴",
+          "rank": 42,
+          "current_pts": 3,
+          "current_gd": 0,
+          "current_mp": 2,
+          "p_1st": 16.5,
+          "p_2nd": 17.3,
+          "p_3rd": 66.2,
+          "p_4th": 0.0,
+          "p_advance": 33.8
+        },
+        {
+          "id": "2654",
+          "abbr": "HAI",
+          "name": "Haiti",
+          "name_zh": "海地",
+          "flag": "🇭🇹",
+          "rank": 83,
+          "current_pts": 0,
+          "current_gd": -4,
+          "current_mp": 2,
+          "p_1st": 0.0,
+          "p_2nd": 0.0,
+          "p_3rd": 0.0,
+          "p_4th": 100.0,
+          "p_advance": 0.0
+        }
+      ]
+    },
+    {
+      "name": "Group D",
+      "remaining_matches": [
+        {
+          "match_id": "760469",
+          "home_id": "210",
+          "away_id": "628",
+          "home_abbr": "PAR",
+          "away_abbr": "AUS",
+          "date": "2026-06-25"
+        },
+        {
+          "match_id": "760470",
+          "home_id": "465",
+          "away_id": "660",
+          "home_abbr": "TUR",
+          "away_abbr": "USA",
+          "date": "2026-06-25"
+        }
+      ],
+      "teams": [
+        {
+          "id": "660",
+          "abbr": "USA",
+          "name": "United States",
+          "name_zh": "美国",
+          "flag": "🇺🇸",
+          "rank": 17,
+          "current_pts": 6,
+          "current_gd": 5,
+          "current_mp": 2,
+          "p_1st": 100.0,
+          "p_2nd": 0.0,
+          "p_3rd": 0.0,
+          "p_4th": 0.0,
+          "p_advance": 100.0
+        },
+        {
+          "id": "628",
+          "abbr": "AUS",
+          "name": "Australia",
+          "name_zh": "澳大利亚",
+          "flag": "🇦🇺",
+          "rank": 27,
+          "current_pts": 3,
+          "current_gd": 0,
+          "current_mp": 2,
+          "p_1st": 0.0,
+          "p_2nd": 66.2,
+          "p_3rd": 33.8,
+          "p_4th": 0.0,
+          "p_advance": 66.2
+        },
+        {
+          "id": "210",
+          "abbr": "PAR",
+          "name": "Paraguay",
+          "name_zh": "巴拉圭",
+          "flag": "🇵🇾",
+          "rank": 41,
+          "current_pts": 3,
+          "current_gd": -2,
+          "current_mp": 2,
+          "p_1st": 0.0,
+          "p_2nd": 33.8,
+          "p_3rd": 54.5,
+          "p_4th": 11.7,
+          "p_advance": 33.8
+        },
+        {
+          "id": "465",
+          "abbr": "TUR",
+          "name": "Türkiye",
+          "name_zh": "土耳其",
+          "flag": "🇹🇷",
+          "rank": 22,
+          "current_pts": 0,
+          "current_gd": -3,
+          "current_mp": 2,
+          "p_1st": 0.0,
+          "p_2nd": 0.0,
+          "p_3rd": 11.7,
+          "p_4th": 88.3,
+          "p_advance": 0.0
+        }
+      ]
+    },
+    {
+      "name": "Group E",
+      "remaining_matches": [
+        {
+          "match_id": "760473",
+          "home_id": "11678",
+          "away_id": "4789",
+          "home_abbr": "CUW",
+          "away_abbr": "CIV",
+          "date": "2026-06-25"
+        },
+        {
+          "match_id": "760468",
+          "home_id": "209",
+          "away_id": "481",
+          "home_abbr": "ECU",
+          "away_abbr": "GER",
+          "date": "2026-06-25"
+        }
+      ],
+      "teams": [
+        {
+          "id": "481",
+          "abbr": "GER",
+          "name": "Germany",
+          "name_zh": "德国",
+          "flag": "🇩🇪",
+          "rank": 10,
+          "current_pts": 6,
+          "current_gd": 7,
+          "current_mp": 2,
+          "p_1st": 100.0,
+          "p_2nd": 0.0,
+          "p_3rd": 0.0,
+          "p_4th": 0.0,
+          "p_advance": 100.0
+        },
+        {
+          "id": "4789",
+          "abbr": "CIV",
+          "name": "Ivory Coast",
+          "name_zh": "科特迪瓦",
+          "flag": "🇨🇮",
+          "rank": 33,
+          "current_pts": 3,
+          "current_gd": 0,
+          "current_mp": 2,
+          "p_1st": 0.0,
+          "p_2nd": 64.8,
+          "p_3rd": 23.7,
+          "p_4th": 11.5,
+          "p_advance": 64.8
+        },
+        {
+          "id": "209",
+          "abbr": "ECU",
+          "name": "Ecuador",
+          "name_zh": "厄瓜多尔",
+          "flag": "🇪🇨",
+          "rank": 23,
+          "current_pts": 1,
+          "current_gd": -1,
+          "current_mp": 2,
+          "p_1st": 0.0,
+          "p_2nd": 11.5,
+          "p_3rd": 57.5,
+          "p_4th": 31.0,
+          "p_advance": 11.5
+        },
+        {
+          "id": "11678",
+          "abbr": "CUW",
+          "name": "Curaçao",
+          "name_zh": "库拉索",
+          "flag": "🏳️",
+          "rank": 82,
+          "current_pts": 1,
+          "current_gd": -6,
+          "current_mp": 2,
+          "p_1st": 0.0,
+          "p_2nd": 23.7,
+          "p_3rd": 18.8,
+          "p_4th": 57.5,
+          "p_advance": 23.7
+        }
+      ]
+    },
+    {
+      "name": "Group F",
+      "remaining_matches": [
+        {
+          "match_id": "760471",
+          "home_id": "627",
+          "away_id": "466",
+          "home_abbr": "JPN",
+          "away_abbr": "SWE",
+          "date": "2026-06-25"
+        },
+        {
+          "match_id": "760472",
+          "home_id": "659",
+          "away_id": "449",
+          "home_abbr": "TUN",
+          "away_abbr": "NED",
+          "date": "2026-06-25"
+        }
+      ],
+      "teams": [
+        {
+          "id": "449",
+          "abbr": "NED",
+          "name": "Netherlands",
+          "name_zh": "荷兰",
+          "flag": "🇳🇱",
+          "rank": 8,
+          "current_pts": 4,
+          "current_gd": 4,
+          "current_mp": 2,
+          "p_1st": 47.4,
+          "p_2nd": 52.6,
+          "p_3rd": 0.0,
+          "p_4th": 0.0,
+          "p_advance": 100.0
+        },
+        {
+          "id": "627",
+          "abbr": "JPN",
+          "name": "Japan",
+          "name_zh": "日本",
+          "flag": "🇯🇵",
+          "rank": 18,
+          "current_pts": 4,
+          "current_gd": 4,
+          "current_mp": 2,
+          "p_1st": 32.6,
+          "p_2nd": 33.9,
+          "p_3rd": 33.5,
+          "p_4th": 0.0,
+          "p_advance": 66.5
+        },
+        {
+          "id": "466",
+          "abbr": "SWE",
+          "name": "Sweden",
+          "name_zh": "瑞典",
+          "flag": "🇸🇪",
+          "rank": 38,
+          "current_pts": 3,
+          "current_gd": 0,
+          "current_mp": 2,
+          "p_1st": 20.0,
+          "p_2nd": 13.5,
+          "p_3rd": 66.5,
+          "p_4th": 0.0,
+          "p_advance": 33.5
+        },
+        {
+          "id": "659",
+          "abbr": "TUN",
+          "name": "Tunisia",
+          "name_zh": "突尼斯",
+          "flag": "🇹🇳",
+          "rank": 45,
+          "current_pts": 0,
+          "current_gd": -8,
+          "current_mp": 2,
+          "p_1st": 0.0,
+          "p_2nd": 0.0,
+          "p_3rd": 0.0,
+          "p_4th": 100.0,
+          "p_advance": 0.0
+        }
+      ]
+    },
+    {
+      "name": "Group G",
+      "remaining_matches": [
+        {
+          "match_id": "760451",
+          "home_id": "459",
+          "away_id": "469",
+          "home_abbr": "BEL",
+          "away_abbr": "IRN",
+          "date": "2026-06-21"
+        },
+        {
+          "match_id": "760452",
+          "home_id": "2666",
+          "away_id": "2620",
+          "home_abbr": "NZL",
+          "away_abbr": "EGY",
+          "date": "2026-06-21"
+        },
+        {
+          "match_id": "760476",
+          "home_id": "2620",
+          "away_id": "469",
+          "home_abbr": "EGY",
+          "away_abbr": "IRN",
+          "date": "2026-06-26"
+        },
+        {
+          "match_id": "760477",
+          "home_id": "2666",
+          "away_id": "459",
+          "home_abbr": "NZL",
+          "away_abbr": "BEL",
+          "date": "2026-06-26"
+        }
+      ],
+      "teams": [
+        {
+          "id": "2666",
+          "abbr": "NZL",
+          "name": "New Zealand",
+          "name_zh": "新西兰",
+          "flag": "🇳🇿",
+          "rank": 85,
+          "current_pts": 1,
+          "current_gd": 0,
+          "current_mp": 1,
+          "p_1st": 27.5,
+          "p_2nd": 30.0,
+          "p_3rd": 17.0,
+          "p_4th": 25.5,
+          "p_advance": 57.5
+        },
+        {
+          "id": "469",
+          "abbr": "IRN",
+          "name": "Iran",
+          "name_zh": "伊朗",
+          "flag": "🇮🇷",
+          "rank": 20,
+          "current_pts": 1,
+          "current_gd": 0,
+          "current_mp": 1,
+          "p_1st": 26.9,
+          "p_2nd": 28.9,
+          "p_3rd": 23.9,
+          "p_4th": 20.4,
+          "p_advance": 55.8
+        },
+        {
+          "id": "459",
+          "abbr": "BEL",
+          "name": "Belgium",
+          "name_zh": "比利时",
+          "flag": "🇧🇪",
+          "rank": 9,
+          "current_pts": 1,
+          "current_gd": 0,
+          "current_mp": 1,
+          "p_1st": 27.8,
+          "p_2nd": 19.4,
+          "p_3rd": 31.3,
+          "p_4th": 21.5,
+          "p_advance": 47.2
+        },
+        {
+          "id": "2620",
+          "abbr": "EGY",
+          "name": "Egypt",
+          "name_zh": "埃及",
+          "flag": "🇪🇬",
+          "rank": 29,
+          "current_pts": 1,
+          "current_gd": 0,
+          "current_mp": 1,
+          "p_1st": 17.8,
+          "p_2nd": 21.8,
+          "p_3rd": 27.9,
+          "p_4th": 32.6,
+          "p_advance": 39.5
+        }
+      ]
+    },
+    {
+      "name": "Group H",
+      "remaining_matches": [
+        {
+          "match_id": "760450",
+          "home_id": "212",
+          "away_id": "2597",
+          "home_abbr": "URU",
+          "away_abbr": "CPV",
+          "date": "2026-06-21"
+        },
+        {
+          "match_id": "760478",
+          "home_id": "2597",
+          "away_id": "655",
+          "home_abbr": "CPV",
+          "away_abbr": "KSA",
+          "date": "2026-06-26"
+        },
+        {
+          "match_id": "760479",
+          "home_id": "212",
+          "away_id": "164",
+          "home_abbr": "URU",
+          "away_abbr": "ESP",
+          "date": "2026-06-26"
+        }
+      ],
+      "teams": [
+        {
+          "id": "164",
+          "abbr": "ESP",
+          "name": "Spain",
+          "name_zh": "西班牙",
+          "flag": "🇪🇸",
+          "rank": 2,
+          "current_pts": 4,
+          "current_gd": 4,
+          "current_mp": 2,
+          "p_1st": 67.2,
+          "p_2nd": 30.9,
+          "p_3rd": 1.9,
+          "p_4th": 0.0,
+          "p_advance": 98.1
+        },
+        {
+          "id": "212",
+          "abbr": "URU",
+          "name": "Uruguay",
+          "name_zh": "乌拉圭",
+          "flag": "🇺🇾",
+          "rank": 16,
+          "current_pts": 1,
+          "current_gd": 0,
+          "current_mp": 1,
+          "p_1st": 21.5,
+          "p_2nd": 36.0,
+          "p_3rd": 30.4,
+          "p_4th": 12.2,
+          "p_advance": 57.5
+        },
+        {
+          "id": "655",
+          "abbr": "KSA",
+          "name": "Saudi Arabia",
+          "name_zh": "沙特阿拉伯",
+          "flag": "🇸🇦",
+          "rank": 61,
+          "current_pts": 1,
+          "current_gd": -4,
+          "current_mp": 2,
+          "p_1st": 0.0,
+          "p_2nd": 4.6,
+          "p_3rd": 29.6,
+          "p_4th": 65.8,
+          "p_advance": 4.6
+        },
+        {
+          "id": "2597",
+          "abbr": "CPV",
+          "name": "Cape Verde",
+          "name_zh": "佛得角",
+          "flag": "🇨🇻",
+          "rank": 67,
+          "current_pts": 1,
+          "current_gd": 0,
+          "current_mp": 1,
+          "p_1st": 11.3,
+          "p_2nd": 28.5,
+          "p_3rd": 38.1,
+          "p_4th": 22.1,
+          "p_advance": 39.8
+        }
+      ]
+    },
+    {
+      "name": "Group I",
+      "remaining_matches": [
+        {
+          "match_id": "760457",
+          "home_id": "478",
+          "away_id": "4375",
+          "home_abbr": "FRA",
+          "away_abbr": "IRQ",
+          "date": "2026-06-22"
+        },
+        {
+          "match_id": "760454",
+          "home_id": "464",
+          "away_id": "654",
+          "home_abbr": "NOR",
+          "away_abbr": "SEN",
+          "date": "2026-06-22"
+        },
+        {
+          "match_id": "760475",
+          "home_id": "464",
+          "away_id": "478",
+          "home_abbr": "NOR",
+          "away_abbr": "FRA",
+          "date": "2026-06-26"
+        },
+        {
+          "match_id": "760474",
+          "home_id": "654",
+          "away_id": "4375",
+          "home_abbr": "SEN",
+          "away_abbr": "IRQ",
+          "date": "2026-06-26"
+        }
+      ],
+      "teams": [
+        {
+          "id": "464",
+          "abbr": "NOR",
+          "name": "Norway",
+          "name_zh": "挪威",
+          "flag": "🇳🇴",
+          "rank": 31,
+          "current_pts": 3,
+          "current_gd": 3,
+          "current_mp": 1,
+          "p_1st": 52.2,
+          "p_2nd": 32.3,
+          "p_3rd": 14.4,
+          "p_4th": 1.2,
+          "p_advance": 84.4
+        },
+        {
+          "id": "478",
+          "abbr": "FRA",
+          "name": "France",
+          "name_zh": "法国",
+          "flag": "🇫🇷",
+          "rank": 3,
+          "current_pts": 3,
+          "current_gd": 2,
+          "current_mp": 1,
+          "p_1st": 43.5,
+          "p_2nd": 40.2,
+          "p_3rd": 15.2,
+          "p_4th": 1.1,
+          "p_advance": 83.7
+        },
+        {
+          "id": "654",
+          "abbr": "SEN",
+          "name": "Senegal",
+          "name_zh": "塞内加尔",
+          "flag": "🇸🇳",
+          "rank": 15,
+          "current_pts": 0,
+          "current_gd": -2,
+          "current_mp": 1,
+          "p_1st": 2.1,
+          "p_2nd": 16.4,
+          "p_3rd": 44.8,
+          "p_4th": 36.7,
+          "p_advance": 18.5
+        },
+        {
+          "id": "4375",
+          "abbr": "IRQ",
+          "name": "Iraq",
+          "name_zh": "伊拉克",
+          "flag": "🇮🇶",
+          "rank": 57,
+          "current_pts": 0,
+          "current_gd": -3,
+          "current_mp": 1,
+          "p_1st": 2.2,
+          "p_2nd": 11.2,
+          "p_3rd": 25.6,
+          "p_4th": 61.1,
+          "p_advance": 13.4
+        }
+      ]
+    },
+    {
+      "name": "Group J",
+      "remaining_matches": [
+        {
+          "match_id": "760456",
+          "home_id": "202",
+          "away_id": "474",
+          "home_abbr": "ARG",
+          "away_abbr": "AUT",
+          "date": "2026-06-22"
+        },
+        {
+          "match_id": "760455",
+          "home_id": "2917",
+          "away_id": "624",
+          "home_abbr": "JOR",
+          "away_abbr": "ALG",
+          "date": "2026-06-22"
+        },
+        {
+          "match_id": "760484",
+          "home_id": "624",
+          "away_id": "474",
+          "home_abbr": "ALG",
+          "away_abbr": "AUT",
+          "date": "2026-06-27"
+        },
+        {
+          "match_id": "760483",
+          "home_id": "2917",
+          "away_id": "202",
+          "home_abbr": "JOR",
+          "away_abbr": "ARG",
+          "date": "2026-06-27"
+        }
+      ],
+      "teams": [
+        {
+          "id": "202",
+          "abbr": "ARG",
+          "name": "Argentina",
+          "name_zh": "阿根廷",
+          "flag": "🇦🇷",
+          "rank": 1,
+          "current_pts": 3,
+          "current_gd": 3,
+          "current_mp": 1,
+          "p_1st": 59.3,
+          "p_2nd": 26.8,
+          "p_3rd": 12.9,
+          "p_4th": 1.1,
+          "p_advance": 86.1
+        },
+        {
+          "id": "474",
+          "abbr": "AUT",
+          "name": "Austria",
+          "name_zh": "奥地利",
+          "flag": "🇦🇹",
+          "rank": 24,
+          "current_pts": 3,
+          "current_gd": 2,
+          "current_mp": 1,
+          "p_1st": 36.3,
+          "p_2nd": 46.3,
+          "p_3rd": 16.3,
+          "p_4th": 1.1,
+          "p_advance": 82.6
+        },
+        {
+          "id": "2917",
+          "abbr": "JOR",
+          "name": "Jordan",
+          "name_zh": "约旦",
+          "flag": "🇯🇴",
+          "rank": 63,
+          "current_pts": 0,
+          "current_gd": -2,
+          "current_mp": 1,
+          "p_1st": 2.4,
+          "p_2nd": 13.8,
+          "p_3rd": 39.0,
+          "p_4th": 44.8,
+          "p_advance": 16.2
+        },
+        {
+          "id": "624",
+          "abbr": "ALG",
+          "name": "Algeria",
+          "name_zh": "阿尔及利亚",
+          "flag": "🇩🇿",
+          "rank": 28,
+          "current_pts": 0,
+          "current_gd": -3,
+          "current_mp": 1,
+          "p_1st": 2.0,
+          "p_2nd": 13.1,
+          "p_3rd": 31.8,
+          "p_4th": 53.0,
+          "p_advance": 15.1
+        }
+      ]
+    },
+    {
+      "name": "Group K",
+      "remaining_matches": [
+        {
+          "match_id": "760461",
+          "home_id": "482",
+          "away_id": "2570",
+          "home_abbr": "POR",
+          "away_abbr": "UZB",
+          "date": "2026-06-23"
+        },
+        {
+          "match_id": "760459",
+          "home_id": "208",
+          "away_id": "2850",
+          "home_abbr": "COL",
+          "away_abbr": "COD",
+          "date": "2026-06-23"
+        },
+        {
+          "match_id": "760481",
+          "home_id": "208",
+          "away_id": "482",
+          "home_abbr": "COL",
+          "away_abbr": "POR",
+          "date": "2026-06-27"
+        },
+        {
+          "match_id": "760482",
+          "home_id": "2850",
+          "away_id": "2570",
+          "home_abbr": "COD",
+          "away_abbr": "UZB",
+          "date": "2026-06-27"
+        }
+      ],
+      "teams": [
+        {
+          "id": "208",
+          "abbr": "COL",
+          "name": "Colombia",
+          "name_zh": "哥伦比亚",
+          "flag": "🇨🇴",
+          "rank": 13,
+          "current_pts": 3,
+          "current_gd": 2,
+          "current_mp": 1,
+          "p_1st": 59.8,
+          "p_2nd": 24.1,
+          "p_3rd": 12.5,
+          "p_4th": 3.6,
+          "p_advance": 83.9
+        },
+        {
+          "id": "2850",
+          "abbr": "COD",
+          "name": "Congo DR",
+          "name_zh": "刚果（金）",
+          "flag": "🇨🇩",
+          "rank": 46,
+          "current_pts": 1,
+          "current_gd": 0,
+          "current_mp": 1,
+          "p_1st": 19.0,
+          "p_2nd": 30.1,
+          "p_3rd": 31.0,
+          "p_4th": 19.8,
+          "p_advance": 49.1
+        },
+        {
+          "id": "482",
+          "abbr": "POR",
+          "name": "Portugal",
+          "name_zh": "葡萄牙",
+          "flag": "🇵🇹",
+          "rank": 5,
+          "current_pts": 1,
+          "current_gd": 0,
+          "current_mp": 1,
+          "p_1st": 16.3,
+          "p_2nd": 30.4,
+          "p_3rd": 27.9,
+          "p_4th": 25.4,
+          "p_advance": 46.7
+        },
+        {
+          "id": "2570",
+          "abbr": "UZB",
+          "name": "Uzbekistan",
+          "name_zh": "乌兹别克斯坦",
+          "flag": "🇺🇿",
+          "rank": 50,
+          "current_pts": 0,
+          "current_gd": -2,
+          "current_mp": 1,
+          "p_1st": 4.9,
+          "p_2nd": 15.4,
+          "p_3rd": 28.5,
+          "p_4th": 51.2,
+          "p_advance": 20.2
+        }
+      ]
+    },
+    {
+      "name": "Group L",
+      "remaining_matches": [
+        {
+          "match_id": "760458",
+          "home_id": "448",
+          "away_id": "4469",
+          "home_abbr": "ENG",
+          "away_abbr": "GHA",
+          "date": "2026-06-23"
+        },
+        {
+          "match_id": "760460",
+          "home_id": "2659",
+          "away_id": "477",
+          "home_abbr": "PAN",
+          "away_abbr": "CRO",
+          "date": "2026-06-23"
+        },
+        {
+          "match_id": "760480",
+          "home_id": "477",
+          "away_id": "4469",
+          "home_abbr": "CRO",
+          "away_abbr": "GHA",
+          "date": "2026-06-27"
+        },
+        {
+          "match_id": "760485",
+          "home_id": "2659",
+          "away_id": "448",
+          "home_abbr": "PAN",
+          "away_abbr": "ENG",
+          "date": "2026-06-27"
+        }
+      ],
+      "teams": [
+        {
+          "id": "448",
+          "abbr": "ENG",
+          "name": "England",
+          "name_zh": "英格兰",
+          "flag": "🏴",
+          "rank": 4,
+          "current_pts": 3,
+          "current_gd": 2,
+          "current_mp": 1,
+          "p_1st": 63.1,
+          "p_2nd": 23.1,
+          "p_3rd": 12.2,
+          "p_4th": 1.6,
+          "p_advance": 86.2
+        },
+        {
+          "id": "4469",
+          "abbr": "GHA",
+          "name": "Ghana",
+          "name_zh": "加纳",
+          "flag": "🇬🇭",
+          "rank": 73,
+          "current_pts": 3,
+          "current_gd": 1,
+          "current_mp": 1,
+          "p_1st": 34.2,
+          "p_2nd": 42.1,
+          "p_3rd": 21.7,
+          "p_4th": 2.0,
+          "p_advance": 76.3
+        },
+        {
+          "id": "2659",
+          "abbr": "PAN",
+          "name": "Panama",
+          "name_zh": "巴拿马",
+          "flag": "🇵🇦",
+          "rank": 34,
+          "current_pts": 0,
+          "current_gd": -1,
+          "current_mp": 1,
+          "p_1st": 1.2,
+          "p_2nd": 16.0,
+          "p_3rd": 39.2,
+          "p_4th": 43.5,
+          "p_advance": 17.3
+        },
+        {
+          "id": "477",
+          "abbr": "CRO",
+          "name": "Croatia",
+          "name_zh": "克罗地亚",
+          "flag": "🇭🇷",
+          "rank": 11,
+          "current_pts": 0,
+          "current_gd": -2,
+          "current_mp": 1,
+          "p_1st": 1.4,
+          "p_2nd": 18.8,
+          "p_3rd": 26.9,
+          "p_4th": 52.9,
+          "p_advance": 20.2
+        }
+      ]
+    }
+  ]
+}
