@@ -544,116 +544,148 @@
     ],
     "venues": [
       {
-        "id": "AT&T Stadium",
-        "name": "AT&T Stadium",
-        "city": "Arlington, Texas",
-        "country": "USA",
-        "match_count": 9
-      },
-      {
         "id": "BC Place",
         "name": "BC Place",
         "city": "Vancouver",
         "country": "Canada",
-        "match_count": 7
-      },
-      {
-        "id": "BMO Field",
-        "name": "BMO Field",
-        "city": "Toronto",
-        "country": "Canada",
-        "match_count": 6
-      },
-      {
-        "id": "Estadio Akron",
-        "name": "Estadio Akron",
-        "city": "Guadalajara",
-        "country": "Mexico",
-        "match_count": 4
-      },
-      {
-        "id": "Estadio BBVA",
-        "name": "Estadio BBVA",
-        "city": "Guadalupe",
-        "country": "Mexico",
-        "match_count": 4
-      },
-      {
-        "id": "Estadio Banorte",
-        "name": "Estadio Banorte",
-        "city": "Mexico City",
-        "country": "Mexico",
-        "match_count": 5
-      },
-      {
-        "id": "GEHA Field at Arrowhead Stadium",
-        "name": "GEHA Field at Arrowhead Stadium",
-        "city": "Kansas City, Missouri",
-        "country": "USA",
-        "match_count": 6
-      },
-      {
-        "id": "Gillette Stadium",
-        "name": "Gillette Stadium",
-        "city": "Foxborough, Massachusetts",
-        "country": "USA",
-        "match_count": 7
-      },
-      {
-        "id": "Hard Rock Stadium",
-        "name": "Hard Rock Stadium",
-        "city": "Miami Gardens, Florida",
-        "country": "USA",
-        "match_count": 7
-      },
-      {
-        "id": "Levi's Stadium",
-        "name": "Levi's Stadium",
-        "city": "Santa Clara, California",
-        "country": "USA",
-        "match_count": 6
-      },
-      {
-        "id": "Lincoln Financial Field",
-        "name": "Lincoln Financial Field",
-        "city": "Philadelphia, Pennsylvania",
-        "country": "USA",
-        "match_count": 6
-      },
-      {
-        "id": "Lumen Field",
-        "name": "Lumen Field",
-        "city": "Seattle, Washington",
-        "country": "USA",
-        "match_count": 6
-      },
-      {
-        "id": "Mercedes-Benz Stadium",
-        "name": "Mercedes-Benz Stadium",
-        "city": "Atlanta, Georgia",
-        "country": "USA",
-        "match_count": 8
-      },
-      {
-        "id": "MetLife Stadium",
-        "name": "MetLife Stadium",
-        "city": "East Rutherford, New Jersey",
-        "country": "USA",
-        "match_count": 8
-      },
-      {
-        "id": "NRG Stadium",
-        "name": "NRG Stadium",
-        "city": "Houston, Texas",
-        "country": "USA",
-        "match_count": 7
+        "match_count": 7,
+        "next_kickoff_iso": "2026-06-21",
+        "last_kickoff_iso": "2026-07-07"
       },
       {
         "id": "SoFi Stadium",
         "name": "SoFi Stadium",
         "city": "Inglewood, California",
         "country": "USA",
-        "match_count": 8
+        "match_count": 8,
+        "next_kickoff_iso": "2026-06-21",
+        "last_kickoff_iso": "2026-07-10"
+      },
+      {
+        "id": "Mercedes-Benz Stadium",
+        "name": "Mercedes-Benz Stadium",
+        "city": "Atlanta, Georgia",
+        "country": "USA",
+        "match_count": 8,
+        "next_kickoff_iso": "2026-06-21",
+        "last_kickoff_iso": "2026-07-15"
+      },
+      {
+        "id": "Hard Rock Stadium",
+        "name": "Hard Rock Stadium",
+        "city": "Miami Gardens, Florida",
+        "country": "USA",
+        "match_count": 7,
+        "next_kickoff_iso": "2026-06-21",
+        "last_kickoff_iso": "2026-07-18"
+      },
+      {
+        "id": "Levi's Stadium",
+        "name": "Levi's Stadium",
+        "city": "Santa Clara, California",
+        "country": "USA",
+        "match_count": 6,
+        "next_kickoff_iso": "2026-06-22",
+        "last_kickoff_iso": "2026-07-01"
+      },
+      {
+        "id": "Lincoln Financial Field",
+        "name": "Lincoln Financial Field",
+        "city": "Philadelphia, Pennsylvania",
+        "country": "USA",
+        "match_count": 6,
+        "next_kickoff_iso": "2026-06-22",
+        "last_kickoff_iso": "2026-07-04"
+      },
+      {
+        "id": "AT&T Stadium",
+        "name": "AT&T Stadium",
+        "city": "Arlington, Texas",
+        "country": "USA",
+        "match_count": 9,
+        "next_kickoff_iso": "2026-06-22",
+        "last_kickoff_iso": "2026-07-14"
+      },
+      {
+        "id": "MetLife Stadium",
+        "name": "MetLife Stadium",
+        "city": "East Rutherford, New Jersey",
+        "country": "USA",
+        "match_count": 8,
+        "next_kickoff_iso": "2026-06-22",
+        "last_kickoff_iso": "2026-07-19"
+      },
+      {
+        "id": "Estadio Akron",
+        "name": "Estadio Akron",
+        "city": "Guadalajara",
+        "country": "Mexico",
+        "match_count": 4,
+        "next_kickoff_iso": "2026-06-23",
+        "last_kickoff_iso": "2026-06-26"
+      },
+      {
+        "id": "BMO Field",
+        "name": "BMO Field",
+        "city": "Toronto",
+        "country": "Canada",
+        "match_count": 6,
+        "next_kickoff_iso": "2026-06-23",
+        "last_kickoff_iso": "2026-07-02"
+      },
+      {
+        "id": "NRG Stadium",
+        "name": "NRG Stadium",
+        "city": "Houston, Texas",
+        "country": "USA",
+        "match_count": 7,
+        "next_kickoff_iso": "2026-06-23",
+        "last_kickoff_iso": "2026-07-04"
+      },
+      {
+        "id": "Gillette Stadium",
+        "name": "Gillette Stadium",
+        "city": "Foxborough, Massachusetts",
+        "country": "USA",
+        "match_count": 7,
+        "next_kickoff_iso": "2026-06-23",
+        "last_kickoff_iso": "2026-07-09"
+      },
+      {
+        "id": "Estadio BBVA",
+        "name": "Estadio BBVA",
+        "city": "Guadalupe",
+        "country": "Mexico",
+        "match_count": 4,
+        "next_kickoff_iso": "2026-06-24",
+        "last_kickoff_iso": "2026-06-29"
+      },
+      {
+        "id": "Estadio Banorte",
+        "name": "Estadio Banorte",
+        "city": "Mexico City",
+        "country": "Mexico",
+        "match_count": 5,
+        "next_kickoff_iso": "2026-06-24",
+        "last_kickoff_iso": "2026-07-05"
+      },
+      {
+        "id": "Lumen Field",
+        "name": "Lumen Field",
+        "city": "Seattle, Washington",
+        "country": "USA",
+        "match_count": 6,
+        "next_kickoff_iso": "2026-06-24",
+        "last_kickoff_iso": "2026-07-06"
+      },
+      {
+        "id": "GEHA Field at Arrowhead Stadium",
+        "name": "GEHA Field at Arrowhead Stadium",
+        "city": "Kansas City, Missouri",
+        "country": "USA",
+        "match_count": 6,
+        "next_kickoff_iso": "2026-06-25",
+        "last_kickoff_iso": "2026-07-11"
       }
     ],
     "stages": [

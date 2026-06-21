@@ -742,17 +742,38 @@ def build_payload(tz_name: str) -> dict:
         v = m["venue"]
         if v["name"]:
             key = v["name"]
-            venue_index.setdefault(key, {
+            entry = venue_index.setdefault(key, {
                 "id": key,
                 "name": v["name"],
                 "city": v["city"],
                 "country": v["country"],
                 "match_count": 0,
+                "next_kickoff_iso": None,  # earliest SCHEDULED/LIVE date
+                "last_kickoff_iso": None,  # latest known date
             })
-            venue_index[key]["match_count"] += 1
+            entry["match_count"] += 1
+            entry["last_kickoff_iso"] = m["kickoff_local_date"]
+            if m.get("status") in ("SCHEDULED", "LIVE"):
+                if entry["next_kickoff_iso"] is None or m["kickoff_local_date"] < entry["next_kickoff_iso"]:
+                    entry["next_kickoff_iso"] = m["kickoff_local_date"]
+
+    # Sort venues: those with the nearest upcoming match first; venues
+    # whose last match is in the past sink to the bottom. Falls back to
+    # alphabetical order for ties so the picker is stable across runs.
+    def _venue_sort_key(v: dict) -> tuple:
+        nxt = v.get("next_kickoff_iso") or ""
+        # Sort key: (has_upcoming, next_iso_or_far_future, last_iso, name)
+        # `has_upcoming` is 0 if upcoming exists, 1 if past-only — keeps
+        # upcoming venues above past-only ones.
+        return (
+            0 if v.get("next_kickoff_iso") else 1,
+            nxt,
+            v.get("last_kickoff_iso") or "",
+            v["name"],
+        )
 
     teams = sorted(team_index.values(), key=lambda t: t["name"])
-    venues = sorted(venue_index.values(), key=lambda v: v["name"])
+    venues = sorted(venue_index.values(), key=_venue_sort_key)
 
     # Use the hard-coded tournament dates — don't infer from the
     # fetched data, which can miss early or late matches if ESPN

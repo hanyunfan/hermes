@@ -350,12 +350,29 @@ body {
   box-shadow: var(--shadow);
   max-height: 320px;
   overflow-y: auto;
-  z-index: 60;
+  z-index: 200; /* must beat .filters' own stacking context (50) so the
+                   dropdown isn't clipped by other sticky/floating
+                   elements above. The .filters has backdrop-filter which
+                   creates a stacking context, so a high z-index on the
+                   dropdown is required to actually appear in front. */
   margin: 0;
   padding: 4px;
   list-style: none;
 }
 .combo-options--check { padding: 4px 0; }
+/* Venue picker has 16 entries — used to clip at 320px (~10 visible).
+   The data layer now sorts venues with the next upcoming match first
+   (see scripts/fetch_matches.py), so we just need enough max-height
+   to expose every entry in one screen. */
+.combo-options--venues-grid {
+  max-height: min(70vh, 560px);
+  min-width: 320px;
+}
+.combo-options--venues-grid .combo-option {
+  padding: 6px 10px;
+  font-size: 0.84rem;
+  gap: 8px;
+}
 .combo-option {
   display: flex;
   align-items: center;
