@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-21T01:58:28.012653+00:00",
+  "generated_at": "2026-06-21T03:26:00.390194+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-20T20:58:24.485421-05:00",
+  "now_local": "2026-06-20T22:25:59.108177-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -11122,7 +11122,7 @@
             "Tele",
             "FOX One"
           ],
-          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760489/third-place-group-abcdf-group-e-winner",
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760489/third-place-group-abcdf-germany",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Germany%20vs%20Third%20Place%20Group%20A/B/C/D/F",
           "slug": "third place group a/b/c/d/f-at-germany"
         },
