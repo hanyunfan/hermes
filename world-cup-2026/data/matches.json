@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-21T22:15:09.445582+00:00",
+  "generated_at": "2026-06-21T23:51:07.918462+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-21T17:15:08.175269-05:00",
+  "now_local": "2026-06-21T18:51:07.206462-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -9569,8 +9569,8 @@
           "kickoff_local_date": "2026-06-21",
           "kickoff_time": "5:00 PM",
           "kickoff_weekday": "Sun",
-          "status": "SCHEDULED",
-          "status_short": "Scheduled",
+          "status": "LIVE",
+          "status_short": "86'",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -9584,7 +9584,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/uru.png",
             "color": "55B5E5",
             "home_away": "home",
-            "score": 0,
+            "score": 2,
             "winner": false
           },
           "away": {
@@ -9598,7 +9598,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/cpv.png",
             "color": "000080",
             "home_away": "away",
-            "score": 0,
+            "score": 2,
             "winner": false
           },
           "venue": {
@@ -9611,9 +9611,155 @@
             "Tele",
             "FOX One"
           ],
-          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760450/cape-verde-uruguay",
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760450/cape verde-uruguay",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Uruguay%20vs%20Cape%20Verde",
-          "slug": "cape verde-at-uruguay"
+          "slug": "cape verde-at-uruguay",
+          "incidents": [
+            {
+              "kind": "yellow_card",
+              "minute": "5'",
+              "team": "Cape Verde",
+              "team_id": "2597",
+              "team_side": "away",
+              "player": "Sidny Lopes Cabral",
+              "text": "Sidny Cabral (Cabo Verde) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "20'",
+              "team": "Uruguay",
+              "team_id": "212",
+              "team_side": "home",
+              "player": "Rodrigo Bentancur",
+              "text": "Rodrigo Bentancur (Uruguay) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "goal",
+              "minute": "21'",
+              "team": "Cape Verde",
+              "team_id": "2597",
+              "team_side": "away",
+              "player": "Kevin Pina",
+              "text": "Goal! Uruguay 0, Cabo Verde 1. Kevin Pina (Cabo Verde) from a free kick with a right footed shot to the bottom right corner."
+            },
+            {
+              "kind": "goal",
+              "minute": "44'",
+              "team": "Uruguay",
+              "team_id": "212",
+              "team_side": "home",
+              "player": "Maxi Araújo",
+              "text": "Goal! Uruguay 1, Cabo Verde 1. Maxi Araújo (Uruguay) header from very close range to the centre of the goal."
+            },
+            {
+              "kind": "goal",
+              "minute": "45'+6'",
+              "team": "Uruguay",
+              "team_id": "212",
+              "team_side": "home",
+              "player": "Agustín Cano",
+              "text": "Goal! Uruguay 2, Cabo Verde 1. Agustín Canobbio (Uruguay) right footed shot from the centre of the box to the centre of the goal. Assisted by Maxi Araújo with a headed pass.",
+              "assist": "Maxi Araújo"
+            },
+            {
+              "kind": "substitution",
+              "minute": "45'",
+              "team": "Cape Verde",
+              "team_id": "2597",
+              "team_side": "away",
+              "player": "Deroy Duarte",
+              "text": "Substitution, Cabo Verde. Deroy Duarte replaces Telmo Arcanjo because of an injury.",
+              "player_off": "Telmo Arcanjo"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "58'",
+              "team": "Uruguay",
+              "team_id": "212",
+              "team_side": "home",
+              "player": "Mathías Olivera",
+              "text": "Mathías Olivera (Uruguay) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "substitution",
+              "minute": "58'",
+              "team": "Cape Verde",
+              "team_id": "2597",
+              "team_side": "away",
+              "player": "Nuno da Costa",
+              "text": "Substitution, Cabo Verde. Nuno da Costa replaces Gilson Benchimol.",
+              "player_off": "Gilson Benchimol"
+            },
+            {
+              "kind": "substitution",
+              "minute": "58'",
+              "team": "Cape Verde",
+              "team_id": "2597",
+              "team_side": "away",
+              "player": "Hélio Varela",
+              "text": "Substitution, Cabo Verde. Hélio Varela replaces Garry Rodrigues.",
+              "player_off": "Garry Rodrigues"
+            },
+            {
+              "kind": "goal",
+              "minute": "61'",
+              "team": "Cape Verde",
+              "team_id": "2597",
+              "team_side": "away",
+              "player": "Hélio Varela",
+              "text": "Goal! Uruguay 2, Cabo Verde 2. Hélio Varela (Cabo Verde) right footed shot from outside the box to the centre of the goal."
+            },
+            {
+              "kind": "substitution",
+              "minute": "70'",
+              "team": "Uruguay",
+              "team_id": "212",
+              "team_side": "home",
+              "player": "Darwin Núñez",
+              "text": "Substitution, Uruguay. Darwin Núñez replaces Federico Viñas.",
+              "player_off": "Federico Viñas"
+            },
+            {
+              "kind": "substitution",
+              "minute": "70'",
+              "team": "Uruguay",
+              "team_id": "212",
+              "team_side": "home",
+              "player": "Nicolás de la Cruz",
+              "text": "Substitution, Uruguay. Nicolás de la Cruz replaces Manuel Ugarte.",
+              "player_off": "Manuel Ugarte"
+            },
+            {
+              "kind": "substitution",
+              "minute": "71'",
+              "team": "Cape Verde",
+              "team_id": "2597",
+              "team_side": "away",
+              "player": "Laros Duarte",
+              "text": "Substitution, Cabo Verde. Laros Duarte replaces Kevin Pina because of an injury.",
+              "player_off": "Kevin Pina"
+            },
+            {
+              "kind": "substitution",
+              "minute": "80'",
+              "team": "Cape Verde",
+              "team_id": "2597",
+              "team_side": "away",
+              "player": "Yannick Semedo",
+              "text": "Substitution, Cabo Verde. Yannick Semedo replaces Jamiro Monteiro because of an injury.",
+              "player_off": "Jamiro Monteiro"
+            },
+            {
+              "kind": "substitution",
+              "minute": "81'",
+              "team": "Uruguay",
+              "team_id": "212",
+              "team_side": "home",
+              "player": "Brian Rodríguez",
+              "text": "Substitution, Uruguay. Brian Rodríguez replaces Maxi Araújo.",
+              "player_off": "Maxi Araújo"
+            }
+          ]
         },
         {
           "id": "760452",
