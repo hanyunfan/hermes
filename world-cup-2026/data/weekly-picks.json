@@ -1,10 +1,10 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-22T14:19:06+00:00",
+  "generated_at": "2026-06-22T14:25:48+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-22T09:19:06-05:00",
+  "now_local": "2026-06-22T09:25:48-05:00",
   "match_count": 48,
-  "manual_count": 48,
+  "manual_count": 32,
   "rounds": [
     {
       "round_id": "group-stage-md2-2026-06-19-2026-06-24",
@@ -1382,13 +1382,13 @@
         "2026-06-27"
       ],
       "match_count": 16,
-      "manual_count": 16,
-      "last_manual_update": "2026-06-22T09:30:00-05:00",
-      "round_intro_zh": "小组赛末轮决战周：6/24-6/27 四天 24 场。A-F 六个小组末轮定生死（出线和 3rd place 终极对决），G-L 还在第二轮中段（新西兰 vs 比利时、乌拉圭 vs 西班牙、塞内加尔 vs 伊拉克都是关键战）。本周 16 场必看最不能错过的 4 场：6/26 挪威 vs 法国（哈兰德 vs 姆巴佩，欧洲杯级别对决）、6/25 日本 vs 瑞典（北欧东亚风格碰撞）、6/25 巴拉圭 vs 澳大利亚（D 组 2nd place 决战）、6/24 瑞士 vs 加拿大（B 组榜首之战）。出线悬念 + 巨星对决 + 老将告别 = 小组赛最重磅一周。",
-      "round_intro_en": "Final matchday week: Jun 24–27, 24 matches in four days. Groups A–F decide qualification on the last matchday, while Groups G–L are still in matchday 2 of 3 (NZL vs BEL, URU vs ESP, SEN vs IRQ all matter). Four can't-miss fixtures: Norway vs France on Jun 26 (Haaland vs Mbappé, Euro-final level); Japan vs Sweden on Jun 25 (Nordic–East-Asian contrast); Paraguay vs Australia on Jun 25 (Group D 2nd-place decider); Switzerland vs Canada on Jun 24 (Group B top-spot decider). Stakes + stars + farewells = the heaviest week of group stage.",
+      "manual_count": 0,
+      "last_manual_update": null,
+      "round_intro_zh": null,
+      "round_intro_en": null,
       "manual_note_zh": null,
       "manual_note_en": null,
-      "generated_at": "2026-06-22T14:19:06+00:00",
+      "generated_at": "2026-06-22T14:25:48+00:00",
       "matches": [
         {
           "match_id": "760462",
@@ -1433,39 +1433,20 @@
           "stakes_narrative_en": "Final matchday — qualification on the line.",
           "verdict": "must",
           "score": 4,
-          "headline_zh": "B 组 3rd place 终极对决",
-          "headline_en": "Group B's 3rd-place decider",
-          "watch_for_zh": [
-            "B 组前两名 CAN/SUI 已基本锁定，本场赢者 3rd place（仍可能以 8 个最佳第 3 名之一晋级 R32），输者 4th 直接出局",
-            "波黑 2014 后首次世界杯 vs 卡塔尔 2022 东道主——两队本届都是各自历程里的一场"
-          ],
-          "watch_for_en": [
-            "Top 2 (CAN/SUI) are basically locked — winner of this takes 3rd (still in R32 contention as one of 8 best 3rds), loser is 4th and out",
-            "Bosnia's first WC since 2014 vs hosts from 2022 — both playing for legacy"
-          ],
-          "key_players_zh": [
-            "哲科 #11（波黑 39 岁队长，罗马/国米名宿，本届可能是其告别赛）",
-            "阿菲夫 #11（卡塔尔 2022 金靴，亚洲杯 MVP）",
-            "皮亚尼奇 #5（波黑老将中场）"
-          ],
-          "key_players_en": [
-            "Edin Džeko #11 (BIH 39yo captain, Roma/Inter legend, likely farewell WC)",
-            "Akram Afif #11 (QAT 2022 Golden Boot shared, Asia Cup MVP)",
-            "Miralem Pjanić #5 (BIH veteran midfielder)"
-          ],
-          "news_focus_zh": "哲科 39 岁大概率是最后一届，这场比赛是波黑黄金一代的告别演出",
-          "news_focus_en": "Džeko's farewell tour — Bosnia's golden generation plays its last WC match",
-          "record_potential_zh": [
-            "哲科若进球将成为 BIH 世界杯历史最年长进球者"
-          ],
-          "record_potential_en": [
-            "Džeko would become BIH's oldest-ever WC scorer with a goal"
-          ],
+          "headline_zh": null,
+          "headline_en": null,
+          "watch_for_zh": [],
+          "watch_for_en": [],
+          "key_players_zh": [],
+          "key_players_en": [],
+          "news_focus_zh": null,
+          "news_focus_en": null,
+          "record_potential_zh": [],
+          "record_potential_en": [],
           "why_skip_zh": null,
           "why_skip_en": null,
           "verdict_override": null,
-          "score_override": null,
-          "manual_author": "claude"
+          "score_override": null
         },
         {
           "match_id": "760463",
@@ -1510,41 +1491,20 @@
           "stakes_narrative_en": "Final matchday — qualification on the line.",
           "verdict": "must",
           "score": 4,
-          "headline_zh": "B 组头名终极战",
-          "headline_en": "Group B's top-spot decider",
-          "watch_for_zh": [
-            "B 组双 4 分头名直接对话——赢者锁定小组第一（避开 H 组潜在第 2：乌拉圭/西班牙），输者大概率仍以 2nd 出线",
-            "加拿大本届东道主之一，主场温哥华 BC Place 4 万球迷；瑞士老将 Shaqiri 可能告别"
-          ],
-          "watch_for_en": [
-            "Both 4pts, winner locks 1st (and avoids Uruguay/Spain path), loser still advances as 2nd",
-            "Co-hosts CAN at home in Vancouver (40k BC Place); Shaqiri 33yo may be playing his last WC"
-          ],
-          "key_players_zh": [
-            "扎卡 #10（瑞士 32 岁队长，勒沃库森核心）",
-            "阿方索·戴维斯 #19（加拿大 24 岁左路，拜仁慕尼黑）",
-            "沙奇里 #23（瑞士 33 岁老将，芝加哥火焰，本届告别赛）"
-          ],
-          "key_players_en": [
-            "Granit Xhaka #10 (SUI 32yo captain, Leverkusen anchor)",
-            "Alphonso Davies #19 (CAN 24yo, Bayern left-back — 2022 fastest WC goal)",
-            "Xherdan Shaqiri #23 (SUI 33yo veteran, Chicago Fire — likely farewell WC)"
-          ],
-          "news_focus_zh": "东道主加拿大 vs 瑞士老将沙奇里的告别——攻守对位（Davies vs Shaqiri）将决定比赛",
-          "news_focus_en": "Co-host CAN vs Shaqiri's farewell — Davies vs Shaqiri matchup on the flank decides it",
-          "record_potential_zh": [
-            "沙奇里若进球将追平瑞士世界杯历史射手纪录（5 球，并列第一）",
-            "戴维斯本届作为东道主首战进球已是 2022 最快进球纪录保持者"
-          ],
-          "record_potential_en": [
-            "Shaqiri would tie SUI WC all-time scoring record (5 goals) with one more",
-            "Davies already holds the 2022 fastest WC goal record (67 seconds vs Croatia)"
-          ],
+          "headline_zh": null,
+          "headline_en": null,
+          "watch_for_zh": [],
+          "watch_for_en": [],
+          "key_players_zh": [],
+          "key_players_en": [],
+          "news_focus_zh": null,
+          "news_focus_en": null,
+          "record_potential_zh": [],
+          "record_potential_en": [],
           "why_skip_zh": null,
           "why_skip_en": null,
           "verdict_override": null,
-          "score_override": null,
-          "manual_author": "claude"
+          "score_override": null
         },
         {
           "match_id": "760464",
@@ -1589,39 +1549,20 @@
           "stakes_narrative_en": "Final matchday — qualification on the line.",
           "verdict": "must",
           "score": 5,
-          "headline_zh": "摩洛哥冲头名 vs 海地历史首球",
-          "headline_en": "Morocco chase top spot, Haiti chase history",
-          "watch_for_zh": [
-            "摩洛哥 4 分（+1 GD）末轮打平基本锁定 2nd，赢则可凭 GD 争头名（要等 SCO 不赢 BRA）",
-            "海地 0 分已出局，但 12 年来首场世界杯 + 首次进球将是历史时刻"
-          ],
-          "watch_for_en": [
-            "Morocco (4pts, +1 GD) likely 2nd with a draw, can top group on GD if SCO doesn't beat BRA",
-            "Haiti (0pts) already out, but their first-ever WC goal would be a national moment"
-          ],
-          "key_players_zh": [
-            "阿什拉夫·哈基米 #2（摩洛哥 26 岁，巴黎/皇马边卫，本届定位球核心）",
-            "恩内斯利 #19（摩洛哥 25 岁前锋，2024 非洲杯金靴）",
-            "海地全队（FIFA 排名 83，队中大多数球员法甲/比甲联赛）"
-          ],
-          "key_players_en": [
-            "Achraf Hakimi #2 (MAR 26yo, PSG/Real Madrid RB, set-piece specialist)",
-            "Youssef En-Nesyri #19 (MAR 25yo, 2024 AFCON top scorer)",
-            "Haiti squad (#83 FIFA, mostly Ligue 1/Jupiler Pro)"
-          ],
-          "news_focus_zh": "海地本届首战 0-2 巴西未进 1 球——次战若破门将是该国世界杯历史首球",
-          "news_focus_en": "Haiti didn't score vs Brazil in their WC debut — a goal here would be their first ever in a World Cup",
-          "record_potential_zh": [
-            "海地若进球将是该国世界杯历史首球"
-          ],
-          "record_potential_en": [
-            "A Haiti goal would be the country's first-ever World Cup goal"
-          ],
+          "headline_zh": null,
+          "headline_en": null,
+          "watch_for_zh": [],
+          "watch_for_en": [],
+          "key_players_zh": [],
+          "key_players_en": [],
+          "news_focus_zh": null,
+          "news_focus_en": null,
+          "record_potential_zh": [],
+          "record_potential_en": [],
           "why_skip_zh": null,
           "why_skip_en": null,
           "verdict_override": null,
-          "score_override": null,
-          "manual_author": "claude"
+          "score_override": null
         },
         {
           "match_id": "760465",
@@ -1666,41 +1607,20 @@
           "stakes_narrative_en": "Final matchday — qualification on the line.",
           "verdict": "must",
           "score": 5,
-          "headline_zh": "苏格兰 vs 巴西：12 年来首场出线战",
-          "headline_en": "Scotland's do-or-die vs five-time champs",
-          "watch_for_zh": [
-            "苏格兰 3 分（0 GD）末轮必须赢才有望以 3rd place 晋级；巴西 4 分打平基本锁定",
-            "苏格兰 1998 后首次重返世界杯，本场是其 12 年来首场出线战"
-          ],
-          "watch_for_en": [
-            "SCO 3pts (0 GD) — must win to advance as 3rd-place hopeful; BRA 4pts likely through with draw",
-            "SCO's first WC since 1998 — and their first knockout-stage fight in 28 years"
-          ],
-          "key_players_zh": [
-            "罗伯逊 #3（苏格兰 31 岁队长，利物浦左后卫）",
-            "维尼修斯·儒尼奥尔 #7（巴西 24 岁，皇马，金球奖热门）",
-            "麦克托米奈 #4（苏格兰 28 岁，那不勒斯中场）"
-          ],
-          "key_players_en": [
-            "Andy Robertson #3 (SCO 31yo captain, Liverpool LB)",
-            "Vinícius Júnior #7 (BRA 24yo, Real Madrid, Ballon d'Or frontrunner)",
-            "Scott McTominay #4 (SCO 28yo, Napoli midfielder)"
-          ],
-          "news_focus_zh": "巴西可能轮换主力为 R32 准备（5 届冠军 + 已基本锁定），苏格兰要全主力一搏",
-          "news_focus_en": "Brazil may rotate for R32 prep; Scotland must go all-in",
-          "record_potential_zh": [
-            "苏格兰若取胜将是 1998 后首次世界杯淘汰赛",
-            "维尼修斯本届已 1 球，再 1 球将追平巴西世界杯 24 岁前进球纪录"
-          ],
-          "record_potential_en": [
-            "Scotland would reach WC knockouts for first time since 1998 with a win",
-            "Vinícius one more goal ties the record for Brazil goals before age 25"
-          ],
+          "headline_zh": null,
+          "headline_en": null,
+          "watch_for_zh": [],
+          "watch_for_en": [],
+          "key_players_zh": [],
+          "key_players_en": [],
+          "news_focus_zh": null,
+          "news_focus_en": null,
+          "record_potential_zh": [],
+          "record_potential_en": [],
           "why_skip_zh": null,
           "why_skip_en": null,
           "verdict_override": null,
-          "score_override": null,
-          "manual_author": "claude"
+          "score_override": null
         },
         {
           "match_id": "760467",
@@ -1743,41 +1663,22 @@
           "stakes_verdict_auto": "must",
           "stakes_narrative_zh": "末轮出线生死战。",
           "stakes_narrative_en": "Final matchday — qualification on the line.",
-          "verdict": "skip",
-          "score": 2,
-          "headline_zh": "墨西哥主场冲 5 连胜 vs 捷克理论希望",
-          "headline_en": "Mexico eye 5th straight group win, Czechia chase miracle",
-          "watch_for_zh": [
-            "墨西哥 6 分已锁定头名，大概率轮换主力（Mexico City 主场）",
-            "捷克 1 分（-1 GD）需要赢 + KOR 输才能以 3rd place 晋级——理论希望但极难"
-          ],
-          "watch_for_en": [
-            "Mexico (6pts) locked 1st, likely rotate (Mexico City home crowd gets the show)",
-            "Czechia (1pt, -1 GD) needs win + KOR loss to sneak in as 3rd — math is brutal"
-          ],
-          "key_players_zh": [
-            "希克 #14（捷克 30 岁前锋，勒沃库森，2020 欧洲杯金靴）",
-            "阿尔瓦雷斯 #19（墨西哥 25 岁前锋，曼城，2024 联赛金靴）",
-            "洛迪格斯 #5（墨西哥 28 岁，门将）"
-          ],
-          "key_players_en": [
-            "Patrik Schick #14 (CZE 30yo, Leverkusen — Euro 2020 Golden Boot)",
-            "Julián Álvarez #19 (MEX 25yo, Man City — 2024 PL runner-up scoring)",
-            "Luis Malagón #1 (MEX 28yo goalkeeper)"
-          ],
-          "news_focus_zh": "MEX 教练是否派出 11 名替补是焦点——这直接决定 CZE 翻盘概率",
-          "news_focus_en": "Will MEX rotate 11 players? The answer decides whether Czechia have a chance",
-          "record_potential_zh": [
-            "MEX 若取胜将是世界杯 5 连胜（队史最长连胜）"
-          ],
-          "record_potential_en": [
-            "MEX with a win would set a national record of 5 straight WC victories"
-          ],
-          "why_skip_zh": "MEX 大概率轮换主力，捷克翻盘需要 KOR 输球——悬念有限",
-          "why_skip_en": "MEX likely rotate heavily, CZE need help elsewhere",
+          "verdict": "must",
+          "score": 4,
+          "headline_zh": null,
+          "headline_en": null,
+          "watch_for_zh": [],
+          "watch_for_en": [],
+          "key_players_zh": [],
+          "key_players_en": [],
+          "news_focus_zh": null,
+          "news_focus_en": null,
+          "record_potential_zh": [],
+          "record_potential_en": [],
+          "why_skip_zh": null,
+          "why_skip_en": null,
           "verdict_override": null,
-          "score_override": null,
-          "manual_author": "claude"
+          "score_override": null
         },
         {
           "match_id": "760466",
@@ -1822,39 +1723,20 @@
           "stakes_narrative_en": "Final matchday — qualification on the line.",
           "verdict": "must",
           "score": 4,
-          "headline_zh": "韩国生死战 vs 南非荣誉告别",
-          "headline_en": "Korea's last stand vs South Africa's farewell",
-          "watch_for_zh": [
-            "韩国 3 分末轮必须赢（且要追 GD）才能压 CZE/MEX 出线",
-            "南非 2010 东道主之后再入围，本届 1 分提前告别——荣誉战"
-          ],
-          "watch_for_en": [
-            "KOR (3pts) must win to advance — likely needs goal-difference swing too",
-            "RSA (1pt) already out, 2010 hosts playing for pride"
-          ],
-          "key_players_zh": [
-            "孙兴慜 #7（韩国 33 岁队长，2024 转会拜仁慕尼黑）",
-            "黄喜灿 #11（韩国 29 岁，狼队，2022 16 强进球）",
-            "勒菲特拉 #?（南非 28 岁前锋，摩纳哥）"
-          ],
-          "key_players_en": [
-            "Son Heung-min #7 (KOR 33yo captain, Bayern — first Asian player to win PL Golden Boot)",
-            "Hwang Hee-chan #11 (KOR 29yo, Wolves — 2022 R16 goal vs Brazil)",
-            "Lebo Mothiba #9 (RSA 28yo, Monaco striker)"
-          ],
-          "news_focus_zh": "孙兴慜本届是金球奖级别的最后一舞——韩国全队都为他服务",
-          "news_focus_en": "Son Heung-min's last WC in peak form — Korea build everything around him",
-          "record_potential_zh": [
-            "孙兴慜本届已 1 球，再 1 球将追平 KOR 世界杯历史射手榜并列第 2（朴智星 3 球）"
-          ],
-          "record_potential_en": [
-            "Son one more goal ties Park Ji-sung for 2nd on KOR WC all-time scorers (3 each)"
-          ],
+          "headline_zh": null,
+          "headline_en": null,
+          "watch_for_zh": [],
+          "watch_for_en": [],
+          "key_players_zh": [],
+          "key_players_en": [],
+          "news_focus_zh": null,
+          "news_focus_en": null,
+          "record_potential_zh": [],
+          "record_potential_en": [],
           "why_skip_zh": null,
           "why_skip_en": null,
           "verdict_override": null,
-          "score_override": null,
-          "manual_author": "claude"
+          "score_override": null
         },
         {
           "match_id": "760468",
@@ -1897,41 +1779,22 @@
           "stakes_verdict_auto": "must",
           "stakes_narrative_zh": "末轮出线生死战。",
           "stakes_narrative_en": "Final matchday — qualification on the line.",
-          "verdict": "skip",
-          "score": 2,
-          "headline_zh": "德国冲 5 连胜 vs 厄瓜多尔悬崖边",
-          "headline_en": "Germany chase 5th straight, Ecuador on the brink",
-          "watch_for_zh": [
-            "德国 6 分已锁定头名（首战 7-1 库拉索状态恐怖），大概率轮换主力",
-            "厄瓜多尔 1 分（-1 GD）需要赢 + 科特迪瓦不赢才能晋级——几乎不可能"
-          ],
-          "watch_for_en": [
-            "GER (6pts) locked 1st, thrashed CUW 7-1 in opener — likely rotate",
-            "ECU (1pt, -1 GD) needs win + CIV not winning — almost impossible"
-          ],
-          "key_players_zh": [
-            "穆西亚拉 #10（德国 22 岁，拜仁慕尼黑，2024 金童奖）",
-            "恩纳·瓦伦西亚 #13（厄瓜多尔 35 岁老将队长，可能告别赛）",
-            "哈弗茨 #7（德国 26 岁，阿森纳，2024 欧洲杯最佳球员）"
-          ],
-          "key_players_en": [
-            "Jamal Musiala #10 (GER 22yo, Bayern — 2024 Kopa Trophy / Golden Boy)",
-            "Enner Valencia #13 (ECU 35yo captain, likely farewell WC)",
-            "Kai Havertz #7 (GER 26yo, Arsenal — 2024 Euro Best Young Player runner-up)"
-          ],
-          "news_focus_zh": "GER 教练纳格尔斯曼是否轮换决定 ECU 翻盘概率；瓦伦西亚的国家队告别",
-          "news_focus_en": "Will Nagelsmann rotate? Decides ECU's slim chance; Valencia's farewell",
-          "record_potential_zh": [
-            "瓦伦西亚本届若进球将成为 ECU 世界杯历史最年长进球者（35 岁）"
-          ],
-          "record_potential_en": [
-            "Valencia would become ECU's oldest-ever WC scorer at 35"
-          ],
-          "why_skip_zh": "德国锁定头名，轮换主力是大概率事件；厄瓜多尔翻盘需要多项条件同时满足",
-          "why_skip_en": "GER locked 1st, rotation likely; ECU need a lot of help",
+          "verdict": "must",
+          "score": 5,
+          "headline_zh": null,
+          "headline_en": null,
+          "watch_for_zh": [],
+          "watch_for_en": [],
+          "key_players_zh": [],
+          "key_players_en": [],
+          "news_focus_zh": null,
+          "news_focus_en": null,
+          "record_potential_zh": [],
+          "record_potential_en": [],
+          "why_skip_zh": null,
+          "why_skip_en": null,
           "verdict_override": null,
-          "score_override": null,
-          "manual_author": "claude"
+          "score_override": null
         },
         {
           "match_id": "760473",
@@ -1976,39 +1839,20 @@
           "stakes_narrative_en": "Final matchday — qualification on the line.",
           "verdict": "must",
           "score": 4,
-          "headline_zh": "库拉索 vs 科特迪瓦：小国奇迹 vs 非洲冠军",
-          "headline_en": "Curaçao's fairy tale vs Africa's champions",
-          "watch_for_zh": [
-            "库拉索人口仅 15 万，世界杯历史性首秀（FIFA 排名 82，本届最低）",
-            "科特迪瓦 3 分打平基本锁定 2nd（5 连胜 GER 锁定头名），赢则可能争头名"
-          ],
-          "watch_for_en": [
-            "Curaçao (pop. 150k, FIFA #82) — historic first WC appearance",
-            "CIV (3pts) advances as 2nd with draw (GER locked 1st), can chase top with win"
-          ],
-          "key_players_zh": [
-            "巴卡里·科内 #?（科特迪瓦 35 岁老将队长，可能告别赛）",
-            "库利巴利 #26（科特迪瓦 33 岁，库利巴利，沙特联赛）",
-            "库拉索门将·鲁姆 #1（库拉索 35 岁老将）"
-          ],
-          "key_players_en": [
-            "Yaya Touré... no, actually: Simon Deli #? (CIV veteran CB)",
-            "Nicolas Pépé #19 (CIV 29yo, ex-Arsenal winger, now Trabzonspor)",
-            "Eloy Room #1 (CUW 35yo goalkeeper, history-making appearance)"
-          ],
-          "news_focus_zh": "库拉索本届前两场 1 平 1 负，对 CIV 若是取分会创造历史",
-          "news_focus_en": "CUW drew their first-ever WC match — a point vs CIV would be historic",
-          "record_potential_zh": [
-            "库拉索本届已 1 分，再 1 分将成为 FIFA 排名 80+ 队伍世界杯单届最高分"
-          ],
-          "record_potential_en": [
-            "CUW already have 1pt — another would be the most-ever by a sub-FIFA-#80 nation at one WC"
-          ],
+          "headline_zh": null,
+          "headline_en": null,
+          "watch_for_zh": [],
+          "watch_for_en": [],
+          "key_players_zh": [],
+          "key_players_en": [],
+          "news_focus_zh": null,
+          "news_focus_en": null,
+          "record_potential_zh": [],
+          "record_potential_en": [],
           "why_skip_zh": null,
           "why_skip_en": null,
           "verdict_override": null,
-          "score_override": null,
-          "manual_author": "claude"
+          "score_override": null
         },
         {
           "match_id": "760472",
@@ -2051,41 +1895,22 @@
           "stakes_verdict_auto": "must",
           "stakes_narrative_zh": "末轮出线生死战。",
           "stakes_narrative_en": "Final matchday — qualification on the line.",
-          "verdict": "skip",
-          "score": 2,
-          "headline_zh": "突尼斯荣誉战 vs 荷兰备战 R32",
-          "headline_en": "Tunisia's farewell vs Netherlands' R32 tune-up",
-          "watch_for_zh": [
-            "突尼斯本届 0 分（首战 1-5 惨败瑞典）已出局",
-            "荷兰 4 分锁定头名，末战可能大幅轮换备战 R32"
-          ],
-          "watch_for_en": [
-            "Tunisia (0pts) already out, were thrashed 5-1 by SWE in opener",
-            "Netherlands (4pts) locked 1st, may rest starters for R32"
-          ],
-          "key_players_zh": [
-            "加克波 #?（荷兰 25 岁，利物浦，本届首战进球）",
-            "德佩 #10（荷兰 31 岁队长，马竞，2024 欧洲杯金靴）",
-            "哈兹里 #?（突尼斯 33 岁老将队长）"
-          ],
-          "key_players_en": [
-            "Cody Gakpo #? (NED 25yo, Liverpool — 2022 WC hat-trick vs ECU)",
-            "Memphis Depay #10 (NED 31yo captain, Atlético — 2024 Euro top scorer)",
-            "Wahbi Khazri #? (TUN 33yo veteran captain, likely farewell)"
-          ],
-          "news_focus_zh": "NED 教练科曼是否轮换 8-9 名主力——这决定比赛实际质量",
-          "news_focus_en": "Will Koeman rotate 8-9 starters? Decides the actual quality of the match",
-          "record_potential_zh": [
-            "德佩若进球将以 13 球成为荷兰世界杯历史最佳射手（超越 12 球的博格坎普/范佩西）"
-          ],
-          "record_potential_en": [
-            "Depay would become NED all-time WC top scorer (13) with one goal — surpassing Bergkamp/Van Persie (12)"
-          ],
-          "why_skip_zh": "NED 大幅轮换概率高 + 突尼斯本届状态差——实质精彩度可能打折",
-          "why_skip_en": "Heavy NED rotation likely + TUN in poor form — quality may dip",
+          "verdict": "must",
+          "score": 5,
+          "headline_zh": null,
+          "headline_en": null,
+          "watch_for_zh": [],
+          "watch_for_en": [],
+          "key_players_zh": [],
+          "key_players_en": [],
+          "news_focus_zh": null,
+          "news_focus_en": null,
+          "record_potential_zh": [],
+          "record_potential_en": [],
+          "why_skip_zh": null,
+          "why_skip_en": null,
           "verdict_override": null,
-          "score_override": null,
-          "manual_author": "claude"
+          "score_override": null
         },
         {
           "match_id": "760471",
@@ -2130,39 +1955,20 @@
           "stakes_narrative_en": "Final matchday — qualification on the line.",
           "verdict": "must",
           "score": 4,
-          "headline_zh": "日本 vs 瑞典：状态碰撞",
-          "headline_en": "Japan's stability meets Sweden's fire",
-          "watch_for_zh": [
-            "日本 4 分打平基本锁定 2nd，赢则看 GD 争头名（NED 锁定）",
-            "瑞典 3 分（+0 GD）必须赢 + JPN 不赢 BRA 那样大——出线悬崖"
-          ],
-          "watch_for_en": [
-            "JPN (4pts) likely 2nd with draw, can top on GD if NED lose (NED locked 1st already)",
-            "SWE (3pts, 0 GD) must win and hope — on the brink"
-          ],
-          "key_players_zh": [
-            "三笘薰 #?（日本 28 岁，布莱顿左路，2024 亚洲杯金靴）",
-            "亚历山大·伊萨克 #11（瑞典 25 岁，纽卡斯尔，本届首战 1 球）",
-            "远藤航 #?（日本 32 岁队长，利物浦）"
-          ],
-          "key_players_en": [
-            "Kaoru Mitoma #? (JPN 28yo, Brighton LW — 2024 Asia Cup top scorer)",
-            "Alexander Isak #11 (SWE 25yo, Newcastle — 1 goal in opener)",
-            "Wataru Endo #? (JPN 32yo captain, Liverpool anchor)"
-          ],
-          "news_focus_zh": "日本首战 2-2 荷兰防守稳健 vs 瑞典首战 5-1 突尼斯进攻爆发——风格碰撞",
-          "news_focus_en": "JPN's defensive solidity (2-2 NED) vs SWE's attacking fire (5-1 TUN) — clash of styles",
-          "record_potential_zh": [
-            "伊萨克本届已 1 球，再 1 球将追平瑞典 24 年来世界杯单届进球纪录（2 球）"
-          ],
-          "record_potential_en": [
-            "Isak already has 1 goal — one more ties SWE's best WC tally in 24 years (2)"
-          ],
+          "headline_zh": null,
+          "headline_en": null,
+          "watch_for_zh": [],
+          "watch_for_en": [],
+          "key_players_zh": [],
+          "key_players_en": [],
+          "news_focus_zh": null,
+          "news_focus_en": null,
+          "record_potential_zh": [],
+          "record_potential_en": [],
           "why_skip_zh": null,
           "why_skip_en": null,
           "verdict_override": null,
-          "score_override": null,
-          "manual_author": "claude"
+          "score_override": null
         },
         {
           "match_id": "760469",
@@ -2207,39 +2013,20 @@
           "stakes_narrative_en": "Final matchday — qualification on the line.",
           "verdict": "must",
           "score": 4,
-          "headline_zh": "D 组 2nd place 终极战",
-          "headline_en": "Group D's 2nd-place decider",
-          "watch_for_zh": [
-            "巴拉圭 + 澳大利亚均 3 分——赢者基本锁定 2nd，输者要看 TUR 是否爆冷 USA",
-            "USA 6 分锁定头名打 TUR（同时段），两场结果共同决定 D 组晋级格局"
-          ],
-          "watch_for_en": [
-            "PAR + AUS both 3pts — winner likely 2nd, loser needs TUR upset vs USA",
-            "USA 6pts locked 1st vs TUR (simultaneous) — both D games decide fate together"
-          ],
-          "key_players_zh": [
-            "阿尔米隆 #10（巴拉圭 31 岁队长，纽卡斯尔，可能告别赛）",
-            "马蒂·莱基 #?（澳大利亚 33 岁，澳超墨尔本城，2015 亚洲杯金靴）",
-            "古斯塔沃·戈麦斯 #?（巴拉圭 31 岁，门将）"
-          ],
-          "key_players_en": [
-            "Miguel Almirón #10 (PAR 31yo captain, Newcastle — likely farewell WC)",
-            "Mat Leckie #? (AUS 33yo, Melbourne City — 2015 Asia Cup top scorer)",
-            "Gustavo Gómez #? (PAR 31yo, Palmeiras CB / captain)"
-          ],
-          "news_focus_zh": "阿尔米隆最后一届 vs 莱基告别赛——两位老将的最后一搏",
-          "news_focus_en": "Almirón's last WC vs Leckie's farewell — veterans' last dance",
-          "record_potential_zh": [
-            "阿尔米隆若进球将是 PAR 世界杯历史 35 岁后首球"
-          ],
-          "record_potential_en": [
-            "Almirón goal would be PAR's first WC goal by a player 35+"
-          ],
+          "headline_zh": null,
+          "headline_en": null,
+          "watch_for_zh": [],
+          "watch_for_en": [],
+          "key_players_zh": [],
+          "key_players_en": [],
+          "news_focus_zh": null,
+          "news_focus_en": null,
+          "record_potential_zh": [],
+          "record_potential_en": [],
           "why_skip_zh": null,
           "why_skip_en": null,
           "verdict_override": null,
-          "score_override": null,
-          "manual_author": "claude"
+          "score_override": null
         },
         {
           "match_id": "760470",
@@ -2282,41 +2069,22 @@
           "stakes_verdict_auto": "must",
           "stakes_narrative_zh": "末轮出线生死战。",
           "stakes_narrative_en": "Final matchday — qualification on the line.",
-          "verdict": "skip",
-          "score": 2,
-          "headline_zh": "美国冲 5 连胜 vs 土耳其 0 分告别",
-          "headline_en": "USA chase history, Türkiye bow out winless",
-          "watch_for_zh": [
-            "美国 6 分锁定头名，是否冲 5 连胜（队史最长）看 Pulisic 是否首发",
-            "土耳其本届 0 分 0 进球——首战 0-2 AUS——荣誉战"
-          ],
-          "watch_for_en": [
-            "USA (6pts) locked 1st, will they chase 5th straight WC win (national record)?",
-            "Türkiye (0pts, 0 goals) — bow out winless after 0-2 loss to AUS in opener"
-          ],
-          "key_players_zh": [
-            "普利西奇 #10（美国 26 岁队长，AC 米兰）",
-            "凯南·伊尔迪兹 #19（土耳其 19 岁新星，尤文图斯）",
-            "小维阿 #9（美国 25 岁前锋，尤文图斯）"
-          ],
-          "key_players_en": [
-            "Christian Pulisic #10 (USA 26yo captain, AC Milan — 'Captain America')",
-            "Kenan Yıldız #19 (TUR 19yo breakout, Juventus — 2024 breakout star)",
-            "Timothy Weah #9 (USA 25yo, Juventus — son of George Weah)"
-          ],
-          "news_focus_zh": "USA 是否让 Pulisic 休息为 R32 准备 + 19 岁伊尔迪兹的国家队告别季",
-          "news_focus_en": "Will USA rest Pulisic for R32? + 19yo Yıldız's coming-out WC",
-          "record_potential_zh": [
-            "USA 若取胜将是队史首次 5 连胜世界杯（之前最长 4 连胜）"
-          ],
-          "record_potential_en": [
-            "USA would set a national record of 5 straight WC wins (previous best: 4)"
-          ],
-          "why_skip_zh": "USA 大概率轮换主力 + 土耳其无欲无求",
-          "why_skip_en": "Heavy USA rotation likely + Türkiye eliminated",
+          "verdict": "must",
+          "score": 4,
+          "headline_zh": null,
+          "headline_en": null,
+          "watch_for_zh": [],
+          "watch_for_en": [],
+          "key_players_zh": [],
+          "key_players_en": [],
+          "news_focus_zh": null,
+          "news_focus_en": null,
+          "record_potential_zh": [],
+          "record_potential_en": [],
+          "why_skip_zh": null,
+          "why_skip_en": null,
           "verdict_override": null,
-          "score_override": null,
-          "manual_author": "claude"
+          "score_override": null
         },
         {
           "match_id": "760475",
@@ -2361,39 +2129,20 @@
           "stakes_narrative_en": "Both won MD1 — winner likely seals qualification.",
           "verdict": "must",
           "score": 5,
-          "headline_zh": "挪威 vs 法国：哈兰德 vs 姆巴佩",
-          "headline_en": "Norway vs France: Haaland vs Mbappé",
-          "watch_for_zh": [
-            "本届分组最重的对决之一——挪威 24 年来首次世界杯 vs 卫冕亚军法国",
-            "哈兰德 + 厄德高 vs 姆巴佩 + 楚阿梅尼——欧洲杯级别巨星对决"
-          ],
-          "watch_for_en": [
-            "One of the marquee group games — Norway's first WC in 24 years vs 2022 finalists France",
-            "Haaland + Ødegaard vs Mbappé + Tchouaméni — Euro-final level stars on one pitch"
-          ],
-          "key_players_zh": [
-            "哈兰德 #?（挪威 25 岁，曼城，2023 三冠王，2024 金球奖第 2）",
-            "姆巴佩 #10（法国 26 岁队长，皇马，本届金靴热门）",
-            "厄德高 #?（挪威 26 岁队长，阿森纳）"
-          ],
-          "key_players_en": [
-            "Erling Haaland #? (NOR 25yo, Man City — 2023 treble, 2024 Ballon d'Or #2)",
-            "Kylian Mbappé #10 (FRA 26yo captain, Real Madrid — 2026 WC Golden Boot favorite)",
-            "Martin Ødegaard #? (NOR 26yo captain, Arsenal — 2024 PL runner-up)"
-          ],
-          "news_focus_zh": "本届小组赛阶段最大的明星对决——也是检验法国卫冕成色的试金石",
-          "news_focus_en": "The biggest star-power clash of the group stage — a test for defending finalist France",
-          "record_potential_zh": [
-            "哈兰德首次世界杯之旅——若上演帽子戏法将成为挪威世界杯历史首人"
-          ],
-          "record_potential_en": [
-            "Haaland's first WC — a hat-trick would be Norway's first ever in a WC"
-          ],
+          "headline_zh": null,
+          "headline_en": null,
+          "watch_for_zh": [],
+          "watch_for_en": [],
+          "key_players_zh": [],
+          "key_players_en": [],
+          "news_focus_zh": null,
+          "news_focus_en": null,
+          "record_potential_zh": [],
+          "record_potential_en": [],
           "why_skip_zh": null,
           "why_skip_en": null,
           "verdict_override": null,
-          "score_override": null,
-          "manual_author": "claude"
+          "score_override": null
         },
         {
           "match_id": "760474",
@@ -2438,39 +2187,20 @@
           "stakes_narrative_en": "Both lost MD1 — another loss likely eliminates.",
           "verdict": "must",
           "score": 4,
-          "headline_zh": "塞内加尔 vs 伊拉克：双双悬崖边",
-          "headline_en": "Senegal vs Iraq: both facing elimination",
-          "watch_for_zh": [
-            "双方首轮均落败（伊拉克 1-4 挪威、塞内加尔 1-3 法国）——输家大概率直接出局",
-            "塞内加尔 2022 16 强 + 2024 非洲杯冠军 vs 伊拉克 亚洲杯黑马"
-          ],
-          "watch_for_en": [
-            "Both lost opener (IRQ 1-4 NOR, SEN 1-3 FRA) — loser likely out",
-            "SEN 2022 R16 + 2024 AFCON champions vs IRQ Asia Cup dark horses"
-          ],
-          "key_players_zh": [
-            "马内 #?（塞内加尔 33 岁老将，2022 非洲足球先生，利雅得胜利）",
-            "哈桑 #?（伊拉克 28 岁前锋，2024 亚洲杯 MVP）",
-            "库利巴利 #3（塞内加尔 33 岁，库利巴利）"
-          ],
-          "key_players_en": [
-            "Sadio Mané #? (SEN 33yo, Al Nassr — 2022 AFCON POTY, 2022 WC MOTM)",
-            "Aymen Hussein #? (IRQ 28yo, 2024 Asia Cup top scorer)",
-            "Kalidou Koulibaly #3 (SEN 33yo captain, Al Hilal CB)"
-          ],
-          "news_focus_zh": "马内最后一届——若出局将是这位传奇的告别",
-          "news_focus_en": "Mané's last WC — elimination would be a sad farewell for a legend",
-          "record_potential_zh": [
-            "马内本届若进球将以 5 球追平塞内加尔世界杯历史射手纪录"
-          ],
-          "record_potential_en": [
-            "Mané one goal ties Senegal's all-time WC scoring record (5)"
-          ],
+          "headline_zh": null,
+          "headline_en": null,
+          "watch_for_zh": [],
+          "watch_for_en": [],
+          "key_players_zh": [],
+          "key_players_en": [],
+          "news_focus_zh": null,
+          "news_focus_en": null,
+          "record_potential_zh": [],
+          "record_potential_en": [],
           "why_skip_zh": null,
           "why_skip_en": null,
           "verdict_override": null,
-          "score_override": null,
-          "manual_author": "claude"
+          "score_override": null
         },
         {
           "match_id": "760479",
@@ -2515,41 +2245,20 @@
           "stakes_narrative_en": "Final matchday — qualification on the line.",
           "verdict": "must",
           "score": 5,
-          "headline_zh": "乌拉圭 vs 西班牙：老将 vs 新星",
-          "headline_en": "Uruguay's veterans vs Spain's phenom",
-          "watch_for_zh": [
-            "乌拉圭 2 分（+0 GD）末轮必须打平或赢；西班牙 4 分基本锁定头名",
-            "亚马尔 17 岁首次世界杯 vs 苏亚雷斯 39 岁可能告别赛——年龄差 22 岁的对话"
-          ],
-          "watch_for_en": [
-            "URU 2pts (0 GD) needs draw or win; ESP 4pts likely 1st",
-            "Yamal 17yo WC debut vs Suárez 39yo likely farewell — a 22-year age gap on one pitch"
-          ],
-          "key_players_zh": [
-            "拉明·亚马尔 #19（西班牙 17 岁，巴萨，2024 金童奖，欧洲杯冠军）",
-            "苏亚雷斯 #?（乌拉圭 39 岁老将，2024 退役回归，本届告别）",
-            "费德里科·巴尔韦德 #15（乌拉圭 26 岁，皇马）"
-          ],
-          "key_players_en": [
-            "Lamine Yamal #19 (ESP 17yo, Barcelona — 2024 Euro winner, Kopa Trophy, youngest scorer in Euro history)",
-            "Luis Suárez #? (URU 39yo, came back from retirement for this WC — likely his last)",
-            "Federico Valverde #15 (URU 26yo, Real Madrid — 2024 La Liga + UCL winner)"
-          ],
-          "news_focus_zh": "苏亚雷斯对西班牙的故事——这位曾在巴萨巅峰时期踢球的乌拉圭人，对手是他的'母队'",
-          "news_focus_en": "Suárez vs Spain — the former Barcelona legend faces the country he once starred for",
-          "record_potential_zh": [
-            "苏亚雷斯本届若进球将以 39 岁成为 URU 世界杯历史最年长进球者",
-            "亚马尔若进球将以 17 岁成为 URU 对 ESP 时西班牙队最年轻进球者（破纪录分两段）"
-          ],
-          "record_potential_en": [
-            "Suárez goal at 39 would be URU's oldest-ever WC scorer",
-            "Yamal at 17 is already the youngest-ever Euro goal scorer"
-          ],
+          "headline_zh": null,
+          "headline_en": null,
+          "watch_for_zh": [],
+          "watch_for_en": [],
+          "key_players_zh": [],
+          "key_players_en": [],
+          "news_focus_zh": null,
+          "news_focus_en": null,
+          "record_potential_zh": [],
+          "record_potential_en": [],
           "why_skip_zh": null,
           "why_skip_en": null,
           "verdict_override": null,
-          "score_override": null,
-          "manual_author": "claude"
+          "score_override": null
         },
         {
           "match_id": "760477",
@@ -2594,44 +2303,22 @@
           "stakes_narrative_en": "Final matchday — qualification on the line.",
           "verdict": "must",
           "score": 5,
-          "headline_zh": "新西兰 vs 比利时：四队乱战关键战",
-          "headline_en": "Group G chaos: NZL vs Belgium",
-          "watch_for_zh": [
-            "G 组 4 队均 1-2 分（NZL 1, IRN 1, BEL 2, EGY 1）——完全开放的乱战",
-            "比利时 2 分（0 GD）赢则基本锁定 2nd，平或输则要看其他场"
-          ],
-          "watch_for_en": [
-            "All 4 Group G teams have 1-2 pts (NZL 1, IRN 1, BEL 2, EGY 1) — total chaos",
-            "BEL 2pts (0 GD) wins likely secures 2nd; draw or loss opens it up"
-          ],
-          "key_players_zh": [
-            "凯文·德布劳内 #7（比利时 33 岁，曼城，2024 英超最佳球员）",
-            "罗梅卢·卢卡库 #?（比利时 32 岁，那不勒斯，本届首战进球）",
-            "克里斯·伍德 #?（新西兰 33 岁，诺丁汉森林）"
-          ],
-          "key_players_en": [
-            "Kevin De Bruyne #7 (BEL 33yo, Man City — 2024 PL POTY)",
-            "Romelu Lukaku #? (BEL 32yo, Napoli — scored in opener)",
-            "Chris Wood #? (NZL 33yo, Nottingham Forest — 2024/25 PL double-digit goals)"
-          ],
-          "news_focus_zh": "比利时黄金一代最后一舞——德布劳内 + 卢卡库 + 库尔图瓦，可能是这批人最后一届",
-          "news_focus_en": "Belgium's golden generation's last dance — De Bruyne + Lukaku + Courtois, likely their last WC together",
-          "record_potential_zh": [
-            "卢卡库本届已 1 球，再 1 球将追平比利时世界杯历史进球纪录（5 球，并列）",
-            "伍德若进球将成为 NZL 世界杯历史最年长进球者"
-          ],
-          "record_potential_en": [
-            "Lukaku one goal ties Belgium's WC all-time scoring record (5, shared)",
-            "Wood at 33 would be NZL's oldest-ever WC scorer"
-          ],
+          "headline_zh": null,
+          "headline_en": null,
+          "watch_for_zh": [],
+          "watch_for_en": [],
+          "key_players_zh": [],
+          "key_players_en": [],
+          "news_focus_zh": null,
+          "news_focus_en": null,
+          "record_potential_zh": [],
+          "record_potential_en": [],
           "why_skip_zh": null,
           "why_skip_en": null,
           "verdict_override": null,
-          "score_override": null,
-          "manual_author": "claude"
+          "score_override": null
         }
-      ],
-      "round_intro_author": "claude"
+      ]
     },
     {
       "round_id": "round-of-32-2026-06-28-2026-07-03",
