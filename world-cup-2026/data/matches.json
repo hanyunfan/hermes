@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-22T14:25:48.177073+00:00",
+  "generated_at": "2026-06-22T21:38:51.700612+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-22T09:25:47.252426-05:00",
+  "now_local": "2026-06-22T16:38:50.119231-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -562,15 +562,6 @@
         "last_kickoff_iso": "2026-07-04"
       },
       {
-        "id": "AT&T Stadium",
-        "name": "AT&T Stadium",
-        "city": "Arlington, Texas",
-        "country": "USA",
-        "match_count": 9,
-        "next_kickoff_iso": "2026-06-22",
-        "last_kickoff_iso": "2026-07-14"
-      },
-      {
         "id": "MetLife Stadium",
         "name": "MetLife Stadium",
         "city": "East Rutherford, New Jersey",
@@ -686,6 +677,15 @@
         "match_count": 6,
         "next_kickoff_iso": "2026-06-25",
         "last_kickoff_iso": "2026-07-11"
+      },
+      {
+        "id": "AT&T Stadium",
+        "name": "AT&T Stadium",
+        "city": "Arlington, Texas",
+        "country": "USA",
+        "match_count": 9,
+        "next_kickoff_iso": "2026-06-25",
+        "last_kickoff_iso": "2026-07-14"
       }
     ],
     "stages": [
@@ -1643,15 +1643,15 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/arg.png"
           },
           "rank": 1,
-          "mp": 1,
-          "w": 1,
+          "mp": 2,
+          "w": 2,
           "d": 0,
           "l": 0,
-          "gf": 3,
+          "gf": 5,
           "ga": 0,
-          "gd": 3,
-          "pts": 3,
-          "advance": false,
+          "gd": 5,
+          "pts": 6,
+          "advance": true,
           "advance_label": "Advance to Round of 32",
           "advance_color": "#81D6AC"
         },
@@ -1667,13 +1667,13 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/aut.png"
           },
           "rank": 2,
-          "mp": 1,
+          "mp": 2,
           "w": 1,
           "d": 0,
-          "l": 0,
+          "l": 1,
           "gf": 3,
-          "ga": 1,
-          "gd": 2,
+          "ga": 3,
+          "gd": 0,
           "pts": 3,
           "advance": false,
           "advance_label": "Advance to Round of 32",
@@ -10016,8 +10016,8 @@
           "kickoff_local_date": "2026-06-22",
           "kickoff_time": "12:00 PM",
           "kickoff_weekday": "Mon",
-          "status": "SCHEDULED",
-          "status_short": "Scheduled",
+          "status": "FINAL",
+          "status_short": "FT",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -10031,8 +10031,8 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/arg.png",
             "color": "74acdf",
             "home_away": "home",
-            "score": 0,
-            "winner": false
+            "score": 2,
+            "winner": true
           },
           "away": {
             "id": "474",
@@ -10060,7 +10060,164 @@
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760456/austria-argentina",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Argentina%20vs%20Austria",
-          "slug": "austria-at-argentina"
+          "slug": "austria-at-argentina",
+          "incidents": [
+            {
+              "kind": "goal",
+              "minute": "38'",
+              "team": "Argentina",
+              "team_id": "202",
+              "team_side": "home",
+              "player": "Lionel Messi",
+              "text": "Goal! Argentina 1, Austria 0. Lionel Messi (Argentina) left footed shot from the centre of the box to the bottom left corner. Assisted by Facundo Medina following a fast break.",
+              "assist": "Facundo Medina"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "40'",
+              "team": "Austria",
+              "team_id": "474",
+              "team_side": "away",
+              "player": "Stefan Posch",
+              "text": "Stefan Posch (Austria) is shown the yellow card."
+            },
+            {
+              "kind": "substitution",
+              "minute": "57'",
+              "team": "Argentina",
+              "team_id": "202",
+              "team_side": "home",
+              "player": "Nicolás Otamendi",
+              "text": "Substitution, Argentina. Nicolás Otamendi replaces Cristian Romero.",
+              "player_off": "Cristian Romero"
+            },
+            {
+              "kind": "substitution",
+              "minute": "64'",
+              "team": "Argentina",
+              "team_id": "202",
+              "team_side": "home",
+              "player": "Julián Álvarez",
+              "text": "Substitution, Argentina. Julián Alvarez replaces Thiago Almada.",
+              "player_off": "Thiago Almada"
+            },
+            {
+              "kind": "substitution",
+              "minute": "65'",
+              "team": "Argentina",
+              "team_id": "202",
+              "team_side": "home",
+              "player": "Nico González",
+              "text": "Substitution, Argentina. Nico González replaces Lautaro Martínez.",
+              "player_off": "Lautaro Martínez"
+            },
+            {
+              "kind": "substitution",
+              "minute": "67'",
+              "team": "Austria",
+              "team_id": "474",
+              "team_side": "away",
+              "player": "Marco Friedl",
+              "text": "Substitution, Austria. Marco Friedl replaces David Alaba.",
+              "player_off": "David Alaba"
+            },
+            {
+              "kind": "substitution",
+              "minute": "68'",
+              "team": "Austria",
+              "team_id": "474",
+              "team_side": "away",
+              "player": "Alexander Prass",
+              "text": "Substitution, Austria. Alexander Prass replaces Stefan Posch.",
+              "player_off": "Stefan Posch"
+            },
+            {
+              "kind": "substitution",
+              "minute": "68'",
+              "team": "Austria",
+              "team_id": "474",
+              "team_side": "away",
+              "player": "Marko Arnautovic",
+              "text": "Substitution, Austria. Marko Arnautovic replaces Paul Wanner.",
+              "player_off": "Paul Wanner"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "76'",
+              "team": "Argentina",
+              "team_id": "202",
+              "team_side": "home",
+              "player": "Facundo Medina",
+              "text": "Facundo Medina (Argentina) is shown the yellow card."
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "76'",
+              "team": "Austria",
+              "team_id": "474",
+              "team_side": "away",
+              "player": "Konrad Laimer",
+              "text": "Konrad Laimer (Austria) is shown the yellow card."
+            },
+            {
+              "kind": "substitution",
+              "minute": "78'",
+              "team": "Austria",
+              "team_id": "474",
+              "team_side": "away",
+              "player": "Patrick Wimmer",
+              "text": "Substitution, Austria. Patrick Wimmer replaces Romano Schmid.",
+              "player_off": "Romano Schmid"
+            },
+            {
+              "kind": "substitution",
+              "minute": "82'",
+              "team": "Argentina",
+              "team_id": "202",
+              "team_side": "home",
+              "player": "Leandro Paredes",
+              "text": "Substitution, Argentina. Leandro Paredes replaces Rodrigo De Paul.",
+              "player_off": "Rodrigo De Paul"
+            },
+            {
+              "kind": "substitution",
+              "minute": "82'",
+              "team": "Argentina",
+              "team_id": "202",
+              "team_side": "home",
+              "player": "Nicolás Tagliafico",
+              "text": "Substitution, Argentina. Nicolás Tagliafico replaces Facundo Medina.",
+              "player_off": "Facundo Medina"
+            },
+            {
+              "kind": "substitution",
+              "minute": "85'",
+              "team": "Austria",
+              "team_id": "474",
+              "team_side": "away",
+              "player": "Carney Chukwuemeka",
+              "text": "Substitution, Austria. Carney Chukwuemeka replaces Michael Gregoritsch.",
+              "player_off": "Michael Gregoritsch"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "90'+2'",
+              "team": "Argentina",
+              "team_id": "202",
+              "team_side": "home",
+              "player": "Leandro Paredes",
+              "text": "Leandro Paredes (Argentina) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "goal",
+              "minute": "90'+5'",
+              "team": "Argentina",
+              "team_id": "202",
+              "team_side": "home",
+              "player": "Lionel Messi",
+              "text": "Goal! Argentina 2, Austria 0. Lionel Messi (Argentina) left footed shot from the left side of the six yard box to the centre of the goal following a fast break."
+            }
+          ]
         },
         {
           "id": "760457",
@@ -10069,8 +10226,8 @@
           "kickoff_local_date": "2026-06-22",
           "kickoff_time": "4:00 PM",
           "kickoff_weekday": "Mon",
-          "status": "SCHEDULED",
-          "status_short": "Scheduled",
+          "status": "LIVE",
+          "status_short": "38'",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -10084,7 +10241,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/fra.png",
             "color": "000080",
             "home_away": "home",
-            "score": 0,
+            "score": 1,
             "winner": false
           },
           "away": {
@@ -10113,7 +10270,38 @@
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760457/iraq-france",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20France%20vs%20Iraq",
-          "slug": "iraq-at-france"
+          "slug": "iraq-at-france",
+          "incidents": [
+            {
+              "kind": "yellow_card",
+              "minute": "6'",
+              "team": "Iraq",
+              "team_id": "4375",
+              "team_side": "away",
+              "player": "Amir Al-Ammari",
+              "text": "Amir Al Ammari (Iraq) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "goal",
+              "minute": "14'",
+              "team": "France",
+              "team_id": "478",
+              "team_side": "home",
+              "player": "Kylian Mbappé",
+              "text": "Goal! France 1, Iraq 0. Kylian Mbappé (France) left footed shot from outside the box to the top left corner. Assisted by Michael Olise.",
+              "assist": "Michael Olise"
+            },
+            {
+              "kind": "substitution",
+              "minute": "26'",
+              "team": "Iraq",
+              "team_id": "4375",
+              "team_side": "away",
+              "player": "Ali Al-Hamadi",
+              "text": "Substitution, Iraq. Ali Al Hamadi replaces Aymen Hussein because of an injury.",
+              "player_off": "Aymen Hussein"
+            }
+          ]
         },
         {
           "id": "760454",
