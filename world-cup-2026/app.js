@@ -330,7 +330,7 @@
   };
 
   let currentLang = "en";
-  function t(key, vars = {}) {
+  function i18n(key, vars = {}) {
     const dict = I18N[currentLang] || I18N.en;
     let str = dict[key] || I18N.en[key] || key;
     for (const [k, v] of Object.entries(vars)) {
@@ -379,10 +379,10 @@
     currentLang = (lang === "zh") ? "zh" : "en";
     saveLang(currentLang);
     document.documentElement.lang = currentLang === "zh" ? "zh-Hans" : "en";
-    $$("[data-i18n]").forEach((el) => { el.textContent = t(el.dataset.i18n); });
-    $$("[data-i18n-placeholder]").forEach((el) => { el.placeholder = t(el.dataset.i18nPlaceholder); });
-    $$("[data-i18n-title]").forEach((el) => { el.title = t(el.dataset.i18nTitle, { tz: "Local" }); });
-    $$("[data-i18n-aria]").forEach((el) => { el.setAttribute("aria-label", t(el.dataset.i18nAria)); });
+    $$("[data-i18n]").forEach((el) => { el.textContent = i18n(el.dataset.i18n); });
+    $$("[data-i18n-placeholder]").forEach((el) => { el.placeholder = i18n(el.dataset.i18nPlaceholder); });
+    $$("[data-i18n-title]").forEach((el) => { el.title = i18n(el.dataset.i18nTitle, { tz: "Local" }); });
+    $$("[data-i18n-aria]").forEach((el) => { el.setAttribute("aria-label", i18n(el.dataset.i18nAria)); });
     updateLangPills();
     if (allData) {
       renderHeader(allData);
@@ -451,10 +451,10 @@
     const minute = 60_000, hour = 3_600_000, day = 86_400_000;
     const key = past ? "relative.less.than.minute.ago" : "relative.less.than.minute";
     let label;
-    if (abs < minute) label = t(key);
-    else if (abs < hour) label = past ? t("relative.m.ago", { n: Math.round(abs / minute) }) : t("relative.in.m", { n: Math.round(abs / minute) });
-    else if (abs < day) label = past ? t("relative.h.ago", { n: Math.round(abs / hour) }) : t("relative.in.h", { n: Math.round(abs / hour) });
-    else label = past ? t("relative.d.ago", { n: Math.round(abs / day) }) : t("relative.in.d", { n: Math.round(abs / day) });
+    if (abs < minute) label = i18n(key);
+    else if (abs < hour) label = past ? i18n("relative.m.ago", { n: Math.round(abs / minute) }) : i18n("relative.in.m", { n: Math.round(abs / minute) });
+    else if (abs < day) label = past ? i18n("relative.h.ago", { n: Math.round(abs / hour) }) : i18n("relative.in.h", { n: Math.round(abs / hour) });
+    else label = past ? i18n("relative.d.ago", { n: Math.round(abs / day) }) : i18n("relative.in.d", { n: Math.round(abs / day) });
     return label;
   }
 
@@ -743,15 +743,15 @@
     content.innerHTML = "";
     const countEl = $("#result-count");
     if (countEl) {
-      countEl.textContent = matches.length === 1 ? t("1.match") : t("n.matches", { n: matches.length });
+      countEl.textContent = matches.length === 1 ? i18n("1.match") : i18n("n.matches", { n: matches.length });
     }
 
     if (matches.length === 0) {
       const hasFilters = !isDefaultFilters();
       const div = document.createElement("div");
       div.className = "empty";
-      div.innerHTML = `<div>${escapeHtml(hasFilters ? t("empty.filtered") : t("empty.title"))}</div>
-        <div class="empty-hint">${escapeHtml(t("empty.hint"))}</div>`;
+      div.innerHTML = `<div>${escapeHtml(hasFilters ? i18n("empty.filtered") : i18n("empty.title"))}</div>
+        <div class="empty-hint">${escapeHtml(i18n("empty.hint"))}</div>`;
       content.appendChild(div);
       return;
     }
@@ -772,9 +772,9 @@
     const grid = document.createElement("div");
     grid.className = "butterfly";
 
-    grid.appendChild(buildWing("past", t("wing.past"), past, "wing-past-empty"));
-    grid.appendChild(buildWing("today", t("wing.today"), today, "wing-today-empty"));
-    grid.appendChild(buildWing("future", t("wing.future"), future, "wing-future-empty"));
+    grid.appendChild(buildWing("past", i18n("wing.past"), past, "wing-past-empty"));
+    grid.appendChild(buildWing("today", i18n("wing.today"), today, "wing-today-empty"));
+    grid.appendChild(buildWing("future", i18n("wing.future"), future, "wing-future-empty"));
 
     content.appendChild(grid);
   }
@@ -792,7 +792,7 @@
     if (matches.length === 0) {
       const empty = document.createElement("div");
       empty.className = "wing-empty";
-      empty.textContent = t(emptyKey);
+      empty.textContent = i18n(emptyKey);
       wrap.appendChild(empty);
       return wrap;
     }
@@ -873,7 +873,7 @@
       .sort((a, b) => a[0].localeCompare(b[0]))
       .map(([d, items]) => ({
         date: d,
-        label: d === today ? t("day.today", { date: formatDateWithDow(d) }) : d === tomorrow ? t("day.tomorrow", { date: formatDateWithDow(d) }) : t("day.other", { date: formatDateWithDow(d) }),
+        label: d === today ? i18n("day.today", { date: formatDateWithDow(d) }) : d === tomorrow ? i18n("day.tomorrow", { date: formatDateWithDow(d) }) : i18n("day.other", { date: formatDateWithDow(d) }),
         matches: items,
       }));
   }
@@ -888,7 +888,7 @@
     if (groups.length === 0) {
       const div = document.createElement("div");
       div.className = "empty";
-      div.innerHTML = `<div>${escapeHtml(t("standings.empty"))}</div>`;
+      div.innerHTML = `<div>${escapeHtml(i18n("standings.empty"))}</div>`;
       content.appendChild(div);
       return;
     }
@@ -897,8 +897,8 @@
     wrap.className = "standings-section";
     const head = document.createElement("header");
     head.className = "standings-head";
-    head.innerHTML = `<h2 class="standings-title">${escapeHtml(t("standings.title"))}</h2>
-      <p class="standings-hint">${escapeHtml(t("standings.hint"))}</p>`;
+    head.innerHTML = `<h2 class="standings-title">${escapeHtml(i18n("standings.title"))}</h2>
+      <p class="standings-hint">${escapeHtml(i18n("standings.hint"))}</p>`;
     wrap.appendChild(head);
 
     const grid = document.createElement("div");
@@ -908,7 +908,7 @@
 
     const note = document.createElement("p");
     note.className = "standings-notes";
-    note.textContent = t("standings.notes");
+    note.textContent = i18n("standings.notes");
     wrap.appendChild(note);
 
     content.appendChild(wrap);
@@ -927,16 +927,16 @@
     table.innerHTML = `
       <thead>
         <tr>
-          <th class="col-num col-pts" title="${escapeHtml(t("standings.col.pts"))}">${escapeHtml(t("standings.col.pts"))}</th>
-          <th class="col-team">${escapeHtml(t("standings.col.team"))}</th>
+          <th class="col-num col-pts" title="${escapeHtml(i18n("standings.col.pts"))}">${escapeHtml(i18n("standings.col.pts"))}</th>
+          <th class="col-team">${escapeHtml(i18n("standings.col.team"))}</th>
           <th class="col-rank">#</th>
-          <th class="col-num" title="${escapeHtml(t("standings.col.mp"))}">${escapeHtml(t("standings.col.mp"))}</th>
-          <th class="col-num" title="${escapeHtml(t("standings.col.w"))}">${escapeHtml(t("standings.col.w"))}</th>
-          <th class="col-num" title="${escapeHtml(t("standings.col.d"))}">${escapeHtml(t("standings.col.d"))}</th>
-          <th class="col-num" title="${escapeHtml(t("standings.col.l"))}">${escapeHtml(t("standings.col.l"))}</th>
-          <th class="col-num" title="${escapeHtml(t("standings.col.gf"))}">${escapeHtml(t("standings.col.gf"))}</th>
-          <th class="col-num" title="${escapeHtml(t("standings.col.ga"))}">${escapeHtml(t("standings.col.ga"))}</th>
-          <th class="col-num" title="${escapeHtml(t("standings.col.gd"))}">${escapeHtml(t("standings.col.gd"))}</th>
+          <th class="col-num" title="${escapeHtml(i18n("standings.col.mp"))}">${escapeHtml(i18n("standings.col.mp"))}</th>
+          <th class="col-num" title="${escapeHtml(i18n("standings.col.w"))}">${escapeHtml(i18n("standings.col.w"))}</th>
+          <th class="col-num" title="${escapeHtml(i18n("standings.col.d"))}">${escapeHtml(i18n("standings.col.d"))}</th>
+          <th class="col-num" title="${escapeHtml(i18n("standings.col.l"))}">${escapeHtml(i18n("standings.col.l"))}</th>
+          <th class="col-num" title="${escapeHtml(i18n("standings.col.gf"))}">${escapeHtml(i18n("standings.col.gf"))}</th>
+          <th class="col-num" title="${escapeHtml(i18n("standings.col.ga"))}">${escapeHtml(i18n("standings.col.ga"))}</th>
+          <th class="col-num" title="${escapeHtml(i18n("standings.col.gd"))}">${escapeHtml(i18n("standings.col.gd"))}</th>
         </tr>
       </thead>
       <tbody></tbody>
@@ -955,7 +955,7 @@
         </td>
         <td class="col-rank">
           <span class="rank-num">${rank}</span>
-          ${rank === 1 || rank === 2 ? `<span class="qual-q" title="${escapeHtml(t("standings.q"))}">Q</span>` : ""}
+          ${rank === 1 || rank === 2 ? `<span class="qual-q" title="${escapeHtml(i18n("standings.q"))}">Q</span>` : ""}
         </td>
         <td class="col-num">${e.mp}</td>
         <td class="col-num">${e.w}</td>
@@ -1219,8 +1219,8 @@
     wrap.className = "scorers-section";
     const head = document.createElement("header");
     head.className = "scorers-head";
-    head.innerHTML = `<h2 class="scorers-title">${escapeHtml(t("scorers.title"))}</h2>
-      <p class="scorers-hint">${escapeHtml(t("scorers.hint"))}</p>`;
+    head.innerHTML = `<h2 class="scorers-title">${escapeHtml(i18n("scorers.title"))}</h2>
+      <p class="scorers-hint">${escapeHtml(i18n("scorers.hint"))}</p>`;
     wrap.appendChild(head);
 
     const grid = document.createElement("div");
@@ -1228,17 +1228,17 @@
 
     // Pane 1 — current tournament (live)
     const current = aggregateCurrentScorers(allMatches || []);
-    grid.appendChild(buildScorerPane("current", t("scorers.section.current"), current, /*limit*/ 20, /*kind*/ "current"));
+    grid.appendChild(buildScorerPane("current", i18n("scorers.section.current"), current, /*limit*/ 20, /*kind*/ "current"));
 
     // Pane 2 — all-time (static + live merge of WC 2026 goals)
     const history = buildMergedScorersList();
-    grid.appendChild(buildScorerPane("alltime", t("scorers.section.alltime"), history, /*limit*/ 30, /*kind*/ "alltime"));
+    grid.appendChild(buildScorerPane("alltime", i18n("scorers.section.alltime"), history, /*limit*/ 30, /*kind*/ "alltime"));
 
     wrap.appendChild(grid);
 
     const note = document.createElement("p");
     note.className = "scorers-notes";
-    note.textContent = t("scorers.notes");
+    note.textContent = i18n("scorers.notes");
     wrap.appendChild(note);
 
     content.appendChild(wrap);
@@ -1259,7 +1259,7 @@
       const empty = document.createElement("div");
       empty.className = "empty";
       const key = kind === "current" ? "scorers.empty.current" : "scorers.empty.alltime";
-      empty.innerHTML = `<div>${escapeHtml(t(key))}</div>`;
+      empty.innerHTML = `<div>${escapeHtml(i18n(key))}</div>`;
       card.appendChild(empty);
       return card;
     }
@@ -1271,17 +1271,17 @@
       <thead>
         <tr>
           <th class="col-num">#</th>
-          <th class="col-player">${escapeHtml(t("scorers.col.player"))}</th>
+          <th class="col-player">${escapeHtml(i18n("scorers.col.player"))}</th>
           ${isCurrent
-            ? `<th class="col-team">${escapeHtml(t("scorers.col.team"))}</th>
-               <th class="col-num col-goals" title="${escapeHtml(t("scorers.col.goals"))}">${escapeHtml(t("scorers.col.goals"))}</th>
-               <th class="col-num col-mp" title="${escapeHtml(t("scorers.col.mp"))}">${escapeHtml(t("scorers.col.mp"))}</th>
-               <th class="col-num col-a" title="${escapeHtml(t("scorers.col.assists"))}">${escapeHtml(t("scorers.col.assists"))}</th>
-               <th class="col-num col-pk" title="${escapeHtml(t("scorers.col.penalties"))}">${escapeHtml(t("scorers.col.penalties"))}</th>`
-            : `<th class="col-team">${escapeHtml(t("scorers.col.country"))}</th>
-               <th class="col-num col-goals" title="${escapeHtml(t("scorers.col.goals"))}">${escapeHtml(t("scorers.col.goals"))}</th>
-               <th class="col-num col-tours" title="${escapeHtml(t("scorers.col.tournaments"))}">${escapeHtml(t("scorers.col.tournaments"))}</th>
-               <th class="col-span" title="${escapeHtml(t("scorers.col.span"))}">${escapeHtml(t("scorers.col.span"))}</th>`}
+            ? `<th class="col-team">${escapeHtml(i18n("scorers.col.team"))}</th>
+               <th class="col-num col-goals" title="${escapeHtml(i18n("scorers.col.goals"))}">${escapeHtml(i18n("scorers.col.goals"))}</th>
+               <th class="col-num col-mp" title="${escapeHtml(i18n("scorers.col.mp"))}">${escapeHtml(i18n("scorers.col.mp"))}</th>
+               <th class="col-num col-a" title="${escapeHtml(i18n("scorers.col.assists"))}">${escapeHtml(i18n("scorers.col.assists"))}</th>
+               <th class="col-num col-pk" title="${escapeHtml(i18n("scorers.col.penalties"))}">${escapeHtml(i18n("scorers.col.penalties"))}</th>`
+            : `<th class="col-team">${escapeHtml(i18n("scorers.col.country"))}</th>
+               <th class="col-num col-goals" title="${escapeHtml(i18n("scorers.col.goals"))}">${escapeHtml(i18n("scorers.col.goals"))}</th>
+               <th class="col-num col-tours" title="${escapeHtml(i18n("scorers.col.tournaments"))}">${escapeHtml(i18n("scorers.col.tournaments"))}</th>
+               <th class="col-span" title="${escapeHtml(i18n("scorers.col.span"))}">${escapeHtml(i18n("scorers.col.span"))}</th>`}
         </tr>
       </thead>
       <tbody></tbody>
@@ -1500,14 +1500,14 @@
     const a = new Date(iso + "T00:00:00Z").getTime();
     const b = new Date(nowIso + "T00:00:00Z").getTime();
     const diffDays = Math.round((a - b) / 86_400_000);
-    if (diffDays === 0) return t("day.today", { date: iso }).replace(/^[^·]*·\s*/, "");
+    if (diffDays === 0) return i18n("day.today", { date: iso }).replace(/^[^·]*·\s*/, "");
     if (diffDays === 1) return iso;
     if (diffDays === -1) return iso;
     return iso;
   }
 
   function weeklyLastManualLabel(data) {
-    if (!data || !data.last_manual_update) return t("weekly.manual.never");
+    if (!data || !data.last_manual_update) return i18n("weekly.manual.never");
     const when = data.last_manual_update;
     let rel = "";
     try {
@@ -1515,11 +1515,11 @@
       const ms = Date.now() - dt.getTime();
       const minute = 60_000, hour = 3_600_000, day = 86_400_000;
       if (ms < 0) rel = when.slice(0, 16).replace("T", " ");
-      else if (ms < hour) rel = t("relative.m.ago", { n: Math.max(1, Math.round(ms / minute)) });
-      else if (ms < day) rel = t("relative.h.ago", { n: Math.round(ms / hour) });
-      else rel = t("relative.d.ago", { n: Math.round(ms / day) });
+      else if (ms < hour) rel = i18n("relative.m.ago", { n: Math.max(1, Math.round(ms / minute)) });
+      else if (ms < day) rel = i18n("relative.h.ago", { n: Math.round(ms / hour) });
+      else rel = i18n("relative.d.ago", { n: Math.round(ms / day) });
     } catch { rel = when.slice(0, 16).replace("T", " "); }
-    return t("weekly.manual.fresh", { when: rel });
+    return i18n("weekly.manual.fresh", { when: rel });
   }
 
   function renderWeekly() {
@@ -1531,7 +1531,7 @@
     // Show a quick loading placeholder; loadWeekly resolves fast on cache hit.
     const placeholder = document.createElement("div");
     placeholder.className = "loading";
-    placeholder.textContent = t("loading");
+    placeholder.textContent = i18n("loading");
     content.appendChild(placeholder);
 
     loadWeekly().then((raw) => {
@@ -1613,7 +1613,7 @@
     const head = document.createElement("header");
     head.className = "weekly-head";
     const totalCount = round.matches.length;
-    const roundLabel = (round.round_label || {})[currentLang] || t("weekly.title");
+    const roundLabel = (round.round_label || {})[currentLang] || i18n("weekly.title");
     const rangeText = dateRange.length === 2
       ? `${formatDateWithDow(dateRange[0])} → ${formatDateWithDow(dateRange[1])}`
       : "";
@@ -1622,11 +1622,11 @@
       : null;
     const showManual = round.manual_count > 0 && manualLabel;
     head.innerHTML = `
-      <h2 class="weekly-title">${escapeHtml(t("weekly.title"))}</h2>
+      <h2 class="weekly-title">${escapeHtml(i18n("weekly.title"))}</h2>
       <p class="weekly-round-label">${escapeHtml(roundLabel)}${rangeText ? ` <span class="weekly-round-range">· ${escapeHtml(rangeText)}</span>` : ""}</p>
-      <p class="weekly-hint">${escapeHtml(t("weekly.hint"))}</p>
+      <p class="weekly-hint">${escapeHtml(i18n("weekly.hint"))}</p>
       <p class="weekly-meta">
-        <span class="weekly-meta-count">${escapeHtml(t("n.matches", { n: totalCount }))}</span>
+        <span class="weekly-meta-count">${escapeHtml(i18n("n.matches", { n: totalCount }))}</span>
         ${showManual ? `<span class="weekly-meta-dot">·</span><span class="weekly-meta-manual">${escapeHtml(manualLabel)}</span>` : ""}
       </p>
     `;
@@ -1637,8 +1637,8 @@
       const banner = document.createElement("div");
       banner.className = "weekly-stale";
       banner.innerHTML = `
-        <strong>${escapeHtml(t("weekly.stale.title", { round: roundLabel }))}</strong>
-        <span class="weekly-stale-hint">${escapeHtml(t("weekly.stale.hint"))}</span>
+        <strong>${escapeHtml(i18n("weekly.stale.title", { round: roundLabel }))}</strong>
+        <span class="weekly-stale-hint">${escapeHtml(i18n("weekly.stale.hint"))}</span>
       `;
       wrap.appendChild(banner);
     }
@@ -1661,7 +1661,7 @@
     if (round.manual_count > 0 && round.manual_count < totalCount) {
       const note = document.createElement("p");
       note.className = "weekly-partial";
-      note.textContent = t("weekly.manual.partial", { n: round.manual_count, total: totalCount });
+      note.textContent = i18n("weekly.manual.partial", { n: round.manual_count, total: totalCount });
       wrap.appendChild(note);
     }
 
@@ -1687,9 +1687,9 @@
       const bhead = document.createElement("header");
       bhead.className = "weekly-bucket-head";
       const verdictLabel =
-        key === "must" ? t("weekly.verdict.must")
-        : key === "lively" ? t("weekly.verdict.lively")
-        : t("weekly.verdict.skip");
+        key === "must" ? i18n("weekly.verdict.must")
+        : key === "lively" ? i18n("weekly.verdict.lively")
+        : i18n("weekly.verdict.skip");
       bhead.innerHTML = `<span class="weekly-bucket-title">${escapeHtml(verdictLabel)}</span><span class="weekly-bucket-count">${b.items.length}</span>`;
       section.appendChild(bhead);
 
@@ -1712,9 +1712,9 @@
             return d.toISOString().slice(0, 10);
           })();
           const label = date === todayIso2
-            ? `${t("weekly.day.today")} · ${formatDateWithDow(date)}`
+            ? `${i18n("weekly.day.today")} · ${formatDateWithDow(date)}`
             : date === tomorrowDate
-              ? `${t("weekly.day.tomorrow")} · ${formatDateWithDow(date)}`
+              ? `${i18n("weekly.day.tomorrow")} · ${formatDateWithDow(date)}`
               : formatDateWithDow(date);
           dh.textContent = label;
           section.appendChild(dh);
@@ -1746,9 +1746,9 @@
     const errBlock = err && !/HTTP\s*404/i.test(String(err))
       ? `<div class="empty-hint" style="opacity:.6">${escapeHtml(String(err))}</div>`
       : "";
-    div.innerHTML = `<div>${escapeHtml(t("weekly.empty.title"))}</div>
-      <div class="empty-hint">${escapeHtml(t("weekly.empty.hint"))}</div>
-      <div class="empty-hint">${escapeHtml(t("weekly.empty.ask"))}</div>
+    div.innerHTML = `<div>${escapeHtml(i18n("weekly.empty.title"))}</div>
+      <div class="empty-hint">${escapeHtml(i18n("weekly.empty.hint"))}</div>
+      <div class="empty-hint">${escapeHtml(i18n("weekly.empty.ask"))}</div>
       ${errBlock}`;
     content.appendChild(div);
   }
@@ -1775,9 +1775,9 @@
 
     // Verdict badge + score
     const verdictKey = m.verdict || "lively";
-    const verdictLabel = verdictKey === "must" ? t("weekly.verdict.must")
-      : verdictKey === "lively" ? t("weekly.verdict.lively")
-      : t("weekly.verdict.skip");
+    const verdictLabel = verdictKey === "must" ? i18n("weekly.verdict.must")
+      : verdictKey === "lively" ? i18n("weekly.verdict.lively")
+      : i18n("weekly.verdict.skip");
 
     const head = document.createElement("header");
     head.className = "weekly-card-head";
@@ -1789,7 +1789,7 @@
       </div>
       <div class="weekly-card-verdict">
         <span class="weekly-verdict-badge weekly-verdict-badge--${verdictKey}">${escapeHtml(verdictLabel)}</span>
-        ${score != null ? `<span class="weekly-score">${escapeHtml(t("weekly.score", { n: score }))}</span>` : ""}
+        ${score != null ? `<span class="weekly-score">${escapeHtml(i18n("weekly.score", { n: score }))}</span>` : ""}
       </div>
     `;
     li.appendChild(head);
@@ -1822,32 +1822,32 @@
 
     // Stakes block (always present — comes from auto script)
     if (stakes) {
-      li.appendChild(weeklyBlock(t("weekly.match.stakes"), stakes, "weekly-block--stakes"));
+      li.appendChild(weeklyBlock(i18n("weekly.match.stakes"), stakes, "weekly-block--stakes"));
     }
 
     // Why-skip block (only for skip / lively)
     if (whySkip && (verdictKey === "skip" || verdictKey === "lively")) {
-      li.appendChild(weeklyBlock(t("weekly.match.why_skip"), whySkip, "weekly-block--skip"));
+      li.appendChild(weeklyBlock(i18n("weekly.match.why_skip"), whySkip, "weekly-block--skip"));
     }
 
     // Watch-for list
     if (watch.length) {
-      li.appendChild(weeklyListBlock(t("weekly.match.watch"), watch, "weekly-block--watch"));
+      li.appendChild(weeklyListBlock(i18n("weekly.match.watch"), watch, "weekly-block--watch"));
     }
 
     // Players
     if (players.length) {
-      li.appendChild(weeklyListBlock(t("weekly.match.players"), players, "weekly-block--players"));
+      li.appendChild(weeklyListBlock(i18n("weekly.match.players"), players, "weekly-block--players"));
     }
 
     // News focus
     if (news) {
-      li.appendChild(weeklyBlock(t("weekly.match.news"), news, "weekly-block--news"));
+      li.appendChild(weeklyBlock(i18n("weekly.match.news"), news, "weekly-block--news"));
     }
 
     // Records
     if (records.length) {
-      li.appendChild(weeklyListBlock(t("weekly.match.records"), records, "weekly-block--records"));
+      li.appendChild(weeklyListBlock(i18n("weekly.match.records"), records, "weekly-block--records"));
     }
 
     // Awaiting-analysis placeholder when a card has nothing manual yet
@@ -1855,14 +1855,14 @@
     if (!hasManual) {
       const ph = document.createElement("div");
       ph.className = "weekly-awaiting";
-      ph.textContent = t("weekly.manual.never");
+      ph.textContent = i18n("weekly.manual.never");
       li.appendChild(ph);
     }
 
     // Footer: venue + links
     const links = [];
-    if (m.espn_url) links.push(`<a class="link espn" target="_blank" rel="noopener noreferrer" href="${escapeHtml(m.espn_url)}">${escapeHtml(t("link.espn"))}</a>`);
-    if (m.fox_url) links.push(`<a class="link fox" target="_blank" rel="noopener noreferrer" href="${escapeHtml(m.fox_url)}">${escapeHtml(t("link.fox"))}</a>`);
+    if (m.espn_url) links.push(`<a class="link espn" target="_blank" rel="noopener noreferrer" href="${escapeHtml(m.espn_url)}">${escapeHtml(i18n("link.espn"))}</a>`);
+    if (m.fox_url) links.push(`<a class="link fox" target="_blank" rel="noopener noreferrer" href="${escapeHtml(m.fox_url)}">${escapeHtml(i18n("link.fox"))}</a>`);
     if (m.venue || links.length) {
       const foot = document.createElement("footer");
       foot.className = "weekly-card-foot";
@@ -1983,11 +1983,11 @@
     timeStatus.classList.remove("is-live", "is-final", "is-scheduled", "is-starting");
     if (isLive) {
       timeStatus.classList.add("is-live");
-      timeStatus.textContent = t("status.live.short");
+      timeStatus.textContent = i18n("status.live.short");
       node.classList.add("is-live");
     } else if (isFinal) {
       timeStatus.classList.add("is-final");
-      timeStatus.textContent = t("status.final.short");
+      timeStatus.textContent = i18n("status.final.short");
       node.classList.add("is-final");
     } else if (isScheduled) {
       const minutes = (kickoff - now) / 60_000;
@@ -2062,7 +2062,7 @@
     const updated = $("#updated");
     if (updated) {
       const now = new Date(data.generated_at);
-      updated.textContent = t("updated", { rel: formatRelative(now, new Date()) });
+      updated.textContent = i18n("updated", { rel: formatRelative(now, new Date()) });
       updated.title = new Date(data.generated_at).toLocaleString();
     }
   }
@@ -2226,7 +2226,7 @@
     for (const l of labelOrder) {
       const span = document.createElement("span");
       span.className = "bracket-col-label" + (l.center ? " is-center" : "");
-      span.textContent = t(l.key);
+      span.textContent = i18n(l.key);
       labels.appendChild(span);
     }
     container.appendChild(labels);
@@ -2277,7 +2277,7 @@
     const awayLose = decided && !awayWin;
     const roundKey = `bracket.${m.stage_slug}`;
     const showLabel = p && p.side && (m.stage_slug === "round-of-32" || m.stage_slug === "round-of-16" || m.stage_slug === "quarterfinals" || m.stage_slug === "semifinals");
-    const roundLabel = showLabel ? `<span class="bracket-round-label">${escapeHtml(t(roundKey))}</span>` : "";
+    const roundLabel = showLabel ? `<span class="bracket-round-label">${escapeHtml(i18n(roundKey))}</span>` : "";
     node.innerHTML = `
       ${roundLabel}
       <div class="bracket-team ${homeWin ? "is-winner" : ""} ${homeLose ? "is-loser" : ""} ${homeTbd ? "is-tbd" : ""}">
@@ -2290,8 +2290,8 @@
       </div>
       <div class="bc-status ${m.status === "LIVE" ? "is-live" : m.status === "FINAL" ? "is-final" : ""}">
         <span>${
-          m.status === "LIVE" ? "● " + t("status.live.short") :
-          m.status === "FINAL" ? t("status.final.short") :
+          m.status === "LIVE" ? "● " + i18n("status.live.short") :
+          m.status === "FINAL" ? i18n("status.final.short") :
           timeInTz(new Date(m.kickoff_utc), tz)
         }</span>
       </div>
@@ -2502,12 +2502,12 @@
   function updateVenueTrigger() {
     const label = $("#venue-trigger-label");
     if (!label) return;
-    if (!allData) { label.textContent = t("venues.all", { n: 0 }); return; }
+    if (!allData) { label.textContent = i18n("venues.all", { n: 0 }); return; }
     const total = allData.facets?.venues?.length || 0;
     if (filters.venues.length === 0) {
-      label.textContent = t("venues.all", { n: total });
+      label.textContent = i18n("venues.all", { n: total });
     } else if (filters.venues.length === 1) {
-      label.textContent = t("venue.single", { name: filters.venues[0] });
+      label.textContent = i18n("venue.single", { name: filters.venues[0] });
     } else {
       label.textContent = `${filters.venues.length} / ${total}`;
     }
@@ -2656,10 +2656,10 @@
     wireClear();
     renderTeamChips();
     // Apply translations to all data-i18n elements on first paint
-    $$("[data-i18n]").forEach((el) => { el.textContent = t(el.dataset.i18n); });
-    $$("[data-i18n-placeholder]").forEach((el) => { el.placeholder = t(el.dataset.i18nPlaceholder); });
-    $$("[data-i18n-title]").forEach((el) => { el.title = t(el.dataset.i18nTitle); });
-    $$("[data-i18n-aria]").forEach((el) => { el.setAttribute("aria-label", t(el.dataset.i18nAria)); });
+    $$("[data-i18n]").forEach((el) => { el.textContent = i18n(el.dataset.i18n); });
+    $$("[data-i18n-placeholder]").forEach((el) => { el.placeholder = i18n(el.dataset.i18nPlaceholder); });
+    $$("[data-i18n-title]").forEach((el) => { el.title = i18n(el.dataset.i18nTitle); });
+    $$("[data-i18n-aria]").forEach((el) => { el.setAttribute("aria-label", i18n(el.dataset.i18nAria)); });
     updateLangPills();
     updateViewPills();
     updateVenueTrigger();
@@ -2719,7 +2719,7 @@
     content.innerHTML = "";
     const div = document.createElement("div");
     div.className = "error";
-    div.innerHTML = `<strong>${escapeHtml(t("error.title"))}</strong><br />${escapeHtml(String(err))}<br /><br />${escapeHtml(t("error.hint"))}`;
+    div.innerHTML = `<strong>${escapeHtml(i18n("error.title"))}</strong><br />${escapeHtml(String(err))}<br /><br />${escapeHtml(i18n("error.hint"))}`;
     content.appendChild(div);
   }
 
@@ -2780,7 +2780,7 @@
     if (countEl) countEl.textContent = "";
     const placeholder = document.createElement("div");
     placeholder.className = "loading";
-    placeholder.textContent = t("loading");
+    placeholder.textContent = i18n("loading");
     content.appendChild(placeholder);
 
     loadOdds().then((data) => {
@@ -2802,8 +2802,8 @@
     const errBlock = err && !/HTTP\s*404/i.test(String(err))
       ? `<div class="empty-hint" style="opacity:.6">${escapeHtml(String(err))}</div>`
       : "";
-    div.innerHTML = `<div>${escapeHtml(t("odds.empty.title", "No knockout odds yet."))}</div>
-      <div class="empty-hint">${escapeHtml(t("odds.empty.hint", "Run scripts/compute_knockout_odds.py to generate."))}</div>
+    div.innerHTML = `<div>${escapeHtml(i18n("odds.empty.title", "No knockout odds yet."))}</div>
+      <div class="empty-hint">${escapeHtml(i18n("odds.empty.hint", "Run scripts/compute_knockout_odds.py to generate."))}</div>
       ${errBlock}`;
     content.appendChild(div);
   }
@@ -2819,10 +2819,10 @@
       ? `${formatDateWithDow(win[0])} → ${formatDateWithDow(win[1])}`
       : "";
     head.innerHTML = `
-      <h2 class="odds-title">${escapeHtml(t("odds.title", "Knockout Odds"))}</h2>
-      <p class="odds-hint">${escapeHtml(t("odds.hint", "Each team's chance of finishing 1st / 2nd / 3rd / 4th in their group, computed by Monte Carlo simulation over the remaining group-stage matches. Top 2 + 8 best 3rd advance to the Round of 32."))}</p>
+      <h2 class="odds-title">${escapeHtml(i18n("odds.title", "Knockout Odds"))}</h2>
+      <p class="odds-hint">${escapeHtml(i18n("odds.hint", "Each team's chance of finishing 1st / 2nd / 3rd / 4th in their group, computed by Monte Carlo simulation over the remaining group-stage matches. Top 2 + 8 best 3rd advance to the Round of 32."))}</p>
       <p class="odds-meta">
-        <span>${escapeHtml(t("odds.sims", "Sims"))}: ${(data.n_simulations || 10000).toLocaleString()}</span>
+        <span>${escapeHtml(i18n("odds.sims", "Sims"))}: ${(data.n_simulations || 10000).toLocaleString()}</span>
         ${winRange ? `<span class="odds-meta-dot">·</span><span>${escapeHtml(winRange)}</span>` : ""}
       </p>
     `;
@@ -2838,10 +2838,10 @@
     const legend = document.createElement("div");
     legend.className = "odds-legend";
     legend.innerHTML = `
-      <span class="odds-legend-item"><span class="odds-bar odds-bar--1"></span>${escapeHtml(t("odds.legend.1", "1st in group"))}</span>
-      <span class="odds-legend-item"><span class="odds-bar odds-bar--2"></span>${escapeHtml(t("odds.legend.2", "2nd"))}</span>
-      <span class="odds-legend-item"><span class="odds-bar odds-bar--3"></span>${escapeHtml(t("odds.legend.3", "3rd (best 8 advance)"))}</span>
-      <span class="odds-legend-item"><span class="odds-bar odds-bar--4"></span>${escapeHtml(t("odds.legend.4", "4th (out)"))}</span>
+      <span class="odds-legend-item"><span class="odds-bar odds-bar--1"></span>${escapeHtml(i18n("odds.legend.1", "1st in group"))}</span>
+      <span class="odds-legend-item"><span class="odds-bar odds-bar--2"></span>${escapeHtml(i18n("odds.legend.2", "2nd"))}</span>
+      <span class="odds-legend-item"><span class="odds-bar odds-bar--3"></span>${escapeHtml(i18n("odds.legend.3", "3rd (best 8 advance)"))}</span>
+      <span class="odds-legend-item"><span class="odds-bar odds-bar--4"></span>${escapeHtml(i18n("odds.legend.4", "4th (out)"))}</span>
     `;
     wrap.appendChild(legend);
 
@@ -2859,7 +2859,7 @@
     ).join(", ");
     head.innerHTML = `
       <h3 class="odds-group-name">${escapeHtml(g.name)}</h3>
-      <p class="odds-group-remaining">${remainingTxt ? escapeHtml(remainingTxt) : escapeHtml(t("odds.group.complete", "Group complete"))}</p>
+      <p class="odds-group-remaining">${remainingTxt ? escapeHtml(remainingTxt) : escapeHtml(i18n("odds.group.complete", "Group complete"))}</p>
     `;
     card.appendChild(head);
 
@@ -2879,8 +2879,8 @@
         <span class="odds-team-flag">${escapeHtml(team.flag || "")}</span>
         <span class="odds-team-name">${escapeHtml(currentLang === "zh" && team.name_zh ? team.name_zh : team.name)}</span>
         <span class="odds-team-rank">#${team.rank ?? "—"}</span>
-        <span class="odds-team-pts">${team.current_pts} ${escapeHtml(t("odds.pts", "pts"))}</span>
-        <span class="odds-team-advance odds-team-advance--${advanceColor}" title="${escapeHtml(t("odds.advance.tip", "Chance of advancing to the Round of 32 (top 2 + best 3rd)"))}">${formatPct(team.p_advance)}</span>
+        <span class="odds-team-pts">${team.current_pts} ${escapeHtml(i18n("odds.pts", "pts"))}</span>
+        <span class="odds-team-advance odds-team-advance--${advanceColor}" title="${escapeHtml(i18n("odds.advance.tip", "Chance of advancing to the Round of 32 (top 2 + best 3rd)"))}">${formatPct(team.p_advance)}</span>
       </div>
       <div class="odds-bar-row" aria-label="${escapeHtml(team.name)} finish probabilities">
         <div class="odds-bar odds-bar--1" style="width: ${team.p_1st}%" title="${escapeHtml(team.name)}: 1st ${formatPct(team.p_1st)}"></div>
