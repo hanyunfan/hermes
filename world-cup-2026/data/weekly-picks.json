@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-21T23:51:08+00:00",
+  "generated_at": "2026-06-22T03:32:06+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-21T18:51:08-05:00",
+  "now_local": "2026-06-21T22:32:06-05:00",
   "match_count": 48,
   "manual_count": 32,
   "rounds": [
@@ -1388,7 +1388,7 @@
       "round_intro_en": null,
       "manual_note_zh": null,
       "manual_note_en": null,
-      "generated_at": "2026-06-21T23:51:08+00:00",
+      "generated_at": "2026-06-22T03:32:06+00:00",
       "matches": [
         {
           "match_id": "760462",
@@ -2233,8 +2233,8 @@
           },
           "group_name": "Group H",
           "home_group_rank": 2,
-          "home_pts": 1,
-          "home_mp": 1,
+          "home_pts": 2,
+          "home_mp": 2,
           "away_group_rank": 1,
           "away_pts": 4,
           "away_mp": 2,
@@ -2290,10 +2290,10 @@
             "rank": 9
           },
           "group_name": "Group G",
-          "home_group_rank": 3,
+          "home_group_rank": 4,
           "home_pts": 1,
-          "home_mp": 1,
-          "away_group_rank": 2,
+          "home_mp": 2,
+          "away_group_rank": 3,
           "away_pts": 2,
           "away_mp": 2,
           "stakes_kind": "group_decider",
