@@ -161,6 +161,20 @@
       "weekly.section.skip": "Skippable",
       "weekly.day.today": "Today",
       "weekly.day.tomorrow": "Tomorrow",
+
+      // 出线概率 tab (Knockout Odds)
+      "odds.title": "Knockout Odds",
+      "odds.hint": "Each team's chance of finishing 1st / 2nd / 3rd / 4th in their group, computed by Monte Carlo simulation over the remaining group-stage matches. Top 2 + 8 best 3rd advance to the Round of 32.",
+      "odds.sims": "Sims",
+      "odds.legend.1": "1st in group",
+      "odds.legend.2": "2nd",
+      "odds.legend.3": "3rd (best 8 advance)",
+      "odds.legend.4": "4th (out)",
+      "odds.pts": "pts",
+      "odds.advance.tip": "Chance of advancing to the Round of 32 (top 2 + best 3rd)",
+      "odds.empty.title": "No knockout odds yet.",
+      "odds.empty.hint": "Run scripts/compute_knockout_odds.py to generate.",
+      "odds.group.complete": "Group complete",
     },
     zh: {
       "page.title": "2026 国际足联世界杯 — 每日预告",
@@ -298,6 +312,20 @@
       "weekly.section.must": "必看场次",
       "weekly.section.lively": "可以看看",
       "weekly.section.skip": "可跳过",
+
+      // 出线概率 tab (Knockout Odds)
+      "odds.title": "出线概率",
+      "odds.hint": "各队小组第 1/2/3/4 名的概率，基于剩余场次的蒙特卡洛模拟（10,000 次）。前 2 名 + 8 个最佳第 3 名晋级 1/8 决赛。",
+      "odds.sims": "模拟次数",
+      "odds.legend.1": "小组第 1",
+      "odds.legend.2": "小组第 2",
+      "odds.legend.3": "第 3（前 8 晋级）",
+      "odds.legend.4": "第 4（出局）",
+      "odds.pts": "分",
+      "odds.advance.tip": "晋级 1/8 决赛的概率（前 2 + 8 个最佳第 3）",
+      "odds.empty.title": "暂无出线概率数据。",
+      "odds.empty.hint": "运行 scripts/compute_knockout_odds.py 生成。",
+      "odds.group.complete": "小组赛已结束",
     },
   };
 
