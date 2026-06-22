@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-22T19:27:43.813601+00:00",
+  "generated_at": "2026-06-22T21:38:51.700612+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-22T14:27:40.963218-05:00",
+  "now_local": "2026-06-22T16:38:50.119231-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -10032,7 +10032,7 @@
             "color": "74acdf",
             "home_away": "home",
             "score": 2,
-            "winner": false
+            "winner": true
           },
           "away": {
             "id": "474",
@@ -10226,8 +10226,8 @@
           "kickoff_local_date": "2026-06-22",
           "kickoff_time": "4:00 PM",
           "kickoff_weekday": "Mon",
-          "status": "SCHEDULED",
-          "status_short": "Scheduled",
+          "status": "LIVE",
+          "status_short": "38'",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -10241,7 +10241,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/fra.png",
             "color": "000080",
             "home_away": "home",
-            "score": 0,
+            "score": 1,
             "winner": false
           },
           "away": {
@@ -10270,7 +10270,38 @@
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760457/iraq-france",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20France%20vs%20Iraq",
-          "slug": "iraq-at-france"
+          "slug": "iraq-at-france",
+          "incidents": [
+            {
+              "kind": "yellow_card",
+              "minute": "6'",
+              "team": "Iraq",
+              "team_id": "4375",
+              "team_side": "away",
+              "player": "Amir Al-Ammari",
+              "text": "Amir Al Ammari (Iraq) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "goal",
+              "minute": "14'",
+              "team": "France",
+              "team_id": "478",
+              "team_side": "home",
+              "player": "Kylian Mbappé",
+              "text": "Goal! France 1, Iraq 0. Kylian Mbappé (France) left footed shot from outside the box to the top left corner. Assisted by Michael Olise.",
+              "assist": "Michael Olise"
+            },
+            {
+              "kind": "substitution",
+              "minute": "26'",
+              "team": "Iraq",
+              "team_id": "4375",
+              "team_side": "away",
+              "player": "Ali Al-Hamadi",
+              "text": "Substitution, Iraq. Ali Al Hamadi replaces Aymen Hussein because of an injury.",
+              "player_off": "Aymen Hussein"
+            }
+          ]
         },
         {
           "id": "760454",
