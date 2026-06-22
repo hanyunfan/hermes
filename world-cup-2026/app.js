@@ -575,7 +575,7 @@
   let filters = { ...DEFAULT_FILTERS };
   let allData = null;
   let allMatches = [];
-  let currentView = "matches";  // matches | standings | scorers | ai
+  let currentView = "matches";  // matches | standings | scorers | weekly | odds
 
   function loadFilters() {
     // Filters are intentionally session-only. On every page load we
@@ -2538,7 +2538,7 @@
   function loadView() {
     try {
       const raw = localStorage.getItem(VIEW_KEY);
-      if (raw === "standings" || raw === "matches" || raw === "scorers" || raw === "weekly") return raw;
+      if (raw === "standings" || raw === "matches" || raw === "scorers" || raw === "weekly" || raw === "odds") return raw;
     } catch { /* ignore */ }
     return "matches";
   }
@@ -2546,7 +2546,7 @@
     try { localStorage.setItem(VIEW_KEY, v); } catch { /* ignore */ }
   }
   function setView(v) {
-    if (v === "standings" || v === "scorers" || v === "matches" || v === "weekly") currentView = v;
+    if (v === "standings" || v === "scorers" || v === "matches" || v === "weekly" || v === "odds") currentView = v;
     saveView(currentView);
     updateViewPills();
     // Hide filters in any non-match view (standings, scorers, ai).
