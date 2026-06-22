@@ -2869,30 +2869,30 @@
     return card;
   }
 
-  function buildOddsTeamRow(t) {
+  function buildOddsTeamRow(team) {
     const row = document.createElement("div");
     row.className = "odds-team";
 
-    const advanceColor = t.p_advance >= 80 ? "high" : t.p_advance >= 30 ? "mid" : "low";
+    const advanceColor = team.p_advance >= 80 ? "high" : team.p_advance >= 30 ? "mid" : "low";
     row.innerHTML = `
       <div class="odds-team-head">
-        <span class="odds-team-flag">${escapeHtml(t.flag || "")}</span>
-        <span class="odds-team-name">${escapeHtml(currentLang === "zh" && t.name_zh ? t.name_zh : t.name)}</span>
-        <span class="odds-team-rank">#${t.rank ?? "—"}</span>
-        <span class="odds-team-pts">${t.current_pts} ${escapeHtml(t("odds.pts", "pts"))}</span>
-        <span class="odds-team-advance odds-team-advance--${advanceColor}" title="${escapeHtml(t("odds.advance.tip", "Chance of advancing to the Round of 32 (top 2 + best 3rd)"))}">${formatPct(t.p_advance)}</span>
+        <span class="odds-team-flag">${escapeHtml(team.flag || "")}</span>
+        <span class="odds-team-name">${escapeHtml(currentLang === "zh" && team.name_zh ? team.name_zh : team.name)}</span>
+        <span class="odds-team-rank">#${team.rank ?? "—"}</span>
+        <span class="odds-team-pts">${team.current_pts} ${escapeHtml(t("odds.pts", "pts"))}</span>
+        <span class="odds-team-advance odds-team-advance--${advanceColor}" title="${escapeHtml(t("odds.advance.tip", "Chance of advancing to the Round of 32 (top 2 + best 3rd)"))}">${formatPct(team.p_advance)}</span>
       </div>
-      <div class="odds-bar-row" aria-label="${escapeHtml(t.name)} finish probabilities">
-        <div class="odds-bar odds-bar--1" style="width: ${t.p_1st}%" title="${escapeHtml(t.name)}: 1st ${formatPct(t.p_1st)}"></div>
-        <div class="odds-bar odds-bar--2" style="width: ${t.p_2nd}%" title="${escapeHtml(t.name)}: 2nd ${formatPct(t.p_2nd)}"></div>
-        <div class="odds-bar odds-bar--3" style="width: ${t.p_3rd}%" title="${escapeHtml(t.name)}: 3rd ${formatPct(t.p_3rd)}"></div>
-        <div class="odds-bar odds-bar--4" style="width: ${t.p_4th}%" title="${escapeHtml(t.name)}: 4th ${formatPct(t.p_4th)}"></div>
+      <div class="odds-bar-row" aria-label="${escapeHtml(team.name)} finish probabilities">
+        <div class="odds-bar odds-bar--1" style="width: ${team.p_1st}%" title="${escapeHtml(team.name)}: 1st ${formatPct(team.p_1st)}"></div>
+        <div class="odds-bar odds-bar--2" style="width: ${team.p_2nd}%" title="${escapeHtml(team.name)}: 2nd ${formatPct(team.p_2nd)}"></div>
+        <div class="odds-bar odds-bar--3" style="width: ${team.p_3rd}%" title="${escapeHtml(team.name)}: 3rd ${formatPct(team.p_3rd)}"></div>
+        <div class="odds-bar odds-bar--4" style="width: ${team.p_4th}%" title="${escapeHtml(team.name)}: 4th ${formatPct(team.p_4th)}"></div>
       </div>
       <div class="odds-pct-row">
-        <span class="odds-pct">${formatPct(t.p_1st)}</span>
-        <span class="odds-pct">${formatPct(t.p_2nd)}</span>
-        <span class="odds-pct">${formatPct(t.p_3rd)}</span>
-        <span class="odds-pct">${formatPct(t.p_4th)}</span>
+        <span class="odds-pct">${formatPct(team.p_1st)}</span>
+        <span class="odds-pct">${formatPct(team.p_2nd)}</span>
+        <span class="odds-pct">${formatPct(team.p_3rd)}</span>
+        <span class="odds-pct">${formatPct(team.p_4th)}</span>
       </div>
     `;
     return row;
