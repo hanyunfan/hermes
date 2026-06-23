@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-23T20:06:02.687771+00:00",
+  "generated_at": "2026-06-23T21:56:52.251522+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-23T15:06:01.370197-05:00",
+  "now_local": "2026-06-23T16:56:51.443993-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -10849,7 +10849,7 @@
             "color": "da291c",
             "home_away": "home",
             "score": 5,
-            "winner": true
+            "winner": false
           },
           "away": {
             "id": "2570",
