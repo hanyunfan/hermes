@@ -164,7 +164,7 @@
 
       // 出线概率 tab (Knockout Odds)
       "odds.title": "Knockout Odds",
-      "odds.hint": "Each team's chance of finishing 1st / 2nd / 3rd / 4th in their group, computed by Monte Carlo simulation over the remaining group-stage matches. Top 2 + 8 best 3rd advance to the Round of 32.",
+      "odds.hint": "Each R32 matchup and the teams that could fill each slot, computed by Monte Carlo simulation over the remaining group-stage matches. Top 2 + 8 best 3rd advance to the Round of 32.",
       "odds.sims": "Sims",
       "odds.legend.1": "1st in group",
       "odds.legend.2": "2nd",
@@ -175,6 +175,12 @@
       "odds.empty.title": "No knockout odds yet.",
       "odds.empty.hint": "Run scripts/compute_knockout_odds.py to generate.",
       "odds.group.complete": "Group complete",
+      "odds.slot.winner": "Winner of Group {group}",
+      "odds.slot.runnerup": "Runner-up of Group {group}",
+      "odds.slot.best3rd": "Best 3rd from {groups}",
+      "odds.matchup.vs": "vs",
+      "odds.matchup.home": "Home",
+      "odds.matchup.away": "Away",
     },
     zh: {
       "page.title": "2026 国际足联世界杯 — 每日预告",
@@ -315,7 +321,7 @@
 
       // 出线概率 tab (Knockout Odds)
       "odds.title": "出线概率",
-      "odds.hint": "各队小组第 1/2/3/4 名的概率，基于剩余场次的蒙特卡洛模拟（10,000 次）。前 2 名 + 8 个最佳第 3 名晋级 1/8 决赛。",
+      "odds.hint": "每个 1/8 决赛对阵的两端可能由哪些队填上（蒙特卡洛模拟 10,000 次）。前 2 名 + 8 个最佳第 3 名晋级。",
       "odds.sims": "模拟次数",
       "odds.legend.1": "小组第 1",
       "odds.legend.2": "小组第 2",
@@ -326,6 +332,12 @@
       "odds.empty.title": "暂无出线概率数据。",
       "odds.empty.hint": "运行 scripts/compute_knockout_odds.py 生成。",
       "odds.group.complete": "小组赛已结束",
+      "odds.slot.winner": "{group} 组第 1 名",
+      "odds.slot.runnerup": "{group} 组第 2 名",
+      "odds.slot.best3rd": "最佳第 3 名（{groups}）",
+      "odds.matchup.vs": "vs",
+      "odds.matchup.home": "主场",
+      "odds.matchup.away": "客场",
     },
   };
 
@@ -2808,6 +2820,96 @@
     content.appendChild(div);
   }
 
+  // 2026 WC R32 bracket — each match is one of 16 R32 games. The
+  // home/away slots are either a fixed group+position (e.g. "winner
+  // of A") or a "best 3rd" pool that resolves to whichever 3rd-place
+  // team is matched there after the group stage. The 3rd-place pool
+  // is shown as all 12 teams sorted by p_3rd_top8 — the user can
+  // mentally filter by the bracket rules. (The "specific 5 groups"
+  // pattern in the ESPN URL is bracket-dependent and reshuffles per
+  // scenario; surfacing it would be more confusing than illuminating.)
+  const R32_BRACKET = [
+    { id: "760486", date: "2026-06-28", time: "2:00 PM", label: "2A vs 2B",
+      home: { kind: "runnerup", group: "A" }, away: { kind: "runnerup", group: "B" } },
+    { id: "760487", date: "2026-06-29", time: "12:00 PM", label: "1C vs 2F",
+      home: { kind: "winner", group: "C" }, away: { kind: "runnerup", group: "F" } },
+    { id: "760488", date: "2026-06-29", time: "8:00 PM", label: "1F vs 2C",
+      home: { kind: "winner", group: "F" }, away: { kind: "runnerup", group: "C" } },
+    { id: "760489", date: "2026-06-29", time: "3:30 PM", label: "1E vs Best 3rd",
+      home: { kind: "winner", group: "E" }, away: { kind: "best3rd" } },
+    { id: "760490", date: "2026-06-30", time: "12:00 PM", label: "2E vs 2I",
+      home: { kind: "runnerup", group: "E" }, away: { kind: "runnerup", group: "I" } },
+    { id: "760491", date: "2026-06-30", time: "8:00 PM", label: "1A vs Best 3rd",
+      home: { kind: "winner", group: "A" }, away: { kind: "best3rd" } },
+    { id: "760492", date: "2026-06-30", time: "4:00 PM", label: "1I vs Best 3rd",
+      home: { kind: "winner", group: "I" }, away: { kind: "best3rd" } },
+    { id: "760493", date: "2026-07-01", time: "3:00 PM", label: "1G vs Best 3rd",
+      home: { kind: "winner", group: "G" }, away: { kind: "best3rd" } },
+    { id: "760494", date: "2026-07-01", time: "7:00 PM", label: "1D vs Best 3rd",
+      home: { kind: "winner", group: "D" }, away: { kind: "best3rd" } },
+    { id: "760495", date: "2026-07-01", time: "11:00 AM", label: "1L vs Best 3rd",
+      home: { kind: "winner", group: "L" }, away: { kind: "best3rd" } },
+    { id: "760496", date: "2026-07-02", time: "6:00 PM", label: "2K vs 2L",
+      home: { kind: "runnerup", group: "K" }, away: { kind: "runnerup", group: "L" } },
+    { id: "760497", date: "2026-07-02", time: "2:00 PM", label: "1H vs 2J",
+      home: { kind: "winner", group: "H" }, away: { kind: "runnerup", group: "J" } },
+    { id: "760498", date: "2026-07-02", time: "10:00 PM", label: "1B vs Best 3rd",
+      home: { kind: "winner", group: "B" }, away: { kind: "best3rd" } },
+    { id: "760499", date: "2026-07-03", time: "2:00 PM", label: "2D vs 2G",
+      home: { kind: "runnerup", group: "D" }, away: { kind: "runnerup", group: "G" } },
+    { id: "760500", date: "2026-07-03", time: "5:00 PM", label: "1J vs 2H",
+      home: { kind: "winner", group: "J" }, away: { kind: "runnerup", group: "H" } },
+    { id: "760501", date: "2026-07-03", time: "8:30 PM", label: "1K vs Best 3rd",
+      home: { kind: "winner", group: "K" }, away: { kind: "best3rd" } },
+  ];
+
+  function getTeamForGroup(groupName, data) {
+    const g = (data.groups || []).find((x) => x.name === groupName);
+    return g ? g.teams : null;
+  }
+
+  function getCandidatesForSlot(slot, data) {
+    // Returns array of {team, probability} sorted by probability desc.
+    if (slot.kind === "winner") {
+      const teams = getTeamForGroup(`Group ${slot.group}`, data) || [];
+      return teams
+        .map((t) => ({ team: t, probability: t.p_1st || 0 }))
+        .sort((a, b) => b.probability - a.probability);
+    }
+    if (slot.kind === "runnerup") {
+      const teams = getTeamForSlot(slot.group, data);
+      return (teams || [])
+        .map((t) => ({ team: t, probability: t.p_2nd || 0 }))
+        .sort((a, b) => b.probability - a.probability);
+    }
+    if (slot.kind === "best3rd") {
+      // Pool all 12 groups' teams, sort by p_3rd_top8.
+      const all = [];
+      for (const g of (data.groups || [])) {
+        for (const t of (g.teams || [])) {
+          all.push({ team: t, probability: t.p_3rd_top8 || 0 });
+        }
+      }
+      return all.sort((a, b) => b.probability - a.probability);
+    }
+    return [];
+  }
+
+  function getTeamForSlot(groupName, data) {
+    return getTeamForGroup(`Group ${groupName}`, data);
+  }
+
+  function slotLabel(slot) {
+    if (slot.kind === "winner") return i18n("odds.slot.winner", "Winner of Group {group}", { group: slot.group });
+    if (slot.kind === "runnerup") return i18n("odds.slot.runnerup", "Runner-up of Group {group}", { group: slot.group });
+    if (slot.kind === "best3rd") {
+      // For 3rd slots, list all 12 groups (A-L) — the actual opponent
+      // depends on the bracket which only resolves after group stage.
+      return i18n("odds.slot.best3rd", "Best 3rd from {groups}", { groups: "A, B, C, D, E, F, G, H, I, J, K, L" });
+    }
+    return "";
+  }
+
   function renderOddsBody(content, data) {
     const wrap = document.createElement("section");
     wrap.className = "odds-section";
@@ -2820,7 +2922,7 @@
       : "";
     head.innerHTML = `
       <h2 class="odds-title">${escapeHtml(i18n("odds.title", "Knockout Odds"))}</h2>
-      <p class="odds-hint">${escapeHtml(i18n("odds.hint", "Each team's chance of finishing 1st / 2nd / 3rd / 4th in their group, computed by Monte Carlo simulation over the remaining group-stage matches. Top 2 + 8 best 3rd advance to the Round of 32."))}</p>
+      <p class="odds-hint">${escapeHtml(i18n("odds.hint", "Each R32 matchup and the teams that could fill each slot, computed by Monte Carlo simulation over the remaining group-stage matches. Top 2 + 8 best 3rd advance to the Round of 32."))}</p>
       <p class="odds-meta">
         <span>${escapeHtml(i18n("odds.sims", "Sims"))}: ${(data.n_simulations || 10000).toLocaleString()}</span>
         ${winRange ? `<span class="odds-meta-dot">·</span><span>${escapeHtml(winRange)}</span>` : ""}
@@ -2830,69 +2932,72 @@
 
     const grid = document.createElement("div");
     grid.className = "odds-grid";
-    for (const g of data.groups) {
-      grid.appendChild(buildOddsGroupCard(g));
+    for (const m of R32_BRACKET) {
+      grid.appendChild(buildOddsMatchupCard(m, data));
     }
     wrap.appendChild(grid);
-
-    const legend = document.createElement("div");
-    legend.className = "odds-legend";
-    legend.innerHTML = `
-      <span class="odds-legend-item"><span class="odds-bar odds-bar--1"></span>${escapeHtml(i18n("odds.legend.1", "1st in group"))}</span>
-      <span class="odds-legend-item"><span class="odds-bar odds-bar--2"></span>${escapeHtml(i18n("odds.legend.2", "2nd"))}</span>
-      <span class="odds-legend-item"><span class="odds-bar odds-bar--3"></span>${escapeHtml(i18n("odds.legend.3", "3rd (best 8 advance)"))}</span>
-      <span class="odds-legend-item"><span class="odds-bar odds-bar--4"></span>${escapeHtml(i18n("odds.legend.4", "4th (out)"))}</span>
-    `;
-    wrap.appendChild(legend);
 
     content.appendChild(wrap);
   }
 
-  function buildOddsGroupCard(g) {
+  function buildOddsMatchupCard(match, data) {
     const card = document.createElement("article");
-    card.className = "odds-group-card";
+    card.className = "odds-matchup-card";
 
     const head = document.createElement("header");
-    head.className = "odds-group-head";
-    const remainingTxt = (g.remaining_matches || []).map((m) =>
-      `${m.home_abbr}–${m.away_abbr}`
-    ).join(", ");
+    head.className = "odds-matchup-head";
+    const vs = i18n("odds.matchup.vs", "vs");
     head.innerHTML = `
-      <h3 class="odds-group-name">${escapeHtml(g.name)}</h3>
-      <p class="odds-group-remaining">${remainingTxt ? escapeHtml(remainingTxt) : escapeHtml(i18n("odds.group.complete", "Group complete"))}</p>
+      <h3 class="odds-matchup-label">${escapeHtml(match.label)}</h3>
+      <p class="odds-matchup-when">${escapeHtml(formatDateWithDow(match.date))} · ${escapeHtml(match.time)}</p>
     `;
     card.appendChild(head);
 
-    for (const t of (g.teams || [])) {
-      card.appendChild(buildOddsTeamRow(t));
-    }
+    const body = document.createElement("div");
+    body.className = "odds-matchup-body";
+    body.appendChild(buildOddsSlotColumn(match.home, data, "home"));
+    body.appendChild(buildOddsSlotColumn(match.away, data, "away"));
+    card.appendChild(body);
+
     return card;
   }
 
-  function buildOddsTeamRow(team) {
-    const row = document.createElement("div");
-    row.className = "odds-team";
+  function buildOddsSlotColumn(slot, data, side) {
+    const col = document.createElement("div");
+    col.className = `odds-slot odds-slot--${side}`;
 
-    const advanceColor = team.p_advance >= 80 ? "high" : team.p_advance >= 30 ? "mid" : "low";
+    const labelEl = document.createElement("div");
+    labelEl.className = "odds-slot-label";
+    labelEl.textContent = slotLabel(slot);
+    col.appendChild(labelEl);
+
+    const candidates = getCandidatesForSlot(slot, data);
+    const list = document.createElement("div");
+    list.className = "odds-slot-list";
+    for (const { team, probability } of candidates) {
+      list.appendChild(buildOddsSlotRow(team, probability, slot.kind));
+    }
+    col.appendChild(list);
+    return col;
+  }
+
+  function buildOddsSlotRow(team, probability, slotKind) {
+    const row = document.createElement("div");
+    row.className = "odds-slot-row";
+    const pct = Number(probability) || 0;
+    const name = currentLang === "zh" && team.name_zh ? team.name_zh : team.name;
+    const barClass =
+      slotKind === "winner" ? "odds-bar--1" :
+      slotKind === "runnerup" ? "odds-bar--2" :
+      "odds-bar--3";
     row.innerHTML = `
-      <div class="odds-team-head">
-        <span class="odds-team-flag">${escapeHtml(team.flag || "")}</span>
-        <span class="odds-team-name">${escapeHtml(currentLang === "zh" && team.name_zh ? team.name_zh : team.name)}</span>
-        <span class="odds-team-rank">#${team.rank ?? "—"}</span>
-        <span class="odds-team-pts">${team.current_pts} ${escapeHtml(i18n("odds.pts", "pts"))}</span>
-        <span class="odds-team-advance odds-team-advance--${advanceColor}" title="${escapeHtml(i18n("odds.advance.tip", "Chance of advancing to the Round of 32 (top 2 + best 3rd)"))}">${formatPct(team.p_advance)}</span>
+      <div class="odds-slot-row-head">
+        <span class="odds-slot-flag">${escapeHtml(team.flag || "")}</span>
+        <span class="odds-slot-name">${escapeHtml(name)}</span>
+        <span class="odds-slot-pct">${formatPct(pct)}</span>
       </div>
-      <div class="odds-bar-row" aria-label="${escapeHtml(team.name)} finish probabilities">
-        <div class="odds-bar odds-bar--1" style="width: ${team.p_1st}%" title="${escapeHtml(team.name)}: 1st ${formatPct(team.p_1st)}"></div>
-        <div class="odds-bar odds-bar--2" style="width: ${team.p_2nd}%" title="${escapeHtml(team.name)}: 2nd ${formatPct(team.p_2nd)}"></div>
-        <div class="odds-bar odds-bar--3" style="width: ${team.p_3rd}%" title="${escapeHtml(team.name)}: 3rd ${formatPct(team.p_3rd)}"></div>
-        <div class="odds-bar odds-bar--4" style="width: ${team.p_4th}%" title="${escapeHtml(team.name)}: 4th ${formatPct(team.p_4th)}"></div>
-      </div>
-      <div class="odds-pct-row">
-        <span class="odds-pct">${formatPct(team.p_1st)}</span>
-        <span class="odds-pct">${formatPct(team.p_2nd)}</span>
-        <span class="odds-pct">${formatPct(team.p_3rd)}</span>
-        <span class="odds-pct">${formatPct(team.p_4th)}</span>
+      <div class="odds-bar-row">
+        <div class="odds-bar ${barClass}" style="width: ${pct}%"></div>
       </div>
     `;
     return row;
