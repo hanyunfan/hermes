@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-23T06:43:38.343466+00:00",
+  "generated_at": "2026-06-23T17:55:24.238466+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-23T01:43:37.545078-05:00",
+  "now_local": "2026-06-23T12:55:22.585115-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -10833,8 +10833,8 @@
           "kickoff_local_date": "2026-06-23",
           "kickoff_time": "12:00 PM",
           "kickoff_weekday": "Tue",
-          "status": "SCHEDULED",
-          "status_short": "Scheduled",
+          "status": "LIVE",
+          "status_short": "HT",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -10848,7 +10848,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/por.png",
             "color": "da291c",
             "home_away": "home",
-            "score": 0,
+            "score": 3,
             "winner": false
           },
           "away": {
@@ -10877,7 +10877,47 @@
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760461/uzbekistan-portugal",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Portugal%20vs%20Uzbekistan",
-          "slug": "uzbekistan-at-portugal"
+          "slug": "uzbekistan-at-portugal",
+          "incidents": [
+            {
+              "kind": "goal",
+              "minute": "6'",
+              "team": "Portugal",
+              "team_id": "482",
+              "team_side": "home",
+              "player": "Cristiano Ronaldo",
+              "text": "Goal! Portugal 1, Uzbekistan 0. Cristiano Ronaldo (Portugal) right footed shot from the centre of the box to the bottom right corner. Assisted by João Cancelo with a cross.",
+              "assist": "João Cancelo"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "14'",
+              "team": "Uzbekistan",
+              "team_id": "2570",
+              "team_side": "away",
+              "player": "Odiljon Xamrobekov",
+              "text": "Odiljon Khamrobekov (Uzbekistan) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "goal",
+              "minute": "17'",
+              "team": "Portugal",
+              "team_id": "482",
+              "team_side": "home",
+              "player": "Nuno Mendes",
+              "text": "Goal! Portugal 2, Uzbekistan 0. Nuno Mendes (Portugal) from a free kick with a left footed shot to the bottom left corner."
+            },
+            {
+              "kind": "goal",
+              "minute": "39'",
+              "team": "Portugal",
+              "team_id": "482",
+              "team_side": "home",
+              "player": "Cristiano Ronaldo",
+              "text": "Goal! Portugal 3, Uzbekistan 0. Cristiano Ronaldo (Portugal) right footed shot from the right side of the box to the bottom left corner. Assisted by Bruno Fernandes with a through ball following a fast break.",
+              "assist": "Bruno Fernandes"
+            }
+          ]
         },
         {
           "id": "760458",
