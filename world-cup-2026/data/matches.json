@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-23T21:56:52.251522+00:00",
+  "generated_at": "2026-06-23T23:11:15.682558+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-23T16:56:51.443993-05:00",
+  "now_local": "2026-06-23T18:11:14.569231-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -562,15 +562,6 @@
         "last_kickoff_iso": "2026-07-02"
       },
       {
-        "id": "Gillette Stadium",
-        "name": "Gillette Stadium",
-        "city": "Foxborough, Massachusetts",
-        "country": "USA",
-        "match_count": 7,
-        "next_kickoff_iso": "2026-06-23",
-        "last_kickoff_iso": "2026-07-09"
-      },
-      {
         "id": "Estadio BBVA",
         "name": "Estadio BBVA",
         "city": "Guadalupe",
@@ -686,6 +677,15 @@
         "match_count": 7,
         "next_kickoff_iso": "2026-06-26",
         "last_kickoff_iso": "2026-07-04"
+      },
+      {
+        "id": "Gillette Stadium",
+        "name": "Gillette Stadium",
+        "city": "Foxborough, Massachusetts",
+        "country": "USA",
+        "match_count": 7,
+        "next_kickoff_iso": "2026-06-26",
+        "last_kickoff_iso": "2026-07-09"
       }
     ],
     "stages": [
@@ -1849,14 +1849,14 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/eng.png"
           },
           "rank": 1,
-          "mp": 1,
+          "mp": 2,
           "w": 1,
-          "d": 0,
+          "d": 1,
           "l": 0,
           "gf": 4,
           "ga": 2,
           "gd": 2,
-          "pts": 3,
+          "pts": 4,
           "advance": false,
           "advance_label": "Advance to Round of 32",
           "advance_color": "#81D6AC"
@@ -1873,14 +1873,14 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/gha.png"
           },
           "rank": 2,
-          "mp": 1,
+          "mp": 2,
           "w": 1,
-          "d": 0,
+          "d": 1,
           "l": 0,
           "gf": 1,
           "ga": 0,
           "gd": 1,
-          "pts": 3,
+          "pts": 4,
           "advance": false,
           "advance_label": "Advance to Round of 32",
           "advance_color": "#81D6AC"
@@ -10849,7 +10849,7 @@
             "color": "da291c",
             "home_away": "home",
             "score": 5,
-            "winner": false
+            "winner": true
           },
           "away": {
             "id": "2570",
@@ -11044,8 +11044,8 @@
           "kickoff_local_date": "2026-06-23",
           "kickoff_time": "3:00 PM",
           "kickoff_weekday": "Tue",
-          "status": "SCHEDULED",
-          "status_short": "Scheduled",
+          "status": "FINAL",
+          "status_short": "FT",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -11088,7 +11088,117 @@
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760458/ghana-england",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20England%20vs%20Ghana",
-          "slug": "ghana-at-england"
+          "slug": "ghana-at-england",
+          "incidents": [
+            {
+              "kind": "yellow_card",
+              "minute": "41'",
+              "team": "England",
+              "team_id": "448",
+              "team_side": "home",
+              "player": "Declan Rice",
+              "text": "Declan Rice (England) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "60'",
+              "team": "Ghana",
+              "team_id": "4469",
+              "team_side": "away",
+              "player": "Iñaki Williams",
+              "text": "Iñaki Williams (Ghana) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "substitution",
+              "minute": "65'",
+              "team": "England",
+              "team_id": "448",
+              "team_side": "home",
+              "player": "Bukayo Saka",
+              "text": "Substitution, England. Bukayo Saka replaces Anthony Gordon.",
+              "player_off": "Anthony Gordon"
+            },
+            {
+              "kind": "substitution",
+              "minute": "66'",
+              "team": "England",
+              "team_id": "448",
+              "team_side": "home",
+              "player": "Nico O'Reilly",
+              "text": "Substitution, England. Nico O'Reilly replaces Djed Spence.",
+              "player_off": "Djed Spence"
+            },
+            {
+              "kind": "substitution",
+              "minute": "66'",
+              "team": "Ghana",
+              "team_id": "4469",
+              "team_side": "away",
+              "player": "Fatawu Issahaku",
+              "text": "Substitution, Ghana. Abdul Fatawu replaces Iñaki Williams.",
+              "player_off": "Iñaki Williams"
+            },
+            {
+              "kind": "substitution",
+              "minute": "67'",
+              "team": "Ghana",
+              "team_id": "4469",
+              "team_side": "away",
+              "player": "Prince Adu",
+              "text": "Substitution, Ghana. Prince Adu replaces Jordan Ayew.",
+              "player_off": "Jordan Ayew"
+            },
+            {
+              "kind": "substitution",
+              "minute": "73'",
+              "team": "England",
+              "team_id": "448",
+              "team_side": "home",
+              "player": "Morgan Rogers",
+              "text": "Substitution, England. Morgan Rogers replaces Jude Bellingham.",
+              "player_off": "Jude Bellingham"
+            },
+            {
+              "kind": "substitution",
+              "minute": "74'",
+              "team": "England",
+              "team_id": "448",
+              "team_side": "home",
+              "player": "Eberechi Eze",
+              "text": "Substitution, England. Eberechi Eze replaces Elliot Anderson.",
+              "player_off": "Elliot Anderson"
+            },
+            {
+              "kind": "substitution",
+              "minute": "83'",
+              "team": "England",
+              "team_id": "448",
+              "team_side": "home",
+              "player": "Marcus Rashford",
+              "text": "Substitution, England. Marcus Rashford replaces Noni Madueke.",
+              "player_off": "Noni Madueke"
+            },
+            {
+              "kind": "substitution",
+              "minute": "87'",
+              "team": "Ghana",
+              "team_id": "4469",
+              "team_side": "away",
+              "player": "Kojo Peprah Oppong",
+              "text": "Substitution, Ghana. Kojo Peprah Oppong replaces Marvin Senaya.",
+              "player_off": "Marvin Senaya"
+            },
+            {
+              "kind": "substitution",
+              "minute": "90'+5'",
+              "team": "Ghana",
+              "team_id": "4469",
+              "team_side": "away",
+              "player": "Baba Rahman",
+              "text": "Substitution, Ghana. Abdul Rahman Baba replaces Prince Adu.",
+              "player_off": "Prince Adu"
+            }
+          ]
         },
         {
           "id": "760460",

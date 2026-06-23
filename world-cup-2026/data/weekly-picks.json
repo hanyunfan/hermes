@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-23T21:56:52+00:00",
+  "generated_at": "2026-06-23T23:11:15+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-23T16:56:52-05:00",
+  "now_local": "2026-06-23T18:11:15-05:00",
   "match_count": 48,
   "manual_count": 32,
   "rounds": [
@@ -1388,7 +1388,7 @@
       "round_intro_en": null,
       "manual_note_zh": null,
       "manual_note_en": null,
-      "generated_at": "2026-06-23T21:56:52+00:00",
+      "generated_at": "2026-06-23T23:11:15+00:00",
       "matches": [
         {
           "match_id": "760462",
