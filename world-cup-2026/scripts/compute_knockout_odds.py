@@ -199,6 +199,13 @@ def main(argv: list[str] | None = None) -> int:
         g: {tid: 0 for tid in teams}
         for g, teams in group_teams.items()
     }
+    # best3_counts: per-team count of sims where the team finished 3rd
+    # AND ranked in the top 8 of all 3rd-placers (i.e. actually advanced
+    # via the best-3rd rule, not as 1st/2nd).
+    best3_counts: dict[str, dict[str, int]] = {
+        g: {tid: 0 for tid in teams}
+        for g, teams in group_teams.items()
+    }
 
     # Pre-compute match outcome probs (don't re-evaluate every iteration).
     group_remaining_probs: dict[str, list[tuple]] = {}
@@ -251,13 +258,15 @@ def main(argv: list[str] | None = None) -> int:
             for pos, t in enumerate(ranked, 1):
                 tid = t["id"]
                 counts[g][tid][pos] += 1
-                all_3rd_place.append((
-                    t["current_pts"], t["current_gd"], t["current_gf"], t["current_ga"],
-                    g, tid,
-                ))
+                if pos == 3:
+                    # Only 3rd-placers compete for the 8 best-3rd slots.
+                    all_3rd_place.append((
+                        t["current_pts"], t["current_gd"], t["current_gf"], t["current_ga"],
+                        g, tid,
+                    ))
 
         # Pick best 3rd across all 12 groups (per FIFA tiebreaker).
-        # Sort by pts, GD, GF, then goals scored (per FIFA WC rules).
+        # Sort by pts, GD, GF, then GA (per FIFA WC rules).
         best_3rds = sorted(all_3rd_place, key=lambda x: (-x[0], -x[1], -x[2], -x[3]))
         best_3_set = {(g, tid) for _, _, _, _, g, tid in best_3rds[:ADVANCE_BEST3]}
 
@@ -266,6 +275,9 @@ def main(argv: list[str] | None = None) -> int:
             for pos, t in enumerate(ranked, 1):
                 if pos <= ADVANCE_TOP2 or (g, t["id"]) in best_3_set:
                     advance_counts[g][t["id"]] += 1
+        # Count best-3rd-only (for p_3rd_top8 reporting)
+        for g, tid in best_3_set:
+            best3_counts[g][tid] += 1
 
     # Build output.
     groups_out = []
@@ -288,6 +300,7 @@ def main(argv: list[str] | None = None) -> int:
                 "p_3rd": round(100.0 * c[3] / n_sims, 1),
                 "p_4th": round(100.0 * c[4] / n_sims, 1),
                 "p_advance": round(100.0 * advance_counts[g][tid] / n_sims, 1),
+                "p_3rd_top8": round(100.0 * best3_counts[g][tid] / n_sims, 1),
             })
         # Sort teams by current_pts desc for display.
         team_list.sort(key=lambda t: -t["current_pts"])
