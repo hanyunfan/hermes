@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-23T00:59:55.945538+00:00",
+  "generated_at": "2026-06-23T01:30:35.717750+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-22T19:59:54.401875-05:00",
+  "now_local": "2026-06-22T20:30:34.528485-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -10458,7 +10458,7 @@
             "country": "USA"
           },
           "broadcasts": [
-            "FS1",
+            "FOX",
             "Tele",
             "FOX One"
           ],
