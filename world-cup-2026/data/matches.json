@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-23T01:30:35.717750+00:00",
+  "generated_at": "2026-06-23T02:38:18.321680+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-22T20:30:34.528485-05:00",
+  "now_local": "2026-06-22T21:38:16.799778-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -553,15 +553,6 @@
         "last_kickoff_iso": "2026-07-01"
       },
       {
-        "id": "MetLife Stadium",
-        "name": "MetLife Stadium",
-        "city": "East Rutherford, New Jersey",
-        "country": "USA",
-        "match_count": 8,
-        "next_kickoff_iso": "2026-06-22",
-        "last_kickoff_iso": "2026-07-19"
-      },
-      {
         "id": "Estadio Akron",
         "name": "Estadio Akron",
         "city": "Guadalajara",
@@ -686,6 +677,15 @@
         "match_count": 9,
         "next_kickoff_iso": "2026-06-25",
         "last_kickoff_iso": "2026-07-14"
+      },
+      {
+        "id": "MetLife Stadium",
+        "name": "MetLife Stadium",
+        "city": "East Rutherford, New Jersey",
+        "country": "USA",
+        "match_count": 8,
+        "next_kickoff_iso": "2026-06-25",
+        "last_kickoff_iso": "2026-07-19"
       }
     ],
     "stages": [
@@ -1548,7 +1548,7 @@
           "ga": 1,
           "gd": 5,
           "pts": 6,
-          "advance": false,
+          "advance": true,
           "advance_label": "Advance to Round of 32",
           "advance_color": "#81D6AC"
         },
@@ -1564,15 +1564,15 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/nor.png"
           },
           "rank": 2,
-          "mp": 1,
-          "w": 1,
+          "mp": 2,
+          "w": 2,
           "d": 0,
           "l": 0,
-          "gf": 4,
-          "ga": 1,
-          "gd": 3,
-          "pts": 3,
-          "advance": false,
+          "gf": 7,
+          "ga": 3,
+          "gd": 4,
+          "pts": 6,
+          "advance": true,
           "advance_label": "Advance to Round of 32",
           "advance_color": "#81D6AC"
         },
@@ -1588,13 +1588,13 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/sen.png"
           },
           "rank": 3,
-          "mp": 1,
+          "mp": 2,
           "w": 0,
           "d": 0,
-          "l": 1,
-          "gf": 1,
-          "ga": 3,
-          "gd": -2,
+          "l": 2,
+          "gf": 3,
+          "ga": 6,
+          "gd": -3,
           "pts": 0,
           "advance": false,
           "advance_label": "Best 8 advance",
@@ -10242,7 +10242,7 @@
             "color": "000080",
             "home_away": "home",
             "score": 3,
-            "winner": false
+            "winner": true
           },
           "away": {
             "id": "4375",
@@ -10420,8 +10420,8 @@
           "kickoff_local_date": "2026-06-22",
           "kickoff_time": "7:00 PM",
           "kickoff_weekday": "Mon",
-          "status": "SCHEDULED",
-          "status_short": "Scheduled",
+          "status": "FINAL",
+          "status_short": "FT",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -10435,8 +10435,8 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/nor.png",
             "color": "C8102E",
             "home_away": "home",
-            "score": 0,
-            "winner": false
+            "score": 3,
+            "winner": true
           },
           "away": {
             "id": "654",
@@ -10449,7 +10449,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/sen.png",
             "color": "006436",
             "home_away": "away",
-            "score": 0,
+            "score": 2,
             "winner": false
           },
           "venue": {
@@ -10464,7 +10464,158 @@
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760454/senegal-norway",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Norway%20vs%20Senegal",
-          "slug": "senegal-at-norway"
+          "slug": "senegal-at-norway",
+          "incidents": [
+            {
+              "kind": "substitution",
+              "minute": "13'",
+              "team": "Norway",
+              "team_id": "464",
+              "team_side": "home",
+              "player": "Marcus Holmgren Pedersen",
+              "text": "Substitution, Norway. Marcus Pedersen replaces Julian Ryerson because of an injury.",
+              "player_off": "Julian Ryerson"
+            },
+            {
+              "kind": "goal",
+              "minute": "43'",
+              "team": "Norway",
+              "team_id": "464",
+              "team_side": "home",
+              "player": "Marcus Holmgren Pedersen",
+              "text": "Goal! Norway 1, Senegal 0. Marcus Pedersen (Norway) right footed shot from the right side of the box to the high centre of the goal."
+            },
+            {
+              "kind": "substitution",
+              "minute": "45'",
+              "team": "Norway",
+              "team_id": "464",
+              "team_side": "home",
+              "player": "Patrick Berg",
+              "text": "Substitution, Norway. Patrick Berg replaces Fredrik Aursnes.",
+              "player_off": "Fredrik Aursnes"
+            },
+            {
+              "kind": "goal",
+              "minute": "48'",
+              "team": "Norway",
+              "team_id": "464",
+              "team_side": "home",
+              "player": "Erling Haaland",
+              "text": "Goal! Norway 2, Senegal 0. Erling Haaland (Norway) left footed shot from the centre of the box to the top right corner. Assisted by Martin Ødegaard following a fast break.",
+              "assist": "Martin Ødegaard"
+            },
+            {
+              "kind": "goal",
+              "minute": "53'",
+              "team": "Senegal",
+              "team_id": "654",
+              "team_side": "away",
+              "player": "Ismaïla Sarr",
+              "text": "Goal! Norway 2, Senegal 1. Ismaïla Sarr (Senegal) right footed shot from the centre of the box to the top right corner. Assisted by Sadio Mané.",
+              "assist": "Sadio Mané"
+            },
+            {
+              "kind": "substitution",
+              "minute": "54'",
+              "team": "Senegal",
+              "team_id": "654",
+              "team_side": "away",
+              "player": "Ismail Jakobs",
+              "text": "Substitution, Senegal. Ismail Jakobs replaces El Hadji Malick Diouf.",
+              "player_off": "El Hadji Malick Diouf"
+            },
+            {
+              "kind": "substitution",
+              "minute": "54'",
+              "team": "Senegal",
+              "team_id": "654",
+              "team_side": "away",
+              "player": "Ibrahim Mbaye",
+              "text": "Substitution, Senegal. Ibrahim Mbaye replaces Pape Gueye.",
+              "player_off": "Pape Gueye"
+            },
+            {
+              "kind": "goal",
+              "minute": "58'",
+              "team": "Norway",
+              "team_id": "464",
+              "team_side": "home",
+              "player": "Erling Haaland",
+              "text": "Goal! Norway 3, Senegal 1. Erling Haaland (Norway) right footed shot from the centre of the box to the high centre of the goal. Assisted by Patrick Berg.",
+              "assist": "Patrick Berg"
+            },
+            {
+              "kind": "substitution",
+              "minute": "63'",
+              "team": "Senegal",
+              "team_id": "654",
+              "team_side": "away",
+              "player": "Mory Diaw",
+              "text": "Substitution, Senegal. Mory Diaw replaces Édouard Mendy because of an injury.",
+              "player_off": "Édouard Mendy"
+            },
+            {
+              "kind": "substitution",
+              "minute": "63'",
+              "team": "Senegal",
+              "team_id": "654",
+              "team_side": "away",
+              "player": "Pathé Ciss",
+              "text": "Substitution, Senegal. Pathé Ciss replaces Lamine Camara.",
+              "player_off": "Lamine Camara"
+            },
+            {
+              "kind": "substitution",
+              "minute": "71'",
+              "team": "Norway",
+              "team_id": "464",
+              "team_side": "home",
+              "player": "Andreas Schjelderup",
+              "text": "Substitution, Norway. Andreas Schjelderup replaces Antonio Nusa.",
+              "player_off": "Antonio Nusa"
+            },
+            {
+              "kind": "substitution",
+              "minute": "72'",
+              "team": "Senegal",
+              "team_id": "654",
+              "team_side": "away",
+              "player": "Pape Matar Sarr",
+              "text": "Substitution, Senegal. Pape Matar Sarr replaces Kalidou Koulibaly.",
+              "player_off": "Kalidou Koulibaly"
+            },
+            {
+              "kind": "substitution",
+              "minute": "84'",
+              "team": "Norway",
+              "team_id": "464",
+              "team_side": "home",
+              "player": "Oscar Bobb",
+              "text": "Substitution, Norway. Oscar Bobb replaces Alexander Sørloth.",
+              "player_off": "Alexander Sørloth"
+            },
+            {
+              "kind": "substitution",
+              "minute": "84'",
+              "team": "Norway",
+              "team_id": "464",
+              "team_side": "home",
+              "player": "Leo Østigard",
+              "text": "Substitution, Norway. Leo Østigård replaces Torbjørn Heggem because of an injury.",
+              "player_off": "Torbjørn Heggem"
+            },
+            {
+              "kind": "goal",
+              "minute": "90'+3'",
+              "team": "Senegal",
+              "team_id": "654",
+              "team_side": "away",
+              "player": "Ismaïla Sarr",
+              "text": "Goal! Norway 3, Senegal 2. Ismaïla Sarr (Senegal) right footed shot from the centre of the box to the top right corner. Assisted by Nicolas Jackson.",
+              "assist": "Nicolas Jackson"
+            }
+          ]
         },
         {
           "id": "760455",
