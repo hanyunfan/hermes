@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-23T17:55:24.238466+00:00",
+  "generated_at": "2026-06-23T20:06:02.687771+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-23T12:55:22.585115-05:00",
+  "now_local": "2026-06-23T15:06:01.370197-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -562,15 +562,6 @@
         "last_kickoff_iso": "2026-07-02"
       },
       {
-        "id": "NRG Stadium",
-        "name": "NRG Stadium",
-        "city": "Houston, Texas",
-        "country": "USA",
-        "match_count": 7,
-        "next_kickoff_iso": "2026-06-23",
-        "last_kickoff_iso": "2026-07-04"
-      },
-      {
         "id": "Gillette Stadium",
         "name": "Gillette Stadium",
         "city": "Foxborough, Massachusetts",
@@ -686,6 +677,15 @@
         "match_count": 8,
         "next_kickoff_iso": "2026-06-25",
         "last_kickoff_iso": "2026-07-19"
+      },
+      {
+        "id": "NRG Stadium",
+        "name": "NRG Stadium",
+        "city": "Houston, Texas",
+        "country": "USA",
+        "match_count": 7,
+        "next_kickoff_iso": "2026-06-26",
+        "last_kickoff_iso": "2026-07-04"
       }
     ],
     "stages": [
@@ -1736,6 +1736,30 @@
       "entries": [
         {
           "team": {
+            "id": "482",
+            "name": "Portugal",
+            "name_zh": "葡萄牙",
+            "rank": 5,
+            "short": "Portugal",
+            "abbr": "POR",
+            "flag": "🇵🇹",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/por.png"
+          },
+          "rank": 1,
+          "mp": 2,
+          "w": 1,
+          "d": 1,
+          "l": 0,
+          "gf": 6,
+          "ga": 1,
+          "gd": 5,
+          "pts": 4,
+          "advance": false,
+          "advance_label": "Advance to Round of 32",
+          "advance_color": "#81D6AC"
+        },
+        {
+          "team": {
             "id": "208",
             "name": "Colombia",
             "name_zh": "哥伦比亚",
@@ -1745,7 +1769,7 @@
             "flag": "🇨🇴",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/col.png"
           },
-          "rank": 1,
+          "rank": 2,
           "mp": 1,
           "w": 1,
           "d": 0,
@@ -1768,30 +1792,6 @@
             "abbr": "COD",
             "flag": "🇨🇩",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/rdc.png"
-          },
-          "rank": 2,
-          "mp": 1,
-          "w": 0,
-          "d": 1,
-          "l": 0,
-          "gf": 1,
-          "ga": 1,
-          "gd": 0,
-          "pts": 1,
-          "advance": false,
-          "advance_label": "Advance to Round of 32",
-          "advance_color": "#81D6AC"
-        },
-        {
-          "team": {
-            "id": "482",
-            "name": "Portugal",
-            "name_zh": "葡萄牙",
-            "rank": 5,
-            "short": "Portugal",
-            "abbr": "POR",
-            "flag": "🇵🇹",
-            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/por.png"
           },
           "rank": 3,
           "mp": 1,
@@ -1818,13 +1818,13 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/uzb.png"
           },
           "rank": 4,
-          "mp": 1,
+          "mp": 2,
           "w": 0,
           "d": 0,
-          "l": 1,
+          "l": 2,
           "gf": 1,
-          "ga": 3,
-          "gd": -2,
+          "ga": 8,
+          "gd": -7,
           "pts": 0,
           "advance": false,
           "advance_label": "Eliminated",
@@ -10833,8 +10833,8 @@
           "kickoff_local_date": "2026-06-23",
           "kickoff_time": "12:00 PM",
           "kickoff_weekday": "Tue",
-          "status": "LIVE",
-          "status_short": "HT",
+          "status": "FINAL",
+          "status_short": "FT",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -10848,8 +10848,8 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/por.png",
             "color": "da291c",
             "home_away": "home",
-            "score": 3,
-            "winner": false
+            "score": 5,
+            "winner": true
           },
           "away": {
             "id": "2570",
@@ -10916,6 +10916,124 @@
               "player": "Cristiano Ronaldo",
               "text": "Goal! Portugal 3, Uzbekistan 0. Cristiano Ronaldo (Portugal) right footed shot from the right side of the box to the bottom left corner. Assisted by Bruno Fernandes with a through ball following a fast break.",
               "assist": "Bruno Fernandes"
+            },
+            {
+              "kind": "substitution",
+              "minute": "45'",
+              "team": "Uzbekistan",
+              "team_id": "2570",
+              "team_side": "away",
+              "player": "Khojiakbar Alijonov",
+              "text": "Substitution, Uzbekistan. Khojiakbar Alijonov replaces Sherzod Nasrullaev.",
+              "player_off": "Sherzod Nasrullaev"
+            },
+            {
+              "kind": "substitution",
+              "minute": "45'",
+              "team": "Uzbekistan",
+              "team_id": "2570",
+              "team_side": "away",
+              "player": "Akmal Mozgovoy",
+              "text": "Substitution, Uzbekistan. Akmal Mozgovoy replaces Odiljon Khamrobekov.",
+              "player_off": "Odiljon Xamrobekov"
+            },
+            {
+              "kind": "substitution",
+              "minute": "45'",
+              "team": "Portugal",
+              "team_id": "482",
+              "team_side": "home",
+              "player": "Nélson Semedo",
+              "text": "Substitution, Portugal. Nélson Semedo replaces João Cancelo.",
+              "player_off": "João Cancelo"
+            },
+            {
+              "kind": "substitution",
+              "minute": "45'",
+              "team": "Portugal",
+              "team_id": "482",
+              "team_side": "home",
+              "player": "Francisco Conceição",
+              "text": "Substitution, Portugal. Francisco Conceição replaces Pedro Neto.",
+              "player_off": "Pedro Neto"
+            },
+            {
+              "kind": "substitution",
+              "minute": "63'",
+              "team": "Portugal",
+              "team_id": "482",
+              "team_side": "home",
+              "player": "Francisco Trincão",
+              "text": "Substitution, Portugal. Trincão replaces João Félix.",
+              "player_off": "João Félix"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "68'",
+              "team": "Portugal",
+              "team_id": "482",
+              "team_side": "home",
+              "player": "Renato Veiga",
+              "text": "Renato Veiga (Portugal) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "substitution",
+              "minute": "73'",
+              "team": "Uzbekistan",
+              "team_id": "2570",
+              "team_side": "away",
+              "player": "Igor Sergeev",
+              "text": "Substitution, Uzbekistan. Igor Sergeev replaces Abbosbek Fayzullaev.",
+              "player_off": "Abbosbek Fayzullaev"
+            },
+            {
+              "kind": "substitution",
+              "minute": "76'",
+              "team": "Portugal",
+              "team_id": "482",
+              "team_side": "home",
+              "player": "Bernardo Silva",
+              "text": "Substitution, Portugal. Bernardo Silva replaces João Neves.",
+              "player_off": "João Neves"
+            },
+            {
+              "kind": "substitution",
+              "minute": "83'",
+              "team": "Portugal",
+              "team_id": "482",
+              "team_side": "home",
+              "player": "Rafael Leão",
+              "text": "Substitution, Portugal. Rafael Leão replaces Vitinha.",
+              "player_off": "Vitinha "
+            },
+            {
+              "kind": "goal",
+              "minute": "87'",
+              "team": "Portugal",
+              "team_id": "482",
+              "team_side": "home",
+              "player": "Rafael Leão",
+              "text": "Goal! Portugal 5, Uzbekistan 0. Rafael Leão (Portugal) right footed shot from the centre of the box to the top left corner."
+            },
+            {
+              "kind": "substitution",
+              "minute": "90'+2'",
+              "team": "Uzbekistan",
+              "team_id": "2570",
+              "team_side": "away",
+              "player": "Ruslanbek Jiyanov",
+              "text": "Substitution, Uzbekistan. Ruslanbek Jiyanov replaces Bekhruz Karimov.",
+              "player_off": "Behruzjon Karimov"
+            },
+            {
+              "kind": "substitution",
+              "minute": "90'+2'",
+              "team": "Uzbekistan",
+              "team_id": "2570",
+              "team_side": "away",
+              "player": "Sherzod Esanov",
+              "text": "Substitution, Uzbekistan. Sherzod Esanov replaces Otabek Shukurov.",
+              "player_off": "Otabek Shukurov"
             }
           ]
         },
