@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-22T23:19:47.081044+00:00",
+  "generated_at": "2026-06-23T00:59:55.945538+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-22T18:19:45.867035-05:00",
+  "now_local": "2026-06-22T19:59:54.401875-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -553,15 +553,6 @@
         "last_kickoff_iso": "2026-07-01"
       },
       {
-        "id": "Lincoln Financial Field",
-        "name": "Lincoln Financial Field",
-        "city": "Philadelphia, Pennsylvania",
-        "country": "USA",
-        "match_count": 6,
-        "next_kickoff_iso": "2026-06-22",
-        "last_kickoff_iso": "2026-07-04"
-      },
-      {
         "id": "MetLife Stadium",
         "name": "MetLife Stadium",
         "city": "East Rutherford, New Jersey",
@@ -659,6 +650,15 @@
         "match_count": 7,
         "next_kickoff_iso": "2026-06-24",
         "last_kickoff_iso": "2026-07-18"
+      },
+      {
+        "id": "Lincoln Financial Field",
+        "name": "Lincoln Financial Field",
+        "city": "Philadelphia, Pennsylvania",
+        "country": "USA",
+        "match_count": 6,
+        "next_kickoff_iso": "2026-06-25",
+        "last_kickoff_iso": "2026-07-04"
       },
       {
         "id": "SoFi Stadium",
@@ -1530,30 +1530,6 @@
       "entries": [
         {
           "team": {
-            "id": "464",
-            "name": "Norway",
-            "name_zh": "挪威",
-            "rank": 31,
-            "short": "Norway",
-            "abbr": "NOR",
-            "flag": "🇳🇴",
-            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/nor.png"
-          },
-          "rank": 1,
-          "mp": 1,
-          "w": 1,
-          "d": 0,
-          "l": 0,
-          "gf": 4,
-          "ga": 1,
-          "gd": 3,
-          "pts": 3,
-          "advance": false,
-          "advance_label": "Advance to Round of 32",
-          "advance_color": "#81D6AC"
-        },
-        {
-          "team": {
             "id": "478",
             "name": "France",
             "name_zh": "法国",
@@ -1563,14 +1539,38 @@
             "flag": "🇫🇷",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/fra.png"
           },
+          "rank": 1,
+          "mp": 2,
+          "w": 2,
+          "d": 0,
+          "l": 0,
+          "gf": 6,
+          "ga": 1,
+          "gd": 5,
+          "pts": 6,
+          "advance": false,
+          "advance_label": "Advance to Round of 32",
+          "advance_color": "#81D6AC"
+        },
+        {
+          "team": {
+            "id": "464",
+            "name": "Norway",
+            "name_zh": "挪威",
+            "rank": 31,
+            "short": "Norway",
+            "abbr": "NOR",
+            "flag": "🇳🇴",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/nor.png"
+          },
           "rank": 2,
           "mp": 1,
           "w": 1,
           "d": 0,
           "l": 0,
-          "gf": 3,
+          "gf": 4,
           "ga": 1,
-          "gd": 2,
+          "gd": 3,
           "pts": 3,
           "advance": false,
           "advance_label": "Advance to Round of 32",
@@ -1612,13 +1612,13 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/irq.png"
           },
           "rank": 4,
-          "mp": 1,
+          "mp": 2,
           "w": 0,
           "d": 0,
-          "l": 1,
+          "l": 2,
           "gf": 1,
-          "ga": 4,
-          "gd": -3,
+          "ga": 7,
+          "gd": -6,
           "pts": 0,
           "advance": false,
           "advance_label": "Eliminated",
@@ -10226,8 +10226,8 @@
           "kickoff_local_date": "2026-06-22",
           "kickoff_time": "4:00 PM",
           "kickoff_weekday": "Mon",
-          "status": "LIVE",
-          "status_short": "Delay",
+          "status": "FINAL",
+          "status_short": "FT",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -10241,7 +10241,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/fra.png",
             "color": "000080",
             "home_away": "home",
-            "score": 1,
+            "score": 3,
             "winner": false
           },
           "away": {
@@ -10300,6 +10300,116 @@
               "player": "Ali Al-Hamadi",
               "text": "Substitution, Iraq. Ali Al Hamadi replaces Aymen Hussein because of an injury.",
               "player_off": "Aymen Hussein"
+            },
+            {
+              "kind": "goal",
+              "minute": "54'",
+              "team": "France",
+              "team_id": "478",
+              "team_side": "home",
+              "player": "Kylian Mbappé",
+              "text": "Goal! France 2, Iraq 0. Kylian Mbappé (France) right footed shot from the centre of the box to the bottom right corner. Assisted by Ousmane Dembélé.",
+              "assist": "Ousmane Dembélé"
+            },
+            {
+              "kind": "substitution",
+              "minute": "60'",
+              "team": "Iraq",
+              "team_id": "4375",
+              "team_side": "away",
+              "player": "Rebin Sulaka",
+              "text": "Substitution, Iraq. Rebin Sulaka replaces Zaid Tahseen.",
+              "player_off": "Zaid Tahseen"
+            },
+            {
+              "kind": "substitution",
+              "minute": "60'",
+              "team": "Iraq",
+              "team_id": "4375",
+              "team_side": "away",
+              "player": "Youssef Amyn",
+              "text": "Substitution, Iraq. Youssef Amyn replaces Zaid Ismael.",
+              "player_off": "Zaid Ismael"
+            },
+            {
+              "kind": "goal",
+              "minute": "66'",
+              "team": "France",
+              "team_id": "478",
+              "team_side": "home",
+              "player": "Ousmane Dembélé",
+              "text": "Goal! France 3, Iraq 0. Ousmane Dembélé (France) right footed shot from the centre of the box to the bottom left corner. Assisted by Michael Olise with a through ball.",
+              "assist": "Michael Olise"
+            },
+            {
+              "kind": "substitution",
+              "minute": "68'",
+              "team": "France",
+              "team_id": "478",
+              "team_side": "home",
+              "player": "Désiré Doué",
+              "text": "Substitution, France. Désiré Doué replaces Ousmane Dembélé.",
+              "player_off": "Ousmane Dembélé"
+            },
+            {
+              "kind": "substitution",
+              "minute": "68'",
+              "team": "France",
+              "team_id": "478",
+              "team_side": "home",
+              "player": "Rayan Cherki",
+              "text": "Substitution, France. Rayan Cherki replaces Michael Olise.",
+              "player_off": "Michael Olise"
+            },
+            {
+              "kind": "substitution",
+              "minute": "68'",
+              "team": "Iraq",
+              "team_id": "4375",
+              "team_side": "away",
+              "player": "Aimar Sher",
+              "text": "Substitution, Iraq. Aimar Sher replaces Amir Al Ammari.",
+              "player_off": "Amir Al-Ammari"
+            },
+            {
+              "kind": "substitution",
+              "minute": "69'",
+              "team": "Iraq",
+              "team_id": "4375",
+              "team_side": "away",
+              "player": "Marko Farji",
+              "text": "Substitution, Iraq. Marko Farji replaces Ibrahim Bayesh.",
+              "player_off": "Ibrahim Bayesh"
+            },
+            {
+              "kind": "substitution",
+              "minute": "83'",
+              "team": "France",
+              "team_id": "478",
+              "team_side": "home",
+              "player": "Maghnes Akliouche",
+              "text": "Substitution, France. Maghnes Akliouche replaces Bradley Barcola.",
+              "player_off": "Bradley Barcola"
+            },
+            {
+              "kind": "substitution",
+              "minute": "83'",
+              "team": "France",
+              "team_id": "478",
+              "team_side": "home",
+              "player": "Malo Gusto",
+              "text": "Substitution, France. Malo Gusto replaces Jules Koundé.",
+              "player_off": "Jules Koundé"
+            },
+            {
+              "kind": "substitution",
+              "minute": "90'+1'",
+              "team": "France",
+              "team_id": "478",
+              "team_side": "home",
+              "player": "Marcus Thuram",
+              "text": "Substitution, France. Marcus Thuram replaces Kylian Mbappé.",
+              "player_off": "Kylian Mbappé"
             }
           ]
         },
@@ -10348,7 +10458,7 @@
             "country": "USA"
           },
           "broadcasts": [
-            "FOX",
+            "FS1",
             "Tele",
             "FOX One"
           ],
@@ -11111,7 +11221,7 @@
             "country": "USA"
           },
           "broadcasts": [
-            "FS1",
+            "FOX",
             "Universo",
             "FOX One"
           ],
@@ -11164,7 +11274,7 @@
             "country": "USA"
           },
           "broadcasts": [
-            "FOX",
+            "FS1",
             "Tele",
             "FOX One"
           ],
