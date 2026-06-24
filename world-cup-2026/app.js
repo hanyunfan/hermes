@@ -1423,43 +1423,41 @@
   function pickDefaultRoundIdx(rounds, todayIso) {
     if (!rounds.length) return -1;
     const today = new Date(todayIso + "T00:00:00Z").getTime();
+    const nowMs = Date.now();
 
-    // Bucket rounds by date-status; weight by whether they have
-    // manual content (the analyst-written prose). A round with 0
-    // manual entries is just an auto-built skeleton — useful for
-    // reference, but the user usually wants to see the round they
-    // (or the analyst) actually wrote prose for.
+    // Pick the round with the most unplayed matches (kickoff_utc > now),
+    // so the user lands on the round that still has football to watch.
+    // Tiebreakers: prefer manual content, then the soonest start date.
+    const unplayedCount = (r) => {
+      let n = 0;
+      for (const m of (r.matches || [])) {
+        const k = m.kickoff_utc;
+        if (k && new Date(k).getTime() > nowMs) n++;
+      }
+      return n;
+    };
     const scoreRound = (r) => {
       const has = (r.manual_count || 0) > 0 ? 1 : 0;
-      // Use the latest kickoff date as a stable recency tiebreaker.
       const lo = (r.round_date_range || [])[0] || "";
       return [has, lo];
     };
-    const inProgress = [], finished = [], upcoming = [];
-    rounds.forEach((r, i) => {
-      const rng = r.round_date_range || [];
-      if (rng.length < 2) return;
-      const lo = new Date(rng[0] + "T00:00:00Z").getTime();
-      const hi = new Date(rng[1] + "T00:00:00Z").getTime();
-      if (lo <= today && today <= hi) inProgress.push({ i, lo });
-      else if (hi < today) finished.push({ i, hi });
-      else upcoming.push({ i, lo });
-    });
-    const pickFrom = (arr) => {
-      if (!arr.length) return -1;
-      arr.sort((a, b) => {
-        const sa = scoreRound(rounds[a.i]);
-        const sb = scoreRound(rounds[b.i]);
-        // Sort by [has_manual desc, lo desc] — has_manual first.
+    const sorted = rounds
+      .map((r, i) => ({ i, r, unplayed: unplayedCount(r) }))
+      .sort((a, b) => {
+        // 1. Most unplayed matches first.
+        if (a.unplayed !== b.unplayed) return b.unplayed - a.unplayed;
+        // 2. Manual content wins.
+        const sa = scoreRound(a.r);
+        const sb = scoreRound(b.r);
         if (sa[0] !== sb[0]) return sb[0] - sa[0];
-        return b.lo - a.lo;
+        // 3. Soonest start date first (the round that begins next).
+        const la = new Date(sa[1] + "T00:00:00Z").getTime();
+        const lb = new Date(sb[1] + "T00:00:00Z").getTime();
+        if (!isNaN(la) && !isNaN(lb) && la !== lb) return la - lb;
+        // 4. Most recent start as last resort.
+        return lb - la;
       });
-      return arr[0].i;
-    };
-    return pickFrom(inProgress) >= 0 ? pickFrom(inProgress)
-         : pickFrom(finished)   >= 0 ? pickFrom(finished)
-         : pickFrom(upcoming)   >= 0 ? pickFrom(upcoming)
-         : 0;
+    return sorted[0]?.i ?? 0;
   }
 
   function weeklyRoundShortLabel(r, lang) {
@@ -2548,18 +2546,16 @@
   }
 
   function loadView() {
-    try {
-      const raw = localStorage.getItem(VIEW_KEY);
-      if (raw === "standings" || raw === "matches" || raw === "scorers" || raw === "weekly" || raw === "odds") return raw;
-    } catch { /* ignore */ }
+    // Always default to the Matches tab on a fresh load — we don't
+    // want a stale "standings" / "scorers" / etc. to trap the user
+    // after a refresh.
     return "matches";
   }
-  function saveView(v) {
-    try { localStorage.setItem(VIEW_KEY, v); } catch { /* ignore */ }
+  function saveView(_v) {
+    // No-op: view is intentionally not persisted across reloads.
   }
   function setView(v) {
     if (v === "standings" || v === "scorers" || v === "matches" || v === "weekly" || v === "odds") currentView = v;
-    saveView(currentView);
     updateViewPills();
     // Hide filters in any non-match view (standings, scorers, ai).
     const filterEl = $("#filters");

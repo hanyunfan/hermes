@@ -218,6 +218,11 @@ body {
   gap: 12px;
   box-shadow: var(--shadow);
 }
+/* The author `display: flex` above beats the UA `hidden` rule.
+   Force-hide when JS marks it hidden, otherwise the filter bar
+   bleeds into Standings / Scorers / Weekly / Odds tabs. */
+.filters[hidden] { display: none !important; }
+}
 .filter-row {
   display: flex;
   flex-wrap: wrap;
