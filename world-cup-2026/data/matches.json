@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-24T21:23:14.132924+00:00",
+  "generated_at": "2026-06-24T22:47:26.982833+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-24T16:23:13.068703-05:00",
+  "now_local": "2026-06-24T17:47:23.976872-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -11974,8 +11974,8 @@
           "kickoff_local_date": "2026-06-24",
           "kickoff_time": "5:00 PM",
           "kickoff_weekday": "Wed",
-          "status": "SCHEDULED",
-          "status_short": "Scheduled",
+          "status": "LIVE",
+          "status_short": "45'+1'",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -11989,7 +11989,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/mar.png",
             "color": "df2027",
             "home_away": "home",
-            "score": 0,
+            "score": 2,
             "winner": false
           },
           "away": {
@@ -12003,7 +12003,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/hai.png",
             "color": "0033a0",
             "home_away": "away",
-            "score": 0,
+            "score": 2,
             "winner": false
           },
           "venue": {
@@ -12018,7 +12018,38 @@
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760464/haiti-morocco",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Morocco%20vs%20Haiti",
-          "slug": "haiti-at-morocco"
+          "slug": "haiti-at-morocco",
+          "incidents": [
+            {
+              "kind": "goal",
+              "minute": "39'",
+              "team": "Morocco",
+              "team_id": "2869",
+              "team_side": "home",
+              "player": "Achraf Hakimi",
+              "text": "Goal! Morocco 1, Haiti 1. Achraf Hakimi (Morocco) left footed shot from very close range to the centre of the goal."
+            },
+            {
+              "kind": "goal",
+              "minute": "43'",
+              "team": "Haiti",
+              "team_id": "2654",
+              "team_side": "away",
+              "player": "Wilson Isidor",
+              "text": "Goal! Morocco 1, Haiti 2. Wilson Isidor (Haiti) right footed shot from outside the box to the top left corner. Assisted by Jean-Kévin Duverne.",
+              "assist": "Jean-Kévin Duverne"
+            },
+            {
+              "kind": "goal",
+              "minute": "45'+1'",
+              "team": "Morocco",
+              "team_id": "2869",
+              "team_side": "home",
+              "player": "Ismael Saibari",
+              "text": "Goal! Morocco 2, Haiti 2. Ismael Saibari (Morocco) right footed shot from the centre of the box to the bottom left corner. Assisted by Achraf Hakimi.",
+              "assist": "Achraf Hakimi"
+            }
+          ]
         },
         {
           "id": "760465",
@@ -12027,8 +12058,8 @@
           "kickoff_local_date": "2026-06-24",
           "kickoff_time": "5:00 PM",
           "kickoff_weekday": "Wed",
-          "status": "SCHEDULED",
-          "status_short": "Scheduled",
+          "status": "LIVE",
+          "status_short": "45'+1'",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -12056,7 +12087,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/bra.png",
             "color": "fee000",
             "home_away": "away",
-            "score": 0,
+            "score": 1,
             "winner": false
           },
           "venue": {
@@ -12071,7 +12102,19 @@
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760465/brazil-scotland",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Scotland%20vs%20Brazil",
-          "slug": "brazil-at-scotland"
+          "slug": "brazil-at-scotland",
+          "incidents": [
+            {
+              "kind": "goal",
+              "minute": "7'",
+              "team": "Brazil",
+              "team_id": "205",
+              "team_side": "away",
+              "player": "Vinícius Júnior",
+              "text": "Goal! Scotland 0, Brazil 1. Vinícius Júnior (Brazil) right footed shot from the centre of the box to the centre of the goal. Assisted by Rayan.",
+              "assist": "Rayan"
+            }
+          ]
         },
         {
           "id": "760467",
