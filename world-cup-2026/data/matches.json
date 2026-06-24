@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-24T17:57:32.125821+00:00",
+  "generated_at": "2026-06-24T19:55:29.859129+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-24T12:57:31.035652-05:00",
+  "now_local": "2026-06-24T14:55:27.851762-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -11559,8 +11559,8 @@
           "kickoff_local_date": "2026-06-24",
           "kickoff_time": "2:00 PM",
           "kickoff_weekday": "Wed",
-          "status": "SCHEDULED",
-          "status_short": "Scheduled",
+          "status": "LIVE",
+          "status_short": "HT",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -11574,7 +11574,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/bih.png",
             "color": "112855",
             "home_away": "home",
-            "score": 0,
+            "score": 2,
             "winner": false
           },
           "away": {
@@ -11588,7 +11588,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/qat.png",
             "color": "691a40",
             "home_away": "away",
-            "score": 0,
+            "score": 1,
             "winner": false
           },
           "venue": {
@@ -11603,7 +11603,29 @@
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760462/qatar-bosnia-herzegovina",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Bosnia-Herzegovina%20vs%20Qatar",
-          "slug": "qatar-at-bosnia-herzegovina"
+          "slug": "qatar-at-bosnia-herzegovina",
+          "incidents": [
+            {
+              "kind": "goal",
+              "minute": "29'",
+              "team": "Bosnia-Herzegovina",
+              "team_id": "452",
+              "team_side": "home",
+              "player": "Kerim Alajbegovic",
+              "text": "Goal! Bosnia and Herzegovina 1, Qatar 0. Kerim Alajbegovic (Bosnia and Herzegovina) right footed shot from outside the box to the top right corner. Assisted by Ivan Basic.",
+              "assist": "Ivan Basic"
+            },
+            {
+              "kind": "goal",
+              "minute": "42'",
+              "team": "Qatar",
+              "team_id": "4398",
+              "team_side": "away",
+              "player": "Hassan Al-Haydos",
+              "text": "Goal! Bosnia and Herzegovina 2, Qatar 1. Hassan Al Haydos (Qatar) right footed shot from very close range to the centre of the goal. Assisted by Edmílson Junior.",
+              "assist": "Edmílson Junior"
+            }
+          ]
         },
         {
           "id": "760463",
@@ -11612,8 +11634,8 @@
           "kickoff_local_date": "2026-06-24",
           "kickoff_time": "2:00 PM",
           "kickoff_weekday": "Wed",
-          "status": "SCHEDULED",
-          "status_short": "Scheduled",
+          "status": "LIVE",
+          "status_short": "HT",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -11656,7 +11678,27 @@
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760463/canada-switzerland",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Switzerland%20vs%20Canada",
-          "slug": "canada-at-switzerland"
+          "slug": "canada-at-switzerland",
+          "incidents": [
+            {
+              "kind": "yellow_card",
+              "minute": "32'",
+              "team": "Canada",
+              "team_id": "206",
+              "team_side": "away",
+              "player": "Cyle Larin",
+              "text": "Cyle Larin (Canada) is shown the yellow card."
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "32'",
+              "team": "Switzerland",
+              "team_id": "475",
+              "team_side": "home",
+              "player": "Granit Xhaka",
+              "text": "Granit Xhaka (Switzerland) is shown the yellow card."
+            }
+          ]
         },
         {
           "id": "760464",
