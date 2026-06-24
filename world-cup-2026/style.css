@@ -1128,18 +1128,18 @@ body {
   vertical-align: middle;
   letter-spacing: 0.05em;
 }
-/* Points column — the front anchor of each row.
-   Bigger, bolder, with a soft tinted background so the number
-   is the first thing your eye lands on. */
+/* Points column — sits between MP and W in the stat block.
+   Bigger than the surrounding stat numbers and gold for top-2
+   so the cumulative score still reads as the row's "bottom line". */
 .group-table .col-pts {
-  width: 38px;
+  width: 32px;
   font-variant-numeric: tabular-nums;
 }
 .group-table .col-pts strong {
   display: inline-block;
   min-width: 1.4em;
   color: var(--text);
-  font-size: 1.05rem;
+  font-size: 0.95rem;
   font-weight: 800;
   letter-spacing: 0.01em;
   line-height: 1;

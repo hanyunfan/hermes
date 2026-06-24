@@ -939,10 +939,10 @@
     table.innerHTML = `
       <thead>
         <tr>
-          <th class="col-num col-pts" title="${escapeHtml(i18n("standings.col.pts"))}">${escapeHtml(i18n("standings.col.pts"))}</th>
           <th class="col-team">${escapeHtml(i18n("standings.col.team"))}</th>
           <th class="col-rank">#</th>
           <th class="col-num" title="${escapeHtml(i18n("standings.col.mp"))}">${escapeHtml(i18n("standings.col.mp"))}</th>
+          <th class="col-num col-pts" title="${escapeHtml(i18n("standings.col.pts"))}">${escapeHtml(i18n("standings.col.pts"))}</th>
           <th class="col-num" title="${escapeHtml(i18n("standings.col.w"))}">${escapeHtml(i18n("standings.col.w"))}</th>
           <th class="col-num" title="${escapeHtml(i18n("standings.col.d"))}">${escapeHtml(i18n("standings.col.d"))}</th>
           <th class="col-num" title="${escapeHtml(i18n("standings.col.l"))}">${escapeHtml(i18n("standings.col.l"))}</th>
@@ -960,7 +960,6 @@
       if (rank <= 2) tr.classList.add("is-qualified");
       else if (rank === 3) tr.classList.add("is-possible");
       tr.innerHTML = `
-        <td class="col-num col-pts"><strong>${e.pts}</strong></td>
         <td class="col-team">
           <span class="team-flag">${escapeHtml(e.team.flag || "")}</span>
           <span class="team-short">${escapeHtml(teamDisplayName(e.team))}${teamRankSpan(e.team)}</span>
@@ -970,6 +969,7 @@
           ${rank === 1 || rank === 2 ? `<span class="qual-q" title="${escapeHtml(i18n("standings.q"))}">Q</span>` : ""}
         </td>
         <td class="col-num">${e.mp}</td>
+        <td class="col-num col-pts"><strong>${e.pts}</strong></td>
         <td class="col-num">${e.w}</td>
         <td class="col-num">${e.d}</td>
         <td class="col-num">${e.l}</td>
