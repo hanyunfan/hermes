@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-24T01:25:32.163367+00:00",
+  "generated_at": "2026-06-24T02:39:03.306517+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-23T20:25:29.880993-05:00",
+  "now_local": "2026-06-23T21:39:01.885295-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -11380,8 +11380,8 @@
           "kickoff_local_date": "2026-06-23",
           "kickoff_time": "9:00 PM",
           "kickoff_weekday": "Tue",
-          "status": "SCHEDULED",
-          "status_short": "Scheduled",
+          "status": "LIVE",
+          "status_short": "39'",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -11422,9 +11422,10 @@
             "Tele",
             "FOX One"
           ],
-          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760459/congo-dr-colombia",
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760459/congo dr-colombia",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Colombia%20vs%20Congo%20DR",
-          "slug": "congo dr-at-colombia"
+          "slug": "congo dr-at-colombia",
+          "incidents": []
         }
       ]
     },
