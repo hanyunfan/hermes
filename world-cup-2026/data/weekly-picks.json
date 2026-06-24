@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-23T23:11:15+00:00",
+  "generated_at": "2026-06-24T06:40:48+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-23T18:11:15-05:00",
+  "now_local": "2026-06-24T01:40:48-05:00",
   "match_count": 48,
   "manual_count": 32,
   "rounds": [
@@ -1382,13 +1382,13 @@
         "2026-06-27"
       ],
       "match_count": 16,
-      "manual_count": 16,
-      "last_manual_update": "2026-06-23T23:30:00-05:00",
-      "round_intro_zh": "小组赛第三轮是出线日。48 支球队里有 16 支已经被淘汰（每组 2 支），剩下 32 支里一半以上命运未定。最具看点的 5 场是：Switzerland vs Canada （B 组头名直接对话，胜者拿小组第一）、Scotland vs Brazil（苏格兰非赢不可，巴西守平即可头名）、Japan vs Sweden（F 组头名之争，瑞典非赢不可）、Paraguay vs Australia（D 组第二名之争，胜者晋级）、Uruguay vs Spain（H 组头名之争，乌拉圭非赢不可）。本周 16 场里 6 场是真正的\"走过场\"（双方都已出局或一方锁头名对方已出局），可以放心跳过；其余 10 场至少有一方在拼命。",
-      "round_intro_en": "Matchday 3 is decision day. 16 of the 48 teams are already eliminated, and another dozen-plus are still fighting for survival. The five matches you really can't miss: Switzerland vs Canada (Group B top-spot decider), Scotland vs Brazil (Scotland must win, Brazil draws to top), Japan vs Sweden (Group F top seed on the line), Paraguay vs Australia (D's #2 spot), and Uruguay vs Spain (Uruguay must win to advance). Of the 16 matches this round, six are dead rubbers where you can safely skip; the other ten have at least one side fighting for their tournament life.",
-      "manual_note_zh": "排序按推荐分降序。6/23 晚（CT）发出的版本，赛果随时更新。",
-      "manual_note_en": "Sorted by analyst score. Issued late 6/23 CT — results updated as they come in.",
-      "generated_at": "2026-06-23T23:11:15+00:00",
+      "manual_count": 0,
+      "last_manual_update": null,
+      "round_intro_zh": null,
+      "round_intro_en": null,
+      "manual_note_zh": null,
+      "manual_note_en": null,
+      "generated_at": "2026-06-24T06:40:48+00:00",
       "matches": [
         {
           "match_id": "760462",
@@ -1431,37 +1431,22 @@
           "stakes_verdict_auto": "must",
           "stakes_narrative_zh": "末轮出线生死战。",
           "stakes_narrative_en": "Final matchday — qualification on the line.",
-          "verdict": "skip",
-          "score": 1,
-          "headline_zh": "B 组走过场",
-          "headline_en": "Group B dead rubber",
-          "watch_for_zh": [
-            "波黑与卡塔尔均 1 分，B 组前两名已定（瑞士 + 加拿大）",
-            "胜者最多 4 分，远低于加拿大/瑞士已拿到的 4-7 分，无法竞争前二或最好第 3 名",
-            "两队都已被淘汰——是真正的'为荣誉而战'"
-          ],
-          "watch_for_en": [
-            "Both Bosnia and Qatar sit on 1 pt; Canada's 7 and Switzerland's 4+ lock in B's top two",
-            "Even a win takes the winner to just 4 pts — no path to top 2 or best 3rd",
-            "Both teams eliminated — a true 'playing for pride' match"
-          ],
-          "key_players_zh": [
-            "埃丁·哲科 #11（波黑传奇前锋，可能最后一届世界杯）",
-            "阿克拉姆·阿菲夫 #10（卡塔尔队长，2022 世界杯金靴）"
-          ],
-          "key_players_en": [
-            "Edin Džeko #11 (BIH legend, likely his last WC)",
-            "Akram Afif #10 (QAT captain, 2022 WC Golden Boot runner-up)"
-          ],
-          "news_focus_zh": "哲科的国家队谢幕战——40 岁的他还能在世界杯上进球吗？",
-          "news_focus_en": "Džeko's likely national-team farewell — can the 40-year-old still score on WC stage?",
+          "verdict": "must",
+          "score": 4,
+          "headline_zh": null,
+          "headline_en": null,
+          "watch_for_zh": [],
+          "watch_for_en": [],
+          "key_players_zh": [],
+          "key_players_en": [],
+          "news_focus_zh": null,
+          "news_focus_en": null,
           "record_potential_zh": [],
           "record_potential_en": [],
-          "why_skip_zh": "B 组前两名已定（瑞士 + 加拿大），这两队无论结果如何都已被淘汰，纯粹走过场",
-          "why_skip_en": "Group B's top two (SUI + CAN) are locked. Both teams are eliminated regardless of result — pure dead rubber",
+          "why_skip_zh": null,
+          "why_skip_en": null,
           "verdict_override": null,
-          "score_override": null,
-          "manual_author": "claude"
+          "score_override": null
         },
         {
           "match_id": "760463",
@@ -1505,50 +1490,21 @@
           "stakes_narrative_zh": "末轮出线生死战。",
           "stakes_narrative_en": "Final matchday — qualification on the line.",
           "verdict": "must",
-          "score": 5,
-          "headline_zh": "B 组头名之战",
-          "headline_en": "Group B top-spot showdown",
-          "watch_for_zh": [
-            "双方 4 分，胜者 7 分锁定 B 组第一，败者 4 分跌至第二",
-            "加拿大 7-0 大胜卡塔尔、4-1 胜瑞士首战？——等等，瑞士是 4-1 胜喀麦隆和 1-1 平加拿大",
-            "加拿大本届 7-1 卡塔尔、5-0 洪都拉斯状态恐怖，瑞士 4-1 喀麦隆也展现火力",
-            "小组第一意味着 32 强赛避开大概率的小组第一/第二名（可能避开阿根廷/法国）",
-            "加拿大本届首次以东道主身份参赛，国民期望值拉满"
-          ],
-          "watch_for_en": [
-            "Both 4 pts — winner takes B at 7 pts, loser drops to 2nd at 4",
-            "Canada demolished Qatar 7-0 in MD1; Switzerland beat Cameroon 4-1",
-            "Group 1st seed matters in R32 — avoiding top heavyweights like ARG/FRA is huge",
-            "Canada co-hosting for the first time; national expectations sky-high",
-            "This is the de facto Group B final"
-          ],
-          "key_players_zh": [
-            "阿尔方索·戴维斯 #19（拜仁慕尼黑边后卫，加拿大队长）",
-            "乔纳森·大卫 #10（里尔前锋，加拿大主力射手）",
-            "布雷尔·恩博洛 #7（门兴前锋，瑞士主力）",
-            "曼努埃尔·阿坎吉 #5（曼城后卫，瑞士队长）"
-          ],
-          "key_players_en": [
-            "Alphonso Davies #19 (Bayern LB, CAN captain)",
-            "Jonathan David #10 (Lille striker, CAN top scorer)",
-            "Breel Embolo #7 (Gladbach striker, SUI starter)",
-            "Manuel Akanji #5 (Man City CB, SUI captain)"
-          ],
-          "news_focus_zh": "加拿大本届状态爆表（净胜球 +6 全 32 强最高），面对瑞士是真正考验",
-          "news_focus_en": "Canada's net +6 is best among all 32 R32-bound teams — SUI is the real acid test",
-          "record_potential_zh": [
-            "加拿大若不败即创本国世界杯小组赛不败纪录（队史首次）",
-            "戴维斯有望追平/打破加拿大单届世界杯助攻纪录"
-          ],
-          "record_potential_en": [
-            "An unbeaten group stage would be Canada's first in WC history",
-            "Davies can match/break CAN's single-WC assist record"
-          ],
+          "score": 4,
+          "headline_zh": null,
+          "headline_en": null,
+          "watch_for_zh": [],
+          "watch_for_en": [],
+          "key_players_zh": [],
+          "key_players_en": [],
+          "news_focus_zh": null,
+          "news_focus_en": null,
+          "record_potential_zh": [],
+          "record_potential_en": [],
           "why_skip_zh": null,
           "why_skip_en": null,
           "verdict_override": null,
-          "score_override": null,
-          "manual_author": "claude"
+          "score_override": null
         },
         {
           "match_id": "760464",
@@ -1591,37 +1547,22 @@
           "stakes_verdict_auto": "must",
           "stakes_narrative_zh": "末轮出线生死战。",
           "stakes_narrative_en": "Final matchday — qualification on the line.",
-          "verdict": "lively",
-          "score": 3,
-          "headline_zh": "摩洛哥冲头名",
-          "headline_en": "Morocco chases the top seed",
-          "watch_for_zh": [
-            "摩洛哥 4 分与巴西并列 C 组第一，胜者头名（取决于苏格兰-巴西结果）",
-            "海地两战全败、0 进球，2026 首次参赛已被淘汰",
-            "摩洛哥 2022 世界杯四强，本届目标至少小组头名避免提前碰强队"
-          ],
-          "watch_for_en": [
-            "Morocco 4 pts tied with Brazil; winner takes the group (depending on SCO-BRA)",
-            "Haiti lost both MD1/MD2, scored 0, eliminated in debut",
-            "Morocco was 2022 WC semifinalist — top seed avoids heavyweights early"
-          ],
-          "key_players_zh": [
-            "阿什拉夫·哈基米 #2（巴黎圣日耳曼右后卫）",
-            "布拉欣·迪亚斯 #17（中场核心，2022 世界杯最佳新秀候选）"
-          ],
-          "key_players_en": [
-            "Achraf Hakimi #2 (PSG RB)",
-            "Brahim Díaz #17 (Real Madrid attacking midfielder, 2022 breakthrough)"
-          ],
-          "news_focus_zh": "海地是 2026 新军，本场是荣誉战",
-          "news_focus_en": "Haiti is a 2026 debutant — this is their pride match",
+          "verdict": "must",
+          "score": 5,
+          "headline_zh": null,
+          "headline_en": null,
+          "watch_for_zh": [],
+          "watch_for_en": [],
+          "key_players_zh": [],
+          "key_players_en": [],
+          "news_focus_zh": null,
+          "news_focus_en": null,
           "record_potential_zh": [],
           "record_potential_en": [],
           "why_skip_zh": null,
           "why_skip_en": null,
           "verdict_override": null,
-          "score_override": null,
-          "manual_author": "claude"
+          "score_override": null
         },
         {
           "match_id": "760465",
@@ -1666,45 +1607,20 @@
           "stakes_narrative_en": "Final matchday — qualification on the line.",
           "verdict": "must",
           "score": 5,
-          "headline_zh": "苏格兰非赢不可",
-          "headline_en": "Scotland must-win",
-          "watch_for_zh": [
-            "巴西 4 分领跑，平局即锁头名；苏格兰 3 分必须取胜才能确保晋级",
-            "苏格兰首轮 1-0 胜海地、次轮 1-1 摩洛哥——攻守平衡但缺爆发力",
-            "巴西首轮 2-0 海地、次轮 0-0 摩洛哥——本次表现未达预期",
-            "苏格兰自 1998 年后首次参加世界杯正赛——28 年等待"
-          ],
-          "watch_for_en": [
-            "Brazil 4 pts — draw locks top; Scotland 3 pts — must WIN to advance",
-            "Scotland beat Haiti 1-0, drew Morocco 1-1 — balanced but lacks firepower",
-            "Brazil beat Haiti 2-0, drew Morocco 0-0 — underwhelming so far",
-            "Scotland's first WC since 1998 — 28-year wait"
-          ],
-          "key_players_zh": [
-            "斯科特·麦克托米奈 #8（曼联/那不勒斯中场，队长）",
-            "约翰·麦金 #7（阿斯顿维拉中场）",
-            "维尼修斯·儒尼奥尔 #11（皇马前锋，巴西核心）"
-          ],
-          "key_players_en": [
-            "Scott McTominay #8 (Napoli midfielder, captain)",
-            "John McGinn #7 (Aston Villa midfielder)",
-            "Vinícius Júnior #11 (Real Madrid winger, Brazil's talisman)"
-          ],
-          "news_focus_zh": "苏格兰全国疯了——首场胜海地后格拉斯哥街头万人空巷；本场若晋级将创造 1998 后首次出线",
-          "news_focus_en": "Scotland's first WC win since 1998 has the country buzzing — advance and it's a national holiday",
-          "record_potential_zh": [
-            "苏格兰若取胜将是 1998 后首次世界杯正赛胜利",
-            "麦克托米奈已 3 球——有望破苏格兰单届世界杯进球纪录"
-          ],
-          "record_potential_en": [
-            "A Scotland WIN would be their first WC finals victory since 1998",
-            "McTominay has 3 goals — could break Scotland's single-WC scoring record"
-          ],
+          "headline_zh": null,
+          "headline_en": null,
+          "watch_for_zh": [],
+          "watch_for_en": [],
+          "key_players_zh": [],
+          "key_players_en": [],
+          "news_focus_zh": null,
+          "news_focus_en": null,
+          "record_potential_zh": [],
+          "record_potential_en": [],
           "why_skip_zh": null,
           "why_skip_en": null,
           "verdict_override": null,
-          "score_override": null,
-          "manual_author": "claude"
+          "score_override": null
         },
         {
           "match_id": "760467",
@@ -1747,37 +1663,22 @@
           "stakes_verdict_auto": "must",
           "stakes_narrative_zh": "末轮出线生死战。",
           "stakes_narrative_en": "Final matchday — qualification on the line.",
-          "verdict": "lively",
-          "score": 2,
-          "headline_zh": "墨西哥练兵",
-          "headline_en": "Mexico's tune-up",
-          "watch_for_zh": [
-            "墨西哥 6 分锁 A 组第一，主帅斯卡罗尼可能大轮换",
-            "捷克 1 分需赢 + 韩国输才能晋级——双重条件",
-            "本场对墨西哥实际是 32 强赛前的练兵"
-          ],
-          "watch_for_en": [
-            "Mexico 6 pts locked as Group A top seed — likely heavy rotation",
-            "Czechia 1 pt needs WIN + South Korea LOSS — double condition",
-            "Realistically a 32R tune-up for Mexico"
-          ],
-          "key_players_zh": [
-            "劳尔·希门尼斯 #9（墨西哥老将，可能首发）",
-            "帕特里克·希克 #10（勒沃库森前锋，捷克头号射手）"
-          ],
-          "key_players_en": [
-            "Raúl Jiménez #9 (Fulham veteran, likely start)",
-            "Patrik Schick #10 (Leverkusen striker, CZE top scorer)"
-          ],
-          "news_focus_zh": "墨西哥本场可能给年轻球员机会",
-          "news_focus_en": "Mexico likely gives minutes to youngsters",
+          "verdict": "must",
+          "score": 4,
+          "headline_zh": null,
+          "headline_en": null,
+          "watch_for_zh": [],
+          "watch_for_en": [],
+          "key_players_zh": [],
+          "key_players_en": [],
+          "news_focus_zh": null,
+          "news_focus_en": null,
           "record_potential_zh": [],
           "record_potential_en": [],
           "why_skip_zh": null,
           "why_skip_en": null,
           "verdict_override": null,
-          "score_override": null,
-          "manual_author": "claude"
+          "score_override": null
         },
         {
           "match_id": "760466",
@@ -1822,45 +1723,20 @@
           "stakes_narrative_en": "Final matchday — qualification on the line.",
           "verdict": "must",
           "score": 4,
-          "headline_zh": "A 组第二名之争",
-          "headline_en": "Group A's #2 spot",
-          "watch_for_zh": [
-            "韩国 3 分打平即 4 分大概率晋级（与捷克 +1/-1 净胜球比拼）",
-            "南非 1 分需赢才能与韩国比拼净胜球（南非 -2，韩国 0）——几乎无望",
-            "韩国首轮 0-3 输墨西哥、次轮 2-0 胜捷克——状态回升",
-            "本场实际是韩国守平 + 净胜球 vs 捷克"
-          ],
-          "watch_for_en": [
-            "Korea 3 pts — draw = 4 pts likely advances (better GD than Czechia)",
-            "South Africa 1 pt — must WIN, then face GD tiebreaker against Czechia (RSA -2, CZE -1) — uphill",
-            "Korea lost MD1 0-3 to Mexico, won MD2 2-0 vs Czechia — momentum up",
-            "Realistically: Korea defending + GD race vs Czechia"
-          ],
-          "key_players_zh": [
-            "孙兴慜 #7（热刺/洛杉矶 FC 边锋，韩国队长）",
-            "李康仁 #18（巴黎圣日耳曼中场）",
-            "佩尔西·塔乌 #10（摩纳哥前锋，南非核心）"
-          ],
-          "key_players_en": [
-            "Son Heung-min #7 (LAFC winger, KOR captain)",
-            "Lee Kang-in #18 (PSG midfielder)",
-            "Percy Tau #10 (Al Ahly/Maritzburg, RSA playmaker)"
-          ],
-          "news_focus_zh": "孙兴慜本届首战被嘘（墨西哥主场氛围），状态需要回勇",
-          "news_focus_en": "Son was booed in MD1 (Mexico's home crowd) — needs to bounce back",
-          "record_potential_zh": [
-            "孙兴慜本届 0 球 0 助——若再不进球将创个人世界杯最差表现",
-            "韩国若晋级将是连续 11 届世界杯进入 16 强"
-          ],
-          "record_potential_en": [
-            "Son has 0G 0A so far — would be his worst WC",
-            "Korea advancing = 11th straight WC R32 appearance"
-          ],
+          "headline_zh": null,
+          "headline_en": null,
+          "watch_for_zh": [],
+          "watch_for_en": [],
+          "key_players_zh": [],
+          "key_players_en": [],
+          "news_focus_zh": null,
+          "news_focus_en": null,
+          "record_potential_zh": [],
+          "record_potential_en": [],
           "why_skip_zh": null,
           "why_skip_en": null,
           "verdict_override": null,
-          "score_override": null,
-          "manual_author": "claude"
+          "score_override": null
         },
         {
           "match_id": "760468",
@@ -1903,45 +1779,22 @@
           "stakes_verdict_auto": "must",
           "stakes_narrative_zh": "末轮出线生死战。",
           "stakes_narrative_en": "Final matchday — qualification on the line.",
-          "verdict": "lively",
-          "score": 3,
-          "headline_zh": "德国练兵",
-          "headline_en": "Germany's tune-up",
-          "watch_for_zh": [
-            "德国 6 分锁 E 组第一，2-0 战胜对手净胜球 +7 全赛事最高",
-            "厄瓜多尔 1 分需赢 + 科特迪瓦输才有机会",
-            "德国本场是大轮换 + 备战 32 强的练兵"
-          ],
-          "watch_for_en": [
-            "Germany 6 pts locked at E top — 2-0+ GD is tournament-best",
-            "Ecuador 1 pt needs WIN + Ivory Coast LOSS",
-            "Germany likely heavy rotation — R32 prep"
-          ],
-          "key_players_zh": [
-            "弗洛里安·维尔茨 #17（勒沃库森中场，2024 金童奖）",
-            "贾马尔·穆西亚拉 #10（拜仁中场，本届 0 球）",
-            "恩纳森·瓦伦西亚 #13（厄瓜多尔队长，36 岁老将）"
-          ],
-          "key_players_en": [
-            "Florian Wirtz #17 (Leverkusen, 2024 Golden Boy)",
-            "Jamal Musiala #10 (Bayern, 0 goals so far)",
-            "Enner Valencia #13 (ECU captain, 36-year-old veteran)"
-          ],
-          "news_focus_zh": "穆西亚拉状态不佳，本场可能找回节奏",
-          "news_focus_en": "Musiala has looked off — may get a confidence-restoring game",
-          "record_potential_zh": [
-            "穆西亚拉本届若不进球将连续 2 届世界杯 0 球",
-            "瓦伦西亚若进球将追平厄瓜多尔世界杯进球纪录"
-          ],
-          "record_potential_en": [
-            "Musiala 0 goals = 2nd straight WC without scoring",
-            "Valencia can match ECU's all-time WC scoring record"
-          ],
+          "verdict": "must",
+          "score": 5,
+          "headline_zh": null,
+          "headline_en": null,
+          "watch_for_zh": [],
+          "watch_for_en": [],
+          "key_players_zh": [],
+          "key_players_en": [],
+          "news_focus_zh": null,
+          "news_focus_en": null,
+          "record_potential_zh": [],
+          "record_potential_en": [],
           "why_skip_zh": null,
           "why_skip_en": null,
           "verdict_override": null,
-          "score_override": null,
-          "manual_author": "claude"
+          "score_override": null
         },
         {
           "match_id": "760473",
@@ -1984,37 +1837,22 @@
           "stakes_verdict_auto": "must",
           "stakes_narrative_zh": "末轮出线生死战。",
           "stakes_narrative_en": "Final matchday — qualification on the line.",
-          "verdict": "skip",
-          "score": 1,
-          "headline_zh": "E 组走过场",
-          "headline_en": "Group E dead rubber",
-          "watch_for_zh": [
-            "德国 6 分锁 E 组第一，科特迪瓦 3 分（除非厄瓜多尔不胜）即 E 组第二",
-            "本场结果基本不影响出线形势",
-            "科特迪瓦赢则稳第二；平或输则要看厄瓜多尔脸色"
-          ],
-          "watch_for_en": [
-            "Germany 6 pts locked as E top; Ivory Coast likely 2nd unless Ecuador wins big",
-            "Result likely doesn't change the qualification picture",
-            "CIV win = locks 2nd; draw/loss = dependent on Ecuador"
-          ],
-          "key_players_zh": [
-            "塞巴斯蒂安·哈勒 #22（多特蒙德前锋，科特迪瓦核心）",
-            "莱安德罗·巴库纳 #10（埃因霍温中场，库拉索核心）"
-          ],
-          "key_players_en": [
-            "Sébastien Haller #22 (BVB striker, CIV talisman)",
-            "Leandro Bacuna #10 (PSV midfielder, CUW captain)"
-          ],
-          "news_focus_zh": "库拉索首次参加世界杯正赛——这是国家荣耀",
-          "news_focus_en": "Curacao's first WC — pure national pride",
+          "verdict": "must",
+          "score": 4,
+          "headline_zh": null,
+          "headline_en": null,
+          "watch_for_zh": [],
+          "watch_for_en": [],
+          "key_players_zh": [],
+          "key_players_en": [],
+          "news_focus_zh": null,
+          "news_focus_en": null,
           "record_potential_zh": [],
           "record_potential_en": [],
-          "why_skip_zh": "德国 + 科特迪瓦基本锁定 E 组前二，本场结果对出线无实质影响",
-          "why_skip_en": "GER + CIV basically locked in E's top 2 — result has no real impact on qualification",
+          "why_skip_zh": null,
+          "why_skip_en": null,
           "verdict_override": null,
-          "score_override": null,
-          "manual_author": "claude"
+          "score_override": null
         },
         {
           "match_id": "760472",
@@ -2057,41 +1895,22 @@
           "stakes_verdict_auto": "must",
           "stakes_narrative_zh": "末轮出线生死战。",
           "stakes_narrative_en": "Final matchday — qualification on the line.",
-          "verdict": "lively",
-          "score": 2,
-          "headline_zh": "荷兰保晋级",
-          "headline_en": "Netherlands clinches R32",
-          "watch_for_zh": [
-            "荷兰 4 分领跑 F 组，赢即锁头名，平 + 日本不胜也晋级",
-            "突尼斯 0 分已被淘汰，净胜球 -8 全赛事最差",
-            "荷兰首战闷平日本 0-0 后 7-0 大胜突尼斯——状态波动大"
-          ],
-          "watch_for_en": [
-            "Netherlands 4 pts — win locks 1st, draw likely advances too",
-            "Tunisia 0 pts, GD -8 (tournament worst), eliminated",
-            "Netherlands drew Japan 0-0 then beat Tunisia 7-0 — wildly inconsistent"
-          ],
-          "key_players_zh": [
-            "科迪·加克波 #11（利物浦前锋，荷兰头号射手）",
-            "弗朗基·德容 #21（巴塞罗那中场）"
-          ],
-          "key_players_en": [
-            "Cody Gakpo #11 (Liverpool winger, NED top scorer)",
-            "Frenkie de Jong #21 (Barcelona midfielder)"
-          ],
-          "news_focus_zh": "荷兰本届防守不稳（首战 0-0 后场暴露），对阵突尼斯是找状态机会",
-          "news_focus_en": "Dutch defense has been shaky — this is a chance to reset",
-          "record_potential_zh": [
-            "加克波本届已 2 球——有望追平荷兰单届世界杯个人进球纪录"
-          ],
-          "record_potential_en": [
-            "Gakpo 2 goals — can match NED's single-WC scoring record"
-          ],
+          "verdict": "must",
+          "score": 5,
+          "headline_zh": null,
+          "headline_en": null,
+          "watch_for_zh": [],
+          "watch_for_en": [],
+          "key_players_zh": [],
+          "key_players_en": [],
+          "news_focus_zh": null,
+          "news_focus_en": null,
+          "record_potential_zh": [],
+          "record_potential_en": [],
           "why_skip_zh": null,
           "why_skip_en": null,
           "verdict_override": null,
-          "score_override": null,
-          "manual_author": "claude"
+          "score_override": null
         },
         {
           "match_id": "760471",
@@ -2135,129 +1954,21 @@
           "stakes_narrative_zh": "末轮出线生死战。",
           "stakes_narrative_en": "Final matchday — qualification on the line.",
           "verdict": "must",
-          "score": 5,
-          "headline_zh": "F 组头名之争",
-          "headline_en": "Group F top-spot decider",
-          "watch_for_zh": [
-            "日本 4 分领跑，瑞典 3 分——日本打平即头名，瑞典必须取胜",
-            "瑞典首轮 5-1 大胜突尼斯、次轮 1-3 输荷兰——状态波动大",
-            "日本首轮 0-0 闷平荷兰、次轮 6-0 胜突尼斯——状态回升",
-            "日本本届目标：连续 4 届小组出线 + 拿头名避开强队"
-          ],
-          "watch_for_en": [
-            "Japan 4 pts, Sweden 3 — draw gives Japan top, Sweden MUST WIN",
-            "Sweden thrashed Tunisia 5-1 then lost 1-3 to Netherlands — wild swings",
-            "Japan drew Netherlands 0-0 then beat Tunisia 6-0 — building momentum",
-            "Japan aiming for 4th straight R32 + top seed to dodge heavyweights"
-          ],
-          "key_players_zh": [
-            "久保健英 #10（皇家社会边锋，本届 1 球 1 助）",
-            "远藤航 #6（利物浦中场，队长）",
-            "亚历山大·伊萨克 #10（纽卡斯尔前锋，瑞典头号射手）"
-          ],
-          "key_players_en": [
-            "Takefusa Kubo #10 (Real Sociedad winger, 1G 1A)",
-            "Wataru Endo #6 (Liverpool midfielder, captain)",
-            "Alexander Isak #10 (Newcastle striker, SWE top scorer)"
-          ],
-          "news_focus_zh": "日本 vs 瑞典本届 FIFA 排名差距大（伊萨克是瑞典核武器），但日本队史对瑞典 2 胜 1 平不败",
-          "news_focus_en": "JPN has never lost to SWE in 3 prior meetings (2W 1D) — psychological edge",
-          "record_potential_zh": [
-            "久保若本场进球将是 23 岁前在世界杯已 2 球——日本最年轻纪录",
-            "日本若晋级 + 头名，将追平本国连续 16 强次数纪录（4 次）"
-          ],
-          "record_potential_en": [
-            "Kubo scoring = 2 WC goals before age 23 (JPN youngest record)",
-            "Top seed = matching JPN's 4-straight R32 record"
-          ],
-          "why_skip_zh": null,
-          "why_skip_en": null,
-          "verdict_override": null,
-          "score_override": null,
-          "manual_author": "claude"
-        },
-        {
-          "match_id": "760469",
-          "kickoff_utc": "2026-06-26T02:00:00+00:00",
-          "kickoff_local": "2026-06-25T21:00:00-05:00",
-          "kickoff_local_date": "2026-06-25",
-          "kickoff_time": "9:00 PM",
-          "kickoff_weekday": "Thu",
-          "stage": "Group Stage",
-          "stage_slug": "group-stage",
-          "venue": "Levi's Stadium",
-          "venue_city": "Santa Clara, California",
-          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760469/australia-paraguay",
-          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Paraguay%20vs%20Australia",
-          "home": {
-            "id": "210",
-            "name": "Paraguay",
-            "name_zh": "巴拉圭",
-            "flag": "🇵🇾",
-            "abbr": "PAR",
-            "rank": 41
-          },
-          "away": {
-            "id": "628",
-            "name": "Australia",
-            "name_zh": "澳大利亚",
-            "flag": "🇦🇺",
-            "abbr": "AUS",
-            "rank": 27
-          },
-          "group_name": "Group D",
-          "home_group_rank": 3,
-          "home_pts": 3,
-          "home_mp": 2,
-          "away_group_rank": 2,
-          "away_pts": 3,
-          "away_mp": 2,
-          "stakes_kind": "group_decider",
-          "stakes_score_auto": 4,
-          "stakes_verdict_auto": "must",
-          "stakes_narrative_zh": "末轮出线生死战。",
-          "stakes_narrative_en": "Final matchday — qualification on the line.",
-          "verdict": "must",
           "score": 4,
-          "headline_zh": "D 组第二名之争",
-          "headline_en": "Group D's #2 spot",
-          "watch_for_zh": [
-            "美国 6 分锁 D 组第一，巴拉圭 vs 澳大利亚胜者拿第二",
-            "美国 vs 土耳其同时进行（6/26 9pm），美国胜则美 9 分稳第一",
-            "巴拉圭本届 1-0 胜土耳其、1-3 输美国——首战表现好",
-            "澳大利亚本届 0-2 输美国、2-0 胜土耳其——同样首战表现好"
-          ],
-          "watch_for_en": [
-            "USA 6 pts locked at D top — winner of PAR vs AUS gets 2nd",
-            "USA vs Türkiye (Thu 9pm CT) — irrelevant to 2nd spot",
-            "Paraguay beat Türkiye 1-0, lost to USA 1-3 — competitive",
-            "Australia lost to USA 0-2, beat Türkiye 2-0 — competitive"
-          ],
-          "key_players_zh": [
-            "米格尔·阿尔米隆 #10（纽卡斯尔边锋，巴拉圭核心）",
-            "加斯顿·阿尔德里特 #9（巴拉圭前锋，本届 1 球）",
-            "马修·莱基 #7（柏林赫塔边锋，澳大利亚队长）"
-          ],
-          "key_players_en": [
-            "Miguel Almirón #10 (Newcastle winger, PAR talisman)",
-            "Gustavo Alfaro's Paraguay — counter-attack specialists",
-            "Mathew Leckie #7 (Hertha Berlin winger, AUS captain)"
-          ],
-          "news_focus_zh": "双方都首战胜土耳其——本场是真正的'第二名之争'",
-          "news_focus_en": "Both beat Türkiye in their win — true de facto D #2 final",
-          "record_potential_zh": [
-            "巴拉圭若晋级将是 2010 后首次 16 强",
-            "澳大利亚若晋级将是连续 3 届 16 强"
-          ],
-          "record_potential_en": [
-            "Paraguay advancing = first R32 since 2010",
-            "Australia advancing = 3rd straight R32"
-          ],
+          "headline_zh": null,
+          "headline_en": null,
+          "watch_for_zh": [],
+          "watch_for_en": [],
+          "key_players_zh": [],
+          "key_players_en": [],
+          "news_focus_zh": null,
+          "news_focus_en": null,
+          "record_potential_zh": [],
+          "record_potential_en": [],
           "why_skip_zh": null,
           "why_skip_en": null,
           "verdict_override": null,
-          "score_override": null,
-          "manual_author": "claude"
+          "score_override": null
         },
         {
           "match_id": "760475",
@@ -2301,46 +2012,21 @@
           "stakes_narrative_zh": "末轮出线生死战。",
           "stakes_narrative_en": "Final matchday — qualification on the line.",
           "verdict": "must",
-          "score": 4,
-          "headline_zh": "I 组头名之争",
-          "headline_en": "Group I top-spot showdown",
-          "watch_for_zh": [
-            "双方 6 分都已晋级，胜者拿 I 组第一（净胜球 +5 vs +4 法国略占优）",
-            "挪威首轮 2-0 胜伊拉克、次轮 5-0 胜塞内加尔——状态爆表",
-            "法国首轮 3-0 胜塞内加尔、次轮 3-1 胜伊拉克——稳定",
-            "小组头名意味着 32 强赛避开可能同档的强队（巴西/阿根廷）"
-          ],
-          "watch_for_en": [
-            "Both 6 pts, both qualified — winner takes I top (FRA GD +5, NOR +4)",
-            "Norway beat Iraq 2-0, Senegal 5-0 — flying high",
-            "France beat Senegal 3-0, Iraq 3-1 — solid",
-            "Top seed = avoid likely powerhouses in R32"
-          ],
-          "key_players_zh": [
-            "埃尔林·哈兰德 #9（曼城前锋，本届 3 球）",
-            "马丁·厄德高 #10（阿森纳中场，队长）",
-            "基利安·姆巴佩 #10（皇家马德里前锋，法国队长）"
-          ],
-          "key_players_en": [
-            "Erling Haaland #9 (Man City striker, 3 goals)",
-            "Martin Ødegaard #10 (Arsenal midfielder, captain)",
-            "Kylian Mbappé #10 (Real Madrid striker, FRA captain)"
-          ],
-          "news_focus_zh": "哈兰德本届 3 球 + 姆巴佩本届 2 球——世界杯金靴争夺战提前上演",
-          "news_focus_en": "Haaland 3G vs Mbappé 2G — WC Golden Boot race preview",
-          "record_potential_zh": [
-            "哈兰德已 3 球——有望冲击世界杯金靴（2002 罗纳尔多 8 球）",
-            "姆巴佩本届已 2 球——有望追平/超越个人 2022 世界杯 8 球纪录"
-          ],
-          "record_potential_en": [
-            "Haaland 3G — could push for Golden Boot (Ronaldo 2002 record: 8)",
-            "Mbappé 2G — could match/beat his 2022 record 8 goals"
-          ],
+          "score": 5,
+          "headline_zh": null,
+          "headline_en": null,
+          "watch_for_zh": [],
+          "watch_for_en": [],
+          "key_players_zh": [],
+          "key_players_en": [],
+          "news_focus_zh": null,
+          "news_focus_en": null,
+          "record_potential_zh": [],
+          "record_potential_en": [],
           "why_skip_zh": null,
           "why_skip_en": null,
           "verdict_override": null,
-          "score_override": null,
-          "manual_author": "claude"
+          "score_override": null
         },
         {
           "match_id": "760479",
@@ -2385,45 +2071,20 @@
           "stakes_narrative_en": "Final matchday — qualification on the line.",
           "verdict": "must",
           "score": 5,
-          "headline_zh": "乌拉圭非赢不可",
-          "headline_en": "Uruguay must-win",
-          "watch_for_zh": [
-            "西班牙 4 分领跑，H 组头名概率大；乌拉圭 2 分必须取胜",
-            "西班牙首轮 4-0 胜沙特、1-1 平佛得角——状态火热但次战暴露问题",
-            "乌拉圭首轮 2-0 胜巴拿马（误记——实际是 0-0 平 0-0 佛得角？需核实）",
-            "乌拉圭 2022 世界杯表现不佳（小组出局），本届苏亚雷斯 + 卡瓦尼最后一届"
-          ],
-          "watch_for_en": [
-            "Spain 4 pts top H — likely group winner; Uruguay 2 pts must WIN",
-            "Spain thrashed KSA 4-0, drew Cape Verde 1-1 — fired up but not invincible",
-            "Uruguay 0-0, 2-0 in first 2 — inconsistent",
-            "Uruguay's 2022 group-stage exit still hurts — Suárez/Cavani's last WC"
-          ],
-          "key_players_zh": [
-            "路易斯·苏亚雷斯 #9（乌拉圭传奇，本届 0 球）",
-            "费德里科·巴尔韦德 #15（皇马中场，乌拉圭核心）",
-            "拉明·亚马尔 #19（巴塞罗那天才，西班牙 17 岁）"
-          ],
-          "key_players_en": [
-            "Luis Suárez #9 (Uruguay legend, 0 goals so far)",
-            "Federico Valverde #15 (Real Madrid midfielder, URU engine)",
-            "Lamine Yamal #19 (Barcelona wonderkid, 17 years old)"
-          ],
-          "news_focus_zh": "亚马尔本届 1 球 2 助——若本场破门将是世界杯历史最年轻 18 岁以下双响之一",
-          "news_focus_en": "Yamal 1G 2A — scoring here = among youngest multi-G WC scorers ever",
-          "record_potential_zh": [
-            "苏亚雷斯本届若不进球将连续 2 届世界杯 0 球（2022 也是 0）",
-            "亚马尔若破门将打破 17 岁 358 天的世界杯双响最年轻纪录"
-          ],
-          "record_potential_en": [
-            "Suárez 0 goals = 2nd straight WC without scoring",
-            "Yamal scoring = youngest WC brace (17y 358d)"
-          ],
+          "headline_zh": null,
+          "headline_en": null,
+          "watch_for_zh": [],
+          "watch_for_en": [],
+          "key_players_zh": [],
+          "key_players_en": [],
+          "news_focus_zh": null,
+          "news_focus_en": null,
+          "record_potential_zh": [],
+          "record_potential_en": [],
           "why_skip_zh": null,
           "why_skip_en": null,
           "verdict_override": null,
-          "score_override": null,
-          "manual_author": "claude"
+          "score_override": null
         },
         {
           "match_id": "760477",
@@ -2466,47 +2127,80 @@
           "stakes_verdict_auto": "must",
           "stakes_narrative_zh": "末轮出线生死战。",
           "stakes_narrative_en": "Final matchday — qualification on the line.",
-          "verdict": "lively",
-          "score": 2,
-          "headline_zh": "比利时求晋级",
-          "headline_en": "Belgium chases R32",
-          "watch_for_zh": [
-            "埃及 4 分领跑 G 组，伊朗 2 分、比利时 2 分、新西兰 1 分",
-            "比利时需赢 + 伊朗不胜才能反超——双重条件",
-            "新西兰首次参加世界杯正赛——荣誉战",
-            "比利时首轮 0-1 输埃及、次轮 0-0 平伊朗——本届表现令人失望"
-          ],
-          "watch_for_en": [
-            "Egypt 4 pts leads G; Iran 2, Belgium 2, New Zealand 1",
-            "Belgium must WIN + Iran NOT WIN to leapfrog — double condition",
-            "New Zealand in debut WC — playing for pride",
-            "Belgium lost 0-1 to Egypt, drew 0-0 Iran — disappointing form"
-          ],
-          "key_players_zh": [
-            "凯文·德布劳内 #7（曼城中场，比利时核心）",
-            "罗梅卢·卢卡库 #9（罗马/切尔西前锋，本届 0 球）",
-            "克里斯·伍德 #9（诺丁汉森林前锋，新西兰队长）"
-          ],
-          "key_players_en": [
-            "Kevin De Bruyne #7 (Man City midfielder, BEL engine)",
-            "Romelu Lukaku #9 (Roma striker, 0 goals so far)",
-            "Chris Wood #9 (Nottingham Forest, NZ captain)"
-          ],
-          "news_focus_zh": "卢卡库本届 0 球——若再不进球将连续 2 届世界杯未破门",
-          "news_focus_en": "Lukaku 0 goals — would be 2nd straight WC without scoring",
-          "record_potential_zh": [
-            "比利时若出局将是连续 2 届世界杯小组出局（2018 季军、2022 出局）",
-            "卢卡库若进球将追平/超越比利时世界杯队史进球纪录"
-          ],
-          "record_potential_en": [
-            "Belgium out = 2nd straight group-stage exit (after 2018 3rd place)",
-            "Lukaku scoring = match/break BEL all-time WC scoring record"
-          ],
+          "verdict": "must",
+          "score": 5,
+          "headline_zh": null,
+          "headline_en": null,
+          "watch_for_zh": [],
+          "watch_for_en": [],
+          "key_players_zh": [],
+          "key_players_en": [],
+          "news_focus_zh": null,
+          "news_focus_en": null,
+          "record_potential_zh": [],
+          "record_potential_en": [],
           "why_skip_zh": null,
           "why_skip_en": null,
           "verdict_override": null,
-          "score_override": null,
-          "manual_author": "claude"
+          "score_override": null
+        },
+        {
+          "match_id": "760485",
+          "kickoff_utc": "2026-06-27T21:00:00+00:00",
+          "kickoff_local": "2026-06-27T16:00:00-05:00",
+          "kickoff_local_date": "2026-06-27",
+          "kickoff_time": "4:00 PM",
+          "kickoff_weekday": "Sat",
+          "stage": "Group Stage",
+          "stage_slug": "group-stage",
+          "venue": "MetLife Stadium",
+          "venue_city": "East Rutherford, New Jersey",
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760485/england-panama",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Panama%20vs%20England",
+          "home": {
+            "id": "2659",
+            "name": "Panama",
+            "name_zh": "巴拿马",
+            "flag": "🇵🇦",
+            "abbr": "PAN",
+            "rank": 34
+          },
+          "away": {
+            "id": "448",
+            "name": "England",
+            "name_zh": "英格兰",
+            "flag": "🏴",
+            "abbr": "ENG",
+            "rank": 4
+          },
+          "group_name": "Group L",
+          "home_group_rank": 4,
+          "home_pts": 0,
+          "home_mp": 2,
+          "away_group_rank": 1,
+          "away_pts": 4,
+          "away_mp": 2,
+          "stakes_kind": "group_decider",
+          "stakes_score_auto": 5,
+          "stakes_verdict_auto": "must",
+          "stakes_narrative_zh": "末轮出线生死战。",
+          "stakes_narrative_en": "Final matchday — qualification on the line.",
+          "verdict": "must",
+          "score": 5,
+          "headline_zh": null,
+          "headline_en": null,
+          "watch_for_zh": [],
+          "watch_for_en": [],
+          "key_players_zh": [],
+          "key_players_en": [],
+          "news_focus_zh": null,
+          "news_focus_en": null,
+          "record_potential_zh": [],
+          "record_potential_en": [],
+          "why_skip_zh": null,
+          "why_skip_en": null,
+          "verdict_override": null,
+          "score_override": null
         },
         {
           "match_id": "760481",
@@ -2538,10 +2232,10 @@
             "rank": 5
           },
           "group_name": "Group K",
-          "home_group_rank": 2,
-          "home_pts": 3,
-          "home_mp": 1,
-          "away_group_rank": 1,
+          "home_group_rank": 1,
+          "home_pts": 6,
+          "home_mp": 2,
+          "away_group_rank": 2,
           "away_pts": 4,
           "away_mp": 2,
           "stakes_kind": "group_decider",
@@ -2550,44 +2244,21 @@
           "stakes_narrative_zh": "末轮出线生死战。",
           "stakes_narrative_en": "Final matchday — qualification on the line.",
           "verdict": "must",
-          "score": 4,
-          "headline_zh": "K 组头名之争",
-          "headline_en": "Group K top-spot showdown",
-          "watch_for_zh": [
-            "葡萄牙 4 分领跑，哥伦比亚 3 分——平局葡萄牙头名，哥伦比亚赢则反超",
-            "葡萄牙首轮 6-0 胜乌兹别克、次轮 2-2 平科特迪瓦？——实际数据需核实",
-            "C 罗本届 2 球——有望追平/超越个人世界杯 9 球纪录（与梅西并列）"
-          ],
-          "watch_for_en": [
-            "Portugal 4 pts leads K; Colombia 3 — draw = POR top, win = COL top",
-            "Portugal has been clinical; Colombia's form varies",
-            "Ronaldo 2G — could tie Messi's all-time WC record 13G"
-          ],
-          "key_players_zh": [
-            "克里斯蒂亚诺·罗纳尔多 #7（葡萄牙传奇，本届 2 球）",
-            "布鲁诺·费尔南德斯 #8（曼联中场）",
-            "路易斯·迪亚斯 #7（利物浦边锋，哥伦比亚核心）"
-          ],
-          "key_players_en": [
-            "Cristiano Ronaldo #7 (POR legend, 2 goals this WC)",
-            "Bruno Fernandes #8 (Man United midfielder)",
-            "Luis Díaz #7 (Liverpool winger, COL talisman)"
-          ],
-          "news_focus_zh": "C 罗 41 岁的最后一届世界杯——追平梅西世界杯 13 球纪录就在本场",
-          "news_focus_en": "Ronaldo's final WC at 41 — Messi's 13G WC record within reach",
-          "record_potential_zh": [
-            "C 罗若本场进球将以 41 岁成为世界杯最年长双响之一",
-            "C 罗若追平/超越梅西 13 球，将重新独占世界杯历史最佳射手"
-          ],
-          "record_potential_en": [
-            "Ronaldo scoring = among oldest WC brace scorers ever (41 years old)",
-            "Tying/beating Messi's 13G = sole owner of all-time WC scoring record"
-          ],
+          "score": 5,
+          "headline_zh": null,
+          "headline_en": null,
+          "watch_for_zh": [],
+          "watch_for_en": [],
+          "key_players_zh": [],
+          "key_players_en": [],
+          "news_focus_zh": null,
+          "news_focus_en": null,
+          "record_potential_zh": [],
+          "record_potential_en": [],
           "why_skip_zh": null,
           "why_skip_en": null,
           "verdict_override": null,
-          "score_override": null,
-          "manual_author": "claude"
+          "score_override": null
         },
         {
           "match_id": "760483",
@@ -2630,41 +2301,22 @@
           "stakes_verdict_auto": "must",
           "stakes_narrative_zh": "末轮出线生死战。",
           "stakes_narrative_en": "Final matchday — qualification on the line.",
-          "verdict": "skip",
-          "score": 1,
-          "headline_zh": "J 组走过场",
-          "headline_en": "Group J dead rubber",
-          "watch_for_zh": [
-            "阿根廷 6 分锁 J 组第一，主帅斯卡罗尼可能大轮换",
-            "约旦 0 分已被淘汰，净胜球 -3",
-            "本场对阿根廷实际是 32 强赛前的练兵"
-          ],
-          "watch_for_en": [
-            "Argentina 6 pts locked at J top — likely heavy rotation",
-            "Jordan 0 pts, GD -3, eliminated",
-            "Realistically a 32R tune-up for the defending champions"
-          ],
-          "key_players_zh": [
-            "莱昂内尔·梅西 #10（迈阿密国际前锋，阿根廷核心，本届 0 球 0 助）",
-            "朱利安·阿尔瓦雷斯 #9（马德里竞技前锋，本届 2 球）"
-          ],
-          "key_players_en": [
-            "Lionel Messi #10 (Inter Miami, ARG captain, 0G 0A this WC)",
-            "Julián Álvarez #9 (Atlético Madrid, 2 goals this WC)"
-          ],
-          "news_focus_zh": "约旦是 2026 新军——本场是他们的世界杯谢幕战",
-          "news_focus_en": "Jordan is a 2026 debutant — their WC farewell",
-          "record_potential_zh": [
-            "梅西本届若再不进球将连续 2 届世界杯 0 球（2018 1 球 2022 7 球 2026 ?）"
-          ],
-          "record_potential_en": [
-            "Messi 0 goals = first WC without scoring since debut WC (2006)"
-          ],
-          "why_skip_zh": "阿根廷已锁 J 组第一，本场是 32 强赛前的练兵；约旦已被淘汰，双方都没有实际动力",
-          "why_skip_en": "Argentina locked at J top — R32 tune-up; Jordan already eliminated. Neither side has skin in the game",
+          "verdict": "must",
+          "score": 5,
+          "headline_zh": null,
+          "headline_en": null,
+          "watch_for_zh": [],
+          "watch_for_en": [],
+          "key_players_zh": [],
+          "key_players_en": [],
+          "news_focus_zh": null,
+          "news_focus_en": null,
+          "record_potential_zh": [],
+          "record_potential_en": [],
+          "why_skip_zh": null,
+          "why_skip_en": null,
           "verdict_override": null,
-          "score_override": null,
-          "manual_author": "claude"
+          "score_override": null
         }
       ]
     },

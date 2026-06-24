@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-24T02:39:03.306517+00:00",
+  "generated_at": "2026-06-24T06:40:48.852057+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-23T21:39:01.885295-05:00",
+  "now_local": "2026-06-24T01:40:46.017190-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -544,15 +544,6 @@
     ],
     "venues": [
       {
-        "id": "Estadio Akron",
-        "name": "Estadio Akron",
-        "city": "Guadalajara",
-        "country": "Mexico",
-        "match_count": 4,
-        "next_kickoff_iso": "2026-06-23",
-        "last_kickoff_iso": "2026-06-26"
-      },
-      {
         "id": "Estadio BBVA",
         "name": "Estadio BBVA",
         "city": "Guadalupe",
@@ -659,6 +650,15 @@
         "match_count": 8,
         "next_kickoff_iso": "2026-06-25",
         "last_kickoff_iso": "2026-07-19"
+      },
+      {
+        "id": "Estadio Akron",
+        "name": "Estadio Akron",
+        "city": "Guadalajara",
+        "country": "Mexico",
+        "match_count": 4,
+        "next_kickoff_iso": "2026-06-26",
+        "last_kickoff_iso": "2026-06-26"
       },
       {
         "id": "BMO Field",
@@ -1736,30 +1736,6 @@
       "entries": [
         {
           "team": {
-            "id": "482",
-            "name": "Portugal",
-            "name_zh": "葡萄牙",
-            "rank": 5,
-            "short": "Portugal",
-            "abbr": "POR",
-            "flag": "🇵🇹",
-            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/por.png"
-          },
-          "rank": 1,
-          "mp": 2,
-          "w": 1,
-          "d": 1,
-          "l": 0,
-          "gf": 6,
-          "ga": 1,
-          "gd": 5,
-          "pts": 4,
-          "advance": false,
-          "advance_label": "Advance to Round of 32",
-          "advance_color": "#81D6AC"
-        },
-        {
-          "team": {
             "id": "208",
             "name": "Colombia",
             "name_zh": "哥伦比亚",
@@ -1769,15 +1745,39 @@
             "flag": "🇨🇴",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/col.png"
           },
-          "rank": 2,
-          "mp": 1,
-          "w": 1,
+          "rank": 1,
+          "mp": 2,
+          "w": 2,
           "d": 0,
           "l": 0,
-          "gf": 3,
+          "gf": 4,
           "ga": 1,
-          "gd": 2,
-          "pts": 3,
+          "gd": 3,
+          "pts": 6,
+          "advance": true,
+          "advance_label": "Advance to Round of 32",
+          "advance_color": "#81D6AC"
+        },
+        {
+          "team": {
+            "id": "482",
+            "name": "Portugal",
+            "name_zh": "葡萄牙",
+            "rank": 5,
+            "short": "Portugal",
+            "abbr": "POR",
+            "flag": "🇵🇹",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/por.png"
+          },
+          "rank": 2,
+          "mp": 2,
+          "w": 1,
+          "d": 1,
+          "l": 0,
+          "gf": 6,
+          "ga": 1,
+          "gd": 5,
+          "pts": 4,
           "advance": false,
           "advance_label": "Advance to Round of 32",
           "advance_color": "#81D6AC"
@@ -1794,13 +1794,13 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/rdc.png"
           },
           "rank": 3,
-          "mp": 1,
+          "mp": 2,
           "w": 0,
           "d": 1,
-          "l": 0,
+          "l": 1,
           "gf": 1,
-          "ga": 1,
-          "gd": 0,
+          "ga": 2,
+          "gd": -1,
           "pts": 1,
           "advance": false,
           "advance_label": "Best 8 advance",
@@ -10823,7 +10823,7 @@
     },
     {
       "date": "2026-06-23",
-      "label": "Today",
+      "label": "Tue",
       "match_count": 4,
       "matches": [
         {
@@ -11380,8 +11380,8 @@
           "kickoff_local_date": "2026-06-23",
           "kickoff_time": "9:00 PM",
           "kickoff_weekday": "Tue",
-          "status": "LIVE",
-          "status_short": "39'",
+          "status": "FINAL",
+          "status_short": "FT",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -11395,8 +11395,8 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/col.png",
             "color": "fbd632",
             "home_away": "home",
-            "score": 0,
-            "winner": false
+            "score": 1,
+            "winner": true
           },
           "away": {
             "id": "2850",
@@ -11422,16 +11422,134 @@
             "Tele",
             "FOX One"
           ],
-          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760459/congo dr-colombia",
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760459/congo-dr-colombia",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Colombia%20vs%20Congo%20DR",
           "slug": "congo dr-at-colombia",
-          "incidents": []
+          "incidents": [
+            {
+              "kind": "substitution",
+              "minute": "45'",
+              "team": "Congo DR",
+              "team_id": "2850",
+              "team_side": "away",
+              "player": "Noah Sadiki",
+              "text": "Substitution, Congo DR. Noah Sadiki replaces Ngal'ayel Mukau.",
+              "player_off": "Ngal'ayel Mukau"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "56'",
+              "team": "Colombia",
+              "team_id": "208",
+              "team_side": "home",
+              "player": "Jhon Lucumí",
+              "text": "Jhon Lucumí (Colombia) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "substitution",
+              "minute": "57'",
+              "team": "Congo DR",
+              "team_id": "2850",
+              "team_side": "away",
+              "player": "Simon Banza",
+              "text": "Substitution, Congo DR. Simon Banza replaces Cédric Bakambu.",
+              "player_off": "Cédric Bakambu"
+            },
+            {
+              "kind": "substitution",
+              "minute": "58'",
+              "team": "Colombia",
+              "team_id": "208",
+              "team_side": "home",
+              "player": "Jhon Córdoba",
+              "text": "Substitution, Colombia. Jhon Córdoba replaces Luis Suárez.",
+              "player_off": "Luis Suárez"
+            },
+            {
+              "kind": "substitution",
+              "minute": "58'",
+              "team": "Colombia",
+              "team_id": "208",
+              "team_side": "home",
+              "player": "Juan Fernando Quintero",
+              "text": "Substitution, Colombia. Juan Fernando Quintero replaces James Rodríguez.",
+              "player_off": "James Rodríguez"
+            },
+            {
+              "kind": "substitution",
+              "minute": "72'",
+              "team": "Congo DR",
+              "team_id": "2850",
+              "team_side": "away",
+              "player": "Joris Kayembe",
+              "text": "Substitution, Congo DR. Joris Kayembe replaces Arthur Masuaku.",
+              "player_off": "Arthur Masuaku"
+            },
+            {
+              "kind": "substitution",
+              "minute": "72'",
+              "team": "Congo DR",
+              "team_id": "2850",
+              "team_side": "away",
+              "player": "Charles Pickel",
+              "text": "Substitution, Congo DR. Charles Pickel replaces Edo Kayembe.",
+              "player_off": "Edo Kayembe"
+            },
+            {
+              "kind": "goal",
+              "minute": "76'",
+              "team": "Colombia",
+              "team_id": "208",
+              "team_side": "home",
+              "player": "Daniel Muñoz",
+              "text": "Goal! Colombia 1, Congo DR 0. Daniel Muñoz (Colombia) left footed shot from the right side of the box to the bottom right corner. Assisted by Juan Fernando Quintero.",
+              "assist": "Juan Fernando Quintero"
+            },
+            {
+              "kind": "substitution",
+              "minute": "78'",
+              "team": "Colombia",
+              "team_id": "208",
+              "team_side": "home",
+              "player": "Richard Ríos",
+              "text": "Substitution, Colombia. Richard Ríos replaces Jhon Arias.",
+              "player_off": "Jhon Arias"
+            },
+            {
+              "kind": "substitution",
+              "minute": "82'",
+              "team": "Congo DR",
+              "team_id": "2850",
+              "team_side": "away",
+              "player": "Nathanaël Mbuku",
+              "text": "Substitution, Congo DR. Nathanaël Mbuku replaces Samuel Moutoussamy.",
+              "player_off": "Samuel Moutoussamy"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "90'+3'",
+              "team": "Congo DR",
+              "team_id": "2850",
+              "team_side": "away",
+              "player": "Charles Pickel",
+              "text": "Charles Pickel (Congo DR) is shown the yellow card."
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "90'+4'",
+              "team": "Colombia",
+              "team_id": "208",
+              "team_side": "home",
+              "player": "Jefferson Lerma",
+              "text": "Jefferson Lerma (Colombia) is shown the yellow card for a bad foul."
+            }
+          ]
         }
       ]
     },
     {
       "date": "2026-06-24",
-      "label": "Tomorrow",
+      "label": "Today",
       "match_count": 6,
       "matches": [
         {
@@ -11756,7 +11874,7 @@
     },
     {
       "date": "2026-06-25",
-      "label": "Thu",
+      "label": "Tomorrow",
       "match_count": 6,
       "matches": [
         {
