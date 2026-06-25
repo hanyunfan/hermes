@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-25T22:21:09.286887+00:00",
+  "generated_at": "2026-06-25T23:52:35.496703+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-25T17:21:07.610062-05:00",
+  "now_local": "2026-06-25T18:52:34.119920-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -13204,8 +13204,8 @@
           "kickoff_local_date": "2026-06-25",
           "kickoff_time": "6:00 PM",
           "kickoff_weekday": "Thu",
-          "status": "SCHEDULED",
-          "status_short": "Scheduled",
+          "status": "LIVE",
+          "status_short": "HT",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -13248,7 +13248,38 @@
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760471/sweden-japan",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Japan%20vs%20Sweden",
-          "slug": "sweden-at-japan"
+          "slug": "sweden-at-japan",
+          "incidents": [
+            {
+              "kind": "yellow_card",
+              "minute": "32'",
+              "team": "Sweden",
+              "team_id": "466",
+              "team_side": "away",
+              "player": "Isak Hien",
+              "text": "Isak Hien (Sweden) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "substitution",
+              "minute": "37'",
+              "team": "Sweden",
+              "team_id": "466",
+              "team_side": "away",
+              "player": "Lucas Bergvall",
+              "text": "Substitution, Sweden. Lucas Bergvall replaces Isak Hien because of an injury.",
+              "player_off": "Isak Hien"
+            },
+            {
+              "kind": "substitution",
+              "minute": "39'",
+              "team": "Japan",
+              "team_id": "627",
+              "team_side": "home",
+              "player": "Shogo Taniguchi",
+              "text": "Substitution, Japan. Shogo Taniguchi replaces Ko Itakura.",
+              "player_off": "Kou Itakura"
+            }
+          ]
         },
         {
           "id": "760472",
@@ -13257,8 +13288,8 @@
           "kickoff_local_date": "2026-06-25",
           "kickoff_time": "6:00 PM",
           "kickoff_weekday": "Thu",
-          "status": "SCHEDULED",
-          "status_short": "Scheduled",
+          "status": "LIVE",
+          "status_short": "HT",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -13286,7 +13317,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/ned.png",
             "color": "fb5d00",
             "home_away": "away",
-            "score": 0,
+            "score": 2,
             "winner": false
           },
           "venue": {
@@ -13301,7 +13332,19 @@
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760472/netherlands-tunisia",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Tunisia%20vs%20Netherlands",
-          "slug": "netherlands-at-tunisia"
+          "slug": "netherlands-at-tunisia",
+          "incidents": [
+            {
+              "kind": "goal",
+              "minute": "7'",
+              "team": "Netherlands",
+              "team_id": "449",
+              "team_side": "away",
+              "player": "Brian Brobbey",
+              "text": "Goal! Tunisia 0, Netherlands 2. Brian Brobbey (Netherlands) right footed shot from the centre of the box to the top right corner. Assisted by Virgil van Dijk with a headed pass following a set piece situation.",
+              "assist": "Virgil van Dijk"
+            }
+          ]
         },
         {
           "id": "760469",
