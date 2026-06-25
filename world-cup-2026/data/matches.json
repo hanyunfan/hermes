@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-24T02:39:03.306517+00:00",
+  "generated_at": "2026-06-25T02:39:58.574328+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-23T21:39:01.885295-05:00",
+  "now_local": "2026-06-24T21:39:56.776149-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -544,15 +544,6 @@
     ],
     "venues": [
       {
-        "id": "Estadio Akron",
-        "name": "Estadio Akron",
-        "city": "Guadalajara",
-        "country": "Mexico",
-        "match_count": 4,
-        "next_kickoff_iso": "2026-06-23",
-        "last_kickoff_iso": "2026-06-26"
-      },
-      {
         "id": "Estadio BBVA",
         "name": "Estadio BBVA",
         "city": "Guadalupe",
@@ -569,42 +560,6 @@
         "match_count": 5,
         "next_kickoff_iso": "2026-06-24",
         "last_kickoff_iso": "2026-07-05"
-      },
-      {
-        "id": "Lumen Field",
-        "name": "Lumen Field",
-        "city": "Seattle, Washington",
-        "country": "USA",
-        "match_count": 6,
-        "next_kickoff_iso": "2026-06-24",
-        "last_kickoff_iso": "2026-07-06"
-      },
-      {
-        "id": "BC Place",
-        "name": "BC Place",
-        "city": "Vancouver",
-        "country": "Canada",
-        "match_count": 7,
-        "next_kickoff_iso": "2026-06-24",
-        "last_kickoff_iso": "2026-07-07"
-      },
-      {
-        "id": "Mercedes-Benz Stadium",
-        "name": "Mercedes-Benz Stadium",
-        "city": "Atlanta, Georgia",
-        "country": "USA",
-        "match_count": 8,
-        "next_kickoff_iso": "2026-06-24",
-        "last_kickoff_iso": "2026-07-15"
-      },
-      {
-        "id": "Hard Rock Stadium",
-        "name": "Hard Rock Stadium",
-        "city": "Miami Gardens, Florida",
-        "country": "USA",
-        "match_count": 7,
-        "next_kickoff_iso": "2026-06-24",
-        "last_kickoff_iso": "2026-07-18"
       },
       {
         "id": "Levi's Stadium",
@@ -661,6 +616,15 @@
         "last_kickoff_iso": "2026-07-19"
       },
       {
+        "id": "Estadio Akron",
+        "name": "Estadio Akron",
+        "city": "Guadalajara",
+        "country": "Mexico",
+        "match_count": 4,
+        "next_kickoff_iso": "2026-06-26",
+        "last_kickoff_iso": "2026-06-26"
+      },
+      {
         "id": "BMO Field",
         "name": "BMO Field",
         "city": "Toronto",
@@ -679,6 +643,24 @@
         "last_kickoff_iso": "2026-07-04"
       },
       {
+        "id": "Lumen Field",
+        "name": "Lumen Field",
+        "city": "Seattle, Washington",
+        "country": "USA",
+        "match_count": 6,
+        "next_kickoff_iso": "2026-06-26",
+        "last_kickoff_iso": "2026-07-06"
+      },
+      {
+        "id": "BC Place",
+        "name": "BC Place",
+        "city": "Vancouver",
+        "country": "Canada",
+        "match_count": 7,
+        "next_kickoff_iso": "2026-06-26",
+        "last_kickoff_iso": "2026-07-07"
+      },
+      {
         "id": "Gillette Stadium",
         "name": "Gillette Stadium",
         "city": "Foxborough, Massachusetts",
@@ -686,6 +668,24 @@
         "match_count": 7,
         "next_kickoff_iso": "2026-06-26",
         "last_kickoff_iso": "2026-07-09"
+      },
+      {
+        "id": "Mercedes-Benz Stadium",
+        "name": "Mercedes-Benz Stadium",
+        "city": "Atlanta, Georgia",
+        "country": "USA",
+        "match_count": 8,
+        "next_kickoff_iso": "2026-06-27",
+        "last_kickoff_iso": "2026-07-15"
+      },
+      {
+        "id": "Hard Rock Stadium",
+        "name": "Hard Rock Stadium",
+        "city": "Miami Gardens, Florida",
+        "country": "USA",
+        "match_count": 7,
+        "next_kickoff_iso": "2026-06-27",
+        "last_kickoff_iso": "2026-07-18"
       }
     ],
     "stages": [
@@ -809,30 +809,6 @@
       "entries": [
         {
           "team": {
-            "id": "206",
-            "name": "Canada",
-            "name_zh": "加拿大",
-            "rank": 30,
-            "short": "Canada",
-            "abbr": "CAN",
-            "flag": "🇨🇦",
-            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/can.png"
-          },
-          "rank": 1,
-          "mp": 2,
-          "w": 1,
-          "d": 1,
-          "l": 0,
-          "gf": 7,
-          "ga": 1,
-          "gd": 6,
-          "pts": 4,
-          "advance": false,
-          "advance_label": "Advance to Round of 32",
-          "advance_color": "#81D6AC"
-        },
-        {
-          "team": {
             "id": "475",
             "name": "Switzerland",
             "name_zh": "瑞士",
@@ -842,16 +818,40 @@
             "flag": "🇨🇭",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/sui.png"
           },
-          "rank": 2,
-          "mp": 2,
-          "w": 1,
+          "rank": 1,
+          "mp": 3,
+          "w": 2,
           "d": 1,
           "l": 0,
-          "gf": 5,
-          "ga": 2,
-          "gd": 3,
+          "gf": 7,
+          "ga": 3,
+          "gd": 4,
+          "pts": 7,
+          "advance": true,
+          "advance_label": "Advance to Round of 32",
+          "advance_color": "#81D6AC"
+        },
+        {
+          "team": {
+            "id": "206",
+            "name": "Canada",
+            "name_zh": "加拿大",
+            "rank": 30,
+            "short": "Canada",
+            "abbr": "CAN",
+            "flag": "🇨🇦",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/can.png"
+          },
+          "rank": 2,
+          "mp": 3,
+          "w": 1,
+          "d": 1,
+          "l": 1,
+          "gf": 8,
+          "ga": 3,
+          "gd": 5,
           "pts": 4,
-          "advance": false,
+          "advance": true,
           "advance_label": "Advance to Round of 32",
           "advance_color": "#81D6AC"
         },
@@ -867,15 +867,15 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/bih.png"
           },
           "rank": 3,
-          "mp": 2,
-          "w": 0,
+          "mp": 3,
+          "w": 1,
           "d": 1,
           "l": 1,
-          "gf": 2,
-          "ga": 5,
-          "gd": -3,
-          "pts": 1,
-          "advance": false,
+          "gf": 5,
+          "ga": 6,
+          "gd": -1,
+          "pts": 4,
+          "advance": true,
           "advance_label": "Best 8 advance",
           "advance_color": "#B5E7CE"
         },
@@ -891,13 +891,13 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/qat.png"
           },
           "rank": 4,
-          "mp": 2,
+          "mp": 3,
           "w": 0,
           "d": 1,
-          "l": 1,
-          "gf": 1,
-          "ga": 7,
-          "gd": -6,
+          "l": 2,
+          "gf": 2,
+          "ga": 10,
+          "gd": -8,
           "pts": 1,
           "advance": false,
           "advance_label": "Eliminated",
@@ -922,15 +922,15 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/bra.png"
           },
           "rank": 1,
-          "mp": 2,
-          "w": 1,
+          "mp": 3,
+          "w": 2,
           "d": 1,
           "l": 0,
-          "gf": 4,
+          "gf": 7,
           "ga": 1,
-          "gd": 3,
-          "pts": 4,
-          "advance": false,
+          "gd": 6,
+          "pts": 7,
+          "advance": true,
           "advance_label": "Advance to Round of 32",
           "advance_color": "#81D6AC"
         },
@@ -946,15 +946,15 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/mar.png"
           },
           "rank": 2,
-          "mp": 2,
-          "w": 1,
+          "mp": 3,
+          "w": 2,
           "d": 1,
           "l": 0,
-          "gf": 2,
-          "ga": 1,
-          "gd": 1,
-          "pts": 4,
-          "advance": false,
+          "gf": 6,
+          "ga": 3,
+          "gd": 3,
+          "pts": 7,
+          "advance": true,
           "advance_label": "Advance to Round of 32",
           "advance_color": "#81D6AC"
         },
@@ -970,13 +970,13 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/sco.png"
           },
           "rank": 3,
-          "mp": 2,
+          "mp": 3,
           "w": 1,
           "d": 0,
-          "l": 1,
+          "l": 2,
           "gf": 1,
-          "ga": 1,
-          "gd": 0,
+          "ga": 4,
+          "gd": -3,
           "pts": 3,
           "advance": false,
           "advance_label": "Best 8 advance",
@@ -994,13 +994,13 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/hai.png"
           },
           "rank": 4,
-          "mp": 2,
+          "mp": 3,
           "w": 0,
           "d": 0,
-          "l": 2,
-          "gf": 0,
-          "ga": 4,
-          "gd": -4,
+          "l": 3,
+          "gf": 2,
+          "ga": 8,
+          "gd": -6,
           "pts": 0,
           "advance": false,
           "advance_label": "Eliminated",
@@ -1736,30 +1736,6 @@
       "entries": [
         {
           "team": {
-            "id": "482",
-            "name": "Portugal",
-            "name_zh": "葡萄牙",
-            "rank": 5,
-            "short": "Portugal",
-            "abbr": "POR",
-            "flag": "🇵🇹",
-            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/por.png"
-          },
-          "rank": 1,
-          "mp": 2,
-          "w": 1,
-          "d": 1,
-          "l": 0,
-          "gf": 6,
-          "ga": 1,
-          "gd": 5,
-          "pts": 4,
-          "advance": false,
-          "advance_label": "Advance to Round of 32",
-          "advance_color": "#81D6AC"
-        },
-        {
-          "team": {
             "id": "208",
             "name": "Colombia",
             "name_zh": "哥伦比亚",
@@ -1769,15 +1745,39 @@
             "flag": "🇨🇴",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/col.png"
           },
-          "rank": 2,
-          "mp": 1,
-          "w": 1,
+          "rank": 1,
+          "mp": 2,
+          "w": 2,
           "d": 0,
           "l": 0,
-          "gf": 3,
+          "gf": 4,
           "ga": 1,
-          "gd": 2,
-          "pts": 3,
+          "gd": 3,
+          "pts": 6,
+          "advance": true,
+          "advance_label": "Advance to Round of 32",
+          "advance_color": "#81D6AC"
+        },
+        {
+          "team": {
+            "id": "482",
+            "name": "Portugal",
+            "name_zh": "葡萄牙",
+            "rank": 5,
+            "short": "Portugal",
+            "abbr": "POR",
+            "flag": "🇵🇹",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/por.png"
+          },
+          "rank": 2,
+          "mp": 2,
+          "w": 1,
+          "d": 1,
+          "l": 0,
+          "gf": 6,
+          "ga": 1,
+          "gd": 5,
+          "pts": 4,
           "advance": false,
           "advance_label": "Advance to Round of 32",
           "advance_color": "#81D6AC"
@@ -1794,13 +1794,13 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/rdc.png"
           },
           "rank": 3,
-          "mp": 1,
+          "mp": 2,
           "w": 0,
           "d": 1,
-          "l": 0,
+          "l": 1,
           "gf": 1,
-          "ga": 1,
-          "gd": 0,
+          "ga": 2,
+          "gd": -1,
           "pts": 1,
           "advance": false,
           "advance_label": "Best 8 advance",
@@ -10823,7 +10823,7 @@
     },
     {
       "date": "2026-06-23",
-      "label": "Today",
+      "label": "Tue",
       "match_count": 4,
       "matches": [
         {
@@ -11380,8 +11380,8 @@
           "kickoff_local_date": "2026-06-23",
           "kickoff_time": "9:00 PM",
           "kickoff_weekday": "Tue",
-          "status": "LIVE",
-          "status_short": "39'",
+          "status": "FINAL",
+          "status_short": "FT",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -11395,8 +11395,8 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/col.png",
             "color": "fbd632",
             "home_away": "home",
-            "score": 0,
-            "winner": false
+            "score": 1,
+            "winner": true
           },
           "away": {
             "id": "2850",
@@ -11422,16 +11422,134 @@
             "Tele",
             "FOX One"
           ],
-          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760459/congo dr-colombia",
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760459/congo-dr-colombia",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Colombia%20vs%20Congo%20DR",
           "slug": "congo dr-at-colombia",
-          "incidents": []
+          "incidents": [
+            {
+              "kind": "substitution",
+              "minute": "45'",
+              "team": "Congo DR",
+              "team_id": "2850",
+              "team_side": "away",
+              "player": "Noah Sadiki",
+              "text": "Substitution, Congo DR. Noah Sadiki replaces Ngal'ayel Mukau.",
+              "player_off": "Ngal'ayel Mukau"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "56'",
+              "team": "Colombia",
+              "team_id": "208",
+              "team_side": "home",
+              "player": "Jhon Lucumí",
+              "text": "Jhon Lucumí (Colombia) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "substitution",
+              "minute": "57'",
+              "team": "Congo DR",
+              "team_id": "2850",
+              "team_side": "away",
+              "player": "Simon Banza",
+              "text": "Substitution, Congo DR. Simon Banza replaces Cédric Bakambu.",
+              "player_off": "Cédric Bakambu"
+            },
+            {
+              "kind": "substitution",
+              "minute": "58'",
+              "team": "Colombia",
+              "team_id": "208",
+              "team_side": "home",
+              "player": "Jhon Córdoba",
+              "text": "Substitution, Colombia. Jhon Córdoba replaces Luis Suárez.",
+              "player_off": "Luis Suárez"
+            },
+            {
+              "kind": "substitution",
+              "minute": "58'",
+              "team": "Colombia",
+              "team_id": "208",
+              "team_side": "home",
+              "player": "Juan Fernando Quintero",
+              "text": "Substitution, Colombia. Juan Fernando Quintero replaces James Rodríguez.",
+              "player_off": "James Rodríguez"
+            },
+            {
+              "kind": "substitution",
+              "minute": "72'",
+              "team": "Congo DR",
+              "team_id": "2850",
+              "team_side": "away",
+              "player": "Joris Kayembe",
+              "text": "Substitution, Congo DR. Joris Kayembe replaces Arthur Masuaku.",
+              "player_off": "Arthur Masuaku"
+            },
+            {
+              "kind": "substitution",
+              "minute": "72'",
+              "team": "Congo DR",
+              "team_id": "2850",
+              "team_side": "away",
+              "player": "Charles Pickel",
+              "text": "Substitution, Congo DR. Charles Pickel replaces Edo Kayembe.",
+              "player_off": "Edo Kayembe"
+            },
+            {
+              "kind": "goal",
+              "minute": "76'",
+              "team": "Colombia",
+              "team_id": "208",
+              "team_side": "home",
+              "player": "Daniel Muñoz",
+              "text": "Goal! Colombia 1, Congo DR 0. Daniel Muñoz (Colombia) left footed shot from the right side of the box to the bottom right corner. Assisted by Juan Fernando Quintero.",
+              "assist": "Juan Fernando Quintero"
+            },
+            {
+              "kind": "substitution",
+              "minute": "78'",
+              "team": "Colombia",
+              "team_id": "208",
+              "team_side": "home",
+              "player": "Richard Ríos",
+              "text": "Substitution, Colombia. Richard Ríos replaces Jhon Arias.",
+              "player_off": "Jhon Arias"
+            },
+            {
+              "kind": "substitution",
+              "minute": "82'",
+              "team": "Congo DR",
+              "team_id": "2850",
+              "team_side": "away",
+              "player": "Nathanaël Mbuku",
+              "text": "Substitution, Congo DR. Nathanaël Mbuku replaces Samuel Moutoussamy.",
+              "player_off": "Samuel Moutoussamy"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "90'+3'",
+              "team": "Congo DR",
+              "team_id": "2850",
+              "team_side": "away",
+              "player": "Charles Pickel",
+              "text": "Charles Pickel (Congo DR) is shown the yellow card."
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "90'+4'",
+              "team": "Colombia",
+              "team_id": "208",
+              "team_side": "home",
+              "player": "Jefferson Lerma",
+              "text": "Jefferson Lerma (Colombia) is shown the yellow card for a bad foul."
+            }
+          ]
         }
       ]
     },
     {
       "date": "2026-06-24",
-      "label": "Tomorrow",
+      "label": "Today",
       "match_count": 6,
       "matches": [
         {
@@ -11441,8 +11559,8 @@
           "kickoff_local_date": "2026-06-24",
           "kickoff_time": "2:00 PM",
           "kickoff_weekday": "Wed",
-          "status": "SCHEDULED",
-          "status_short": "Scheduled",
+          "status": "FINAL",
+          "status_short": "FT",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -11456,8 +11574,8 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/bih.png",
             "color": "112855",
             "home_away": "home",
-            "score": 0,
-            "winner": false
+            "score": 3,
+            "winner": true
           },
           "away": {
             "id": "4398",
@@ -11470,7 +11588,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/qat.png",
             "color": "691a40",
             "home_away": "away",
-            "score": 0,
+            "score": 1,
             "winner": false
           },
           "venue": {
@@ -11485,7 +11603,157 @@
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760462/qatar-bosnia-herzegovina",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Bosnia-Herzegovina%20vs%20Qatar",
-          "slug": "qatar-at-bosnia-herzegovina"
+          "slug": "qatar-at-bosnia-herzegovina",
+          "incidents": [
+            {
+              "kind": "goal",
+              "minute": "29'",
+              "team": "Bosnia-Herzegovina",
+              "team_id": "452",
+              "team_side": "home",
+              "player": "Kerim Alajbegovic",
+              "text": "Goal! Bosnia and Herzegovina 1, Qatar 0. Kerim Alajbegovic (Bosnia and Herzegovina) right footed shot from outside the box to the top right corner. Assisted by Ivan Basic.",
+              "assist": "Ivan Basic"
+            },
+            {
+              "kind": "goal",
+              "minute": "42'",
+              "team": "Qatar",
+              "team_id": "4398",
+              "team_side": "away",
+              "player": "Hassan Al-Haydos",
+              "text": "Goal! Bosnia and Herzegovina 2, Qatar 1. Hassan Al Haydos (Qatar) right footed shot from very close range to the centre of the goal. Assisted by Edmílson Junior.",
+              "assist": "Edmílson Junior"
+            },
+            {
+              "kind": "substitution",
+              "minute": "45'",
+              "team": "Bosnia-Herzegovina",
+              "team_id": "452",
+              "team_side": "home",
+              "player": "Benjamin Tahirovic",
+              "text": "Substitution, Bosnia and Herzegovina. Benjamin Tahirovic replaces Ivan Sunjic.",
+              "player_off": "Ivan Sunjic"
+            },
+            {
+              "kind": "substitution",
+              "minute": "45'",
+              "team": "Bosnia-Herzegovina",
+              "team_id": "452",
+              "team_side": "home",
+              "player": "Amar Memic",
+              "text": "Substitution, Bosnia and Herzegovina. Amar Memic replaces Arjan Malic.",
+              "player_off": "Arjan Malic"
+            },
+            {
+              "kind": "substitution",
+              "minute": "45'",
+              "team": "Qatar",
+              "team_id": "4398",
+              "team_side": "away",
+              "player": "Abdulaziz Hatem",
+              "text": "Substitution, Qatar. Abdulaziz Hatem replaces Jassem Gaber.",
+              "player_off": "Jassem Gaber"
+            },
+            {
+              "kind": "substitution",
+              "minute": "56'",
+              "team": "Qatar",
+              "team_id": "4398",
+              "team_side": "away",
+              "player": "Ahmed Al-Ganehi",
+              "text": "Substitution, Qatar. Ahmed Al Ganehi replaces Hassan Al Haydos because of an injury.",
+              "player_off": "Hassan Al-Haydos"
+            },
+            {
+              "kind": "substitution",
+              "minute": "63'",
+              "team": "Bosnia-Herzegovina",
+              "team_id": "452",
+              "team_side": "home",
+              "player": "Dennis Hadzikadunic",
+              "text": "Substitution, Bosnia and Herzegovina. Dennis Hadzikadunic replaces Nikola Katic.",
+              "player_off": "Nikola Katic"
+            },
+            {
+              "kind": "substitution",
+              "minute": "64'",
+              "team": "Bosnia-Herzegovina",
+              "team_id": "452",
+              "team_side": "home",
+              "player": "Ermin Mahmic",
+              "text": "Substitution, Bosnia and Herzegovina. Ermin Mahmic replaces Edin Dzeko.",
+              "player_off": "Edin Dzeko"
+            },
+            {
+              "kind": "substitution",
+              "minute": "72'",
+              "team": "Qatar",
+              "team_id": "4398",
+              "team_side": "away",
+              "player": "Almoez Ali",
+              "text": "Substitution, Qatar. Almoez Ali replaces Karim Boudiaf.",
+              "player_off": "Karim Boudiaf"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "78'",
+              "team": "Qatar",
+              "team_id": "4398",
+              "team_side": "away",
+              "player": "Ahmed Fathy",
+              "text": "Ahmed Fathy (Qatar) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "substitution",
+              "minute": "79'",
+              "team": "Qatar",
+              "team_id": "4398",
+              "team_side": "away",
+              "player": "Ahmed Alaaeldin",
+              "text": "Substitution, Qatar. Ahmed Alaa replaces Edmílson Junior.",
+              "player_off": "Edmílson Junior"
+            },
+            {
+              "kind": "substitution",
+              "minute": "79'",
+              "team": "Qatar",
+              "team_id": "4398",
+              "team_side": "away",
+              "player": "Mohamed Manai",
+              "text": "Substitution, Qatar. Mohammad Al Manai replaces Ahmed Fathy.",
+              "player_off": "Ahmed Fathy"
+            },
+            {
+              "kind": "goal",
+              "minute": "80'",
+              "team": "Bosnia-Herzegovina",
+              "team_id": "452",
+              "team_side": "home",
+              "player": "Ermin Mahmic",
+              "text": "Goal! Bosnia and Herzegovina 3, Qatar 1. Ermin Mahmic (Bosnia and Herzegovina) right footed shot from the centre of the box to the centre of the goal. Assisted by Dennis Hadzikadunic following a corner.",
+              "assist": "Dennis Hadzikadunic"
+            },
+            {
+              "kind": "substitution",
+              "minute": "82'",
+              "team": "Bosnia-Herzegovina",
+              "team_id": "452",
+              "team_side": "home",
+              "player": "Dzenis Burnic",
+              "text": "Substitution, Bosnia and Herzegovina. Dzenis Burnic replaces Kerim Alajbegovic.",
+              "player_off": "Kerim Alajbegovic"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "82'",
+              "team": "Bosnia-Herzegovina",
+              "team_id": "452",
+              "team_side": "home",
+              "player": "Ermin Mahmic",
+              "text": "Ermin Mahmic (Bosnia and Herzegovina) is shown the yellow card for excessive celebration."
+            }
+          ]
         },
         {
           "id": "760463",
@@ -11494,8 +11762,8 @@
           "kickoff_local_date": "2026-06-24",
           "kickoff_time": "2:00 PM",
           "kickoff_weekday": "Wed",
-          "status": "SCHEDULED",
-          "status_short": "Scheduled",
+          "status": "FINAL",
+          "status_short": "FT",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -11509,8 +11777,8 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/sui.png",
             "color": "FF0000",
             "home_away": "home",
-            "score": 0,
-            "winner": false
+            "score": 2,
+            "winner": true
           },
           "away": {
             "id": "206",
@@ -11523,7 +11791,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/can.png",
             "color": "ed2224",
             "home_away": "away",
-            "score": 0,
+            "score": 1,
             "winner": false
           },
           "venue": {
@@ -11538,7 +11806,166 @@
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760463/canada-switzerland",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Switzerland%20vs%20Canada",
-          "slug": "canada-at-switzerland"
+          "slug": "canada-at-switzerland",
+          "incidents": [
+            {
+              "kind": "yellow_card",
+              "minute": "32'",
+              "team": "Canada",
+              "team_id": "206",
+              "team_side": "away",
+              "player": "Cyle Larin",
+              "text": "Cyle Larin (Canada) is shown the yellow card."
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "32'",
+              "team": "Switzerland",
+              "team_id": "475",
+              "team_side": "home",
+              "player": "Granit Xhaka",
+              "text": "Granit Xhaka (Switzerland) is shown the yellow card."
+            },
+            {
+              "kind": "goal",
+              "minute": "46'",
+              "team": "Switzerland",
+              "team_id": "475",
+              "team_side": "home",
+              "player": "Rubén Vargas",
+              "text": "Goal! Switzerland 1, Canada 0. Rubén Vargas (Switzerland) right footed shot from the centre of the box to the bottom left corner. Assisted by Johan Manzambi with a cross.",
+              "assist": "Johan Manzambi"
+            },
+            {
+              "kind": "goal",
+              "minute": "57'",
+              "team": "Switzerland",
+              "team_id": "475",
+              "team_side": "home",
+              "player": "Johan Manzambi",
+              "text": "Goal! Switzerland 2, Canada 0. Johan Manzambi (Switzerland) right footed shot from the right side of the box to the centre of the goal. Assisted by Breel Embolo.",
+              "assist": "Breel Embolo"
+            },
+            {
+              "kind": "substitution",
+              "minute": "58'",
+              "team": "Canada",
+              "team_id": "206",
+              "team_side": "away",
+              "player": "Stephen Eustáquio",
+              "text": "Substitution, Canada. Stephen Eustaquio replaces Mathieu Choinière.",
+              "player_off": "Mathieu Choinière"
+            },
+            {
+              "kind": "substitution",
+              "minute": "58'",
+              "team": "Canada",
+              "team_id": "206",
+              "team_side": "away",
+              "player": "Tani Oluwaseyi",
+              "text": "Substitution, Canada. Tani Oluwaseyi replaces Cyle Larin.",
+              "player_off": "Cyle Larin"
+            },
+            {
+              "kind": "substitution",
+              "minute": "58'",
+              "team": "Canada",
+              "team_id": "206",
+              "team_side": "away",
+              "player": "Liam Millar",
+              "text": "Substitution, Canada. Liam Millar replaces Ali Ahmed.",
+              "player_off": "Ali Ahmed"
+            },
+            {
+              "kind": "substitution",
+              "minute": "74'",
+              "team": "Switzerland",
+              "team_id": "475",
+              "team_side": "home",
+              "player": "Michel Aebischer",
+              "text": "Substitution, Switzerland. Michel Aebischer replaces Djibril Sow.",
+              "player_off": "Djibril Sow"
+            },
+            {
+              "kind": "substitution",
+              "minute": "74'",
+              "team": "Switzerland",
+              "team_id": "475",
+              "team_side": "home",
+              "player": "Silvan Widmer",
+              "text": "Substitution, Switzerland. Silvan Widmer replaces Luca Jaquez.",
+              "player_off": "Luca Jaquez"
+            },
+            {
+              "kind": "substitution",
+              "minute": "74'",
+              "team": "Canada",
+              "team_id": "206",
+              "team_side": "away",
+              "player": "Promise David",
+              "text": "Substitution, Canada. Promise David replaces Tajon Buchanan.",
+              "player_off": "Tajon Buchanan"
+            },
+            {
+              "kind": "goal",
+              "minute": "76'",
+              "team": "Canada",
+              "team_id": "206",
+              "team_side": "away",
+              "player": "Promise David",
+              "text": "Goal! Switzerland 2, Canada 1. Promise David (Canada) right footed shot from the centre of the box to the bottom left corner. Assisted by Nathan Saliba.",
+              "assist": "Nathan Saliba"
+            },
+            {
+              "kind": "substitution",
+              "minute": "80'",
+              "team": "Switzerland",
+              "team_id": "475",
+              "team_side": "home",
+              "player": "Dan Ndoye",
+              "text": "Substitution, Switzerland. Dan Ndoye replaces Rubén Vargas.",
+              "player_off": "Rubén Vargas"
+            },
+            {
+              "kind": "substitution",
+              "minute": "83'",
+              "team": "Canada",
+              "team_id": "206",
+              "team_side": "away",
+              "player": "Jacob Shaffelburg",
+              "text": "Substitution, Canada. Jacob Shaffelburg replaces Richie Laryea.",
+              "player_off": "Richie Laryea"
+            },
+            {
+              "kind": "substitution",
+              "minute": "85'",
+              "team": "Switzerland",
+              "team_id": "475",
+              "team_side": "home",
+              "player": "Christian Fassnacht",
+              "text": "Substitution, Switzerland. Christian Fassnacht replaces Johan Manzambi.",
+              "player_off": "Johan Manzambi"
+            },
+            {
+              "kind": "substitution",
+              "minute": "85'",
+              "team": "Switzerland",
+              "team_id": "475",
+              "team_side": "home",
+              "player": "Cedric Itten",
+              "text": "Substitution, Switzerland. Cedric Itten replaces Breel Embolo.",
+              "player_off": "Breel Embolo"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "87'",
+              "team": "Canada",
+              "team_id": "206",
+              "team_side": "away",
+              "player": "Liam Millar",
+              "text": "Liam Millar (Canada) is shown the yellow card for a bad foul."
+            }
+          ]
         },
         {
           "id": "760464",
@@ -11547,8 +11974,8 @@
           "kickoff_local_date": "2026-06-24",
           "kickoff_time": "5:00 PM",
           "kickoff_weekday": "Wed",
-          "status": "SCHEDULED",
-          "status_short": "Scheduled",
+          "status": "FINAL",
+          "status_short": "FT",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -11562,8 +11989,8 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/mar.png",
             "color": "df2027",
             "home_away": "home",
-            "score": 0,
-            "winner": false
+            "score": 4,
+            "winner": true
           },
           "away": {
             "id": "2654",
@@ -11576,7 +12003,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/hai.png",
             "color": "0033a0",
             "home_away": "away",
-            "score": 0,
+            "score": 2,
             "winner": false
           },
           "venue": {
@@ -11591,7 +12018,185 @@
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760464/haiti-morocco",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Morocco%20vs%20Haiti",
-          "slug": "haiti-at-morocco"
+          "slug": "haiti-at-morocco",
+          "incidents": [
+            {
+              "kind": "goal",
+              "minute": "39'",
+              "team": "Morocco",
+              "team_id": "2869",
+              "team_side": "home",
+              "player": "Achraf Hakimi",
+              "text": "Goal! Morocco 1, Haiti 1. Achraf Hakimi (Morocco) left footed shot from very close range to the centre of the goal."
+            },
+            {
+              "kind": "goal",
+              "minute": "43'",
+              "team": "Haiti",
+              "team_id": "2654",
+              "team_side": "away",
+              "player": "Wilson Isidor",
+              "text": "Goal! Morocco 1, Haiti 2. Wilson Isidor (Haiti) right footed shot from outside the box to the top left corner. Assisted by Jean-Kévin Duverne.",
+              "assist": "Jean-Kévin Duverne"
+            },
+            {
+              "kind": "goal",
+              "minute": "45'+1'",
+              "team": "Morocco",
+              "team_id": "2869",
+              "team_side": "home",
+              "player": "Ismael Saibari",
+              "text": "Goal! Morocco 2, Haiti 2. Ismael Saibari (Morocco) right footed shot from the centre of the box to the bottom left corner. Assisted by Achraf Hakimi.",
+              "assist": "Achraf Hakimi"
+            },
+            {
+              "kind": "substitution",
+              "minute": "67'",
+              "team": "Haiti",
+              "team_id": "2654",
+              "team_side": "away",
+              "player": "Duckens Nazon",
+              "text": "Substitution, Haiti. Duckens Nazon replaces Ruben Providence.",
+              "player_off": "Ruben Providence"
+            },
+            {
+              "kind": "substitution",
+              "minute": "67'",
+              "team": "Haiti",
+              "team_id": "2654",
+              "team_side": "away",
+              "player": "Louicius Deedson",
+              "text": "Substitution, Haiti. Louicius Deedson replaces Wilson Isidor.",
+              "player_off": "Wilson Isidor"
+            },
+            {
+              "kind": "substitution",
+              "minute": "70'",
+              "team": "Morocco",
+              "team_id": "2869",
+              "team_side": "home",
+              "player": "Soufiane Rahimi",
+              "text": "Substitution, Morocco. Soufiane Rahimi replaces Ismael Saibari.",
+              "player_off": "Ismael Saibari"
+            },
+            {
+              "kind": "substitution",
+              "minute": "70'",
+              "team": "Morocco",
+              "team_id": "2869",
+              "team_side": "home",
+              "player": "Azzedine Ounahi",
+              "text": "Substitution, Morocco. Azzedine Ounahi replaces Brahim Díaz.",
+              "player_off": "Brahim Díaz"
+            },
+            {
+              "kind": "substitution",
+              "minute": "70'",
+              "team": "Morocco",
+              "team_id": "2869",
+              "team_side": "home",
+              "player": "Gessime Yassine",
+              "text": "Substitution, Morocco. Gessime Yassine replaces Ayoub El Kaabi.",
+              "player_off": "Ayoub El Kaabi"
+            },
+            {
+              "kind": "goal",
+              "minute": "78'",
+              "team": "Morocco",
+              "team_id": "2869",
+              "team_side": "home",
+              "player": "Soufiane Rahimi",
+              "text": "Goal! Morocco 3, Haiti 2. Soufiane Rahimi (Morocco) right footed shot from the centre of the box to the top right corner. Assisted by Chadi Riad following a corner.",
+              "assist": "Chadi Riad"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "79'",
+              "team": "Haiti",
+              "team_id": "2654",
+              "team_side": "away",
+              "player": "Johny Placide",
+              "text": "Johny Placide (Haiti) is shown the yellow card."
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "80'",
+              "team": "Haiti",
+              "team_id": "2654",
+              "team_side": "away",
+              "player": "Duckens Nazon",
+              "text": "Duckens Nazon (Haiti) is shown the yellow card."
+            },
+            {
+              "kind": "substitution",
+              "minute": "80'",
+              "team": "Haiti",
+              "team_id": "2654",
+              "team_side": "away",
+              "player": "Carlens Arcus",
+              "text": "Substitution, Haiti. Carlens Arcus replaces Jean-Kévin Duverne.",
+              "player_off": "Jean-Kévin Duverne"
+            },
+            {
+              "kind": "substitution",
+              "minute": "80'",
+              "team": "Haiti",
+              "team_id": "2654",
+              "team_side": "away",
+              "player": "Dominique Simon",
+              "text": "Substitution, Haiti. Dominique Simon replaces Danley Jean Jacques.",
+              "player_off": "Danley Jean Jacques"
+            },
+            {
+              "kind": "substitution",
+              "minute": "83'",
+              "team": "Morocco",
+              "team_id": "2869",
+              "team_side": "home",
+              "player": "Noussair Mazraoui",
+              "text": "Substitution, Morocco. Noussair Mazraoui replaces Anass Salah-Eddine.",
+              "player_off": "Anass Salah-Eddine"
+            },
+            {
+              "kind": "substitution",
+              "minute": "83'",
+              "team": "Morocco",
+              "team_id": "2869",
+              "team_side": "home",
+              "player": "Samir El Mourabet",
+              "text": "Substitution, Morocco. Samir El Mourabet replaces Neil El Aynaoui.",
+              "player_off": "Neil El Aynaoui"
+            },
+            {
+              "kind": "substitution",
+              "minute": "83'",
+              "team": "Haiti",
+              "team_id": "2654",
+              "team_side": "away",
+              "player": "Frantzdy Pierrot",
+              "text": "Substitution, Haiti. Frantzdy Pierrot replaces Lenny Joseph.",
+              "player_off": "Lenny Joseph"
+            },
+            {
+              "kind": "goal",
+              "minute": "89'",
+              "team": "Morocco",
+              "team_id": "2869",
+              "team_side": "home",
+              "player": "Gessime Yassine",
+              "text": "Goal! Morocco 4, Haiti 2. Gessime Yassine (Morocco) left footed shot from the centre of the box to the centre of the goal. Assisted by Soufiane Rahimi.",
+              "assist": "Soufiane Rahimi"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "90'+3'",
+              "team": "Haiti",
+              "team_id": "2654",
+              "team_side": "away",
+              "player": "Josué Casimir",
+              "text": "Josué Casimir (Haiti) is shown the yellow card for a bad foul."
+            }
+          ]
         },
         {
           "id": "760465",
@@ -11600,8 +12205,8 @@
           "kickoff_local_date": "2026-06-24",
           "kickoff_time": "5:00 PM",
           "kickoff_weekday": "Wed",
-          "status": "SCHEDULED",
-          "status_short": "Scheduled",
+          "status": "FINAL",
+          "status_short": "FT",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -11629,8 +12234,8 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/bra.png",
             "color": "fee000",
             "home_away": "away",
-            "score": 0,
-            "winner": false
+            "score": 3,
+            "winner": true
           },
           "venue": {
             "name": "Hard Rock Stadium",
@@ -11644,7 +12249,166 @@
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760465/brazil-scotland",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Scotland%20vs%20Brazil",
-          "slug": "brazil-at-scotland"
+          "slug": "brazil-at-scotland",
+          "incidents": [
+            {
+              "kind": "goal",
+              "minute": "7'",
+              "team": "Brazil",
+              "team_id": "205",
+              "team_side": "away",
+              "player": "Vinícius Júnior",
+              "text": "Goal! Scotland 0, Brazil 1. Vinícius Júnior (Brazil) right footed shot from the centre of the box to the centre of the goal. Assisted by Rayan.",
+              "assist": "Rayan"
+            },
+            {
+              "kind": "goal",
+              "minute": "45'+3'",
+              "team": "Brazil",
+              "team_id": "205",
+              "team_side": "away",
+              "player": "Vinícius Júnior",
+              "text": "Goal! Scotland 0, Brazil 2. Vinícius Júnior (Brazil) header from very close range to the top left corner. Assisted by Bruno Guimarães with a cross.",
+              "assist": "Bruno Guimarães"
+            },
+            {
+              "kind": "substitution",
+              "minute": "45'",
+              "team": "Scotland",
+              "team_id": "580",
+              "team_side": "home",
+              "player": "Kieran Tierney",
+              "text": "Substitution, Scotland. Kieran Tierney replaces Andy Robertson because of an injury.",
+              "player_off": "Andy Robertson"
+            },
+            {
+              "kind": "goal",
+              "minute": "60'",
+              "team": "Brazil",
+              "team_id": "205",
+              "team_side": "away",
+              "player": "Matheus Cunha",
+              "text": "Goal! Scotland 0, Brazil 3. Matheus Cunha (Brazil) right footed shot from the centre of the box to the bottom right corner. Assisted by Bruno Guimarães.",
+              "assist": "Bruno Guimarães"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "62'",
+              "team": "Brazil",
+              "team_id": "205",
+              "team_side": "away",
+              "player": "Danilo",
+              "text": "Danilo (Brazil) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "substitution",
+              "minute": "65'",
+              "team": "Brazil",
+              "team_id": "205",
+              "team_side": "away",
+              "player": "Fabinho",
+              "text": "Substitution, Brazil. Fabinho replaces Casemiro.",
+              "player_off": "Casemiro"
+            },
+            {
+              "kind": "substitution",
+              "minute": "66'",
+              "team": "Brazil",
+              "team_id": "205",
+              "team_side": "away",
+              "player": "Gabriel Martinelli",
+              "text": "Substitution, Brazil. Gabriel Martinelli replaces Lucas Paquetá.",
+              "player_off": "Lucas Paquetá"
+            },
+            {
+              "kind": "substitution",
+              "minute": "76'",
+              "team": "Brazil",
+              "team_id": "205",
+              "team_side": "away",
+              "player": "Neymar",
+              "text": "Substitution, Brazil. Neymar replaces Matheus Cunha.",
+              "player_off": "Matheus Cunha"
+            },
+            {
+              "kind": "substitution",
+              "minute": "82'",
+              "team": "Scotland",
+              "team_id": "580",
+              "team_side": "home",
+              "player": "Anthony Ralston",
+              "text": "Substitution, Scotland. Anthony Ralston replaces Nathan Patterson.",
+              "player_off": "Nathan Patterson"
+            },
+            {
+              "kind": "substitution",
+              "minute": "82'",
+              "team": "Brazil",
+              "team_id": "205",
+              "team_side": "away",
+              "player": "Endrick",
+              "text": "Substitution, Brazil. Endrick replaces Rayan.",
+              "player_off": "Rayan"
+            },
+            {
+              "kind": "substitution",
+              "minute": "82'",
+              "team": "Brazil",
+              "team_id": "205",
+              "team_side": "away",
+              "player": "Alex Sandro",
+              "text": "Substitution, Brazil. Alex Sandro replaces Douglas Santos.",
+              "player_off": "Douglas Santos"
+            },
+            {
+              "kind": "substitution",
+              "minute": "82'",
+              "team": "Scotland",
+              "team_id": "580",
+              "team_side": "home",
+              "player": "Ryan Christie",
+              "text": "Substitution, Scotland. Ryan Christie replaces Ben Gannon-Doak.",
+              "player_off": "Ben Gannon-Doak"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "82'",
+              "team": "Brazil",
+              "team_id": "205",
+              "team_side": "away",
+              "player": "Fabinho",
+              "text": "Fabinho (Brazil) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "89'",
+              "team": "Scotland",
+              "team_id": "580",
+              "team_side": "home",
+              "player": "Ryan Christie",
+              "text": "Ryan Christie (Scotland) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "substitution",
+              "minute": "90'+1'",
+              "team": "Scotland",
+              "team_id": "580",
+              "team_side": "home",
+              "player": "Findlay Curtis",
+              "text": "Substitution, Scotland. Findlay Curtis replaces John McGinn.",
+              "player_off": "John McGinn"
+            },
+            {
+              "kind": "substitution",
+              "minute": "90'+1'",
+              "team": "Scotland",
+              "team_id": "580",
+              "team_side": "home",
+              "player": "Ché Adams",
+              "text": "Substitution, Scotland. Ché Adams replaces Lawrence Shankland.",
+              "player_off": "Lawrence Shankland"
+            }
+          ]
         },
         {
           "id": "760467",
@@ -11653,8 +12417,8 @@
           "kickoff_local_date": "2026-06-24",
           "kickoff_time": "8:00 PM",
           "kickoff_weekday": "Wed",
-          "status": "SCHEDULED",
-          "status_short": "Scheduled",
+          "status": "LIVE",
+          "status_short": "78'",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -11682,7 +12446,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/mex.png",
             "color": "006847",
             "home_away": "away",
-            "score": 0,
+            "score": 2,
             "winner": false
           },
           "venue": {
@@ -11697,7 +12461,118 @@
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760467/mexico-czechia",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Czechia%20vs%20Mexico",
-          "slug": "mexico-at-czechia"
+          "slug": "mexico-at-czechia",
+          "incidents": [
+            {
+              "kind": "goal",
+              "minute": "55'",
+              "team": "Mexico",
+              "team_id": "203",
+              "team_side": "away",
+              "player": "Mateo Chávez",
+              "text": "Goal! Czechia 0, Mexico 1. Mateo Chávez (Mexico) left footed shot from the centre of the box to the bottom left corner. Assisted by Luis Romo.",
+              "assist": "Luis Romo"
+            },
+            {
+              "kind": "substitution",
+              "minute": "56'",
+              "team": "Czechia",
+              "team_id": "450",
+              "team_side": "home",
+              "player": "Lukás Provod",
+              "text": "Substitution, Czechia. Lukás Provod replaces Denis Visinsky.",
+              "player_off": "Denis Visinský"
+            },
+            {
+              "kind": "goal",
+              "minute": "61'",
+              "team": "Mexico",
+              "team_id": "203",
+              "team_side": "away",
+              "player": "Julián Quiñones",
+              "text": "Goal! Czechia 0, Mexico 2. Julián Quiñones (Mexico) right footed shot from very close range to the centre of the goal. Assisted by Jorge Sánchez following a fast break.",
+              "assist": "Jorge Sánchez"
+            },
+            {
+              "kind": "substitution",
+              "minute": "63'",
+              "team": "Mexico",
+              "team_id": "203",
+              "team_side": "away",
+              "player": "Santiago Gimenez",
+              "text": "Substitution, Mexico. Santiago Giménez replaces Guillermo Martínez.",
+              "player_off": "Guillermo Martínez"
+            },
+            {
+              "kind": "substitution",
+              "minute": "63'",
+              "team": "Mexico",
+              "team_id": "203",
+              "team_side": "away",
+              "player": "Obed Vargas",
+              "text": "Substitution, Mexico. Obed Vargas replaces Luis Romo.",
+              "player_off": "Luis Romo"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "64'",
+              "team": "Mexico",
+              "team_id": "203",
+              "team_side": "away",
+              "player": "Edson Álvarez",
+              "text": "Edson Álvarez (Mexico) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "substitution",
+              "minute": "64'",
+              "team": "Czechia",
+              "team_id": "450",
+              "team_side": "home",
+              "player": "Patrik Schick",
+              "text": "Substitution, Czechia. Patrik Schick replaces Adam Hlozek.",
+              "player_off": "Adam Hlozek"
+            },
+            {
+              "kind": "substitution",
+              "minute": "64'",
+              "team": "Czechia",
+              "team_id": "450",
+              "team_side": "home",
+              "player": "Tomás Soucek",
+              "text": "Substitution, Czechia. Tomás Soucek replaces Tomás Holes.",
+              "player_off": "Tomás Holes"
+            },
+            {
+              "kind": "substitution",
+              "minute": "72'",
+              "team": "Mexico",
+              "team_id": "203",
+              "team_side": "away",
+              "player": "Álvaro Fidalgo",
+              "text": "Substitution, Mexico. Álvaro Fidalgo replaces Gilberto Mora.",
+              "player_off": "Gilberto Mora"
+            },
+            {
+              "kind": "substitution",
+              "minute": "78'",
+              "team": "Mexico",
+              "team_id": "203",
+              "team_side": "away",
+              "player": "Guillermo Ochoa",
+              "text": "Substitution, Mexico. Guillermo Ochoa replaces Raúl Rangel.",
+              "player_off": "Raúl Rangel"
+            },
+            {
+              "kind": "substitution",
+              "minute": "78'",
+              "team": "Mexico",
+              "team_id": "203",
+              "team_side": "away",
+              "player": "Jesús Gallardo",
+              "text": "Substitution, Mexico. Jesús Gallardo replaces Mateo Chávez.",
+              "player_off": "Mateo Chávez"
+            }
+          ]
         },
         {
           "id": "760466",
@@ -11706,8 +12581,8 @@
           "kickoff_local_date": "2026-06-24",
           "kickoff_time": "8:00 PM",
           "kickoff_weekday": "Wed",
-          "status": "SCHEDULED",
-          "status_short": "Scheduled",
+          "status": "LIVE",
+          "status_short": "79'",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -11721,7 +12596,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/rsa.png",
             "color": "FFB81C",
             "home_away": "home",
-            "score": 0,
+            "score": 1,
             "winner": false
           },
           "away": {
@@ -11748,15 +12623,115 @@
             "Universo",
             "FOX One"
           ],
-          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760466/south-korea-south-africa",
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760466/south korea-south africa",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20South%20Africa%20vs%20South%20Korea",
-          "slug": "south korea-at-south africa"
+          "slug": "south korea-at-south africa",
+          "incidents": [
+            {
+              "kind": "substitution",
+              "minute": "45'",
+              "team": "South Korea",
+              "team_id": "451",
+              "team_side": "away",
+              "player": "Son Heung-Min",
+              "text": "Substitution, Korea Republic. Son Heung-Min replaces Hwang Hee-Chan.",
+              "player_off": "Hwang Hee-Chan"
+            },
+            {
+              "kind": "substitution",
+              "minute": "45'",
+              "team": "South Korea",
+              "team_id": "451",
+              "team_side": "away",
+              "player": "Kim Jin-Gyu",
+              "text": "Substitution, Korea Republic. Kim Jin-Gyu replaces Paik Seung-Ho.",
+              "player_off": "Paik Seung-Ho"
+            },
+            {
+              "kind": "substitution",
+              "minute": "45'",
+              "team": "South Korea",
+              "team_id": "451",
+              "team_side": "away",
+              "player": "Jens Castrop",
+              "text": "Substitution, Korea Republic. Jens Castrop replaces Lee Tae-Seok.",
+              "player_off": "Lee Tae-Seok"
+            },
+            {
+              "kind": "substitution",
+              "minute": "62'",
+              "team": "South Africa",
+              "team_id": "467",
+              "team_side": "home",
+              "player": "Tshepang Moremi",
+              "text": "Substitution, South Africa. Tshepang Moremi replaces Oswin Appollis.",
+              "player_off": "Oswin Appollis"
+            },
+            {
+              "kind": "goal",
+              "minute": "63'",
+              "team": "South Africa",
+              "team_id": "467",
+              "team_side": "home",
+              "player": "Thapelo Maseko",
+              "text": "Goal! South Africa 1, Korea Republic 0. Thapelo Maseko (South Africa) left footed shot from the centre of the box to the bottom right corner. Assisted by Tshepang Moremi following a fast break.",
+              "assist": "Tshepang Moremi"
+            },
+            {
+              "kind": "substitution",
+              "minute": "66'",
+              "team": "South Korea",
+              "team_id": "451",
+              "team_side": "away",
+              "player": "Park Jin-Seop",
+              "text": "Substitution, Korea Republic. Park Jin-Seob replaces Kim Min-Jae.",
+              "player_off": "Kim Min-Jae"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "73'",
+              "team": "South Africa",
+              "team_id": "467",
+              "team_side": "home",
+              "player": "Aubrey Modiba",
+              "text": "Aubrey Modiba (South Africa) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "substitution",
+              "minute": "74'",
+              "team": "South Korea",
+              "team_id": "451",
+              "team_side": "away",
+              "player": "Cho Gue-Sung",
+              "text": "Substitution, Korea Republic. Cho Gue-Sung replaces Oh Hyeon-Gyu.",
+              "player_off": "Oh Hyeon-Gyu"
+            },
+            {
+              "kind": "substitution",
+              "minute": "75'",
+              "team": "South Africa",
+              "team_id": "467",
+              "team_side": "home",
+              "player": "Iqraam Rayners",
+              "text": "Substitution, South Africa. Iqraam Rayners replaces Thapelo Maseko.",
+              "player_off": "Thapelo Maseko"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "79'",
+              "team": "South Korea",
+              "team_id": "451",
+              "team_side": "away",
+              "player": "Cho Gue-Sung",
+              "text": "Cho Gue-Sung (South Korea) Yellow Card at 79'"
+            }
+          ]
         }
       ]
     },
     {
       "date": "2026-06-25",
-      "label": "Thu",
+      "label": "Tomorrow",
       "match_count": 6,
       "matches": [
         {
@@ -12760,15 +13735,15 @@
             "winner": false
           },
           "away": {
-            "id": "5924",
-            "name": "Group B 2nd Place",
-            "name_zh": "",
-            "rank": null,
-            "short": "2B",
-            "abbr": "2B",
-            "flag": "🏳️",
-            "logo": "",
-            "color": "000000",
+            "id": "206",
+            "name": "Canada",
+            "name_zh": "加拿大",
+            "rank": 30,
+            "short": "Canada",
+            "abbr": "CAN",
+            "flag": "🇨🇦",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/can.png",
+            "color": "ed2224",
             "home_away": "away",
             "score": 0,
             "winner": false
@@ -12783,9 +13758,9 @@
             "Tele",
             "FOX One"
           ],
-          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760486/group-b-2nd-place-group-a-2nd-place",
-          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Group%20A%202nd%20Place%20vs%20Group%20B%202nd%20Place",
-          "slug": "group b 2nd place-at-group a 2nd place"
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760486/canada-group-a-2nd-place",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Group%20A%202nd%20Place%20vs%20Canada",
+          "slug": "canada-at-group a 2nd place"
         }
       ]
     },
@@ -12806,15 +13781,15 @@
           "stage": "Round of 32",
           "stage_slug": "round-of-32",
           "home": {
-            "id": "5927",
-            "name": "Group C Winner",
-            "name_zh": "",
-            "rank": null,
-            "short": "1C",
-            "abbr": "1C",
-            "flag": "🏳️",
-            "logo": "",
-            "color": "000000",
+            "id": "205",
+            "name": "Brazil",
+            "name_zh": "巴西",
+            "rank": 6,
+            "short": "Brazil",
+            "abbr": "BRA",
+            "flag": "🇧🇷",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/bra.png",
+            "color": "fee000",
             "home_away": "home",
             "score": 0,
             "winner": false
@@ -12843,9 +13818,9 @@
             "Tele",
             "FOX One"
           ],
-          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760487/group-f-2nd-place-group-c-winner",
-          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Group%20C%20Winner%20vs%20Group%20F%202nd%20Place",
-          "slug": "group f 2nd place-at-group c winner"
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760487/group-f-2nd-place-brazil",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Brazil%20vs%20Group%20F%202nd%20Place",
+          "slug": "group f 2nd place-at-brazil"
         },
         {
           "id": "760489",
@@ -12926,15 +13901,15 @@
             "winner": false
           },
           "away": {
-            "id": "5930",
-            "name": "Group C 2nd Place",
-            "name_zh": "",
-            "rank": null,
-            "short": "2C",
-            "abbr": "2C",
-            "flag": "🏳️",
-            "logo": "",
-            "color": "000000",
+            "id": "2869",
+            "name": "Morocco",
+            "name_zh": "摩洛哥",
+            "rank": 7,
+            "short": "Morocco",
+            "abbr": "MAR",
+            "flag": "🇲🇦",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/mar.png",
+            "color": "df2027",
             "home_away": "away",
             "score": 0,
             "winner": false
@@ -12949,9 +13924,9 @@
             "Tele",
             "FOX One"
           ],
-          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760488/group-c-2nd-place-group-f-winner",
-          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Group%20F%20Winner%20vs%20Group%20C%202nd%20Place",
-          "slug": "group c 2nd place-at-group f winner"
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760488/morocco-group-f-winner",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Group%20F%20Winner%20vs%20Morocco",
+          "slug": "morocco-at-group f winner"
         }
       ]
     },
@@ -13410,15 +14385,15 @@
           "stage": "Round of 32",
           "stage_slug": "round-of-32",
           "home": {
-            "id": "5925",
-            "name": "Group B Winner",
-            "name_zh": "",
-            "rank": null,
-            "short": "1B",
-            "abbr": "1B",
-            "flag": "🏳️",
-            "logo": "",
-            "color": "000000",
+            "id": "475",
+            "name": "Switzerland",
+            "name_zh": "瑞士",
+            "rank": 19,
+            "short": "Switzerland",
+            "abbr": "SUI",
+            "flag": "🇨🇭",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/sui.png",
+            "color": "FF0000",
             "home_away": "home",
             "score": 0,
             "winner": false
@@ -13447,9 +14422,9 @@
             "Tele",
             "FOX One"
           ],
-          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760498/third-place-group-efgij-group-b-winner",
-          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Group%20B%20Winner%20vs%20Third%20Place%20Group%20E/F/G/I/J",
-          "slug": "third place group e/f/g/i/j-at-group b winner"
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760498/third-place-group-efgij-switzerland",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Switzerland%20vs%20Third%20Place%20Group%20E/F/G/I/J",
+          "slug": "third place group e/f/g/i/j-at-switzerland"
         }
       ]
     },
