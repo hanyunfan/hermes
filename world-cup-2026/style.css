@@ -732,7 +732,11 @@ body {
 /* ─── Responsive ─────────────────────────────────────────────── */
 @media (max-width: 720px) {
   .filters {
-    position: static;
+    /* position: relative (not static) so z-index: 1000 applies —
+       otherwise the venue / team dropdowns fall behind match cards
+       on mobile. We sacrifice the sticky behavior to keep the
+       filter bar from eating ~40% of the viewport on phones. */
+    position: relative;
     padding: 12px;
   }
   .filter-row { gap: 10px 16px; }
