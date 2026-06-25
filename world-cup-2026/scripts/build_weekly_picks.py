@@ -190,6 +190,16 @@ def collect_round_matches(
     if widen_for_stage:
         start_d = today_d - timedelta(days=60)
         end_d = today_d + timedelta(days=90)
+    elif stage_filter == "group-stage":
+        # Group-stage matchdays run ~4 days each and stagger across
+        # groups. Once we're a day or two into MD3, a strict
+        # [today, today+5] window drops the earlier MD3 matches
+        # (e.g. on 6/25, the 6/24 B/C/D-MD3 matches fall out). Allow
+        # a 2-day lookback so the digest covers the full current
+        # matchday, not just the future half. The is_target_md
+        # filter below keeps the previous matchday's tail out.
+        start_d = today_d - timedelta(days=2)
+        end_d = today_d + timedelta(days=window_days - 1)
     else:
         start_d = today_d
         end_d = today_d + timedelta(days=window_days - 1)
@@ -843,7 +853,6 @@ def build(matches_doc: dict, tz_name: str, force: bool = False, window_days: int
         all_mps = sorted(mp_counts.values())
         if all_mps:
             median_mp = all_mps[len(all_mps) // 2]
-            target_md = median_mp + 1
             target_mp_before = median_mp
             # Filter to matches where both teams are at this MD
             # (their mp before the match equals target_mp_before).
@@ -1076,14 +1085,27 @@ def main(argv: list[str] | None = None) -> int:
     # upserted (preserving manual fields), other rounds stay untouched.
     tz = ZoneInfo(args.tz)
     stage_filter = args.stage or detect_current_stage(matches_doc, datetime.now(tz).date())
-    # Find the existing round to preserve from. With auto-detect, we
-    # look for a round whose stage matches. With --stage, we look for
-    # the matching label+range (computed from a tiny dry build).
-    existing_round_for_preserve = None
+    # Find the existing round to preserve from. With auto-detect, the
+    # stage_filter (e.g. 'group-stage') may match multiple existing
+    # rounds (MD1/MD2/MD3 all share stage_slug='group-stage'); the
+    # first match isn't necessarily the right one. Pre-compute the
+    # new round's identity with a dry build, then match by both
+    # stage_slug AND round_label.zh so we preserve MD3's manual
+    # fields even when MD2 is also in the file.
     rounds = v2_doc.get("rounds") or []
-    if stage_filter:
+    existing_round_for_preserve = None
+    if stage_filter and not args.force:
+        dry_round = build(
+            matches_doc, args.tz,
+            force=True,  # dry run — skip manual preservation
+            window_days=args.window or ROUND_WINDOW_DAYS,
+            stage_filter_override=args.stage,
+            existing_round=None,
+        )
+        new_label_zh = (dry_round.get("round_label") or {}).get("zh")
         for r in rounds:
-            if r.get("stage_slug") == stage_filter:
+            if r.get("stage_slug") == stage_filter \
+                    and (r.get("round_label") or {}).get("zh") == new_label_zh:
                 existing_round_for_preserve = r
                 break
 
