@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-25T13:06:06+00:00",
+  "generated_at": "2026-06-25T18:10:17+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-25T08:06:06-05:00",
+  "now_local": "2026-06-25T13:10:17-05:00",
   "match_count": 48,
   "manual_count": 48,
   "rounds": [
@@ -1388,7 +1388,7 @@
       "round_intro_en": "Matchday 3 is decision day. 16 of the 48 teams are already out (all of B and C, plus 8 group-stage dead lasts), and the other 16 will know their fate tonight. Of the 16 picks this round, 6 are real must-watches where the winner advances or locks the top seed; 8 are lively, often because the locked team still has a farewell storyline (Suarez, Modric, Messi, etc.); and 2 are skippable dead rubbers.\n\nTop 5: Uruguay vs Spain (H top spot, Uruguay must win, Suarez's last dance), Norway vs France (I top spot, Haaland vs Mbappé), Colombia vs Portugal (K top spot, James vs Ronaldo farewell tours), Japan vs Sweden (F #2 spot, Sweden must win), Paraguay vs Australia (D #2 spot, winner takes all).\n\nFour more matches didn't make the top-16 cap but are still worth a look: Egypt vs Iran (6/26 10pm CT, Salah's lifeline), Croatia vs Ghana (6/27 4pm CT, Modric's likely last World Cup match), Korea vs South Africa (6/24 8pm CT, Korea's lifeline — now final), and Czechia vs Mexico (6/24 8pm CT, Czechia's last stand — now final).",
       "manual_note_zh": "排序按推荐分降序。6/25 早（CT）发出的版本，赛果随时更新。前 2 场（MAR/HAI、SCO/BRA，6/24 5pm CT）已完赛，结果在比分卡上。CZE-MEX、RSA-KOR（6/24 8pm CT）已被自动脚本的 top-16 淘汰——见本 digest 的引言部分。",
       "manual_note_en": "Sorted by analyst score. Issued early 6/25 CT — the first two picks (MAR/HAI, SCO/BRA, 6/24 5pm CT) are final; live scores on the match cards. CZE-MEX and RSA-KOR (6/24 8pm CT) were cut by the top-16 cap once the data refresh put Group A in mp=3 — see the round intro for the dropped-list context.",
-      "generated_at": "2026-06-25T13:06:06+00:00",
+      "generated_at": "2026-06-25T18:10:17+00:00",
       "matches": [
         {
           "match_id": "760471",

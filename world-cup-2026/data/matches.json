@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-25T13:06:05.905639+00:00",
+  "generated_at": "2026-06-25T18:10:17.166986+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-25T08:06:04.596185-05:00",
+  "now_local": "2026-06-25T13:10:16.006731-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -4560,7 +4560,7 @@
               "team_side": "home",
               "player": "Nico Williams",
               "text": "Substitution, Spain. Nico Williams replaces Rodri.",
-              "player_off": "Rodri "
+              "player_off": "Rodri"
             },
             {
               "kind": "yellow_card",
@@ -11507,7 +11507,7 @@
             },
             {
               "kind": "substitution",
-              "minute": "78'",
+              "minute": "77'",
               "team": "Colombia",
               "team_id": "208",
               "team_side": "home",
