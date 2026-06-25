@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-25T20:31:20.308930+00:00",
+  "generated_at": "2026-06-25T22:21:09.286887+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-25T15:31:18.938692-05:00",
+  "now_local": "2026-06-25T17:21:07.610062-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -553,15 +553,6 @@
         "last_kickoff_iso": "2026-07-01"
       },
       {
-        "id": "Lincoln Financial Field",
-        "name": "Lincoln Financial Field",
-        "city": "Philadelphia, Pennsylvania",
-        "country": "USA",
-        "match_count": 6,
-        "next_kickoff_iso": "2026-06-25",
-        "last_kickoff_iso": "2026-07-04"
-      },
-      {
         "id": "SoFi Stadium",
         "name": "SoFi Stadium",
         "city": "Inglewood, California",
@@ -587,15 +578,6 @@
         "match_count": 9,
         "next_kickoff_iso": "2026-06-25",
         "last_kickoff_iso": "2026-07-14"
-      },
-      {
-        "id": "MetLife Stadium",
-        "name": "MetLife Stadium",
-        "city": "East Rutherford, New Jersey",
-        "country": "USA",
-        "match_count": 8,
-        "next_kickoff_iso": "2026-06-25",
-        "last_kickoff_iso": "2026-07-19"
       },
       {
         "id": "Estadio Akron",
@@ -652,6 +634,15 @@
         "last_kickoff_iso": "2026-07-09"
       },
       {
+        "id": "Lincoln Financial Field",
+        "name": "Lincoln Financial Field",
+        "city": "Philadelphia, Pennsylvania",
+        "country": "USA",
+        "match_count": 6,
+        "next_kickoff_iso": "2026-06-27",
+        "last_kickoff_iso": "2026-07-04"
+      },
+      {
         "id": "Mercedes-Benz Stadium",
         "name": "Mercedes-Benz Stadium",
         "city": "Atlanta, Georgia",
@@ -668,6 +659,15 @@
         "match_count": 7,
         "next_kickoff_iso": "2026-06-27",
         "last_kickoff_iso": "2026-07-18"
+      },
+      {
+        "id": "MetLife Stadium",
+        "name": "MetLife Stadium",
+        "city": "East Rutherford, New Jersey",
+        "country": "USA",
+        "match_count": 8,
+        "next_kickoff_iso": "2026-06-27",
+        "last_kickoff_iso": "2026-07-19"
       },
       {
         "id": "Estadio BBVA",
@@ -1128,13 +1128,13 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/ger.png"
           },
           "rank": 1,
-          "mp": 2,
+          "mp": 3,
           "w": 2,
           "d": 0,
-          "l": 0,
-          "gf": 9,
-          "ga": 2,
-          "gd": 7,
+          "l": 1,
+          "gf": 10,
+          "ga": 4,
+          "gd": 6,
           "pts": 6,
           "advance": true,
           "advance_label": "Advance to Round of 32",
@@ -1152,15 +1152,15 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/civ.png"
           },
           "rank": 2,
-          "mp": 2,
-          "w": 1,
+          "mp": 3,
+          "w": 2,
           "d": 0,
           "l": 1,
-          "gf": 2,
+          "gf": 4,
           "ga": 2,
-          "gd": 0,
-          "pts": 3,
-          "advance": false,
+          "gd": 2,
+          "pts": 6,
+          "advance": true,
           "advance_label": "Advance to Round of 32",
           "advance_color": "#81D6AC"
         },
@@ -1176,15 +1176,15 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/ecu.png"
           },
           "rank": 3,
-          "mp": 2,
-          "w": 0,
+          "mp": 3,
+          "w": 1,
           "d": 1,
           "l": 1,
-          "gf": 0,
-          "ga": 1,
-          "gd": -1,
-          "pts": 1,
-          "advance": false,
+          "gf": 2,
+          "ga": 2,
+          "gd": 0,
+          "pts": 4,
+          "advance": true,
           "advance_label": "Best 8 advance",
           "advance_color": "#B5E7CE"
         },
@@ -1200,13 +1200,13 @@
             "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/11678.png"
           },
           "rank": 4,
-          "mp": 2,
+          "mp": 3,
           "w": 0,
           "d": 1,
-          "l": 1,
+          "l": 2,
           "gf": 1,
-          "ga": 7,
-          "gd": -6,
+          "ga": 9,
+          "gd": -8,
           "pts": 1,
           "advance": false,
           "advance_label": "Eliminated",
@@ -12781,8 +12781,8 @@
           "kickoff_local_date": "2026-06-25",
           "kickoff_time": "3:00 PM",
           "kickoff_weekday": "Thu",
-          "status": "LIVE",
-          "status_short": "30'",
+          "status": "FINAL",
+          "status_short": "FT",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -12810,8 +12810,8 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/civ.png",
             "color": "FF8200",
             "home_away": "away",
-            "score": 1,
-            "winner": false
+            "score": 2,
+            "winner": true
           },
           "venue": {
             "name": "Lincoln Financial Field",
@@ -12823,7 +12823,7 @@
             "Universo",
             "FOX One"
           ],
-          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760473/ivory coast-curacao",
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760473/ivory-coast-curacao",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Cura%C3%A7ao%20vs%20Ivory%20Coast",
           "slug": "ivory coast-at-curacao",
           "incidents": [
@@ -12836,6 +12836,143 @@
               "player": "Nicolas Pépé",
               "text": "Goal! Curaçao 0, Côte d'Ivoire 1. Nicolas Pépé (Côte d'Ivoire) left footed shot from very close range to the centre of the goal. Assisted by Yan Diomande.",
               "assist": "Yan Diomande"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "35'",
+              "team": "Ivory Coast",
+              "team_id": "4789",
+              "team_side": "away",
+              "player": "Nicolas Pépé",
+              "text": "Nicolas Pépé (Côte d'Ivoire) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "substitution",
+              "minute": "45'",
+              "team": "Ivory Coast",
+              "team_id": "4789",
+              "team_side": "away",
+              "player": "Christ Inao Oulaï",
+              "text": "Substitution, Côte d'Ivoire. Christ Inao Oulaï replaces Amad Diallo.",
+              "player_off": "Amad Diallo"
+            },
+            {
+              "kind": "substitution",
+              "minute": "61'",
+              "team": "Curaçao",
+              "team_id": "11678",
+              "team_side": "home",
+              "player": "Jeremy Antonisse",
+              "text": "Substitution, Curaçao. Jeremy Antonisse replaces Livano Comenencia.",
+              "player_off": "Livano Comenencia"
+            },
+            {
+              "kind": "goal",
+              "minute": "64'",
+              "team": "Ivory Coast",
+              "team_id": "4789",
+              "team_side": "away",
+              "player": "Nicolas Pépé",
+              "text": "Goal! Curaçao 0, Côte d'Ivoire 2. Nicolas Pépé (Côte d'Ivoire) left footed shot from the right side of the box to the top left corner. Assisted by Ibrahim Sangaré.",
+              "assist": "Ibrahim Sangaré"
+            },
+            {
+              "kind": "substitution",
+              "minute": "67'",
+              "team": "Ivory Coast",
+              "team_id": "4789",
+              "team_side": "away",
+              "player": "Oumar Diakité",
+              "text": "Substitution, Côte d'Ivoire. Oumar Diakité replaces Ange-Yoan Bonny.",
+              "player_off": "Ange-Yoan Bonny"
+            },
+            {
+              "kind": "substitution",
+              "minute": "67'",
+              "team": "Ivory Coast",
+              "team_id": "4789",
+              "team_side": "away",
+              "player": "Elye Wahi",
+              "text": "Substitution, Côte d'Ivoire. Elye Wahi replaces Nicolas Pépé.",
+              "player_off": "Nicolas Pépé"
+            },
+            {
+              "kind": "substitution",
+              "minute": "67'",
+              "team": "Ivory Coast",
+              "team_id": "4789",
+              "team_side": "away",
+              "player": "Bazoumana Touré",
+              "text": "Substitution, Côte d'Ivoire. Bazoumana Touré replaces Yan Diomande.",
+              "player_off": "Yan Diomande"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "75'",
+              "team": "Curaçao",
+              "team_id": "11678",
+              "team_side": "home",
+              "player": "Juninho Bacuna",
+              "text": "Juninho Bacuna (Curaçao) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "substitution",
+              "minute": "77'",
+              "team": "Curaçao",
+              "team_id": "11678",
+              "team_side": "home",
+              "player": "Gervane Kastaneer",
+              "text": "Substitution, Curaçao. Gervane Kastaneer replaces Juriën Gaari.",
+              "player_off": "Juriën Gaari"
+            },
+            {
+              "kind": "substitution",
+              "minute": "77'",
+              "team": "Curaçao",
+              "team_id": "11678",
+              "team_side": "home",
+              "player": "Tyrese Noslin",
+              "text": "Substitution, Curaçao. Tyrese Noslin replaces Deveron Fonville.",
+              "player_off": "Deveron Fonville"
+            },
+            {
+              "kind": "substitution",
+              "minute": "77'",
+              "team": "Ivory Coast",
+              "team_id": "4789",
+              "team_side": "away",
+              "player": "Jean Michaël Seri",
+              "text": "Substitution, Côte d'Ivoire. Jean Michaël Seri replaces Franck Kessie.",
+              "player_off": "Franck Kessié"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "83'",
+              "team": "Curaçao",
+              "team_id": "11678",
+              "team_side": "home",
+              "player": "Gervane Kastaneer",
+              "text": "Gervane Kastaneer (Curaçao) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "substitution",
+              "minute": "90'",
+              "team": "Curaçao",
+              "team_id": "11678",
+              "team_side": "home",
+              "player": "Shurandy Sambo",
+              "text": "Substitution, Curaçao. Shurandy Sambo replaces Joshua Brenet.",
+              "player_off": "Joshua Brenet"
+            },
+            {
+              "kind": "substitution",
+              "minute": "90'",
+              "team": "Curaçao",
+              "team_id": "11678",
+              "team_side": "home",
+              "player": "Brandley Kuwas",
+              "text": "Substitution, Curaçao. Brandley Kuwas replaces Jürgen Locadia.",
+              "player_off": "Jürgen Locadia"
             }
           ]
         },
@@ -12846,8 +12983,8 @@
           "kickoff_local_date": "2026-06-25",
           "kickoff_time": "3:00 PM",
           "kickoff_weekday": "Thu",
-          "status": "LIVE",
-          "status_short": "31'",
+          "status": "FINAL",
+          "status_short": "FT",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -12861,8 +12998,8 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/ecu.png",
             "color": "ffdd00",
             "home_away": "home",
-            "score": 1,
-            "winner": false
+            "score": 2,
+            "winner": true
           },
           "away": {
             "id": "481",
@@ -12911,6 +13048,152 @@
               "player": "Nilson Angulo",
               "text": "Goal! Ecuador 1, Germany 1. Nilson Angulo (Ecuador) right footed shot from outside the box to the bottom right corner. Assisted by Pedro Vite.",
               "assist": "Pedro Vite"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "43'",
+              "team": "Ecuador",
+              "team_id": "209",
+              "team_side": "home",
+              "player": "Piero Hincapié",
+              "text": "Piero Hincapié (Ecuador) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "44'",
+              "team": "Germany",
+              "team_id": "481",
+              "team_side": "away",
+              "player": "Aleksandar Pavlovic",
+              "text": "Aleksandar Pavlovic (Germany) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "substitution",
+              "minute": "45'",
+              "team": "Germany",
+              "team_id": "481",
+              "team_side": "away",
+              "player": "Angelo Stiller",
+              "text": "Substitution, Germany. Angelo Stiller replaces Aleksandar Pavlovic.",
+              "player_off": "Aleksandar Pavlovic"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "50'",
+              "team": "Ecuador",
+              "team_id": "209",
+              "team_side": "home",
+              "player": "Alan Franco",
+              "text": "Alan Franco (Ecuador) is shown the yellow card."
+            },
+            {
+              "kind": "substitution",
+              "minute": "60'",
+              "team": "Germany",
+              "team_id": "481",
+              "team_side": "away",
+              "player": "Deniz Undav",
+              "text": "Substitution, Germany. Deniz Undav replaces Kai Havertz.",
+              "player_off": "Kai Havertz"
+            },
+            {
+              "kind": "substitution",
+              "minute": "60'",
+              "team": "Germany",
+              "team_id": "481",
+              "team_side": "away",
+              "player": "Malick Thiaw",
+              "text": "Substitution, Germany. Malick Thiaw replaces Joshua Kimmich.",
+              "player_off": "Joshua Kimmich"
+            },
+            {
+              "kind": "substitution",
+              "minute": "64'",
+              "team": "Ecuador",
+              "team_id": "209",
+              "team_side": "home",
+              "player": "Kevin Rodríguez",
+              "text": "Substitution, Ecuador. Kevin Rodríguez replaces Enner Valencia.",
+              "player_off": "Enner Valencia"
+            },
+            {
+              "kind": "substitution",
+              "minute": "64'",
+              "team": "Ecuador",
+              "team_id": "209",
+              "team_side": "home",
+              "player": "Ángelo Preciado",
+              "text": "Substitution, Ecuador. Ángelo Preciado replaces Alan Franco.",
+              "player_off": "Alan Franco"
+            },
+            {
+              "kind": "substitution",
+              "minute": "64'",
+              "team": "Germany",
+              "team_id": "481",
+              "team_side": "away",
+              "player": "Maximilian Beier",
+              "text": "Substitution, Germany. Maximilian Beier replaces Felix Nmecha.",
+              "player_off": "Felix Nmecha"
+            },
+            {
+              "kind": "substitution",
+              "minute": "71'",
+              "team": "Ecuador",
+              "team_id": "209",
+              "team_side": "home",
+              "player": "Pervis Estupiñán",
+              "text": "Substitution, Ecuador. Pervis Estupiñán replaces Piero Hincapié because of an injury.",
+              "player_off": "Piero Hincapié"
+            },
+            {
+              "kind": "substitution",
+              "minute": "73'",
+              "team": "Germany",
+              "team_id": "481",
+              "team_side": "away",
+              "player": "Pascal Gross",
+              "text": "Substitution, Germany. Pascal Groß replaces Florian Wirtz.",
+              "player_off": "Florian Wirtz"
+            },
+            {
+              "kind": "goal",
+              "minute": "77'",
+              "team": "Ecuador",
+              "team_id": "209",
+              "team_side": "home",
+              "player": "Gonzalo Plata",
+              "text": "Goal! Ecuador 2, Germany 1. Gonzalo Plata (Ecuador) left footed shot from very close range to the top right corner. Assisted by Kevin Rodríguez with a headed pass following a corner.",
+              "assist": "Kevin Rodríguez"
+            },
+            {
+              "kind": "substitution",
+              "minute": "85'",
+              "team": "Ecuador",
+              "team_id": "209",
+              "team_side": "home",
+              "player": "Félix Torres",
+              "text": "Substitution, Ecuador. Félix Torres replaces John Yeboah.",
+              "player_off": "John Yeboah"
+            },
+            {
+              "kind": "substitution",
+              "minute": "85'",
+              "team": "Ecuador",
+              "team_id": "209",
+              "team_side": "home",
+              "player": "Jordy Caicedo",
+              "text": "Substitution, Ecuador. Jordy Caicedo replaces Nilson Angulo because of an injury.",
+              "player_off": "Nilson Angulo"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "89'",
+              "team": "Ecuador",
+              "team_id": "209",
+              "team_side": "home",
+              "player": "Gonzalo Plata",
+              "text": "Gonzalo Plata (Ecuador) is shown the yellow card for a bad foul."
             }
           ]
         },
@@ -14021,15 +14304,15 @@
           "stage": "Round of 32",
           "stage_slug": "round-of-32",
           "home": {
-            "id": "5932",
-            "name": "Group E 2nd Place",
-            "name_zh": "",
-            "rank": null,
-            "short": "2E",
-            "abbr": "2E",
-            "flag": "🏳️",
-            "logo": "",
-            "color": "000000",
+            "id": "4789",
+            "name": "Ivory Coast",
+            "name_zh": "科特迪瓦",
+            "rank": 33,
+            "short": "Ivory Coast",
+            "abbr": "CIV",
+            "flag": "🇨🇮",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/civ.png",
+            "color": "FF8200",
             "home_away": "home",
             "score": 0,
             "winner": false
@@ -14058,9 +14341,9 @@
             "Tele",
             "FOX One"
           ],
-          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760490/group-i-2nd-place-group-e-2nd-place",
-          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Group%20E%202nd%20Place%20vs%20Group%20I%202nd%20Place",
-          "slug": "group i 2nd place-at-group e 2nd place"
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760490/group-i-2nd-place-ivory-coast",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Ivory%20Coast%20vs%20Group%20I%202nd%20Place",
+          "slug": "group i 2nd place-at-ivory coast"
         },
         {
           "id": "760492",
