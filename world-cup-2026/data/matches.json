@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-25T06:42:42.718766+00:00",
+  "generated_at": "2026-06-25T20:31:20.308930+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-25T01:42:41.729636-05:00",
+  "now_local": "2026-06-25T15:31:18.938692-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -4560,7 +4560,7 @@
               "team_side": "home",
               "player": "Nico Williams",
               "text": "Substitution, Spain. Nico Williams replaces Rodri.",
-              "player_off": "Rodri "
+              "player_off": "Rodri"
             },
             {
               "kind": "yellow_card",
@@ -11507,7 +11507,7 @@
             },
             {
               "kind": "substitution",
-              "minute": "78'",
+              "minute": "77'",
               "team": "Colombia",
               "team_id": "208",
               "team_side": "home",
@@ -12781,8 +12781,8 @@
           "kickoff_local_date": "2026-06-25",
           "kickoff_time": "3:00 PM",
           "kickoff_weekday": "Thu",
-          "status": "SCHEDULED",
-          "status_short": "Scheduled",
+          "status": "LIVE",
+          "status_short": "30'",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -12810,7 +12810,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/civ.png",
             "color": "FF8200",
             "home_away": "away",
-            "score": 0,
+            "score": 1,
             "winner": false
           },
           "venue": {
@@ -12823,9 +12823,21 @@
             "Universo",
             "FOX One"
           ],
-          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760473/ivory-coast-curacao",
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760473/ivory coast-curacao",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Cura%C3%A7ao%20vs%20Ivory%20Coast",
-          "slug": "ivory coast-at-curacao"
+          "slug": "ivory coast-at-curacao",
+          "incidents": [
+            {
+              "kind": "goal",
+              "minute": "7'",
+              "team": "Ivory Coast",
+              "team_id": "4789",
+              "team_side": "away",
+              "player": "Nicolas Pépé",
+              "text": "Goal! Curaçao 0, Côte d'Ivoire 1. Nicolas Pépé (Côte d'Ivoire) left footed shot from very close range to the centre of the goal. Assisted by Yan Diomande.",
+              "assist": "Yan Diomande"
+            }
+          ]
         },
         {
           "id": "760468",
@@ -12834,8 +12846,8 @@
           "kickoff_local_date": "2026-06-25",
           "kickoff_time": "3:00 PM",
           "kickoff_weekday": "Thu",
-          "status": "SCHEDULED",
-          "status_short": "Scheduled",
+          "status": "LIVE",
+          "status_short": "31'",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -12849,7 +12861,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/ecu.png",
             "color": "ffdd00",
             "home_away": "home",
-            "score": 0,
+            "score": 1,
             "winner": false
           },
           "away": {
@@ -12863,7 +12875,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/ger.png",
             "color": "FFFFFF",
             "home_away": "away",
-            "score": 0,
+            "score": 1,
             "winner": false
           },
           "venue": {
@@ -12878,7 +12890,29 @@
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760468/germany-ecuador",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Ecuador%20vs%20Germany",
-          "slug": "germany-at-ecuador"
+          "slug": "germany-at-ecuador",
+          "incidents": [
+            {
+              "kind": "goal",
+              "minute": "2'",
+              "team": "Germany",
+              "team_id": "481",
+              "team_side": "away",
+              "player": "Leroy Sané",
+              "text": "Goal! Ecuador 0, Germany 1. Leroy Sané (Germany) left footed shot from the centre of the box to the bottom left corner. Assisted by Florian Wirtz.",
+              "assist": "Florian Wirtz"
+            },
+            {
+              "kind": "goal",
+              "minute": "9'",
+              "team": "Ecuador",
+              "team_id": "209",
+              "team_side": "home",
+              "player": "Nilson Angulo",
+              "text": "Goal! Ecuador 1, Germany 1. Nilson Angulo (Ecuador) right footed shot from outside the box to the bottom right corner. Assisted by Pedro Vite.",
+              "assist": "Pedro Vite"
+            }
+          ]
         },
         {
           "id": "760471",
