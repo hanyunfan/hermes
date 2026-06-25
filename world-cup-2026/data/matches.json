@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-25T00:13:16.661062+00:00",
+  "generated_at": "2026-06-25T02:39:58.574328+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-24T19:13:15.162572-05:00",
+  "now_local": "2026-06-24T21:39:56.776149-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -12417,8 +12417,8 @@
           "kickoff_local_date": "2026-06-24",
           "kickoff_time": "8:00 PM",
           "kickoff_weekday": "Wed",
-          "status": "SCHEDULED",
-          "status_short": "Scheduled",
+          "status": "LIVE",
+          "status_short": "78'",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -12446,7 +12446,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/mex.png",
             "color": "006847",
             "home_away": "away",
-            "score": 0,
+            "score": 2,
             "winner": false
           },
           "venue": {
@@ -12461,7 +12461,118 @@
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760467/mexico-czechia",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Czechia%20vs%20Mexico",
-          "slug": "mexico-at-czechia"
+          "slug": "mexico-at-czechia",
+          "incidents": [
+            {
+              "kind": "goal",
+              "minute": "55'",
+              "team": "Mexico",
+              "team_id": "203",
+              "team_side": "away",
+              "player": "Mateo Chávez",
+              "text": "Goal! Czechia 0, Mexico 1. Mateo Chávez (Mexico) left footed shot from the centre of the box to the bottom left corner. Assisted by Luis Romo.",
+              "assist": "Luis Romo"
+            },
+            {
+              "kind": "substitution",
+              "minute": "56'",
+              "team": "Czechia",
+              "team_id": "450",
+              "team_side": "home",
+              "player": "Lukás Provod",
+              "text": "Substitution, Czechia. Lukás Provod replaces Denis Visinsky.",
+              "player_off": "Denis Visinský"
+            },
+            {
+              "kind": "goal",
+              "minute": "61'",
+              "team": "Mexico",
+              "team_id": "203",
+              "team_side": "away",
+              "player": "Julián Quiñones",
+              "text": "Goal! Czechia 0, Mexico 2. Julián Quiñones (Mexico) right footed shot from very close range to the centre of the goal. Assisted by Jorge Sánchez following a fast break.",
+              "assist": "Jorge Sánchez"
+            },
+            {
+              "kind": "substitution",
+              "minute": "63'",
+              "team": "Mexico",
+              "team_id": "203",
+              "team_side": "away",
+              "player": "Santiago Gimenez",
+              "text": "Substitution, Mexico. Santiago Giménez replaces Guillermo Martínez.",
+              "player_off": "Guillermo Martínez"
+            },
+            {
+              "kind": "substitution",
+              "minute": "63'",
+              "team": "Mexico",
+              "team_id": "203",
+              "team_side": "away",
+              "player": "Obed Vargas",
+              "text": "Substitution, Mexico. Obed Vargas replaces Luis Romo.",
+              "player_off": "Luis Romo"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "64'",
+              "team": "Mexico",
+              "team_id": "203",
+              "team_side": "away",
+              "player": "Edson Álvarez",
+              "text": "Edson Álvarez (Mexico) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "substitution",
+              "minute": "64'",
+              "team": "Czechia",
+              "team_id": "450",
+              "team_side": "home",
+              "player": "Patrik Schick",
+              "text": "Substitution, Czechia. Patrik Schick replaces Adam Hlozek.",
+              "player_off": "Adam Hlozek"
+            },
+            {
+              "kind": "substitution",
+              "minute": "64'",
+              "team": "Czechia",
+              "team_id": "450",
+              "team_side": "home",
+              "player": "Tomás Soucek",
+              "text": "Substitution, Czechia. Tomás Soucek replaces Tomás Holes.",
+              "player_off": "Tomás Holes"
+            },
+            {
+              "kind": "substitution",
+              "minute": "72'",
+              "team": "Mexico",
+              "team_id": "203",
+              "team_side": "away",
+              "player": "Álvaro Fidalgo",
+              "text": "Substitution, Mexico. Álvaro Fidalgo replaces Gilberto Mora.",
+              "player_off": "Gilberto Mora"
+            },
+            {
+              "kind": "substitution",
+              "minute": "78'",
+              "team": "Mexico",
+              "team_id": "203",
+              "team_side": "away",
+              "player": "Guillermo Ochoa",
+              "text": "Substitution, Mexico. Guillermo Ochoa replaces Raúl Rangel.",
+              "player_off": "Raúl Rangel"
+            },
+            {
+              "kind": "substitution",
+              "minute": "78'",
+              "team": "Mexico",
+              "team_id": "203",
+              "team_side": "away",
+              "player": "Jesús Gallardo",
+              "text": "Substitution, Mexico. Jesús Gallardo replaces Mateo Chávez.",
+              "player_off": "Mateo Chávez"
+            }
+          ]
         },
         {
           "id": "760466",
@@ -12470,8 +12581,8 @@
           "kickoff_local_date": "2026-06-24",
           "kickoff_time": "8:00 PM",
           "kickoff_weekday": "Wed",
-          "status": "SCHEDULED",
-          "status_short": "Scheduled",
+          "status": "LIVE",
+          "status_short": "79'",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -12485,7 +12596,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/rsa.png",
             "color": "FFB81C",
             "home_away": "home",
-            "score": 0,
+            "score": 1,
             "winner": false
           },
           "away": {
@@ -12512,9 +12623,109 @@
             "Universo",
             "FOX One"
           ],
-          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760466/south-korea-south-africa",
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760466/south korea-south africa",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20South%20Africa%20vs%20South%20Korea",
-          "slug": "south korea-at-south africa"
+          "slug": "south korea-at-south africa",
+          "incidents": [
+            {
+              "kind": "substitution",
+              "minute": "45'",
+              "team": "South Korea",
+              "team_id": "451",
+              "team_side": "away",
+              "player": "Son Heung-Min",
+              "text": "Substitution, Korea Republic. Son Heung-Min replaces Hwang Hee-Chan.",
+              "player_off": "Hwang Hee-Chan"
+            },
+            {
+              "kind": "substitution",
+              "minute": "45'",
+              "team": "South Korea",
+              "team_id": "451",
+              "team_side": "away",
+              "player": "Kim Jin-Gyu",
+              "text": "Substitution, Korea Republic. Kim Jin-Gyu replaces Paik Seung-Ho.",
+              "player_off": "Paik Seung-Ho"
+            },
+            {
+              "kind": "substitution",
+              "minute": "45'",
+              "team": "South Korea",
+              "team_id": "451",
+              "team_side": "away",
+              "player": "Jens Castrop",
+              "text": "Substitution, Korea Republic. Jens Castrop replaces Lee Tae-Seok.",
+              "player_off": "Lee Tae-Seok"
+            },
+            {
+              "kind": "substitution",
+              "minute": "62'",
+              "team": "South Africa",
+              "team_id": "467",
+              "team_side": "home",
+              "player": "Tshepang Moremi",
+              "text": "Substitution, South Africa. Tshepang Moremi replaces Oswin Appollis.",
+              "player_off": "Oswin Appollis"
+            },
+            {
+              "kind": "goal",
+              "minute": "63'",
+              "team": "South Africa",
+              "team_id": "467",
+              "team_side": "home",
+              "player": "Thapelo Maseko",
+              "text": "Goal! South Africa 1, Korea Republic 0. Thapelo Maseko (South Africa) left footed shot from the centre of the box to the bottom right corner. Assisted by Tshepang Moremi following a fast break.",
+              "assist": "Tshepang Moremi"
+            },
+            {
+              "kind": "substitution",
+              "minute": "66'",
+              "team": "South Korea",
+              "team_id": "451",
+              "team_side": "away",
+              "player": "Park Jin-Seop",
+              "text": "Substitution, Korea Republic. Park Jin-Seob replaces Kim Min-Jae.",
+              "player_off": "Kim Min-Jae"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "73'",
+              "team": "South Africa",
+              "team_id": "467",
+              "team_side": "home",
+              "player": "Aubrey Modiba",
+              "text": "Aubrey Modiba (South Africa) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "substitution",
+              "minute": "74'",
+              "team": "South Korea",
+              "team_id": "451",
+              "team_side": "away",
+              "player": "Cho Gue-Sung",
+              "text": "Substitution, Korea Republic. Cho Gue-Sung replaces Oh Hyeon-Gyu.",
+              "player_off": "Oh Hyeon-Gyu"
+            },
+            {
+              "kind": "substitution",
+              "minute": "75'",
+              "team": "South Africa",
+              "team_id": "467",
+              "team_side": "home",
+              "player": "Iqraam Rayners",
+              "text": "Substitution, South Africa. Iqraam Rayners replaces Thapelo Maseko.",
+              "player_off": "Thapelo Maseko"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "79'",
+              "team": "South Korea",
+              "team_id": "451",
+              "team_side": "away",
+              "player": "Cho Gue-Sung",
+              "text": "Cho Gue-Sung (South Korea) Yellow Card at 79'"
+            }
+          ]
         }
       ]
     },
@@ -13713,7 +13924,7 @@
             "Tele",
             "FOX One"
           ],
-          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760488/group-c-2nd-place-group-f-winner",
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760488/morocco-group-f-winner",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Group%20F%20Winner%20vs%20Morocco",
           "slug": "morocco-at-group f winner"
         }
