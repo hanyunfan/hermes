@@ -101,7 +101,9 @@ body {
 .tz-picker {
   position: relative;
   display: inline-block;
-  z-index: 100; /* sit above the sticky .filters (z-index: 50) */
+  /* Sit above the sticky .filters (now z-index 1000). The tz-menu
+     lives here in the page header, so it needs to be > 1000. */
+  z-index: 1100;
 }
 .tz-pill {
   cursor: pointer;
@@ -126,7 +128,7 @@ body {
   top: calc(100% + 6px);
   left: 50%;
   transform: translateX(-50%);
-  z-index: 110; /* above .tz-picker (100) and the sticky .filters (50) */
+  z-index: 1200; /* above .tz-picker (1100) and the sticky .filters (1000) */
   margin: 0;
   padding: 6px 0;
   list-style: none;
@@ -205,7 +207,12 @@ body {
 .filters {
   position: sticky;
   top: 0;
-  z-index: 50;
+  /* Sticky + backdrop-filter creates a stacking context. The country
+     and venue dropdowns live inside this context, so their z-index is
+     relative to it — not the page. Bump the whole bar well above any
+     match / bracket element so the dropdown always paints in front of
+     the matches list below. */
+  z-index: 1000;
   background: linear-gradient(180deg, rgba(11, 15, 26, 0.96) 0%, rgba(11, 15, 26, 0.88) 100%);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
@@ -355,11 +362,10 @@ body {
   box-shadow: var(--shadow);
   max-height: 320px;
   overflow-y: auto;
-  z-index: 200; /* must beat .filters' own stacking context (50) so the
-                   dropdown isn't clipped by other sticky/floating
-                   elements above. The .filters has backdrop-filter which
-                   creates a stacking context, so a high z-index on the
-                   dropdown is required to actually appear in front. */
+  /* Inside .filters' own stacking context (which is now z-index 1000
+     on the page). Keeping a high relative z-index here is harmless
+     and future-proofs against any sibling combo overlay. */
+  z-index: 200;
   margin: 0;
   padding: 4px;
   list-style: none;
