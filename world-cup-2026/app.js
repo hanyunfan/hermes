@@ -1877,7 +1877,13 @@
       const foot = document.createElement("footer");
       foot.className = "weekly-card-foot";
       const venueBits = [];
-      if (m.venue) venueBits.push(`<span class="weekly-card-venue" title="${escapeHtml([m.venue, m.venue_city].filter(Boolean).join(", "))}">🏟️ ${escapeHtml(m.venue)}</span>`);
+      if (m.venue) {
+        const venueTitle = [m.venue, m.venue_city].filter(Boolean).join(", ");
+        const venueText = m.venue_city
+          ? `${escapeHtml(m.venue)} <span class="weekly-card-venue-city">${escapeHtml(m.venue_city)}</span>`
+          : escapeHtml(m.venue);
+        venueBits.push(`<span class="weekly-card-venue" title="${escapeHtml(venueTitle)}">🏟️ ${venueText}</span>`);
+      }
       foot.innerHTML = venueBits.join("") + (links.length ? `<span class="weekly-card-links">${links.join("")}</span>` : "");
       li.appendChild(foot);
     }
