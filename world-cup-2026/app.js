@@ -2460,11 +2460,18 @@
     const input = $("#team-search");
     const ul = $("#team-options");
     const caret = input.parentElement?.querySelector(".combo-caret");
-    input.addEventListener("focus", () => { ul.hidden = false; filterTeamList(); });
+    const open = () => {
+      ul.hidden = false;
+      // Always land at the top of the list when reopening — don't
+      // inherit a stale scrollTop from a previous session.
+      ul.scrollTop = 0;
+      filterTeamList();
+    };
+    input.addEventListener("focus", open);
     input.addEventListener("input", filterTeamList);
     caret?.addEventListener("click", () => {
-      ul.hidden = !ul.hidden;
-      if (!ul.hidden) filterTeamList();
+      if (ul.hidden) open();
+      else ul.hidden = true;
     });
     document.addEventListener("click", (e) => {
       if (!e.target.closest(".combo--teams")) ul.hidden = true;
@@ -2530,6 +2537,9 @@
       const open = ul.hidden;
       ul.hidden = !open;
       trigger.setAttribute("aria-expanded", String(open));
+      // Land at the top on every open so a stale scroll position
+      // from a previous session doesn't hide the first venues.
+      if (open) ul.scrollTop = 0;
     });
     document.addEventListener("click", (e) => {
       if (!e.target.closest(".combo--venues")) {
