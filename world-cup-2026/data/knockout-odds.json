@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-06-26T06:49:12+00:00",
+  "generated_at": "2026-06-26T17:48:25+00:00",
   "n_simulations": 10000,
   "match_window": [
     "2026-06-26",
@@ -60,8 +60,8 @@
           "p_2nd": 0.0,
           "p_3rd": 100.0,
           "p_4th": 0.0,
-          "p_advance": 69.2,
-          "p_3rd_top8": 69.2
+          "p_advance": 70.1,
+          "p_3rd_top8": 70.1
         },
         {
           "id": "450",
@@ -208,8 +208,8 @@
           "p_2nd": 0.0,
           "p_3rd": 100.0,
           "p_4th": 0.0,
-          "p_advance": 4.3,
-          "p_3rd_top8": 4.3
+          "p_advance": 4.4,
+          "p_3rd_top8": 4.4
         },
         {
           "id": "2654",
@@ -483,12 +483,12 @@
           "current_pts": 4,
           "current_gd": 2,
           "current_mp": 2,
-          "p_1st": 65.7,
-          "p_2nd": 17.1,
-          "p_3rd": 17.2,
+          "p_1st": 66.3,
+          "p_2nd": 16.6,
+          "p_3rd": 17.1,
           "p_4th": 0.0,
           "p_advance": 100.0,
-          "p_3rd_top8": 17.2
+          "p_3rd_top8": 17.1
         },
         {
           "id": "469",
@@ -500,12 +500,12 @@
           "current_pts": 2,
           "current_gd": 0,
           "current_mp": 2,
-          "p_1st": 34.3,
-          "p_2nd": 4.3,
-          "p_3rd": 61.4,
+          "p_1st": 33.6,
+          "p_2nd": 4.0,
+          "p_3rd": 62.3,
           "p_4th": 0.0,
-          "p_advance": 65.4,
-          "p_3rd_top8": 26.9
+          "p_advance": 65.5,
+          "p_3rd_top8": 27.8
         },
         {
           "id": "459",
@@ -518,11 +518,11 @@
           "current_gd": 0,
           "current_mp": 2,
           "p_1st": 0.0,
-          "p_2nd": 54.3,
-          "p_3rd": 8.7,
-          "p_4th": 37.0,
-          "p_advance": 62.7,
-          "p_3rd_top8": 8.3
+          "p_2nd": 54.5,
+          "p_3rd": 8.0,
+          "p_4th": 37.5,
+          "p_advance": 62.1,
+          "p_3rd_top8": 7.6
         },
         {
           "id": "2666",
@@ -535,10 +535,10 @@
           "current_gd": -2,
           "current_mp": 2,
           "p_1st": 0.0,
-          "p_2nd": 24.3,
+          "p_2nd": 24.9,
           "p_3rd": 12.7,
-          "p_4th": 63.0,
-          "p_advance": 37.0,
+          "p_4th": 62.5,
+          "p_advance": 37.5,
           "p_3rd_top8": 12.7
         }
       ]
@@ -574,12 +574,12 @@
           "current_pts": 4,
           "current_gd": 4,
           "current_mp": 2,
-          "p_1st": 66.8,
-          "p_2nd": 22.6,
-          "p_3rd": 10.6,
+          "p_1st": 66.4,
+          "p_2nd": 22.5,
+          "p_3rd": 11.1,
           "p_4th": 0.0,
           "p_advance": 100.0,
-          "p_3rd_top8": 10.6
+          "p_3rd_top8": 11.1
         },
         {
           "id": "212",
@@ -591,12 +591,12 @@
           "current_pts": 2,
           "current_gd": 0,
           "current_mp": 2,
-          "p_1st": 33.2,
-          "p_2nd": 10.6,
-          "p_3rd": 56.2,
+          "p_1st": 33.6,
+          "p_2nd": 9.7,
+          "p_3rd": 56.7,
           "p_4th": 0.0,
-          "p_advance": 63.7,
-          "p_3rd_top8": 19.9
+          "p_advance": 63.8,
+          "p_3rd_top8": 20.5
         },
         {
           "id": "2597",
@@ -609,11 +609,11 @@
           "current_gd": 0,
           "current_mp": 2,
           "p_1st": 0.0,
-          "p_2nd": 43.6,
-          "p_3rd": 21.8,
-          "p_4th": 34.7,
-          "p_advance": 64.5,
-          "p_3rd_top8": 20.9
+          "p_2nd": 44.8,
+          "p_3rd": 20.7,
+          "p_4th": 34.4,
+          "p_advance": 64.8,
+          "p_3rd_top8": 20.0
         },
         {
           "id": "655",
@@ -626,11 +626,11 @@
           "current_gd": -4,
           "current_mp": 2,
           "p_1st": 0.0,
-          "p_2nd": 23.2,
-          "p_3rd": 11.4,
-          "p_4th": 65.3,
-          "p_advance": 34.4,
-          "p_3rd_top8": 11.1
+          "p_2nd": 22.9,
+          "p_3rd": 11.5,
+          "p_4th": 65.6,
+          "p_advance": 34.3,
+          "p_3rd_top8": 11.3
         }
       ]
     },
@@ -665,8 +665,8 @@
           "current_pts": 6,
           "current_gd": 5,
           "current_mp": 2,
-          "p_1st": 66.2,
-          "p_2nd": 33.8,
+          "p_1st": 65.1,
+          "p_2nd": 34.9,
           "p_3rd": 0.0,
           "p_4th": 0.0,
           "p_advance": 100.0,
@@ -682,8 +682,8 @@
           "current_pts": 6,
           "current_gd": 4,
           "current_mp": 2,
-          "p_1st": 33.8,
-          "p_2nd": 66.2,
+          "p_1st": 34.9,
+          "p_2nd": 65.1,
           "p_3rd": 0.0,
           "p_4th": 0.0,
           "p_advance": 100.0,
@@ -701,10 +701,10 @@
           "current_mp": 2,
           "p_1st": 0.0,
           "p_2nd": 0.0,
-          "p_3rd": 64.5,
-          "p_4th": 35.5,
-          "p_advance": 12.3,
-          "p_3rd_top8": 12.3
+          "p_3rd": 65.2,
+          "p_4th": 34.9,
+          "p_advance": 12.5,
+          "p_3rd_top8": 12.5
         },
         {
           "id": "4375",
@@ -718,8 +718,8 @@
           "current_mp": 2,
           "p_1st": 0.0,
           "p_2nd": 0.0,
-          "p_3rd": 35.5,
-          "p_4th": 64.5,
+          "p_3rd": 34.9,
+          "p_4th": 65.2,
           "p_advance": 0.0,
           "p_3rd_top8": 0.0
         }
@@ -774,11 +774,11 @@
           "current_gd": 0,
           "current_mp": 2,
           "p_1st": 0.0,
-          "p_2nd": 66.5,
-          "p_3rd": 33.5,
+          "p_2nd": 67.8,
+          "p_3rd": 32.2,
           "p_4th": 0.0,
-          "p_advance": 97.2,
-          "p_3rd_top8": 30.7
+          "p_advance": 96.9,
+          "p_3rd_top8": 29.1
         },
         {
           "id": "624",
@@ -791,11 +791,11 @@
           "current_gd": -2,
           "current_mp": 2,
           "p_1st": 0.0,
-          "p_2nd": 33.5,
-          "p_3rd": 54.1,
-          "p_4th": 12.4,
-          "p_advance": 72.7,
-          "p_3rd_top8": 39.1
+          "p_2nd": 32.2,
+          "p_3rd": 55.0,
+          "p_4th": 12.8,
+          "p_advance": 71.9,
+          "p_3rd_top8": 39.8
         },
         {
           "id": "2917",
@@ -809,10 +809,10 @@
           "current_mp": 2,
           "p_1st": 0.0,
           "p_2nd": 0.0,
-          "p_3rd": 12.4,
-          "p_4th": 87.6,
-          "p_advance": 4.9,
-          "p_3rd_top8": 4.9
+          "p_3rd": 12.8,
+          "p_4th": 87.2,
+          "p_advance": 4.8,
+          "p_3rd_top8": 4.8
         }
       ]
     },
@@ -883,10 +883,10 @@
           "current_mp": 2,
           "p_1st": 0.0,
           "p_2nd": 0.0,
-          "p_3rd": 66.4,
-          "p_4th": 33.6,
-          "p_advance": 33.0,
-          "p_3rd_top8": 33.0
+          "p_3rd": 67.0,
+          "p_4th": 33.0,
+          "p_advance": 32.1,
+          "p_3rd_top8": 32.1
         },
         {
           "id": "2570",
@@ -900,8 +900,8 @@
           "current_mp": 2,
           "p_1st": 0.0,
           "p_2nd": 0.0,
-          "p_3rd": 33.6,
-          "p_4th": 66.4,
+          "p_3rd": 33.0,
+          "p_4th": 67.0,
           "p_advance": 0.0,
           "p_3rd_top8": 0.0
         }
@@ -938,8 +938,8 @@
           "current_pts": 4,
           "current_gd": 2,
           "current_mp": 2,
-          "p_1st": 43.4,
-          "p_2nd": 56.6,
+          "p_1st": 44.1,
+          "p_2nd": 55.9,
           "p_3rd": 0.0,
           "p_4th": 0.0,
           "p_advance": 100.0,
@@ -955,12 +955,12 @@
           "current_pts": 4,
           "current_gd": 1,
           "current_mp": 2,
-          "p_1st": 28.5,
-          "p_2nd": 24.9,
-          "p_3rd": 46.6,
+          "p_1st": 28.2,
+          "p_2nd": 25.9,
+          "p_3rd": 45.9,
           "p_4th": 0.0,
           "p_advance": 100.0,
-          "p_3rd_top8": 46.6
+          "p_3rd_top8": 45.9
         },
         {
           "id": "477",
@@ -972,12 +972,12 @@
           "current_pts": 3,
           "current_gd": -1,
           "current_mp": 2,
-          "p_1st": 28.2,
-          "p_2nd": 18.4,
-          "p_3rd": 40.2,
-          "p_4th": 13.2,
-          "p_advance": 71.8,
-          "p_3rd_top8": 25.2
+          "p_1st": 27.7,
+          "p_2nd": 18.2,
+          "p_3rd": 41.1,
+          "p_4th": 13.0,
+          "p_advance": 72.0,
+          "p_3rd_top8": 26.1
         },
         {
           "id": "2659",
@@ -991,10 +991,10 @@
           "current_mp": 2,
           "p_1st": 0.0,
           "p_2nd": 0.0,
-          "p_3rd": 13.2,
-          "p_4th": 86.8,
-          "p_advance": 7.4,
-          "p_3rd_top8": 7.4
+          "p_3rd": 13.0,
+          "p_4th": 87.0,
+          "p_advance": 7.6,
+          "p_3rd_top8": 7.6
         }
       ]
     }
