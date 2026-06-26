@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-26T02:43:44.406151+00:00",
+  "generated_at": "2026-06-26T06:49:11.762372+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-25T21:43:38.857265-05:00",
+  "now_local": "2026-06-26T01:49:10.220681-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -544,24 +544,6 @@
     ],
     "venues": [
       {
-        "id": "Levi's Stadium",
-        "name": "Levi's Stadium",
-        "city": "Santa Clara, California",
-        "country": "USA",
-        "match_count": 6,
-        "next_kickoff_iso": "2026-06-25",
-        "last_kickoff_iso": "2026-07-01"
-      },
-      {
-        "id": "SoFi Stadium",
-        "name": "SoFi Stadium",
-        "city": "Inglewood, California",
-        "country": "USA",
-        "match_count": 8,
-        "next_kickoff_iso": "2026-06-25",
-        "last_kickoff_iso": "2026-07-10"
-      },
-      {
         "id": "Estadio Akron",
         "name": "Estadio Akron",
         "city": "Guadalajara",
@@ -670,6 +652,15 @@
         "last_kickoff_iso": "2026-07-19"
       },
       {
+        "id": "SoFi Stadium",
+        "name": "SoFi Stadium",
+        "city": "Inglewood, California",
+        "country": "USA",
+        "match_count": 8,
+        "next_kickoff_iso": "2026-06-28",
+        "last_kickoff_iso": "2026-07-10"
+      },
+      {
         "id": "Estadio BBVA",
         "name": "Estadio BBVA",
         "city": "Guadalupe",
@@ -686,6 +677,15 @@
         "match_count": 5,
         "next_kickoff_iso": "2026-06-30",
         "last_kickoff_iso": "2026-07-05"
+      },
+      {
+        "id": "Levi's Stadium",
+        "name": "Levi's Stadium",
+        "city": "Santa Clara, California",
+        "country": "USA",
+        "match_count": 6,
+        "next_kickoff_iso": "2026-07-01",
+        "last_kickoff_iso": "2026-07-01"
       }
     ],
     "stages": [
@@ -1025,13 +1025,13 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/usa.png"
           },
           "rank": 1,
-          "mp": 2,
+          "mp": 3,
           "w": 2,
           "d": 0,
-          "l": 0,
-          "gf": 6,
-          "ga": 1,
-          "gd": 5,
+          "l": 1,
+          "gf": 8,
+          "ga": 4,
+          "gd": 4,
           "pts": 6,
           "advance": true,
           "advance_label": "Advance to Round of 32",
@@ -1049,15 +1049,15 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/aus.png"
           },
           "rank": 2,
-          "mp": 2,
+          "mp": 3,
           "w": 1,
-          "d": 0,
+          "d": 1,
           "l": 1,
           "gf": 2,
           "ga": 2,
           "gd": 0,
-          "pts": 3,
-          "advance": false,
+          "pts": 4,
+          "advance": true,
           "advance_label": "Advance to Round of 32",
           "advance_color": "#81D6AC"
         },
@@ -1073,14 +1073,14 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/par.png"
           },
           "rank": 3,
-          "mp": 2,
+          "mp": 3,
           "w": 1,
-          "d": 0,
+          "d": 1,
           "l": 1,
           "gf": 2,
           "ga": 4,
           "gd": -2,
-          "pts": 3,
+          "pts": 4,
           "advance": false,
           "advance_label": "Best 8 advance",
           "advance_color": "#B5E7CE"
@@ -1097,14 +1097,14 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/tur.png"
           },
           "rank": 4,
-          "mp": 2,
-          "w": 0,
+          "mp": 3,
+          "w": 1,
           "d": 0,
           "l": 2,
-          "gf": 0,
-          "ga": 3,
-          "gd": -3,
-          "pts": 0,
+          "gf": 3,
+          "ga": 5,
+          "gd": -2,
+          "pts": 3,
           "advance": false,
           "advance_label": "Eliminated",
           "advance_color": "#FF7F84"
@@ -12771,7 +12771,7 @@
     },
     {
       "date": "2026-06-25",
-      "label": "Today",
+      "label": "Thu",
       "match_count": 6,
       "matches": [
         {
@@ -13591,8 +13591,8 @@
           "kickoff_local_date": "2026-06-25",
           "kickoff_time": "9:00 PM",
           "kickoff_weekday": "Thu",
-          "status": "LIVE",
-          "status_short": "43'",
+          "status": "FINAL",
+          "status_short": "FT",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -13636,7 +13636,106 @@
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760469/australia-paraguay",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Paraguay%20vs%20Australia",
           "slug": "australia-at-paraguay",
-          "incidents": []
+          "incidents": [
+            {
+              "kind": "substitution",
+              "minute": "45'",
+              "team": "Paraguay",
+              "team_id": "210",
+              "team_side": "home",
+              "player": "Maurício",
+              "text": "Substitution, Paraguay. Mauricio replaces Alexandro Maidana.",
+              "player_off": "Alexandro Maidana"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "46'",
+              "team": "Australia",
+              "team_id": "628",
+              "team_side": "away",
+              "player": "Jackson Irvine",
+              "text": "Jackson Irvine (Australia) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "substitution",
+              "minute": "58'",
+              "team": "Australia",
+              "team_id": "628",
+              "team_side": "away",
+              "player": "Ajdin Hrustic",
+              "text": "Substitution, Australia. Ajdin Hrustic replaces Cristian Volpato.",
+              "player_off": "Cristian Volpato"
+            },
+            {
+              "kind": "substitution",
+              "minute": "67'",
+              "team": "Paraguay",
+              "team_id": "210",
+              "team_side": "home",
+              "player": "Alex Arce",
+              "text": "Substitution, Paraguay. Álex Arce replaces Gabriel Ávalos.",
+              "player_off": "Gabriel Ávalos"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "77'",
+              "team": "Paraguay",
+              "team_id": "210",
+              "team_side": "home",
+              "player": "Diego Gómez",
+              "text": "Diego Gómez (Paraguay) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "substitution",
+              "minute": "84'",
+              "team": "Paraguay",
+              "team_id": "210",
+              "team_side": "home",
+              "player": "José Canale",
+              "text": "Substitution, Paraguay. José Canale replaces Omar Alderete because of an injury.",
+              "player_off": "Omar Alderete"
+            },
+            {
+              "kind": "substitution",
+              "minute": "84'",
+              "team": "Australia",
+              "team_id": "628",
+              "team_side": "away",
+              "player": "Paul Okon-Engstler",
+              "text": "Substitution, Australia. Paul Okon-Engstler replaces Jackson Irvine.",
+              "player_off": "Jackson Irvine"
+            },
+            {
+              "kind": "substitution",
+              "minute": "84'",
+              "team": "Australia",
+              "team_id": "628",
+              "team_side": "away",
+              "player": "Tete Yengi",
+              "text": "Substitution, Australia. Tete Yengi replaces Nestory Irankunda.",
+              "player_off": "Nestory Irankunda"
+            },
+            {
+              "kind": "substitution",
+              "minute": "90'+2'",
+              "team": "Paraguay",
+              "team_id": "210",
+              "team_side": "home",
+              "player": "Damián Bobadilla",
+              "text": "Substitution, Paraguay. Damián Bobadilla replaces Diego Gómez.",
+              "player_off": "Diego Gómez"
+            },
+            {
+              "kind": "substitution",
+              "minute": "90'+2'",
+              "team": "Paraguay",
+              "team_id": "210",
+              "team_side": "home",
+              "player": "Júnior Alonso",
+              "text": "Substitution, Paraguay. Júnior Alonso replaces Matías Galarza.",
+              "player_off": "Matías Galarza"
+            }
+          ]
         },
         {
           "id": "760470",
@@ -13645,8 +13744,8 @@
           "kickoff_local_date": "2026-06-25",
           "kickoff_time": "9:00 PM",
           "kickoff_weekday": "Thu",
-          "status": "LIVE",
-          "status_short": "43'",
+          "status": "FINAL",
+          "status_short": "FT",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -13660,8 +13759,8 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/tur.png",
             "color": "ffffff",
             "home_away": "home",
-            "score": 2,
-            "winner": false
+            "score": 3,
+            "winner": true
           },
           "away": {
             "id": "660",
@@ -13674,7 +13773,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/usa.png",
             "color": "d42339",
             "home_away": "away",
-            "score": 1,
+            "score": 2,
             "winner": false
           },
           "venue": {
@@ -13687,7 +13786,7 @@
             "Tele",
             "FOX One"
           ],
-          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760470/united states-turkiye",
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760470/united-states-turkiye",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20T%C3%BCrkiye%20vs%20United%20States",
           "slug": "united states-at-turkiye",
           "incidents": [
@@ -13726,9 +13825,127 @@
               "team": "Türkiye",
               "team_id": "465",
               "team_side": "home",
-              "player": "Orkun Kökçü",
-              "text": "Goal! Türkiye 2, USA 1. Orkun Kökçü (Türkiye) right footed shot from very close range to the bottom right corner. Assisted by Eren Elmali.",
-              "assist": "Eren Elmali"
+              "player": "Baris Alper Yilmaz",
+              "text": "Goal! Türkiye 2, USA 1. Baris Alper Yilmaz (Türkiye) right footed shot from very close range to the bottom right corner. Assisted by Orkun Kökçü.",
+              "assist": "Orkun Kökçü"
+            },
+            {
+              "kind": "goal",
+              "minute": "49'",
+              "team": "United States",
+              "team_id": "660",
+              "team_side": "away",
+              "player": "Sebastian Berhalter",
+              "text": "Goal! Türkiye 2, USA 2. Sebastian Berhalter (USA) right footed shot from outside the box to the bottom left corner."
+            },
+            {
+              "kind": "substitution",
+              "minute": "58'",
+              "team": "United States",
+              "team_id": "660",
+              "team_side": "away",
+              "player": "Christian Pulisic",
+              "text": "Substitution, USA. Christian Pulisic replaces Timothy Weah.",
+              "player_off": "Timothy Weah"
+            },
+            {
+              "kind": "substitution",
+              "minute": "76'",
+              "team": "United States",
+              "team_id": "660",
+              "team_side": "away",
+              "player": "Sergiño Dest",
+              "text": "Substitution, USA. Sergiño Dest replaces Giovanni Reyna.",
+              "player_off": "Giovanni Reyna"
+            },
+            {
+              "kind": "substitution",
+              "minute": "77'",
+              "team": "United States",
+              "team_id": "660",
+              "team_side": "away",
+              "player": "Alejandro Zendejas",
+              "text": "Substitution, USA. Álex Zendejas replaces Brenden Aaronson.",
+              "player_off": "Brenden Aaronson"
+            },
+            {
+              "kind": "substitution",
+              "minute": "77'",
+              "team": "United States",
+              "team_id": "660",
+              "team_side": "away",
+              "player": "Alex Freeman",
+              "text": "Substitution, USA. Alex Freeman replaces Joe Scally.",
+              "player_off": "Joe Scally"
+            },
+            {
+              "kind": "substitution",
+              "minute": "84'",
+              "team": "Türkiye",
+              "team_id": "465",
+              "team_side": "home",
+              "player": "Çaglar Söyüncü",
+              "text": "Substitution, Türkiye. Çaglar Söyüncü replaces Zeki Çelik.",
+              "player_off": "Zeki Çelik"
+            },
+            {
+              "kind": "substitution",
+              "minute": "84'",
+              "team": "Türkiye",
+              "team_id": "465",
+              "team_side": "home",
+              "player": "Can Uzun",
+              "text": "Substitution, Türkiye. Can Uzun replaces Kenan Yildiz.",
+              "player_off": "Kenan Yildiz"
+            },
+            {
+              "kind": "substitution",
+              "minute": "86'",
+              "team": "United States",
+              "team_id": "660",
+              "team_side": "away",
+              "player": "Malik Tillman",
+              "text": "Substitution, USA. Malik Tillman replaces Weston McKennie.",
+              "player_off": "Weston McKennie"
+            },
+            {
+              "kind": "substitution",
+              "minute": "88'",
+              "team": "Türkiye",
+              "team_id": "465",
+              "team_side": "home",
+              "player": "Kaan Ayhan",
+              "text": "Substitution, Türkiye. Kaan Ayhan replaces Orkun Kökçü.",
+              "player_off": "Orkun Kökçü"
+            },
+            {
+              "kind": "substitution",
+              "minute": "90'+2'",
+              "team": "Türkiye",
+              "team_id": "465",
+              "team_side": "home",
+              "player": "Mert Müldür",
+              "text": "Substitution, Türkiye. Mert Müldür replaces Oguz Aydin.",
+              "player_off": "Oguz Aydin"
+            },
+            {
+              "kind": "substitution",
+              "minute": "90'+2'",
+              "team": "Türkiye",
+              "team_id": "465",
+              "team_side": "home",
+              "player": "Irfan Can Kahveci",
+              "text": "Substitution, Türkiye. Irfan Can Kahveci replaces Baris Alper Yilmaz.",
+              "player_off": "Baris Alper Yilmaz"
+            },
+            {
+              "kind": "goal",
+              "minute": "90'+8'",
+              "team": "Türkiye",
+              "team_id": "465",
+              "team_side": "home",
+              "player": "Kaan Ayhan",
+              "text": "Goal! Türkiye 3, USA 2. Kaan Ayhan (Türkiye) right footed shot from very close range to the bottom right corner."
             }
           ]
         }
@@ -13736,7 +13953,7 @@
     },
     {
       "date": "2026-06-26",
-      "label": "Tomorrow",
+      "label": "Today",
       "match_count": 6,
       "matches": [
         {
@@ -14061,7 +14278,7 @@
     },
     {
       "date": "2026-06-27",
-      "label": "Sat",
+      "label": "Tomorrow",
       "match_count": 6,
       "matches": [
         {
@@ -15125,15 +15342,15 @@
           "stage": "Round of 32",
           "stage_slug": "round-of-32",
           "home": {
-            "id": "5928",
-            "name": "Group D 2nd Place",
-            "name_zh": "",
-            "rank": null,
-            "short": "2D",
-            "abbr": "2D",
-            "flag": "🏳️",
-            "logo": "",
-            "color": "000000",
+            "id": "628",
+            "name": "Australia",
+            "name_zh": "澳大利亚",
+            "rank": 27,
+            "short": "Australia",
+            "abbr": "AUS",
+            "flag": "🇦🇺",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/aus.png",
+            "color": "FFCD00",
             "home_away": "home",
             "score": 0,
             "winner": false
@@ -15162,9 +15379,9 @@
             "Tele",
             "FOX One"
           ],
-          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760499/group-g-2nd-place-group-d-2nd-place",
-          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Group%20D%202nd%20Place%20vs%20Group%20G%202nd%20Place",
-          "slug": "group g 2nd place-at-group d 2nd place"
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760499/group-g-2nd-place-australia",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Australia%20vs%20Group%20G%202nd%20Place",
+          "slug": "group g 2nd place-at-australia"
         },
         {
           "id": "760500",
