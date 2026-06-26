@@ -2504,7 +2504,8 @@
       const selected = filters.venues.includes(v.name);
       li.setAttribute("aria-selected", String(selected));
       const count = v.match_count || 0;
-      li.innerHTML = `<span>${escapeHtml(v.name)}</span><span class="opt-meta">${count}</span>`;
+      const city = v.city ? ` <span class="opt-city">${escapeHtml(v.city)}</span>` : "";
+      li.innerHTML = `<span class="opt-name">${escapeHtml(v.name)}${city}</span><span class="opt-meta">${count}</span>`;
       li.addEventListener("click", () => {
         toggleVenue(v.name);
         buildVenueList();

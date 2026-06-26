@@ -399,6 +399,8 @@ body {
 }
 .combo-option .opt-flag { font-size: 1rem; }
 .combo-option .opt-meta { color: var(--text-dim); font-size: 0.75rem; margin-left: auto; }
+.combo-option .opt-name { display: inline-flex; align-items: baseline; gap: 8px; min-width: 0; }
+.combo-option .opt-city { color: var(--text-dim); opacity: 0.7; font-size: 0.78rem; font-weight: 400; }
 .combo-option input[type="checkbox"] {
   accent-color: var(--accent);
   margin-left: auto;
