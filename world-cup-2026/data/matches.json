@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-25T23:52:35.496703+00:00",
+  "generated_at": "2026-06-26T02:43:44.406151+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-25T18:52:34.119920-05:00",
+  "now_local": "2026-06-25T21:43:38.857265-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -562,24 +562,6 @@
         "last_kickoff_iso": "2026-07-10"
       },
       {
-        "id": "GEHA Field at Arrowhead Stadium",
-        "name": "GEHA Field at Arrowhead Stadium",
-        "city": "Kansas City, Missouri",
-        "country": "USA",
-        "match_count": 6,
-        "next_kickoff_iso": "2026-06-25",
-        "last_kickoff_iso": "2026-07-11"
-      },
-      {
-        "id": "AT&T Stadium",
-        "name": "AT&T Stadium",
-        "city": "Arlington, Texas",
-        "country": "USA",
-        "match_count": 9,
-        "next_kickoff_iso": "2026-06-25",
-        "last_kickoff_iso": "2026-07-14"
-      },
-      {
         "id": "Estadio Akron",
         "name": "Estadio Akron",
         "city": "Guadalajara",
@@ -641,6 +623,24 @@
         "match_count": 6,
         "next_kickoff_iso": "2026-06-27",
         "last_kickoff_iso": "2026-07-04"
+      },
+      {
+        "id": "GEHA Field at Arrowhead Stadium",
+        "name": "GEHA Field at Arrowhead Stadium",
+        "city": "Kansas City, Missouri",
+        "country": "USA",
+        "match_count": 6,
+        "next_kickoff_iso": "2026-06-27",
+        "last_kickoff_iso": "2026-07-11"
+      },
+      {
+        "id": "AT&T Stadium",
+        "name": "AT&T Stadium",
+        "city": "Arlington, Texas",
+        "country": "USA",
+        "match_count": 9,
+        "next_kickoff_iso": "2026-06-27",
+        "last_kickoff_iso": "2026-07-14"
       },
       {
         "id": "Mercedes-Benz Stadium",
@@ -1231,15 +1231,15 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/ned.png"
           },
           "rank": 1,
-          "mp": 2,
-          "w": 1,
+          "mp": 3,
+          "w": 2,
           "d": 1,
           "l": 0,
-          "gf": 7,
-          "ga": 3,
-          "gd": 4,
-          "pts": 4,
-          "advance": false,
+          "gf": 10,
+          "ga": 4,
+          "gd": 6,
+          "pts": 7,
+          "advance": true,
           "advance_label": "Advance to Round of 32",
           "advance_color": "#81D6AC"
         },
@@ -1255,15 +1255,15 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/jpn.png"
           },
           "rank": 2,
-          "mp": 2,
+          "mp": 3,
           "w": 1,
-          "d": 1,
+          "d": 2,
           "l": 0,
-          "gf": 6,
-          "ga": 2,
+          "gf": 7,
+          "ga": 3,
           "gd": 4,
-          "pts": 4,
-          "advance": false,
+          "pts": 5,
+          "advance": true,
           "advance_label": "Advance to Round of 32",
           "advance_color": "#81D6AC"
         },
@@ -1279,15 +1279,15 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/swe.png"
           },
           "rank": 3,
-          "mp": 2,
+          "mp": 3,
           "w": 1,
-          "d": 0,
+          "d": 1,
           "l": 1,
-          "gf": 6,
-          "ga": 6,
+          "gf": 7,
+          "ga": 7,
           "gd": 0,
-          "pts": 3,
-          "advance": false,
+          "pts": 4,
+          "advance": true,
           "advance_label": "Best 8 advance",
           "advance_color": "#B5E7CE"
         },
@@ -1303,13 +1303,13 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/tun.png"
           },
           "rank": 4,
-          "mp": 2,
+          "mp": 3,
           "w": 0,
           "d": 0,
-          "l": 2,
-          "gf": 1,
-          "ga": 9,
-          "gd": -8,
+          "l": 3,
+          "gf": 2,
+          "ga": 12,
+          "gd": -10,
           "pts": 0,
           "advance": false,
           "advance_label": "Eliminated",
@@ -13204,8 +13204,8 @@
           "kickoff_local_date": "2026-06-25",
           "kickoff_time": "6:00 PM",
           "kickoff_weekday": "Thu",
-          "status": "LIVE",
-          "status_short": "HT",
+          "status": "FINAL",
+          "status_short": "FT",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -13219,7 +13219,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/jpn.png",
             "color": "000555",
             "home_away": "home",
-            "score": 0,
+            "score": 1,
             "winner": false
           },
           "away": {
@@ -13233,7 +13233,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/swe.png",
             "color": "fecb00",
             "home_away": "away",
-            "score": 0,
+            "score": 1,
             "winner": false
           },
           "venue": {
@@ -13278,6 +13278,124 @@
               "player": "Shogo Taniguchi",
               "text": "Substitution, Japan. Shogo Taniguchi replaces Ko Itakura.",
               "player_off": "Kou Itakura"
+            },
+            {
+              "kind": "goal",
+              "minute": "56'",
+              "team": "Japan",
+              "team_id": "627",
+              "team_side": "home",
+              "player": "Daizen Maeda",
+              "text": "Goal! Japan 1, Sweden 0. Daizen Maeda (Japan) right footed shot from the centre of the box to the bottom left corner. Assisted by Ritsu Doan with a through ball.",
+              "assist": "Ritsu Doan"
+            },
+            {
+              "kind": "goal",
+              "minute": "62'",
+              "team": "Sweden",
+              "team_id": "466",
+              "team_side": "away",
+              "player": "Anthony Elanga",
+              "text": "Goal! Japan 1, Sweden 1. Anthony Elanga (Sweden) left footed shot from outside the box to the bottom left corner. Assisted by Viktor Gyökeres.",
+              "assist": "Viktor Gyökeres"
+            },
+            {
+              "kind": "substitution",
+              "minute": "66'",
+              "team": "Japan",
+              "team_id": "627",
+              "team_side": "home",
+              "player": "Koki Ogawa",
+              "text": "Substitution, Japan. Koki Ogawa replaces Ayase Ueda.",
+              "player_off": "Ayase Ueda"
+            },
+            {
+              "kind": "substitution",
+              "minute": "67'",
+              "team": "Japan",
+              "team_id": "627",
+              "team_side": "home",
+              "player": "Junya Ito",
+              "text": "Substitution, Japan. Junya Ito replaces Ritsu Doan.",
+              "player_off": "Ritsu Doan"
+            },
+            {
+              "kind": "substitution",
+              "minute": "75'",
+              "team": "Sweden",
+              "team_id": "466",
+              "team_side": "away",
+              "player": "Daniel Svensson",
+              "text": "Substitution, Sweden. Daniel Svensson replaces Alexander Bernhardsson.",
+              "player_off": "Alexander Bernhardsson"
+            },
+            {
+              "kind": "substitution",
+              "minute": "75'",
+              "team": "Sweden",
+              "team_id": "466",
+              "team_side": "away",
+              "player": "Ken Sema",
+              "text": "Substitution, Sweden. Ken Sema replaces Elliot Stroud.",
+              "player_off": "Elliot Stroud"
+            },
+            {
+              "kind": "substitution",
+              "minute": "75'",
+              "team": "Japan",
+              "team_id": "627",
+              "team_side": "home",
+              "player": "Yuto Nagatomo",
+              "text": "Substitution, Japan. Yuto Nagatomo replaces Keito Nakamura.",
+              "player_off": "Keito Nakamura"
+            },
+            {
+              "kind": "substitution",
+              "minute": "75'",
+              "team": "Japan",
+              "team_id": "627",
+              "team_side": "home",
+              "player": "Tsuyoshi Watanabe",
+              "text": "Substitution, Japan. Tsuyoshi Watanabe replaces Ayumu Seko.",
+              "player_off": "Ayumu Seko"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "77'",
+              "team": "Japan",
+              "team_id": "627",
+              "team_side": "home",
+              "player": "Shogo Taniguchi",
+              "text": "Shogo Taniguchi (Japan) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "85'",
+              "team": "Sweden",
+              "team_id": "466",
+              "team_side": "away",
+              "player": "Viktor Gyökeres",
+              "text": "Viktor Gyökeres (Sweden) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "substitution",
+              "minute": "87'",
+              "team": "Sweden",
+              "team_id": "466",
+              "team_side": "away",
+              "player": "Carl Starfelt",
+              "text": "Substitution, Sweden. Carl Starfelt replaces Victor Lindelöf because of an injury.",
+              "player_off": "Victor Lindelöf"
+            },
+            {
+              "kind": "substitution",
+              "minute": "88'",
+              "team": "Sweden",
+              "team_id": "466",
+              "team_side": "away",
+              "player": "Benjamin Nygren",
+              "text": "Substitution, Sweden. Benjamin Nygren replaces Gabriel Gudmundsson.",
+              "player_off": "Gabriel Gudmundsson"
             }
           ]
         },
@@ -13288,8 +13406,8 @@
           "kickoff_local_date": "2026-06-25",
           "kickoff_time": "6:00 PM",
           "kickoff_weekday": "Thu",
-          "status": "LIVE",
-          "status_short": "HT",
+          "status": "FINAL",
+          "status_short": "FT",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -13303,7 +13421,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/tun.png",
             "color": "D20300",
             "home_away": "home",
-            "score": 0,
+            "score": 1,
             "winner": false
           },
           "away": {
@@ -13317,8 +13435,8 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/ned.png",
             "color": "fb5d00",
             "home_away": "away",
-            "score": 2,
-            "winner": false
+            "score": 3,
+            "winner": true
           },
           "venue": {
             "name": "GEHA Field at Arrowhead Stadium",
@@ -13343,6 +13461,126 @@
               "player": "Brian Brobbey",
               "text": "Goal! Tunisia 0, Netherlands 2. Brian Brobbey (Netherlands) right footed shot from the centre of the box to the top right corner. Assisted by Virgil van Dijk with a headed pass following a set piece situation.",
               "assist": "Virgil van Dijk"
+            },
+            {
+              "kind": "goal",
+              "minute": "54'",
+              "team": "Tunisia",
+              "team_id": "659",
+              "team_side": "home",
+              "player": "Hazem Mastouri",
+              "text": "Goal! Tunisia 1, Netherlands 2. Hazem Mastouri (Tunisia) header from the centre of the box to the bottom left corner. Assisted by Hannibal Mejbri with a cross following a corner.",
+              "assist": "Hannibal Mejbri"
+            },
+            {
+              "kind": "goal",
+              "minute": "62'",
+              "team": "Netherlands",
+              "team_id": "449",
+              "team_side": "away",
+              "player": "Jan Paul van Hecke",
+              "text": "Goal! Tunisia 1, Netherlands 3. Jan Paul van Hecke (Netherlands) header from the left side of the six yard box to the top right corner. Assisted by Tijjani Reijnders with a cross following a corner.",
+              "assist": "Tijjani Reijnders"
+            },
+            {
+              "kind": "substitution",
+              "minute": "67'",
+              "team": "Tunisia",
+              "team_id": "659",
+              "team_side": "home",
+              "player": "Mohamed Hadj Mahmoud",
+              "text": "Substitution, Tunisia. Hadj Mahmoud replaces Rani Khedira.",
+              "player_off": "Rani Khedira"
+            },
+            {
+              "kind": "substitution",
+              "minute": "68'",
+              "team": "Tunisia",
+              "team_id": "659",
+              "team_side": "home",
+              "player": "Elias Achouri",
+              "text": "Substitution, Tunisia. Elias Achouri replaces Anis Ben Slimane.",
+              "player_off": "Anis Slimane"
+            },
+            {
+              "kind": "substitution",
+              "minute": "68'",
+              "team": "Tunisia",
+              "team_id": "659",
+              "team_side": "home",
+              "player": "Mortadha Ben Ouanes",
+              "text": "Substitution, Tunisia. Mortadha Ben Ouanes replaces Mohamed Amine Ben Hmida.",
+              "player_off": "Mohamed Amine Ben Hamida"
+            },
+            {
+              "kind": "substitution",
+              "minute": "72'",
+              "team": "Netherlands",
+              "team_id": "449",
+              "team_side": "away",
+              "player": "Teun Koopmeiners",
+              "text": "Substitution, Netherlands. Teun Koopmeiners replaces Frenkie de Jong.",
+              "player_off": "Frenkie de Jong"
+            },
+            {
+              "kind": "substitution",
+              "minute": "72'",
+              "team": "Netherlands",
+              "team_id": "449",
+              "team_side": "away",
+              "player": "Justin Kluivert",
+              "text": "Substitution, Netherlands. Justin Kluivert replaces Tijjani Reijnders.",
+              "player_off": "Tijjani Reijnders"
+            },
+            {
+              "kind": "substitution",
+              "minute": "72'",
+              "team": "Netherlands",
+              "team_id": "449",
+              "team_side": "away",
+              "player": "Crysencio Summerville",
+              "text": "Substitution, Netherlands. Crysencio Summerville replaces Donyell Malen.",
+              "player_off": "Donyell Malen"
+            },
+            {
+              "kind": "substitution",
+              "minute": "75'",
+              "team": "Tunisia",
+              "team_id": "659",
+              "team_side": "home",
+              "player": "Firas Chaouat",
+              "text": "Substitution, Tunisia. Firas Chaouat replaces Ismaël Gharbi.",
+              "player_off": "Ismaël Gharbi"
+            },
+            {
+              "kind": "substitution",
+              "minute": "77'",
+              "team": "Netherlands",
+              "team_id": "449",
+              "team_side": "away",
+              "player": "Memphis Depay",
+              "text": "Substitution, Netherlands. Memphis Depay replaces Brian Brobbey.",
+              "player_off": "Brian Brobbey"
+            },
+            {
+              "kind": "substitution",
+              "minute": "84'",
+              "team": "Netherlands",
+              "team_id": "449",
+              "team_side": "away",
+              "player": "Noa Lang",
+              "text": "Substitution, Netherlands. Noa Lang replaces Cody Gakpo.",
+              "player_off": "Cody Gakpo"
+            },
+            {
+              "kind": "substitution",
+              "minute": "90'",
+              "team": "Tunisia",
+              "team_id": "659",
+              "team_side": "home",
+              "player": "Sebastian Tounekti",
+              "text": "Substitution, Tunisia. Sebastian Tounekti replaces Hazem Mastouri.",
+              "player_off": "Hazem Mastouri"
             }
           ]
         },
@@ -13353,8 +13591,8 @@
           "kickoff_local_date": "2026-06-25",
           "kickoff_time": "9:00 PM",
           "kickoff_weekday": "Thu",
-          "status": "SCHEDULED",
-          "status_short": "Scheduled",
+          "status": "LIVE",
+          "status_short": "43'",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -13397,7 +13635,8 @@
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760469/australia-paraguay",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Paraguay%20vs%20Australia",
-          "slug": "australia-at-paraguay"
+          "slug": "australia-at-paraguay",
+          "incidents": []
         },
         {
           "id": "760470",
@@ -13406,8 +13645,8 @@
           "kickoff_local_date": "2026-06-25",
           "kickoff_time": "9:00 PM",
           "kickoff_weekday": "Thu",
-          "status": "SCHEDULED",
-          "status_short": "Scheduled",
+          "status": "LIVE",
+          "status_short": "43'",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -13421,7 +13660,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/tur.png",
             "color": "ffffff",
             "home_away": "home",
-            "score": 0,
+            "score": 2,
             "winner": false
           },
           "away": {
@@ -13435,7 +13674,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/usa.png",
             "color": "d42339",
             "home_away": "away",
-            "score": 0,
+            "score": 1,
             "winner": false
           },
           "venue": {
@@ -13448,9 +13687,50 @@
             "Tele",
             "FOX One"
           ],
-          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760470/united-states-turkiye",
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760470/united states-turkiye",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20T%C3%BCrkiye%20vs%20United%20States",
-          "slug": "united states-at-turkiye"
+          "slug": "united states-at-turkiye",
+          "incidents": [
+            {
+              "kind": "goal",
+              "minute": "3'",
+              "team": "United States",
+              "team_id": "660",
+              "team_side": "away",
+              "player": "Auston Trusty",
+              "text": "Goal! Türkiye 0, USA 1. Auston Trusty (USA) left footed shot from a difficult angle on the right to the bottom right corner. Assisted by Sebastian Berhalter with a cross following a corner.",
+              "assist": "Sebastian Berhalter"
+            },
+            {
+              "kind": "goal",
+              "minute": "10'",
+              "team": "Türkiye",
+              "team_id": "465",
+              "team_side": "home",
+              "player": "Arda Güler",
+              "text": "Goal! Türkiye 1, USA 1. Arda Güler (Türkiye) left footed shot from the centre of the box to the centre of the goal. Assisted by Baris Alper Yilmaz.",
+              "assist": "Baris Alper Yilmaz"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "19'",
+              "team": "United States",
+              "team_id": "660",
+              "team_side": "away",
+              "player": "Sebastian Berhalter",
+              "text": "Sebastian Berhalter (USA) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "goal",
+              "minute": "31'",
+              "team": "Türkiye",
+              "team_id": "465",
+              "team_side": "home",
+              "player": "Orkun Kökçü",
+              "text": "Goal! Türkiye 2, USA 1. Orkun Kökçü (Türkiye) right footed shot from very close range to the bottom right corner. Assisted by Eren Elmali.",
+              "assist": "Eren Elmali"
+            }
+          ]
         }
       ]
     },
@@ -14195,15 +14475,15 @@
             "winner": false
           },
           "away": {
-            "id": "5934",
-            "name": "Group F 2nd Place",
-            "name_zh": "",
-            "rank": null,
-            "short": "2F",
-            "abbr": "2F",
-            "flag": "🏳️",
-            "logo": "",
-            "color": "000000",
+            "id": "627",
+            "name": "Japan",
+            "name_zh": "日本",
+            "rank": 18,
+            "short": "Japan",
+            "abbr": "JPN",
+            "flag": "🇯🇵",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/jpn.png",
+            "color": "000555",
             "home_away": "away",
             "score": 0,
             "winner": false
@@ -14218,9 +14498,9 @@
             "Tele",
             "FOX One"
           ],
-          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760487/group-f-2nd-place-brazil",
-          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Brazil%20vs%20Group%20F%202nd%20Place",
-          "slug": "group f 2nd place-at-brazil"
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760487/japan-brazil",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Brazil%20vs%20Japan",
+          "slug": "japan-at-brazil"
         },
         {
           "id": "760489",
@@ -14287,15 +14567,15 @@
           "stage": "Round of 32",
           "stage_slug": "round-of-32",
           "home": {
-            "id": "5933",
-            "name": "Group F Winner",
-            "name_zh": "",
-            "rank": null,
-            "short": "1F",
-            "abbr": "1F",
-            "flag": "🏳️",
-            "logo": "",
-            "color": "000000",
+            "id": "449",
+            "name": "Netherlands",
+            "name_zh": "荷兰",
+            "rank": 8,
+            "short": "Netherlands",
+            "abbr": "NED",
+            "flag": "🇳🇱",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/ned.png",
+            "color": "fb5d00",
             "home_away": "home",
             "score": 0,
             "winner": false
@@ -14324,9 +14604,9 @@
             "Tele",
             "FOX One"
           ],
-          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760488/morocco-group-f-winner",
-          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Group%20F%20Winner%20vs%20Morocco",
-          "slug": "morocco-at-group f winner"
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760488/morocco-netherlands",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Netherlands%20vs%20Morocco",
+          "slug": "morocco-at-netherlands"
         }
       ]
     },
@@ -14633,15 +14913,15 @@
             "winner": false
           },
           "away": {
-            "id": "131543",
-            "name": "Third Place Group B/E/F/I/J",
-            "name_zh": "",
-            "rank": null,
-            "short": "3RD B/E/F/I/J",
-            "abbr": "3RD",
-            "flag": "🏳️",
-            "logo": "",
-            "color": "000000",
+            "id": "452",
+            "name": "Bosnia-Herzegovina",
+            "name_zh": "波黑",
+            "rank": 64,
+            "short": "Bosnia-Herz",
+            "abbr": "BIH",
+            "flag": "🇧🇦",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/bih.png",
+            "color": "112855",
             "home_away": "away",
             "score": 0,
             "winner": false
@@ -14656,9 +14936,9 @@
             "Tele",
             "FOX One"
           ],
-          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760494/third-place-group-befij-united-states",
-          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20United%20States%20vs%20Third%20Place%20Group%20B/E/F/I/J",
-          "slug": "third place group b/e/f/i/j-at-united states"
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760494/bosnia-herzegovina-united-states",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20United%20States%20vs%20Bosnia-Herzegovina",
+          "slug": "bosnia-herzegovina-at-united states"
         }
       ]
     },
