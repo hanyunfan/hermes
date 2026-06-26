@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-26T19:48:01.547747+00:00",
+  "generated_at": "2026-06-26T21:19:21.055840+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-26T14:48:00.304363-05:00",
+  "now_local": "2026-06-26T16:19:17.958990-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -553,15 +553,6 @@
         "last_kickoff_iso": "2026-06-26"
       },
       {
-        "id": "BMO Field",
-        "name": "BMO Field",
-        "city": "Toronto",
-        "country": "Canada",
-        "match_count": 6,
-        "next_kickoff_iso": "2026-06-26",
-        "last_kickoff_iso": "2026-07-02"
-      },
-      {
         "id": "NRG Stadium",
         "name": "NRG Stadium",
         "city": "Houston, Texas",
@@ -587,15 +578,6 @@
         "match_count": 7,
         "next_kickoff_iso": "2026-06-26",
         "last_kickoff_iso": "2026-07-07"
-      },
-      {
-        "id": "Gillette Stadium",
-        "name": "Gillette Stadium",
-        "city": "Foxborough, Massachusetts",
-        "country": "USA",
-        "match_count": 7,
-        "next_kickoff_iso": "2026-06-26",
-        "last_kickoff_iso": "2026-07-09"
       },
       {
         "id": "Lincoln Financial Field",
@@ -670,6 +652,15 @@
         "last_kickoff_iso": "2026-06-29"
       },
       {
+        "id": "Gillette Stadium",
+        "name": "Gillette Stadium",
+        "city": "Foxborough, Massachusetts",
+        "country": "USA",
+        "match_count": 7,
+        "next_kickoff_iso": "2026-06-29",
+        "last_kickoff_iso": "2026-07-09"
+      },
+      {
         "id": "Estadio Banorte",
         "name": "Estadio Banorte",
         "city": "Mexico City",
@@ -686,6 +677,15 @@
         "match_count": 6,
         "next_kickoff_iso": "2026-07-01",
         "last_kickoff_iso": "2026-07-01"
+      },
+      {
+        "id": "BMO Field",
+        "name": "BMO Field",
+        "city": "Toronto",
+        "country": "Canada",
+        "match_count": 6,
+        "next_kickoff_iso": "2026-07-02",
+        "last_kickoff_iso": "2026-07-02"
       }
     ],
     "stages": [
@@ -1540,14 +1540,14 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/fra.png"
           },
           "rank": 1,
-          "mp": 2,
-          "w": 2,
+          "mp": 3,
+          "w": 3,
           "d": 0,
           "l": 0,
-          "gf": 6,
-          "ga": 1,
-          "gd": 5,
-          "pts": 6,
+          "gf": 10,
+          "ga": 2,
+          "gd": 8,
+          "pts": 9,
           "advance": true,
           "advance_label": "Advance to Round of 32",
           "advance_color": "#81D6AC"
@@ -1564,13 +1564,13 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/nor.png"
           },
           "rank": 2,
-          "mp": 2,
+          "mp": 3,
           "w": 2,
           "d": 0,
-          "l": 0,
-          "gf": 7,
-          "ga": 3,
-          "gd": 4,
+          "l": 1,
+          "gf": 8,
+          "ga": 7,
+          "gd": 1,
           "pts": 6,
           "advance": true,
           "advance_label": "Advance to Round of 32",
@@ -1588,14 +1588,14 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/sen.png"
           },
           "rank": 3,
-          "mp": 2,
-          "w": 0,
+          "mp": 3,
+          "w": 1,
           "d": 0,
           "l": 2,
-          "gf": 3,
+          "gf": 8,
           "ga": 6,
-          "gd": -3,
-          "pts": 0,
+          "gd": 2,
+          "pts": 3,
           "advance": false,
           "advance_label": "Best 8 advance",
           "advance_color": "#B5E7CE"
@@ -1612,13 +1612,13 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/irq.png"
           },
           "rank": 4,
-          "mp": 2,
+          "mp": 3,
           "w": 0,
           "d": 0,
-          "l": 2,
+          "l": 3,
           "gf": 1,
-          "ga": 7,
-          "gd": -6,
+          "ga": 12,
+          "gd": -11,
           "pts": 0,
           "advance": false,
           "advance_label": "Eliminated",
@@ -5190,7 +5190,7 @@
             "abbr": "SEN",
             "flag": "🇸🇳",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/sen.png",
-            "color": "006436",
+            "color": "FFFFFF",
             "home_away": "away",
             "score": 1,
             "winner": false
@@ -5340,7 +5340,7 @@
             "abbr": "IRQ",
             "flag": "🇮🇶",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/irq.png",
-            "color": "0A4D2E",
+            "color": "FFFFFF",
             "home_away": "home",
             "score": 1,
             "winner": false
@@ -10253,7 +10253,7 @@
             "abbr": "IRQ",
             "flag": "🇮🇶",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/irq.png",
-            "color": "0A4D2E",
+            "color": "FFFFFF",
             "home_away": "away",
             "score": 0,
             "winner": false
@@ -10447,7 +10447,7 @@
             "abbr": "SEN",
             "flag": "🇸🇳",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/sen.png",
-            "color": "006436",
+            "color": "FFFFFF",
             "home_away": "away",
             "score": 2,
             "winner": false
@@ -13963,8 +13963,8 @@
           "kickoff_local_date": "2026-06-26",
           "kickoff_time": "2:00 PM",
           "kickoff_weekday": "Fri",
-          "status": "LIVE",
-          "status_short": "45'+1'",
+          "status": "FINAL",
+          "status_short": "FT",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -13992,7 +13992,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/fra.png",
             "color": "000080",
             "home_away": "away",
-            "score": 3,
+            "score": 4,
             "winner": false
           },
           "venue": {
@@ -14057,6 +14057,125 @@
               "player": "Ousmane Dembélé",
               "text": "Goal! Norway 1, France 3. Ousmane Dembélé (France) left footed shot from the centre of the box to the bottom left corner. Assisted by Aurélien Tchouaméni.",
               "assist": "Aurélien Tchouaméni"
+            },
+            {
+              "kind": "substitution",
+              "minute": "45'",
+              "team": "Norway",
+              "team_id": "464",
+              "team_side": "home",
+              "player": "Morten Thorsby",
+              "text": "Substitution, Norway. Morten Thorsby replaces Kristian Thorstvedt.",
+              "player_off": "Kristian Thorstvedt"
+            },
+            {
+              "kind": "substitution",
+              "minute": "45'",
+              "team": "Norway",
+              "team_id": "464",
+              "team_side": "home",
+              "player": "Marcus Holmgren Pedersen",
+              "text": "Substitution, Norway. Marcus Pedersen replaces Fredrik Bjørkan.",
+              "player_off": "Fredrik André Bjørkan"
+            },
+            {
+              "kind": "substitution",
+              "minute": "65'",
+              "team": "France",
+              "team_id": "478",
+              "team_side": "away",
+              "player": "Rayan Cherki",
+              "text": "Substitution, France. Rayan Cherki replaces Michael Olise.",
+              "player_off": "Michael Olise"
+            },
+            {
+              "kind": "substitution",
+              "minute": "65'",
+              "team": "France",
+              "team_id": "478",
+              "team_side": "away",
+              "player": "Bradley Barcola",
+              "text": "Substitution, France. Bradley Barcola replaces Ousmane Dembélé.",
+              "player_off": "Ousmane Dembélé"
+            },
+            {
+              "kind": "substitution",
+              "minute": "66'",
+              "team": "Norway",
+              "team_id": "464",
+              "team_side": "home",
+              "player": "Sondre Langas",
+              "text": "Substitution, Norway. Sondre Langås replaces Henrik Falchener.",
+              "player_off": "Henrik Falchener"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "74'",
+              "team": "France",
+              "team_id": "478",
+              "team_side": "away",
+              "player": "Aurélien Tchouaméni",
+              "text": "Aurélien Tchouaméni (France) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "substitution",
+              "minute": "76'",
+              "team": "France",
+              "team_id": "478",
+              "team_side": "away",
+              "player": "Ibrahima Konaté",
+              "text": "Substitution, France. Ibrahima Konaté replaces Dayot Upamecano.",
+              "player_off": "Dayot Upamecano"
+            },
+            {
+              "kind": "substitution",
+              "minute": "83'",
+              "team": "Norway",
+              "team_id": "464",
+              "team_side": "home",
+              "player": "Antonio Nusa",
+              "text": "Substitution, Norway. Antonio Nusa replaces Oscar Bobb.",
+              "player_off": "Oscar Bobb"
+            },
+            {
+              "kind": "substitution",
+              "minute": "83'",
+              "team": "Norway",
+              "team_id": "464",
+              "team_side": "home",
+              "player": "Jens Petter Hauge",
+              "text": "Substitution, Norway. Jens Petter Hauge replaces Andreas Schjelderup.",
+              "player_off": "Andreas Schjelderup"
+            },
+            {
+              "kind": "substitution",
+              "minute": "87'",
+              "team": "France",
+              "team_id": "478",
+              "team_side": "away",
+              "player": "Malo Gusto",
+              "text": "Substitution, France. Malo Gusto replaces Jules Koundé.",
+              "player_off": "Jules Koundé"
+            },
+            {
+              "kind": "substitution",
+              "minute": "87'",
+              "team": "France",
+              "team_id": "478",
+              "team_side": "away",
+              "player": "Jean-Philippe Mateta",
+              "text": "Substitution, France. Jean-Philippe Mateta replaces Kylian Mbappé.",
+              "player_off": "Kylian Mbappé"
+            },
+            {
+              "kind": "goal",
+              "minute": "90'+4'",
+              "team": "France",
+              "team_id": "478",
+              "team_side": "away",
+              "player": "Désiré Doué",
+              "text": "Goal! Norway 1, France 4. Désiré Doué (France) header from the centre of the box to the bottom right corner. Assisted by Bradley Barcola with a cross.",
+              "assist": "Bradley Barcola"
             }
           ]
         },
@@ -14067,8 +14186,8 @@
           "kickoff_local_date": "2026-06-26",
           "kickoff_time": "2:00 PM",
           "kickoff_weekday": "Fri",
-          "status": "LIVE",
-          "status_short": "45'",
+          "status": "FINAL",
+          "status_short": "FT",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -14080,9 +14199,9 @@
             "abbr": "SEN",
             "flag": "🇸🇳",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/sen.png",
-            "color": "006436",
+            "color": "FFFFFF",
             "home_away": "home",
-            "score": 1,
+            "score": 5,
             "winner": false
           },
           "away": {
@@ -14094,7 +14213,7 @@
             "abbr": "IRQ",
             "flag": "🇮🇶",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/irq.png",
-            "color": "0A4D2E",
+            "color": "FFFFFF",
             "home_away": "away",
             "score": 0,
             "winner": false
@@ -14150,6 +14269,163 @@
               "team_side": "home",
               "player": "Abdoulaye Seck",
               "text": "Abdoulaye Seck (Senegal) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "substitution",
+              "minute": "45'",
+              "team": "Iraq",
+              "team_id": "4375",
+              "team_side": "away",
+              "player": "Jalal Hassan",
+              "text": "Substitution, Iraq. Jalal Hassan replaces Ahmed Basil because of an injury.",
+              "player_off": "Ahmed Basil"
+            },
+            {
+              "kind": "goal",
+              "minute": "56'",
+              "team": "Senegal",
+              "team_id": "654",
+              "team_side": "home",
+              "player": "Ismaïla Sarr",
+              "text": "Goal! Senegal 2, Iraq 0. Ismaïla Sarr (Senegal) right footed shot from very close range to the high centre of the goal. Assisted by Lamine Camara.",
+              "assist": "Lamine Camara"
+            },
+            {
+              "kind": "substitution",
+              "minute": "57'",
+              "team": "Senegal",
+              "team_id": "654",
+              "team_side": "home",
+              "player": "Iliman Ndiaye",
+              "text": "Substitution, Senegal. Iliman Ndiaye replaces Ibrahim Mbaye.",
+              "player_off": "Ibrahim Mbaye"
+            },
+            {
+              "kind": "substitution",
+              "minute": "57'",
+              "team": "Senegal",
+              "team_id": "654",
+              "team_side": "home",
+              "player": "Nicolas Jackson",
+              "text": "Substitution, Senegal. Nicolas Jackson replaces Lamine Camara.",
+              "player_off": "Lamine Camara"
+            },
+            {
+              "kind": "substitution",
+              "minute": "57'",
+              "team": "Senegal",
+              "team_id": "654",
+              "team_side": "home",
+              "player": "Pape Gueye",
+              "text": "Substitution, Senegal. Pape Gueye replaces Habib Diarra.",
+              "player_off": "Habib Diarra"
+            },
+            {
+              "kind": "substitution",
+              "minute": "58'",
+              "team": "Iraq",
+              "team_id": "4375",
+              "team_side": "away",
+              "player": "Ahmed Maknazi",
+              "text": "Substitution, Iraq. Ahmed Maknzi replaces Ali Jasim.",
+              "player_off": "Ali Jasim"
+            },
+            {
+              "kind": "substitution",
+              "minute": "58'",
+              "team": "Iraq",
+              "team_id": "4375",
+              "team_side": "away",
+              "player": "Ali Yousif",
+              "text": "Substitution, Iraq. Ali Yousif replaces Ali Al Hamadi.",
+              "player_off": "Ali Al-Hamadi"
+            },
+            {
+              "kind": "substitution",
+              "minute": "58'",
+              "team": "Senegal",
+              "team_id": "654",
+              "team_side": "home",
+              "player": "Pathé Ciss",
+              "text": "Substitution, Senegal. Pathé Ciss replaces Abdoulaye Seck.",
+              "player_off": "Abdoulaye Seck"
+            },
+            {
+              "kind": "goal",
+              "minute": "59'",
+              "team": "Senegal",
+              "team_id": "654",
+              "team_side": "home",
+              "player": "Pape Gueye",
+              "text": "Goal! Senegal 3, Iraq 0. Pape Gueye (Senegal) left footed shot from outside the box to the top left corner. Assisted by Ismaïla Sarr.",
+              "assist": "Ismaïla Sarr"
+            },
+            {
+              "kind": "substitution",
+              "minute": "67'",
+              "team": "Iraq",
+              "team_id": "4375",
+              "team_side": "away",
+              "player": "Kevin Yakob",
+              "text": "Substitution, Iraq. Kevin Yakob replaces Zidane Iqbal.",
+              "player_off": "Zidane Iqbal"
+            },
+            {
+              "kind": "goal",
+              "minute": "71'",
+              "team": "Senegal",
+              "team_id": "654",
+              "team_side": "home",
+              "player": "Pape Gueye",
+              "text": "Goal! Senegal 4, Iraq 0. Pape Gueye (Senegal) left footed shot from the centre of the box to the bottom left corner. Assisted by Iliman Ndiaye with a headed pass.",
+              "assist": "Iliman Ndiaye"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "75'",
+              "team": "Iraq",
+              "team_id": "4375",
+              "team_side": "away",
+              "player": "Amir Al-Ammari",
+              "text": "Amir Al Ammari (Iraq) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "substitution",
+              "minute": "81'",
+              "team": "Senegal",
+              "team_id": "654",
+              "team_side": "home",
+              "player": "Assane Diao",
+              "text": "Substitution, Senegal. Assane Diao replaces Ismaïla Sarr.",
+              "player_off": "Ismaïla Sarr"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "81'",
+              "team": "Senegal",
+              "team_id": "654",
+              "team_side": "home",
+              "player": "Pape Gueye",
+              "text": "Pape Gueye (Senegal) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "goal",
+              "minute": "82'",
+              "team": "Senegal",
+              "team_id": "654",
+              "team_side": "home",
+              "player": "Iliman Ndiaye",
+              "text": "Goal! Senegal 5, Iraq 0. Iliman Ndiaye (Senegal) right footed shot from outside the box to the top right corner. Assisted by Pape Gueye.",
+              "assist": "Pape Gueye"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "90'",
+              "team": "Iraq",
+              "team_id": "4375",
+              "team_side": "away",
+              "player": "Merchas Doski",
+              "text": "Merchas Doski (Iraq) is shown the yellow card for a bad foul."
             }
           ]
         },
