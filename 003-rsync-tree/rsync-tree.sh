@@ -18,6 +18,10 @@
 
 set -uo pipefail
 
+# ---- State directory (avoid /tmp — may be NFS/broken; $HOME is reliable) ----
+STATE_DIR="${RSYNC_TREE_STATE_DIR:-$HOME/.rsync-tree-state}"
+mkdir -p "$STATE_DIR" || { echo "FATAL: cannot mkdir $STATE_DIR" >&2; exit 2; }
+
 SOURCE_NODE="node12"
 SRC_DIR="/mnt/data"
 SSH_ARGS="-o StrictHostKeyChecking=no -o ConnectTimeout=10 -o ServerAliveInterval=10 -o BatchMode=yes"
@@ -129,25 +133,25 @@ cleanup() {
         pkill -9 -P "$SCRIPT_PID" 2>/dev/null
     fi
     echo "[cleanup] Removing marker files..."
-    rm -f /tmp/rsync-tree-pid-* \
-          /tmp/rsync-tree-checked-* \
-          /tmp/rsync-tree-picked-* \
-          /tmp/rsync-tree-done-* \
-          /tmp/rsync-tree-wait.lock \
-          /tmp/rsync-tree-abort \
-          /tmp/rsync-tree-diag.txt \
-          /tmp/rsync-diag-check.txt \
-          /tmp/rsync-*.log
+    rm -f $STATE_DIR/rsync-tree-pid-* \
+          $STATE_DIR/rsync-tree-checked-* \
+          $STATE_DIR/rsync-tree-picked-* \
+          $STATE_DIR/rsync-tree-done-* \
+          $STATE_DIR/rsync-tree-wait.lock \
+          $STATE_DIR/rsync-tree-abort \
+          $STATE_DIR/rsync-tree-diag.txt \
+          $STATE_DIR/rsync-diag-check.txt \
+          $STATE_DIR/rsync-*.log
     echo "[cleanup] Done."
 }
 trap cleanup EXIT
 SCRIPT_PID=$$
 
 # Nuclear cleanup
-rm -f /tmp/rsync-tree-pid-* /tmp/rsync-tree-checked-* /tmp/rsync-tree-picked-* /tmp/rsync-tree-done-* /tmp/rsync-tree-wait.lock \
-      /tmp/rsync-tree-done-* /tmp/rsync-tree-wait.lock /tmp/rsync-tree-abort \
-      /tmp/rsync-tree-diag.txt /tmp/rsync-diag-check.txt /tmp/rsync-*.log
-rmdir /tmp/rsync-tree-wait.lock 2>/dev/null; true
+rm -f $STATE_DIR/rsync-tree-pid-* $STATE_DIR/rsync-tree-checked-* $STATE_DIR/rsync-tree-picked-* $STATE_DIR/rsync-tree-done-* $STATE_DIR/rsync-tree-wait.lock \
+      $STATE_DIR/rsync-tree-done-* $STATE_DIR/rsync-tree-wait.lock $STATE_DIR/rsync-tree-abort \
+      $STATE_DIR/rsync-tree-diag.txt $STATE_DIR/rsync-diag-check.txt $STATE_DIR/rsync-*.log
+rmdir $STATE_DIR/rsync-tree-wait.lock 2>/dev/null; true
 
 for n in "${ALL_NODES[@]}"; do
     if [[ "$n" == "$SOURCE_NODE" ]]; then
@@ -160,19 +164,19 @@ done
 echo "Initial: 1 source, ${#waiting[@]} need data"
 echo ""
 
-LOGFILE="/tmp/rsync-tree.log"
+LOGFILE="$STATE_DIR/rsync-tree.log"
 > "$LOGFILE"
 
 # ---- Helpers ----
 
 pick_waiting() {
-    local lock="/tmp/rsync-tree-wait.lock"
+    local lock="$STATE_DIR/rsync-tree-wait.lock"
     while ! mkdir "$lock" 2>/dev/null; do sleep 0.05; done
 
     echo "  [PICK] waiting[@]=${#waiting[@]}  waiting=${waiting[*]}" >&2
     for ((i=0; i<${#waiting[@]}; i++)); do
         local node="${waiting[$i]}"
-        local picked_file="/tmp/rsync-tree-picked-$SCRIPT_RUN_ID-$node"
+        local picked_file="$STATE_DIR/rsync-tree-picked-$SCRIPT_RUN_ID-$node"
         if [[ -f "$picked_file" ]]; then
             echo "  [PICK]   [$i] $node SKIP (picked file exists: $picked_file)" >&2
             continue
@@ -191,14 +195,14 @@ pick_waiting() {
 
 do_rsync() {
     local src=$1 tgt=$2
-    local log="/tmp/rsync-$src-$tgt.log"
+    local log="$STATE_DIR/rsync-$src-$tgt.log"
 
     if [[ -n "$DRY_RUN" ]]; then
         echo "  [$src] → [$tgt]  [DRY]"
         echo "[$src] → [$tgt] ✓" >> "$LOGFILE"
         (
             sleep 0.01
-            > "/tmp/rsync-tree-done-$src→$tgt"
+            > "$STATE_DIR/rsync-tree-done-$src→$tgt"
         ) &
         jobs["$src→$tgt"]=$!
         return 0
@@ -219,7 +223,7 @@ do_rsync() {
 
     local pid=$!
     jobs["$src→$tgt"]=$pid
-    echo "$pid" > "/tmp/rsync-tree-pid-$src→$tgt"
+    echo "$pid" > "$STATE_DIR/rsync-tree-pid-$src→$tgt"
     return 0
 }
 
@@ -227,18 +231,18 @@ do_rsync() {
 # Does NOT exit — failures are recorded and the target is returned to waiting queue
 check_complete() {
     local src=$1 tgt=$2
-    local log="/tmp/rsync-$src-$tgt.log"
-    local pidfile="/tmp/rsync-tree-pid-$src→$tgt"
+    local log="$STATE_DIR/rsync-$src-$tgt.log"
+    local pidfile="$STATE_DIR/rsync-tree-pid-$src→$tgt"
 
     if [[ -n "$DRY_RUN" ]]; then
-        if [[ -f "/tmp/rsync-tree-done-$src→$tgt" ]]; then
+        if [[ -f "$STATE_DIR/rsync-tree-done-$src→$tgt" ]]; then
             echo "0"
             return 0
         fi
         return 1
     fi
 
-    local checked="/tmp/rsync-tree-checked-$src→$tgt"
+    local checked="$STATE_DIR/rsync-tree-checked-$src→$tgt"
 
     # Already processed?
     if [[ -f "$checked" ]]; then
@@ -277,7 +281,7 @@ check_complete() {
             echo "  [!!] [$src] → [$tgt] rsync failed with exit=$rsync_exit — returning $tgt to queue, $src back to ready" >&2
             fail_job "$src→$tgt" "RSYNC_EXIT_$rsync_exit"
             unset "jobs[$src→$tgt]" 2>/dev/null
-            rm -f "/tmp/rsync-tree-pid-$src→$tgt" "/tmp/rsync-tree-checked-$src→$tgt"
+            rm -f "$STATE_DIR/rsync-tree-pid-$src→$tgt" "$STATE_DIR/rsync-tree-checked-$src→$tgt"
             waiting=("$tgt" "${waiting[@]}")
             ready["$src"]=1
             return 1
@@ -291,7 +295,7 @@ check_complete() {
         echo "  [!!] [$src] → [$tgt] cannot get size from $src (SSH failed) — returning $tgt to queue, $src back to ready" >&2
         fail_job "$src→$tgt" "SSH_FAIL_SRC"
         unset "jobs[$src→$tgt]" 2>/dev/null
-        rm -f "/tmp/rsync-tree-pid-$src→$tgt"
+        rm -f "$STATE_DIR/rsync-tree-pid-$src→$tgt"
         waiting=("$tgt" "${waiting[@]}")
         ready["$src"]=1
         return 1
@@ -301,7 +305,7 @@ check_complete() {
         echo "  [!!] [$src] → [$tgt] cannot get size from $tgt (SSH failed) — returning $tgt to queue, $src back to ready" >&2
         fail_job "$src→$tgt" "SSH_FAIL_TGT"
         unset "jobs[$src→$tgt]" 2>/dev/null
-        rm -f "/tmp/rsync-tree-pid-$src→$tgt"
+        rm -f "$STATE_DIR/rsync-tree-pid-$src→$tgt"
         waiting=("$tgt" "${waiting[@]}")
         ready["$src"]=1
         return 1
@@ -313,7 +317,7 @@ check_complete() {
         echo "  [!!] [$src] → [$tgt] SIZE MISMATCH: src=$src_sz tgt=$tgt_sz — returning $tgt to queue, $src back to ready" >&2
         fail_job "$src→$tgt" "SIZE_MISMATCH_src=${src_sz}_tgt=${tgt_sz}"
         unset "jobs[$src→$tgt]" 2>/dev/null
-        rm -f "/tmp/rsync-tree-pid-$src→$tgt"
+        rm -f "$STATE_DIR/rsync-tree-pid-$src→$tgt"
         waiting=("$tgt" "${waiting[@]}")
         ready["$src"]=1
         return 1
@@ -349,9 +353,9 @@ collect_ready() {
         seen[$key]=1
 
         unset "jobs[$key]" 2>/dev/null
-        rm -f "/tmp/rsync-tree-pid-$src→$tgt" \
-              "/tmp/rsync-tree-checked-$src→$tgt" \
-              "/tmp/rsync-tree-done-$src→$tgt"
+        rm -f "$STATE_DIR/rsync-tree-pid-$src→$tgt" \
+              "$STATE_DIR/rsync-tree-checked-$src→$tgt" \
+              "$STATE_DIR/rsync-tree-done-$src→$tgt"
 
         ready["$src"]=1
         ready["$tgt"]=1
@@ -389,7 +393,7 @@ print_summary() {
 SCRIPT_RUN_ID="$(date +%s)"
 
 # ---- Clean up stale locks/picked files from previous runs ----
-rm -f /tmp/rsync-tree-pid-* /tmp/rsync-tree-checked-* /tmp/rsync-tree-picked-* /tmp/rsync-tree-done-* /tmp/rsync-tree-wait.lock 2>/dev/null; rmdir /tmp/rsync-tree-wait.lock 2>/dev/null; true
+rm -f $STATE_DIR/rsync-tree-pid-* $STATE_DIR/rsync-tree-checked-* $STATE_DIR/rsync-tree-picked-* $STATE_DIR/rsync-tree-done-* $STATE_DIR/rsync-tree-wait.lock 2>/dev/null; rmdir $STATE_DIR/rsync-tree-wait.lock 2>/dev/null; true
 
 # ---- Main loop ----
 iter=0
@@ -459,9 +463,9 @@ while true; do
             waiting=("$tgt" "${waiting[@]}")
             ready["$src"]=1
             unset "jobs[$src→$tgt]" 2>/dev/null
-            rm -f "/tmp/rsync-tree-pid-$src→$tgt" \
-                  "/tmp/rsync-tree-checked-$src→$tgt" \
-                  "/tmp/rsync-tree-picked-$SCRIPT_RUN_ID-$tgt"
+            rm -f "$STATE_DIR/rsync-tree-pid-$src→$tgt" \
+                  "$STATE_DIR/rsync-tree-checked-$src→$tgt" \
+                  "$STATE_DIR/rsync-tree-picked-$SCRIPT_RUN_ID-$tgt"
         else
             started=$((started + 1))
         fi
@@ -470,7 +474,7 @@ while true; do
     if (( started == 0 && n_active > 0 )); then
         sleep 0.5
     elif (( started == 0 )); then
-        rm -f /tmp/rsync-tree-picked-*
+        rm -f $STATE_DIR/rsync-tree-picked-*
         sleep 1
     fi
 done
