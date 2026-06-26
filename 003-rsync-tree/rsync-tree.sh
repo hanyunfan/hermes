@@ -18,6 +18,10 @@
 
 set -uo pipefail
 
+# ---- State directory (avoid /tmp — may be NFS/broken; $HOME is reliable) ----
+STATE_DIR="${RSYNC_TREE_STATE_DIR:-$HOME/.rsync-tree-state}"
+mkdir -p "$STATE_DIR" || { echo "FATAL: cannot mkdir $STATE_DIR" >&2; exit 2; }
+
 SOURCE_NODE="node12"
 SRC_DIR="/mnt/data"
 SSH_ARGS="-o StrictHostKeyChecking=no -o ConnectTimeout=10 -o ServerAliveInterval=10 -o BatchMode=yes"
@@ -190,15 +194,15 @@ cleanup() {
         pkill -9 -P "$SCRIPT_PID" 2>/dev/null
     fi
     echo "[cleanup] Removing marker files..."
-    rm -f /tmp/rsync-tree-pid-* \
-          /tmp/rsync-tree-checked-* \
-          /tmp/rsync-tree-picked-* \
-          /tmp/rsync-tree-done-* \
-          /tmp/rsync-tree-wait.lock \
-          /tmp/rsync-tree-abort \
-          /tmp/rsync-tree-diag.txt \
-          /tmp/rsync-diag-check.txt \
-          /tmp/rsync-*.log
+    rm -f $STATE_DIR/rsync-tree-pid-* \
+          $STATE_DIR/rsync-tree-checked-* \
+          $STATE_DIR/rsync-tree-picked-* \
+          $STATE_DIR/rsync-tree-done-* \
+          $STATE_DIR/rsync-tree-wait.lock \
+          $STATE_DIR/rsync-tree-abort \
+          $STATE_DIR/rsync-tree-diag.txt \
+          $STATE_DIR/rsync-diag-check.txt \
+          $STATE_DIR/rsync-*.log
     echo "[cleanup] Done."
 }
 finalize() {
@@ -235,7 +239,7 @@ else
     }
 fi
 
-LOGFILE="/tmp/rsync-tree.log"
+LOGFILE="$STATE_DIR/rsync-tree.log"
 > "$LOGFILE"
 
 # In TUI mode, send all main-loop echo chatter to the log file so the
@@ -248,10 +252,10 @@ if [[ -z "${PLAIN:-}" ]] && [[ "${TUI_ACTIVE:-}" == "1" ]]; then
 fi
 
 # Nuclear cleanup
-rm -f /tmp/rsync-tree-pid-* /tmp/rsync-tree-checked-* /tmp/rsync-tree-picked-* /tmp/rsync-tree-done-* /tmp/rsync-tree-wait.lock \
-      /tmp/rsync-tree-done-* /tmp/rsync-tree-wait.lock /tmp/rsync-tree-abort \
-      /tmp/rsync-tree-diag.txt /tmp/rsync-diag-check.txt /tmp/rsync-*.log
-rmdir /tmp/rsync-tree-wait.lock 2>/dev/null; true
+rm -f $STATE_DIR/rsync-tree-pid-* $STATE_DIR/rsync-tree-checked-* $STATE_DIR/rsync-tree-picked-* $STATE_DIR/rsync-tree-done-* $STATE_DIR/rsync-tree-wait.lock \
+      $STATE_DIR/rsync-tree-done-* $STATE_DIR/rsync-tree-wait.lock $STATE_DIR/rsync-tree-abort \
+      $STATE_DIR/rsync-tree-diag.txt $STATE_DIR/rsync-diag-check.txt $STATE_DIR/rsync-*.log
+rmdir $STATE_DIR/rsync-tree-wait.lock 2>/dev/null; true
 
 for n in "${ALL_NODES[@]}"; do
     if [[ "$n" == "$SOURCE_NODE" ]]; then
@@ -264,7 +268,7 @@ done
 echo "Initial: 1 source, ${#waiting[@]} need data"
 echo ""
 
-LOGFILE="/tmp/rsync-tree.log"
+LOGFILE="$STATE_DIR/rsync-tree.log"
 > "$LOGFILE"
 
 # Initial TUI header
@@ -273,13 +277,13 @@ tui_set_header "${DRY_RUN:+[DRY-RUN] }src=$SOURCE_NODE nodes=${#ALL_NODES[@]} | 
 # ---- Helpers ----
 
 pick_waiting() {
-    local lock="/tmp/rsync-tree-wait.lock"
+    local lock="$STATE_DIR/rsync-tree-wait.lock"
     while ! mkdir "$lock" 2>/dev/null; do sleep 0.05; done
 
     echo "  [PICK] waiting[@]=${#waiting[@]}  waiting=${waiting[*]}" >&2
     for ((i=0; i<${#waiting[@]}; i++)); do
         local node="${waiting[$i]}"
-        local picked_file="/tmp/rsync-tree-picked-$SCRIPT_RUN_ID-$node"
+        local picked_file="$STATE_DIR/rsync-tree-picked-$SCRIPT_RUN_ID-$node"
         if [[ -f "$picked_file" ]]; then
             echo "  [PICK]   [$i] $node SKIP (picked file exists: $picked_file)" >&2
             continue
@@ -298,14 +302,14 @@ pick_waiting() {
 
 do_rsync() {
     local src=$1 tgt=$2
-    local log="/tmp/rsync-$src-$tgt.log"
+    local log="$STATE_DIR/rsync-$src-$tgt.log"
 
     if [[ -n "$DRY_RUN" ]]; then
         echo "  [$src] → [$tgt]  [DRY]"
         echo "[$src] → [$tgt] ✓" >> "$LOGFILE"
         (
             sleep "${DRY_RUN_SLEEP:-0.01}"
-            > "/tmp/rsync-tree-done-$src→$tgt"
+            > "$STATE_DIR/rsync-tree-done-$src→$tgt"
         ) &
         jobs["$src→$tgt"]=$!
         tui_log_job "$src" "$tgt" "ACTIVE" 0 0 0
@@ -329,7 +333,7 @@ do_rsync() {
         &> "$log" &
     local pid=$!
     jobs["$src→$tgt"]=$pid
-    echo "$pid" > "/tmp/rsync-tree-pid-$src→$tgt"
+    echo "$pid" > "$STATE_DIR/rsync-tree-pid-$src→$tgt"
     tui_log_job "$src" "$tgt" "ACTIVE" 0 0 0
     tui_log_event "INFO" "[$src] → [$tgt] starting"
     # Heartbeat: every 3s log that pid is still alive + tail of rsync log.
@@ -357,11 +361,11 @@ do_rsync() {
 # on parsing the rsync log tail for completion.
 check_complete() {
     local src=$1 tgt=$2
-    local log="/tmp/rsync-$src-$tgt.log"
-    local pidfile="/tmp/rsync-tree-pid-$src→$tgt"
+    local log="$STATE_DIR/rsync-$src-$tgt.log"
+    local pidfile="$STATE_DIR/rsync-tree-pid-$src→$tgt"
 
     if [[ -n "$DRY_RUN" ]]; then
-        if [[ -f "/tmp/rsync-tree-done-$src→$tgt" ]]; then
+        if [[ -f "$STATE_DIR/rsync-tree-done-$src→$tgt" ]]; then
             echo "0"
             tui_log_job "$src" "$tgt" "DONE" 100 0 0
             tui_log_event "OK"   "[$src] → [$tgt] done (dry-run)"
@@ -408,7 +412,7 @@ check_complete() {
 
     # Stop the heartbeat companion for this job (it exits on its own once
     # kill -0 fails, but be explicit so events.log stops growing for dead jobs).
-    local hb_pidfile="/tmp/rsync-tree-pid-${src}→${tgt}.hb"
+    local hb_pidfile="$STATE_DIR/rsync-tree-pid-${src}→${tgt}.hb"
     [[ -f "$hb_pidfile" ]] && kill "$(cat "$hb_pidfile")" 2>/dev/null; rm -f "$hb_pidfile"
 
     if [[ $rsync_exit -ne 0 ]]; then
@@ -491,10 +495,10 @@ collect_ready() {
         # "src→tgt.hb") — without this, the hb leaks in $jobs forever
         # and is_busy() later in the main loop marks the source busy.
         unset "jobs[$key.hb]" 2>/dev/null
-        rm -f "/tmp/rsync-tree-pid-$src→$tgt" \
-              "/tmp/rsync-tree-pid-$src→$tgt.hb" \
-              "/tmp/rsync-tree-checked-$src→$tgt" \
-              "/tmp/rsync-tree-done-$src→$tgt"
+        rm -f "$STATE_DIR/rsync-tree-pid-$src→$tgt" \
+              "$STATE_DIR/rsync-tree-pid-$src→$tgt.hb" \
+              "$STATE_DIR/rsync-tree-checked-$src→$tgt" \
+              "$STATE_DIR/rsync-tree-done-$src→$tgt"
 
         ready["$src"]=1
         ready["$tgt"]=1
@@ -541,7 +545,7 @@ SCRIPT_RUN_ID="$(date +%s)"
 TUI_START_TS=$(date +%s)
 
 # ---- Clean up stale locks/picked files from previous runs ----
-rm -f /tmp/rsync-tree-pid-* /tmp/rsync-tree-checked-* /tmp/rsync-tree-picked-* /tmp/rsync-tree-done-* /tmp/rsync-tree-wait.lock 2>/dev/null; rmdir /tmp/rsync-tree-wait.lock 2>/dev/null; true
+rm -f $STATE_DIR/rsync-tree-pid-* $STATE_DIR/rsync-tree-checked-* $STATE_DIR/rsync-tree-picked-* $STATE_DIR/rsync-tree-done-* $STATE_DIR/rsync-tree-wait.lock 2>/dev/null; rmdir $STATE_DIR/rsync-tree-wait.lock 2>/dev/null; true
 
 # Helper: format elapsed seconds as HH:MM:SS
 fmt_elapsed() {
@@ -569,8 +573,8 @@ update_tui_header() {
 # $1 = src, $2 = tgt
 update_job_progress() {
     local src=$1 tgt=$2
-    local log="/tmp/rsync-$src-$tgt.log"
-    local cache="/tmp/rsync-tree-progress-$src→$tgt"
+    local log="$STATE_DIR/rsync-$src-$tgt.log"
+    local cache="$STATE_DIR/rsync-tree-progress-$src→$tgt"
     [[ -f "$log" ]] || return 0
     # rsync --info=progress2 uses \r (carriage return) to rewrite the
     # same line in place. The "log" written by `&> $log` therefore ends
@@ -739,9 +743,9 @@ while true; do
             waiting=("$tgt" "${waiting[@]}")
             ready["$src"]=1
             unset "jobs[$src→$tgt]" 2>/dev/null
-            rm -f "/tmp/rsync-tree-pid-$src→$tgt" \
-                  "/tmp/rsync-tree-checked-$src→$tgt" \
-                  "/tmp/rsync-tree-picked-$SCRIPT_RUN_ID-$tgt"
+            rm -f "$STATE_DIR/rsync-tree-pid-$src→$tgt" \
+                  "$STATE_DIR/rsync-tree-checked-$src→$tgt" \
+                  "$STATE_DIR/rsync-tree-picked-$SCRIPT_RUN_ID-$tgt"
         else
             started=$((started + 1))
         fi
@@ -750,7 +754,7 @@ while true; do
     if (( started == 0 && n_active > 0 )); then
         sleep 0.5
     elif (( started == 0 )); then
-        rm -f /tmp/rsync-tree-picked-*
+        rm -f $STATE_DIR/rsync-tree-picked-*
         sleep 1
     fi
 

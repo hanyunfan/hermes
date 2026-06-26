@@ -28,7 +28,7 @@ TUI_ROWS=$(tput lines 2>/dev/null || echo 24)
 # (useful for tests).
 TUI_OUT="${TUI_OUT:-/dev/tty}"
 
-STATE_DIR="${STATE_DIR:-/tmp/rsync-tree-tui-$$}"
+STATE_DIR="${STATE_DIR:-$HOME/.rsync-tree-state}"
 JOBS_FILE="$STATE_DIR/jobs.tsv"
 EVENTS_FILE="$STATE_DIR/events.log"
 HEADER_FILE="$STATE_DIR/header"
@@ -379,9 +379,15 @@ tui_start() {
         echo "tui: stdout is not a TTY (TERM=${TERM:-unset}); use --plain" >&2
         return 1
     fi
-    if [[ "$TUI_OUT" == "/dev/tty" ]] && [[ ! -r /dev/tty ]]; then
-        echo "tui: cannot open /dev/tty; use --plain" >&2
-        return 1
+    if [[ "$TUI_OUT" == "/dev/tty" ]]; then
+        # bash [[ -r ... ]] calls access(2) which returns 0 even when
+        # open(2) would fail with ENXIO (SSH without -t, no controlling tty).
+        # Do a real open-for-write test so we fall back to plain mode cleanly.
+        if ! exec 9>/dev/tty 2>/dev/null; then
+            echo "tui: cannot open /dev/tty (no controlling terminal?); use --plain" >&2
+            return 1
+        fi
+        exec 9>&-
     fi
     mkdir -p "$STATE_DIR"
     : > "$JOBS_FILE"
