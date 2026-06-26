@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-26T17:48:24.557393+00:00",
+  "generated_at": "2026-06-26T19:48:01.547747+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-26T12:48:23.243066-05:00",
+  "now_local": "2026-06-26T14:48:00.304363-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -13963,8 +13963,8 @@
           "kickoff_local_date": "2026-06-26",
           "kickoff_time": "2:00 PM",
           "kickoff_weekday": "Fri",
-          "status": "SCHEDULED",
-          "status_short": "Scheduled",
+          "status": "LIVE",
+          "status_short": "45'+1'",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -13978,7 +13978,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/nor.png",
             "color": "C8102E",
             "home_away": "home",
-            "score": 0,
+            "score": 1,
             "winner": false
           },
           "away": {
@@ -13992,7 +13992,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/fra.png",
             "color": "000080",
             "home_away": "away",
-            "score": 0,
+            "score": 3,
             "winner": false
           },
           "venue": {
@@ -14007,7 +14007,58 @@
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760475/france-norway",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Norway%20vs%20France",
-          "slug": "france-at-norway"
+          "slug": "france-at-norway",
+          "incidents": [
+            {
+              "kind": "goal",
+              "minute": "7'",
+              "team": "France",
+              "team_id": "478",
+              "team_side": "away",
+              "player": "Ousmane Dembélé",
+              "text": "Goal! Norway 0, France 1. Ousmane Dembélé (France) right footed shot from the right side of the box to the bottom left corner. Assisted by Kylian Mbappé.",
+              "assist": "Kylian Mbappé"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "10'",
+              "team": "Norway",
+              "team_id": "464",
+              "team_side": "home",
+              "player": "Patrick Berg",
+              "text": "Patrick Berg (Norway) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "goal",
+              "minute": "20'",
+              "team": "France",
+              "team_id": "478",
+              "team_side": "away",
+              "player": "Ousmane Dembélé",
+              "text": "Goal! Norway 0, France 2. Ousmane Dembélé (France) left footed shot from outside the box to the bottom left corner. Assisted by Kylian Mbappé following a fast break.",
+              "assist": "Kylian Mbappé"
+            },
+            {
+              "kind": "goal",
+              "minute": "21'",
+              "team": "Norway",
+              "team_id": "464",
+              "team_side": "home",
+              "player": "Thelo Aasgaard",
+              "text": "Goal! Norway 1, France 2. Thelo Aasgaard (Norway) right footed shot from the centre of the box to the bottom left corner. Assisted by Andreas Schjelderup.",
+              "assist": "Andreas Schjelderup"
+            },
+            {
+              "kind": "goal",
+              "minute": "32'",
+              "team": "France",
+              "team_id": "478",
+              "team_side": "away",
+              "player": "Ousmane Dembélé",
+              "text": "Goal! Norway 1, France 3. Ousmane Dembélé (France) left footed shot from the centre of the box to the bottom left corner. Assisted by Aurélien Tchouaméni.",
+              "assist": "Aurélien Tchouaméni"
+            }
+          ]
         },
         {
           "id": "760474",
@@ -14016,8 +14067,8 @@
           "kickoff_local_date": "2026-06-26",
           "kickoff_time": "2:00 PM",
           "kickoff_weekday": "Fri",
-          "status": "SCHEDULED",
-          "status_short": "Scheduled",
+          "status": "LIVE",
+          "status_short": "45'",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -14031,7 +14082,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/sen.png",
             "color": "006436",
             "home_away": "home",
-            "score": 0,
+            "score": 1,
             "winner": false
           },
           "away": {
@@ -14060,7 +14111,47 @@
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760474/iraq-senegal",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Senegal%20vs%20Iraq",
-          "slug": "iraq-at-senegal"
+          "slug": "iraq-at-senegal",
+          "incidents": [
+            {
+              "kind": "goal",
+              "minute": "4'",
+              "team": "Senegal",
+              "team_id": "654",
+              "team_side": "home",
+              "player": "Habib Diarra",
+              "text": "Goal! Senegal 1, Iraq 0. Habib Diarra (Senegal) right footed shot from very close range to the top right corner. Assisted by Abdoulaye Seck following a corner.",
+              "assist": "Abdoulaye Seck"
+            },
+            {
+              "kind": "red_card",
+              "minute": "13'",
+              "team": "Iraq",
+              "team_id": "4375",
+              "team_side": "away",
+              "player": "Rebin Sulaka",
+              "text": "Rebin Sulaka (Iraq) is shown the red card."
+            },
+            {
+              "kind": "substitution",
+              "minute": "16'",
+              "team": "Iraq",
+              "team_id": "4375",
+              "team_side": "away",
+              "player": "Munaf Younus",
+              "text": "Substitution, Iraq. Munaf Younus replaces Ahmed Qasem.",
+              "player_off": "Ahmed Qasim"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "18'",
+              "team": "Senegal",
+              "team_id": "654",
+              "team_side": "home",
+              "player": "Abdoulaye Seck",
+              "text": "Abdoulaye Seck (Senegal) is shown the yellow card for a bad foul."
+            }
+          ]
         },
         {
           "id": "760478",
