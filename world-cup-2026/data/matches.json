@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-26T22:45:06.424240+00:00",
+  "generated_at": "2026-06-27T00:07:01.584846+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-26T17:45:05.333287-05:00",
+  "now_local": "2026-06-26T19:06:59.784073-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -14436,8 +14436,8 @@
           "kickoff_local_date": "2026-06-26",
           "kickoff_time": "7:00 PM",
           "kickoff_weekday": "Fri",
-          "status": "SCHEDULED",
-          "status_short": "Scheduled",
+          "status": "LIVE",
+          "status_short": "5'",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -14478,9 +14478,20 @@
             "Universo",
             "FOX One"
           ],
-          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760478/saudi-arabia-cape-verde",
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760478/saudi arabia-cape verde",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Cape%20Verde%20vs%20Saudi%20Arabia",
-          "slug": "saudi arabia-at-cape verde"
+          "slug": "saudi arabia-at-cape verde",
+          "incidents": [
+            {
+              "kind": "yellow_card",
+              "minute": "4'",
+              "team": "Saudi Arabia",
+              "team_id": "655",
+              "team_side": "away",
+              "player": "Saud Abdulhamid",
+              "text": "Saud Abdulhamid (Saudi Arabia) is shown the yellow card for a bad foul."
+            }
+          ]
         },
         {
           "id": "760479",
@@ -14489,8 +14500,8 @@
           "kickoff_local_date": "2026-06-26",
           "kickoff_time": "7:00 PM",
           "kickoff_weekday": "Fri",
-          "status": "SCHEDULED",
-          "status_short": "Scheduled",
+          "status": "LIVE",
+          "status_short": "5'",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -14533,7 +14544,8 @@
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760479/spain-uruguay",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Uruguay%20vs%20Spain",
-          "slug": "spain-at-uruguay"
+          "slug": "spain-at-uruguay",
+          "incidents": []
         },
         {
           "id": "760476",
