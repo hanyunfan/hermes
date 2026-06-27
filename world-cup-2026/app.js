@@ -2129,39 +2129,57 @@
       byRound[r] = ms;
     }
 
-    // The knockout bracket is a fixed tree, not a chronological list —
-    // ESPN's IDs follow kickoff order but the slot each match occupies
-    // in the tree is independent. Sort every knockout round by its
-    // bracket slot so the SVG connecting lines line up with the cards.
+    // The knockout bracket is a fixed tree — ESPN's IDs follow kickoff
+    // order but each match has a bracket slot independent of when it
+    // plays. We parse espn_url to learn which slots feed which parent.
     //
-    // R32 slot = position in R32_BRACKET_IDS (1..16).
-    // R16 slot = derived from espn_url (which two R32 winners feed it).
-    // QF slot  = derived from espn_url (which two R16 winners feed it).
-    // The "min slot" in each pair sorts the parent round consistently.
-    const r32SlotIndex = new Map(R32_BRACKET_IDS.map((id, i) => [id, i]));
-    byRound["round-of-32"].sort(
-      (a, b) => (r32SlotIndex.get(a.id) ?? 999) - (r32SlotIndex.get(b.id) ?? 999)
-    );
-
-    const slotRe = /round-of-(\d+)-(\d+)-winner/g;  // round-of-32-N-winner OR round-of-16-N-winner
-    const parentSlots = (m, stageN) => {
+    // Display order keeps TIME order (so R32 cards scan chronologically
+    // — users come to the bracket asking "who's playing today?" not
+    // "what's the FIFA bracket structure?"). Sorting by bracket slot
+    // would visually group future R16 opponents together from day 1,
+    // which is information users don't have yet.
+    //
+    // R16/QF/SF stay in time order too; the simple (i, i+1) pairing in
+    // linkRound works for those because each round's pairings happen to
+    // be (1,2)(3,4)(5,6)(7,8) in the actual bracket, and time order
+    // doesn't shuffle them (we verified empirically).
+    //
+    // Only R32 → R16 needs special handling because its actual
+    // pairings are non-consecutive: (1,3)(2,5)(4,6)(7,8)(9,10)
+    // (11,12)(13,15)(14,16). Lines from time-ordered R32 to
+    // time-ordered R16 will cross — that's the actual bracket, accept
+    // the crossings.
+    const slotRe = /round-of-(\d+)-(\d+)-winner/g;
+    const parentSlug = (stageSlug) =>
+      stageSlug === "quarterfinals" ? "quarterfinal"
+      : stageSlug === "semifinals"  ? "semifinal"
+      : stageSlug;  // "round-of-32" / "round-of-16" stay as-is
+    const parentSlots = (m, stageSlug) => {
       const url = m.espn_url || "";
-      const re = new RegExp(`round-of-${stageN}-(\\d+)-winner`, "g");
+      const re = new RegExp(`${parentSlug(stageSlug)}-(\\d+)-winner`, "g");
       return [...url.matchAll(re)].map(x => parseInt(x[1])).sort((a, b) => a - b);
     };
-    const r16WithSlots = byRound["round-of-16"].map((m) => ({
-      match: m,
-      r32Slots: parentSlots(m, 32),
-    }));
-    r16WithSlots.sort((a, b) => (a.r32Slots[0] ?? 999) - (b.r32Slots[0] ?? 999));
-    byRound["round-of-16"] = r16WithSlots.map((x) => x.match);
-
-    const qfWithSlots = byRound["quarterfinals"].map((m) => ({
-      match: m,
-      r16Slots: parentSlots(m, 16),
-    }));
-    qfWithSlots.sort((a, b) => (a.r16Slots[0] ?? 999) - (b.r16Slots[0] ?? 999));
-    byRound["quarterfinals"] = qfWithSlots.map((x) => x.match);
+    const byId = (slug) => new Map((byRound[slug] || []).map(m => [m.id, m]));
+    // Build bracket-slot lookup tables for every knockout round. A
+    // match's "bracket slot" is its position in the bracket TREE (not
+    // its position in the time-sorted display array). The tree order
+    // is determined by min parent slot: R32 #1 is slot 1 by virtue of
+    // R32_BRACKET_IDS[0]; R16 #1 is slot 1 because it's the first R16
+    // pair (R32 #(1,3)) in min-R32-slot order; etc.
+    const slotToMatch = {};
+    slotToMatch["round-of-32"] = new Map(R32_BRACKET_IDS.map((id, i) => [i + 1, byId("round-of-32").get(id)]));
+    const r16ByMinR32Slot = byRound["round-of-16"]
+      .map(m => ({ match: m, r32Slots: parentSlots(m, "round-of-32") }))
+      .sort((a, b) => (a.r32Slots[0] ?? 999) - (b.r32Slots[0] ?? 999));
+    slotToMatch["round-of-16"] = new Map(r16ByMinR32Slot.map((x, i) => [i + 1, x.match]));
+    const qfByMinR16Slot = byRound["quarterfinals"]
+      .map(m => ({ match: m, r16Slots: parentSlots(m, "round-of-16") }))
+      .sort((a, b) => (a.r16Slots[0] ?? 999) - (b.r16Slots[0] ?? 999));
+    slotToMatch["quarterfinals"] = new Map(qfByMinR16Slot.map((x, i) => [i + 1, x.match]));
+    const sfByMinQfSlot = byRound["semifinals"]
+      .map(m => ({ match: m, qfSlots: parentSlots(m, "quarterfinals") }))
+      .sort((a, b) => (a.qfSlots[0] ?? 999) - (b.qfSlots[0] ?? 999));
+    slotToMatch["semifinals"] = new Map(sfByMinQfSlot.map((x, i) => [i + 1, x.match]));
     const third = allMatches.find((m) => m.stage_slug === "3rd-place-match");
 
     // Compute Y position (0-100% of height) and side (L/R) for every match.
@@ -2249,34 +2267,29 @@
     }
 
     function linkRound(stage, nextStage) {
-      const ms = byRound[stage] || [];
-      // R32→R16 pairing is NOT the simple (i, i+1) of the time-sorted
-      // list — the actual bracket pairs (1,3), (2,5), (4,6), (7,8),
-      // (9,10), (11,12), (13,15), (14,16). Use the espn_url slot info
-      // computed above. Other rounds (R16→QF, QF→SF, SF→F) pair
-      // consecutive slots once each round is bracket-sorted.
-      if (stage === "round-of-32" && nextStage === "round-of-16") {
-        for (const r16Info of r16WithSlots) {
-          const parent = r16Info.match;
-          const [slotA, slotB] = r16Info.r32Slots;
-          const a = byRound["round-of-32"][slotA - 1];
-          const b = byRound["round-of-32"][slotB - 1];
-          if (!a || !b || !parent) continue;
-          const pa = pos[a.id], pb = pos[b.id], pp = pos[parent.id];
-          if (!pa || !pb || !pp) continue;
-          const parentDecided = parent.status === "FINAL" && (parent.home.winner === true || parent.away.winner === true);
-          const winnerSrc = parentDecided
-            ? (parent.home.winner === true ? a : b)
-            : null;
-          addLine(cardRightX(stage, pa.side), pa.y, cardLeftX(nextStage, pp.side), pp.y, winnerSrc === a);
-          addLine(cardRightX(stage, pb.side), pb.y, cardLeftX(nextStage, pp.side), pp.y, winnerSrc === b);
-        }
-        return;
-      }
-      for (let i = 0; i < ms.length; i += 2) {
-        const a = ms[i], b = ms[i + 1];
-        const parent = (byRound[nextStage] || [])[i / 2];
-        if (!parent || !a || !b) continue;
+      const slotMap = slotToMatch[stage];
+      if (!slotMap) return;
+      // All knockout pairings come from espn_url — not from a naive
+      // (i, i+1) over time-sorted matches, because each round's actual
+      // bracket pairings are independent of kickoff order:
+      //
+      //   round-of-32: (1,3) (2,5) (4,6) (7,8) (9,10) (11,12) (13,15) (14,16)
+      //   round-of-16: (1,2) (3,4) (5,6) (7,8)
+      //   quarterfinals: (1,2) (3,4)
+      //   semifinals: (1,2)
+      //
+      // Lines will cross when sorted by time — that's the real bracket,
+      // not a display bug.
+      const parents = (byRound[nextStage] || []).map(m => ({
+        match: m,
+        slots: parentSlots(m, stage),
+      }));
+      for (const p of parents) {
+        const parent = p.match;
+        const [slotA, slotB] = p.slots;
+        const a = slotMap.get(slotA);
+        const b = slotMap.get(slotB);
+        if (!a || !b || !parent) continue;
         const pa = pos[a.id], pb = pos[b.id], pp = pos[parent.id];
         if (!pa || !pb || !pp) continue;
         // Only highlight a winner's line once the parent match is
