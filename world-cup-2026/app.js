@@ -2180,6 +2180,40 @@
       .map(m => ({ match: m, qfSlots: parentSlots(m, "quarterfinals") }))
       .sort((a, b) => (a.qfSlots[0] ?? 999) - (b.qfSlots[0] ?? 999));
     slotToMatch["semifinals"] = new Map(sfByMinQfSlot.map((x, i) => [i + 1, x.match]));
+
+    // Reorder R32 in visual display order so pair members are adjacent
+    // and connecting lines form clean V shapes (no crossings). The
+    // actual pairing data (slotToMatch) is unchanged — only the y-axis
+    // position of each card changes.
+    //
+    // Actual pairings per ESPN:
+    //   R16-1: (R32-1, R32-3)
+    //   R16-2: (R32-2, R32-5)
+    //   R16-3: (R32-4, R32-6)
+    //   R16-4: (R32-7, R32-8)
+    //   R16-5: (R32-9, R32-10)
+    //   R16-6: (R32-11, R32-12)
+    //   R16-7: (R32-13, R32-15)
+    //   R16-8: (R32-14, R32-16)
+    //
+    // We pick a permutation where each pair becomes (slot N, slot N+1)
+    // in display position. Within each pair the lower slot goes first
+    // for visual consistency.
+    const R32_VISUAL_ORDER = [
+      1, 3,    // → R16-1
+      2, 5,    // → R16-2
+      4, 6,    // → R16-3
+      7, 8,    // → R16-4
+      9, 10,   // → R16-5
+      11, 12,  // → R16-6
+      13, 15,  // → R16-7
+      14, 16,  // → R16-8
+    ];
+    byRound["round-of-32"] = R32_VISUAL_ORDER.map(s => slotToMatch["round-of-32"].get(s));
+    // R16 in slot order (so consecutive pairs feed consecutive QFs).
+    byRound["round-of-16"] = Array.from(slotToMatch["round-of-16"].values());
+    // QF in slot order (so consecutive pairs feed consecutive SFs).
+    byRound["quarterfinals"] = Array.from(slotToMatch["quarterfinals"].values());
     const third = allMatches.find((m) => m.stage_slug === "3rd-place-match");
 
     // Compute Y position (0-100% of height) and side (L/R) for every match.
