@@ -16,6 +16,20 @@
   const REFRESH_LIVE_MS    = 30 * 1000;
   const RERENDER_TICK_MS   = 60 * 1000;
 
+  // R32 matches in bracket-slot order (slot 1..16). ESPN assigns R32 IDs
+  // in kickoff-time order, but the knockout bracket tree is fixed: this
+  // array pins each R32 match to its bracket slot so the connecting
+  // lines and visual pairing into R16/QF reflect the actual FIFA bracket,
+  // not the broadcast schedule. Mirrors R32_BRACKET in the odds section
+  // (renderOddsBody) — kept separate because odds also needs the
+  // group/position fields for slot rendering.
+  const R32_BRACKET_IDS = [
+    "760486", "760487", "760488", "760489",
+    "760490", "760491", "760492", "760493",
+    "760494", "760495", "760496", "760497",
+    "760498", "760499", "760500", "760501",
+  ];
+
   const $ = (sel, root = document) => root.querySelector(sel);
   const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
 
@@ -2114,6 +2128,40 @@
       ms.sort((a, b) => a.kickoff_utc.localeCompare(b.kickoff_utc));
       byRound[r] = ms;
     }
+
+    // The knockout bracket is a fixed tree, not a chronological list —
+    // ESPN's IDs follow kickoff order but the slot each match occupies
+    // in the tree is independent. Sort every knockout round by its
+    // bracket slot so the SVG connecting lines line up with the cards.
+    //
+    // R32 slot = position in R32_BRACKET_IDS (1..16).
+    // R16 slot = derived from espn_url (which two R32 winners feed it).
+    // QF slot  = derived from espn_url (which two R16 winners feed it).
+    // The "min slot" in each pair sorts the parent round consistently.
+    const r32SlotIndex = new Map(R32_BRACKET_IDS.map((id, i) => [id, i]));
+    byRound["round-of-32"].sort(
+      (a, b) => (r32SlotIndex.get(a.id) ?? 999) - (r32SlotIndex.get(b.id) ?? 999)
+    );
+
+    const slotRe = /round-of-(\d+)-(\d+)-winner/g;  // round-of-32-N-winner OR round-of-16-N-winner
+    const parentSlots = (m, stageN) => {
+      const url = m.espn_url || "";
+      const re = new RegExp(`round-of-${stageN}-(\\d+)-winner`, "g");
+      return [...url.matchAll(re)].map(x => parseInt(x[1])).sort((a, b) => a - b);
+    };
+    const r16WithSlots = byRound["round-of-16"].map((m) => ({
+      match: m,
+      r32Slots: parentSlots(m, 32),
+    }));
+    r16WithSlots.sort((a, b) => (a.r32Slots[0] ?? 999) - (b.r32Slots[0] ?? 999));
+    byRound["round-of-16"] = r16WithSlots.map((x) => x.match);
+
+    const qfWithSlots = byRound["quarterfinals"].map((m) => ({
+      match: m,
+      r16Slots: parentSlots(m, 16),
+    }));
+    qfWithSlots.sort((a, b) => (a.r16Slots[0] ?? 999) - (b.r16Slots[0] ?? 999));
+    byRound["quarterfinals"] = qfWithSlots.map((x) => x.match);
     const third = allMatches.find((m) => m.stage_slug === "3rd-place-match");
 
     // Compute Y position (0-100% of height) and side (L/R) for every match.
@@ -2202,6 +2250,29 @@
 
     function linkRound(stage, nextStage) {
       const ms = byRound[stage] || [];
+      // R32→R16 pairing is NOT the simple (i, i+1) of the time-sorted
+      // list — the actual bracket pairs (1,3), (2,5), (4,6), (7,8),
+      // (9,10), (11,12), (13,15), (14,16). Use the espn_url slot info
+      // computed above. Other rounds (R16→QF, QF→SF, SF→F) pair
+      // consecutive slots once each round is bracket-sorted.
+      if (stage === "round-of-32" && nextStage === "round-of-16") {
+        for (const r16Info of r16WithSlots) {
+          const parent = r16Info.match;
+          const [slotA, slotB] = r16Info.r32Slots;
+          const a = byRound["round-of-32"][slotA - 1];
+          const b = byRound["round-of-32"][slotB - 1];
+          if (!a || !b || !parent) continue;
+          const pa = pos[a.id], pb = pos[b.id], pp = pos[parent.id];
+          if (!pa || !pb || !pp) continue;
+          const parentDecided = parent.status === "FINAL" && (parent.home.winner === true || parent.away.winner === true);
+          const winnerSrc = parentDecided
+            ? (parent.home.winner === true ? a : b)
+            : null;
+          addLine(cardRightX(stage, pa.side), pa.y, cardLeftX(nextStage, pp.side), pp.y, winnerSrc === a);
+          addLine(cardRightX(stage, pb.side), pb.y, cardLeftX(nextStage, pp.side), pp.y, winnerSrc === b);
+        }
+        return;
+      }
       for (let i = 0; i < ms.length; i += 2) {
         const a = ms[i], b = ms[i + 1];
         const parent = (byRound[nextStage] || [])[i / 2];
