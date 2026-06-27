@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-27T20:08:01.174637+00:00",
+  "generated_at": "2026-06-27T21:38:09.701228+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-27T15:07:59.953506-05:00",
+  "now_local": "2026-06-27T16:38:08.095014-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -15281,8 +15281,8 @@
           "kickoff_local_date": "2026-06-27",
           "kickoff_time": "4:00 PM",
           "kickoff_weekday": "Sat",
-          "status": "SCHEDULED",
-          "status_short": "Scheduled",
+          "status": "LIVE",
+          "status_short": "36'",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -15296,7 +15296,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/cro.png",
             "color": "ff0000",
             "home_away": "home",
-            "score": 0,
+            "score": 1,
             "winner": false
           },
           "away": {
@@ -15325,7 +15325,19 @@
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760480/ghana-croatia",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Croatia%20vs%20Ghana",
-          "slug": "ghana-at-croatia"
+          "slug": "ghana-at-croatia",
+          "incidents": [
+            {
+              "kind": "goal",
+              "minute": "31'",
+              "team": "Croatia",
+              "team_id": "477",
+              "team_side": "home",
+              "player": "Petar Sucic",
+              "text": "Goal! Croatia 1, Ghana 0. Petar Sucic (Croatia) right footed shot from outside the box to the bottom left corner. Assisted by Mateo Kovacic.",
+              "assist": "Mateo Kovacic"
+            }
+          ]
         },
         {
           "id": "760485",
@@ -15334,8 +15346,8 @@
           "kickoff_local_date": "2026-06-27",
           "kickoff_time": "4:00 PM",
           "kickoff_weekday": "Sat",
-          "status": "SCHEDULED",
-          "status_short": "Scheduled",
+          "status": "LIVE",
+          "status_short": "37'",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -15378,7 +15390,8 @@
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760485/england-panama",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Panama%20vs%20England",
-          "slug": "england-at-panama"
+          "slug": "england-at-panama",
+          "incidents": []
         },
         {
           "id": "760481",
