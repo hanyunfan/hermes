@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-27T21:38:09.701228+00:00",
+  "generated_at": "2026-06-27T23:02:45.478196+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-27T16:38:08.095014-05:00",
+  "now_local": "2026-06-27T18:02:43.391021-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -544,15 +544,6 @@
     ],
     "venues": [
       {
-        "id": "Lincoln Financial Field",
-        "name": "Lincoln Financial Field",
-        "city": "Philadelphia, Pennsylvania",
-        "country": "USA",
-        "match_count": 6,
-        "next_kickoff_iso": "2026-06-27",
-        "last_kickoff_iso": "2026-07-04"
-      },
-      {
         "id": "GEHA Field at Arrowhead Stadium",
         "name": "GEHA Field at Arrowhead Stadium",
         "city": "Kansas City, Missouri",
@@ -587,15 +578,6 @@
         "match_count": 7,
         "next_kickoff_iso": "2026-06-27",
         "last_kickoff_iso": "2026-07-18"
-      },
-      {
-        "id": "MetLife Stadium",
-        "name": "MetLife Stadium",
-        "city": "East Rutherford, New Jersey",
-        "country": "USA",
-        "match_count": 8,
-        "next_kickoff_iso": "2026-06-27",
-        "last_kickoff_iso": "2026-07-19"
       },
       {
         "id": "SoFi Stadium",
@@ -643,6 +625,15 @@
         "last_kickoff_iso": "2026-07-05"
       },
       {
+        "id": "MetLife Stadium",
+        "name": "MetLife Stadium",
+        "city": "East Rutherford, New Jersey",
+        "country": "USA",
+        "match_count": 8,
+        "next_kickoff_iso": "2026-06-30",
+        "last_kickoff_iso": "2026-07-19"
+      },
+      {
         "id": "Levi's Stadium",
         "name": "Levi's Stadium",
         "city": "Santa Clara, California",
@@ -677,6 +668,15 @@
         "match_count": 7,
         "next_kickoff_iso": "2026-07-02",
         "last_kickoff_iso": "2026-07-07"
+      },
+      {
+        "id": "Lincoln Financial Field",
+        "name": "Lincoln Financial Field",
+        "city": "Philadelphia, Pennsylvania",
+        "country": "USA",
+        "match_count": 6,
+        "next_kickoff_iso": "2026-07-04",
+        "last_kickoff_iso": "2026-07-04"
       },
       {
         "id": "Estadio Akron",
@@ -1849,38 +1849,14 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/eng.png"
           },
           "rank": 1,
-          "mp": 2,
-          "w": 1,
+          "mp": 3,
+          "w": 2,
           "d": 1,
           "l": 0,
-          "gf": 4,
+          "gf": 6,
           "ga": 2,
-          "gd": 2,
-          "pts": 4,
-          "advance": true,
-          "advance_label": "Advance to Round of 32",
-          "advance_color": "#81D6AC"
-        },
-        {
-          "team": {
-            "id": "4469",
-            "name": "Ghana",
-            "name_zh": "加纳",
-            "rank": 73,
-            "short": "Ghana",
-            "abbr": "GHA",
-            "flag": "🇬🇭",
-            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/gha.png"
-          },
-          "rank": 2,
-          "mp": 2,
-          "w": 1,
-          "d": 1,
-          "l": 0,
-          "gf": 1,
-          "ga": 0,
-          "gd": 1,
-          "pts": 4,
+          "gd": 4,
+          "pts": 7,
           "advance": true,
           "advance_label": "Advance to Round of 32",
           "advance_color": "#81D6AC"
@@ -1896,16 +1872,40 @@
             "flag": "🇭🇷",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/cro.png"
           },
-          "rank": 3,
-          "mp": 2,
-          "w": 1,
+          "rank": 2,
+          "mp": 3,
+          "w": 2,
           "d": 0,
           "l": 1,
-          "gf": 3,
-          "ga": 4,
-          "gd": -1,
-          "pts": 3,
+          "gf": 5,
+          "ga": 5,
+          "gd": 0,
+          "pts": 6,
           "advance": false,
+          "advance_label": "Advance to Round of 32",
+          "advance_color": "#81D6AC"
+        },
+        {
+          "team": {
+            "id": "4469",
+            "name": "Ghana",
+            "name_zh": "加纳",
+            "rank": 73,
+            "short": "Ghana",
+            "abbr": "GHA",
+            "flag": "🇬🇭",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/gha.png"
+          },
+          "rank": 3,
+          "mp": 3,
+          "w": 1,
+          "d": 1,
+          "l": 1,
+          "gf": 2,
+          "ga": 2,
+          "gd": 0,
+          "pts": 4,
+          "advance": true,
           "advance_label": "Best 8 advance",
           "advance_color": "#B5E7CE"
         },
@@ -1921,13 +1921,13 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/pan.png"
           },
           "rank": 4,
-          "mp": 2,
+          "mp": 3,
           "w": 0,
           "d": 0,
-          "l": 2,
+          "l": 3,
           "gf": 0,
-          "ga": 2,
-          "gd": -2,
+          "ga": 4,
+          "gd": -4,
           "pts": 0,
           "advance": false,
           "advance_label": "Eliminated",
@@ -15281,8 +15281,8 @@
           "kickoff_local_date": "2026-06-27",
           "kickoff_time": "4:00 PM",
           "kickoff_weekday": "Sat",
-          "status": "LIVE",
-          "status_short": "36'",
+          "status": "FINAL",
+          "status_short": "FT",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -15296,8 +15296,8 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/cro.png",
             "color": "ff0000",
             "home_away": "home",
-            "score": 1,
-            "winner": false
+            "score": 2,
+            "winner": true
           },
           "away": {
             "id": "4469",
@@ -15310,7 +15310,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/gha.png",
             "color": "fbd632",
             "home_away": "away",
-            "score": 0,
+            "score": 1,
             "winner": false
           },
           "venue": {
@@ -15336,6 +15336,134 @@
               "player": "Petar Sucic",
               "text": "Goal! Croatia 1, Ghana 0. Petar Sucic (Croatia) right footed shot from outside the box to the bottom left corner. Assisted by Mateo Kovacic.",
               "assist": "Mateo Kovacic"
+            },
+            {
+              "kind": "substitution",
+              "minute": "45'",
+              "team": "Ghana",
+              "team_id": "4469",
+              "team_side": "away",
+              "player": "Kojo Peprah Oppong",
+              "text": "Substitution, Ghana. Kojo Peprah Oppong replaces Jonas Adjetey.",
+              "player_off": "Jonas Adjetey"
+            },
+            {
+              "kind": "substitution",
+              "minute": "45'",
+              "team": "Ghana",
+              "team_id": "4469",
+              "team_side": "away",
+              "player": "Fatawu Issahaku",
+              "text": "Substitution, Ghana. Abdul Fatawu replaces Elisha Owusu.",
+              "player_off": "Elisha Owusu"
+            },
+            {
+              "kind": "substitution",
+              "minute": "66'",
+              "team": "Croatia",
+              "team_id": "477",
+              "team_side": "home",
+              "player": "Igor Matanovic",
+              "text": "Substitution, Croatia. Igor Matanovic replaces Ante Budimir.",
+              "player_off": "Ante Budimir"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "68'",
+              "team": "Croatia",
+              "team_id": "477",
+              "team_side": "home",
+              "player": "Ivan Perisic",
+              "text": "Ivan Perisic (Croatia) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "substitution",
+              "minute": "71'",
+              "team": "Ghana",
+              "team_id": "4469",
+              "team_side": "away",
+              "player": "Brandon Thomas-Asante",
+              "text": "Substitution, Ghana. Brandon Thomas-Asante replaces Jordan Ayew.",
+              "player_off": "Jordan Ayew"
+            },
+            {
+              "kind": "substitution",
+              "minute": "71'",
+              "team": "Ghana",
+              "team_id": "4469",
+              "team_side": "away",
+              "player": "Ernest Nuamah",
+              "text": "Substitution, Ghana. Ernest Nuamah replaces Kamaldeen Sulemana.",
+              "player_off": "Kamaldeen Sulemana"
+            },
+            {
+              "kind": "goal",
+              "minute": "73'",
+              "team": "Ghana",
+              "team_id": "4469",
+              "team_side": "away",
+              "player": "Derrick Luckassen",
+              "text": "Goal! Croatia 1, Ghana 1. Derrick Luckassen (Ghana) left footed shot from very close range to the bottom right corner. Assisted by Ernest Nuamah with a cross following a set piece situation.Goal awarded following VAR Review.",
+              "assist": "Ernest Nuamah"
+            },
+            {
+              "kind": "substitution",
+              "minute": "78'",
+              "team": "Croatia",
+              "team_id": "477",
+              "team_side": "home",
+              "player": "Mario Pasalic",
+              "text": "Substitution, Croatia. Mario Pasalic replaces Mateo Kovacic.",
+              "player_off": "Mateo Kovacic"
+            },
+            {
+              "kind": "goal",
+              "minute": "83'",
+              "team": "Croatia",
+              "team_id": "477",
+              "team_side": "home",
+              "player": "Nikola Vlasic",
+              "text": "Goal! Croatia 2, Ghana 1. Nikola Vlasic (Croatia) header from the centre of the box to the bottom left corner. Assisted by Luka Modric with a cross following a corner.",
+              "assist": "Luka Modric"
+            },
+            {
+              "kind": "substitution",
+              "minute": "85'",
+              "team": "Ghana",
+              "team_id": "4469",
+              "team_side": "away",
+              "player": "Caleb Yirenkyi",
+              "text": "Substitution, Ghana. Caleb Yirenkyi replaces Kwasi Sibo.",
+              "player_off": "Kwasi Sibo"
+            },
+            {
+              "kind": "substitution",
+              "minute": "88'",
+              "team": "Croatia",
+              "team_id": "477",
+              "team_side": "home",
+              "player": "Josko Gvardiol",
+              "text": "Substitution, Croatia. Josko Gvardiol replaces Nikola Vlasic.",
+              "player_off": "Nikola Vlasic"
+            },
+            {
+              "kind": "substitution",
+              "minute": "88'",
+              "team": "Croatia",
+              "team_id": "477",
+              "team_side": "home",
+              "player": "Marco Pasalic",
+              "text": "Substitution, Croatia. Marco Pasalic replaces Martin Baturina.",
+              "player_off": "Martin Baturina"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "90'+4'",
+              "team": "Ghana",
+              "team_id": "4469",
+              "team_side": "away",
+              "player": "Kojo Peprah Oppong",
+              "text": "Kojo Peprah Oppong (Ghana) is shown the yellow card for a bad foul."
             }
           ]
         },
@@ -15346,8 +15474,8 @@
           "kickoff_local_date": "2026-06-27",
           "kickoff_time": "4:00 PM",
           "kickoff_weekday": "Sat",
-          "status": "LIVE",
-          "status_short": "37'",
+          "status": "FINAL",
+          "status_short": "FT",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -15375,8 +15503,8 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/eng.png",
             "color": "ffffff",
             "home_away": "away",
-            "score": 0,
-            "winner": false
+            "score": 2,
+            "winner": true
           },
           "venue": {
             "name": "MetLife Stadium",
@@ -15391,7 +15519,155 @@
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760485/england-panama",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Panama%20vs%20England",
           "slug": "england-at-panama",
-          "incidents": []
+          "incidents": [
+            {
+              "kind": "substitution",
+              "minute": "45'",
+              "team": "Panama",
+              "team_id": "2659",
+              "team_side": "home",
+              "player": "José Fajardo",
+              "text": "Substitution, Panama. José Fajardo replaces Tomás Rodríguez.",
+              "player_off": "Tomás Rodríguez"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "53'",
+              "team": "Panama",
+              "team_id": "2659",
+              "team_side": "home",
+              "player": "José Fajardo",
+              "text": "José Fajardo (Panama) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "60'",
+              "team": "England",
+              "team_id": "448",
+              "team_side": "away",
+              "player": "Jarell Quansah",
+              "text": "Jarell Quansah (England) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "goal",
+              "minute": "62'",
+              "team": "England",
+              "team_id": "448",
+              "team_side": "away",
+              "player": "Jude Bellingham",
+              "text": "Goal! Panama 0, England 1. Jude Bellingham (England) left footed shot from the centre of the box to the bottom left corner. Assisted by Bukayo Saka with a cross following a corner.",
+              "assist": "Bukayo Saka"
+            },
+            {
+              "kind": "substitution",
+              "minute": "63'",
+              "team": "England",
+              "team_id": "448",
+              "team_side": "away",
+              "player": "Djed Spence",
+              "text": "Substitution, England. Djed Spence replaces Jarell Quansah.",
+              "player_off": "Jarell Quansah"
+            },
+            {
+              "kind": "substitution",
+              "minute": "63'",
+              "team": "England",
+              "team_id": "448",
+              "team_side": "away",
+              "player": "Noni Madueke",
+              "text": "Substitution, England. Noni Madueke replaces Bukayo Saka.",
+              "player_off": "Bukayo Saka"
+            },
+            {
+              "kind": "goal",
+              "minute": "67'",
+              "team": "England",
+              "team_id": "448",
+              "team_side": "away",
+              "player": "Harry Kane",
+              "text": "Goal! Panama 0, England 2. Harry Kane (England) header from the centre of the box to the top left corner. Assisted by Jude Bellingham with a cross.",
+              "assist": "Jude Bellingham"
+            },
+            {
+              "kind": "substitution",
+              "minute": "71'",
+              "team": "Panama",
+              "team_id": "2659",
+              "team_side": "home",
+              "player": "Ismael Díaz",
+              "text": "Substitution, Panama. Ismael Díaz replaces Yoel Bárcenas.",
+              "player_off": "Édgar Yoel Bárcenas"
+            },
+            {
+              "kind": "substitution",
+              "minute": "71'",
+              "team": "England",
+              "team_id": "448",
+              "team_side": "away",
+              "player": "Eberechi Eze",
+              "text": "Substitution, England. Eberechi Eze replaces Jude Bellingham.",
+              "player_off": "Jude Bellingham"
+            },
+            {
+              "kind": "substitution",
+              "minute": "71'",
+              "team": "Panama",
+              "team_id": "2659",
+              "team_side": "home",
+              "player": "Azarias Londoño",
+              "text": "Substitution, Panama. Azarías Londoño replaces José Luis Rodríguez.",
+              "player_off": "José Luis Rodríguez"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "84'",
+              "team": "Panama",
+              "team_id": "2659",
+              "team_side": "home",
+              "player": "Andrés Andrade",
+              "text": "Andrés Andrade (Panama) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "substitution",
+              "minute": "84'",
+              "team": "England",
+              "team_id": "448",
+              "team_side": "away",
+              "player": "Jordan Henderson",
+              "text": "Substitution, England. Jordan Henderson replaces Elliot Anderson.",
+              "player_off": "Elliot Anderson"
+            },
+            {
+              "kind": "substitution",
+              "minute": "84'",
+              "team": "England",
+              "team_id": "448",
+              "team_side": "away",
+              "player": "Ollie Watkins",
+              "text": "Substitution, England. Ollie Watkins replaces Harry Kane.",
+              "player_off": "Harry Kane"
+            },
+            {
+              "kind": "substitution",
+              "minute": "88'",
+              "team": "Panama",
+              "team_id": "2659",
+              "team_side": "home",
+              "player": "Alberto Quintero",
+              "text": "Substitution, Panama. Alberto Quintero replaces Carlos Harvey.",
+              "player_off": "Carlos Harvey"
+            },
+            {
+              "kind": "substitution",
+              "minute": "88'",
+              "team": "Panama",
+              "team_id": "2659",
+              "team_side": "home",
+              "player": "Éric Davis",
+              "text": "Substitution, Panama. Éric Davis replaces Jorge Gutiérrez.",
+              "player_off": "Jorge Gutiérrez"
+            }
+          ]
         },
         {
           "id": "760481",
