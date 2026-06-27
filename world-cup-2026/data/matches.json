@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-27T02:35:24.445654+00:00",
+  "generated_at": "2026-06-27T06:25:34.337661+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-26T21:35:20.428036-05:00",
+  "now_local": "2026-06-27T01:25:30.701591-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -544,24 +544,6 @@
     ],
     "venues": [
       {
-        "id": "Lumen Field",
-        "name": "Lumen Field",
-        "city": "Seattle, Washington",
-        "country": "USA",
-        "match_count": 6,
-        "next_kickoff_iso": "2026-06-26",
-        "last_kickoff_iso": "2026-07-06"
-      },
-      {
-        "id": "BC Place",
-        "name": "BC Place",
-        "city": "Vancouver",
-        "country": "Canada",
-        "match_count": 7,
-        "next_kickoff_iso": "2026-06-26",
-        "last_kickoff_iso": "2026-07-07"
-      },
-      {
         "id": "Lincoln Financial Field",
         "name": "Lincoln Financial Field",
         "city": "Philadelphia, Pennsylvania",
@@ -670,6 +652,15 @@
         "last_kickoff_iso": "2026-07-01"
       },
       {
+        "id": "Lumen Field",
+        "name": "Lumen Field",
+        "city": "Seattle, Washington",
+        "country": "USA",
+        "match_count": 6,
+        "next_kickoff_iso": "2026-07-01",
+        "last_kickoff_iso": "2026-07-06"
+      },
+      {
         "id": "BMO Field",
         "name": "BMO Field",
         "city": "Toronto",
@@ -677,6 +668,15 @@
         "match_count": 6,
         "next_kickoff_iso": "2026-07-02",
         "last_kickoff_iso": "2026-07-02"
+      },
+      {
+        "id": "BC Place",
+        "name": "BC Place",
+        "city": "Vancouver",
+        "country": "Canada",
+        "match_count": 7,
+        "next_kickoff_iso": "2026-07-02",
+        "last_kickoff_iso": "2026-07-07"
       },
       {
         "id": "Estadio Akron",
@@ -1324,6 +1324,30 @@
       "entries": [
         {
           "team": {
+            "id": "459",
+            "name": "Belgium",
+            "name_zh": "比利时",
+            "rank": 9,
+            "short": "Belgium",
+            "abbr": "BEL",
+            "flag": "🇧🇪",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/bel.png"
+          },
+          "rank": 1,
+          "mp": 3,
+          "w": 1,
+          "d": 2,
+          "l": 0,
+          "gf": 6,
+          "ga": 2,
+          "gd": 4,
+          "pts": 5,
+          "advance": true,
+          "advance_label": "Advance to Round of 32",
+          "advance_color": "#81D6AC"
+        },
+        {
+          "team": {
             "id": "2620",
             "name": "Egypt",
             "name_zh": "埃及",
@@ -1333,15 +1357,15 @@
             "flag": "🇪🇬",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/egy.png"
           },
-          "rank": 1,
-          "mp": 2,
+          "rank": 2,
+          "mp": 3,
           "w": 1,
-          "d": 1,
+          "d": 2,
           "l": 0,
-          "gf": 4,
-          "ga": 2,
+          "gf": 5,
+          "ga": 3,
           "gd": 2,
-          "pts": 4,
+          "pts": 5,
           "advance": true,
           "advance_label": "Advance to Round of 32",
           "advance_color": "#81D6AC"
@@ -1357,39 +1381,15 @@
             "flag": "🇮🇷",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/irn.png"
           },
-          "rank": 2,
-          "mp": 2,
-          "w": 0,
-          "d": 2,
-          "l": 0,
-          "gf": 2,
-          "ga": 2,
-          "gd": 0,
-          "pts": 2,
-          "advance": false,
-          "advance_label": "Advance to Round of 32",
-          "advance_color": "#81D6AC"
-        },
-        {
-          "team": {
-            "id": "459",
-            "name": "Belgium",
-            "name_zh": "比利时",
-            "rank": 9,
-            "short": "Belgium",
-            "abbr": "BEL",
-            "flag": "🇧🇪",
-            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/bel.png"
-          },
           "rank": 3,
-          "mp": 2,
+          "mp": 3,
           "w": 0,
-          "d": 2,
+          "d": 3,
           "l": 0,
-          "gf": 1,
-          "ga": 1,
+          "gf": 3,
+          "ga": 3,
           "gd": 0,
-          "pts": 2,
+          "pts": 3,
           "advance": false,
           "advance_label": "Best 8 advance",
           "advance_color": "#B5E7CE"
@@ -1406,13 +1406,13 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/nzl.png"
           },
           "rank": 4,
-          "mp": 2,
+          "mp": 3,
           "w": 0,
           "d": 1,
-          "l": 1,
-          "gf": 3,
-          "ga": 5,
-          "gd": -2,
+          "l": 2,
+          "gf": 4,
+          "ga": 10,
+          "gd": -6,
           "pts": 1,
           "advance": false,
           "advance_label": "Eliminated",
@@ -1596,7 +1596,7 @@
           "ga": 6,
           "gd": 2,
           "pts": 3,
-          "advance": false,
+          "advance": true,
           "advance_label": "Best 8 advance",
           "advance_color": "#B5E7CE"
         },
@@ -13953,7 +13953,7 @@
     },
     {
       "date": "2026-06-26",
-      "label": "Today",
+      "label": "Fri",
       "match_count": 6,
       "matches": [
         {
@@ -14827,8 +14827,8 @@
           "kickoff_local_date": "2026-06-26",
           "kickoff_time": "10:00 PM",
           "kickoff_weekday": "Fri",
-          "status": "SCHEDULED",
-          "status_short": "Scheduled",
+          "status": "FINAL",
+          "status_short": "FT",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -14842,7 +14842,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/egy.png",
             "color": "D20300",
             "home_away": "home",
-            "score": 0,
+            "score": 1,
             "winner": false
           },
           "away": {
@@ -14856,7 +14856,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/irn.png",
             "color": "FFFFFF",
             "home_away": "away",
-            "score": 0,
+            "score": 1,
             "winner": false
           },
           "venue": {
@@ -14871,7 +14871,171 @@
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760476/iran-egypt",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Egypt%20vs%20Iran",
-          "slug": "iran-at-egypt"
+          "slug": "iran-at-egypt",
+          "incidents": [
+            {
+              "kind": "goal",
+              "minute": "5'",
+              "team": "Egypt",
+              "team_id": "2620",
+              "team_side": "home",
+              "player": "Mahmoud Saber",
+              "text": "Goal! Egypt 1, IR Iran 0. Mahmoud Saber (Egypt) left footed shot from the left side of the box to the bottom left corner. Assisted by Trezeguet.",
+              "assist": "Trézéguet"
+            },
+            {
+              "kind": "goal",
+              "minute": "14'",
+              "team": "Iran",
+              "team_id": "469",
+              "team_side": "away",
+              "player": "Ramin Rezaeian",
+              "text": "Goal! Egypt 1, IR Iran 1. Ramin Rezaeian (IR Iran) right footed shot from the right side of the six yard box to the bottom right corner."
+            },
+            {
+              "kind": "substitution",
+              "minute": "14'",
+              "team": "Egypt",
+              "team_id": "2620",
+              "team_side": "home",
+              "player": "Yasser Ibrahim",
+              "text": "Substitution, Egypt. Yasser Ibrahim replaces Mohamed Abdelmonem because of an injury.",
+              "player_off": "Mohamed Abdelmoneim"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "19'",
+              "team": "Iran",
+              "team_id": "469",
+              "team_side": "away",
+              "player": "Hossein Kanani",
+              "text": "Hossein Kanani (IR Iran) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "20'",
+              "team": "Egypt",
+              "team_id": "2620",
+              "team_side": "home",
+              "player": "Mahmoud Saber",
+              "text": "Mahmoud Saber (Egypt) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "42'",
+              "team": "Egypt",
+              "team_id": "2620",
+              "team_side": "home",
+              "player": "Yasser Ibrahim",
+              "text": "Yasser Ibrahim (Egypt) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "43'",
+              "team": "Iran",
+              "team_id": "469",
+              "team_side": "away",
+              "player": "Ali Nemati",
+              "text": "Ali Nemati (IR Iran) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "substitution",
+              "minute": "45'",
+              "team": "Iran",
+              "team_id": "469",
+              "team_side": "away",
+              "player": "Saleh Hardani",
+              "text": "Substitution, IR Iran. Saleh Hardani replaces Hossein Kanani.",
+              "player_off": "Hossein Kanani"
+            },
+            {
+              "kind": "substitution",
+              "minute": "45'",
+              "team": "Egypt",
+              "team_id": "2620",
+              "team_side": "home",
+              "player": "Marawan Attia",
+              "text": "Substitution, Egypt. Marwan Attia replaces Mahmoud Saber.",
+              "player_off": "Mahmoud Saber"
+            },
+            {
+              "kind": "substitution",
+              "minute": "45'",
+              "team": "Egypt",
+              "team_id": "2620",
+              "team_side": "home",
+              "player": "Omar Marmoush",
+              "text": "Substitution, Egypt. Omar Marmoush replaces Emam Ashour.",
+              "player_off": "Emam Ashour"
+            },
+            {
+              "kind": "substitution",
+              "minute": "57'",
+              "team": "Egypt",
+              "team_id": "2620",
+              "team_side": "home",
+              "player": "Zizo",
+              "text": "Substitution, Egypt. Zizo replaces Mohamed Salah.",
+              "player_off": "Mohamed Salah"
+            },
+            {
+              "kind": "substitution",
+              "minute": "67'",
+              "team": "Iran",
+              "team_id": "469",
+              "team_side": "away",
+              "player": "Shahriyar Moghanloo",
+              "text": "Substitution, IR Iran. Shahriyar Moghanloo replaces Saman Ghoddos.",
+              "player_off": "Saman Ghoddos"
+            },
+            {
+              "kind": "substitution",
+              "minute": "76'",
+              "team": "Egypt",
+              "team_id": "2620",
+              "team_side": "home",
+              "player": "Hamza Abdelkarim",
+              "text": "Substitution, Egypt. Hamza Abdelkarim replaces Mostafa Zico.",
+              "player_off": "Mostafa Zico"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "79'",
+              "team": "Iran",
+              "team_id": "469",
+              "team_side": "away",
+              "player": "Saeid Ezatolahi",
+              "text": "Saeid Ezatolahi (IR Iran) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "substitution",
+              "minute": "90'+1'",
+              "team": "Iran",
+              "team_id": "469",
+              "team_side": "away",
+              "player": "Alireza Jahanbakhsh",
+              "text": "Substitution, IR Iran. Alireza Jahanbakhsh replaces Mohammad Mohebbi.",
+              "player_off": "Mohammad Mohebbi"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "90'+2'",
+              "team": "Egypt",
+              "team_id": "2620",
+              "team_side": "home",
+              "player": "Mohanad Lashin",
+              "text": "Mohanad Lasheen (Egypt) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "90'+4'",
+              "team": "Iran",
+              "team_id": "469",
+              "team_side": "away",
+              "player": "Shoja Khalilzadeh",
+              "text": "Shoja Khalilzadeh (IR Iran) is shown the yellow card for excessive celebration."
+            }
+          ]
         },
         {
           "id": "760477",
@@ -14880,8 +15044,8 @@
           "kickoff_local_date": "2026-06-26",
           "kickoff_time": "10:00 PM",
           "kickoff_weekday": "Fri",
-          "status": "SCHEDULED",
-          "status_short": "Scheduled",
+          "status": "FINAL",
+          "status_short": "FT",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -14895,7 +15059,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/nzl.png",
             "color": "000000",
             "home_away": "home",
-            "score": 0,
+            "score": 1,
             "winner": false
           },
           "away": {
@@ -14909,8 +15073,8 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/bel.png",
             "color": "E30613",
             "home_away": "away",
-            "score": 0,
-            "winner": false
+            "score": 5,
+            "winner": true
           },
           "venue": {
             "name": "BC Place",
@@ -14924,13 +15088,190 @@
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760477/belgium-new-zealand",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20New%20Zealand%20vs%20Belgium",
-          "slug": "belgium-at-new zealand"
+          "slug": "belgium-at-new zealand",
+          "incidents": [
+            {
+              "kind": "goal",
+              "minute": "28'",
+              "team": "Belgium",
+              "team_id": "459",
+              "team_side": "away",
+              "player": "Leandro Trossard",
+              "text": "Goal! New Zealand 0, Belgium 1. Leandro Trossard (Belgium) right footed shot from very close range to the bottom right corner following a corner."
+            },
+            {
+              "kind": "substitution",
+              "minute": "45'",
+              "team": "New Zealand",
+              "team_id": "2666",
+              "team_side": "home",
+              "player": "Ben Old",
+              "text": "Substitution, New Zealand. Ben Old replaces Ryan Thomas.",
+              "player_off": "Ryan Thomas"
+            },
+            {
+              "kind": "substitution",
+              "minute": "45'",
+              "team": "New Zealand",
+              "team_id": "2666",
+              "team_side": "home",
+              "player": "Jesse Randall",
+              "text": "Substitution, New Zealand. Jesse Randall replaces Sarpreet Singh.",
+              "player_off": "Sarpreet Singh"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "46'",
+              "team": "New Zealand",
+              "team_id": "2666",
+              "team_side": "home",
+              "player": "Marko Stamenic",
+              "text": "Marko Stamenic (New Zealand) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "goal",
+              "minute": "50'",
+              "team": "Belgium",
+              "team_id": "459",
+              "team_side": "away",
+              "player": "Leandro Trossard",
+              "text": "Goal! New Zealand 0, Belgium 2. Leandro Trossard (Belgium) right footed shot from the centre of the box to the top left corner. Assisted by Hans Vanaken.",
+              "assist": "Hans Vanaken"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "56'",
+              "team": "New Zealand",
+              "team_id": "2666",
+              "team_side": "home",
+              "player": "Elijah Just",
+              "text": "Elijah Just (New Zealand) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "substitution",
+              "minute": "56'",
+              "team": "Belgium",
+              "team_id": "459",
+              "team_side": "away",
+              "player": "Matias Fernandez-Pardo",
+              "text": "Substitution, Belgium. Matias Fernandez-Pardo replaces Jérémy Doku.",
+              "player_off": "Jérémy Doku"
+            },
+            {
+              "kind": "substitution",
+              "minute": "64'",
+              "team": "New Zealand",
+              "team_id": "2666",
+              "team_side": "home",
+              "player": "Michael Boxall",
+              "text": "Substitution, New Zealand. Michael Boxall replaces Tim Payne.",
+              "player_off": "Tim Payne"
+            },
+            {
+              "kind": "substitution",
+              "minute": "64'",
+              "team": "New Zealand",
+              "team_id": "2666",
+              "team_side": "home",
+              "player": "Callum McCowatt",
+              "text": "Substitution, New Zealand. Callum McCowatt replaces Joe Bell.",
+              "player_off": "Joe Bell"
+            },
+            {
+              "kind": "goal",
+              "minute": "66'",
+              "team": "Belgium",
+              "team_id": "459",
+              "team_side": "away",
+              "player": "Kevin De Bruyne",
+              "text": "Goal! New Zealand 0, Belgium 3. Kevin De Bruyne (Belgium) left footed shot from outside the box to the bottom right corner."
+            },
+            {
+              "kind": "substitution",
+              "minute": "72'",
+              "team": "Belgium",
+              "team_id": "459",
+              "team_side": "away",
+              "player": "Alexis Saelemaekers",
+              "text": "Substitution, Belgium. Alexis Saelemaekers replaces Leandro Trossard.",
+              "player_off": "Leandro Trossard"
+            },
+            {
+              "kind": "substitution",
+              "minute": "72'",
+              "team": "Belgium",
+              "team_id": "459",
+              "team_side": "away",
+              "player": "Amadou Onana",
+              "text": "Substitution, Belgium. Amadou Onana replaces Kevin De Bruyne.",
+              "player_off": "Kevin De Bruyne"
+            },
+            {
+              "kind": "substitution",
+              "minute": "79'",
+              "team": "New Zealand",
+              "team_id": "2666",
+              "team_side": "home",
+              "player": "Francis de Vries",
+              "text": "Substitution, New Zealand. Francis de Vries replaces Liberato Cacace.",
+              "player_off": "Liberato Cacace"
+            },
+            {
+              "kind": "goal",
+              "minute": "84'",
+              "team": "New Zealand",
+              "team_id": "2666",
+              "team_side": "home",
+              "player": "Elijah Just",
+              "text": "Goal! New Zealand 1, Belgium 3. Elijah Just (New Zealand) left footed shot from the centre of the box to the high centre of the goal following a corner."
+            },
+            {
+              "kind": "substitution",
+              "minute": "85'",
+              "team": "Belgium",
+              "team_id": "459",
+              "team_side": "away",
+              "player": "Romelu Lukaku",
+              "text": "Substitution, Belgium. Romelu Lukaku replaces Charles De Ketelaere.",
+              "player_off": "Charles De Ketelaere"
+            },
+            {
+              "kind": "substitution",
+              "minute": "85'",
+              "team": "Belgium",
+              "team_id": "459",
+              "team_side": "away",
+              "player": "Nicolas Raskin",
+              "text": "Substitution, Belgium. Nicolas Raskin replaces Youri Tielemans.",
+              "player_off": "Youri Tielemans"
+            },
+            {
+              "kind": "goal",
+              "minute": "86'",
+              "team": "Belgium",
+              "team_id": "459",
+              "team_side": "away",
+              "player": "Romelu Lukaku",
+              "text": "Goal! New Zealand 1, Belgium 4. Romelu Lukaku (Belgium) header from very close range to the centre of the goal. Assisted by Nicolas Raskin with a cross.",
+              "assist": "Nicolas Raskin"
+            },
+            {
+              "kind": "goal",
+              "minute": "90'+4'",
+              "team": "Belgium",
+              "team_id": "459",
+              "team_side": "away",
+              "player": "Alexis Saelemaekers",
+              "text": "Goal! New Zealand 1, Belgium 5. Alexis Saelemaekers (Belgium) right footed shot from the centre of the box to the bottom left corner. Assisted by Romelu Lukaku following a fast break.",
+              "assist": "Romelu Lukaku"
+            }
+          ]
         }
       ]
     },
     {
       "date": "2026-06-27",
-      "label": "Tomorrow",
+      "label": "Today",
       "match_count": 6,
       "matches": [
         {
@@ -15255,7 +15596,7 @@
     },
     {
       "date": "2026-06-28",
-      "label": "Sun",
+      "label": "Tomorrow",
       "match_count": 1,
       "matches": [
         {
@@ -15715,15 +16056,15 @@
           "stage": "Round of 32",
           "stage_slug": "round-of-32",
           "home": {
-            "id": "5935",
-            "name": "Group G Winner",
-            "name_zh": "",
-            "rank": null,
-            "short": "1G",
-            "abbr": "1G",
-            "flag": "🏳️",
-            "logo": "",
-            "color": "000000",
+            "id": "459",
+            "name": "Belgium",
+            "name_zh": "比利时",
+            "rank": 9,
+            "short": "Belgium",
+            "abbr": "BEL",
+            "flag": "🇧🇪",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/bel.png",
+            "color": "E30613",
             "home_away": "home",
             "score": 0,
             "winner": false
@@ -15752,9 +16093,9 @@
             "Tele",
             "FOX One"
           ],
-          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760493/third-place-group-aehij-group-g-winner",
-          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Group%20G%20Winner%20vs%20Third%20Place%20Group%20A/E/H/I/J",
-          "slug": "third place group a/e/h/i/j-at-group g winner"
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760493/third-place-group-aehij-belgium",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Belgium%20vs%20Third%20Place%20Group%20A/E/H/I/J",
+          "slug": "third place group a/e/h/i/j-at-belgium"
         },
         {
           "id": "760494",
@@ -16008,15 +16349,15 @@
             "winner": false
           },
           "away": {
-            "id": "5936",
-            "name": "Group G 2nd Place",
-            "name_zh": "",
-            "rank": null,
-            "short": "2G",
-            "abbr": "2G",
-            "flag": "🏳️",
-            "logo": "",
-            "color": "000000",
+            "id": "2620",
+            "name": "Egypt",
+            "name_zh": "埃及",
+            "rank": 29,
+            "short": "Egypt",
+            "abbr": "EGY",
+            "flag": "🇪🇬",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/egy.png",
+            "color": "D20300",
             "home_away": "away",
             "score": 0,
             "winner": false
@@ -16031,9 +16372,9 @@
             "Tele",
             "FOX One"
           ],
-          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760499/group-g-2nd-place-australia",
-          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Australia%20vs%20Group%20G%202nd%20Place",
-          "slug": "group g 2nd place-at-australia"
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760499/egypt-australia",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Australia%20vs%20Egypt",
+          "slug": "egypt-at-australia"
         },
         {
           "id": "760500",

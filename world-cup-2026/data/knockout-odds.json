@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-06-27T02:35:25+00:00",
+  "generated_at": "2026-06-27T06:25:35+00:00",
   "n_simulations": 10000,
   "match_window": [
-    "2026-06-26",
+    "2026-06-27",
     "2026-06-27"
   ],
   "model": "elo + rank-gap-shrunk draw",
@@ -60,8 +60,8 @@
           "p_2nd": 0.0,
           "p_3rd": 100.0,
           "p_4th": 0.0,
-          "p_advance": 57.3,
-          "p_3rd_top8": 57.3
+          "p_advance": 43.2,
+          "p_3rd_top8": 43.2
         },
         {
           "id": "450",
@@ -454,25 +454,25 @@
     },
     {
       "name": "Group G",
-      "remaining_matches": [
-        {
-          "match_id": "760476",
-          "home_id": "2620",
-          "away_id": "469",
-          "home_abbr": "EGY",
-          "away_abbr": "IRN",
-          "date": "2026-06-26"
-        },
-        {
-          "match_id": "760477",
-          "home_id": "2666",
-          "away_id": "459",
-          "home_abbr": "NZL",
-          "away_abbr": "BEL",
-          "date": "2026-06-26"
-        }
-      ],
+      "remaining_matches": [],
       "teams": [
+        {
+          "id": "459",
+          "abbr": "BEL",
+          "name": "Belgium",
+          "name_zh": "比利时",
+          "flag": "🇧🇪",
+          "rank": 9,
+          "current_pts": 5,
+          "current_gd": 4,
+          "current_mp": 3,
+          "p_1st": 100.0,
+          "p_2nd": 0.0,
+          "p_3rd": 0.0,
+          "p_4th": 0.0,
+          "p_advance": 100.0,
+          "p_3rd_top8": 0.0
+        },
         {
           "id": "2620",
           "abbr": "EGY",
@@ -480,15 +480,15 @@
           "name_zh": "埃及",
           "flag": "🇪🇬",
           "rank": 29,
-          "current_pts": 4,
+          "current_pts": 5,
           "current_gd": 2,
-          "current_mp": 2,
-          "p_1st": 65.4,
-          "p_2nd": 16.9,
-          "p_3rd": 17.7,
+          "current_mp": 3,
+          "p_1st": 0.0,
+          "p_2nd": 100.0,
+          "p_3rd": 0.0,
           "p_4th": 0.0,
           "p_advance": 100.0,
-          "p_3rd_top8": 17.7
+          "p_3rd_top8": 0.0
         },
         {
           "id": "469",
@@ -497,32 +497,15 @@
           "name_zh": "伊朗",
           "flag": "🇮🇷",
           "rank": 20,
-          "current_pts": 2,
+          "current_pts": 3,
           "current_gd": 0,
-          "current_mp": 2,
-          "p_1st": 34.6,
-          "p_2nd": 3.8,
-          "p_3rd": 61.6,
-          "p_4th": 0.0,
-          "p_advance": 64.2,
-          "p_3rd_top8": 25.7
-        },
-        {
-          "id": "459",
-          "abbr": "BEL",
-          "name": "Belgium",
-          "name_zh": "比利时",
-          "flag": "🇧🇪",
-          "rank": 9,
-          "current_pts": 2,
-          "current_gd": 0,
-          "current_mp": 2,
+          "current_mp": 3,
           "p_1st": 0.0,
-          "p_2nd": 55.2,
-          "p_3rd": 8.1,
-          "p_4th": 36.8,
-          "p_advance": 62.7,
-          "p_3rd_top8": 7.5
+          "p_2nd": 0.0,
+          "p_3rd": 100.0,
+          "p_4th": 0.0,
+          "p_advance": 92.9,
+          "p_3rd_top8": 92.9
         },
         {
           "id": "2666",
@@ -532,14 +515,14 @@
           "flag": "🇳🇿",
           "rank": 85,
           "current_pts": 1,
-          "current_gd": -2,
-          "current_mp": 2,
+          "current_gd": -6,
+          "current_mp": 3,
           "p_1st": 0.0,
-          "p_2nd": 24.1,
-          "p_3rd": 12.7,
-          "p_4th": 63.2,
-          "p_advance": 36.8,
-          "p_3rd_top8": 12.7
+          "p_2nd": 0.0,
+          "p_3rd": 0.0,
+          "p_4th": 100.0,
+          "p_advance": 0.0,
+          "p_3rd_top8": 0.0
         }
       ]
     },
@@ -669,8 +652,8 @@
           "p_2nd": 0.0,
           "p_3rd": 100.0,
           "p_4th": 0.0,
-          "p_advance": 97.7,
-          "p_3rd_top8": 97.7
+          "p_advance": 100.0,
+          "p_3rd_top8": 100.0
         },
         {
           "id": "4375",
@@ -740,11 +723,11 @@
           "current_gd": 0,
           "current_mp": 2,
           "p_1st": 0.0,
-          "p_2nd": 67.6,
-          "p_3rd": 32.4,
+          "p_2nd": 68.3,
+          "p_3rd": 31.7,
           "p_4th": 0.0,
-          "p_advance": 95.3,
-          "p_3rd_top8": 27.7
+          "p_advance": 93.7,
+          "p_3rd_top8": 25.4
         },
         {
           "id": "624",
@@ -757,11 +740,11 @@
           "current_gd": -2,
           "current_mp": 2,
           "p_1st": 0.0,
-          "p_2nd": 32.4,
-          "p_3rd": 55.1,
-          "p_4th": 12.5,
-          "p_advance": 71.0,
-          "p_3rd_top8": 38.6
+          "p_2nd": 31.7,
+          "p_3rd": 55.7,
+          "p_4th": 12.6,
+          "p_advance": 65.8,
+          "p_3rd_top8": 34.0
         },
         {
           "id": "2917",
@@ -775,10 +758,10 @@
           "current_mp": 2,
           "p_1st": 0.0,
           "p_2nd": 0.0,
-          "p_3rd": 12.5,
-          "p_4th": 87.5,
-          "p_advance": 4.3,
-          "p_3rd_top8": 4.3
+          "p_3rd": 12.6,
+          "p_4th": 87.4,
+          "p_advance": 1.9,
+          "p_3rd_top8": 1.9
         }
       ]
     },
@@ -813,8 +796,8 @@
           "current_pts": 6,
           "current_gd": 3,
           "current_mp": 2,
-          "p_1st": 65.2,
-          "p_2nd": 34.9,
+          "p_1st": 65.7,
+          "p_2nd": 34.3,
           "p_3rd": 0.0,
           "p_4th": 0.0,
           "p_advance": 100.0,
@@ -830,8 +813,8 @@
           "current_pts": 4,
           "current_gd": 5,
           "current_mp": 2,
-          "p_1st": 34.9,
-          "p_2nd": 65.2,
+          "p_1st": 34.3,
+          "p_2nd": 65.7,
           "p_3rd": 0.0,
           "p_4th": 0.0,
           "p_advance": 100.0,
@@ -849,10 +832,10 @@
           "current_mp": 2,
           "p_1st": 0.0,
           "p_2nd": 0.0,
-          "p_3rd": 67.0,
-          "p_4th": 33.0,
-          "p_advance": 33.8,
-          "p_3rd_top8": 33.8
+          "p_3rd": 66.7,
+          "p_4th": 33.3,
+          "p_advance": 32.5,
+          "p_3rd_top8": 32.5
         },
         {
           "id": "2570",
@@ -866,8 +849,8 @@
           "current_mp": 2,
           "p_1st": 0.0,
           "p_2nd": 0.0,
-          "p_3rd": 33.0,
-          "p_4th": 67.0,
+          "p_3rd": 33.3,
+          "p_4th": 66.7,
           "p_advance": 0.0,
           "p_3rd_top8": 0.0
         }
@@ -904,8 +887,8 @@
           "current_pts": 4,
           "current_gd": 2,
           "current_mp": 2,
-          "p_1st": 44.0,
-          "p_2nd": 56.0,
+          "p_1st": 43.8,
+          "p_2nd": 56.2,
           "p_3rd": 0.0,
           "p_4th": 0.0,
           "p_advance": 100.0,
@@ -921,12 +904,12 @@
           "current_pts": 4,
           "current_gd": 1,
           "current_mp": 2,
-          "p_1st": 27.2,
-          "p_2nd": 25.2,
-          "p_3rd": 47.6,
+          "p_1st": 27.6,
+          "p_2nd": 25.4,
+          "p_3rd": 47.0,
           "p_4th": 0.0,
           "p_advance": 100.0,
-          "p_3rd_top8": 47.6
+          "p_3rd_top8": 47.0
         },
         {
           "id": "477",
@@ -938,12 +921,12 @@
           "current_pts": 3,
           "current_gd": -1,
           "current_mp": 2,
-          "p_1st": 28.8,
-          "p_2nd": 18.8,
-          "p_3rd": 39.7,
-          "p_4th": 12.7,
-          "p_advance": 71.6,
-          "p_3rd_top8": 23.9
+          "p_1st": 28.6,
+          "p_2nd": 18.4,
+          "p_3rd": 40.6,
+          "p_4th": 12.4,
+          "p_advance": 67.2,
+          "p_3rd_top8": 20.2
         },
         {
           "id": "2659",
@@ -957,10 +940,10 @@
           "current_mp": 2,
           "p_1st": 0.0,
           "p_2nd": 0.0,
-          "p_3rd": 12.7,
-          "p_4th": 87.3,
-          "p_advance": 5.5,
-          "p_3rd_top8": 5.5
+          "p_3rd": 12.4,
+          "p_4th": 87.6,
+          "p_advance": 2.8,
+          "p_3rd_top8": 2.8
         }
       ]
     }
