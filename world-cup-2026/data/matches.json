@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-27T00:07:01.584846+00:00",
+  "generated_at": "2026-06-27T02:35:24.445654+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-26T19:06:59.784073-05:00",
+  "now_local": "2026-06-26T21:35:20.428036-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -544,24 +544,6 @@
     ],
     "venues": [
       {
-        "id": "Estadio Akron",
-        "name": "Estadio Akron",
-        "city": "Guadalajara",
-        "country": "Mexico",
-        "match_count": 4,
-        "next_kickoff_iso": "2026-06-26",
-        "last_kickoff_iso": "2026-06-26"
-      },
-      {
-        "id": "NRG Stadium",
-        "name": "NRG Stadium",
-        "city": "Houston, Texas",
-        "country": "USA",
-        "match_count": 7,
-        "next_kickoff_iso": "2026-06-26",
-        "last_kickoff_iso": "2026-07-04"
-      },
-      {
         "id": "Lumen Field",
         "name": "Lumen Field",
         "city": "Seattle, Washington",
@@ -652,6 +634,15 @@
         "last_kickoff_iso": "2026-06-29"
       },
       {
+        "id": "NRG Stadium",
+        "name": "NRG Stadium",
+        "city": "Houston, Texas",
+        "country": "USA",
+        "match_count": 7,
+        "next_kickoff_iso": "2026-06-29",
+        "last_kickoff_iso": "2026-07-04"
+      },
+      {
         "id": "Gillette Stadium",
         "name": "Gillette Stadium",
         "city": "Foxborough, Massachusetts",
@@ -686,6 +677,15 @@
         "match_count": 6,
         "next_kickoff_iso": "2026-07-02",
         "last_kickoff_iso": "2026-07-02"
+      },
+      {
+        "id": "Estadio Akron",
+        "name": "Estadio Akron",
+        "city": "Guadalajara",
+        "country": "Mexico",
+        "match_count": 4,
+        "next_kickoff_iso": null,
+        "last_kickoff_iso": "2026-06-26"
       }
     ],
     "stages": [
@@ -1081,7 +1081,7 @@
           "ga": 4,
           "gd": -2,
           "pts": 4,
-          "advance": false,
+          "advance": true,
           "advance_label": "Best 8 advance",
           "advance_color": "#B5E7CE"
         },
@@ -1342,7 +1342,7 @@
           "ga": 2,
           "gd": 2,
           "pts": 4,
-          "advance": false,
+          "advance": true,
           "advance_label": "Advance to Round of 32",
           "advance_color": "#81D6AC"
         },
@@ -1437,39 +1437,15 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/esp.png"
           },
           "rank": 1,
-          "mp": 2,
-          "w": 1,
+          "mp": 3,
+          "w": 2,
           "d": 1,
           "l": 0,
-          "gf": 4,
+          "gf": 5,
           "ga": 0,
-          "gd": 4,
-          "pts": 4,
-          "advance": false,
-          "advance_label": "Advance to Round of 32",
-          "advance_color": "#81D6AC"
-        },
-        {
-          "team": {
-            "id": "212",
-            "name": "Uruguay",
-            "name_zh": "乌拉圭",
-            "rank": 16,
-            "short": "Uruguay",
-            "abbr": "URU",
-            "flag": "🇺🇾",
-            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/uru.png"
-          },
-          "rank": 2,
-          "mp": 2,
-          "w": 0,
-          "d": 2,
-          "l": 0,
-          "gf": 3,
-          "ga": 3,
-          "gd": 0,
-          "pts": 2,
-          "advance": false,
+          "gd": 5,
+          "pts": 7,
+          "advance": true,
           "advance_label": "Advance to Round of 32",
           "advance_color": "#81D6AC"
         },
@@ -1484,14 +1460,38 @@
             "flag": "🇨🇻",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/cpv.png"
           },
-          "rank": 3,
-          "mp": 2,
+          "rank": 2,
+          "mp": 3,
           "w": 0,
-          "d": 2,
+          "d": 3,
           "l": 0,
           "gf": 2,
           "ga": 2,
           "gd": 0,
+          "pts": 3,
+          "advance": true,
+          "advance_label": "Advance to Round of 32",
+          "advance_color": "#81D6AC"
+        },
+        {
+          "team": {
+            "id": "212",
+            "name": "Uruguay",
+            "name_zh": "乌拉圭",
+            "rank": 16,
+            "short": "Uruguay",
+            "abbr": "URU",
+            "flag": "🇺🇾",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/uru.png"
+          },
+          "rank": 3,
+          "mp": 3,
+          "w": 0,
+          "d": 2,
+          "l": 1,
+          "gf": 3,
+          "ga": 4,
+          "gd": -1,
           "pts": 2,
           "advance": false,
           "advance_label": "Best 8 advance",
@@ -1509,14 +1509,14 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/ksa.png"
           },
           "rank": 4,
-          "mp": 2,
+          "mp": 3,
           "w": 0,
-          "d": 1,
+          "d": 2,
           "l": 1,
           "gf": 1,
           "ga": 5,
           "gd": -4,
-          "pts": 1,
+          "pts": 2,
           "advance": false,
           "advance_label": "Eliminated",
           "advance_color": "#FF7F84"
@@ -1778,7 +1778,7 @@
           "ga": 1,
           "gd": 5,
           "pts": 4,
-          "advance": false,
+          "advance": true,
           "advance_label": "Advance to Round of 32",
           "advance_color": "#81D6AC"
         },
@@ -1857,7 +1857,7 @@
           "ga": 2,
           "gd": 2,
           "pts": 4,
-          "advance": false,
+          "advance": true,
           "advance_label": "Advance to Round of 32",
           "advance_color": "#81D6AC"
         },
@@ -1881,7 +1881,7 @@
           "ga": 0,
           "gd": 1,
           "pts": 4,
-          "advance": false,
+          "advance": true,
           "advance_label": "Advance to Round of 32",
           "advance_color": "#81D6AC"
         },
@@ -14436,8 +14436,8 @@
           "kickoff_local_date": "2026-06-26",
           "kickoff_time": "7:00 PM",
           "kickoff_weekday": "Fri",
-          "status": "LIVE",
-          "status_short": "5'",
+          "status": "FINAL",
+          "status_short": "FT",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -14478,7 +14478,7 @@
             "Universo",
             "FOX One"
           ],
-          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760478/saudi arabia-cape verde",
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760478/saudi-arabia-cape-verde",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Cape%20Verde%20vs%20Saudi%20Arabia",
           "slug": "saudi arabia-at-cape verde",
           "incidents": [
@@ -14490,6 +14490,133 @@
               "team_side": "away",
               "player": "Saud Abdulhamid",
               "text": "Saud Abdulhamid (Saudi Arabia) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "8'",
+              "team": "Cape Verde",
+              "team_id": "2597",
+              "team_side": "home",
+              "player": "Wagner Pina",
+              "text": "Wagner Pina (Cabo Verde) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "substitution",
+              "minute": "33'",
+              "team": "Saudi Arabia",
+              "team_id": "655",
+              "team_side": "away",
+              "player": "Ali Lajami",
+              "text": "Substitution, Saudi Arabia. Ali Lajami replaces Hassan Al Tambakti because of an injury.",
+              "player_off": "Hassan Al-Tambakti"
+            },
+            {
+              "kind": "substitution",
+              "minute": "45'",
+              "team": "Saudi Arabia",
+              "team_id": "655",
+              "team_side": "away",
+              "player": "Musab Al-Juwayr",
+              "text": "Substitution, Saudi Arabia. Musab Al Juwayr replaces Abdullah Al Khaibari.",
+              "player_off": "Abdullah Al-Khaibari"
+            },
+            {
+              "kind": "substitution",
+              "minute": "61'",
+              "team": "Cape Verde",
+              "team_id": "2597",
+              "team_side": "home",
+              "player": "Nuno da Costa",
+              "text": "Substitution, Cabo Verde. Nuno da Costa replaces Dailon Livramento.",
+              "player_off": "Dailon Livramento"
+            },
+            {
+              "kind": "substitution",
+              "minute": "61'",
+              "team": "Cape Verde",
+              "team_id": "2597",
+              "team_side": "home",
+              "player": "Hélio Varela",
+              "text": "Substitution, Cabo Verde. Hélio Varela replaces Willy Semedo.",
+              "player_off": "Willy Semedo"
+            },
+            {
+              "kind": "substitution",
+              "minute": "66'",
+              "team": "Saudi Arabia",
+              "team_id": "655",
+              "team_side": "away",
+              "player": "Mohammed Abu Al-Shamat",
+              "text": "Substitution, Saudi Arabia. Mohammed Abu Al Shamat replaces Salem Al Dawsari.",
+              "player_off": "Salem Al-Dawsari"
+            },
+            {
+              "kind": "substitution",
+              "minute": "66'",
+              "team": "Saudi Arabia",
+              "team_id": "655",
+              "team_side": "away",
+              "player": "Abdullah Al-Hamdan",
+              "text": "Substitution, Saudi Arabia. Abdullah Al Hamddan replaces Sultan Mandash.",
+              "player_off": "Sultan Mandash"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "67'",
+              "team": "Saudi Arabia",
+              "team_id": "655",
+              "team_side": "away",
+              "player": "Nasser Al-Dawsari",
+              "text": "Nasser Al Dawsari (Saudi Arabia) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "substitution",
+              "minute": "71'",
+              "team": "Cape Verde",
+              "team_id": "2597",
+              "team_side": "home",
+              "player": "Laros Duarte",
+              "text": "Substitution, Cabo Verde. Laros Duarte replaces Jamiro Monteiro.",
+              "player_off": "Jamiro Monteiro"
+            },
+            {
+              "kind": "substitution",
+              "minute": "71'",
+              "team": "Cape Verde",
+              "team_id": "2597",
+              "team_side": "home",
+              "player": "Garry Rodrigues",
+              "text": "Substitution, Cabo Verde. Garry Rodrigues replaces Ryan Mendes.",
+              "player_off": "Ryan Mendes"
+            },
+            {
+              "kind": "substitution",
+              "minute": "82'",
+              "team": "Saudi Arabia",
+              "team_id": "655",
+              "team_side": "away",
+              "player": "Moteb Al-Harbi",
+              "text": "Substitution, Saudi Arabia. Moteb Al Harbi replaces Nawaf Bu Washl.",
+              "player_off": "Nawaf Boushal"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "90'+3'",
+              "team": "Saudi Arabia",
+              "team_id": "655",
+              "team_side": "away",
+              "player": "Feras Al-Brikan",
+              "text": "Feras Al Brikan (Saudi Arabia) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "substitution",
+              "minute": "90'+4'",
+              "team": "Cape Verde",
+              "team_id": "2597",
+              "team_side": "home",
+              "player": "Steven Moreira",
+              "text": "Substitution, Cabo Verde. Steven Moreira replaces Wagner Pina.",
+              "player_off": "Wagner Pina"
             }
           ]
         },
@@ -14500,8 +14627,8 @@
           "kickoff_local_date": "2026-06-26",
           "kickoff_time": "7:00 PM",
           "kickoff_weekday": "Fri",
-          "status": "LIVE",
-          "status_short": "5'",
+          "status": "FINAL",
+          "status_short": "FT",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -14529,8 +14656,8 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/esp.png",
             "color": "c60b1e",
             "home_away": "away",
-            "score": 0,
-            "winner": false
+            "score": 1,
+            "winner": true
           },
           "venue": {
             "name": "Estadio Akron",
@@ -14545,7 +14672,153 @@
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760479/spain-uruguay",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Uruguay%20vs%20Spain",
           "slug": "spain-at-uruguay",
-          "incidents": []
+          "incidents": [
+            {
+              "kind": "goal",
+              "minute": "42'",
+              "team": "Spain",
+              "team_id": "164",
+              "team_side": "away",
+              "player": "Álex Baena",
+              "text": "Goal! Uruguay 0, Spain 1. Álex Baena (Spain) right footed shot from the centre of the box to the bottom left corner. Assisted by Marcos Llorente with a cross.",
+              "assist": "Marcos Llorente"
+            },
+            {
+              "kind": "substitution",
+              "minute": "45'",
+              "team": "Uruguay",
+              "team_id": "212",
+              "team_side": "home",
+              "player": "Nicolás de la Cruz",
+              "text": "Substitution, Uruguay. Nicolás de la Cruz replaces Manuel Ugarte because of an injury.",
+              "player_off": "Manuel Ugarte"
+            },
+            {
+              "kind": "substitution",
+              "minute": "45'",
+              "team": "Uruguay",
+              "team_id": "212",
+              "team_side": "home",
+              "player": "Sergio Rochet",
+              "text": "Substitution, Uruguay. Sergio Rochet replaces Fernando Muslera.",
+              "player_off": "Fernando Muslera"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "46'",
+              "team": "Spain",
+              "team_id": "164",
+              "team_side": "away",
+              "player": "Álex Baena",
+              "text": "Álex Baena (Spain) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "54'",
+              "team": "Uruguay",
+              "team_id": "212",
+              "team_side": "home",
+              "player": "Juan Manuel Sanabria",
+              "text": "Juan Manuel Sanabria (Uruguay) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "substitution",
+              "minute": "57'",
+              "team": "Uruguay",
+              "team_id": "212",
+              "team_side": "home",
+              "player": "Federico Viñas",
+              "text": "Substitution, Uruguay. Federico Viñas replaces Federico Valverde.",
+              "player_off": "Federico Valverde"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "58'",
+              "team": "Uruguay",
+              "team_id": "212",
+              "team_side": "home",
+              "player": "Guillermo Varela",
+              "text": "Guillermo Varela (Uruguay) is shown the yellow card."
+            },
+            {
+              "kind": "substitution",
+              "minute": "60'",
+              "team": "Spain",
+              "team_id": "164",
+              "team_side": "away",
+              "player": "Fabián Ruiz",
+              "text": "Substitution, Spain. Fabián Ruiz replaces Pedri.",
+              "player_off": "Pedri "
+            },
+            {
+              "kind": "substitution",
+              "minute": "60'",
+              "team": "Spain",
+              "team_id": "164",
+              "team_side": "away",
+              "player": "Dani Olmo",
+              "text": "Substitution, Spain. Dani Olmo replaces Mikel Merino.",
+              "player_off": "Mikel Merino"
+            },
+            {
+              "kind": "substitution",
+              "minute": "66'",
+              "team": "Spain",
+              "team_id": "164",
+              "team_side": "away",
+              "player": "Yéremy Pino",
+              "text": "Substitution, Spain. Yéremy Pino replaces Álex Baena.",
+              "player_off": "Álex Baena"
+            },
+            {
+              "kind": "substitution",
+              "minute": "70'",
+              "team": "Uruguay",
+              "team_id": "212",
+              "team_side": "home",
+              "player": "Brian Rodríguez",
+              "text": "Substitution, Uruguay. Brian Rodríguez replaces Juan Manuel Sanabria.",
+              "player_off": "Juan Manuel Sanabria"
+            },
+            {
+              "kind": "substitution",
+              "minute": "76'",
+              "team": "Spain",
+              "team_id": "164",
+              "team_side": "away",
+              "player": "Nico Williams",
+              "text": "Substitution, Spain. Nico Williams replaces Lamine Yamal.",
+              "player_off": "Lamine Yamal"
+            },
+            {
+              "kind": "substitution",
+              "minute": "76'",
+              "team": "Spain",
+              "team_id": "164",
+              "team_side": "away",
+              "player": "Ferran Torres",
+              "text": "Substitution, Spain. Ferran Torres replaces Mikel Oyarzabal.",
+              "player_off": "Mikel Oyarzabal"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "90'+3'",
+              "team": "Uruguay",
+              "team_id": "212",
+              "team_side": "home",
+              "player": "Nicolás de la Cruz",
+              "text": "Nicolás de la Cruz (Uruguay) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "red_card",
+              "minute": "90'+5'",
+              "team": "Uruguay",
+              "team_id": "212",
+              "team_side": "home",
+              "player": "Agustín Canobbio",
+              "text": "Agustín Canobbio (Uruguay) is shown the red card."
+            }
+          ]
         },
         {
           "id": "760476",
@@ -15124,15 +15397,15 @@
             "winner": false
           },
           "away": {
-            "id": "131541",
-            "name": "Third Place Group A/B/C/D/F",
-            "name_zh": "",
-            "rank": null,
-            "short": "3RD A/B/C/D/F",
-            "abbr": "3RD",
-            "flag": "🏳️",
-            "logo": "",
-            "color": "000000",
+            "id": "210",
+            "name": "Paraguay",
+            "name_zh": "巴拉圭",
+            "rank": 41,
+            "short": "Paraguay",
+            "abbr": "PAR",
+            "flag": "🇵🇾",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/par.png",
+            "color": "ea2300",
             "home_away": "away",
             "score": 0,
             "winner": false
@@ -15147,9 +15420,9 @@
             "Tele",
             "FOX One"
           ],
-          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760489/third-place-group-abcdf-germany",
-          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Germany%20vs%20Third%20Place%20Group%20A/B/C/D/F",
-          "slug": "third place group a/b/c/d/f-at-germany"
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760489/paraguay-germany",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Germany%20vs%20Paraguay",
+          "slug": "paraguay-at-germany"
         },
         {
           "id": "760488",
@@ -15290,15 +15563,15 @@
             "winner": false
           },
           "away": {
-            "id": "131544",
-            "name": "Third Place Group C/D/F/G/H",
-            "name_zh": "",
-            "rank": null,
-            "short": "3RD C/D/F/G/H",
-            "abbr": "3RD",
-            "flag": "🏳️",
-            "logo": "",
-            "color": "000000",
+            "id": "466",
+            "name": "Sweden",
+            "name_zh": "瑞典",
+            "rank": 38,
+            "short": "Sweden",
+            "abbr": "SWE",
+            "flag": "🇸🇪",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/swe.png",
+            "color": "fecb00",
             "home_away": "away",
             "score": 0,
             "winner": false
@@ -15313,9 +15586,9 @@
             "Tele",
             "FOX One"
           ],
-          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760492/third-place-group-cdfgh-france",
-          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20France%20vs%20Third%20Place%20Group%20C/D/F/G/H",
-          "slug": "third place group c/d/f/g/h-at-france"
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760492/sweden-france",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20France%20vs%20Sweden",
+          "slug": "sweden-at-france"
         },
         {
           "id": "760491",
@@ -15555,15 +15828,15 @@
           "stage": "Round of 32",
           "stage_slug": "round-of-32",
           "home": {
-            "id": "5937",
-            "name": "Group H Winner",
-            "name_zh": "",
-            "rank": null,
-            "short": "1H",
-            "abbr": "1H",
-            "flag": "🏳️",
-            "logo": "",
-            "color": "000000",
+            "id": "164",
+            "name": "Spain",
+            "name_zh": "西班牙",
+            "rank": 2,
+            "short": "Spain",
+            "abbr": "ESP",
+            "flag": "🇪🇸",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/esp.png",
+            "color": "c60b1e",
             "home_away": "home",
             "score": 0,
             "winner": false
@@ -15592,9 +15865,9 @@
             "Tele",
             "FOX One"
           ],
-          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760497/group-j-2nd-place-group-h-winner",
-          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Group%20H%20Winner%20vs%20Group%20J%202nd%20Place",
-          "slug": "group j 2nd place-at-group h winner"
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760497/group-j-2nd-place-spain",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Spain%20vs%20Group%20J%202nd%20Place",
+          "slug": "group j 2nd place-at-spain"
         },
         {
           "id": "760496",
@@ -15788,15 +16061,15 @@
             "winner": false
           },
           "away": {
-            "id": "5938",
-            "name": "Group H 2nd Place",
-            "name_zh": "",
-            "rank": null,
-            "short": "2H",
-            "abbr": "2H",
-            "flag": "🏳️",
-            "logo": "",
-            "color": "000000",
+            "id": "2597",
+            "name": "Cape Verde",
+            "name_zh": "佛得角",
+            "rank": 67,
+            "short": "Cape Verde",
+            "abbr": "CPV",
+            "flag": "🇨🇻",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/cpv.png",
+            "color": "000080",
             "home_away": "away",
             "score": 0,
             "winner": false
@@ -15811,9 +16084,9 @@
             "Tele",
             "FOX One"
           ],
-          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760500/group-h-2nd-place-argentina",
-          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Argentina%20vs%20Group%20H%202nd%20Place",
-          "slug": "group h 2nd place-at-argentina"
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760500/cape-verde-argentina",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Argentina%20vs%20Cape%20Verde",
+          "slug": "cape verde-at-argentina"
         },
         {
           "id": "760501",

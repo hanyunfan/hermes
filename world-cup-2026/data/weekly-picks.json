@@ -1,10 +1,10 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-27T00:07:01+00:00",
+  "generated_at": "2026-06-27T02:35:24+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-26T19:07:01-05:00",
+  "now_local": "2026-06-26T21:35:24-05:00",
   "match_count": 48,
-  "manual_count": 43,
+  "manual_count": 42,
   "rounds": [
     {
       "round_id": "group-stage-md2-2026-06-19-2026-06-24",
@@ -1382,13 +1382,13 @@
         "2026-06-27"
       ],
       "match_count": 16,
-      "manual_count": 11,
+      "manual_count": 10,
       "last_manual_update": "2026-06-25T08:05:13-05:00",
       "round_intro_zh": "小组赛第三轮是出线日。48 支球队里 16 支已经提前回家（B/C 两组全部结束，再加上其他 8 个小组的末位），剩下 32 支里的 16 支今晚就要知道是走是留。本周 16 场里有 6 场是真正的「必看」——胜者拿头名/晋级，败者回家或跌入死亡半区；另外 8 场是「可看可不看」，主队已经锁头名但仍有名将告别或东道主谢幕的剧情线；2 场可以跳过（双方都已出局或一方锁头名对方已出局）。\n\n最具看点的 5 场：Uruguay vs Spain（H 组头名之争，乌拉圭非赢不可，Suarez 最后一届）、Norway vs France（I 组头名之争，Haaland vs Mbappé 新双骄对决）、Colombia vs Portugal（K 组头名之争，J 罗告别 vs C 罗告别巡演）、Japan vs Sweden（F 组第二之争，瑞典非赢不可）、Paraguay vs Australia（D 组第二之争，胜者晋级）。\n\n另外 4 场因为没有 top-10 球队被本 digest 砍掉但同样精彩：Egypt vs Iran（6/26 10pm CT 萨拉赫的出线悬念）、Croatia vs Ghana（6/27 4pm CT 魔笛最后一届生死战）、Korea vs South Africa（6/24 8pm CT 韩国出线生死战，已完赛）、Czechia vs Mexico（6/24 8pm CT 捷克背水一战，已完赛）。",
       "round_intro_en": "Matchday 3 is decision day. 16 of the 48 teams are already out (all of B and C, plus 8 group-stage dead lasts), and the other 16 will know their fate tonight. Of the 16 picks this round, 6 are real must-watches where the winner advances or locks the top seed; 8 are lively, often because the locked team still has a farewell storyline (Suarez, Modric, Messi, etc.); and 2 are skippable dead rubbers.\n\nTop 5: Uruguay vs Spain (H top spot, Uruguay must win, Suarez's last dance), Norway vs France (I top spot, Haaland vs Mbappé), Colombia vs Portugal (K top spot, James vs Ronaldo farewell tours), Japan vs Sweden (F #2 spot, Sweden must win), Paraguay vs Australia (D #2 spot, winner takes all).\n\nFour more matches didn't make the top-16 cap but are still worth a look: Egypt vs Iran (6/26 10pm CT, Salah's lifeline), Croatia vs Ghana (6/27 4pm CT, Modric's likely last World Cup match), Korea vs South Africa (6/24 8pm CT, Korea's lifeline — now final), and Czechia vs Mexico (6/24 8pm CT, Czechia's last stand — now final).",
       "manual_note_zh": "排序按推荐分降序。6/25 早（CT）发出的版本，赛果随时更新。前 2 场（MAR/HAI、SCO/BRA，6/24 5pm CT）已完赛，结果在比分卡上。CZE-MEX、RSA-KOR（6/24 8pm CT）已被自动脚本的 top-16 淘汰——见本 digest 的引言部分。",
       "manual_note_en": "Sorted by analyst score. Issued early 6/25 CT — the first two picks (MAR/HAI, SCO/BRA, 6/24 5pm CT) are final; live scores on the match cards. CZE-MEX and RSA-KOR (6/24 8pm CT) were cut by the top-16 cap once the data refresh put Group A in mp=3 — see the round intro for the dropped-list context.",
-      "generated_at": "2026-06-27T00:07:01+00:00",
+      "generated_at": "2026-06-27T02:35:24+00:00",
       "matches": [
         {
           "match_id": "760475",
@@ -1505,19 +1505,19 @@
             "rank": 2
           },
           "group_name": "Group H",
-          "home_group_rank": 2,
+          "home_group_rank": 3,
           "home_pts": 2,
-          "home_mp": 2,
+          "home_mp": 3,
           "away_group_rank": 1,
-          "away_pts": 4,
-          "away_mp": 2,
-          "stakes_kind": "group_decider",
-          "stakes_score_auto": 5,
+          "away_pts": 7,
+          "away_mp": 3,
+          "stakes_kind": "asymmetric",
+          "stakes_score_auto": 4,
           "stakes_verdict_auto": "must",
-          "stakes_narrative_zh": "末轮出线生死战。",
-          "stakes_narrative_en": "Final matchday — qualification on the line.",
+          "stakes_narrative_zh": "小组赛第二轮常规对决。",
+          "stakes_narrative_en": "Standard MD2 fixture.",
           "verdict": "must",
-          "score": 5,
+          "score": 4,
           "headline_zh": "H 组头名之争：乌拉圭非赢不可",
           "headline_en": "Uruguay must win to advance",
           "watch_for_zh": [
@@ -2015,6 +2015,64 @@
           "score_override": null
         },
         {
+          "match_id": "760463",
+          "kickoff_utc": "2026-06-24T19:00:00+00:00",
+          "kickoff_local": "2026-06-24T14:00:00-05:00",
+          "kickoff_local_date": "2026-06-24",
+          "kickoff_time": "2:00 PM",
+          "kickoff_weekday": "Wed",
+          "stage": "Group Stage",
+          "stage_slug": "group-stage",
+          "venue": "BC Place",
+          "venue_city": "Vancouver",
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760463/canada-switzerland",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Switzerland%20vs%20Canada",
+          "home": {
+            "id": "475",
+            "name": "Switzerland",
+            "name_zh": "瑞士",
+            "flag": "🇨🇭",
+            "abbr": "SUI",
+            "rank": 19
+          },
+          "away": {
+            "id": "206",
+            "name": "Canada",
+            "name_zh": "加拿大",
+            "flag": "🇨🇦",
+            "abbr": "CAN",
+            "rank": 30
+          },
+          "group_name": "Group B",
+          "home_group_rank": 1,
+          "home_pts": 7,
+          "home_mp": 3,
+          "away_group_rank": 2,
+          "away_pts": 4,
+          "away_mp": 3,
+          "stakes_kind": "asymmetric",
+          "stakes_score_auto": 3,
+          "stakes_verdict_auto": "lively",
+          "stakes_narrative_zh": "小组赛第二轮常规对决。",
+          "stakes_narrative_en": "Standard MD2 fixture.",
+          "verdict": "lively",
+          "score": 3,
+          "headline_zh": null,
+          "headline_en": null,
+          "watch_for_zh": [],
+          "watch_for_en": [],
+          "key_players_zh": [],
+          "key_players_en": [],
+          "news_focus_zh": null,
+          "news_focus_en": null,
+          "record_potential_zh": [],
+          "record_potential_en": [],
+          "why_skip_zh": null,
+          "why_skip_en": null,
+          "verdict_override": null,
+          "score_override": null
+        },
+        {
           "match_id": "760464",
           "kickoff_utc": "2026-06-24T22:00:00+00:00",
           "kickoff_local": "2026-06-24T17:00:00-05:00",
@@ -2244,83 +2302,6 @@
           ],
           "record_potential_en": [
             "Gakpo could match van Persie's 3-goal Dutch WC group-stage record (2014)"
-          ],
-          "why_skip_zh": null,
-          "why_skip_en": null,
-          "verdict_override": "lively",
-          "score_override": 3,
-          "manual_author": "claude"
-        },
-        {
-          "match_id": "760478",
-          "kickoff_utc": "2026-06-27T00:00:00+00:00",
-          "kickoff_local": "2026-06-26T19:00:00-05:00",
-          "kickoff_local_date": "2026-06-26",
-          "kickoff_time": "7:00 PM",
-          "kickoff_weekday": "Fri",
-          "stage": "Group Stage",
-          "stage_slug": "group-stage",
-          "venue": "NRG Stadium",
-          "venue_city": "Houston, Texas",
-          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760478/saudi arabia-cape verde",
-          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Cape%20Verde%20vs%20Saudi%20Arabia",
-          "home": {
-            "id": "2597",
-            "name": "Cape Verde",
-            "name_zh": "佛得角",
-            "flag": "🇨🇻",
-            "abbr": "CPV",
-            "rank": 67
-          },
-          "away": {
-            "id": "655",
-            "name": "Saudi Arabia",
-            "name_zh": "沙特阿拉伯",
-            "flag": "🇸🇦",
-            "abbr": "KSA",
-            "rank": 61
-          },
-          "group_name": "Group H",
-          "home_group_rank": 3,
-          "home_pts": 2,
-          "home_mp": 2,
-          "away_group_rank": 4,
-          "away_pts": 1,
-          "away_mp": 2,
-          "stakes_kind": "group_decider",
-          "stakes_score_auto": 4,
-          "stakes_verdict_auto": "must",
-          "stakes_narrative_zh": "末轮出线生死战。",
-          "stakes_narrative_en": "Final matchday — qualification on the line.",
-          "verdict": "lively",
-          "score": 3,
-          "headline_zh": "H 组黑马突围战",
-          "headline_en": "Group H dark-horse chase",
-          "watch_for_zh": [
-            "佛得角 2 分需赢 + 乌拉圭输才能晋级——长局",
-            "沙特 1 分本场是出线的最后希望（需赢 + 净胜球 + URU 大输）",
-            "佛得角是非洲区预选赛黑马，本场是队史首次世界杯正赛末轮"
-          ],
-          "watch_for_en": [
-            "Cape Verde (2) needs a win AND a URU loss to advance — long shot",
-            "Saudi Arabia (1) needs a win + GD + URU blowout to advance — even longer shot",
-            "Cape Verde is the WC debutant; their first-ever group-stage finale"
-          ],
-          "key_players_zh": [
-            "瑞·洛德 (佛得角前锋，本届 1 球)",
-            "萨利姆·阿尔-达瓦萨里 #10 (沙特前锋，本届 1 球)"
-          ],
-          "key_players_en": [
-            "Ryan Mendes (Cape Verde forward, 1 goal)",
-            "Salem Al-Dawsari #10 (Al-Hilal, Saudi Arabia's captain)"
-          ],
-          "news_focus_zh": "佛得角 100 万人口首次参加世界杯，已是史上最小参赛国之一",
-          "news_focus_en": "Cape Verde (pop. 600k) is one of the smallest nations ever at a WC",
-          "record_potential_zh": [
-            "佛得角若晋级，将创人口最小晋级 32 强纪录"
-          ],
-          "record_potential_en": [
-            "Cape Verde advancing would set the population record for R32"
           ],
           "why_skip_zh": null,
           "why_skip_en": null,
