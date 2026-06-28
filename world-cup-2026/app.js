@@ -2275,7 +2275,7 @@
 
     function cardLeftX(stage, side) {
       if (stage === "final") return 50;       // centered (CSS handles translate)
-      if (stage === "3rd-place-match") return 50 + pxToPct(4 * (CARD_W + COL_GAP));  // 4 cols right of center
+      if (stage === "3rd-place-match") return 50 - pxToPct(CARD_W) / 2;  // centered under Final
       const offsetPx = COL_PX[stage] || 0;
       const offsetPct = pxToPct(offsetPx);
       if (side === "L") return offsetPct;
@@ -2284,7 +2284,7 @@
     }
     function cardRightX(stage, side) {
       if (stage === "final") return 50;
-      if (stage === "3rd-place-match") return 50 + pxToPct(4 * (CARD_W + COL_GAP)) + pxToPct(CARD_W);
+      if (stage === "3rd-place-match") return 50 + pxToPct(CARD_W) / 2;  // centered under Final
       const offsetPx = COL_PX[stage] || 0;
       const offsetPct = pxToPct(offsetPx);
       if (side === "L") return offsetPct + pxToPct(CARD_W);
@@ -2375,10 +2375,11 @@
     }
     for (const r of rounds) for (const m of byRound[r] || []) appendCard(m);
     if (third) {
-      // Position the 3rd-place match slightly to the right of Final
-      // and a bit below it so it doesn't overlap the SF lines.
-      pos[third.id] = { y: 56, side: "C" };
-      appendCard(third, 58);
+      // Place the 3rd-place match directly below the Final, centered
+      // on the bracket's vertical axis. The previous "right of Final"
+      // position landed on the rightmost R32 column on narrow viewports.
+      pos[third.id] = { y: 78, side: "C" };
+      appendCard(third, 78);
     }
   }
 

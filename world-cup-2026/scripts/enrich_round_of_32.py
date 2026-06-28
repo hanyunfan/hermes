@@ -76,12 +76,12 @@ ANALYSIS: dict[str, dict] = {
         "key_players_zh": [
             "阿方索·戴维斯 #19（加拿大队长，拜仁慕尼黑边后卫）",
             "乔纳森·戴维 #9（加拿大前锋，里尔，2 届法甲金靴）",
-            "塔菲奥·莫雷贝 #8（南非中场，曼彻斯特联）",
+            "罗恩文·威廉姆斯 #1（南非队长 / 主力门将，34 岁，Mamelodi Sundowns）",
         ],
         "key_players_en": [
             "Alphonso Davies #19 (Canada captain, Bayern Munich LB)",
             "Jonathan David #9 (Canada striker, Lille, 2× Ligue 1 top scorer)",
-            "Tafadzwa 'Taff' Murebwe (South Africa midfielder) — adjust to actual squad",
+            "Ronwen Williams #1 (South Africa captain / starting GK, 34, Mamelodi Sundowns)",
         ],
         "news_focus_zh": "南非是本届 8 支晋级 16 强非洲球队之一——非洲军团首次在淘汰赛阶段拥有 8 席",
         "news_focus_en": "RSA is one of 8 African sides in the R32 — a continental first at this stage of a WC",
@@ -212,13 +212,13 @@ ANALYSIS: dict[str, dict] = {
             "维吉尔·范戴克 #4（荷兰队长，利物浦中卫）",
             "科迪·加克波 #11（荷兰边锋，利物浦）",
             "阿什拉夫·哈基米 #2（摩洛哥边后卫，巴黎圣日耳曼）",
-            "努赛尔·马兹拉维 #3（摩洛哥边后卫，曼彻斯特联）"
+            "努赛尔·马兹拉维 #3（摩洛哥右后卫，28 岁，曼彻斯特联）"
         ],
         "key_players_en": [
             "Virgil van Dijk #4 (Netherlands captain, Liverpool CB)",
             "Cody Gakpo #11 (Netherlands winger, Liverpool)",
             "Achraf Hakimi #2 (Morocco RB, Paris Saint-Germain)",
-            "Noussair Mazraoui #3 (Morocco LB, Manchester United)",
+            "Noussair Mazraoui #3 (Morocco RB, 28, Manchester United)",
         ],
         "news_focus_zh": "摩洛哥 2022 打入 4 强，本届目标是追平——非洲球队连续 2 届进 8 强将是历史性时刻",
         "news_focus_en": "Morocco made the 2022 SF — back-to-back African QF appearances would be historic",
@@ -558,14 +558,14 @@ ANALYSIS: dict[str, dict] = {
             "葡萄牙（K 组第二 5 分）本届 1-1 刚果、5-0 乌兹别克、0-0 哥伦比亚——C 罗本届首轮 0 球状态低迷",
             "克罗地亚（L 组第二 6 分）2-4 英格兰、2-1 加纳、0-0 巴拿马——莫德里奇 40 岁仍是中场节拍器",
             "BMO Field（多伦多）是本届世界杯唯一加拿大主办城市——草地条件偏冷凉，6 月初体感 18-22°C",
-            "C 罗（41 岁，利雅得胜利）vs 莫德里奇（40 岁，2024 离开皇马）——两位金球奖得主的告别赛",
+            "C 罗（41 岁，利雅得胜利）vs 莫德里奇（40 岁，AC 米兰）——两位金球奖得主的告别赛",
             "C 罗本届若登场将追平自己保持的世界杯 22 场出场纪录；再进 1 球追平 5 球的世界杯进球数"
         ],
         "watch_for_en": [
             "Portugal (K2, 5 pts) went 1-1 COD / 5-0 UZB / 0-0 COL — Ronaldo went goalless in MD1.",
             "Croatia (L2, 6 pts) went 2-4 ENG / 2-1 GHA / 0-0 PAN — Modrić (40) is still the metronome.",
             "BMO Field (Toronto) is the only Canadian host venue for the WC — cooler grass conditions than US/MX.",
-            "Ronaldo (41, Al-Nassr) vs Modrić (40, ex-Real Madrid) — two Ballon d'Or winners, both at their last WC.",
+            "Ronaldo (41, Al-Nassr) vs Modrić (40, AC Milan) — two Ballon d'Or winners, both at their last WC.",
             "Ronaldo's R32 appearance would tie his own WC appearance record (22); one more goal ties the all-time WC scoring record (5).",
         ],
         "key_players_zh": [

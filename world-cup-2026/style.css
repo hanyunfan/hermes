@@ -913,7 +913,7 @@ body {
 .bracket-card[data-side="L"][data-stage="semifinals"]    { left: calc((100% - 912px) / 2 + 306px); }
 .bracket-card[data-side="R"][data-stage="semifinals"]    { right: calc((100% - 912px) / 2 + 306px); }
 .bracket-card[data-stage="final"]         { left: calc(50% + 18px); }
-.bracket-card[data-stage="3rd-place-match"]   { left: calc(50% + 156px); }
+.bracket-card[data-stage="3rd-place-match"]   { left: calc(50% - 48px); }
 
 .bracket-team {
   display: flex;
