@@ -794,6 +794,39 @@ body {
   font-size: 0.78rem;
   color: var(--text-dim);
 }
+.bracket-live-link {
+  margin: 10px 0 0;
+  display: flex;
+  justify-content: center;
+}
+.bracket-live-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text);
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  text-decoration: none;
+  transition: background 0.12s, border-color 0.12s, transform 0.12s;
+}
+.bracket-live-btn::after {
+  content: "↗";
+  font-size: 0.85rem;
+  line-height: 1;
+  color: var(--text-dim);
+}
+.bracket-live-btn:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--border-strong);
+  color: var(--text);
+}
+.bracket-live-btn:active {
+  transform: scale(0.97);
+}
 
 .bracket-scroll {
   overflow-x: auto;
