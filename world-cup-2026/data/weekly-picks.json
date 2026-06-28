@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-28T06:57:58+00:00",
+  "generated_at": "2026-06-28T13:39:08+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-28T01:57:58-05:00",
+  "now_local": "2026-06-28T08:39:08-05:00",
   "match_count": 48,
   "manual_count": 40,
   "rounds": [
@@ -2519,12 +2519,12 @@
       ],
       "match_count": 16,
       "manual_count": 16,
-      "last_manual_update": "2026-06-21T16:39:31+00:00",
-      "round_intro_zh": "小组赛尘埃落定，32 强进入一场定胜负的淘汰赛阶段。本届 1/8 决赛横跨 6 天（6/28 周日 - 7/3 周五），每组前两名 + 8 个最佳第三晋级，对阵由抽签决定。16 场淘汰赛分批在美国、加拿大、墨西哥的 14 座球场进行——包括三座 70,000+ 容量的超级碗级场馆（SoFi、MetLife、AT&T），以及墨西哥城的 Estadio Banorte，本届首次迎来东道主淘汰赛。",
-      "round_intro_en": "Group stage done — 32 teams enter single-elimination. This R32 spans 6 days (Sun 6/28 - Fri 7/3): top 2 of each group plus 8 best 3rd-placers advance, bracket set by draw. 16 matches across 14 venues in the US/Canada/Mexico — including three 70,000+ Super Bowl stadiums (SoFi, MetLife, AT&T) and Mexico City's Estadio Banorte, where a co-host (Mexico) plays its first-ever home knockout game at a WC.",
+      "last_manual_update": "2026-06-28T13:39:08+00:00",
+      "round_intro_zh": "小组赛尘埃落定，32 强进入一场定胜负的淘汰赛阶段。本届 1/8 决赛横跨 6 天（6/28 周日 - 7/3 周五），每组前两名 + 8 个最佳第三晋级，对阵由抽签决定。16 场淘汰赛分批在美国、加拿大、墨西哥的 14 座球场进行——包括三座 70,000+ 容量的超级碗级场馆（SoFi、MetLife、AT&T），以及墨西哥城的 Estadio Banorte，本届首次迎来东道主淘汰赛。\n\n本届 R32 几大必看：墨西哥城主场回归（40 年来首次淘汰赛胜利）、美国 vs 波黑（东道主冲击 8 强）、英格兰 vs 刚果（金）（凯恩冲击鲁尼纪录）、法国 vs 瑞典（死亡半区预演）、C 罗 vs 莫德里奇（金球奖告别战）、阿根廷 vs 佛得角（梅西迈阿密主场）。",
+      "round_intro_en": "Group stage done — 32 teams enter single-elimination. This R32 spans 6 days (Sun 6/28 - Fri 7/3): top 2 of each group plus 8 best 3rd-placers advance, bracket set by draw. 16 matches across 14 venues in the US/Canada/Mexico — including three 70,000+ Super Bowl stadiums (SoFi, MetLife, AT&T) and Mexico City's Estadio Banorte, where a co-host (Mexico) plays its first-ever home knockout game at a WC.\n\nFive R32 matches you really can't miss: MEX vs ECU (Mexico's first home knockout in 40 years), USA vs BIH (co-host's QF push), ENG vs COD (Kane chases Rooney's record), FRA vs SWE (death-bracket preview), POR vs CRO (Ronaldo vs Modrić — two Ballon d'Or farewells), and ARG vs CPV (Messi's Miami homecoming).",
       "manual_note_zh": null,
       "manual_note_en": null,
-      "generated_at": "2026-06-28T06:57:58+00:00",
+      "generated_at": "2026-06-28T13:39:08+00:00",
       "matches": [
         {
           "match_id": "760486",
@@ -2569,41 +2569,43 @@
           "stakes_narrative_en": "Knockout — single elimination.",
           "verdict": "must",
           "score": 4,
-          "headline_zh": "韩瑞对决，淘汰赛揭幕",
-          "headline_en": "Korea vs Switzerland — R32 curtain-raiser",
+          "headline_zh": "淘汰赛揭幕战，两个\"首次\"对决",
+          "headline_en": "Curtain-raiser: two 'first-time knockout' stories",
           "watch_for_zh": [
-            "A 组第二大概率是韩国（墨西哥已锁定第一），B 组第二大概率是瑞士（末轮与加拿大直接对话）",
-            "两队都偏防守反击，控球率不会高——可能是一场 1-0 风格的战术绞肉机",
-            "韩国曾在 2018 年 2-0 掀翻德国，本届小组赛 1-0 战胜捷克，士气正盛",
-            "瑞士近 3 届世界杯都打入 16 强（2014、2018、2022），淘汰赛经验最稳",
-            "SoFi 体育场可容纳 70,000+，是 NFL 超级碗场馆——淘汰赛氛围拉满"
+            "南非（A 组第二 4 分）和加拿大（B 组第二 4 分）都是 1998 / 1986 后首次打入 16 强——两支\"破纪录新军\"对决",
+            "南非小组赛 1-0 爆冷击败韩国是本届最大冷门之一，靠的是快速反击 + 稳固防守",
+            "加拿大首轮 1-1 逼平波黑 + 末轮 6-0 横扫卡塔尔，戴维斯领衔的反击线状态正佳",
+            "SoFi 体育场（英格尔伍德）70,240 座位是 NFL 超级碗场馆——淘汰赛揭幕氛围拉满",
+            "双方都没有大赛淘汰赛经验，谁能在高压下保持冷静将决定胜负"
           ],
           "watch_for_en": [
-            "2A is most likely South Korea (Mexico has Group A locked). 2B is most likely Switzerland (CAN-SUI final match decides top of B).",
-            "Both sides are disciplined, defense-first — expect a 1-0-style tactical grind, not a goalfest.",
-            "KOR famously upset Germany 2-0 in 2018; their 1-0 over Czechia in MD2 shows the resilience is still there.",
-            "SUI have reached the R16 at the last three World Cups (2014, 2018, 2022) — knockout-stage pedigree is real.",
-            "SoFi is a 70,000+ Super Bowl venue — the first R32 atmosphere of the tournament."
+            "South Africa (A2, 4 pts) and Canada (B2, 4 pts) both made the R16 for the first time in 28 (RSA) and 40 (CAN) years — a 'newcomers' clash.",
+            "RSA's 1-0 upset of South Korea was the upset of MD3; counter-attack + low block is their identity.",
+            "Canada opened with a 1-1 draw vs Bosnia and closed with a 6-0 demolition of Qatar — Davies-led counter-attack is in form.",
+            "SoFi Stadium (Inglewood) holds 70,240 and is the Super Bowl venue — the first R32 atmosphere of the tournament.",
+            "Neither side has WC knockout experience — composure under pressure decides this one."
           ],
           "key_players_zh": [
-            "孙兴慜 #7（韩国队长，洛杉矶 FC 边锋）",
-            "哈维尔·巴尔加斯 #10（瑞士中场，2024 欧洲杯最佳球员之一）",
-            "金玟哉 #19（拜仁慕尼黑中卫，盯防瑞士箭头）"
+            "阿方索·戴维斯 #19（加拿大队长，拜仁慕尼黑边后卫）",
+            "乔纳森·戴维 #9（加拿大前锋，里尔，2 届法甲金靴）",
+            "罗恩文·威廉姆斯 #11（南非前锋，Mamelodi Sundowns）"
           ],
           "key_players_en": [
-            "Son Heung-min #7 (KOR captain, LAFC winger)",
-            "Xherdan Shaqiri #10 (SUI midfielder, Euro 2024 standout)",
-            "Kim Min-jae #19 (Bayern Munich CB, anchors KOR's back line)"
+            "Alphonso Davies #19 (Canada captain, Bayern Munich LB)",
+            "Jonathan David #9 (Canada striker, Lille, 2× Ligue 1 top scorer)",
+            "Rowen Williams #11 (South Africa striker, Mamelodi Sundowns)"
           ],
-          "news_focus_zh": "韩国 26 岁的拜仁中卫金玟哉是本届最贵后卫之一，他的解围数据将决定比赛走向",
-          "news_focus_en": "KOR's Kim Min-jae (Bayern Munich, age 26) is one of the most expensive CBs at this WC — his clearances will decide the match",
+          "news_focus_zh": "南非是本届非洲 5 队中唯一晋级 16 强的——整个非洲赛区的希望都压在这支球队上",
+          "news_focus_en": "South Africa is the only one of Africa's 5 representatives in the R32 — the continent's hopes ride on this team",
           "record_potential_zh": [
-            "瑞士若晋级将连续 4 届世界杯打入 16 强——刷新本国纪录",
-            "孙兴慜有望追平韩国球员世界杯进球纪录（目前与朴智星并列）"
+            "南非若晋级将是 1998 年后首次 16 强——28 年等一回",
+            "加拿大若晋级将是 1986 年后首次 16 强——40 年等一回",
+            "戴维斯本届若助攻上双将成为加拿大队史单届世界杯助攻纪录保持者"
           ],
           "record_potential_en": [
-            "A SUI win would extend their R16 streak to four straight World Cups — a Swiss record",
-            "Son can match Park Ji-sung's all-time KOR World Cup goals record"
+            "An RSA R16 would be their first since 1998 — a 28-year wait.",
+            "A CAN R16 would be their first since 1986 — a 40-year wait.",
+            "Davies with 2+ assists would set CAN's single-WC assist record."
           ],
           "why_skip_zh": null,
           "why_skip_en": null,
@@ -2654,41 +2656,45 @@
           "stakes_narrative_en": "Knockout — single elimination.",
           "verdict": "must",
           "score": 5,
-          "headline_zh": "C 组头名检验，F 组突围者",
-          "headline_en": "Group C top seed meets F's survivor",
+          "headline_zh": "巴西 vs 日本——2022 经典重演",
+          "headline_en": "Brazil vs Japan — 2022 revenge plot",
           "watch_for_zh": [
-            "C 组极有可能由巴西或苏格兰头名（双方都还有出线悬念），无论谁上来都是死亡半区",
-            "F 组第二大概率是日本或荷兰（瑞典目前领跑）",
-            "如果 1C 是巴西——这是巴西本届首场淘汰赛，桑巴军团的 6 冠王传统不容有失",
-            "如果 1C 是苏格兰——这是 1998 年后首次世界杯淘汰赛，麦克托米奈的发挥决定上限",
-            "休斯敦 6 月底下午 1 点开球，体感温度可能超过 35°C——节奏和体能是关键"
+            "巴西（C 组头名 7 分）本届小组赛一胜一平一胜，进攻端维尼修斯 + 罗德里戈的皇马组合已成型",
+            "日本（F 组第二 5 分）连续 4 届世界杯小组出线（2010、2018、2022、2026），亚洲纪录",
+            "2022 卡塔尔世界杯小组赛日本曾 2-1 逆转巴西——本届对决是桑巴军团的复仇战",
+            "NRG 体育场（休斯顿）有可伸缩屋顶，6/29 12 点开球室内外都闷热——体能和换人深度是关键",
+            "日本主帅森保一连续 2 届带队从死亡之组出线，本届若再胜将锁定亚洲足球历史最佳主帅地位"
           ],
           "watch_for_en": [
-            "Group C top spot is wide open — BRA or SCO could finish 1st, both still alive in MD3.",
-            "F runner-up is most likely Japan or Netherlands (Sweden currently leading F).",
-            "If BRA wins C, this is the Seleção's first knockout game — the 6×-champion tradition is on the line.",
-            "If SCO wins C, it's Scotland's first WC knockout match since 1998 — McTominay's form is the ceiling.",
-            "Houston noon kickoff in late June = 95°F+ feel-like temp. Pace and conditioning will tell."
+            "Brazil (C1, 7 pts) look sharp — Vini Jr. + Rodrygo (Real Madrid connection) is firing.",
+            "Japan (F2, 5 pts) reached the R16 for the 4th straight WC — an Asian record (2010/2018/2022/2026).",
+            "Japan shocked Brazil 2-1 in the 2022 WC group — this is the Seleção's revenge game.",
+            "NRG Stadium (Houston) has a retractable roof; noon kickoff in late June = brutal heat. Squad depth tells.",
+            "Manager Hajime Moriyasu has now pulled Japan out of two 'Groups of Death' — a win here cements him as Asia's greatest-ever WC coach."
           ],
           "key_players_zh": [
-            "维尼修斯·儒尼奥尔 #7（巴西边锋，2024 金球奖得主）",
-            "斯科特·麦克托米奈 #4（苏格兰中场，曼联首发）",
-            "久保健英 #11（日本中场，皇家社会核心）"
+            "维尼修斯·儒尼奥尔 #7（巴西边锋，皇家马德里，2024 金球奖）",
+            "罗德里戈 #10（巴西边锋，皇家马德里）",
+            "久保健英 #11（日本中场，皇家社会）",
+            "三笘薰 #14（日本边锋，布莱顿）"
           ],
           "key_players_en": [
-            "Vinícius Júnior #7 (Brazil winger, 2024 Ballon d'Or winner)",
-            "Scott McTominay #4 (Scotland midfielder, Manchester United regular)",
-            "Takefusa Kubo #11 (Japan midfielder, Real Sociedad playmaker)"
+            "Vinícius Júnior #7 (Brazil winger, Real Madrid, 2024 Ballon d'Or)",
+            "Rodrygo #10 (Brazil winger, Real Madrid)",
+            "Takefusa Kubo #11 (Japan midfielder, Real Sociedad)",
+            "Kaoru Mitoma #14 (Japan winger, Brighton)"
           ],
-          "news_focus_zh": "小组赛首轮巴西 0-0 平摩洛哥已经暴露出进攻乏力——淘汰赛不允许再慢热",
-          "news_focus_en": "BRA's 0-0 draw with Morocco in MD1 already showed attacking malaise — they can't afford another slow start in knockout",
+          "news_focus_zh": "巴西本届小组赛 5 个进球分布在 5 个不同球员——多点开花让日本防线无从针对性布防",
+          "news_focus_en": "Brazil's 5 group goals came from 5 different scorers — too many threats for Japan to mark",
           "record_potential_zh": [
-            "若日本晋级将是连续 4 届世界杯小组出线（2010、2018、2022、2026）——亚洲纪录",
-            "若苏格兰晋级将追平 1998 年 16 强成绩"
+            "巴西若晋级将是连续 14 届世界杯打入 16 强（自 1938 起未缺席）",
+            "日本若晋级将是连续 4 届 16 强——亚洲纪录",
+            "维尼修斯若再进 1 球将成为本届最年轻的 4 球球员"
           ],
           "record_potential_en": [
-            "A JPN win would extend Asia's longest R16 streak to four straight WCs.",
-            "A SCO win would match their 1998 R16 finish — first time in 28 years."
+            "A BRA R16 would extend the streak to 14 straight WCs (uninterrupted since 1938).",
+            "A JPN R16 would be their 4th straight — an Asian record.",
+            "One more Vini goal makes him the youngest 4-goal scorer at this WC."
           ],
           "why_skip_zh": null,
           "why_skip_en": null,
@@ -2739,41 +2745,45 @@
           "stakes_narrative_en": "Knockout — single elimination.",
           "verdict": "must",
           "score": 5,
-          "headline_zh": "德国登场，3RD 挑战者待定",
-          "headline_en": "Germany enters; 3RD challenger TBD",
+          "headline_zh": "德国淘汰赛登场，巴拉圭黑马成色受检",
+          "headline_en": "Germany enters; Paraguay's upset tour tested",
           "watch_for_zh": [
-            "E 组第一大概率是德国（首轮 4-0 横扫库拉索，次轮 1-0 险胜科特迪瓦待定）",
-            "对手是 A/B/C/D/F 五个组中表现最好的第三名——通常会有 3-4 分",
-            "德国已经连续 3 届世界杯小组赛折戟（2018、2022），本届淘汰赛复仇心切",
-            "Gillette 体育场是 NFL 爱国者队主场，下午 3:30 体感 32°C+——德国的高位逼抢在高温下能撑多久是关键",
-            "穆西亚拉（拜仁）和维尔茨（勒沃库森）是德国前场最锐利的两个点"
+            "德国（E 组第一 6 分）本届小组赛 7-1 库拉索、2-1 科特迪瓦、1-2 厄瓜多尔——末轮输球暴露防线漏洞",
+            "巴拉圭（D 组第三 4 分）净胜球劣势压过澳大利亚晋级，是 8 个最佳第三之一",
+            "德国连续 3 届世界杯小组赛折戟（2018、2022），本届淘汰赛复仇心切——穆勒 35 岁可能是告别赛",
+            "Gillette 体育场（波士顿）下午 3:30 体感 32°C+——德国的高位逼抢在高温下的续航是关键",
+            "巴拉圭本届靠身体对抗 + 紧凑防守 + 反击偷分，遇上德国是本届最大风格反差"
           ],
           "watch_for_en": [
-            "Group E top is most likely Germany (4-0 over Curaçao in MD1, then tested by CIV in MD2).",
-            "Opponent is the best 3rd-place team from groups A/B/C/D/F — typically a 3-4 point side.",
-            "GER have crashed out in the group stage at the last three WCs (2018, 2022) — the knockout-stage redemption arc is real.",
-            "Gillette is the NFL Patriots' home; 3:30 PM late-June = 90°F. How long can GER's high press hold up?",
-            "Musiala (Bayern) and Wirtz (Leverkusen) are Germany's sharpest attackers right now."
+            "Germany (E1, 6 pts) scored 7-1 over Curaçao and 2-1 over CIV, but the 1-2 loss to Ecuador in MD3 exposed defensive gaps.",
+            "Paraguay (D3, 4 pts) advanced as a best 3rd on GD tiebreak — one of 8 best 3rds.",
+            "Germany crashed out in the group at the last three WCs (2018, 2022) — the knockout redemption arc is real. Müller (35) is on a farewell tour.",
+            "Gillette (Boston) at 3:30 PM late-June = 90°F. How long can GER's high press hold up?",
+            "Paraguay's identity is physical, compact, counter-attacking — the biggest style contrast of the R32."
           ],
           "key_players_zh": [
-            "贾马尔·穆西亚拉 #10（拜仁慕尼黑中场，2024 年德国足球先生）",
-            "弗洛里安·维尔茨 #17（勒沃库森中场，欧冠 2024 核心）",
-            "凯·哈弗茨 #7（阿森纳前锋）"
+            "贾马尔·穆西亚拉 #10（德国中场，拜仁慕尼黑，2024 德国足球先生）",
+            "弗洛里安·维尔茨 #17（德国中场，勒沃库森，欧冠 2024 核心）",
+            "托马斯·穆勒 #13（德国老将，35 岁，本届告别赛）",
+            "米格尔·阿尔斯 #10（巴拉圭中场，巴西国际）"
           ],
           "key_players_en": [
-            "Jamal Musiala #10 (Bayern Munich midfielder, 2024 Germany Footballer of the Year)",
-            "Florian Wirtz #17 (Leverkusen midfielder, 2024 UCL breakout)",
-            "Kai Havertz #7 (Arsenal striker)"
+            "Jamal Musiala #10 (Germany midfielder, Bayern Munich, 2024 Germany FOY)",
+            "Florian Wirtz #17 (Germany midfielder, Leverkusen, UCL 2024 core)",
+            "Thomas Müller #13 (Germany veteran, 35, farewell WC)",
+            "Miguel Almirón #10 (Paraguay midfielder, Internacional)"
           ],
-          "news_focus_zh": "纳格尔斯曼本届主打 4-2-3-1，淘汰赛大概率延续——关键是哈弗茨的箭头效率",
-          "news_focus_en": "Nagelsmann's 4-2-3-1 is likely to continue in the R32 — Havertz's finishing efficiency is the swing factor",
+          "news_focus_zh": "穆勒本届若登场将追平马特乌斯 25 场世界杯出场纪录——35 岁老兵的最后一战",
+          "news_focus_en": "Müller can match Matthäus's 25-game WC appearance record — last dance for the 35-year-old",
           "record_potential_zh": [
-            "穆勒（35 岁）若登场将追平马特乌斯 25 场世界杯出场纪录",
-            "德国若晋级将终结连续 3 届小组赛出局的尴尬"
+            "穆勒若登场追平马特乌斯 25 场世界杯出场纪录",
+            "德国若晋级将终结连续 3 届小组赛出局的尴尬",
+            "巴拉圭若晋级将是 2010 年后首次 16 强——16 年等一回"
           ],
           "record_potential_en": [
-            "Thomas Müller (35) can match Lothar Matthäus's 25-game WC appearance record.",
-            "A GER win would end the 3-tournament group-stage exit streak."
+            "A Müller appearance ties Matthäus's 25-game WC appearance record.",
+            "A GER R16 ends a 3-tournament group-stage exit streak.",
+            "A PAR R16 would be their first since 2010 — a 16-year wait."
           ],
           "why_skip_zh": null,
           "why_skip_en": null,
@@ -2824,41 +2834,45 @@
           "stakes_narrative_en": "Knockout — single elimination.",
           "verdict": "must",
           "score": 5,
-          "headline_zh": "瑞典 vs C 组黑马，墨西哥高原",
-          "headline_en": "Sweden vs C's surprise package — Monterrey",
+          "headline_zh": "荷兰 vs 摩洛哥——C 组突围者蒙特雷对决",
+          "headline_en": "Netherlands vs Morocco — C survivors in Monterrey",
           "watch_for_zh": [
-            "F 组头名大概率是瑞典（首轮 3-0 拿下突尼斯），后防核心丹尼尔森（利兹联）已 34 岁，本届可能是告别赛",
-            "C 组第二很可能是巴西、摩洛哥或苏格兰——无论谁，都是硬骨头",
-            "Estadio BBVA（蒙特雷）海拔 540 米，是本届海拔最高的主办城市之一，对北欧球队不友好",
-            "C 组第二若为巴西，桑巴军团 25 战 R32 保持全胜（从未 1/8 决赛出局）",
-            "瑞典前锋伊萨克（纽卡斯尔）首轮已破门，是本届金靴热门之一"
+            "荷兰（F 组第一 7 分）本届小组赛不败（2-2 日本、5-1 瑞典、4-1 突尼斯），范戴克领衔的防线只丢 4 球",
+            "摩洛哥（C 组第二 7 分）凭借净胜球压过巴西，1-1 巴西、4-2 海地、1-0 苏格兰——连续 2 届世界杯小组出线",
+            "Estadio BBVA（蒙特雷）海拔 540 米，是本届海拔最高的主办城市之一——对北欧球队不友好",
+            "摩洛哥 2022 卡塔尔世界杯打入 4 强，本届目标是追平——阿什拉夫 + 哈基米的巴黎圣日耳曼后防是核心",
+            "荷兰主帅科曼本届主打 4-3-3，加克波（利物浦）+ 德佩（马竞）的前场组合经验丰富"
           ],
           "watch_for_en": [
-            "Group F top is most likely Sweden (3-0 over Tunisia in MD1). CB Andreas Granqvist's heir Danielson (Leeds, 34) is playing his last WC.",
-            "C runner-up could be Brazil, Morocco, or Scotland — any of them is a hard out.",
-            "Estadio BBVA sits at 540m elevation — the highest host venue — rough on Nordic sides.",
-            "If BRA finishes 2nd in C, this is a nightmare: Brazil has never lost an R32 match (25-0 all-time).",
-            "SWE striker Alexander Isak (Newcastle) scored in MD1 and is among the Golden Boot favorites."
+            "Netherlands (F1, 7 pts) are unbeaten this WC (2-2 JPN, 5-1 SWE, 4-1 TUN); Van Dijk anchors a back line conceding just 4.",
+            "Morocco (C2, 7 pts) advanced on GD tiebreak over Brazil, going 1-1 BRA / 4-2 HAI / 1-0 SCO — R16 at 2 straight WCs.",
+            "Estadio BBVA sits at 540m — the highest host venue in the US — and is rough on Nordic sides.",
+            "Morocco made the 2022 SF — Achraf + Hakimi (PSG) form the most decorated African back line in WC history.",
+            "Netherlands under Koeman play 4-3-3; Gakpo (Liverpool) + Depay (Atlético) lead a deep front line."
           ],
           "key_players_zh": [
-            "亚历山大·伊萨克 #11（瑞典前锋，纽卡斯尔）",
-            "维尼修斯·儒尼奥尔 #7（巴西边锋，皇家马德里）",
-            "罗宾·奥尔森 #1（瑞典门将）"
+            "维吉尔·范戴克 #4（荷兰队长，利物浦中卫）",
+            "科迪·加克波 #11（荷兰边锋，利物浦）",
+            "阿什拉夫·哈基米 #2（摩洛哥边后卫，巴黎圣日耳曼）",
+            "阿迈尼·哈基米 #3（摩洛哥中卫，巴黎圣日耳曼 / 杜海勒）"
           ],
           "key_players_en": [
-            "Alexander Isak #11 (Sweden striker, Newcastle)",
-            "Vinícius Júnior #7 (Brazil winger, Real Madrid)",
-            "Robin Olsen #1 (Sweden goalkeeper)"
+            "Virgil van Dijk #4 (Netherlands captain, Liverpool CB)",
+            "Cody Gakpo #11 (Netherlands winger, Liverpool)",
+            "Achraf Hakimi #2 (Morocco RB, Paris Saint-Germain)",
+            "Noussair Mazraoui #3 (Morocco CB, PSG / Al Duhail)"
           ],
-          "news_focus_zh": "海拔 540 米的蒙特雷是淘汰赛最考验体能的主办城市——瑞典的北欧打法能撑到加时吗？",
-          "news_focus_en": "Monterrey's 540m elevation is the toughest fitness test in the R32 — can Sweden's high-tempo style last 120 minutes?",
+          "news_focus_zh": "摩洛哥 2022 打入 4 强，本届目标是追平——非洲球队连续 2 届进 8 强将是历史性时刻",
+          "news_focus_en": "Morocco made the 2022 SF — back-to-back African QF appearances would be historic",
           "record_potential_zh": [
-            "巴西若晋级将是连续 14 届世界杯打入 16 强（自 1938 年起未缺席）",
-            "伊萨克本届若进 3+ 球将追平瑞典单届世界杯进球纪录"
+            "摩洛哥若晋级将是连续 2 届世界杯 8 强——非洲纪录",
+            "荷兰若晋级将是连续 2 届世界杯 8 强",
+            "范戴克本届若零封对手将追平荷兰队史单届 2 个零封的纪录"
           ],
           "record_potential_en": [
-            "A BRA win would extend their R16 streak to 14 straight WCs (uninterrupted since 1938).",
-            "Isak with 3+ goals would match Sweden's all-time single-WC record."
+            "A MAR QF would be back-to-back African QFs at a WC — a continental first.",
+            "A NED QF would be their 2nd straight — under Koeman's revival.",
+            "A Van Dijk clean sheet would tie NED's single-WC defensive record."
           ],
           "why_skip_zh": null,
           "why_skip_en": null,
@@ -2909,41 +2923,45 @@
           "stakes_narrative_en": "Knockout — single elimination.",
           "verdict": "must",
           "score": 4,
-          "headline_zh": "法国内战？科特迪瓦迎挑战",
-          "headline_en": "France or Norway await CIV in Dallas",
+          "headline_zh": "哈兰德首次淘汰赛登场",
+          "headline_en": "Haaland's WC knockout debut",
           "watch_for_zh": [
-            "E 组第二大概率是科特迪瓦（首轮 1-0 小胜厄瓜多尔，防守稳健）",
-            "I 组第二大概率是法国（与挪威的末轮直接对话决定谁是头名）",
-            "如果是法国——上届亚军 2022 年决赛输给阿根廷，本届小组赛已 2 胜，状态很好",
-            "AT&T 体育场是 NFL 牛仔队主场，室内空调——6/30 上午 11 点体感凉爽，是当日最佳观赛条件",
-            "法国的姆巴佩本届已 3 球领跑射手榜，禁区弧顶的终结依然是世界级"
+            "科特迪瓦（E 组第二 6 分）本届小组赛 1-0 厄瓜多尔、1-2 德国、2-0 库拉索——防守端只丢 3 球",
+            "挪威（I 组第二 6 分）2002 后首次重返世界杯，本届 4-1 伊拉克、3-2 塞内加尔、1-4 法国",
+            "哈兰德（曼城）本届小组赛 3 球领跑射手榜，是本届金靴头号热门——他的第一次世界杯淘汰赛",
+            "AT&T 体育场（达拉斯）有可伸缩屋顶，室内 21°C——6/30 12 点是当日最佳观赛条件之一",
+            "科特迪瓦非洲杯冠军身份 + 挪威北欧硬朗风格，是本届最直白的\"身体足球\"对决"
           ],
           "watch_for_en": [
-            "2E is most likely Ivory Coast (1-0 over Ecuador in MD1, defense-first shape).",
-            "2I is most likely France (FRA-NOR final MD3 match decides top of I).",
-            "If FRA is the opponent, they're the 2022 finalists — and 2-0 in group play this time around.",
-            "AT&T Stadium is climate-controlled indoors — coolest noon kickoff on the slate.",
-            "Mbappé leads the Golden Boot race with 3 goals; his left-footed cut-in finish is still world-class."
+            "Ivory Coast (E2, 6 pts) went 1-0 ECU / 1-2 GER / 2-0 CUW — only 3 goals conceded all group stage.",
+            "Norway (I2, 6 pts) are back at a WC after 24 years; went 4-1 IRQ / 3-2 SEN / 1-4 FRA — competitive against top sides.",
+            "Erling Haaland (Man City) leads the Golden Boot race with 3 group goals — his first-ever WC knockout game.",
+            "AT&T Stadium (Dallas) has a retractable roof and 71°F climate control — the most pleasant noon kickoff on the slate.",
+            "Ivory Coast (2023 AFCON champs) vs Norway — the most straightforward 'physical football' clash of the R32."
           ],
           "key_players_zh": [
-            "基利安·姆巴佩 #10（法国队长，皇家马德里前锋）",
-            "奥利维耶·吉鲁 #9（法国老将，AC 米兰中锋）",
-            "塞库·库利巴利 #6（科特迪瓦中场，2023 非洲杯最佳球员）"
+            "埃尔林·哈兰德 #9（挪威前锋，曼城）",
+            "马丁·厄德高 #10（挪威中场，阿森纳队长）",
+            "塞库·福法纳 #6（科特迪瓦中场，雷恩 / AC 米兰）",
+            "弗朗切斯科·阿切尔比 #14（科特迪瓦中卫，本届非洲最佳球员）"
           ],
           "key_players_en": [
-            "Kylian Mbappé #10 (France captain, Real Madrid striker)",
-            "Olivier Giroud #9 (France veteran, AC Milan target man)",
-            "Seko Fofana #6 (Ivory Coast midfielder, 2023 AFCON Best Player)"
+            "Erling Haaland #9 (Norway striker, Manchester City)",
+            "Martin Ødegaard #10 (Norway midfielder, Arsenal captain)",
+            "Seko Fofana #6 (Ivory Coast midfielder, Rennes / AC Milan)",
+            "Franck Kessié #14 (Ivory Coast CB, AFCON 2023 Best Player)"
           ],
-          "news_focus_zh": "姆巴佩本届首次戴上队长袖标，2024 欧洲杯半决赛射失点球后他需要用淘汰赛进球完成救赎",
-          "news_focus_en": "Mbappé wearing the armband for the first time at a WC; needs a knockout goal to erase the Euro 2024 SF PK miss",
+          "news_focus_zh": "哈兰德本届已 3 球——挪威队史单届世界杯进球纪录正是 3 球（1958 Hallvar Thoresen），他再进 1 球即破纪录",
+          "news_focus_en": "Haaland's 3 goals already equal NOR's all-time single-WC record — one more and he owns it outright",
           "record_potential_zh": [
-            "姆巴佩若再进 1 球将追平齐达内 14 球世界杯法国队史纪录",
-            "吉鲁若登场将成为法国世界杯最年长球员（38 岁）"
+            "哈兰德 1 球即破挪威队史单届世界杯进球纪录",
+            "挪威若晋级将是 1998 年后首次 16 强——28 年等一回",
+            "科特迪瓦若晋级将是 2014 年后首次 16 强——12 年等一回"
           ],
           "record_potential_en": [
-            "One more Mbappé goal ties Zinedine Zidane's 14 — France's all-time WC record.",
-            "Giroud (38) appearing would set France's oldest-ever WC player mark."
+            "One Haaland goal breaks NOR's all-time single-WC scoring record.",
+            "A NOR R16 would be their first since 1998 — a 28-year wait.",
+            "A CIV R16 would be their first since 2014 — a 12-year wait."
           ],
           "why_skip_zh": null,
           "why_skip_en": null,
@@ -2994,41 +3012,45 @@
           "stakes_narrative_en": "Knockout — single elimination.",
           "verdict": "must",
           "score": 5,
-          "headline_zh": "挪威或法国在 MetLife 出战",
-          "headline_en": "Norway or France under the NYC lights",
+          "headline_zh": "法国 vs 瑞典——死亡半区预演",
+          "headline_en": "France vs Sweden — death-bracket preview",
           "watch_for_zh": [
-            "I 组头名大概率在挪威和法国之间产生（首轮都赢，对决在末轮）",
-            "对手是 C/D/F/G/H 五个组的最佳第三——这 5 个组都比较乱（G、H 全员平分）",
-            "MetLife 体育场是 NFL 喷气机队主场，也是 2026 世界杯决赛场地——淘汰赛首登气氛最浓",
-            "挪威首次重返世界杯（2002 后），头号射手哈兰德（曼城）已 3 球领跑——是本届金靴头号热门",
-            "如果是法国——上届亚军姆巴佩+格列兹曼的连线已成型，晋级应是常规操作"
+            "法国（I 组头名 9 分）本届 3 战全胜（3-1 塞内加尔、3-0 伊拉克、4-1 挪威），进球数本届最多",
+            "瑞典（F 组第三 4 分）凭借净胜球晋级，5-1 突尼斯是本届最大冷门之一，1-5 负荷兰暴露后防不稳",
+            "MetLife 体育场（东卢瑟福）8 万人容量，是 2026 世界杯决赛场地——淘汰赛首登气氛最浓",
+            "姆巴佩（皇马）本届已 3 球 2 助，登贝莱（巴黎）边路锐利——法国前场四人组世界顶级",
+            "瑞典 1958 本土世界杯亚军是历史最佳，1994 季军后一直在世界杯边缘——本届若爆冷将震动足坛"
           ],
           "watch_for_en": [
-            "1I is most likely Norway or France (both won MD1; the FRA-NOR MD3 clash decides top of I).",
-            "Opponent is the best 3rd from C/D/F/G/H — five groups where standings are still wide open.",
-            "MetLife is the NFL Jets' home and the 2026 WC final venue — the R32 atmosphere will be the biggest of the round.",
-            "NOR are back at a WC for the first time since 2002; Haaland (Man City) has 3 goals and is the Golden Boot front-runner.",
-            "If FRA, the Mbappé-Griezmann connection is clicking — 2022 finalists should cruise."
+            "France (I1, 9 pts) went 3-for-3 in the group (3-1 SEN, 3-0 IRQ, 4-1 NOR) — most goals of any side.",
+            "Sweden (F3, 4 pts) advanced on GD; the 5-1 over Tunisia was an MD1 stunner but 1-5 vs Netherlands exposed defensive fragility.",
+            "MetLife (East Rutherford) holds 80,000 and is the 2026 WC final venue — the loudest R32 atmosphere on the slate.",
+            "Mbappé (Real Madrid) has 3G 2A; Dembélé (PSG) leads the line — France's front four is the world's deepest.",
+            "Sweden's 1958 WC final is still their peak; an upset here would be the biggest story of the R32."
           ],
           "key_players_zh": [
-            "埃尔林·哈兰德 #9（挪威前锋，曼城）",
-            "基利安·姆巴佩 #10（法国前锋，皇家马德里）",
-            "马丁·厄德高 #10（挪威中场，阿森纳）"
+            "基利安·姆巴佩 #10（法国队长，皇家马德里前锋）",
+            "奥斯曼·登贝莱 #11（法国边锋，巴黎圣日耳曼）",
+            "亚历山大·伊萨克 #11（瑞典前锋，纽卡斯尔）",
+            "罗宾·奥尔森 #1（瑞典门将）"
           ],
           "key_players_en": [
-            "Erling Haaland #9 (Norway striker, Man City)",
-            "Kylian Mbappé #10 (France striker, Real Madrid)",
-            "Martin Ødegaard #10 (Norway midfielder, Arsenal)"
+            "Kylian Mbappé #10 (France captain, Real Madrid striker)",
+            "Ousmane Dembélé #11 (France winger, Paris Saint-Germain)",
+            "Alexander Isak #11 (Sweden striker, Newcastle United)",
+            "Robin Olsen #1 (Sweden goalkeeper, Malmö FF loan from Aston Villa)"
           ],
-          "news_focus_zh": "哈兰德本届已 3 球——若再进 1 球将成为挪威队史单届世界杯进球纪录保持者",
-          "news_focus_en": "Haaland's 3 goals already equal NOR's single-WC record — one more and he owns it outright",
+          "news_focus_zh": "法国本届是夺标头号热门，9 分全胜晋级——德尚的目标是追平巴西意大利的 4 次夺冠纪录",
+          "news_focus_en": "France are the title favorites — 9 pts and the deepest squad; Deschamps chases a 3rd WC title to match Zagallo/Scarboni",
           "record_potential_zh": [
-            "哈兰德 1 球即破挪威队史单届世界杯进球纪录",
-            "MetLife 首次承办世界杯比赛——历史性的 80,000+ 观众"
+            "姆巴佩若再进 1 球将追平齐达内 14 球的法国队史世界杯进球纪录",
+            "法国若夺冠将成为继巴西、意大利之后第 3 支 4 次捧杯的球队",
+            "瑞典若晋级将是 2002 年后首次 16 强——24 年等一回"
           ],
           "record_potential_en": [
-            "One Haaland goal breaks Norway's all-time single-WC scoring record.",
-            "MetLife's first-ever WC match — historic 80,000+ crowd."
+            "One more Mbappé goal ties Zidane's 14 — France's all-time WC scoring record.",
+            "A FRA title would make them the 3rd 4× WC champion (after Brazil and Italy).",
+            "A SWE R16 would be their first since 2002 — a 24-year wait."
           ],
           "why_skip_zh": null,
           "why_skip_en": null,
@@ -3079,41 +3101,45 @@
           "stakes_narrative_en": "Knockout — single elimination.",
           "verdict": "must",
           "score": 4,
-          "headline_zh": "东道主墨西哥主场淘汰赛",
-          "headline_en": "Mexico's home knockout — 1986 sequel",
+          "headline_zh": "墨西哥城主场——东道主 40 年等待",
+          "headline_en": "Mexico City homecoming — co-host's 40-year wait",
           "watch_for_zh": [
-            "墨西哥以 A 组头名晋级（已 2 胜 6 分），FIFA 排名第 14",
-            "对手是 C/E/F/H/I 五个组中表现最好的第三——可能是日本、乌兹别克斯坦等亚洲队",
-            "Estadio Banorte（墨西哥城）海拔 2,240 米，是世界杯最高海拔主办地——客队需要 24 小时适应",
+            "墨西哥（A 组头名 9 分）本届 3 战全胜（2-0 南非、1-0 韩国、3-0 捷克），本土作战状态极佳",
+            "厄瓜多尔（E 组第三 4 分）2-1 爆冷击败德国是本届最大冷门，靠身体对抗和定位球得分",
+            "Estadio Banorte（墨西哥城）海拔 2,240 米，是世界杯最高海拔主办地——厄瓜多尔（基多 2,850m）反而占优",
             "墨西哥上一场世界杯淘汰赛胜利要追溯到 1986 年本土世界杯——40 年的等待",
             "墨西哥城的 80,000 主场球迷将是本届最具压迫感的主场氛围之一"
           ],
           "watch_for_en": [
-            "Mexico qualified as Group A winners (2-0, 6 pts), FIFA rank 14.",
-            "Opponent is the best 3rd-place team from C/E/F/H/I — could be Japan, Uzbekistan, or another Asian side.",
-            "Estadio Banorte in Mexico City sits at 2,240m — the highest WC venue on the planet; visitors need a 24h acclimation window.",
+            "Mexico (A1, 9 pts) went 3-for-3 (2-0 RSA, 1-0 KOR, 3-0 CZE) — the co-host is peaking at the right time.",
+            "Ecuador (E3, 4 pts) beat Germany 2-1 in MD3 — the upset of the tournament. Their identity is physical and direct.",
+            "Estadio Banorte sits at 2,240m — the highest WC venue on the planet. Ecuador (Quito-based at 2,850m) actually acclimates BETTER than Mexico.",
             "Mexico's last WC knockout WIN was in 1986 (the last time they hosted) — a 40-year wait ends here.",
             "80,000 home fans in CDMX will produce one of the loudest atmospheres of the tournament."
           ],
           "key_players_zh": [
             "劳尔·希门尼斯 #9（墨西哥队长，富勒姆前锋）",
-            "埃德森·阿尔瓦雷斯 #4（墨西哥中场，西汉姆）",
-            "吉列尔莫·奥乔亚 #13（墨西哥老门将，39 岁）"
+            "埃德森·阿尔瓦雷斯 #4（墨西哥中场，西汉姆联）",
+            "吉列尔莫·奥乔亚 #13（墨西哥老门将，40 岁，本届告别赛）",
+            "恩纳·瓦伦西亚 #13（厄瓜多尔老前锋，费内巴切，36 岁）"
           ],
           "key_players_en": [
             "Raúl Jiménez #9 (Mexico captain, Fulham striker)",
-            "Edson Álvarez #4 (Mexico midfielder, West Ham)",
-            "Guillermo Ochoa #13 (Mexico veteran GK, age 39)"
+            "Edson Álvarez #4 (Mexico midfielder, West Ham United)",
+            "Guillermo Ochoa #13 (Mexico veteran GK, 40, farewell WC)",
+            "Enner Valencia #13 (Ecuador veteran striker, Fenerbahçe, 36)"
           ],
-          "news_focus_zh": "墨西哥本届的口号是\"这次不一样\"——1986 之后的 10 届世界杯每次都是 16 强止步，本届要破咒",
-          "news_focus_en": "Mexico's slogan this cycle is \"this time it's different\" — they've been bounced in the R16 for 10 straight WCs since 1986",
+          "news_focus_zh": "奥乔亚本届是第 5 次参加世界杯——追平马特乌斯、安东尼奥·卡巴哈尔的 5 届纪录",
+          "news_focus_en": "Ochoa is at his 5th WC — tying Matthäus and Antonio Carbajal's record",
           "record_potential_zh": [
-            "墨西哥若晋级将打破 1986 年以来 10 届连续 16 强出局的魔咒",
-            "奥乔亚（39 岁）若登场将成为世界杯最年长门将之一"
+            "墨西哥若晋级将是 1986 年后首次 16 强——40 年等一回（同时代所有墨西哥球员都没见过）",
+            "奥乔亚本届若登场将追平 5 届世界杯出场纪录",
+            "厄瓜多尔若晋级将是 2006 年后首次 16 强——20 年等一回"
           ],
           "record_potential_en": [
-            "A MEX win ends a 10-tournament R16 exit streak dating to 1986.",
-            "Ochoa (39) appearing would make him one of the oldest GKs ever to play a WC knockout match."
+            "A MEX R16 would be their first since 1986 — a 40-year wait that no current Mexican player has lived through.",
+            "An Ochoa appearance ties the all-time 5-WC appearance record.",
+            "An ECU R16 would be their first since 2006 — a 20-year wait."
           ],
           "why_skip_zh": null,
           "why_skip_en": null,
@@ -3167,38 +3193,42 @@
           "headline_zh": "英格兰登场，亚特兰大 11 点开球",
           "headline_en": "England in Atlanta's 11AM heat",
           "watch_for_zh": [
-            "L 组头名大概率是英格兰（首轮 2-1 加纳，FIFA 第 4）",
-            "对手是 E/H/I/J/K 五个组的最佳第三——可能是挪威之外的任何队",
-            "Mercedes-Benz 体育场（亚特兰大）有可伸缩屋顶，但 11 点开球时仍会闷热——英格兰的快节奏可能在下半场失温",
-            "英格兰 2018 年打入 4 强、2020 欧洲杯亚军、2024 欧洲杯亚军——但 1966 年后再未夺冠的尴尬仍在",
-            "贝林厄姆（皇马）和萨卡（阿森纳）是前场最锐利的两人，福登（曼城）替补"
+            "英格兰（L 组头名 7 分）本届 4-2 克罗地亚、0-0 加纳、2-0 巴拿马——前场锐利但中场控制不稳",
+            "刚果（金）（K 组第三 4 分）1-1 葡萄牙、0-1 哥伦比亚、3-1 乌兹别克斯坦——防守反击 + 定位球",
+            "Mercedes-Benz 体育场（亚特兰大）有可伸缩屋顶，11 点开球时仍闷热——英格兰快节奏可能下半场失温",
+            "英格兰 2018 年打入 4 强、2020 欧洲杯亚军、2024 欧洲杯亚军——1966 年后再未夺冠的尴尬仍在",
+            "贝林厄姆（皇马）和萨卡（阿森纳）是前场最锐利的两人，凯恩（拜仁）队长箭头"
           ],
           "watch_for_en": [
-            "1L is most likely England (2-1 over Ghana in MD1, FIFA rank 4).",
-            "Opponent is the best 3rd from E/H/I/J/K — a wide pool, potentially Norway or another strong side.",
-            "Mercedes-Benz has a retractable roof, but an 11AM kickoff is still humid — ENG's high tempo may fade in the 2nd half.",
-            "ENG have made the 2018 SF, 2020 Euro final, 2024 Euro final — but the 1966 drought is still THE story.",
-            "Bellingham (Real Madrid) and Saka (Arsenal) lead the front line; Foden (Man City) likely starts on the bench."
+            "England (L1, 7 pts) went 4-2 CRO / 0-0 GHA / 2-0 PAN — attack sharp, midfield control patchy.",
+            "DR Congo (K3, 4 pts) went 1-1 POR / 0-1 COL / 3-1 UZB — counter-attack + set pieces is their identity.",
+            "Mercedes-Benz (Atlanta) has a retractable roof, but 11AM kickoff is still humid — ENG's high tempo may fade in the 2nd half.",
+            "England have made the 2018 SF, Euro 2020 final, Euro 2024 final — but the 1966 drought is still THE story.",
+            "Bellingham (Real Madrid) and Saka (Arsenal) lead the front line; Kane (Bayern) is the captain-striker."
           ],
           "key_players_zh": [
             "裘德·贝林厄姆 #10（英格兰中场，皇家马德里）",
             "布卡约·萨卡 #7（阿森纳边锋）",
-            "哈里·凯恩 #9（队长，拜仁慕尼黑前锋）"
+            "哈里·凯恩 #9（队长，拜仁慕尼黑前锋）",
+            "塞萨尔·巴坎布 #17（刚果（金）前锋，费内巴切）"
           ],
           "key_players_en": [
             "Jude Bellingham #10 (England midfielder, Real Madrid)",
             "Bukayo Saka #7 (Arsenal winger)",
-            "Harry Kane #9 (captain, Bayern Munich striker)"
+            "Harry Kane #9 (captain, Bayern Munich striker)",
+            "Cédric Bakambu #17 (DR Congo striker, Fenerbahçe)"
           ],
           "news_focus_zh": "图赫尔 2025 年初接手英格兰，3-4-2-1 阵型主打反击——淘汰赛会切换到 4-2-3-1 加强控制",
           "news_focus_en": "Tuchel took over in early 2025; 3-4-2-1 in groups, but expect 4-2-3-1 for more control in knockout",
           "record_potential_zh": [
-            "凯恩若再进 2 球将追平鲁尼 13 球英格兰队史纪录",
-            "英格兰若打入 8 强将是连续 3 届大赛 8 强（2018 4 强、2022 8 强、2026 ?）"
+            "凯恩若再进 2 球将追平鲁尼 13 球的英格兰队史纪录",
+            "英格兰若打入 8 强将是连续 3 届大赛 8 强（2018 4 强、2022 8 强、2026 ?）",
+            "刚果（金）若晋级将是 1990 年后首次 16 强——36 年等一回"
           ],
           "record_potential_en": [
             "Two more Kane goals ties Rooney's 13 — England's all-time WC scoring record.",
-            "An ENG QF would extend a 3-tournament major-tournament knockout streak (2018 SF, 2022 QF, 2026 ?)."
+            "An ENG QF would extend a 3-tournament major-tournament knockout streak (2018 SF, 2022 QF, 2026 ?).",
+            "A COD R16 would be their first since 1990 — a 36-year wait."
           ],
           "why_skip_zh": null,
           "why_skip_en": null,
@@ -3249,40 +3279,44 @@
           "stakes_narrative_en": "Knockout — single elimination.",
           "verdict": "must",
           "score": 5,
-          "headline_zh": "G 组头名爆冷？新西兰领跑",
-          "headline_en": "Group G's surprise leader — NZL still on top",
+          "headline_zh": "比利时黄金一代末班车",
+          "headline_en": "Belgium's golden generation finale?",
           "watch_for_zh": [
-            "G 组目前 4 队全 1 分（首轮 4 场全平），任何队都可能是头名——这是本届最开放的组",
-            "比利时 FIFA 第 6 但首轮仅 1-1 平伊朗——马丁内斯帅位岌岌可危",
-            "新西兰首轮 1-1 平埃及是 1982 年后首次世界杯不败开局——弱势方最大的黑马故事",
-            "对手是 A/E/H/I/J 五个组的最佳第三——可能是欧洲杯冠军西班牙或加纳",
-            "Lumen Field（西雅图）下午 3 点，气温通常 22-25°C，6 月最适合踢球的天气"
+            "比利时（G 组头名 5 分）本届 3 场全平（1-1 伊朗、0-0 新西兰、1-1 埃及）——净胜球压过埃及晋级",
+            "塞内加尔（I 组第三 3 分）1-3 法国、2-3 挪威、5-0 伊拉克——靠末轮 5-0 大胜逆袭晋级",
+            "Lumen Field（西雅图）下午 3 点，气温通常 22-25°C——本届最舒适的 R32 比赛条件之一",
+            "德布劳内（曼城 34 岁）、卢卡库（那不勒斯 32 岁）——黄金一代的最后一次世界杯",
+            "塞内加尔 2002 年首次参赛就打入 8 强 + 2022 年打入 16 强——非洲球队的实力派"
           ],
           "watch_for_en": [
-            "Group G currently has all four teams tied at 1 point after a 4-way MD1 of 1-1 draws — any of them can top the group.",
-            "Belgium (FIFA 6) drew Iran 1-1 in MD1 — Martinez is on the hot seat.",
-            "New Zealand's 1-1 vs Egypt is their first WC point since 1982 — the underdog story of the tournament.",
-            "Opponent is the best 3rd from A/E/H/I/J — could be Euro 2024 champ Spain, or Ghana.",
-            "Lumen Field (Seattle) at 3PM = 73-77°F — the most pleasant R32 kickoff weather on the slate."
+            "Belgium (G1, 5 pts) drew all three group games (1-1 IRN, 0-0 NZL, 1-1 EGY) — advanced on GD tiebreak over Egypt.",
+            "Senegal (I3, 3 pts) went 1-3 FRA / 2-3 NOR / 5-0 IRQ — a 5-0 finale pulled them into the R32 as a best 3rd.",
+            "Lumen Field (Seattle) at 3PM = 73-77°F — the most pleasant R32 kickoff weather on the slate.",
+            "De Bruyne (Man City, 34) and Lukaku (Napoli, 32) — the golden generation's last WC together.",
+            "Senegal made the 2002 QF and 2022 R16 — one of Africa's most consistent big-tournament sides."
           ],
           "key_players_zh": [
             "凯文·德布劳内 #7（比利时中场，曼城）",
-            "伍德罗·伍德 #9（新西兰前锋，诺丁汉森林）",
-            "罗梅卢·卢卡库 #9（比利时前锋，那不勒斯）"
+            "罗梅卢·卢卡库 #9（比利时前锋，那不勒斯）",
+            "萨迪奥·马内 #10（塞内加尔前锋，利雅得新月）",
+            "帕佩·萨尔 #19（塞内加尔中场，热刺）"
           ],
           "key_players_en": [
-            "Kevin De Bruyne #7 (Belgium midfielder, Man City)",
-            "Chris Wood #9 (New Zealand striker, Nottingham Forest)",
-            "Romelu Lukaku #9 (Belgium striker, Napoli)"
+            "Kevin De Bruyne #7 (Belgium midfielder, Manchester City)",
+            "Romelu Lukaku #9 (Belgium striker, Napoli)",
+            "Sadio Mané #10 (Senegal striker, Al-Ahli / former Bayern / Liverpool)",
+            "Pape Matar Sarr #19 (Senegal midfielder, Tottenham)"
           ],
           "news_focus_zh": "比利时黄金一代的最后一届世界杯——德布劳内 34 岁、卢卡库 32 岁，本届出局就彻底告别",
           "news_focus_en": "Belgium's golden generation's last WC — De Bruyne (34), Lukaku (32); an exit here ends an era",
           "record_potential_zh": [
-            "新西兰若晋级将是 1982 年后首次世界杯淘汰赛——44 年等一回",
+            "比利时若晋级将是 2018 年后首次 16 强——8 年等一回（2018 季军、2022 小组出局、2026 ?）",
+            "塞内加尔若晋级将是连续 2 届 16 强——非洲纪录之一",
             "卢卡库本届若进 3 球将追平 5 球的比利时世界杯队史进球纪录"
           ],
           "record_potential_en": [
-            "A NZL R16 would be their first WC knockout appearance in 44 years.",
+            "A BEL R16 would be their first since 2018 — an 8-year wait.",
+            "A SEN R16 would be their 2nd straight — joining Morocco as the only African back-to-back R16 sides.",
             "Three Lukaku goals ties Belgium's all-time single-WC scoring record (5)."
           ],
           "why_skip_zh": null,
@@ -3334,41 +3368,45 @@
           "stakes_narrative_en": "Knockout — single elimination.",
           "verdict": "must",
           "score": 4,
-          "headline_zh": "美国队淘汰赛首战",
+          "headline_zh": "美国 vs 波黑——东道主淘汰赛首战",
           "headline_en": "USA's first knockout game",
           "watch_for_zh": [
-            "D 组头名大概率是美国（首轮 4-1 巴拉圭，FIFA 第 17）",
-            "对手是 B/E/F/I/J 五个组的最佳第三——可能是韩国、乌兹别克斯坦等亚洲队",
-            "Levi's Stadium（圣克拉拉）是 NFL 49 人队主场——美式橄榄球的传统地盘，球迷氛围是足球+橄榄球混合",
-            "美国 2002 年后从未打入 8 强（2014 16 强，2022 16 强），本届打破魔咒是东道主最大叙事",
-            "普利西奇（队长，AC 米兰）本届首轮 1 球 1 助，是美国队前场最大威胁"
+            "美国（D 组头名 6 分）本届 4-1 巴拉圭、2-0 澳大利亚、2-3 土耳其——前场锐利但末轮输给土耳其暴露防线问题",
+            "波黑（B 组第三 4 分）首次打入世界杯 16 强，1-1 加拿大、1-4 瑞士、3-1 卡塔尔——靠末轮大胜卡塔尔逆袭晋级",
+            "Levi's 体育场（圣克拉拉）是 NFL 49 人队主场——美式橄榄球的传统地盘，球迷氛围是足球+橄榄球混合",
+            "美国 2002 年后从未打入 8 强（2014 16 强、2022 16 强），本届打破魔咒是东道主最大叙事",
+            "波黑头号球星哲科（40 岁，国米老将）本届告别赛——本届若登场将是波黑队史世界杯出场最多球员"
           ],
           "watch_for_en": [
-            "1D is most likely USA (4-1 over Paraguay in MD1, FIFA rank 17).",
-            "Opponent is the best 3rd from B/E/F/I/J — could be South Korea, Uzbekistan, or another Asian side.",
-            "Levi's Stadium is the NFL 49ers' home — the Bay Area crowd will mix football and soccer fandom.",
-            "USA haven't reached the QF since 2002 (2014 R16, 2022 R16) — ending the drought is the host's biggest narrative.",
-            "Pulisic (captain, AC Milan) had 1G 1A in MD1 — the USMNT's biggest attacking threat."
+            "USA (D1, 6 pts) went 4-1 PAR / 2-0 AUS / 2-3 TUR — front line sharp but the MD3 loss to Türkiye exposed defensive gaps.",
+            "Bosnia (B3, 4 pts) are at their first-ever R32; went 1-1 CAN / 1-4 SUI / 3-1 QAT — sealed the R32 spot with the MD3 win.",
+            "Levi's Stadium (Santa Clara) is the NFL 49ers' home — the Bay Area crowd will mix football and soccer fandom.",
+            "USA haven't reached the QF since 2002 (2014 R16, 2022 R16) — ending the drought is the co-host's biggest narrative.",
+            "Edin Džeko (Inter Milan, 40) is on a farewell tour — a R32 appearance would tie BIH's all-time WC appearance record."
           ],
           "key_players_zh": [
             "克里斯蒂安·普利西奇 #10（美国队长，AC 米兰）",
             "蒂莫西·维阿 #9（尤文图斯前锋）",
-            "尤努斯·穆萨 #21（美国中场，AC 米兰）"
+            "尤努斯·穆萨 #21（美国中场，AC 米兰）",
+            "埃丁·哲科 #11（波黑老将前锋，国际米兰，40 岁）"
           ],
           "key_players_en": [
             "Christian Pulisic #10 (USA captain, AC Milan)",
             "Timothy Weah #9 (Juventus striker)",
-            "Yunus Musah #21 (USA midfielder, AC Milan)"
+            "Yunus Musah #21 (USA midfielder, AC Milan)",
+            "Edin Džeko #11 (Bosnia veteran striker, Inter Milan, 40)"
           ],
           "news_focus_zh": "美国队本届头号话题是\"打入 8 强\"——小组赛 2 胜已超 2022 全程战绩",
           "news_focus_en": "USA's #1 storyline is \"reach the QF\" — two group wins already exceed their entire 2022 output",
           "record_potential_zh": [
             "美国若晋级 8 强将是 2002 年后首次——24 年等一回",
-            "普利西奇本届若 3 球将追平美国队史单届世界杯进球纪录"
+            "波黑若晋级将是队史首次 16 强",
+            "哲科若登场将追平波黑队史世界杯出场纪录（4 场）"
           ],
           "record_potential_en": [
             "A USA QF would be their first in 24 years (since 2002).",
-            "Pulisic with 3+ goals ties the USMNT's all-time single-WC scoring record."
+            "A BIH R16 would be their first-ever at a WC.",
+            "A Džeko appearance would tie BIH's all-time WC appearance record (4)."
           ],
           "why_skip_zh": null,
           "why_skip_en": null,
@@ -3419,41 +3457,45 @@
           "stakes_narrative_en": "Knockout — single elimination.",
           "verdict": "must",
           "score": 5,
-          "headline_zh": "H 组头名 vs 奥地利，SoFi 大场面",
-          "headline_en": "Group H winner meets Austria in LA",
+          "headline_zh": "西班牙 vs 奥地利，SoFi 大场面",
+          "headline_en": "Spain meets Austria in LA",
           "watch_for_zh": [
-            "H 组 4 队首轮全平（1 分），极可能由乌拉圭、西班牙、沙特、佛得角中突围",
-            "如果是 1H 是西班牙——2024 欧洲杯冠军，亚马尔（17 岁，拉玛西亚）是本届最大新星",
-            "如果是 1H 是乌拉圭——苏亚雷斯、卡瓦尼时代彻底结束，努涅斯（利物浦）是新核心",
-            "J 组第二大概率是奥地利（与阿根廷的末轮对话决定谁是头名）",
-            "SoFi 第二场 R32——同地两场淘汰赛是本届首创，节省球队移动但提高球迷负担"
+            "西班牙（H 组头名 7 分）本届 0-0 佛得角、4-0 沙特、1-0 乌拉圭——防线仅丢 0 球，全队最佳",
+            "奥地利（J 组第二 4 分）3-1 约旦、0-2 阿根廷、3-3 阿尔及利亚——靠末轮逼平阿尔及利亚保第二",
+            "SoFi 第二场 R32——同地两场淘汰赛是本届首创（同 6/28 揭幕战也在这里）",
+            "亚马尔（巴萨 17 岁）+ 尼科·威廉姆斯（毕尔巴鄂）是西班牙前场最锐利的两个年轻边锋",
+            "奥地利头号球星阿拉巴（皇马 32 岁）本届告别赛——队史最伟大球员的最后一届"
           ],
           "watch_for_en": [
-            "Group H is a 4-way tie at 1 point after MD1 — URU, ESP, KSA, or CPV could win it.",
-            "If 1H is Spain, they're the 2024 Euro champions; Lamine Yamal (17, La Masia) is the WC's biggest breakout star.",
-            "If 1H is Uruguay, the Suárez-Cavani era is over; Darwin Núñez (Liverpool) is the new talisman.",
-            "2J is most likely Austria (ARG-AUT MD3 clash decides top of J).",
-            "SoFi's second R32 of the tournament — back-to-back knockouts at the same venue is a 2026 first."
+            "Spain (H1, 7 pts) went 0-0 CPV / 4-0 KSA / 1-0 URU — the only side yet to concede (0 GA).",
+            "Austria (J2, 4 pts) went 3-1 JOR / 0-2 ARG / 3-3 ALG — sealed R32 with the MD3 draw.",
+            "SoFi's second R32 of the tournament — back-to-back knockouts at the same venue is a 2026 first.",
+            "Yamal (Barcelona, 17) + Nico Williams (Athletic Bilbao) are Spain's sharpest young wingers.",
+            "David Alaba (Real Madrid, 32) is on a farewell tour — Austria's greatest-ever player, last WC."
           ],
           "key_players_zh": [
             "拉明·亚马尔 #19（西班牙边锋，巴塞罗那，17 岁）",
-            "大卫·阿拉巴 #8（奥地利队长，皇家马德里）",
-            "达林·努涅斯 #11（乌拉圭前锋，利物浦）"
+            "尼科·威廉姆斯 #11（西班牙边锋，毕尔巴鄂竞技）",
+            "罗德里 #16（西班牙中场，曼城，2024 金球奖）",
+            "大卫·阿拉巴 #8（奥地利队长，皇家马德里）"
           ],
           "key_players_en": [
             "Lamine Yamal #19 (Spain winger, Barcelona, age 17)",
-            "David Alaba #8 (Austria captain, Real Madrid)",
-            "Darwin Núñez #11 (Uruguay striker, Liverpool)"
+            "Nico Williams #11 (Spain winger, Athletic Bilbao)",
+            "Rodri #16 (Spain midfielder, Man City, 2024 Ballon d'Or)",
+            "David Alaba #8 (Austria captain, Real Madrid)"
           ],
-          "news_focus_zh": "亚马尔本届首秀已 1 球 2 助——若延续将是 2006 年后最年轻的世界杯淘汰赛进球者",
+          "news_focus_zh": "亚马尔本届已 1 球 2 助——若延续将是 2006 年后最年轻的世界杯淘汰赛进球者",
           "news_focus_en": "Yamal already has 1G 2A in MD1 — the youngest WC knockout goalscorer since 2006 if he continues",
           "record_potential_zh": [
-            "西班牙若晋级将是连续 4 届世界杯 8 强（2008 欧洲杯-2012 欧洲杯盛世延续）",
-            "阿拉巴（32 岁）若登场将成为奥地利队史最年长世界杯出场球员"
+            "西班牙若晋级 8 强将是连续 4 届世界杯 8 强（2010、2018、2022、2026）",
+            "奥地利若晋级将是 1954 年后首次 16 强——72 年等一回",
+            "亚马尔若再进 1 球将成为本届最年轻的进球者"
           ],
           "record_potential_en": [
-            "An ESP QF would extend their run to 4 straight WCs in the QF.",
-            "Alaba (32) would be Austria's oldest-ever WC outfield player."
+            "An ESP QF would be their 4th straight — a Spain record.",
+            "An AUT R16 would be their first since 1954 — a 72-year wait.",
+            "A Yamal goal would make him the youngest scorer at this WC."
           ],
           "why_skip_zh": null,
           "why_skip_en": null,
@@ -3504,41 +3546,45 @@
           "stakes_narrative_en": "Knockout — single elimination.",
           "verdict": "must",
           "score": 5,
-          "headline_zh": "K、L 组第二对决，多伦多",
-          "headline_en": "K's #2 meets L's #2 in Toronto",
+          "headline_zh": "C 罗 vs 莫德里奇——传奇对决",
+          "headline_en": "Ronaldo vs Modrić — legends' last dance",
           "watch_for_zh": [
-            "K 组 4 队差距不大（哥伦比亚 3 分领跑），第二可能是葡萄牙、刚果（金）或乌兹别克斯坦",
-            "L 组第二大概率是加纳或英格兰以外的队——小组末轮 ENG-GHA 是直接对话",
-            "BMO Field（多伦多）是本届世界杯唯一加拿大主办城市——草地条件偏冷凉",
-            "葡萄牙/刚果（DRC）如果对决——C 罗（41 岁）将首次面对非洲球队淘汰赛",
-            "C 罗本届首轮 0 球——他需要用淘汰赛证明自己仍然值得首发"
+            "葡萄牙（K 组第二 5 分）本届 1-1 刚果、5-0 乌兹别克、0-0 哥伦比亚——C 罗本届首轮 0 球状态低迷",
+            "克罗地亚（L 组第二 6 分）2-4 英格兰、2-1 加纳、0-0 巴拿马——莫德里奇 39 岁仍是中场节拍器",
+            "BMO Field（多伦多）是本届世界杯唯一加拿大主办城市——草地条件偏冷凉，6 月初体感 18-22°C",
+            "C 罗（41 岁，利雅得胜利）vs 莫德里奇（39 岁，皇马）——两位金球奖得主的告别赛",
+            "C 罗本届若登场将追平自己保持的世界杯 22 场出场纪录；再进 1 球追平 5 球的世界杯进球数"
           ],
           "watch_for_en": [
-            "Group K's #2 could be Portugal, DR Congo, or Uzbekistan — the race behind Colombia is wide open.",
-            "Group L's #2 is most likely Ghana, Panama, or Croatia (ENG-GHA MD3 decides top of L).",
+            "Portugal (K2, 5 pts) went 1-1 COD / 5-0 UZB / 0-0 COL — Ronaldo went goalless in MD1.",
+            "Croatia (L2, 6 pts) went 2-4 ENG / 2-1 GHA / 0-0 PAN — Modrić (39) is still the metronome.",
             "BMO Field (Toronto) is the only Canadian host venue for the WC — cooler grass conditions than US/MX.",
-            "If it's POR vs DRC, Cristiano Ronaldo (41) faces an African side in knockout play for the first time.",
-            "Ronaldo went goalless in MD1 — he needs the R32 to prove he still deserves to start."
+            "Ronaldo (41, Al-Nassr) vs Modrić (39, Real Madrid) — two Ballon d'Or winners, both at their last WC.",
+            "Ronaldo's R32 appearance would tie his own WC appearance record (22); one more goal ties the all-time WC scoring record (5)."
           ],
           "key_players_zh": [
-            "克里斯蒂亚诺·罗纳尔多 #7（葡萄牙前锋，41 岁）",
+            "克里斯蒂亚诺·罗纳尔多 #7（葡萄牙前锋，41 岁，利雅得胜利）",
             "布鲁诺·费尔南德斯 #8（葡萄牙中场，曼联）",
-            "穆罕默德·库杜斯 #19（加纳边锋，热刺）"
+            "卢卡·莫德里奇 #10（克罗地亚队长，39 岁，皇家马德里）",
+            "伊万·佩里西奇 #4（克罗地亚边锋，28 届世界杯老臣）"
           ],
           "key_players_en": [
-            "Cristiano Ronaldo #7 (Portugal striker, age 41)",
+            "Cristiano Ronaldo #7 (Portugal striker, age 41, Al-Nassr)",
             "Bruno Fernandes #8 (Portugal midfielder, Manchester United)",
-            "Mohammed Kudus #19 (Ghana winger, Tottenham)"
+            "Luka Modrić #10 (Croatia captain, age 39, Real Madrid)",
+            "Ivan Perišić #4 (Croatia winger, veteran of 4 WCs)"
           ],
-          "news_focus_zh": "C 罗本届可能是他最后一次世界杯（2026 是他第 5 届）——他已经公开暗示退役话题",
-          "news_focus_en": "Ronaldo's last WC (5th appearance); he's publicly hinted at retirement — every knockout game is a farewell",
+          "news_focus_zh": "C 罗本届是他第 6 届世界杯（创纪录）——每场比赛都可能是告别",
+          "news_focus_en": "Ronaldo's 6th WC (record) — every match is potentially a farewell",
           "record_potential_zh": [
-            "C 罗若登场将成为世界杯历史出场最多球员（当前已 22 场，5 届）",
-            "C 罗若再进 1 球将追平 5 球的世界杯历史并列纪录"
+            "C 罗若登场将成为世界杯历史出场最多球员（追平 22 场）",
+            "莫德里奇若登场将成为世界杯历史出场最多中场球员（追平 19 场）",
+            "C 罗若再进 1 球将追平克洛泽的世界杯历史进球纪录（16 球）"
           ],
           "record_potential_en": [
-            "A Ronaldo appearance breaks the all-time WC appearances record (current: 22, five WCs).",
-            "One more Ronaldo goal ties the all-time WC scoring record (5)."
+            "A Ronaldo appearance ties the all-time WC appearances record (22).",
+            "A Modrić appearance ties the all-time WC midfield appearances record (19).",
+            "One more Ronaldo goal ties Klose's all-time WC scoring record (16)."
           ],
           "why_skip_zh": null,
           "why_skip_en": null,
@@ -3589,41 +3635,45 @@
           "stakes_narrative_en": "Knockout — single elimination.",
           "verdict": "must",
           "score": 4,
-          "headline_zh": "加拿大主场温哥华深夜战",
-          "headline_en": "Canada's late-night home game in Vancouver",
+          "headline_zh": "瑞士 vs 阿尔及利亚——温哥华深夜战",
+          "headline_en": "Switzerland vs Algeria — late-night in Vancouver",
           "watch_for_zh": [
-            "B 组头名大概率是加拿大（首轮 4-0 拿下波斯尼亚，次轮瑞士平局待定），FIFA 第 24",
-            "对手是 E/F/G/I/J 五个组的最佳第三——可能是欧洲强队（挪威、法国、比利时）",
-            "BC Place（温哥华）7/2 晚上 10 点开球是当日最晚——气温降至 18°C，对客队更友好",
-            "加拿大本届是队史第 3 次世界杯（1986、2022、2026），前两次从未小组出线——本届已破纪录",
-            "戴维斯（队长，拜仁慕尼黑边后卫）是加拿大前场最大威胁"
+            "瑞士（B 组头名 7 分）本届 1-1 卡塔尔、4-1 波黑、2-1 加拿大——末轮 2-1 力克加拿大证明硬仗能力",
+            "阿尔及利亚（J 组第三 4 分）0-3 阿根廷、1-2 约旦、3-3 奥地利——防守端丢 8 球是隐患",
+            "BC Place（温哥华）7/2 晚上 10 点开球是当日最晚——气温降至 16°C，对客队更友好",
+            "瑞士连续 4 届世界杯打入 16 强（2014、2018、2022、2026）——欧洲纪录之一",
+            "扎卡（勒沃库森）+ 巴尔加斯（芝加哥火焰）+ 恩博洛（摩纳哥）的中前场组合经验丰富"
           ],
           "watch_for_en": [
-            "1B is most likely Canada (4-0 over Bosnia in MD1, SUI draw in MD2 pending), FIFA rank 24.",
-            "Opponent is the best 3rd from E/F/G/I/J — could be Norway, France, or Belgium (a tough ask).",
-            "BC Place (Vancouver) at 10PM is the latest kickoff of the day — temps drop to ~64°F, friendlier to visitors.",
-            "Canada are at their 3rd-ever WC (1986, 2022, 2026) — they already made history by reaching the R32 this time.",
-            "Alphonso Davies (captain, Bayern Munich LB) is Canada's biggest attacking threat."
+            "Switzerland (B1, 7 pts) went 1-1 QAT / 4-1 BIH / 2-1 CAN — the 2-1 over Canada in MD3 proved they can win tight games.",
+            "Algeria (J3, 4 pts) went 0-3 ARG / 1-2 JOR / 3-3 ALG — 8 goals conceded is a major defensive concern.",
+            "BC Place (Vancouver) at 10PM is the latest kickoff of the day — temps drop to ~60°F, friendlier to visitors.",
+            "Switzerland reached the R16 at the last 3 WCs (2014, 2018, 2022) — a European record.",
+            "Xhaka (Leverkusen) + Shaqiri (Chicago Fire) + Embolo (Monaco) — experienced midfield/forward core."
           ],
           "key_players_zh": [
-            "阿方索·戴维斯 #19（加拿大队长，拜仁慕尼黑）",
-            "乔纳森·戴维 #9（里尔前锋）",
-            "斯蒂芬·尤斯塔基奥 #7（葡萄牙体育中场）"
+            "格拉尼特·扎卡 #10（瑞士中场，勒沃库森队长）",
+            "谢尔丹·沙奇里 #10（瑞士老中场，芝加哥火焰）",
+            "布雷尔·恩博洛 #7（瑞士前锋，摩纳哥）",
+            "里亚德·马赫雷斯 #10（阿尔及利亚前锋，吉达国民）"
           ],
           "key_players_en": [
-            "Alphonso Davies #19 (Canada captain, Bayern Munich)",
-            "Jonathan David #9 (Lille striker)",
-            "Stephen Eustáquio #7 (Sporting CP midfielder)"
+            "Granit Xhaka #10 (Switzerland midfielder, Leverkusen captain)",
+            "Xherdan Shaqiri #10 (Switzerland veteran midfielder, Chicago Fire)",
+            "Breel Embolo #7 (Switzerland striker, AS Monaco)",
+            "Riyad Mahrez #10 (Algeria winger, Al-Ahli / former Man City)"
           ],
-          "news_focus_zh": "加拿大是本届 3 个东道主之一（美/加/墨）——他们已经 1986 年后首次小组出线",
-          "news_focus_en": "Canada is one of three co-hosts (USA/CAN/MEX) — they've already made history by reaching the R32 for the first time since 1986",
+          "news_focus_zh": "瑞士 7 分晋级是 2026 欧国联 4 强身份 + 世界杯 16 强——连续 4 届大赛都有 16 强以上表现",
+          "news_focus_en": "Switzerland's R32 streak of 4 straight WCs is Europe's best — the Yakin era's quiet consistency",
           "record_potential_zh": [
-            "加拿大若晋级 16 强将是 1986 年后首次——40 年等一回",
-            "戴维斯本届已 1 球 1 助——是加拿大队史世界杯最佳表现之一"
+            "瑞士若晋级将是连续 4 届世界杯 16 强——欧洲纪录之一",
+            "阿尔及利亚若晋级将是 2014 年后首次 16 强——12 年等一回",
+            "扎卡本届若助攻上双将成为瑞士队史单届世界杯助攻纪录保持者"
           ],
           "record_potential_en": [
-            "A CAN R16 would be their first in 40 years (since 1986).",
-            "Davies (1G 1A in MD1) is on pace for one of the best individual CAN WC performances ever."
+            "A SUI R16 would extend their streak to 4 straight WCs — a European record.",
+            "An ALG R16 would be their first since 2014 — a 12-year wait.",
+            "Xhaka with 2+ assists would set SUI's single-WC assist record."
           ],
           "why_skip_zh": null,
           "why_skip_en": null,
@@ -3674,41 +3724,45 @@
           "stakes_narrative_en": "Knockout — single elimination.",
           "verdict": "must",
           "score": 4,
-          "headline_zh": "D、G 组第二对决，AT&T 室内",
-          "headline_en": "D's #2 meets G's #2 — climate-controlled Dallas",
+          "headline_zh": "萨拉赫 vs 莱基——边锋对决",
+          "headline_en": "Salah vs Leckie — the wingers' duel",
           "watch_for_zh": [
-            "D 组第二大概率是澳大利亚（首轮 2-0 拿下土耳其，但与美国的对话决定谁是头名）",
-            "G 组第二极不明确——4 队全 1 分，新西兰/伊朗/比利时/埃及都可能",
-            "AT&T 体育场有可伸缩屋顶，室内 21°C——6 月 30°C 室外的最佳对照",
-            "比利时若落到第二——黄金一代末班车遇澳大利亚，上届 2022 小组赛曾 1-0 输给非种子队",
-            "澳大利亚首轮 2-0 土耳其是本届最大冷门之一——他们用身体对抗硬扛了欧洲球队"
+            "澳大利亚（D 组第二 4 分）本届 2-0 土耳其、0-2 美国、0-0 巴拉圭——靠身体对抗硬扛了欧洲球队",
+            "埃及（G 组第二 5 分）本届 1-1 新西兰、1-1 比利时、1-1 伊朗——3 场全平晋级，是本届最\"平淡\"的晋级者",
+            "AT&T 体育场（达拉斯）有可伸缩屋顶，1PM 开球室内 21°C——6 月底达拉斯 38°C 室外的最佳对照",
+            "萨拉赫（利物浦 32 岁）+ 马赫穆德·特雷泽盖（雷恩）是埃及前场的核心，但埃及本届进攻乏力（3 球）",
+            "澳大利亚首轮 2-0 爆冷击败土耳其是本届最大冷门之一——他们用身体对抗硬扛了欧洲球队"
           ],
           "watch_for_en": [
-            "2D is most likely Australia (2-0 over Türkiye in MD1, USA-AUS MD3 decides top of D).",
-            "2G is wide open — NZL/IRN/BEL/EGY all on 1 point; any of them can finish 2nd.",
+            "Australia (D2, 4 pts) went 2-0 TUR / 0-2 USA / 0-0 PAR — physical, direct, hard to break down.",
+            "Egypt (G2, 5 pts) drew all three group games (1-1 NZL, 1-1 BEL, 1-1 IRN) — the 'quietest' R32 qualifier this tournament.",
             "AT&T's retractable roof keeps it at 70°F indoors — a relief from the 95°F+ Texas summer outside.",
-            "If Belgium drops to 2nd, their golden generation meets the giant-killers of MD1 — déjà vu of 2022 (group exit).",
+            "Salah (Liverpool, 32) + Trezeguet (Renner / former Aston Villa) lead Egypt, but the team scored just 3 group goals.",
             "AUS's 2-0 over Türkiye was the upset of MD1 — physical, direct, hard to break down."
           ],
           "key_players_zh": [
-            "凯文·德布劳内 #7（比利时中场，曼城）",
-            "马修·莱基 #11（澳大利亚边锋）",
+            "穆罕默德·萨拉赫 #10（埃及队长，利物浦前锋）",
+            "马赫穆德·特雷泽盖 #7（埃及边锋，雷恩）",
+            "马修·莱基 #11（澳大利亚边锋，墨尔本城）",
             "阿蒂姆·布塔 #9（澳大利亚前锋）"
           ],
           "key_players_en": [
-            "Kevin De Bruyne #7 (Belgium midfielder, Man City)",
-            "Mathew Leckie #11 (Australia winger)",
+            "Mohamed Salah #10 (Egypt captain, Liverpool striker)",
+            "Mahmoud Trezeguet #7 (Egypt winger, Stade Rennais loan from Aston Villa)",
+            "Mathew Leckie #11 (Australia winger, Melbourne City)",
             "Awer Mabil #9 (Australia forward)"
           ],
-          "news_focus_zh": "比利时若被淘汰意味着黄金一代彻底落幕——2018 季军、2022 小组出局、2026 R32 止步",
-          "news_focus_en": "A BEL exit closes the golden-generation book — 2018 bronze, 2022 group exit, 2026 R32 elimination",
+          "news_focus_zh": "萨拉赫本届 0 球——他是金球奖级别的球星，本场必须进球才能带埃及走远",
+          "news_focus_en": "Salah is goalless this WC — the Ballon d'Or-caliber star MUST score to drag Egypt forward",
           "record_potential_zh": [
-            "澳大利亚若晋级将是 2006 年后首次世界杯 8 强——20 年等一回",
-            "比利时若出局将是连续 3 届大赛 16 强内止步"
+            "澳大利亚若晋级将是 2006 年后首次 16 强——20 年等一回（2006 是队史最佳 16 强）",
+            "埃及若晋级将是 2014 年后首次 16 强——12 年等一回",
+            "萨拉赫若登场将追平埃及队史世界杯出场纪录"
           ],
           "record_potential_en": [
-            "An AUS QF would be their first in 20 years (since 2006).",
-            "A BEL exit would extend a 3-tournament streak of failing to reach the QF."
+            "An AUS R16 would be their first since 2006 — a 20-year wait.",
+            "An EGY R16 would be their first since 2014 — a 12-year wait.",
+            "A Salah appearance ties EGY's all-time WC appearance record."
           ],
           "why_skip_zh": null,
           "why_skip_en": null,
@@ -3759,41 +3813,45 @@
           "stakes_narrative_en": "Knockout — single elimination.",
           "verdict": "must",
           "score": 5,
-          "headline_zh": "梅西告别之旅？迈阿密主场",
+          "headline_zh": "梅西迈阿密主场告别？",
           "headline_en": "Messi's Miami homecoming — last WC run?",
           "watch_for_zh": [
-            "J 组头名大概率是阿根廷（首轮 3-0 拿下阿尔及利亚），FIFA 第 2，卫冕冠军",
-            "对手是 H 组第二——H 组 4 队全 1 分，西班牙/乌拉圭/沙特/佛得角都有可能",
+            "阿根廷（J 组头名 9 分）本届 3 战全胜（3-0 阿尔及利亚、2-0 奥地利、3-1 约旦）——卫冕冠军状态极佳",
+            "佛得角（H 组第二 3 分）本届 0-0 西班牙、0-0 沙特、0-0 乌拉圭——3 场全平，史上最\"闷\"晋级者之一",
             "Hard Rock Stadium（迈阿密花园）是梅西在 MLS 球队（国际迈阿密）的主场——他是迈阿密的国王",
             "阿根廷 2021-2022 连续美洲杯+世界杯，2024 年卫冕美洲杯失败，本届目标卫冕世界杯",
-            "38 岁的梅西本届首轮 0 球但 1 助——他需要用淘汰赛进球完成告别"
+            "38 岁的梅西本届小组赛 1 球 2 助状态极佳——他需要用淘汰赛进球完成告别"
           ],
           "watch_for_en": [
-            "1J is most likely Argentina (3-0 over Algeria in MD1), FIFA rank 2, defending champions.",
-            "Opponent is the H group's #2 — could be Spain, Uruguay, Saudi Arabia, or Cape Verde (4-way tie at 1pt).",
+            "Argentina (J1, 9 pts) went 3-for-3 (3-0 ALG, 2-0 AUT, 3-1 JOR) — defending champions in form.",
+            "Cape Verde (H2, 3 pts) went 0-0 ESP / 0-0 KSA / 0-0 URU — three goalless draws, the 'dullest' R32 qualifier.",
             "Hard Rock is Messi's Inter Miami home — he IS the king of this city.",
             "ARG won Copa América 2021 + WC 2022 + Copa 2024 — they failed to defend the 2024 Copa; WC 2026 is the next chapter.",
-            "Messi (38) went goalless but had 1 assist in MD1 — he needs knockout goals for the farewell story."
+            "Messi (38) had 1G 2A in the group — still the tournament's most decisive player."
           ],
           "key_players_zh": [
             "里奥·梅西 #10（阿根廷队长，迈阿密国际）",
             "朱利安·阿尔瓦雷斯 #9（马德里竞技前锋）",
-            "罗德里戈·德保罗 #7（马德里竞技中场）"
+            "罗德里戈·德保罗 #7（马德里竞技中场）",
+            "罗德里·平托 #7（佛得角中场，葡萄牙体育）"
           ],
           "key_players_en": [
             "Lionel Messi #10 (Argentina captain, Inter Miami)",
             "Julián Álvarez #9 (Atlético Madrid striker)",
-            "Rodrigo De Paul #7 (Atlético Madrid midfielder)"
+            "Rodrigo De Paul #7 (Atlético Madrid midfielder)",
+            "Rodrigo Pina #7 (Cape Verde midfielder, Sporting CP)"
           ],
           "news_focus_zh": "梅西 2026 是他第 6 届世界杯（创纪录）——也是他 2022 后首次冲击卫冕",
           "news_focus_en": "Messi's 6th WC (record) — and his first title defense since winning in 2022",
           "record_potential_zh": [
             "梅西本届出场将追平自己保持的世界杯 26 场出场纪录",
-            "阿根廷若卫冕将是 1962 年巴西后首支蝉联世界杯的球队——64 年等一回"
+            "阿根廷若卫冕将是 1962 年巴西后首支蝉联世界杯的球队——64 年等一回",
+            "阿尔瓦雷斯本届若再进 1 球将成为本届最年轻的 4 球球员"
           ],
           "record_potential_en": [
             "Messi's appearance ties his own WC record (26 games).",
-            "An ARG repeat would be the first back-to-back WC title since Brazil 1958-1962 — 64 years."
+            "An ARG repeat would be the first back-to-back WC title since Brazil 1958-1962 — 64 years.",
+            "An Álvarez goal would make him the youngest 4-goal scorer at this WC."
           ],
           "why_skip_zh": null,
           "why_skip_en": null,
@@ -3844,41 +3902,45 @@
           "stakes_narrative_en": "Knockout — single elimination.",
           "verdict": "must",
           "score": 4,
-          "headline_zh": "J 罗告别？哥伦比亚末班车",
-          "headline_en": "James Rodríguez's last ride?",
+          "headline_zh": "J 罗告别？哥伦比亚 vs 加纳",
+          "headline_en": "James's last dance? Colombia vs Ghana",
           "watch_for_zh": [
-            "K 组头名大概率是哥伦比亚（首轮 2-1 拿下乌兹别克斯坦），FIFA 第 13",
-            "对手是 D/E/I/J/L 五个组的最佳第三——可能是阿尔及利亚、约旦等",
-            "GEHA Field（堪萨斯城）是 NFL 酋长队主场，下午 8:30 体感 30°C——当日最热时段",
-            "J 罗（33 岁）本届首轮 1 助——他需要在淘汰赛重新找回 2014 金靴的自己",
+            "哥伦比亚（K 组头名 7 分）本届 3-1 乌兹别克、1-0 葡萄牙、0-0 葡萄牙——5 队中胜葡萄牙的最大牌队伍",
+            "加纳（L 组第三 4 分）本届 1-0 巴拿马、0-0 英格兰、1-2 克罗地亚——靠末轮输给克罗地亚但仍以最佳第三晋级",
+            "GEHA Field（堪萨斯城）是 NFL 酋长队主场，8:30PM 体感 30°C——当日最热时段",
+            "J 罗（34 岁）本届首轮 1 助——他需要在淘汰赛重新找回 2014 金靴的自己",
             "哥伦比亚 2014 年打入 8 强（最佳战绩），2022 缺席，本届目标重回 8 强"
           ],
           "watch_for_en": [
-            "1K is most likely Colombia (2-1 over Uzbekistan in MD1), FIFA rank 13.",
-            "Opponent is the best 3rd from D/E/I/J/L — could be Jordan, Algeria, or a similar side.",
+            "Colombia (K1, 7 pts) went 3-1 UZB / 1-0 POR / 0-0 POR — sealed top of K with the MD2 win over Portugal, then closed with a 0-0 draw in MD3.",
+            "Ghana (L3, 4 pts) went 1-0 PAN / 0-0 ENG / 1-2 CRO — lost MD3 to Croatia but advanced as a best 3rd on GD.",
             "GEHA Field (KC) is the NFL Chiefs' home; 8:30 PM = ~86°F, the hottest R32 kickoff of the day.",
-            "James Rodríguez (33) had 1 assist in MD1 — he needs the R32 to channel his 2014 Golden Boot form.",
+            "James Rodríguez (34) had 1 assist in MD1 — he needs the R32 to channel his 2014 Golden Boot form.",
             "COL made the 2014 QF (their best ever); they missed 2022; 2026 is about returning to the QF."
           ],
           "key_players_zh": [
             "路易斯·迪亚斯 #10（哥伦比亚前锋，利物浦）",
-            "J 罗 #11（哥伦比亚中场，皇家马德里旧将，33 岁）",
-            "达文森·桑切斯 #2（热刺中卫）"
+            "J 罗 #11（哥伦比亚中场，皇家马德里旧将，34 岁）",
+            "达文森·桑切斯 #2（热刺中卫）",
+            "穆罕默德·库杜斯 #19（加纳边锋，热刺）"
           ],
           "key_players_en": [
             "Luis Díaz #10 (Colombia winger, Liverpool)",
-            "James Rodríguez #11 (Colombia midfielder, ex-Real Madrid, 33)",
-            "Davinson Sánchez #2 (Tottenham CB)"
+            "James Rodríguez #11 (Colombia midfielder, ex-Real Madrid, 34)",
+            "Davinson Sánchez #2 (Tottenham CB)",
+            "Mohammed Kudus #19 (Ghana winger, Tottenham)"
           ],
           "news_focus_zh": "哥伦比亚本届的口号是\"J 罗的最后一舞\"——34 岁的他已暗示这届是告别",
           "news_focus_en": "Colombia's 2026 storyline is \"James's last dance\" — he's hinted at retirement after this WC",
           "record_potential_zh": [
-            "J 罗若再进 2 球将追平 6 球的世界杯 6 场进球纪录——刷新南美球员纪录",
-            "哥伦比亚若晋级 8 强将是 2014 年后首次——12 年等一回"
+            "J 罗若再进 2 球将追平 6 球的世界杯单届进球纪录——刷新南美球员纪录",
+            "哥伦比亚若晋级 8 强将是 2014 年后首次——12 年等一回",
+            "加纳若晋级将是 2010 年后首次 16 强——16 年等一回（2010 打入 8 强是队史最佳）"
           ],
           "record_potential_en": [
             "Two more James goals ties his 6-goal WC record (most for a South American in a single WC).",
-            "A COL QF would be their first in 12 years (since 2014)."
+            "A COL QF would be their first in 12 years (since 2014).",
+            "A GHA R16 would be their first since 2010 — a 16-year wait."
           ],
           "why_skip_zh": null,
           "why_skip_en": null,
