@@ -571,13 +571,13 @@ ANALYSIS: dict[str, dict] = {
         "key_players_zh": [
             "克里斯蒂亚诺·罗纳尔多 #7（葡萄牙前锋，41 岁，利雅得胜利）",
             "布鲁诺·费尔南德斯 #8（葡萄牙中场，曼联）",
-            "卢卡·莫德里奇 #10（克罗地亚队长，39 岁，皇家马德里）",
-            "伊万·佩里西奇 #4（克罗地亚边锋，28 届世界杯老臣）"
+            "卢卡·莫德里奇 #10（克罗地亚队长，40 岁，AC 米兰）",
+            "伊万·佩里西奇 #4（克罗地亚边锋，4 届世界杯老臣）"
         ],
         "key_players_en": [
             "Cristiano Ronaldo #7 (Portugal striker, age 41, Al-Nassr)",
             "Bruno Fernandes #8 (Portugal midfielder, Manchester United)",
-            "Luka Modrić #10 (Croatia captain, age 39, Real Madrid)",
+            "Luka Modrić #10 (Croatia captain, age 40, AC Milan)",
             "Ivan Perišić #4 (Croatia winger, veteran of 4 WCs)",
         ],
         "news_focus_zh": "C 罗本届是他第 6 届世界杯（创纪录）——每场比赛都可能是告别",
