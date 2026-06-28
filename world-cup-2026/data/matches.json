@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-28T01:33:49.096544+00:00",
+  "generated_at": "2026-06-28T02:48:55.916857+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-27T20:33:47.598824-05:00",
+  "now_local": "2026-06-27T21:48:53.547397-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -1802,7 +1802,7 @@
           "ga": 3,
           "gd": 1,
           "pts": 4,
-          "advance": false,
+          "advance": true,
           "advance_label": "Best 8 advance",
           "advance_color": "#B5E7CE"
         },
@@ -15565,7 +15565,7 @@
               "team_id": "448",
               "team_side": "away",
               "player": "Djed Spence",
-              "text": "Substitution, England. Djed Spence replaces Jarell Quansah.",
+              "text": "Substitution, England. Djed Spence replaces Jarell Quansah because of an injury.",
               "player_off": "Jarell Quansah"
             },
             {
@@ -15591,22 +15591,22 @@
             {
               "kind": "substitution",
               "minute": "71'",
-              "team": "Panama",
-              "team_id": "2659",
-              "team_side": "home",
-              "player": "Ismael Díaz",
-              "text": "Substitution, Panama. Ismael Díaz replaces Yoel Bárcenas.",
-              "player_off": "Édgar Yoel Bárcenas"
-            },
-            {
-              "kind": "substitution",
-              "minute": "71'",
               "team": "England",
               "team_id": "448",
               "team_side": "away",
               "player": "Eberechi Eze",
               "text": "Substitution, England. Eberechi Eze replaces Jude Bellingham.",
               "player_off": "Jude Bellingham"
+            },
+            {
+              "kind": "substitution",
+              "minute": "71'",
+              "team": "Panama",
+              "team_id": "2659",
+              "team_side": "home",
+              "player": "Ismael Díaz",
+              "text": "Substitution, Panama. Ismael Díaz replaces Yoel Bárcenas.",
+              "player_off": "Édgar Yoel Bárcenas"
             },
             {
               "kind": "substitution",
@@ -16069,8 +16069,8 @@
           "kickoff_local_date": "2026-06-27",
           "kickoff_time": "9:00 PM",
           "kickoff_weekday": "Sat",
-          "status": "SCHEDULED",
-          "status_short": "Scheduled",
+          "status": "LIVE",
+          "status_short": "45'+3'",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -16084,7 +16084,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/alg.png",
             "color": "4F9A44",
             "home_away": "home",
-            "score": 0,
+            "score": 1,
             "winner": false
           },
           "away": {
@@ -16098,7 +16098,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/aut.png",
             "color": "d72b2c",
             "home_away": "away",
-            "score": 0,
+            "score": 1,
             "winner": false
           },
           "venue": {
@@ -16113,7 +16113,37 @@
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760484/austria-algeria",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Algeria%20vs%20Austria",
-          "slug": "austria-at-algeria"
+          "slug": "austria-at-algeria",
+          "incidents": [
+            {
+              "kind": "yellow_card",
+              "minute": "11'",
+              "team": "Austria",
+              "team_id": "474",
+              "team_side": "away",
+              "player": "Marko Arnautovic",
+              "text": "Marko Arnautovic (Austria) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "goal",
+              "minute": "28'",
+              "team": "Austria",
+              "team_id": "474",
+              "team_side": "away",
+              "player": "Marko Arnautovic",
+              "text": "Goal! Algeria 0, Austria 1. Marko Arnautovic (Austria) right footed shot from the centre of the box to the bottom right corner. Assisted by David Alaba with a through ball.",
+              "assist": "David Alaba"
+            },
+            {
+              "kind": "goal",
+              "minute": "45'",
+              "team": "Algeria",
+              "team_id": "624",
+              "team_side": "home",
+              "player": "Rafik Belghali",
+              "text": "Goal! Algeria 1, Austria 1. Rafik Belghali (Algeria) left footed shot from the centre of the box to the top right corner."
+            }
+          ]
         },
         {
           "id": "760483",
@@ -16122,8 +16152,8 @@
           "kickoff_local_date": "2026-06-27",
           "kickoff_time": "9:00 PM",
           "kickoff_weekday": "Sat",
-          "status": "SCHEDULED",
-          "status_short": "Scheduled",
+          "status": "LIVE",
+          "status_short": "45'+3'",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -16151,7 +16181,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/arg.png",
             "color": "74acdf",
             "home_away": "away",
-            "score": 0,
+            "score": 2,
             "winner": false
           },
           "venue": {
@@ -16166,7 +16196,27 @@
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760483/argentina-jordan",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Jordan%20vs%20Argentina",
-          "slug": "argentina-at-jordan"
+          "slug": "argentina-at-jordan",
+          "incidents": [
+            {
+              "kind": "yellow_card",
+              "minute": "17'",
+              "team": "Jordan",
+              "team_id": "2917",
+              "team_side": "home",
+              "player": "Mohannad Abu Taha",
+              "text": "Mohannad Abu Taha (Jordan) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "goal",
+              "minute": "19'",
+              "team": "Argentina",
+              "team_id": "202",
+              "team_side": "away",
+              "player": "Giovani Lo Celso",
+              "text": "Goal! Jordan 0, Argentina 1. Giovani Lo Celso (Argentina) from a free kick with a left footed shot to the top left corner."
+            }
+          ]
         }
       ]
     },
@@ -16593,15 +16643,15 @@
             "winner": false
           },
           "away": {
-            "id": "131548",
-            "name": "Third Place Group E/H/I/J/K",
-            "name_zh": "",
-            "rank": null,
-            "short": "3RD E/H/I/J/K",
-            "abbr": "3RD",
-            "flag": "🏳️",
-            "logo": "",
-            "color": "000000",
+            "id": "2850",
+            "name": "Congo DR",
+            "name_zh": "刚果（金）",
+            "rank": 46,
+            "short": "Congo DR",
+            "abbr": "COD",
+            "flag": "🇨🇩",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/rdc.png",
+            "color": "418fde",
             "home_away": "away",
             "score": 0,
             "winner": false
@@ -16616,9 +16666,9 @@
             "Tele",
             "FOX One"
           ],
-          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760495/third-place-group-ehijk-england",
-          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20England%20vs%20Third%20Place%20Group%20E/H/I/J/K",
-          "slug": "third place group e/h/i/j/k-at-england"
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760495/congo-dr-england",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20England%20vs%20Congo%20DR",
+          "slug": "congo dr-at-england"
         },
         {
           "id": "760493",
@@ -16646,15 +16696,15 @@
             "winner": false
           },
           "away": {
-            "id": "131542",
-            "name": "Third Place Group A/E/H/I/J",
-            "name_zh": "",
-            "rank": null,
-            "short": "3RD A/E/H/I/J",
-            "abbr": "3RD",
-            "flag": "🏳️",
-            "logo": "",
-            "color": "000000",
+            "id": "654",
+            "name": "Senegal",
+            "name_zh": "塞内加尔",
+            "rank": 15,
+            "short": "Senegal",
+            "abbr": "SEN",
+            "flag": "🇸🇳",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/sen.png",
+            "color": "FFFFFF",
             "home_away": "away",
             "score": 0,
             "winner": false
@@ -16669,9 +16719,9 @@
             "Tele",
             "FOX One"
           ],
-          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760493/third-place-group-aehij-belgium",
-          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Belgium%20vs%20Third%20Place%20Group%20A/E/H/I/J",
-          "slug": "third place group a/e/h/i/j-at-belgium"
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760493/senegal-belgium",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Belgium%20vs%20Senegal",
+          "slug": "senegal-at-belgium"
         },
         {
           "id": "760494",
@@ -16798,15 +16848,15 @@
           "stage": "Round of 32",
           "stage_slug": "round-of-32",
           "home": {
-            "id": "131503",
-            "name": "Group K 2nd Place",
-            "name_zh": "",
-            "rank": null,
-            "short": "2K",
-            "abbr": "2K",
-            "flag": "🏳️",
-            "logo": "",
-            "color": "000000",
+            "id": "482",
+            "name": "Portugal",
+            "name_zh": "葡萄牙",
+            "rank": 5,
+            "short": "Portugal",
+            "abbr": "POR",
+            "flag": "🇵🇹",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/por.png",
+            "color": "da291c",
             "home_away": "home",
             "score": 0,
             "winner": false
@@ -16835,9 +16885,9 @@
             "Tele",
             "FOX One"
           ],
-          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760496/croatia-group-k-2nd-place",
-          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Group%20K%202nd%20Place%20vs%20Croatia",
-          "slug": "croatia-at-group k 2nd place"
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760496/croatia-portugal",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Portugal%20vs%20Croatia",
+          "slug": "croatia-at-portugal"
         },
         {
           "id": "760498",
@@ -17017,15 +17067,15 @@
           "stage": "Round of 32",
           "stage_slug": "round-of-32",
           "home": {
-            "id": "131507",
-            "name": "Group K Winner",
-            "name_zh": "",
-            "rank": null,
-            "short": "1K",
-            "abbr": "1K",
-            "flag": "🏳️",
-            "logo": "",
-            "color": "000000",
+            "id": "208",
+            "name": "Colombia",
+            "name_zh": "哥伦比亚",
+            "rank": 13,
+            "short": "Colombia",
+            "abbr": "COL",
+            "flag": "🇨🇴",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/col.png",
+            "color": "fbd632",
             "home_away": "home",
             "score": 0,
             "winner": false
@@ -17054,9 +17104,9 @@
             "Tele",
             "FOX One"
           ],
-          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760501/ghana-group-k-winner",
-          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Group%20K%20Winner%20vs%20Ghana",
-          "slug": "ghana-at-group k winner"
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760501/ghana-colombia",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Colombia%20vs%20Ghana",
+          "slug": "ghana-at-colombia"
         }
       ]
     },

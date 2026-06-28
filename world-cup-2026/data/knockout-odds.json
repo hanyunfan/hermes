@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-06-28T01:33:49+00:00",
+  "generated_at": "2026-06-28T02:48:56+00:00",
   "n_simulations": 10000,
   "match_window": [
     "2026-06-27",
@@ -504,8 +504,8 @@
           "p_2nd": 0.0,
           "p_3rd": 100.0,
           "p_4th": 0.0,
-          "p_advance": 66.3,
-          "p_3rd_top8": 66.3
+          "p_advance": 66.7,
+          "p_3rd_top8": 66.7
         },
         {
           "id": "2666",
@@ -723,10 +723,10 @@
           "current_gd": 0,
           "current_mp": 2,
           "p_1st": 0.0,
-          "p_2nd": 67.2,
-          "p_3rd": 32.8,
+          "p_2nd": 66.9,
+          "p_3rd": 33.1,
           "p_4th": 0.0,
-          "p_advance": 67.2,
+          "p_advance": 66.9,
           "p_3rd_top8": 0.0
         },
         {
@@ -740,11 +740,11 @@
           "current_gd": -2,
           "current_mp": 2,
           "p_1st": 0.0,
-          "p_2nd": 32.8,
-          "p_3rd": 55.2,
+          "p_2nd": 33.1,
+          "p_3rd": 54.9,
           "p_4th": 12.0,
-          "p_advance": 66.5,
-          "p_3rd_top8": 33.7
+          "p_advance": 66.4,
+          "p_3rd_top8": 33.3
         },
         {
           "id": "2917",
