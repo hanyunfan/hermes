@@ -1,11 +1,8 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-06-28T02:48:56+00:00",
+  "generated_at": "2026-06-28T06:57:58+00:00",
   "n_simulations": 10000,
-  "match_window": [
-    "2026-06-27",
-    "2026-06-27"
-  ],
+  "match_window": [],
   "model": "elo + rank-gap-shrunk draw",
   "groups": [
     {
@@ -504,8 +501,8 @@
           "p_2nd": 0.0,
           "p_3rd": 100.0,
           "p_4th": 0.0,
-          "p_advance": 66.7,
-          "p_3rd_top8": 66.7
+          "p_advance": 0.0,
+          "p_3rd_top8": 0.0
         },
         {
           "id": "2666",
@@ -676,24 +673,7 @@
     },
     {
       "name": "Group J",
-      "remaining_matches": [
-        {
-          "match_id": "760484",
-          "home_id": "624",
-          "away_id": "474",
-          "home_abbr": "ALG",
-          "away_abbr": "AUT",
-          "date": "2026-06-27"
-        },
-        {
-          "match_id": "760483",
-          "home_id": "2917",
-          "away_id": "202",
-          "home_abbr": "JOR",
-          "away_abbr": "ARG",
-          "date": "2026-06-27"
-        }
-      ],
+      "remaining_matches": [],
       "teams": [
         {
           "id": "202",
@@ -702,9 +682,9 @@
           "name_zh": "阿根廷",
           "flag": "🇦🇷",
           "rank": 1,
-          "current_pts": 6,
-          "current_gd": 5,
-          "current_mp": 2,
+          "current_pts": 9,
+          "current_gd": 7,
+          "current_mp": 3,
           "p_1st": 100.0,
           "p_2nd": 0.0,
           "p_3rd": 0.0,
@@ -719,14 +699,14 @@
           "name_zh": "奥地利",
           "flag": "🇦🇹",
           "rank": 24,
-          "current_pts": 3,
+          "current_pts": 4,
           "current_gd": 0,
-          "current_mp": 2,
+          "current_mp": 3,
           "p_1st": 0.0,
-          "p_2nd": 66.9,
-          "p_3rd": 33.1,
+          "p_2nd": 100.0,
+          "p_3rd": 0.0,
           "p_4th": 0.0,
-          "p_advance": 66.9,
+          "p_advance": 100.0,
           "p_3rd_top8": 0.0
         },
         {
@@ -736,15 +716,15 @@
           "name_zh": "阿尔及利亚",
           "flag": "🇩🇿",
           "rank": 28,
-          "current_pts": 3,
+          "current_pts": 4,
           "current_gd": -2,
-          "current_mp": 2,
+          "current_mp": 3,
           "p_1st": 0.0,
-          "p_2nd": 33.1,
-          "p_3rd": 54.9,
-          "p_4th": 12.0,
-          "p_advance": 66.4,
-          "p_3rd_top8": 33.3
+          "p_2nd": 0.0,
+          "p_3rd": 100.0,
+          "p_4th": 0.0,
+          "p_advance": 100.0,
+          "p_3rd_top8": 100.0
         },
         {
           "id": "2917",
@@ -754,12 +734,12 @@
           "flag": "🇯🇴",
           "rank": 63,
           "current_pts": 0,
-          "current_gd": -3,
-          "current_mp": 2,
+          "current_gd": -5,
+          "current_mp": 3,
           "p_1st": 0.0,
           "p_2nd": 0.0,
-          "p_3rd": 12.0,
-          "p_4th": 88.0,
+          "p_3rd": 0.0,
+          "p_4th": 100.0,
           "p_advance": 0.0,
           "p_3rd_top8": 0.0
         }
