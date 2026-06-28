@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-27T23:02:45.478196+00:00",
+  "generated_at": "2026-06-28T01:33:49.096544+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-27T18:02:43.391021-05:00",
+  "now_local": "2026-06-27T20:33:47.598824-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -562,24 +562,6 @@
         "last_kickoff_iso": "2026-07-14"
       },
       {
-        "id": "Mercedes-Benz Stadium",
-        "name": "Mercedes-Benz Stadium",
-        "city": "Atlanta, Georgia",
-        "country": "USA",
-        "match_count": 8,
-        "next_kickoff_iso": "2026-06-27",
-        "last_kickoff_iso": "2026-07-15"
-      },
-      {
-        "id": "Hard Rock Stadium",
-        "name": "Hard Rock Stadium",
-        "city": "Miami Gardens, Florida",
-        "country": "USA",
-        "match_count": 7,
-        "next_kickoff_iso": "2026-06-27",
-        "last_kickoff_iso": "2026-07-18"
-      },
-      {
         "id": "SoFi Stadium",
         "name": "SoFi Stadium",
         "city": "Inglewood, California",
@@ -652,6 +634,15 @@
         "last_kickoff_iso": "2026-07-06"
       },
       {
+        "id": "Mercedes-Benz Stadium",
+        "name": "Mercedes-Benz Stadium",
+        "city": "Atlanta, Georgia",
+        "country": "USA",
+        "match_count": 8,
+        "next_kickoff_iso": "2026-07-01",
+        "last_kickoff_iso": "2026-07-15"
+      },
+      {
         "id": "BMO Field",
         "name": "BMO Field",
         "city": "Toronto",
@@ -668,6 +659,15 @@
         "match_count": 7,
         "next_kickoff_iso": "2026-07-02",
         "last_kickoff_iso": "2026-07-07"
+      },
+      {
+        "id": "Hard Rock Stadium",
+        "name": "Hard Rock Stadium",
+        "city": "Miami Gardens, Florida",
+        "country": "USA",
+        "match_count": 7,
+        "next_kickoff_iso": "2026-07-03",
+        "last_kickoff_iso": "2026-07-18"
       },
       {
         "id": "Lincoln Financial Field",
@@ -1746,14 +1746,14 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/col.png"
           },
           "rank": 1,
-          "mp": 2,
+          "mp": 3,
           "w": 2,
-          "d": 0,
+          "d": 1,
           "l": 0,
           "gf": 4,
           "ga": 1,
           "gd": 3,
-          "pts": 6,
+          "pts": 7,
           "advance": true,
           "advance_label": "Advance to Round of 32",
           "advance_color": "#81D6AC"
@@ -1770,14 +1770,14 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/por.png"
           },
           "rank": 2,
-          "mp": 2,
+          "mp": 3,
           "w": 1,
-          "d": 1,
+          "d": 2,
           "l": 0,
           "gf": 6,
           "ga": 1,
           "gd": 5,
-          "pts": 4,
+          "pts": 5,
           "advance": true,
           "advance_label": "Advance to Round of 32",
           "advance_color": "#81D6AC"
@@ -1794,14 +1794,14 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/rdc.png"
           },
           "rank": 3,
-          "mp": 2,
-          "w": 0,
+          "mp": 3,
+          "w": 1,
           "d": 1,
           "l": 1,
-          "gf": 1,
-          "ga": 2,
-          "gd": -1,
-          "pts": 1,
+          "gf": 4,
+          "ga": 3,
+          "gd": 1,
+          "pts": 4,
           "advance": false,
           "advance_label": "Best 8 advance",
           "advance_color": "#B5E7CE"
@@ -1818,13 +1818,13 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/uzb.png"
           },
           "rank": 4,
-          "mp": 2,
+          "mp": 3,
           "w": 0,
           "d": 0,
-          "l": 2,
-          "gf": 1,
-          "ga": 8,
-          "gd": -7,
+          "l": 3,
+          "gf": 2,
+          "ga": 11,
+          "gd": -9,
           "pts": 0,
           "advance": false,
           "advance_label": "Eliminated",
@@ -1881,7 +1881,7 @@
           "ga": 5,
           "gd": 0,
           "pts": 6,
-          "advance": false,
+          "advance": true,
           "advance_label": "Advance to Round of 32",
           "advance_color": "#81D6AC"
         },
@@ -15676,8 +15676,8 @@
           "kickoff_local_date": "2026-06-27",
           "kickoff_time": "6:30 PM",
           "kickoff_weekday": "Sat",
-          "status": "SCHEDULED",
-          "status_short": "Scheduled",
+          "status": "FINAL",
+          "status_short": "FT",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -15720,7 +15720,118 @@
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760481/portugal-colombia",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Colombia%20vs%20Portugal",
-          "slug": "portugal-at-colombia"
+          "slug": "portugal-at-colombia",
+          "incidents": [
+            {
+              "kind": "substitution",
+              "minute": "45'",
+              "team": "Portugal",
+              "team_id": "482",
+              "team_side": "away",
+              "player": "Diogo Dalot",
+              "text": "Substitution, Portugal. Diogo Dalot replaces João Cancelo.",
+              "player_off": "João Cancelo"
+            },
+            {
+              "kind": "substitution",
+              "minute": "45'",
+              "team": "Portugal",
+              "team_id": "482",
+              "team_side": "away",
+              "player": "João Neves",
+              "text": "Substitution, Portugal. João Neves replaces Rúben Neves.",
+              "player_off": "Rúben Neves"
+            },
+            {
+              "kind": "substitution",
+              "minute": "60'",
+              "team": "Colombia",
+              "team_id": "208",
+              "team_side": "home",
+              "player": "Richard Ríos",
+              "text": "Substitution, Colombia. Richard Ríos replaces Jefferson Lerma.",
+              "player_off": "Jefferson Lerma"
+            },
+            {
+              "kind": "substitution",
+              "minute": "60'",
+              "team": "Colombia",
+              "team_id": "208",
+              "team_side": "home",
+              "player": "Luis Suárez",
+              "text": "Substitution, Colombia. Luis Suárez replaces Jhon Córdoba.",
+              "player_off": "Jhon Córdoba"
+            },
+            {
+              "kind": "substitution",
+              "minute": "70'",
+              "team": "Portugal",
+              "team_id": "482",
+              "team_side": "away",
+              "player": "Rafael Leão",
+              "text": "Substitution, Portugal. Rafael Leão replaces João Félix.",
+              "player_off": "João Félix"
+            },
+            {
+              "kind": "substitution",
+              "minute": "70'",
+              "team": "Portugal",
+              "team_id": "482",
+              "team_side": "away",
+              "player": "Samú Costa",
+              "text": "Substitution, Portugal. Samú Costa replaces Vitinha.",
+              "player_off": "Vitinha "
+            },
+            {
+              "kind": "substitution",
+              "minute": "76'",
+              "team": "Colombia",
+              "team_id": "208",
+              "team_side": "home",
+              "player": "Kevin Castaño",
+              "text": "Substitution, Colombia. Kevin Castaño replaces Jhon Arias.",
+              "player_off": "Jhon Arias"
+            },
+            {
+              "kind": "substitution",
+              "minute": "76'",
+              "team": "Colombia",
+              "team_id": "208",
+              "team_side": "home",
+              "player": "Juan Fernando Quintero",
+              "text": "Substitution, Colombia. Juan Fernando Quintero replaces James Rodríguez.",
+              "player_off": "James Rodríguez"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "86'",
+              "team": "Colombia",
+              "team_id": "208",
+              "team_side": "home",
+              "player": "Gustavo Puerta",
+              "text": "Gustavo Puerta (Colombia) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "substitution",
+              "minute": "87'",
+              "team": "Colombia",
+              "team_id": "208",
+              "team_side": "home",
+              "player": "Daniel Muñoz",
+              "text": "Substitution, Colombia. Daniel Muñoz replaces Santiago Arias.",
+              "player_off": "Santiago Arias"
+            },
+            {
+              "kind": "substitution",
+              "minute": "90'+3'",
+              "team": "Portugal",
+              "team_id": "482",
+              "team_side": "away",
+              "player": "Matheus Nunes",
+              "text": "Substitution, Portugal. Matheus Nunes replaces Nuno Mendes.",
+              "player_off": "Nuno Mendes"
+            }
+          ]
         },
         {
           "id": "760482",
@@ -15729,8 +15840,8 @@
           "kickoff_local_date": "2026-06-27",
           "kickoff_time": "6:30 PM",
           "kickoff_weekday": "Sat",
-          "status": "SCHEDULED",
-          "status_short": "Scheduled",
+          "status": "FINAL",
+          "status_short": "FT",
           "stage": "Group Stage",
           "stage_slug": "group-stage",
           "home": {
@@ -15744,8 +15855,8 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/rdc.png",
             "color": "418fde",
             "home_away": "home",
-            "score": 0,
-            "winner": false
+            "score": 3,
+            "winner": true
           },
           "away": {
             "id": "2570",
@@ -15758,7 +15869,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/uzb.png",
             "color": "ffffff",
             "home_away": "away",
-            "score": 0,
+            "score": 1,
             "winner": false
           },
           "venue": {
@@ -15773,7 +15884,183 @@
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760482/uzbekistan-congo-dr",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Congo%20DR%20vs%20Uzbekistan",
-          "slug": "uzbekistan-at-congo dr"
+          "slug": "uzbekistan-at-congo dr",
+          "incidents": [
+            {
+              "kind": "goal",
+              "minute": "10'",
+              "team": "Uzbekistan",
+              "team_id": "2570",
+              "team_side": "away",
+              "player": "Eldor Shomurodov",
+              "text": "Goal! Congo DR 0, Uzbekistan 1. Eldor Shomurodov (Uzbekistan) left footed shot from the left side of the box to the top right corner. Assisted by Akmal Mozgovoy.",
+              "assist": "Akmal Mozgovoy"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "21'",
+              "team": "Congo DR",
+              "team_id": "2850",
+              "team_side": "home",
+              "player": "Noah Sadiki",
+              "text": "Noah Sadiki (Congo DR) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "43'",
+              "team": "Uzbekistan",
+              "team_id": "2570",
+              "team_side": "away",
+              "player": "Abdukodir Khusanov",
+              "text": "Abdukodir Khusanov (Uzbekistan) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "45'+5'",
+              "team": "Congo DR",
+              "team_id": "2850",
+              "team_side": "home",
+              "player": "Nathanaël Mbuku",
+              "text": "Nathanaël Mbuku (Congo DR) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "48'",
+              "team": "Uzbekistan",
+              "team_id": "2570",
+              "team_side": "away",
+              "player": "Sherzod Nasrullaev",
+              "text": "Sherzod Nasrullaev (Uzbekistan) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "substitution",
+              "minute": "51'",
+              "team": "Congo DR",
+              "team_id": "2850",
+              "team_side": "home",
+              "player": "Fiston Mayele",
+              "text": "Substitution, Congo DR. Fiston Mayele replaces Cédric Bakambu.",
+              "player_off": "Cédric Bakambu"
+            },
+            {
+              "kind": "substitution",
+              "minute": "59'",
+              "team": "Uzbekistan",
+              "team_id": "2570",
+              "team_side": "away",
+              "player": "Odiljon Xamrobekov",
+              "text": "Substitution, Uzbekistan. Odiljon Khamrobekov replaces Otabek Shukurov.",
+              "player_off": "Otabek Shukurov"
+            },
+            {
+              "kind": "substitution",
+              "minute": "59'",
+              "team": "Uzbekistan",
+              "team_id": "2570",
+              "team_side": "away",
+              "player": "Azizjon Ganiev",
+              "text": "Substitution, Uzbekistan. Aziz G'aniev replaces Dostonbek Khamdamov.",
+              "player_off": "Dostonbek Khamdamov"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "62'",
+              "team": "Congo DR",
+              "team_id": "2850",
+              "team_side": "home",
+              "player": "Samuel Moutoussamy",
+              "text": "Samuel Moutoussamy (Congo DR) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "substitution",
+              "minute": "72'",
+              "team": "Congo DR",
+              "team_id": "2850",
+              "team_side": "home",
+              "player": "Meschack Elia",
+              "text": "Substitution, Congo DR. Meschack Elia replaces Nathanaël Mbuku.",
+              "player_off": "Nathanaël Mbuku"
+            },
+            {
+              "kind": "substitution",
+              "minute": "72'",
+              "team": "Congo DR",
+              "team_id": "2850",
+              "team_side": "home",
+              "player": "Théo Bongonda",
+              "text": "Substitution, Congo DR. Théo Bongonda replaces Brian Cipenga.",
+              "player_off": "Brian Cipenga"
+            },
+            {
+              "kind": "substitution",
+              "minute": "72'",
+              "team": "Congo DR",
+              "team_id": "2850",
+              "team_side": "home",
+              "player": "Ngal'ayel Mukau",
+              "text": "Substitution, Congo DR. Ngal'ayel Mukau replaces Samuel Moutoussamy.",
+              "player_off": "Samuel Moutoussamy"
+            },
+            {
+              "kind": "substitution",
+              "minute": "73'",
+              "team": "Uzbekistan",
+              "team_id": "2570",
+              "team_side": "away",
+              "player": "Oston Urunov",
+              "text": "Substitution, Uzbekistan. Oston Urunov replaces Abbosbek Fayzullaev.",
+              "player_off": "Abbosbek Fayzullaev"
+            },
+            {
+              "kind": "goal",
+              "minute": "78'",
+              "team": "Congo DR",
+              "team_id": "2850",
+              "team_side": "home",
+              "player": "Fiston Mayele",
+              "text": "Goal! Congo DR 2, Uzbekistan 1. Fiston Mayele (Congo DR) right footed shot from very close range to the top left corner following a fast break."
+            },
+            {
+              "kind": "substitution",
+              "minute": "82'",
+              "team": "Uzbekistan",
+              "team_id": "2570",
+              "team_side": "away",
+              "player": "Jamshid Iskanderov",
+              "text": "Substitution, Uzbekistan. Jamshid Iskanderov replaces Akmal Mozgovoy.",
+              "player_off": "Akmal Mozgovoy"
+            },
+            {
+              "kind": "substitution",
+              "minute": "82'",
+              "team": "Uzbekistan",
+              "team_id": "2570",
+              "team_side": "away",
+              "player": "Igor Sergeev",
+              "text": "Substitution, Uzbekistan. Igor Sergeev replaces Jakhongir Urozov.",
+              "player_off": "Jakhongir Urozov"
+            },
+            {
+              "kind": "substitution",
+              "minute": "83'",
+              "team": "Congo DR",
+              "team_id": "2850",
+              "team_side": "home",
+              "player": "Joris Kayembe",
+              "text": "Substitution, Congo DR. Joris Kayembe replaces Arthur Masuaku.",
+              "player_off": "Arthur Masuaku"
+            },
+            {
+              "kind": "goal",
+              "minute": "90'+1'",
+              "team": "Congo DR",
+              "team_id": "2850",
+              "team_side": "home",
+              "player": "Yoane Wissa",
+              "text": "Goal! Congo DR 3, Uzbekistan 1. Yoane Wissa (Congo DR) right footed shot from outside the box to the bottom right corner. Assisted by Meschack Elia.",
+              "assist": "Meschack Elia"
+            }
+          ]
         },
         {
           "id": "760484",
@@ -16246,15 +16533,15 @@
             "winner": false
           },
           "away": {
-            "id": "131545",
-            "name": "Third Place Group C/E/F/H/I",
-            "name_zh": "",
-            "rank": null,
-            "short": "3RD C/E/F/H/I",
-            "abbr": "3RD",
-            "flag": "🏳️",
-            "logo": "",
-            "color": "000000",
+            "id": "209",
+            "name": "Ecuador",
+            "name_zh": "厄瓜多尔",
+            "rank": 23,
+            "short": "Ecuador",
+            "abbr": "ECU",
+            "flag": "🇪🇨",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/ecu.png",
+            "color": "ffdd00",
             "home_away": "away",
             "score": 0,
             "winner": false
@@ -16269,9 +16556,9 @@
             "Tele",
             "FOX One"
           ],
-          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760491/third-place-group-cefhi-mexico",
-          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Mexico%20vs%20Third%20Place%20Group%20C/E/F/H/I",
-          "slug": "third place group c/e/f/h/i-at-mexico"
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760491/ecuador-mexico",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Mexico%20vs%20Ecuador",
+          "slug": "ecuador-at-mexico"
         }
       ]
     },
@@ -16292,15 +16579,15 @@
           "stage": "Round of 32",
           "stage_slug": "round-of-32",
           "home": {
-            "id": "131508",
-            "name": "Group L Winner",
-            "name_zh": "",
-            "rank": null,
-            "short": "1L",
-            "abbr": "1L",
-            "flag": "🏳️",
-            "logo": "",
-            "color": "000000",
+            "id": "448",
+            "name": "England",
+            "name_zh": "英格兰",
+            "rank": 4,
+            "short": "England",
+            "abbr": "ENG",
+            "flag": "🏴",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/eng.png",
+            "color": "ffffff",
             "home_away": "home",
             "score": 0,
             "winner": false
@@ -16329,9 +16616,9 @@
             "Tele",
             "FOX One"
           ],
-          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760495/third-place-group-ehijk-group-l-winner",
-          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Group%20L%20Winner%20vs%20Third%20Place%20Group%20E/H/I/J/K",
-          "slug": "third place group e/h/i/j/k-at-group l winner"
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760495/third-place-group-ehijk-england",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20England%20vs%20Third%20Place%20Group%20E/H/I/J/K",
+          "slug": "third place group e/h/i/j/k-at-england"
         },
         {
           "id": "760493",
@@ -16525,15 +16812,15 @@
             "winner": false
           },
           "away": {
-            "id": "131504",
-            "name": "Group L 2nd Place",
-            "name_zh": "",
-            "rank": null,
-            "short": "2L",
-            "abbr": "2L",
-            "flag": "🏳️",
-            "logo": "",
-            "color": "000000",
+            "id": "477",
+            "name": "Croatia",
+            "name_zh": "克罗地亚",
+            "rank": 11,
+            "short": "Croatia",
+            "abbr": "CRO",
+            "flag": "🇭🇷",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/cro.png",
+            "color": "ff0000",
             "home_away": "away",
             "score": 0,
             "winner": false
@@ -16548,9 +16835,9 @@
             "Tele",
             "FOX One"
           ],
-          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760496/group-l-2nd-place-group-k-2nd-place",
-          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Group%20K%202nd%20Place%20vs%20Group%20L%202nd%20Place",
-          "slug": "group l 2nd place-at-group k 2nd place"
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760496/croatia-group-k-2nd-place",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Group%20K%202nd%20Place%20vs%20Croatia",
+          "slug": "croatia-at-group k 2nd place"
         },
         {
           "id": "760498",
@@ -16744,15 +17031,15 @@
             "winner": false
           },
           "away": {
-            "id": "131546",
-            "name": "Third Place Group D/E/I/J/L",
-            "name_zh": "",
-            "rank": null,
-            "short": "3RD D/E/I/J/L",
-            "abbr": "3RD",
-            "flag": "🏳️",
-            "logo": "",
-            "color": "000000",
+            "id": "4469",
+            "name": "Ghana",
+            "name_zh": "加纳",
+            "rank": 73,
+            "short": "Ghana",
+            "abbr": "GHA",
+            "flag": "🇬🇭",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/gha.png",
+            "color": "fbd632",
             "home_away": "away",
             "score": 0,
             "winner": false
@@ -16767,9 +17054,9 @@
             "Tele",
             "FOX One"
           ],
-          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760501/third-place-group-deijl-group-k-winner",
-          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Group%20K%20Winner%20vs%20Third%20Place%20Group%20D/E/I/J/L",
-          "slug": "third place group d/e/i/j/l-at-group k winner"
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760501/ghana-group-k-winner",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Group%20K%20Winner%20vs%20Ghana",
+          "slug": "ghana-at-group k winner"
         }
       ]
     },

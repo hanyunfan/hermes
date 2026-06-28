@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-06-27T23:02:46+00:00",
+  "generated_at": "2026-06-28T01:33:49+00:00",
   "n_simulations": 10000,
   "match_window": [
     "2026-06-27",
@@ -60,8 +60,8 @@
           "p_2nd": 0.0,
           "p_3rd": 100.0,
           "p_4th": 0.0,
-          "p_advance": 22.5,
-          "p_3rd_top8": 22.5
+          "p_advance": 0.0,
+          "p_3rd_top8": 0.0
         },
         {
           "id": "450",
@@ -504,8 +504,8 @@
           "p_2nd": 0.0,
           "p_3rd": 100.0,
           "p_4th": 0.0,
-          "p_advance": 88.4,
-          "p_3rd_top8": 88.4
+          "p_advance": 66.3,
+          "p_3rd_top8": 66.3
         },
         {
           "id": "2666",
@@ -723,11 +723,11 @@
           "current_gd": 0,
           "current_mp": 2,
           "p_1st": 0.0,
-          "p_2nd": 67.6,
-          "p_3rd": 32.4,
+          "p_2nd": 67.2,
+          "p_3rd": 32.8,
           "p_4th": 0.0,
-          "p_advance": 89.3,
-          "p_3rd_top8": 21.7
+          "p_advance": 67.2,
+          "p_3rd_top8": 0.0
         },
         {
           "id": "624",
@@ -740,11 +740,11 @@
           "current_gd": -2,
           "current_mp": 2,
           "p_1st": 0.0,
-          "p_2nd": 32.4,
-          "p_3rd": 55.0,
-          "p_4th": 12.7,
-          "p_advance": 65.7,
-          "p_3rd_top8": 33.3
+          "p_2nd": 32.8,
+          "p_3rd": 55.2,
+          "p_4th": 12.0,
+          "p_advance": 66.5,
+          "p_3rd_top8": 33.7
         },
         {
           "id": "2917",
@@ -758,8 +758,8 @@
           "current_mp": 2,
           "p_1st": 0.0,
           "p_2nd": 0.0,
-          "p_3rd": 12.7,
-          "p_4th": 87.3,
+          "p_3rd": 12.0,
+          "p_4th": 88.0,
           "p_advance": 0.0,
           "p_3rd_top8": 0.0
         }
@@ -767,24 +767,7 @@
     },
     {
       "name": "Group K",
-      "remaining_matches": [
-        {
-          "match_id": "760481",
-          "home_id": "208",
-          "away_id": "482",
-          "home_abbr": "COL",
-          "away_abbr": "POR",
-          "date": "2026-06-27"
-        },
-        {
-          "match_id": "760482",
-          "home_id": "2850",
-          "away_id": "2570",
-          "home_abbr": "COD",
-          "away_abbr": "UZB",
-          "date": "2026-06-27"
-        }
-      ],
+      "remaining_matches": [],
       "teams": [
         {
           "id": "208",
@@ -793,11 +776,11 @@
           "name_zh": "哥伦比亚",
           "flag": "🇨🇴",
           "rank": 13,
-          "current_pts": 6,
+          "current_pts": 7,
           "current_gd": 3,
-          "current_mp": 2,
-          "p_1st": 65.8,
-          "p_2nd": 34.2,
+          "current_mp": 3,
+          "p_1st": 100.0,
+          "p_2nd": 0.0,
           "p_3rd": 0.0,
           "p_4th": 0.0,
           "p_advance": 100.0,
@@ -810,11 +793,11 @@
           "name_zh": "葡萄牙",
           "flag": "🇵🇹",
           "rank": 5,
-          "current_pts": 4,
+          "current_pts": 5,
           "current_gd": 5,
-          "current_mp": 2,
-          "p_1st": 34.2,
-          "p_2nd": 65.8,
+          "current_mp": 3,
+          "p_1st": 0.0,
+          "p_2nd": 100.0,
           "p_3rd": 0.0,
           "p_4th": 0.0,
           "p_advance": 100.0,
@@ -827,15 +810,15 @@
           "name_zh": "刚果（金）",
           "flag": "🇨🇩",
           "rank": 46,
-          "current_pts": 1,
-          "current_gd": -1,
-          "current_mp": 2,
+          "current_pts": 4,
+          "current_gd": 1,
+          "current_mp": 3,
           "p_1st": 0.0,
           "p_2nd": 0.0,
-          "p_3rd": 67.7,
-          "p_4th": 32.3,
-          "p_advance": 34.1,
-          "p_3rd_top8": 34.1
+          "p_3rd": 100.0,
+          "p_4th": 0.0,
+          "p_advance": 100.0,
+          "p_3rd_top8": 100.0
         },
         {
           "id": "2570",
@@ -845,12 +828,12 @@
           "flag": "🇺🇿",
           "rank": 50,
           "current_pts": 0,
-          "current_gd": -7,
-          "current_mp": 2,
+          "current_gd": -9,
+          "current_mp": 3,
           "p_1st": 0.0,
           "p_2nd": 0.0,
-          "p_3rd": 32.3,
-          "p_4th": 67.7,
+          "p_3rd": 0.0,
+          "p_4th": 100.0,
           "p_advance": 0.0,
           "p_3rd_top8": 0.0
         }
