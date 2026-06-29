@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-29T21:51:44.084193+00:00",
+  "generated_at": "2026-06-29T22:57:28.433322+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-29T16:51:42.806101-05:00",
+  "now_local": "2026-06-29T17:57:26.826535-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -16776,7 +16776,7 @@
               "team_id": "205",
               "team_side": "home",
               "player": "Casemiro",
-              "text": "Goal! Brazil 1, Japan 1. Casemiro (Brazil) header from the right side of the six yard box to the high centre of the goal. Assisted by Gabriel Magalhães with a cross.",
+              "text": "Goal! Brazil 1, Japan 1. Casemiro (Brazil) header from the right side of the six yard box to the top right corner. Assisted by Gabriel Magalhães with a cross.",
               "assist": "Gabriel Magalhães"
             },
             {
@@ -16888,7 +16888,7 @@
           "kickoff_time": "3:30 PM",
           "kickoff_weekday": "Mon",
           "status": "LIVE",
-          "status_short": "58'",
+          "status_short": "106'",
           "stage": "Round of 32",
           "stage_slug": "round-of-32",
           "home": {
@@ -16982,6 +16982,84 @@
               "player": "Maurício",
               "text": "Substitution, Paraguay. Mauricio replaces Julio Enciso because of an injury.",
               "player_off": "Julio Enciso"
+            },
+            {
+              "kind": "substitution",
+              "minute": "63'",
+              "team": "Germany",
+              "team_id": "481",
+              "team_side": "home",
+              "player": "Jamal Musiala",
+              "text": "Substitution, Germany. Jamal Musiala replaces Deniz Undav.",
+              "player_off": "Deniz Undav"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "65'",
+              "team": "Paraguay",
+              "team_id": "210",
+              "team_side": "away",
+              "player": "Andrés Cubas",
+              "text": "Andrés Cubas (Paraguay) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "substitution",
+              "minute": "79'",
+              "team": "Germany",
+              "team_id": "481",
+              "team_side": "home",
+              "player": "Waldemar Anton",
+              "text": "Substitution, Germany. Waldemar Anton replaces Aleksandar Pavlovic.",
+              "player_off": "Aleksandar Pavlovic"
+            },
+            {
+              "kind": "substitution",
+              "minute": "88'",
+              "team": "Germany",
+              "team_id": "481",
+              "team_side": "home",
+              "player": "Nick Woltemade",
+              "text": "Substitution, Germany. Nick Woltemade replaces Leroy Sané.",
+              "player_off": "Leroy Sané"
+            },
+            {
+              "kind": "substitution",
+              "minute": "90'",
+              "team": "Paraguay",
+              "team_id": "210",
+              "team_side": "away",
+              "player": "Gustavo Velázquez",
+              "text": "Substitution, Paraguay. Gustavo Velázquez replaces Miguel Almirón.",
+              "player_off": "Miguel Almirón"
+            },
+            {
+              "kind": "substitution",
+              "minute": "99'",
+              "team": "Paraguay",
+              "team_id": "210",
+              "team_side": "away",
+              "player": "Braian Ojeda",
+              "text": "Substitution, Paraguay. Braian Ojeda replaces Juan José Cáceres.",
+              "player_off": "Juan Jose Cáceres"
+            },
+            {
+              "kind": "substitution",
+              "minute": "99'",
+              "team": "Paraguay",
+              "team_id": "210",
+              "team_side": "away",
+              "player": "Antonio Sanabria",
+              "text": "Substitution, Paraguay. Antonio Sanabria replaces Damián Bobadilla.",
+              "player_off": "Damián Bobadilla"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "106'",
+              "team": "Germany",
+              "team_id": "481",
+              "team_side": "home",
+              "player": "Kai Havertz",
+              "text": "Kai Havertz (Germany) is shown the yellow card for a bad foul."
             }
           ]
         },
