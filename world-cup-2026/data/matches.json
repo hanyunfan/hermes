@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-29T20:24:05.434740+00:00",
+  "generated_at": "2026-06-29T21:51:44.084193+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-29T15:24:04.094573-05:00",
+  "now_local": "2026-06-29T16:51:42.806101-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -16887,8 +16887,8 @@
           "kickoff_local_date": "2026-06-29",
           "kickoff_time": "3:30 PM",
           "kickoff_weekday": "Mon",
-          "status": "SCHEDULED",
-          "status_short": "Scheduled",
+          "status": "LIVE",
+          "status_short": "58'",
           "stage": "Round of 32",
           "stage_slug": "round-of-32",
           "home": {
@@ -16902,7 +16902,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/ger.png",
             "color": "FFFFFF",
             "home_away": "home",
-            "score": 0,
+            "score": 1,
             "winner": false
           },
           "away": {
@@ -16916,7 +16916,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/par.png",
             "color": "ea2300",
             "home_away": "away",
-            "score": 0,
+            "score": 1,
             "winner": false
           },
           "venue": {
@@ -16931,7 +16931,59 @@
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760489/paraguay-germany",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Germany%20vs%20Paraguay",
-          "slug": "paraguay-at-germany"
+          "slug": "paraguay-at-germany",
+          "incidents": [
+            {
+              "kind": "goal",
+              "minute": "42'",
+              "team": "Paraguay",
+              "team_id": "210",
+              "team_side": "away",
+              "player": "Julio Enciso",
+              "text": "Goal! Germany 0, Paraguay 1. Julio Enciso (Paraguay) header from the centre of the box to the bottom left corner. Assisted by Matías Galarza with a cross following a corner.",
+              "assist": "Matías Galarza"
+            },
+            {
+              "kind": "substitution",
+              "minute": "45'",
+              "team": "Germany",
+              "team_id": "481",
+              "team_side": "home",
+              "player": "Leon Goretzka",
+              "text": "Substitution, Germany. Leon Goretzka replaces Felix Nmecha.",
+              "player_off": "Felix Nmecha"
+            },
+            {
+              "kind": "goal",
+              "minute": "54'",
+              "team": "Germany",
+              "team_id": "481",
+              "team_side": "home",
+              "player": "Kai Havertz",
+              "text": "Goal! Germany 1, Paraguay 1. Kai Havertz (Germany) header from the centre of the box to the bottom right corner. Assisted by Florian Wirtz with a cross.",
+              "assist": "Florian Wirtz"
+            },
+            {
+              "kind": "substitution",
+              "minute": "55'",
+              "team": "Paraguay",
+              "team_id": "210",
+              "team_side": "away",
+              "player": "Gustavo Caballero",
+              "text": "Substitution, Paraguay. Gustavo Caballero replaces Gabriel Ávalos.",
+              "player_off": "Gabriel Ávalos"
+            },
+            {
+              "kind": "substitution",
+              "minute": "57'",
+              "team": "Paraguay",
+              "team_id": "210",
+              "team_side": "away",
+              "player": "Maurício",
+              "text": "Substitution, Paraguay. Mauricio replaces Julio Enciso because of an injury.",
+              "player_off": "Julio Enciso"
+            }
+          ]
         },
         {
           "id": "760488",
