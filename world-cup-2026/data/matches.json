@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-28T23:01:56.716604+00:00",
+  "generated_at": "2026-06-29T01:36:54.717812+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-28T18:01:54.385536-05:00",
+  "now_local": "2026-06-28T20:36:52.253570-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -6056,7 +6056,7 @@
               "team_side": "home",
               "player": "Gonçalo Ramos",
               "text": "Substitution, Portugal. Gonçalo Ramos replaces Vitinha.",
-              "player_off": "Vitinha "
+              "player_off": "Vitinha"
             },
             {
               "kind": "substitution",
@@ -11004,7 +11004,7 @@
               "team_side": "home",
               "player": "Rafael Leão",
               "text": "Substitution, Portugal. Rafael Leão replaces Vitinha.",
-              "player_off": "Vitinha "
+              "player_off": "Vitinha"
             },
             {
               "kind": "goal",
@@ -15780,7 +15780,7 @@
               "team_side": "away",
               "player": "Samú Costa",
               "text": "Substitution, Portugal. Samú Costa replaces Vitinha.",
-              "player_off": "Vitinha "
+              "player_off": "Vitinha"
             },
             {
               "kind": "substitution",
