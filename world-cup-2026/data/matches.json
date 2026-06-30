@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-30T02:43:25.354984+00:00",
+  "generated_at": "2026-06-30T06:52:05.519554+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-29T21:43:21.766337-05:00",
+  "now_local": "2026-06-30T01:52:01.211378-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -544,15 +544,6 @@
     ],
     "venues": [
       {
-        "id": "Estadio BBVA",
-        "name": "Estadio BBVA",
-        "city": "Guadalupe",
-        "country": "Mexico",
-        "match_count": 4,
-        "next_kickoff_iso": "2026-06-29",
-        "last_kickoff_iso": "2026-06-29"
-      },
-      {
         "id": "Estadio Banorte",
         "name": "Estadio Banorte",
         "city": "Mexico City",
@@ -686,6 +677,15 @@
         "match_count": 4,
         "next_kickoff_iso": null,
         "last_kickoff_iso": "2026-06-26"
+      },
+      {
+        "id": "Estadio BBVA",
+        "name": "Estadio BBVA",
+        "city": "Guadalupe",
+        "country": "Mexico",
+        "match_count": 4,
+        "next_kickoff_iso": null,
+        "last_kickoff_iso": "2026-06-29"
       }
     ],
     "stages": [
@@ -16658,7 +16658,7 @@
     },
     {
       "date": "2026-06-29",
-      "label": "Today",
+      "label": "Mon",
       "match_count": 3,
       "matches": [
         {
@@ -17118,8 +17118,8 @@
           "kickoff_local_date": "2026-06-29",
           "kickoff_time": "8:00 PM",
           "kickoff_weekday": "Mon",
-          "status": "LIVE",
-          "status_short": "81'",
+          "status": "FINAL",
+          "status_short": "FT-Pens",
           "stage": "Round of 32",
           "stage_slug": "round-of-32",
           "home": {
@@ -17147,8 +17147,8 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/mar.png",
             "color": "df2027",
             "home_away": "away",
-            "score": 0,
-            "winner": false
+            "score": 1,
+            "winner": true
           },
           "venue": {
             "name": "Estadio BBVA",
@@ -17232,6 +17232,76 @@
               "player": "Samir El Mourabet",
               "text": "Substitution, Morocco. Samir El Mourabet replaces Ayyoub Bouaddi.",
               "player_off": "Ayyoub Bouaddi"
+            },
+            {
+              "kind": "substitution",
+              "minute": "86'",
+              "team": "Morocco",
+              "team_id": "2869",
+              "team_side": "away",
+              "player": "Soufiane Rahimi",
+              "text": "Substitution, Morocco. Soufiane Rahimi replaces Azzedine Ounahi.",
+              "player_off": "Azzedine Ounahi"
+            },
+            {
+              "kind": "substitution",
+              "minute": "86'",
+              "team": "Netherlands",
+              "team_id": "449",
+              "team_side": "home",
+              "player": "Jorrel Hato",
+              "text": "Substitution, Netherlands. Jorrel Hato replaces Micky van de Ven.",
+              "player_off": "Micky van de Ven"
+            },
+            {
+              "kind": "substitution",
+              "minute": "86'",
+              "team": "Netherlands",
+              "team_id": "449",
+              "team_side": "home",
+              "player": "Quinten Timber",
+              "text": "Substitution, Netherlands. Quinten Timber replaces Ryan Gravenberch.",
+              "player_off": "Ryan Gravenberch"
+            },
+            {
+              "kind": "substitution",
+              "minute": "87'",
+              "team": "Morocco",
+              "team_id": "2869",
+              "team_side": "away",
+              "player": "Chemsdine Talbi",
+              "text": "Substitution, Morocco. Chemsdine Talbi replaces Bilal El Khannouss.",
+              "player_off": "Bilal El Khannouss"
+            },
+            {
+              "kind": "goal",
+              "minute": "90'+1'",
+              "team": "Morocco",
+              "team_id": "2869",
+              "team_side": "away",
+              "player": "Issa Diop",
+              "text": "Goal! Netherlands 1, Morocco 1. Issa Diop (Morocco) header from the centre of the box to the top right corner. Assisted by Chemsdine Talbi with a cross.",
+              "assist": "Chemsdine Talbi"
+            },
+            {
+              "kind": "substitution",
+              "minute": "110'",
+              "team": "Netherlands",
+              "team_id": "449",
+              "team_side": "home",
+              "player": "Marten de Roon",
+              "text": "Substitution, Netherlands. Marten de Roon replaces Frenkie de Jong.",
+              "player_off": "Frenkie de Jong"
+            },
+            {
+              "kind": "substitution",
+              "minute": "113'",
+              "team": "Netherlands",
+              "team_id": "449",
+              "team_side": "home",
+              "player": "Justin Kluivert",
+              "text": "Substitution, Netherlands. Justin Kluivert replaces Cody Gakpo.",
+              "player_off": "Cody Gakpo"
             }
           ]
         }
@@ -17239,7 +17309,7 @@
     },
     {
       "date": "2026-06-30",
-      "label": "Tomorrow",
+      "label": "Today",
       "match_count": 3,
       "matches": [
         {
@@ -17405,7 +17475,7 @@
     },
     {
       "date": "2026-07-01",
-      "label": "Wed",
+      "label": "Tomorrow",
       "match_count": 3,
       "matches": [
         {
@@ -17932,15 +18002,15 @@
             "winner": false
           },
           "away": {
-            "id": "131527",
-            "name": "Round of 32 3 Winner",
-            "name_zh": "",
-            "rank": null,
-            "short": "RD32 W3",
-            "abbr": "RD32",
-            "flag": "🏳️",
-            "logo": "",
-            "color": "000000",
+            "id": "2869",
+            "name": "Morocco",
+            "name_zh": "摩洛哥",
+            "rank": 7,
+            "short": "Morocco",
+            "abbr": "MAR",
+            "flag": "🇲🇦",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/mar.png",
+            "color": "df2027",
             "home_away": "away",
             "score": 0,
             "winner": false
@@ -17955,9 +18025,9 @@
             "Tele",
             "FOX One"
           ],
-          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760502/round-of-32-3-winner-canada",
-          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Canada%20vs%20Round%20of%2032%203%20Winner",
-          "slug": "round of 32 3 winner-at-canada"
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760502/morocco-canada",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Canada%20vs%20Morocco",
+          "slug": "morocco-at-canada"
         },
         {
           "id": "760503",
