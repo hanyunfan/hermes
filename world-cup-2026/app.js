@@ -2277,10 +2277,30 @@
     // pair (R32 #(1,3)) in min-R32-slot order; etc.
     const slotToMatch = {};
     slotToMatch["round-of-32"] = new Map(R32_BRACKET_IDS.map((id, i) => [i + 1, byId("round-of-32").get(id)]));
+    // The R16 → R32 pairing is fixed by the FIFA 2026 bracket:
+    //   R16-1: (1,3)   R16-2: (2,5)   R16-3: (4,6)   R16-4: (7,8)
+    //   R16-5: (9,10) R16-6: (11,12) R16-7: (13,15) R16-8: (14,16)
+    // The URL-derived r16ParentSlots() is unreliable once one parent is
+    // decided (espn rewrites the URL to a team name and drops the
+    // slot number for the still-TBD parent), so we hardcode the
+    // pairing and use the URL/team lookup only as a sanity check.
+    const R16_TO_R32 = {
+      1: [1, 3], 2: [2, 5], 3: [4, 6], 4: [7, 8],
+      5: [9, 10], 6: [11, 12], 7: [13, 15], 8: [14, 16],
+    };
     const r16ByMinR32Slot = byRound["round-of-16"]
       .map(m => ({ match: m, r32Slots: r16ParentSlots(m) }))
       .sort((a, b) => (a.r32Slots[0] ?? 999) - (b.r32Slots[0] ?? 999));
-    slotToMatch["round-of-16"] = new Map(r16ByMinR32Slot.map((x, i) => [i + 1, x.match]));
+    const r16IdToSlot = new Map();
+    slotToMatch["round-of-16"] = new Map();
+    r16ByMinR32Slot.forEach((x, i) => {
+      slotToMatch["round-of-16"].set(i + 1, x.match);
+      r16IdToSlot.set(x.match.id, i + 1);
+    });
+    const r16ParentSlotsHardcoded = (m) => {
+      const slot = r16IdToSlot.get(m.id);
+      return slot ? R16_TO_R32[slot] : r16ParentSlots(m);
+    };
     const qfByMinR16Slot = byRound["quarterfinals"]
       .map(m => ({ match: m, r16Slots: parentSlots(m, "round-of-16") }))
       .sort((a, b) => (a.r16Slots[0] ?? 999) - (b.r16Slots[0] ?? 999));
@@ -2436,7 +2456,7 @@
         // For R16 parents, use the team-aware slot lookup so that R16
         // matches whose URL has been rewritten to team names (e.g. R16-1
         // "morocco-canada") still draw the correct V-shape connectors.
-        slots: nextStage === "round-of-16" ? r16ParentSlots(m) : parentSlots(m, stage),
+        slots: nextStage === "round-of-16" ? r16ParentSlotsHardcoded(m) : parentSlots(m, stage),
       }));
       for (const p of parents) {
         const parent = p.match;
@@ -2503,11 +2523,11 @@
     });
     for (const r of rounds.slice(1)) for (const m of byRound[r] || []) appendCard(m);
     if (third) {
-      // Place the 3rd-place match directly below the Final, centered
-      // on the bracket's vertical axis. The previous "right of Final"
-      // position landed on the rightmost R32 column on narrow viewports.
-      pos[third.id] = { y: 78, side: "C" };
-      appendCard(third, 78);
+      // Place the 3rd-place match just below the Final on the vertical
+      // axis. No connecting lines (per Frank: "放到一二名下面就好，不用
+      // 联线").
+      pos[third.id] = { y: 66, side: "C" };
+      appendCard(third, 66);
     }
   }
 
