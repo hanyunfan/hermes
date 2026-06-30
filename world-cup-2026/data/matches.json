@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-30T00:11:55.027149+00:00",
+  "generated_at": "2026-06-30T02:43:25.354984+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-29T19:11:50.770022-05:00",
+  "now_local": "2026-06-29T21:43:21.766337-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -17118,8 +17118,8 @@
           "kickoff_local_date": "2026-06-29",
           "kickoff_time": "8:00 PM",
           "kickoff_weekday": "Mon",
-          "status": "SCHEDULED",
-          "status_short": "Scheduled",
+          "status": "LIVE",
+          "status_short": "81'",
           "stage": "Round of 32",
           "stage_slug": "round-of-32",
           "home": {
@@ -17133,7 +17133,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/ned.png",
             "color": "fb5d00",
             "home_away": "home",
-            "score": 0,
+            "score": 1,
             "winner": false
           },
           "away": {
@@ -17162,7 +17162,78 @@
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760488/morocco-netherlands",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Netherlands%20vs%20Morocco",
-          "slug": "morocco-at-netherlands"
+          "slug": "morocco-at-netherlands",
+          "incidents": [
+            {
+              "kind": "yellow_card",
+              "minute": "47'",
+              "team": "Morocco",
+              "team_id": "2869",
+              "team_side": "away",
+              "player": "Issa Diop",
+              "text": "Issa Diop (Morocco) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "substitution",
+              "minute": "71'",
+              "team": "Netherlands",
+              "team_id": "449",
+              "team_side": "home",
+              "player": "Teun Koopmeiners",
+              "text": "Substitution, Netherlands. Teun Koopmeiners replaces Nathan Aké.",
+              "player_off": "Nathan Aké"
+            },
+            {
+              "kind": "substitution",
+              "minute": "71'",
+              "team": "Netherlands",
+              "team_id": "449",
+              "team_side": "home",
+              "player": "Wout Weghorst",
+              "text": "Substitution, Netherlands. Wout Weghorst replaces Brian Brobbey.",
+              "player_off": "Brian Brobbey"
+            },
+            {
+              "kind": "goal",
+              "minute": "72'",
+              "team": "Netherlands",
+              "team_id": "449",
+              "team_side": "home",
+              "player": "Cody Gakpo",
+              "text": "Goal! Netherlands 1, Morocco 0. Cody Gakpo (Netherlands) right footed shot from the centre of the box to the centre of the goal. Assisted by Crysencio Summerville.",
+              "assist": "Crysencio Summerville"
+            },
+            {
+              "kind": "substitution",
+              "minute": "75'",
+              "team": "Morocco",
+              "team_id": "2869",
+              "team_side": "away",
+              "player": "Anass Salah-Eddine",
+              "text": "Substitution, Morocco. Anass Salah-Eddine replaces Chadi Riad because of an injury.",
+              "player_off": "Chadi Riad"
+            },
+            {
+              "kind": "substitution",
+              "minute": "79'",
+              "team": "Morocco",
+              "team_id": "2869",
+              "team_side": "away",
+              "player": "Gessime Yassine",
+              "text": "Substitution, Morocco. Gessime Yassine replaces Brahim Díaz.",
+              "player_off": "Brahim Díaz"
+            },
+            {
+              "kind": "substitution",
+              "minute": "79'",
+              "team": "Morocco",
+              "team_id": "2869",
+              "team_side": "away",
+              "player": "Samir El Mourabet",
+              "text": "Substitution, Morocco. Samir El Mourabet replaces Ayyoub Bouaddi.",
+              "player_off": "Ayyoub Bouaddi"
+            }
+          ]
         }
       ]
     },
