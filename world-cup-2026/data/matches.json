@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-30T19:57:51.486770+00:00",
+  "generated_at": "2026-06-30T21:42:34.229899+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-30T14:57:50.274641-05:00",
+  "now_local": "2026-06-30T16:42:29.162976-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -17493,8 +17493,8 @@
           "kickoff_local_date": "2026-06-30",
           "kickoff_time": "4:00 PM",
           "kickoff_weekday": "Tue",
-          "status": "SCHEDULED",
-          "status_short": "Scheduled",
+          "status": "LIVE",
+          "status_short": "42'",
           "stage": "Round of 32",
           "stage_slug": "round-of-32",
           "home": {
@@ -17537,7 +17537,8 @@
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760492/sweden-france",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20France%20vs%20Sweden",
-          "slug": "sweden-at-france"
+          "slug": "sweden-at-france",
+          "incidents": []
         },
         {
           "id": "760491",
