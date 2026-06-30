@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-29T22:57:28.433322+00:00",
+  "generated_at": "2026-06-30T00:11:55.027149+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-29T17:57:26.826535-05:00",
+  "now_local": "2026-06-29T19:11:50.770022-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -553,15 +553,6 @@
         "last_kickoff_iso": "2026-06-29"
       },
       {
-        "id": "Gillette Stadium",
-        "name": "Gillette Stadium",
-        "city": "Foxborough, Massachusetts",
-        "country": "USA",
-        "match_count": 7,
-        "next_kickoff_iso": "2026-06-29",
-        "last_kickoff_iso": "2026-07-09"
-      },
-      {
         "id": "Estadio Banorte",
         "name": "Estadio Banorte",
         "city": "Mexico City",
@@ -677,6 +668,15 @@
         "match_count": 7,
         "next_kickoff_iso": "2026-07-04",
         "last_kickoff_iso": "2026-07-04"
+      },
+      {
+        "id": "Gillette Stadium",
+        "name": "Gillette Stadium",
+        "city": "Foxborough, Massachusetts",
+        "country": "USA",
+        "match_count": 7,
+        "next_kickoff_iso": "2026-07-09",
+        "last_kickoff_iso": "2026-07-09"
       },
       {
         "id": "Estadio Akron",
@@ -16887,8 +16887,8 @@
           "kickoff_local_date": "2026-06-29",
           "kickoff_time": "3:30 PM",
           "kickoff_weekday": "Mon",
-          "status": "LIVE",
-          "status_short": "106'",
+          "status": "FINAL",
+          "status_short": "FT-Pens",
           "stage": "Round of 32",
           "stage_slug": "round-of-32",
           "home": {
@@ -16917,7 +16917,7 @@
             "color": "ea2300",
             "home_away": "away",
             "score": 1,
-            "winner": false
+            "winner": true
           },
           "venue": {
             "name": "Gillette Stadium",
@@ -17060,6 +17060,54 @@
               "team_side": "home",
               "player": "Kai Havertz",
               "text": "Kai Havertz (Germany) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "substitution",
+              "minute": "110'",
+              "team": "Germany",
+              "team_id": "481",
+              "team_side": "home",
+              "player": "Nadiem Amiri",
+              "text": "Substitution, Germany. Nadiem Amiri replaces Florian Wirtz.",
+              "player_off": "Florian Wirtz"
+            },
+            {
+              "kind": "substitution",
+              "minute": "110'",
+              "team": "Germany",
+              "team_id": "481",
+              "team_side": "home",
+              "player": "Malick Thiaw",
+              "text": "Substitution, Germany. Malick Thiaw replaces Antonio Rüdiger.",
+              "player_off": "Antonio Rüdiger"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "115'",
+              "team": "Germany",
+              "team_id": "481",
+              "team_side": "home",
+              "player": "Jamal Musiala",
+              "text": "Jamal Musiala (Germany) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "117'",
+              "team": "Paraguay",
+              "team_id": "210",
+              "team_side": "away",
+              "player": "Matías Galarza",
+              "text": "Matías Galarza (Paraguay) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "substitution",
+              "minute": "120'+2'",
+              "team": "Paraguay",
+              "team_id": "210",
+              "team_side": "away",
+              "player": "Fabián Balbuena",
+              "text": "Substitution, Paraguay. Fabián Balbuena replaces Júnior Alonso.",
+              "player_off": "Júnior Alonso"
             }
           ]
         },
@@ -17852,15 +17900,15 @@
           "stage": "Round of 16",
           "stage_slug": "round-of-16",
           "home": {
-            "id": "131526",
-            "name": "Round of 32 2 Winner",
-            "name_zh": "",
-            "rank": null,
-            "short": "RD32 W2",
-            "abbr": "RD32",
-            "flag": "🏳️",
-            "logo": "",
-            "color": "000000",
+            "id": "210",
+            "name": "Paraguay",
+            "name_zh": "巴拉圭",
+            "rank": 41,
+            "short": "Paraguay",
+            "abbr": "PAR",
+            "flag": "🇵🇾",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/par.png",
+            "color": "ea2300",
             "home_away": "home",
             "score": 0,
             "winner": false
@@ -17889,9 +17937,9 @@
             "Tele",
             "FOX One"
           ],
-          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760503/round-of-32-5-winner-round-of-32-2-winner",
-          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Round%20of%2032%202%20Winner%20vs%20Round%20of%2032%205%20Winner",
-          "slug": "round of 32 5 winner-at-round of 32 2 winner"
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760503/round-of-32-5-winner-paraguay",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Paraguay%20vs%20Round%20of%2032%205%20Winner",
+          "slug": "round of 32 5 winner-at-paraguay"
         }
       ]
     },
