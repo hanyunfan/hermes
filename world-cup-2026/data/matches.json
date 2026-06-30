@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-06-30T06:52:05.519554+00:00",
+  "generated_at": "2026-06-30T17:53:39.384060+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-30T01:52:01.211378-05:00",
+  "now_local": "2026-06-30T12:53:38.169825-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -17319,8 +17319,8 @@
           "kickoff_local_date": "2026-06-30",
           "kickoff_time": "12:00 PM",
           "kickoff_weekday": "Tue",
-          "status": "SCHEDULED",
-          "status_short": "Scheduled",
+          "status": "LIVE",
+          "status_short": "HT",
           "stage": "Round of 32",
           "stage_slug": "round-of-32",
           "home": {
@@ -17348,7 +17348,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/nor.png",
             "color": "C8102E",
             "home_away": "away",
-            "score": 0,
+            "score": 1,
             "winner": false
           },
           "venue": {
@@ -17361,9 +17361,30 @@
             "Tele",
             "FOX One"
           ],
-          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760490/norway-ivory-coast",
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760490/norway-ivory coast",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Ivory%20Coast%20vs%20Norway",
-          "slug": "norway-at-ivory coast"
+          "slug": "norway-at-ivory coast",
+          "incidents": [
+            {
+              "kind": "goal",
+              "minute": "39'",
+              "team": "Norway",
+              "team_id": "464",
+              "team_side": "away",
+              "player": "Antonio Nusa",
+              "text": "Goal! Côte d'Ivoire 0, Norway 1. Antonio Nusa (Norway) right footed shot from the left side of the box to the top right corner. Assisted by Martin Ødegaard.",
+              "assist": "Martin Ødegaard"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "45'+1'",
+              "team": "Norway",
+              "team_id": "464",
+              "team_side": "away",
+              "player": "Antonio Nusa",
+              "text": "Antonio Nusa (Norway) is shown the yellow card for a bad foul."
+            }
+          ]
         },
         {
           "id": "760492",
