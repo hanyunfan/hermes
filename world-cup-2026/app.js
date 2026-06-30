@@ -1949,21 +1949,70 @@
     return node;
   }
 
-  function renderIncidents(container, incidents) {
+  function renderIncidents(container, m) {
     if (!container) return;
-    if (!incidents || incidents.length === 0) {
+    const incidents = (m && m.incidents) || [];
+    if (!incidents.length) {
       container.hidden = true;
       container.innerHTML = "";
       return;
     }
     container.hidden = false;
     container.innerHTML = "";
-    const goals   = incidents.filter((i) => i.kind === "goal");
-    const yellows = incidents.filter((i) => i.kind === "yellow_card");
-    const reds    = incidents.filter((i) => i.kind === "red_card");
-    if (goals.length)   _incidentRow(container, "goal",   "⚽", goals);
-    if (yellows.length) _incidentRow(container, "yellow", "🟨", yellows);
-    if (reds.length)    _incidentRow(container, "red",    "🟥", reds);
+
+    // Bucket per side so cards / goals cluster under their team header.
+    // The header shows team flag + name and a quick yellow/red tally so
+    // the eye can land on "how many cards did each side get" without
+    // having to walk the rows.
+    const lang = currentLang;
+    const buckets = {
+      home: { team: m && m.home, goals: [], yellows: [], reds: [] },
+      away: { team: m && m.away, goals: [], yellows: [], reds: [] },
+      other: { goals: [], yellows: [], reds: [] },
+    };
+    for (const inc of incidents) {
+      const side = inc.team_side === "home" || inc.team_side === "away" ? inc.team_side : "other";
+      const b = buckets[side];
+      if (inc.kind === "goal") b.goals.push(inc);
+      else if (inc.kind === "yellow_card") b.yellows.push(inc);
+      else if (inc.kind === "red_card") b.reds.push(inc);
+    }
+
+    for (const key of ["home", "away"]) {
+      const b = buckets[key];
+      if (!b.team) continue;
+      const total = b.goals.length + b.yellows.length + b.reds.length;
+      if (!total) continue;
+      _incidentSideHead(container, b.team, lang, b.yellows.length, b.reds.length);
+      if (b.goals.length)   _incidentRow(container, "goal",   "⚽", b.goals);
+      if (b.yellows.length) _incidentRow(container, "yellow", "🟨", b.yellows);
+      if (b.reds.length)    _incidentRow(container, "red",    "🟥", b.reds);
+    }
+
+    // Unknown-side incidents (ESPN sometimes omits team_id) — render flat
+    // so nothing disappears, but no header.
+    const ob = buckets.other;
+    if (ob.goals.length + ob.yellows.length + ob.reds.length) {
+      if (ob.goals.length)   _incidentRow(container, "goal",   "⚽", ob.goals);
+      if (ob.yellows.length) _incidentRow(container, "yellow", "🟨", ob.yellows);
+      if (ob.reds.length)    _incidentRow(container, "red",    "🟥", ob.reds);
+    }
+  }
+
+  function _incidentSideHead(container, team, lang, yellowCount, redCount) {
+    const head = document.createElement("div");
+    head.className = "incident-side-head";
+    const flag = escapeHtml(team.flag || "🏳️");
+    const zh = (lang === "zh") && team.name_zh;
+    const name = escapeHtml(zh || team.name || team.name_zh || "");
+    const counts = [];
+    if (yellowCount) counts.push(`<span class="ish-count is-y">🟨${yellowCount}</span>`);
+    if (redCount) counts.push(`<span class="ish-count is-r">🟥${redCount}</span>`);
+    head.innerHTML =
+      `<span class="ish-flag">${flag}</span>` +
+      `<span class="ish-name">${name}</span>` +
+      `<span class="ish-counts">${counts.join("")}</span>`;
+    container.appendChild(head);
   }
 
   function _incidentRow(container, rowClass, icon, list) {
@@ -2067,7 +2116,7 @@
     if (m.away.winner === false) away.classList.add("is-loser");
 
     // Per-match incidents: goals + cards (only for LIVE / FINAL)
-    renderIncidents(node.querySelector(".match-incidents"), m.incidents);
+    renderIncidents(node.querySelector(".match-incidents"), m);
 
     const stage = node.querySelector(".stage");
     const venue = node.querySelector(".venue");

@@ -656,6 +656,34 @@ body {
 .incident-row.is-yellow .ir-icon { color: #facc15; }
 .incident-row.is-red    .ir-icon { color: #ef4444; }
 .incident-row.is-goal   .ir-icon { color: var(--text); }
+
+/* Per-side header above each team's incidents. Lands the reader's eye
+   on "this is France's section", and the yellow/red tally gives an
+   at-a-glance card count per side. */
+.incident-side-head {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  font-size: 0.72rem;
+  margin-top: 4px;
+  margin-bottom: -1px;
+}
+.incident-row + .incident-side-head { margin-top: 6px; }
+.incident-side-head .ish-flag { font-size: 0.95rem; line-height: 1; }
+.incident-side-head .ish-name {
+  color: var(--text);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+.incident-side-head .ish-counts {
+  margin-left: auto;
+  display: inline-flex;
+  gap: 6px;
+  font-variant-numeric: tabular-nums;
+}
+.incident-side-head .ish-count { line-height: 1; }
+.incident-side-head .ish-count.is-y { color: #facc15; }
+.incident-side-head .ish-count.is-r { color: #ef4444; }
 .incident {
   display: inline-flex;
   align-items: baseline;
