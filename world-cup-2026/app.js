@@ -2336,17 +2336,25 @@
         for (const m of ms) pos[m.id] = { y: 50, side: "C" };
         return;
       }
+      // Each wing (L/R) gets half the cards. Distribute them across the
+      // full bracket height (0–100%) so L wing spans the full left
+      // column and R wing spans the full right column, mirroring around
+      // the vertical center axis where the Final sits. The wing-relative
+      // index keeps the pair-midpoint relationships intact: e.g. the
+      // 8 R32 cards in the L wing evenly fill 0–100% (12.5% per slot),
+      // and the 4 R16 cards land at the midpoints of each R32 pair
+      // (12.5, 37.5, 62.5, 87.5), so the V-shape lines stay short.
       const half = n / 2;
       ms.forEach((m, i) => {
+        const w = i % half;  // position within the wing (0..half-1)
+        // All rounds share the same divisor n (= 2 * half): a card's
+        // centre sits at (2w+1)/(2n) of the full height, which yields
+        // 6.25/18.75/... for R32 and 12.5/37.5/... for R16, etc.
         let y;
-        if (round === "round-of-32") y = ((i + 0.5) / 16) * 100;
-        else if (round === "round-of-16") y = ((2 * i + 1) / 16) * 100;
-        else if (round === "quarterfinals") y = ((4 * i + 2) / 16) * 100;
-        else if (round === "semifinals") y = ((8 * i + 4) / 16) * 100;
-        // Compress to 90% range with 5% top/bottom margin so the topmost
-        // card clears the column-labels row above. Linear transform keeps
-        // the midpoint relationships that the SVG connecting lines rely on.
-        y = y * 0.9 + 5;
+        if (round === "round-of-32") y = ((2 * w + 1) / n) * 100;
+        else if (round === "round-of-16") y = ((2 * w + 1) / n) * 100;
+        else if (round === "quarterfinals") y = ((2 * w + 1) / n) * 100;
+        else if (round === "semifinals") y = 50;
         pos[m.id] = { y, side: i < half ? "L" : "R" };
       });
     }
