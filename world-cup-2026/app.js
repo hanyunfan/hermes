@@ -23,11 +23,40 @@
   // not the broadcast schedule. Mirrors R32_BRACKET in the odds section
   // (renderOddsBody) — kept separate because odds also needs the
   // group/position fields for slot rendering.
+  // R32 matches in **bracket** order (slot 1..16). ESPN's gameId
+  // ordering follows kickoff time and does not match the FIFA bracket
+  // structure — e.g. ENG vs COD (M80, 11:00 AM ET) is one of the last
+  // R32 matches in the upper half but lands in the middle of an
+  // ascending gameId list. This array pins each match to its actual
+  // bracket slot so the L wing shows the upper half (M73–M80) and the
+  // R wing shows the lower half (M81–M88) of the knockout tree.
+  //
+  // NOTE: This ordering differs from R32_BRACKET below (the odds
+  // section, which iterates by kickoff time so users see upcoming
+  // matchups chronologically). Pairing data here is what the bracket
+  // geometry uses.
+  //
+  //   R16-1: (1, 3)   R16-2: (2, 5)   R16-3: (4, 6)   R16-4: (7, 8)
+  //   R16-5: (9, 10)  R16-6: (11, 12) R16-7: (13, 15) R16-8: (14, 16)
   const R32_BRACKET_IDS = [
-    "760486", "760487", "760488", "760489",
-    "760490", "760491", "760492", "760493",
-    "760494", "760495", "760496", "760497",
-    "760498", "760499", "760500", "760501",
+    // Upper half (slots 1–8, M73–M80)
+    "760486",  //  1  M73  2A vs 2B       (RSA vs CAN)
+    "760492",  //  2  M77  1I vs Best 3rd  (FRA vs SWE)
+    "760488",  //  3  M75  1F vs 2C       (NED vs MAR)
+    "760490",  //  4  M78  2E vs 2I       (CIV vs NOR)
+    "760489",  //  5  M74  1E vs Best 3rd (GER vs PAR)
+    "760487",  //  6  M76  1C vs 2F       (BRA vs JPN)
+    "760491",  //  7  M79  1A vs Best 3rd (MEX vs ECU)
+    "760495",  //  8  M80  1L vs Best 3rd (ENG vs COD)
+    // Lower half (slots 9–16, M81–M88)
+    "760494",  //  9  M81  1D vs Best 3rd (USA vs BIH)
+    "760493",  // 10  M82  1G vs Best 3rd (BEL vs SEN)
+    "760496",  // 11  M83  2K vs 2L       (POR vs CRO)
+    "760497",  // 12  M84  1H vs 2J       (ESP vs AUT)
+    "760498",  // 13  M85  1B vs Best 3rd (SUI vs ALG)
+    "760500",  // 14  M86  1J vs 2H       (ARG vs CPV)
+    "760501",  // 15  M87  1K vs Best 3rd (COL vs GHA)
+    "760499",  // 16  M88  2D vs 2G       (AUS vs EGY)
   ];
 
   const $ = (sel, root = document) => root.querySelector(sel);
