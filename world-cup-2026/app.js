@@ -2240,6 +2240,35 @@
       return [...url.matchAll(re)].map(x => parseInt(x[1])).sort((a, b) => a - b);
     };
     const byId = (slug) => new Map((byRound[slug] || []).map(m => [m.id, m]));
+    // When an R16's URL has been replaced with team names (because both
+    // parents are decided), the slot regex returns 0–1 entries. Fall
+    // back to looking up each parent's R32 slot from team data so the
+    // match lands in its correct bracket position rather than the tail
+    // of the sorted list.
+    const r32SlotForTeam = (() => {
+      const idToSlot = new Map(R32_BRACKET_IDS.map((id, i) => [id, i + 1]));
+      const teamToR32 = new Map();
+      for (const r32Match of byRound["round-of-32"]) {
+        if (r32Match.home?.id) teamToR32.set(r32Match.home.id, r32Match.id);
+        if (r32Match.away?.id) teamToR32.set(r32Match.away.id, r32Match.id);
+      }
+      return (team) => {
+        if (!team?.id) return null;
+        const r32Id = teamToR32.get(team.id);
+        return r32Id != null ? idToSlot.get(r32Id) : null;
+      };
+    })();
+    const r16ParentSlots = (m) => {
+      const fromUrl = parentSlots(m, "round-of-32");
+      if (fromUrl.length >= 2) return fromUrl;
+      // Fill in any missing slots via the home/away team lookup.
+      const slots = new Set(fromUrl);
+      const homeSlot = r32SlotForTeam(m.home);
+      const awaySlot = r32SlotForTeam(m.away);
+      if (homeSlot != null) slots.add(homeSlot);
+      if (awaySlot != null) slots.add(awaySlot);
+      return [...slots].sort((a, b) => a - b);
+    };
     // Build bracket-slot lookup tables for every knockout round. A
     // match's "bracket slot" is its position in the bracket TREE (not
     // its position in the time-sorted display array). The tree order
@@ -2249,7 +2278,7 @@
     const slotToMatch = {};
     slotToMatch["round-of-32"] = new Map(R32_BRACKET_IDS.map((id, i) => [i + 1, byId("round-of-32").get(id)]));
     const r16ByMinR32Slot = byRound["round-of-16"]
-      .map(m => ({ match: m, r32Slots: parentSlots(m, "round-of-32") }))
+      .map(m => ({ match: m, r32Slots: r16ParentSlots(m) }))
       .sort((a, b) => (a.r32Slots[0] ?? 999) - (b.r32Slots[0] ?? 999));
     slotToMatch["round-of-16"] = new Map(r16ByMinR32Slot.map((x, i) => [i + 1, x.match]));
     const qfByMinR16Slot = byRound["quarterfinals"]
@@ -2396,7 +2425,10 @@
       // not a display bug.
       const parents = (byRound[nextStage] || []).map(m => ({
         match: m,
-        slots: parentSlots(m, stage),
+        // For R16 parents, use the team-aware slot lookup so that R16
+        // matches whose URL has been rewritten to team names (e.g. R16-1
+        // "morocco-canada") still draw the correct V-shape connectors.
+        slots: nextStage === "round-of-16" ? r16ParentSlots(m) : parentSlots(m, stage),
       }));
       for (const p of parents) {
         const parent = p.match;
