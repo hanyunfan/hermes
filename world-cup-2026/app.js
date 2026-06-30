@@ -2417,14 +2417,22 @@
     container.appendChild(labels);
 
     // Build cards
-    function appendCard(m, customY) {
+    function appendCard(m, customY, attrs) {
       if (!m) return;
       const p = pos[m.id];
       const card = buildBracketCard(m, p);
       card.style.top = (customY != null ? customY : p.y) + "%";
+      if (attrs) for (const k in attrs) card.dataset[k] = attrs[k];
       container.appendChild(card);
     }
-    for (const r of rounds) for (const m of byRound[r] || []) appendCard(m);
+    // Pair index for R32 cards (0..7) so CSS can highlight which two
+    // cards feed the same R16 match. Index is the position in the
+    // R32 visual display order on each wing: (0,1)(2,3)(4,5)(6,7).
+    byRound["round-of-32"].forEach((m, idx) => {
+      if (!m) return;
+      appendCard(m, null, { pair: String(Math.floor(idx / 2)) });
+    });
+    for (const r of rounds.slice(1)) for (const m of byRound[r] || []) appendCard(m);
     if (third) {
       // Place the 3rd-place match directly below the Final, centered
       // on the bracket's vertical axis. The previous "right of Final"

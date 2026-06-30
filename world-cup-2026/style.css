@@ -865,7 +865,7 @@ body {
 .bracket-butterfly {
   position: relative;
   width: 100%;
-  height: 1100px;
+  height: 720px;
   margin: 0 auto;
 }
 
@@ -956,12 +956,41 @@ body {
 }
 
 /* Round-specific sizing — Final is the body of the butterfly */
-.bracket-card[data-stage="round-of-32"]   { width: 96px; }
+.bracket-card[data-stage="round-of-32"]   { width: 96px; padding: 2px 5px; gap: 0; }
+.bracket-card[data-stage="round-of-32"] .bracket-team { gap: 4px; line-height: 1.15; }
+.bracket-card[data-stage="round-of-32"] .bc-team-score { font-size: 0.7rem; min-width: 1.2em; }
+.bracket-card[data-stage="round-of-32"] .bracket-round-label { display: none; }
+.bracket-card[data-stage="round-of-32"] .bc-status { display: none; }
 .bracket-card[data-stage="round-of-16"]   { width: 96px; }
 .bracket-card[data-stage="quarterfinals"] { width: 96px; }
 .bracket-card[data-stage="semifinals"]    { width: 96px; }
 .bracket-card[data-stage="final"]         { width: 116px; transform: translate(-50%, -50%); }
 .bracket-card[data-stage="3rd-place-match"]   { width: 96px; }
+
+/* Visual cue: each pair of R32 cards that will face each other in R16
+   share a colored left-border + subtle background tint. Pairs are
+   numbered 0..7 (4 per wing) and alternate colors so adjacent pairs
+   are visually distinct. See R32_VISUAL_ORDER + data-pair in app.js. */
+.bracket-card[data-stage="round-of-32"][data-pair="0"],
+.bracket-card[data-stage="round-of-32"][data-pair="4"] {
+  border-left: 3px solid rgba(240, 193, 75, 0.85);
+  background: linear-gradient(90deg, rgba(240, 193, 75, 0.10) 0%, var(--bg-card) 60%);
+}
+.bracket-card[data-stage="round-of-32"][data-pair="1"],
+.bracket-card[data-stage="round-of-32"][data-pair="5"] {
+  border-left: 3px solid rgba(96, 165, 250, 0.85);
+  background: linear-gradient(90deg, rgba(96, 165, 250, 0.10) 0%, var(--bg-card) 60%);
+}
+.bracket-card[data-stage="round-of-32"][data-pair="2"],
+.bracket-card[data-stage="round-of-32"][data-pair="6"] {
+  border-left: 3px solid rgba(167, 139, 250, 0.85);
+  background: linear-gradient(90deg, rgba(167, 139, 250, 0.10) 0%, var(--bg-card) 60%);
+}
+.bracket-card[data-stage="round-of-32"][data-pair="3"],
+.bracket-card[data-stage="round-of-32"][data-pair="7"] {
+  border-left: 3px solid rgba(52, 211, 153, 0.85);
+  background: linear-gradient(90deg, rgba(52, 211, 153, 0.10) 0%, var(--bg-card) 60%);
+}
 
 /* 9-column grid: 4 columns each side + Final in the center.
    Card width 96px, gaps 6px. 9*96 + 8*6 = 912 ≈ page width. */
