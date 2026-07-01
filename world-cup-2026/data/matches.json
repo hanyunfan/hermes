@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-07-01T01:40:11.160479+00:00",
+  "generated_at": "2026-07-01T02:49:23.830873+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-30T20:40:08.021093-05:00",
+  "now_local": "2026-06-30T21:49:21.713157-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -17678,8 +17678,8 @@
           "kickoff_local_date": "2026-06-30",
           "kickoff_time": "9:00 PM",
           "kickoff_weekday": "Tue",
-          "status": "SCHEDULED",
-          "status_short": "Scheduled",
+          "status": "LIVE",
+          "status_short": "45'+3'",
           "stage": "Round of 32",
           "stage_slug": "round-of-32",
           "home": {
@@ -17693,7 +17693,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/mex.png",
             "color": "006847",
             "home_away": "home",
-            "score": 0,
+            "score": 2,
             "winner": false
           },
           "away": {
@@ -17722,7 +17722,38 @@
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760491/ecuador-mexico",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Mexico%20vs%20Ecuador",
-          "slug": "ecuador-at-mexico"
+          "slug": "ecuador-at-mexico",
+          "incidents": [
+            {
+              "kind": "goal",
+              "minute": "22'",
+              "team": "Mexico",
+              "team_id": "203",
+              "team_side": "home",
+              "player": "Julián Quiñones",
+              "text": "Goal! Mexico 1, Ecuador 0. Julián Quiñones (Mexico) right footed shot from the left side of the box to the top left corner. Assisted by Roberto Alvarado with a through ball.",
+              "assist": "Roberto Alvarado"
+            },
+            {
+              "kind": "goal",
+              "minute": "31'",
+              "team": "Mexico",
+              "team_id": "203",
+              "team_side": "home",
+              "player": "Raúl Jiménez",
+              "text": "Goal! Mexico 2, Ecuador 0. Raúl Jiménez (Mexico) right footed shot from the centre of the box to the top right corner. Assisted by Julián Quiñones.",
+              "assist": "Julián Quiñones"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "45'+1'",
+              "team": "Ecuador",
+              "team_id": "209",
+              "team_side": "away",
+              "player": "Alan Franco",
+              "text": "Alan Franco (Ecuador) is shown the yellow card."
+            }
+          ]
         }
       ]
     },
