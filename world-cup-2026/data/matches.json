@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-07-01T19:57:13.601825+00:00",
+  "generated_at": "2026-07-01T21:40:56.556570+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-07-01T14:57:12.243400-05:00",
+  "now_local": "2026-07-01T16:40:50.253429-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -18089,8 +18089,8 @@
           "kickoff_local_date": "2026-07-01",
           "kickoff_time": "3:00 PM",
           "kickoff_weekday": "Wed",
-          "status": "SCHEDULED",
-          "status_short": "Scheduled",
+          "status": "LIVE",
+          "status_short": "78'",
           "stage": "Round of 32",
           "stage_slug": "round-of-32",
           "home": {
@@ -18118,7 +18118,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/sen.png",
             "color": "FFFFFF",
             "home_away": "away",
-            "score": 0,
+            "score": 2,
             "winner": false
           },
           "venue": {
@@ -18133,7 +18133,126 @@
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760493/senegal-belgium",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Belgium%20vs%20Senegal",
-          "slug": "senegal-at-belgium"
+          "slug": "senegal-at-belgium",
+          "incidents": [
+            {
+              "kind": "goal",
+              "minute": "25'",
+              "team": "Senegal",
+              "team_id": "654",
+              "team_side": "away",
+              "player": "Habib Diarra",
+              "text": "Goal! Belgium 0, Senegal 1. Habib Diarra (Senegal) right footed shot from very close range to the centre of the goal."
+            },
+            {
+              "kind": "substitution",
+              "minute": "45'",
+              "team": "Belgium",
+              "team_id": "459",
+              "team_side": "home",
+              "player": "Romelu Lukaku",
+              "text": "Substitution, Belgium. Romelu Lukaku replaces Charles De Ketelaere.",
+              "player_off": "Charles De Ketelaere"
+            },
+            {
+              "kind": "goal",
+              "minute": "51'",
+              "team": "Senegal",
+              "team_id": "654",
+              "team_side": "away",
+              "player": "Ismaïla Sarr",
+              "text": "Goal! Belgium 0, Senegal 2. Ismaïla Sarr (Senegal) right footed shot from the centre of the box to the bottom right corner. Assisted by Moussa Niakhaté with a through ball.",
+              "assist": "Moussa Niakhaté"
+            },
+            {
+              "kind": "substitution",
+              "minute": "56'",
+              "team": "Belgium",
+              "team_id": "459",
+              "team_side": "home",
+              "player": "Dodi Lukébakio",
+              "text": "Substitution, Belgium. Dodi Lukébakio replaces Jérémy Doku.",
+              "player_off": "Jérémy Doku"
+            },
+            {
+              "kind": "substitution",
+              "minute": "56'",
+              "team": "Belgium",
+              "team_id": "459",
+              "team_side": "home",
+              "player": "Nicolas Raskin",
+              "text": "Substitution, Belgium. Nicolas Raskin replaces Kevin De Bruyne.",
+              "player_off": "Kevin De Bruyne"
+            },
+            {
+              "kind": "substitution",
+              "minute": "63'",
+              "team": "Belgium",
+              "team_id": "459",
+              "team_side": "home",
+              "player": "Diego Moreira",
+              "text": "Substitution, Belgium. Diego Moreira replaces Hans Vanaken.",
+              "player_off": "Hans Vanaken"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "64'",
+              "team": "Belgium",
+              "team_id": "459",
+              "team_side": "home",
+              "player": "Brandon Mechele",
+              "text": "Brandon Mechele (Belgium) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "substitution",
+              "minute": "66'",
+              "team": "Senegal",
+              "team_id": "654",
+              "team_side": "away",
+              "player": "Lamine Camara",
+              "text": "Substitution, Senegal. Lamine Camara replaces Pape Gueye.",
+              "player_off": "Pape Gueye"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "67'",
+              "team": "Senegal",
+              "team_id": "654",
+              "team_side": "away",
+              "player": "Lamine Camara",
+              "text": "Lamine Camara (Senegal) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "substitution",
+              "minute": "73'",
+              "team": "Senegal",
+              "team_id": "654",
+              "team_side": "away",
+              "player": "Ibrahim Mbaye",
+              "text": "Substitution, Senegal. Ibrahim Mbaye replaces Iliman Ndiaye.",
+              "player_off": "Iliman Ndiaye"
+            },
+            {
+              "kind": "substitution",
+              "minute": "73'",
+              "team": "Senegal",
+              "team_id": "654",
+              "team_side": "away",
+              "player": "Pape Matar Sarr",
+              "text": "Substitution, Senegal. Pape Matar Sarr replaces Habib Diarra.",
+              "player_off": "Habib Diarra"
+            },
+            {
+              "kind": "substitution",
+              "minute": "78'",
+              "team": "Belgium",
+              "team_id": "459",
+              "team_side": "home",
+              "player": "Thomas Meunier",
+              "text": "Thomas Meunier (Belgium) Substitution at 78'",
+              "player_off": "Maxim De Cuyper"
+            }
+          ]
         },
         {
           "id": "760494",
