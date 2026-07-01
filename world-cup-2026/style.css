@@ -865,7 +865,7 @@ body {
 .bracket-butterfly {
   position: relative;
   width: 100%;
-  height: 620px;
+  height: 580px;
   margin: 0 auto;
 }
 
@@ -964,7 +964,7 @@ body {
 .bracket-card[data-stage="round-of-16"]   { width: 96px; }
 .bracket-card[data-stage="quarterfinals"] { width: 96px; }
 .bracket-card[data-stage="semifinals"]    { width: 96px; }
-.bracket-card[data-stage="final"]         { width: 116px; transform: translate(-50%, -50%); }
+.bracket-card[data-stage="final"]         { width: 96px; transform: translate(-50%, -50%); }
 .bracket-card[data-stage="3rd-place-match"]   { width: 96px; }
 
 /* Visual cue: each pair of R32 cards that will face each other in R16
@@ -1002,7 +1002,7 @@ body {
 .bracket-card[data-side="R"][data-stage="quarterfinals"] { right: calc((100% - 912px) / 2 + 204px); }
 .bracket-card[data-side="L"][data-stage="semifinals"]    { left: calc((100% - 912px) / 2 + 306px); }
 .bracket-card[data-side="R"][data-stage="semifinals"]    { right: calc((100% - 912px) / 2 + 306px); }
-.bracket-card[data-stage="final"]         { left: calc(50% + 18px); }
+.bracket-card[data-stage="final"]         { left: 50%; }
 .bracket-card[data-stage="3rd-place-match"]   { left: calc(50% - 48px); }
 
 .bracket-team {

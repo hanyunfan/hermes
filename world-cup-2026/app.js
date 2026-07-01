@@ -2359,22 +2359,78 @@
       // Each wing (L/R) gets half the cards. Distribute them across the
       // full bracket height (0–100%) so L wing spans the full left
       // column and R wing spans the full right column, mirroring around
-      // the vertical center axis where the Final sits. The wing-relative
-      // index keeps the pair-midpoint relationships intact: e.g. the
-      // 8 R32 cards in the L wing evenly fill 0–100% (12.5% per slot),
-      // and the 4 R16 cards land at the midpoints of each R32 pair
-      // (12.5, 37.5, 62.5, 87.5), so the V-shape lines stay short.
+      // the vertical center axis where the Final sits.
+      //
+      // R32 uses a NON-uniform y distribution: the two R32 cards in the
+      // same R16 pair sit close together (within-pair distance = one
+      // card height = 5.33% in 600px), and different pairs are
+      // separated by a wider gap (17.57%). The R16/QF positions fall
+      // out automatically from the pair midpoints, and the sum of all
+      // 8 R32 y values is exactly 400 so the SF lands on the center
+      // axis (50%).
       const half = n / 2;
+      if (round === "round-of-32") {
+        // Within-pair = 5.33% (one card height), between-pair = 17.57%.
+        // Sum 8 y values = 8*5 + 4*28*5.33/2 + 12*17.57 = 400 (SF at 50%).
+        const WITHIN = 5.52, BETWEEN = 17.12, TOP = 5;
+        ms.forEach((m, i) => {
+          const w = i % half;  // position within the wing (0..half-1)
+          // w 0,1 = pair 1; w 2,3 = pair 2; w 4,5 = pair 3; w 6,7 = pair 4
+          const pairIdx = Math.floor(w / 2);
+          const inPair = w % 2;  // 0 or 1 within the pair
+          // y for first card of pair K = TOP + K*(2*WITHIN + BETWEEN) + 2*WITHIN*(inPair==1)
+          // Wait, the pattern is: pos 0 → first card of pair 0,
+          // pos 1 → second card of pair 0, pos 2 → first card of pair 1, etc.
+          // So pos K*2 → first card of pair K, pos K*2+1 → second card of pair K.
+          // y = TOP + K*(WITHIN*2 + BETWEEN) + (inPair===1 ? WITHIN : 0)
+          // Actually it's: w is the within-wing position, which alternates pair/within.
+          // w 0,2,4,6 = first of each pair; w 1,3,5,7 = second.
+          // y for w = TOP + pairIdx*2*WITHIN + pairIdx*BETWEEN + (inPair===1 ? WITHIN : 0)
+          // Let me just compute directly:
+          // y[w] for w=0..7:
+          // 0: TOP
+          // 1: TOP + WITHIN
+          // 2: TOP + 2*WITHIN + BETWEEN
+          // 3: TOP + 3*WITHIN + BETWEEN
+          // 4: TOP + 4*WITHIN + 2*BETWEEN
+          // 5: TOP + 5*WITHIN + 2*BETWEEN
+          // 6: TOP + 6*WITHIN + 3*BETWEEN
+          // 7: TOP + 7*WITHIN + 3*BETWEEN
+          const y = TOP + w * WITHIN + Math.floor(w / 2) * BETWEEN;
+          pos[m.id] = { y, side: i < half ? "L" : "R" };
+        });
+        return;
+      }
+      // R16, QF, SF: all derived from their parent matches' y values.
+      // Each card sits at the midpoint of its two parent matches.
+      // R16 parents are R32 pair (per R16_TO_R32 lookup). QF parents
+      // are R16 pairs (consecutive: QF-1←R16-1,2; QF-2←R16-3,4; etc).
       ms.forEach((m, i) => {
         const w = i % half;  // position within the wing (0..half-1)
-        // All rounds share the same divisor n (= 2 * half): a card's
-        // centre sits at (2w+1)/(2n) of the full height, which yields
-        // 6.25/18.75/... for R32 and 12.5/37.5/... for R16, etc.
         let y;
-        if (round === "round-of-32") y = ((2 * w + 1) / n) * 100;
-        else if (round === "round-of-16") y = ((2 * w + 1) / n) * 100;
-        else if (round === "quarterfinals") y = ((2 * w + 1) / n) * 100;
-        else if (round === "semifinals") y = 50;
+        if (round === "round-of-16") {
+          const slot = r16IdToSlot.get(m.id);
+          const parentSlots = R16_TO_R32[slot];
+          const yA = pos[slotToMatch["round-of-32"].get(parentSlots[0]).id].y;
+          const yB = pos[slotToMatch["round-of-32"].get(parentSlots[1]).id].y;
+          y = (yA + yB) / 2;
+        } else if (round === "quarterfinals") {
+          // QF-N takes R16-(2N-1) and R16-2N winners (consecutive in slot order).
+          const slot = i + 1;  // QF slot 1..4 (since byRound is in slot order)
+          const r16SlotA = (slot - 1) * 2 + 1;
+          const r16SlotB = slot * 2;
+          const yA = pos[slotToMatch["round-of-16"].get(r16SlotA).id].y;
+          const yB = pos[slotToMatch["round-of-16"].get(r16SlotB).id].y;
+          y = (yA + yB) / 2;
+        } else if (round === "semifinals") {
+          // SF-1 takes QF-1, QF-2; SF-2 takes QF-3, QF-4.
+          const slot = i + 1;  // SF slot 1..2
+          const qfSlotA = (slot - 1) * 2 + 1;
+          const qfSlotB = slot * 2;
+          const yA = pos[slotToMatch["quarterfinals"].get(qfSlotA).id].y;
+          const yB = pos[slotToMatch["quarterfinals"].get(qfSlotB).id].y;
+          y = (yA + yB) / 2;
+        }
         pos[m.id] = { y, side: i < half ? "L" : "R" };
       });
     }
