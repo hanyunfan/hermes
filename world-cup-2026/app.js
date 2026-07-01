@@ -2370,33 +2370,16 @@
       // axis (50%).
       const half = n / 2;
       if (round === "round-of-32") {
-        // Within-pair = 5.33% (one card height), between-pair = 17.57%.
-        // Sum 8 y values = 8*5 + 4*28*5.33/2 + 12*17.57 = 400 (SF at 50%).
-        const WITHIN = 5.52, BETWEEN = 17.12, TOP = 5;
+        // Uniform ladder: 16 cards (8 per wing) stack with no gap,
+        // each card height = 100/16 = 6.25%, so consecutive cards
+        // touch (no within-pair / between-pair distinction). Card
+        // centers run from 3.125% to 46.875%, so the 8 y values
+        // average 25% — the SF (mid of QF pair) lands on 25% (left
+        // wing) / 75% (right wing), and the Final sits at 50%.
+        const STEP = 100 / 16;
         ms.forEach((m, i) => {
           const w = i % half;  // position within the wing (0..half-1)
-          // w 0,1 = pair 1; w 2,3 = pair 2; w 4,5 = pair 3; w 6,7 = pair 4
-          const pairIdx = Math.floor(w / 2);
-          const inPair = w % 2;  // 0 or 1 within the pair
-          // y for first card of pair K = TOP + K*(2*WITHIN + BETWEEN) + 2*WITHIN*(inPair==1)
-          // Wait, the pattern is: pos 0 → first card of pair 0,
-          // pos 1 → second card of pair 0, pos 2 → first card of pair 1, etc.
-          // So pos K*2 → first card of pair K, pos K*2+1 → second card of pair K.
-          // y = TOP + K*(WITHIN*2 + BETWEEN) + (inPair===1 ? WITHIN : 0)
-          // Actually it's: w is the within-wing position, which alternates pair/within.
-          // w 0,2,4,6 = first of each pair; w 1,3,5,7 = second.
-          // y for w = TOP + pairIdx*2*WITHIN + pairIdx*BETWEEN + (inPair===1 ? WITHIN : 0)
-          // Let me just compute directly:
-          // y[w] for w=0..7:
-          // 0: TOP
-          // 1: TOP + WITHIN
-          // 2: TOP + 2*WITHIN + BETWEEN
-          // 3: TOP + 3*WITHIN + BETWEEN
-          // 4: TOP + 4*WITHIN + 2*BETWEEN
-          // 5: TOP + 5*WITHIN + 2*BETWEEN
-          // 6: TOP + 6*WITHIN + 3*BETWEEN
-          // 7: TOP + 7*WITHIN + 3*BETWEEN
-          const y = TOP + w * WITHIN + Math.floor(w / 2) * BETWEEN;
+          const y = (w + 0.5) * STEP;
           pos[m.id] = { y, side: i < half ? "L" : "R" };
         });
         return;
