@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-07-01T17:55:28.425663+00:00",
+  "generated_at": "2026-07-01T19:57:13.601825+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-07-01T12:55:27.270151-05:00",
+  "now_local": "2026-07-01T14:57:12.243400-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -562,15 +562,6 @@
         "last_kickoff_iso": "2026-07-06"
       },
       {
-        "id": "Mercedes-Benz Stadium",
-        "name": "Mercedes-Benz Stadium",
-        "city": "Atlanta, Georgia",
-        "country": "USA",
-        "match_count": 8,
-        "next_kickoff_iso": "2026-07-01",
-        "last_kickoff_iso": "2026-07-15"
-      },
-      {
         "id": "BMO Field",
         "name": "BMO Field",
         "city": "Toronto",
@@ -659,6 +650,15 @@
         "match_count": 8,
         "next_kickoff_iso": "2026-07-05",
         "last_kickoff_iso": "2026-07-19"
+      },
+      {
+        "id": "Mercedes-Benz Stadium",
+        "name": "Mercedes-Benz Stadium",
+        "city": "Atlanta, Georgia",
+        "country": "USA",
+        "match_count": 8,
+        "next_kickoff_iso": "2026-07-07",
+        "last_kickoff_iso": "2026-07-15"
       },
       {
         "id": "Gillette Stadium",
@@ -17896,8 +17896,8 @@
           "kickoff_local_date": "2026-07-01",
           "kickoff_time": "11:00 AM",
           "kickoff_weekday": "Wed",
-          "status": "LIVE",
-          "status_short": "90'+2'",
+          "status": "FINAL",
+          "status_short": "FT",
           "stage": "Round of 32",
           "stage_slug": "round-of-32",
           "home": {
@@ -17912,7 +17912,7 @@
             "color": "ffffff",
             "home_away": "home",
             "score": 2,
-            "winner": false
+            "winner": true
           },
           "away": {
             "id": "2850",
@@ -17938,7 +17938,7 @@
             "Tele",
             "FOX One"
           ],
-          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760495/congo dr-england",
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760495/congo-dr-england",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20England%20vs%20Congo%20DR",
           "slug": "congo dr-at-england",
           "incidents": [
@@ -18072,7 +18072,7 @@
             },
             {
               "kind": "substitution",
-              "minute": "90'+2'",
+              "minute": "90'+1'",
               "team": "England",
               "team_id": "448",
               "team_side": "home",
@@ -18719,15 +18719,15 @@
             "winner": false
           },
           "away": {
-            "id": "131532",
-            "name": "Round of 32 8 Winner",
-            "name_zh": "",
-            "rank": null,
-            "short": "RD32 W8",
-            "abbr": "RD32",
-            "flag": "🏳️",
-            "logo": "",
-            "color": "000000",
+            "id": "448",
+            "name": "England",
+            "name_zh": "英格兰",
+            "rank": 4,
+            "short": "England",
+            "abbr": "ENG",
+            "flag": "🏴",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/eng.png",
+            "color": "ffffff",
             "home_away": "away",
             "score": 0,
             "winner": false
@@ -18742,9 +18742,9 @@
             "Tele",
             "FOX One"
           ],
-          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760505/round-of-32-8-winner-mexico",
-          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Mexico%20vs%20Round%20of%2032%208%20Winner",
-          "slug": "round of 32 8 winner-at-mexico"
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760505/england-mexico",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Mexico%20vs%20England",
+          "slug": "england-at-mexico"
         }
       ]
     },
