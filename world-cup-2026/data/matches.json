@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-07-01T21:40:56.556570+00:00",
+  "generated_at": "2026-07-01T23:15:36.173082+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-07-01T16:40:50.253429-05:00",
+  "now_local": "2026-07-01T18:15:31.710493-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -553,15 +553,6 @@
         "last_kickoff_iso": "2026-07-01"
       },
       {
-        "id": "Lumen Field",
-        "name": "Lumen Field",
-        "city": "Seattle, Washington",
-        "country": "USA",
-        "match_count": 6,
-        "next_kickoff_iso": "2026-07-01",
-        "last_kickoff_iso": "2026-07-06"
-      },
-      {
         "id": "BMO Field",
         "name": "BMO Field",
         "city": "Toronto",
@@ -650,6 +641,15 @@
         "match_count": 8,
         "next_kickoff_iso": "2026-07-05",
         "last_kickoff_iso": "2026-07-19"
+      },
+      {
+        "id": "Lumen Field",
+        "name": "Lumen Field",
+        "city": "Seattle, Washington",
+        "country": "USA",
+        "match_count": 6,
+        "next_kickoff_iso": "2026-07-06",
+        "last_kickoff_iso": "2026-07-06"
       },
       {
         "id": "Mercedes-Benz Stadium",
@@ -18089,8 +18089,8 @@
           "kickoff_local_date": "2026-07-01",
           "kickoff_time": "3:00 PM",
           "kickoff_weekday": "Wed",
-          "status": "LIVE",
-          "status_short": "78'",
+          "status": "FINAL",
+          "status_short": "AET",
           "stage": "Round of 32",
           "stage_slug": "round-of-32",
           "home": {
@@ -18104,7 +18104,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/bel.png",
             "color": "E30613",
             "home_away": "home",
-            "score": 0,
+            "score": 3,
             "winner": false
           },
           "away": {
@@ -18249,8 +18249,68 @@
               "team_id": "459",
               "team_side": "home",
               "player": "Thomas Meunier",
-              "text": "Thomas Meunier (Belgium) Substitution at 78'",
+              "text": "Substitution, Belgium. Thomas Meunier replaces Maxim De Cuyper.",
               "player_off": "Maxim De Cuyper"
+            },
+            {
+              "kind": "goal",
+              "minute": "86'",
+              "team": "Belgium",
+              "team_id": "459",
+              "team_side": "home",
+              "player": "Romelu Lukaku",
+              "text": "Goal! Belgium 1, Senegal 2. Romelu Lukaku (Belgium) right footed shot from the right side of the six yard box to the high centre of the goal. Assisted by Thomas Meunier with a cross.",
+              "assist": "Thomas Meunier"
+            },
+            {
+              "kind": "goal",
+              "minute": "89'",
+              "team": "Belgium",
+              "team_id": "459",
+              "team_side": "home",
+              "player": "Youri Tielemans",
+              "text": "Goal! Belgium 2, Senegal 2. Youri Tielemans (Belgium) header from the centre of the box to the bottom left corner. Assisted by Leandro Trossard.",
+              "assist": "Leandro Trossard"
+            },
+            {
+              "kind": "substitution",
+              "minute": "93'",
+              "team": "Senegal",
+              "team_id": "654",
+              "team_side": "away",
+              "player": "Nicolas Jackson",
+              "text": "Substitution, Senegal. Nicolas Jackson replaces Sadio Mané.",
+              "player_off": "Sadio Mané"
+            },
+            {
+              "kind": "substitution",
+              "minute": "93'",
+              "team": "Senegal",
+              "team_id": "654",
+              "team_side": "away",
+              "player": "El Hadji Malick Diouf",
+              "text": "Substitution, Senegal. El Hadji Malick Diouf replaces Ismail Jakobs.",
+              "player_off": "Ismail Jakobs"
+            },
+            {
+              "kind": "substitution",
+              "minute": "96'",
+              "team": "Senegal",
+              "team_id": "654",
+              "team_side": "away",
+              "player": "Bara Sapoko Ndiaye",
+              "text": "Substitution, Senegal. Bara Sapoko Ndiaye replaces Idrissa Gueye.",
+              "player_off": "Idrissa Gueye"
+            },
+            {
+              "kind": "substitution",
+              "minute": "109'",
+              "team": "Belgium",
+              "team_id": "459",
+              "team_side": "home",
+              "player": "Amadou Onana",
+              "text": "Substitution, Belgium. Amadou Onana replaces Leandro Trossard.",
+              "player_off": "Leandro Trossard"
             }
           ]
         },

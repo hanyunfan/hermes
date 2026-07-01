@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-07-01T21:40:56+00:00",
+  "generated_at": "2026-07-01T23:15:36+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-07-01T16:40:56-05:00",
+  "now_local": "2026-07-01T18:15:36-05:00",
   "match_count": 48,
   "manual_count": 40,
   "rounds": [
@@ -2524,7 +2524,7 @@
       "round_intro_en": "Group stage done — 32 teams enter single-elimination. This R32 spans 6 days (Sun 6/28 - Fri 7/3): top 2 of each group plus 8 best 3rd-placers advance, bracket set by draw. 16 matches across 14 venues in the US/Canada/Mexico — including three 70,000+ Super Bowl stadiums (SoFi, MetLife, AT&T) and Mexico City's Estadio Banorte, where a co-host (Mexico) plays its first-ever home knockout game at a WC.\n\nFive R32 matches you really can't miss: MEX vs ECU (Mexico's first home knockout in 40 years), USA vs BIH (co-host's QF push), ENG vs COD (Kane chases Rooney's record), FRA vs SWE (death-bracket preview), POR vs CRO (Ronaldo vs Modrić — two Ballon d'Or farewells), and ARG vs CPV (Messi's Miami homecoming).",
       "manual_note_zh": null,
       "manual_note_en": null,
-      "generated_at": "2026-07-01T21:40:56+00:00",
+      "generated_at": "2026-07-01T23:15:36+00:00",
       "matches": [
         {
           "match_id": "760486",
