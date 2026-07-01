@@ -1126,7 +1126,12 @@
       }
     }
 
-    // Materialize — promote Set to count, freeze, sort by goals desc.
+    // Materialize — promote Set to count, freeze, sort by:
+    //   1. goals desc (primary)
+    //   2. assists desc
+    //   3. matches_played desc ("出场时间" — proxy for total
+    //      minutes, since ESPN doesn't ship per-player minutes)
+    //   4. player name (final tiebreak, deterministic)
     const out = [];
     for (const e of byPlayer.values()) {
       out.push({
@@ -1142,7 +1147,12 @@
         minutes: e.minutes,
       });
     }
-    out.sort((a, b) => (b.goals - a.goals) || (b.assists - a.assists) || a.player.localeCompare(b.player));
+    out.sort((a, b) =>
+      (b.goals - a.goals) ||
+      (b.assists - a.assists) ||
+      (b.matches_played - a.matches_played) ||
+      a.player.localeCompare(b.player)
+    );
     return out;
   }
 
