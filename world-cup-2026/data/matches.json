@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-07-01T07:06:43.643512+00:00",
+  "generated_at": "2026-07-01T17:55:28.425663+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-07-01T02:06:42.060585-05:00",
+  "now_local": "2026-07-01T12:55:27.270151-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -17896,8 +17896,8 @@
           "kickoff_local_date": "2026-07-01",
           "kickoff_time": "11:00 AM",
           "kickoff_weekday": "Wed",
-          "status": "SCHEDULED",
-          "status_short": "Scheduled",
+          "status": "LIVE",
+          "status_short": "90'+2'",
           "stage": "Round of 32",
           "stage_slug": "round-of-32",
           "home": {
@@ -17911,7 +17911,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/eng.png",
             "color": "ffffff",
             "home_away": "home",
-            "score": 0,
+            "score": 2,
             "winner": false
           },
           "away": {
@@ -17925,7 +17925,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/rdc.png",
             "color": "418fde",
             "home_away": "away",
-            "score": 0,
+            "score": 1,
             "winner": false
           },
           "venue": {
@@ -17938,9 +17938,149 @@
             "Tele",
             "FOX One"
           ],
-          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760495/congo-dr-england",
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760495/congo dr-england",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20England%20vs%20Congo%20DR",
-          "slug": "congo dr-at-england"
+          "slug": "congo dr-at-england",
+          "incidents": [
+            {
+              "kind": "goal",
+              "minute": "7'",
+              "team": "Congo DR",
+              "team_id": "2850",
+              "team_side": "away",
+              "player": "Brian Cipenga",
+              "text": "Goal! England 0, Congo DR 1. Brian Cipenga (Congo DR) right footed shot from the left side of the box to the bottom left corner. Assisted by Chancel Mbemba.",
+              "assist": "Chancel Mbemba"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "19'",
+              "team": "England",
+              "team_id": "448",
+              "team_side": "home",
+              "player": "Jude Bellingham",
+              "text": "Jude Bellingham (England) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "28'",
+              "team": "Congo DR",
+              "team_id": "2850",
+              "team_side": "away",
+              "player": "Noah Sadiki",
+              "text": "Noah Sadiki (Congo DR) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "substitution",
+              "minute": "61'",
+              "team": "England",
+              "team_id": "448",
+              "team_side": "home",
+              "player": "Bukayo Saka",
+              "text": "Substitution, England. Bukayo Saka replaces Noni Madueke.",
+              "player_off": "Noni Madueke"
+            },
+            {
+              "kind": "substitution",
+              "minute": "61'",
+              "team": "England",
+              "team_id": "448",
+              "team_side": "home",
+              "player": "Anthony Gordon",
+              "text": "Substitution, England. Anthony Gordon replaces Marcus Rashford.",
+              "player_off": "Marcus Rashford"
+            },
+            {
+              "kind": "substitution",
+              "minute": "64'",
+              "team": "Congo DR",
+              "team_id": "2850",
+              "team_side": "away",
+              "player": "Meschack Elia",
+              "text": "Substitution, Congo DR. Meschack Elia replaces Nathanaël Mbuku.",
+              "player_off": "Nathanaël Mbuku"
+            },
+            {
+              "kind": "substitution",
+              "minute": "70'",
+              "team": "England",
+              "team_id": "448",
+              "team_side": "home",
+              "player": "Eberechi Eze",
+              "text": "Substitution, England. Eberechi Eze replaces Djed Spence.",
+              "player_off": "Djed Spence"
+            },
+            {
+              "kind": "goal",
+              "minute": "75'",
+              "team": "England",
+              "team_id": "448",
+              "team_side": "home",
+              "player": "Harry Kane",
+              "text": "Goal! England 1, Congo DR 1. Harry Kane (England) header from the centre of the box to the bottom left corner. Assisted by Anthony Gordon with a cross.",
+              "assist": "Anthony Gordon"
+            },
+            {
+              "kind": "substitution",
+              "minute": "76'",
+              "team": "Congo DR",
+              "team_id": "2850",
+              "team_side": "away",
+              "player": "Théo Bongonda",
+              "text": "Substitution, Congo DR. Théo Bongonda replaces Brian Cipenga.",
+              "player_off": "Brian Cipenga"
+            },
+            {
+              "kind": "substitution",
+              "minute": "76'",
+              "team": "Congo DR",
+              "team_id": "2850",
+              "team_side": "away",
+              "player": "Edo Kayembe",
+              "text": "Substitution, Congo DR. Edo Kayembe replaces Ngal'ayel Mukau.",
+              "player_off": "Ngal'ayel Mukau"
+            },
+            {
+              "kind": "goal",
+              "minute": "86'",
+              "team": "England",
+              "team_id": "448",
+              "team_side": "home",
+              "player": "Harry Kane",
+              "text": "Goal! England 2, Congo DR 1. Harry Kane (England) right footed shot from the right side of the box to the top right corner. Assisted by Anthony Gordon.",
+              "assist": "Anthony Gordon"
+            },
+            {
+              "kind": "substitution",
+              "minute": "89'",
+              "team": "Congo DR",
+              "team_id": "2850",
+              "team_side": "away",
+              "player": "Joris Kayembe",
+              "text": "Substitution, Congo DR. Joris Kayembe replaces Arthur Masuaku.",
+              "player_off": "Arthur Masuaku"
+            },
+            {
+              "kind": "substitution",
+              "minute": "89'",
+              "team": "Congo DR",
+              "team_id": "2850",
+              "team_side": "away",
+              "player": "Fiston Mayele",
+              "text": "Substitution, Congo DR. Fiston Mayele replaces Samuel Moutoussamy.",
+              "player_off": "Samuel Moutoussamy"
+            },
+            {
+              "kind": "substitution",
+              "minute": "90'+2'",
+              "team": "England",
+              "team_id": "448",
+              "team_side": "home",
+              "player": "John Stones",
+              "text": "Substitution, England. John Stones replaces Declan Rice.",
+              "player_off": "Declan Rice"
+            }
+          ]
         },
         {
           "id": "760493",
