@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-07-01T02:49:23.830873+00:00",
+  "generated_at": "2026-07-01T07:06:43.643512+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-06-30T21:49:21.713157-05:00",
+  "now_local": "2026-07-01T02:06:42.060585-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -544,15 +544,6 @@
     ],
     "venues": [
       {
-        "id": "Estadio Banorte",
-        "name": "Estadio Banorte",
-        "city": "Mexico City",
-        "country": "Mexico",
-        "match_count": 5,
-        "next_kickoff_iso": "2026-06-30",
-        "last_kickoff_iso": "2026-07-05"
-      },
-      {
         "id": "Levi's Stadium",
         "name": "Levi's Stadium",
         "city": "Santa Clara, California",
@@ -650,6 +641,15 @@
         "match_count": 7,
         "next_kickoff_iso": "2026-07-04",
         "last_kickoff_iso": "2026-07-04"
+      },
+      {
+        "id": "Estadio Banorte",
+        "name": "Estadio Banorte",
+        "city": "Mexico City",
+        "country": "Mexico",
+        "match_count": 5,
+        "next_kickoff_iso": "2026-07-05",
+        "last_kickoff_iso": "2026-07-05"
       },
       {
         "id": "MetLife Stadium",
@@ -17309,7 +17309,7 @@
     },
     {
       "date": "2026-06-30",
-      "label": "Today",
+      "label": "Tue",
       "match_count": 3,
       "matches": [
         {
@@ -17678,8 +17678,8 @@
           "kickoff_local_date": "2026-06-30",
           "kickoff_time": "9:00 PM",
           "kickoff_weekday": "Tue",
-          "status": "LIVE",
-          "status_short": "45'+3'",
+          "status": "FINAL",
+          "status_short": "FT",
           "stage": "Round of 32",
           "stage_slug": "round-of-32",
           "home": {
@@ -17694,7 +17694,7 @@
             "color": "006847",
             "home_away": "home",
             "score": 2,
-            "winner": false
+            "winner": true
           },
           "away": {
             "id": "209",
@@ -17752,6 +17752,133 @@
               "team_side": "away",
               "player": "Alan Franco",
               "text": "Alan Franco (Ecuador) is shown the yellow card."
+            },
+            {
+              "kind": "substitution",
+              "minute": "45'",
+              "team": "Ecuador",
+              "team_id": "209",
+              "team_side": "away",
+              "player": "Ángelo Preciado",
+              "text": "Substitution, Ecuador. Ángelo Preciado replaces Joel Ordóñez.",
+              "player_off": "Joel Ordóñez"
+            },
+            {
+              "kind": "substitution",
+              "minute": "45'",
+              "team": "Ecuador",
+              "team_id": "209",
+              "team_side": "away",
+              "player": "Yaimar Medina",
+              "text": "Substitution, Ecuador. Yaimar Medina replaces Alan Franco.",
+              "player_off": "Alan Franco"
+            },
+            {
+              "kind": "substitution",
+              "minute": "58'",
+              "team": "Mexico",
+              "team_id": "203",
+              "team_side": "home",
+              "player": "Brian Gutiérrez",
+              "text": "Substitution, Mexico. Brian Gutiérrez replaces Gilberto Mora.",
+              "player_off": "Gilberto Mora"
+            },
+            {
+              "kind": "substitution",
+              "minute": "59'",
+              "team": "Ecuador",
+              "team_id": "209",
+              "team_side": "away",
+              "player": "Kevin Rodríguez",
+              "text": "Substitution, Ecuador. Kevin Rodríguez replaces Enner Valencia.",
+              "player_off": "Enner Valencia"
+            },
+            {
+              "kind": "substitution",
+              "minute": "73'",
+              "team": "Mexico",
+              "team_id": "203",
+              "team_side": "home",
+              "player": "Obed Vargas",
+              "text": "Substitution, Mexico. Obed Vargas replaces Luis Romo.",
+              "player_off": "Luis Romo"
+            },
+            {
+              "kind": "substitution",
+              "minute": "74'",
+              "team": "Mexico",
+              "team_id": "203",
+              "team_side": "home",
+              "player": "Santiago Gimenez",
+              "text": "Substitution, Mexico. Santiago Giménez replaces Raúl Jiménez.",
+              "player_off": "Raúl Jiménez"
+            },
+            {
+              "kind": "substitution",
+              "minute": "79'",
+              "team": "Ecuador",
+              "team_id": "209",
+              "team_side": "away",
+              "player": "Jordy Caicedo",
+              "text": "Substitution, Ecuador. Jordy Caicedo replaces John Yeboah.",
+              "player_off": "John Yeboah"
+            },
+            {
+              "kind": "substitution",
+              "minute": "79'",
+              "team": "Ecuador",
+              "team_id": "209",
+              "team_side": "away",
+              "player": "Kendry Páez",
+              "text": "Substitution, Ecuador. Kendry Páez replaces Nilson Angulo.",
+              "player_off": "Nilson Angulo"
+            },
+            {
+              "kind": "substitution",
+              "minute": "80'",
+              "team": "Mexico",
+              "team_id": "203",
+              "team_side": "home",
+              "player": "Orbelín Pineda",
+              "text": "Substitution, Mexico. Orbelín Pineda replaces Julián Quiñones.",
+              "player_off": "Julián Quiñones"
+            },
+            {
+              "kind": "substitution",
+              "minute": "80'",
+              "team": "Mexico",
+              "team_id": "203",
+              "team_side": "home",
+              "player": "Israel Reyes",
+              "text": "Substitution, Mexico. Israel Reyes replaces Roberto Alvarado.",
+              "player_off": "Roberto Alvarado"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "90'+3'",
+              "team": "Ecuador",
+              "team_id": "209",
+              "team_side": "away",
+              "player": "Kendry Páez",
+              "text": "Kendry Páez (Ecuador) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "red_card",
+              "minute": "90'+5'",
+              "team": "Ecuador",
+              "team_id": "209",
+              "team_side": "away",
+              "player": "Piero Hincapié",
+              "text": "Piero Hincapié (Ecuador) is shown the red card."
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "90'+9'",
+              "team": "Ecuador",
+              "team_id": "209",
+              "team_side": "away",
+              "player": "Moisés Caicedo",
+              "text": "Moisés Caicedo (Ecuador) is shown the yellow card for a bad foul."
             }
           ]
         }
@@ -17759,7 +17886,7 @@
     },
     {
       "date": "2026-07-01",
-      "label": "Tomorrow",
+      "label": "Today",
       "match_count": 3,
       "matches": [
         {
@@ -17925,7 +18052,7 @@
     },
     {
       "date": "2026-07-02",
-      "label": "Thu",
+      "label": "Tomorrow",
       "match_count": 3,
       "matches": [
         {
@@ -18438,15 +18565,15 @@
           "stage": "Round of 16",
           "stage_slug": "round-of-16",
           "home": {
-            "id": "131531",
-            "name": "Round of 32 7 Winner",
-            "name_zh": "",
-            "rank": null,
-            "short": "RD32 W7",
-            "abbr": "RD32",
-            "flag": "🏳️",
-            "logo": "",
-            "color": "000000",
+            "id": "203",
+            "name": "Mexico",
+            "name_zh": "墨西哥",
+            "rank": 14,
+            "short": "Mexico",
+            "abbr": "MEX",
+            "flag": "🇲🇽",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/mex.png",
+            "color": "006847",
             "home_away": "home",
             "score": 0,
             "winner": false
@@ -18475,9 +18602,9 @@
             "Tele",
             "FOX One"
           ],
-          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760505/round-of-32-8-winner-round-of-32-7-winner",
-          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Round%20of%2032%207%20Winner%20vs%20Round%20of%2032%208%20Winner",
-          "slug": "round of 32 8 winner-at-round of 32 7 winner"
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760505/round-of-32-8-winner-mexico",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Mexico%20vs%20Round%20of%2032%208%20Winner",
+          "slug": "round of 32 8 winner-at-mexico"
         }
       ]
     },
