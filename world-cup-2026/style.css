@@ -869,14 +869,20 @@ body {
   margin: 0 auto;
 }
 
-/* Column labels at the top of the bracket */
+/* Column labels at the top of the bracket.
+   Positioned relative (in normal flow) above .bracket-butterfly
+   so it never overlaps the R32 cards at the top of the column. */
 .bracket-col-labels {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
+  position: relative;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1.2fr 1fr 1fr 1fr 1fr;
+  /* Match the card column layout (9 × 96px + 8 × 6px gap = 912px) so
+     labels sit directly above their card columns. The two wings
+     (R32+R16+QF+SF | Final | SF+QF+R16+R32) are sized to mirror
+     the card positions inside .bracket-butterfly. */
+  width: 912px;
+  max-width: 100%;
+  margin: 0 auto 8px;
+  grid-template-columns: 96px 96px 96px 96px 120px 96px 96px 96px 96px;
   gap: 6px;
   z-index: 3;
   pointer-events: none;

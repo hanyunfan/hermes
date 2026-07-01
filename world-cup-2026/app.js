@@ -2542,7 +2542,11 @@
       span.textContent = i18n(l.key);
       labels.appendChild(span);
     }
-    container.appendChild(labels);
+    // Append above the butterfly (not inside it) so the labels sit
+    // in normal flow above the cards and don't overlap the topmost
+    // R32 card.
+    const scroll = container.parentElement;
+    if (scroll) scroll.insertBefore(labels, container);
 
     // Build cards
     function appendCard(m, customY, attrs) {
