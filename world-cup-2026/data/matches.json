@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-07-02T17:47:33.969036+00:00",
+  "generated_at": "2026-07-02T19:24:15.012593+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-07-02T12:47:31.969770-05:00",
+  "now_local": "2026-07-02T14:24:13.163670-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -18499,8 +18499,8 @@
           "kickoff_local_date": "2026-07-02",
           "kickoff_time": "2:00 PM",
           "kickoff_weekday": "Thu",
-          "status": "SCHEDULED",
-          "status_short": "Scheduled",
+          "status": "LIVE",
+          "status_short": "23'",
           "stage": "Round of 32",
           "stage_slug": "round-of-32",
           "home": {
@@ -18543,7 +18543,8 @@
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760497/austria-spain",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Spain%20vs%20Austria",
-          "slug": "austria-at-spain"
+          "slug": "austria-at-spain",
+          "incidents": []
         },
         {
           "id": "760496",
