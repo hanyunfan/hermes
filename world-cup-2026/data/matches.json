@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-07-02T20:41:07.884152+00:00",
+  "generated_at": "2026-07-02T22:05:51.096382+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-07-02T15:41:06.312974-05:00",
+  "now_local": "2026-07-02T17:05:49.775152-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -562,15 +562,6 @@
         "last_kickoff_iso": "2026-07-07"
       },
       {
-        "id": "SoFi Stadium",
-        "name": "SoFi Stadium",
-        "city": "Inglewood, California",
-        "country": "USA",
-        "match_count": 8,
-        "next_kickoff_iso": "2026-07-02",
-        "last_kickoff_iso": "2026-07-10"
-      },
-      {
         "id": "GEHA Field at Arrowhead Stadium",
         "name": "GEHA Field at Arrowhead Stadium",
         "city": "Kansas City, Missouri",
@@ -659,6 +650,15 @@
         "match_count": 7,
         "next_kickoff_iso": "2026-07-09",
         "last_kickoff_iso": "2026-07-09"
+      },
+      {
+        "id": "SoFi Stadium",
+        "name": "SoFi Stadium",
+        "city": "Inglewood, California",
+        "country": "USA",
+        "match_count": 8,
+        "next_kickoff_iso": "2026-07-10",
+        "last_kickoff_iso": "2026-07-10"
       },
       {
         "id": "Estadio Akron",
@@ -18499,8 +18499,8 @@
           "kickoff_local_date": "2026-07-02",
           "kickoff_time": "2:00 PM",
           "kickoff_weekday": "Thu",
-          "status": "LIVE",
-          "status_short": "79'",
+          "status": "FINAL",
+          "status_short": "FT",
           "stage": "Round of 32",
           "stage_slug": "round-of-32",
           "home": {
@@ -18514,8 +18514,8 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/esp.png",
             "color": "c60b1e",
             "home_away": "home",
-            "score": 2,
-            "winner": false
+            "score": 3,
+            "winner": true
           },
           "away": {
             "id": "474",
@@ -18624,6 +18624,65 @@
               "player": "Mikel Merino",
               "text": "Substitution, Spain. Mikel Merino replaces Dani Olmo.",
               "player_off": "Dani Olmo"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "83'",
+              "team": "Austria",
+              "team_id": "474",
+              "team_side": "away",
+              "player": "Stefan Posch",
+              "text": "Stefan Posch (Austria) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "substitution",
+              "minute": "85'",
+              "team": "Spain",
+              "team_id": "164",
+              "team_side": "home",
+              "player": "Gavi",
+              "text": "Substitution, Spain. Gavi replaces Lamine Yamal.",
+              "player_off": "Lamine Yamal"
+            },
+            {
+              "kind": "substitution",
+              "minute": "85'",
+              "team": "Austria",
+              "team_id": "474",
+              "team_side": "away",
+              "player": "Alexander Prass",
+              "text": "Substitution, Austria. Alexander Prass replaces Stefan Posch.",
+              "player_off": "Stefan Posch"
+            },
+            {
+              "kind": "goal",
+              "minute": "89'",
+              "team": "Spain",
+              "team_id": "164",
+              "team_side": "home",
+              "player": "Mikel Oyarzabal",
+              "text": "Goal! Spain 3, Austria 0. Mikel Oyarzabal (Spain) right footed shot from the centre of the box to the bottom right corner. Assisted by Marc Cucurella.",
+              "assist": "Marc Cucurella"
+            },
+            {
+              "kind": "substitution",
+              "minute": "90'+3'",
+              "team": "Spain",
+              "team_id": "164",
+              "team_side": "home",
+              "player": "Fabián Ruiz",
+              "text": "Substitution, Spain. Fabián Ruiz replaces Pedri.",
+              "player_off": "Pedri"
+            },
+            {
+              "kind": "substitution",
+              "minute": "90'+3'",
+              "team": "Spain",
+              "team_id": "164",
+              "team_side": "home",
+              "player": "Marc Pubill",
+              "text": "Substitution, Spain. Marc Pubill replaces Aymeric Laporte.",
+              "player_off": "Aymeric Laporte"
             }
           ]
         },
@@ -19158,15 +19217,15 @@
             "winner": false
           },
           "away": {
-            "id": "131536",
-            "name": "Round of 32 12 Winner",
-            "name_zh": "",
-            "rank": null,
-            "short": "RD32 W12",
-            "abbr": "RD32",
-            "flag": "🏳️",
-            "logo": "",
-            "color": "000000",
+            "id": "164",
+            "name": "Spain",
+            "name_zh": "西班牙",
+            "rank": 2,
+            "short": "Spain",
+            "abbr": "ESP",
+            "flag": "🇪🇸",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/esp.png",
+            "color": "c60b1e",
             "home_away": "away",
             "score": 0,
             "winner": false
@@ -19181,9 +19240,9 @@
             "Tele",
             "FOX One"
           ],
-          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760506/round-of-32-12-winner-round-of-32-11-winner",
-          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Round%20of%2032%2011%20Winner%20vs%20Round%20of%2032%2012%20Winner",
-          "slug": "round of 32 12 winner-at-round of 32 11 winner"
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760506/spain-round-of-32-11-winner",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Round%20of%2032%2011%20Winner%20vs%20Spain",
+          "slug": "spain-at-round of 32 11 winner"
         },
         {
           "id": "760507",
