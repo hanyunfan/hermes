@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-07-02T22:05:51.096382+00:00",
+  "generated_at": "2026-07-02T23:36:46.999579+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-07-02T17:05:49.775152-05:00",
+  "now_local": "2026-07-02T18:36:45.583424-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -18693,8 +18693,8 @@
           "kickoff_local_date": "2026-07-02",
           "kickoff_time": "6:00 PM",
           "kickoff_weekday": "Thu",
-          "status": "SCHEDULED",
-          "status_short": "Scheduled",
+          "status": "LIVE",
+          "status_short": "36'",
           "stage": "Round of 32",
           "stage_slug": "round-of-32",
           "home": {
@@ -18737,7 +18737,18 @@
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760496/croatia-portugal",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Portugal%20vs%20Croatia",
-          "slug": "croatia-at-portugal"
+          "slug": "croatia-at-portugal",
+          "incidents": [
+            {
+              "kind": "yellow_card",
+              "minute": "17'",
+              "team": "Portugal",
+              "team_id": "482",
+              "team_side": "home",
+              "player": "Rúben Dias",
+              "text": "Rúben Dias (Portugal) is shown the yellow card for a bad foul."
+            }
+          ]
         },
         {
           "id": "760498",
