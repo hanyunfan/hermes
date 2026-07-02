@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-07-01T23:15:36.173082+00:00",
+  "generated_at": "2026-07-02T01:32:56.671249+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-07-01T18:15:31.710493-05:00",
+  "now_local": "2026-07-01T20:32:51.275303-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -18105,7 +18105,7 @@
             "color": "E30613",
             "home_away": "home",
             "score": 3,
-            "winner": false
+            "winner": true
           },
           "away": {
             "id": "654",
@@ -18321,8 +18321,8 @@
           "kickoff_local_date": "2026-07-01",
           "kickoff_time": "7:00 PM",
           "kickoff_weekday": "Wed",
-          "status": "SCHEDULED",
-          "status_short": "Scheduled",
+          "status": "LIVE",
+          "status_short": "66'",
           "stage": "Round of 32",
           "stage_slug": "round-of-32",
           "home": {
@@ -18336,7 +18336,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/usa.png",
             "color": "d42339",
             "home_away": "home",
-            "score": 0,
+            "score": 1,
             "winner": false
           },
           "away": {
@@ -18363,9 +18363,59 @@
             "Tele",
             "FOX One"
           ],
-          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760494/bosnia-herzegovina-united-states",
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760494/bosnia-herzegovina-united states",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20United%20States%20vs%20Bosnia-Herzegovina",
-          "slug": "bosnia-herzegovina-at-united states"
+          "slug": "bosnia-herzegovina-at-united states",
+          "incidents": [
+            {
+              "kind": "goal",
+              "minute": "45'",
+              "team": "United States",
+              "team_id": "660",
+              "team_side": "home",
+              "player": "Folarin Balogun",
+              "text": "Goal! USA 1, Bosnia and Herzegovina 0. Folarin Balogun (USA) left footed shot from the centre of the box to the centre of the goal."
+            },
+            {
+              "kind": "substitution",
+              "minute": "51'",
+              "team": "Bosnia-Herzegovina",
+              "team_id": "452",
+              "team_side": "away",
+              "player": "Esmir Bajraktarevic",
+              "text": "Substitution, Bosnia and Herzegovina. Esmir Bajraktarevic replaces Armin Gigovic.",
+              "player_off": "Armin Gigovic"
+            },
+            {
+              "kind": "substitution",
+              "minute": "51'",
+              "team": "Bosnia-Herzegovina",
+              "team_id": "452",
+              "team_side": "away",
+              "player": "Benjamin Tahirovic",
+              "text": "Substitution, Bosnia and Herzegovina. Benjamin Tahirovic replaces Ivan Sunjic.",
+              "player_off": "Ivan Sunjic"
+            },
+            {
+              "kind": "substitution",
+              "minute": "51'",
+              "team": "Bosnia-Herzegovina",
+              "team_id": "452",
+              "team_side": "away",
+              "player": "Ermin Mahmic",
+              "text": "Substitution, Bosnia and Herzegovina. Ermin Mahmic replaces Edin Dzeko because of an injury.",
+              "player_off": "Edin Dzeko"
+            },
+            {
+              "kind": "red_card",
+              "minute": "64'",
+              "team": "United States",
+              "team_id": "660",
+              "team_side": "home",
+              "player": "Folarin Balogun",
+              "text": "Folarin Balogun (USA) is shown the red card."
+            }
+          ]
         }
       ]
     },
@@ -19011,15 +19061,15 @@
             "winner": false
           },
           "away": {
-            "id": "131534",
-            "name": "Round of 32 10 Winner",
-            "name_zh": "",
-            "rank": null,
-            "short": "RD32 W10",
-            "abbr": "RD32",
-            "flag": "🏳️",
-            "logo": "",
-            "color": "000000",
+            "id": "459",
+            "name": "Belgium",
+            "name_zh": "比利时",
+            "rank": 9,
+            "short": "Belgium",
+            "abbr": "BEL",
+            "flag": "🇧🇪",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/bel.png",
+            "color": "E30613",
             "home_away": "away",
             "score": 0,
             "winner": false
@@ -19034,9 +19084,9 @@
             "Tele",
             "FOX One"
           ],
-          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760507/round-of-32-10-winner-round-of-32-9-winner",
-          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Round%20of%2032%209%20Winner%20vs%20Round%20of%2032%2010%20Winner",
-          "slug": "round of 32 10 winner-at-round of 32 9 winner"
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760507/belgium-round-of-32-9-winner",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Round%20of%2032%209%20Winner%20vs%20Belgium",
+          "slug": "belgium-at-round of 32 9 winner"
         }
       ]
     },
