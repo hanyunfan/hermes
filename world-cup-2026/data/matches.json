@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-07-03T18:46:47.038406+00:00",
+  "generated_at": "2026-07-03T20:13:55.602943+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-07-03T13:46:45.595651-05:00",
+  "now_local": "2026-07-03T15:13:51.535351-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -19084,7 +19084,7 @@
           "kickoff_time": "1:00 PM",
           "kickoff_weekday": "Fri",
           "status": "LIVE",
-          "status_short": "45'+1'",
+          "status_short": "100'",
           "stage": "Round of 32",
           "stage_slug": "round-of-32",
           "home": {
@@ -19098,7 +19098,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/aus.png",
             "color": "FFCD00",
             "home_away": "home",
-            "score": 0,
+            "score": 1,
             "winner": false
           },
           "away": {
@@ -19138,6 +19138,86 @@
               "player": "Emam Ashour",
               "text": "Goal! Australia 0, Egypt 1. Emam Ashour (Egypt) header from the centre of the box to the bottom left corner. Assisted by Karim Hafez with a cross following a set piece situation.",
               "assist": "Karim Hafez"
+            },
+            {
+              "kind": "substitution",
+              "minute": "45'",
+              "team": "Australia",
+              "team_id": "628",
+              "team_side": "home",
+              "player": "Kai Trewin",
+              "text": "Substitution, Australia. Kai Trewin replaces Jordan Bos because of an injury.",
+              "player_off": "Jordan Bos"
+            },
+            {
+              "kind": "substitution",
+              "minute": "67'",
+              "team": "Egypt",
+              "team_id": "2620",
+              "team_side": "away",
+              "player": "Haissem Hassan",
+              "text": "Substitution, Egypt. Haissem Hassan replaces Mostafa Zico.",
+              "player_off": "Mostafa Zico"
+            },
+            {
+              "kind": "substitution",
+              "minute": "67'",
+              "team": "Egypt",
+              "team_id": "2620",
+              "team_side": "away",
+              "player": "Hossam Abdelmaguid",
+              "text": "Substitution, Egypt. Hossam Abdelmaguid replaces Hamdi Fathy.",
+              "player_off": "Hamdy Fathy"
+            },
+            {
+              "kind": "substitution",
+              "minute": "74'",
+              "team": "Australia",
+              "team_id": "628",
+              "team_side": "home",
+              "player": "Ajdin Hrustic",
+              "text": "Substitution, Australia. Ajdin Hrustic replaces Cristian Volpato.",
+              "player_off": "Cristian Volpato"
+            },
+            {
+              "kind": "substitution",
+              "minute": "74'",
+              "team": "Australia",
+              "team_id": "628",
+              "team_side": "home",
+              "player": "Mohamed Toure",
+              "text": "Substitution, Australia. Mohamed Touré replaces Nestory Irankunda.",
+              "player_off": "Nestory Irankunda"
+            },
+            {
+              "kind": "substitution",
+              "minute": "80'",
+              "team": "Egypt",
+              "team_id": "2620",
+              "team_side": "away",
+              "player": "Trézéguet",
+              "text": "Substitution, Egypt. Trezeguet replaces Karim Hafez because of an injury.",
+              "player_off": "Karim Hafez"
+            },
+            {
+              "kind": "substitution",
+              "minute": "90'",
+              "team": "Australia",
+              "team_id": "628",
+              "team_side": "home",
+              "player": "Paul Okon-Engstler",
+              "text": "Substitution, Australia. Paul Okon-Engstler replaces Aiden O'Neill.",
+              "player_off": "Aiden O'Neill"
+            },
+            {
+              "kind": "substitution",
+              "minute": "90'",
+              "team": "Australia",
+              "team_id": "628",
+              "team_side": "home",
+              "player": "Awer Mabil",
+              "text": "Substitution, Australia. Awer Mabil replaces Connor Metcalfe.",
+              "player_off": "Connor Metcalfe"
             }
           ]
         },
