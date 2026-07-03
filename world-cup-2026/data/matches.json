@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-07-03T20:13:55.602943+00:00",
+  "generated_at": "2026-07-03T21:40:03.985846+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-07-03T15:13:51.535351-05:00",
+  "now_local": "2026-07-03T16:40:02.826320-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -553,15 +553,6 @@
         "last_kickoff_iso": "2026-07-11"
       },
       {
-        "id": "AT&T Stadium",
-        "name": "AT&T Stadium",
-        "city": "Arlington, Texas",
-        "country": "USA",
-        "match_count": 9,
-        "next_kickoff_iso": "2026-07-03",
-        "last_kickoff_iso": "2026-07-14"
-      },
-      {
         "id": "Hard Rock Stadium",
         "name": "Hard Rock Stadium",
         "city": "Miami Gardens, Florida",
@@ -614,6 +605,15 @@
         "match_count": 6,
         "next_kickoff_iso": "2026-07-06",
         "last_kickoff_iso": "2026-07-06"
+      },
+      {
+        "id": "AT&T Stadium",
+        "name": "AT&T Stadium",
+        "city": "Arlington, Texas",
+        "country": "USA",
+        "match_count": 9,
+        "next_kickoff_iso": "2026-07-06",
+        "last_kickoff_iso": "2026-07-14"
       },
       {
         "id": "BC Place",
@@ -19083,8 +19083,8 @@
           "kickoff_local_date": "2026-07-03",
           "kickoff_time": "1:00 PM",
           "kickoff_weekday": "Fri",
-          "status": "LIVE",
-          "status_short": "100'",
+          "status": "FINAL",
+          "status_short": "FT-Pens",
           "stage": "Round of 32",
           "stage_slug": "round-of-32",
           "home": {
@@ -19113,7 +19113,7 @@
             "color": "D20300",
             "home_away": "away",
             "score": 1,
-            "winner": false
+            "winner": true
           },
           "venue": {
             "name": "AT&T Stadium",
@@ -19218,6 +19218,54 @@
               "player": "Awer Mabil",
               "text": "Substitution, Australia. Awer Mabil replaces Connor Metcalfe.",
               "player_off": "Connor Metcalfe"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "105'",
+              "team": "Egypt",
+              "team_id": "2620",
+              "team_side": "away",
+              "player": "Haissem Hassan",
+              "text": "Haissem Hassan (Egypt) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "substitution",
+              "minute": "105'",
+              "team": "Egypt",
+              "team_id": "2620",
+              "team_side": "away",
+              "player": "Hamza Abdelkarim",
+              "text": "Substitution, Egypt. Hamza Abdelkarim replaces Omar Marmoush.",
+              "player_off": "Omar Marmoush"
+            },
+            {
+              "kind": "substitution",
+              "minute": "119'",
+              "team": "Australia",
+              "team_id": "628",
+              "team_side": "home",
+              "player": "Mathew Ryan",
+              "text": "Substitution, Australia. Mathew Ryan replaces Patrick Beach.",
+              "player_off": "Patrick Beach"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "120'",
+              "team": "Egypt",
+              "team_id": "2620",
+              "team_side": "away",
+              "player": "Yasser Ibrahim",
+              "text": "Yasser Ibrahim (Egypt) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "substitution",
+              "minute": "120'+1'",
+              "team": "Egypt",
+              "team_id": "2620",
+              "team_side": "away",
+              "player": "Mahmoud Saber",
+              "text": "Substitution, Egypt. Mahmoud Saber replaces Marwan Attia.",
+              "player_off": "Marawan Attia"
             }
           ]
         },
@@ -19699,15 +19747,15 @@
             "winner": false
           },
           "away": {
-            "id": "131540",
-            "name": "Round of 32 16 Winner",
-            "name_zh": "",
-            "rank": null,
-            "short": "RD32 W16",
-            "abbr": "RD32",
-            "flag": "🏳️",
-            "logo": "",
-            "color": "000000",
+            "id": "2620",
+            "name": "Egypt",
+            "name_zh": "埃及",
+            "rank": 29,
+            "short": "Egypt",
+            "abbr": "EGY",
+            "flag": "🇪🇬",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/egy.png",
+            "color": "D20300",
             "home_away": "away",
             "score": 0,
             "winner": false
@@ -19722,9 +19770,9 @@
             "Tele",
             "FOX One"
           ],
-          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760509/round-of-32-16-winner-round-of-32-14-winner",
-          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Round%20of%2032%2014%20Winner%20vs%20Round%20of%2032%2016%20Winner",
-          "slug": "round of 32 16 winner-at-round of 32 14 winner"
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760509/egypt-round-of-32-14-winner",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Round%20of%2032%2014%20Winner%20vs%20Egypt",
+          "slug": "egypt-at-round of 32 14 winner"
         },
         {
           "id": "760508",
