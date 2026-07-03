@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-07-03T02:14:26.080869+00:00",
+  "generated_at": "2026-07-03T06:07:27.643873+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-07-02T21:14:23.306178-05:00",
+  "now_local": "2026-07-03T01:07:24.029433-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -544,15 +544,6 @@
     ],
     "venues": [
       {
-        "id": "BC Place",
-        "name": "BC Place",
-        "city": "Vancouver",
-        "country": "Canada",
-        "match_count": 7,
-        "next_kickoff_iso": "2026-07-02",
-        "last_kickoff_iso": "2026-07-07"
-      },
-      {
         "id": "GEHA Field at Arrowhead Stadium",
         "name": "GEHA Field at Arrowhead Stadium",
         "city": "Kansas City, Missouri",
@@ -623,6 +614,15 @@
         "match_count": 6,
         "next_kickoff_iso": "2026-07-06",
         "last_kickoff_iso": "2026-07-06"
+      },
+      {
+        "id": "BC Place",
+        "name": "BC Place",
+        "city": "Vancouver",
+        "country": "Canada",
+        "match_count": 7,
+        "next_kickoff_iso": "2026-07-07",
+        "last_kickoff_iso": "2026-07-07"
       },
       {
         "id": "Mercedes-Benz Stadium",
@@ -18489,7 +18489,7 @@
     },
     {
       "date": "2026-07-02",
-      "label": "Today",
+      "label": "Thu",
       "match_count": 3,
       "matches": [
         {
@@ -18709,7 +18709,7 @@
             "color": "da291c",
             "home_away": "home",
             "score": 2,
-            "winner": false
+            "winner": true
           },
           "away": {
             "id": "477",
@@ -18884,8 +18884,8 @@
           "kickoff_local_date": "2026-07-02",
           "kickoff_time": "10:00 PM",
           "kickoff_weekday": "Thu",
-          "status": "SCHEDULED",
-          "status_short": "Scheduled",
+          "status": "FINAL",
+          "status_short": "FT",
           "stage": "Round of 32",
           "stage_slug": "round-of-32",
           "home": {
@@ -18899,8 +18899,8 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/sui.png",
             "color": "FF0000",
             "home_away": "home",
-            "score": 0,
-            "winner": false
+            "score": 2,
+            "winner": true
           },
           "away": {
             "id": "624",
@@ -18928,13 +18928,152 @@
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760498/algeria-switzerland",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Switzerland%20vs%20Algeria",
-          "slug": "algeria-at-switzerland"
+          "slug": "algeria-at-switzerland",
+          "incidents": [
+            {
+              "kind": "goal",
+              "minute": "10'",
+              "team": "Switzerland",
+              "team_id": "475",
+              "team_side": "home",
+              "player": "Breel Embolo",
+              "text": "Goal! Switzerland 1, Algeria 0. Breel Embolo (Switzerland) left footed shot from very close range to the bottom left corner. Assisted by Johan Manzambi following a fast break.",
+              "assist": "Johan Manzambi"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "36'",
+              "team": "Algeria",
+              "team_id": "624",
+              "team_side": "away",
+              "player": "Farès Chaïbi",
+              "text": "Farès Chaïbi (Algeria) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "goal",
+              "minute": "46'",
+              "team": "Switzerland",
+              "team_id": "475",
+              "team_side": "home",
+              "player": "Dan Ndoye",
+              "text": "Goal! Switzerland 2, Algeria 0. Dan Ndoye (Switzerland) right footed shot from the centre of the box to the bottom left corner."
+            },
+            {
+              "kind": "substitution",
+              "minute": "58'",
+              "team": "Algeria",
+              "team_id": "624",
+              "team_side": "away",
+              "player": "Jaouen Hadjam",
+              "text": "Substitution, Algeria. Jaouen Hadjam replaces Houssem Aouar.",
+              "player_off": "Houssem Aouar"
+            },
+            {
+              "kind": "substitution",
+              "minute": "58'",
+              "team": "Algeria",
+              "team_id": "624",
+              "team_side": "away",
+              "player": "Amine Gouiri",
+              "text": "Substitution, Algeria. Amine Gouiri replaces Ramiz Zerrouki.",
+              "player_off": "Ramiz Zerrouki"
+            },
+            {
+              "kind": "substitution",
+              "minute": "71'",
+              "team": "Switzerland",
+              "team_id": "475",
+              "team_side": "home",
+              "player": "Fabian Rieder",
+              "text": "Substitution, Switzerland. Fabian Rieder replaces Rubén Vargas.",
+              "player_off": "Rubén Vargas"
+            },
+            {
+              "kind": "substitution",
+              "minute": "71'",
+              "team": "Switzerland",
+              "team_id": "475",
+              "team_side": "home",
+              "player": "Noah Okafor",
+              "text": "Substitution, Switzerland. Noah Okafor replaces Johan Manzambi.",
+              "player_off": "Johan Manzambi"
+            },
+            {
+              "kind": "substitution",
+              "minute": "71'",
+              "team": "Algeria",
+              "team_id": "624",
+              "team_side": "away",
+              "player": "Anis Hadj Moussa",
+              "text": "Substitution, Algeria. Anis Hadj Moussa replaces Riyad Mahrez.",
+              "player_off": "Riyad Mahrez"
+            },
+            {
+              "kind": "substitution",
+              "minute": "71'",
+              "team": "Algeria",
+              "team_id": "624",
+              "team_side": "away",
+              "player": "Hicham Boudaoui",
+              "text": "Substitution, Algeria. Hicham Boudaoui replaces Nabil Bentaleb.",
+              "player_off": "Nabil Bentaleb"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "72'",
+              "team": "Algeria",
+              "team_id": "624",
+              "team_side": "away",
+              "player": "Hicham Boudaoui",
+              "text": "Hicham Boudaoui (Algeria) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "substitution",
+              "minute": "82'",
+              "team": "Algeria",
+              "team_id": "624",
+              "team_side": "away",
+              "player": "Adil Boulbina",
+              "text": "Substitution, Algeria. Adil Boulbina replaces Rafik Belghali because of an injury.",
+              "player_off": "Rafik Belghali"
+            },
+            {
+              "kind": "substitution",
+              "minute": "83'",
+              "team": "Switzerland",
+              "team_id": "475",
+              "team_side": "home",
+              "player": "Zeki Amdouni",
+              "text": "Substitution, Switzerland. Zeki Amdouni replaces Breel Embolo.",
+              "player_off": "Breel Embolo"
+            },
+            {
+              "kind": "substitution",
+              "minute": "87'",
+              "team": "Switzerland",
+              "team_id": "475",
+              "team_side": "home",
+              "player": "Silvan Widmer",
+              "text": "Substitution, Switzerland. Silvan Widmer replaces Denis Zakaria because of an injury.",
+              "player_off": "Denis Zakaria"
+            },
+            {
+              "kind": "substitution",
+              "minute": "87'",
+              "team": "Switzerland",
+              "team_id": "475",
+              "team_side": "home",
+              "player": "Michel Aebischer",
+              "text": "Substitution, Switzerland. Michel Aebischer replaces Dan Ndoye.",
+              "player_off": "Dan Ndoye"
+            }
+          ]
         }
       ]
     },
     {
       "date": "2026-07-03",
-      "label": "Tomorrow",
+      "label": "Today",
       "match_count": 3,
       "matches": [
         {
@@ -19100,7 +19239,7 @@
     },
     {
       "date": "2026-07-04",
-      "label": "Sat",
+      "label": "Tomorrow",
       "match_count": 2,
       "matches": [
         {
@@ -19341,15 +19480,15 @@
           "stage": "Round of 16",
           "stage_slug": "round-of-16",
           "home": {
-            "id": "131535",
-            "name": "Round of 32 11 Winner",
-            "name_zh": "",
-            "rank": null,
-            "short": "RD32 W11",
-            "abbr": "RD32",
-            "flag": "🏳️",
-            "logo": "",
-            "color": "000000",
+            "id": "482",
+            "name": "Portugal",
+            "name_zh": "葡萄牙",
+            "rank": 5,
+            "short": "Portugal",
+            "abbr": "POR",
+            "flag": "🇵🇹",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/por.png",
+            "color": "da291c",
             "home_away": "home",
             "score": 0,
             "winner": false
@@ -19378,9 +19517,9 @@
             "Tele",
             "FOX One"
           ],
-          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760506/spain-round-of-32-11-winner",
-          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Round%20of%2032%2011%20Winner%20vs%20Spain",
-          "slug": "spain-at-round of 32 11 winner"
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760506/spain-portugal",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Portugal%20vs%20Spain",
+          "slug": "spain-at-portugal"
         },
         {
           "id": "760507",
@@ -19507,15 +19646,15 @@
           "stage": "Round of 16",
           "stage_slug": "round-of-16",
           "home": {
-            "id": "131537",
-            "name": "Round of 32 13 Winner",
-            "name_zh": "",
-            "rank": null,
-            "short": "RD32 W13",
-            "abbr": "RD32",
-            "flag": "🏳️",
-            "logo": "",
-            "color": "000000",
+            "id": "475",
+            "name": "Switzerland",
+            "name_zh": "瑞士",
+            "rank": 19,
+            "short": "Switzerland",
+            "abbr": "SUI",
+            "flag": "🇨🇭",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/sui.png",
+            "color": "FF0000",
             "home_away": "home",
             "score": 0,
             "winner": false
@@ -19544,9 +19683,9 @@
             "Tele",
             "FOX One"
           ],
-          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760508/round-of-32-15-winner-round-of-32-13-winner",
-          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Round%20of%2032%2013%20Winner%20vs%20Round%20of%2032%2015%20Winner",
-          "slug": "round of 32 15 winner-at-round of 32 13 winner"
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760508/round-of-32-15-winner-switzerland",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Switzerland%20vs%20Round%20of%2032%2015%20Winner",
+          "slug": "round of 32 15 winner-at-switzerland"
         }
       ]
     },
