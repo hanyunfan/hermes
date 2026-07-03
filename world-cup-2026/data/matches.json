@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-07-02T23:36:46.999579+00:00",
+  "generated_at": "2026-07-03T02:14:26.080869+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-07-02T18:36:45.583424-05:00",
+  "now_local": "2026-07-02T21:14:23.306178-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -544,15 +544,6 @@
     ],
     "venues": [
       {
-        "id": "BMO Field",
-        "name": "BMO Field",
-        "city": "Toronto",
-        "country": "Canada",
-        "match_count": 6,
-        "next_kickoff_iso": "2026-07-02",
-        "last_kickoff_iso": "2026-07-02"
-      },
-      {
         "id": "BC Place",
         "name": "BC Place",
         "city": "Vancouver",
@@ -686,6 +677,15 @@
         "match_count": 6,
         "next_kickoff_iso": null,
         "last_kickoff_iso": "2026-07-01"
+      },
+      {
+        "id": "BMO Field",
+        "name": "BMO Field",
+        "city": "Toronto",
+        "country": "Canada",
+        "match_count": 6,
+        "next_kickoff_iso": null,
+        "last_kickoff_iso": "2026-07-02"
       }
     ],
     "stages": [
@@ -18693,8 +18693,8 @@
           "kickoff_local_date": "2026-07-02",
           "kickoff_time": "6:00 PM",
           "kickoff_weekday": "Thu",
-          "status": "LIVE",
-          "status_short": "36'",
+          "status": "FINAL",
+          "status_short": "FT",
           "stage": "Round of 32",
           "stage_slug": "round-of-32",
           "home": {
@@ -18708,7 +18708,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/por.png",
             "color": "da291c",
             "home_away": "home",
-            "score": 0,
+            "score": 2,
             "winner": false
           },
           "away": {
@@ -18722,7 +18722,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/cro.png",
             "color": "ff0000",
             "home_away": "away",
-            "score": 0,
+            "score": 1,
             "winner": false
           },
           "venue": {
@@ -18747,6 +18747,133 @@
               "team_side": "home",
               "player": "Rúben Dias",
               "text": "Rúben Dias (Portugal) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "substitution",
+              "minute": "45'",
+              "team": "Croatia",
+              "team_id": "477",
+              "team_side": "away",
+              "player": "Igor Matanovic",
+              "text": "Substitution, Croatia. Igor Matanovic replaces Ante Budimir.",
+              "player_off": "Ante Budimir"
+            },
+            {
+              "kind": "goal",
+              "minute": "53'",
+              "team": "Croatia",
+              "team_id": "477",
+              "team_side": "away",
+              "player": "Ivan Perisic",
+              "text": "Goal! Portugal 0, Croatia 1. Ivan Perisic (Croatia) left footed shot from the left side of the box to the centre of the goal."
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "59'",
+              "team": "Croatia",
+              "team_id": "477",
+              "team_side": "away",
+              "player": "Luka Modric",
+              "text": "Luka Modric (Croatia) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "substitution",
+              "minute": "62'",
+              "team": "Portugal",
+              "team_id": "482",
+              "team_side": "home",
+              "player": "Bernardo Silva",
+              "text": "Substitution, Portugal. Bernardo Silva replaces Vitinha.",
+              "player_off": "Vitinha"
+            },
+            {
+              "kind": "substitution",
+              "minute": "63'",
+              "team": "Portugal",
+              "team_id": "482",
+              "team_side": "home",
+              "player": "Francisco Conceição",
+              "text": "Substitution, Portugal. Francisco Conceição replaces Pedro Neto.",
+              "player_off": "Pedro Neto"
+            },
+            {
+              "kind": "substitution",
+              "minute": "63'",
+              "team": "Portugal",
+              "team_id": "482",
+              "team_side": "home",
+              "player": "Nélson Semedo",
+              "text": "Substitution, Portugal. Nélson Semedo replaces Bruno Fernandes.",
+              "player_off": "Bruno Fernandes"
+            },
+            {
+              "kind": "substitution",
+              "minute": "63'",
+              "team": "Portugal",
+              "team_id": "482",
+              "team_side": "home",
+              "player": "Gonçalo Ramos",
+              "text": "Substitution, Portugal. Gonçalo Ramos replaces João Cancelo.",
+              "player_off": "João Cancelo"
+            },
+            {
+              "kind": "substitution",
+              "minute": "68'",
+              "team": "Croatia",
+              "team_id": "477",
+              "team_side": "away",
+              "player": "Mario Pasalic",
+              "text": "Substitution, Croatia. Mario Pasalic replaces Martin Baturina.",
+              "player_off": "Martin Baturina"
+            },
+            {
+              "kind": "substitution",
+              "minute": "81'",
+              "team": "Portugal",
+              "team_id": "482",
+              "team_side": "home",
+              "player": "Rúben Neves",
+              "text": "Substitution, Portugal. Rúben Neves replaces Cristiano Ronaldo.",
+              "player_off": "Cristiano Ronaldo"
+            },
+            {
+              "kind": "substitution",
+              "minute": "90'+2'",
+              "team": "Croatia",
+              "team_id": "477",
+              "team_side": "away",
+              "player": "Josko Gvardiol",
+              "text": "Substitution, Croatia. Josko Gvardiol replaces Nikola Vlasic.",
+              "player_off": "Nikola Vlasic"
+            },
+            {
+              "kind": "goal",
+              "minute": "90'+4'",
+              "team": "Portugal",
+              "team_id": "482",
+              "team_side": "home",
+              "player": "Gonçalo Ramos",
+              "text": "Goal! Portugal 2, Croatia 1. Gonçalo Ramos (Portugal) header from the centre of the box to the bottom right corner. Assisted by Rafael Leão with a cross.",
+              "assist": "Rafael Leão"
+            },
+            {
+              "kind": "substitution",
+              "minute": "90'+6'",
+              "team": "Croatia",
+              "team_id": "477",
+              "team_side": "away",
+              "player": "Andrej Kramaric",
+              "text": "Substitution, Croatia. Andrej Kramaric replaces Mateo Kovacic.",
+              "player_off": "Mateo Kovacic"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "90'+8'",
+              "team": "Croatia",
+              "team_id": "477",
+              "team_side": "away",
+              "player": "Ivan Perisic",
+              "text": "Ivan Perisic (Croatia) is shown the yellow card."
             }
           ]
         },
