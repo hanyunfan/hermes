@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-07-03T17:25:41.921649+00:00",
+  "generated_at": "2026-07-03T18:46:47.038406+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-07-03T12:25:40.009017-05:00",
+  "now_local": "2026-07-03T13:46:45.595651-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -2372,7 +2372,7 @@
             "abbr": "CAN",
             "flag": "🇨🇦",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/can.png",
-            "color": "ed2224",
+            "color": "000000",
             "home_away": "home",
             "score": 1,
             "winner": false
@@ -2592,7 +2592,7 @@
             "abbr": "USA",
             "flag": "🇺🇸",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/usa.png",
-            "color": "d42339",
+            "color": "213065",
             "home_away": "home",
             "score": 4,
             "winner": true
@@ -6118,7 +6118,7 @@
             "abbr": "ENG",
             "flag": "🏴",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/eng.png",
-            "color": "ffffff",
+            "color": "EA1F29",
             "home_away": "home",
             "score": 4,
             "winner": true
@@ -7125,7 +7125,7 @@
             "abbr": "CAN",
             "flag": "🇨🇦",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/can.png",
-            "color": "ed2224",
+            "color": "000000",
             "home_away": "home",
             "score": 6,
             "winner": true
@@ -7551,7 +7551,7 @@
             "abbr": "USA",
             "flag": "🇺🇸",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/usa.png",
-            "color": "d42339",
+            "color": "213065",
             "home_away": "home",
             "score": 2,
             "winner": true
@@ -11057,7 +11057,7 @@
             "abbr": "ENG",
             "flag": "🏴",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/eng.png",
-            "color": "ffffff",
+            "color": "EA1F29",
             "home_away": "home",
             "score": 0,
             "winner": false
@@ -11789,7 +11789,7 @@
             "abbr": "CAN",
             "flag": "🇨🇦",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/can.png",
-            "color": "ed2224",
+            "color": "000000",
             "home_away": "away",
             "score": 1,
             "winner": false
@@ -13771,7 +13771,7 @@
             "abbr": "USA",
             "flag": "🇺🇸",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/usa.png",
-            "color": "d42339",
+            "color": "213065",
             "home_away": "away",
             "score": 2,
             "winner": false
@@ -15501,7 +15501,7 @@
             "abbr": "ENG",
             "flag": "🏴",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/eng.png",
-            "color": "ffffff",
+            "color": "EA1F29",
             "home_away": "away",
             "score": 2,
             "winner": true
@@ -16526,7 +16526,7 @@
             "abbr": "CAN",
             "flag": "🇨🇦",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/can.png",
-            "color": "ed2224",
+            "color": "000000",
             "home_away": "away",
             "score": 1,
             "winner": true
@@ -17909,7 +17909,7 @@
             "abbr": "ENG",
             "flag": "🏴",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/eng.png",
-            "color": "ffffff",
+            "color": "EA1F29",
             "home_away": "home",
             "score": 2,
             "winner": true
@@ -18334,7 +18334,7 @@
             "abbr": "USA",
             "flag": "🇺🇸",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/usa.png",
-            "color": "d42339",
+            "color": "213065",
             "home_away": "home",
             "score": 2,
             "winner": true
@@ -19083,8 +19083,8 @@
           "kickoff_local_date": "2026-07-03",
           "kickoff_time": "1:00 PM",
           "kickoff_weekday": "Fri",
-          "status": "SCHEDULED",
-          "status_short": "Scheduled",
+          "status": "LIVE",
+          "status_short": "45'+1'",
           "stage": "Round of 32",
           "stage_slug": "round-of-32",
           "home": {
@@ -19112,7 +19112,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/egy.png",
             "color": "D20300",
             "home_away": "away",
-            "score": 0,
+            "score": 1,
             "winner": false
           },
           "venue": {
@@ -19127,7 +19127,19 @@
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760499/egypt-australia",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Australia%20vs%20Egypt",
-          "slug": "egypt-at-australia"
+          "slug": "egypt-at-australia",
+          "incidents": [
+            {
+              "kind": "goal",
+              "minute": "13'",
+              "team": "Egypt",
+              "team_id": "2620",
+              "team_side": "away",
+              "player": "Emam Ashour",
+              "text": "Goal! Australia 0, Egypt 1. Emam Ashour (Egypt) header from the centre of the box to the bottom left corner. Assisted by Karim Hafez with a cross following a set piece situation.",
+              "assist": "Karim Hafez"
+            }
+          ]
         },
         {
           "id": "760500",
@@ -19262,7 +19274,7 @@
             "abbr": "CAN",
             "flag": "🇨🇦",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/can.png",
-            "color": "ed2224",
+            "color": "000000",
             "home_away": "home",
             "score": 0,
             "winner": false
@@ -19442,7 +19454,7 @@
             "abbr": "ENG",
             "flag": "🏴",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/eng.png",
-            "color": "ffffff",
+            "color": "EA1F29",
             "home_away": "away",
             "score": 0,
             "winner": false
@@ -19541,7 +19553,7 @@
             "abbr": "USA",
             "flag": "🇺🇸",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/usa.png",
-            "color": "d42339",
+            "color": "213065",
             "home_away": "home",
             "score": 0,
             "winner": false
