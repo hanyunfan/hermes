@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-07-03T23:03:48.551304+00:00",
+  "generated_at": "2026-07-04T01:08:05.174448+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-07-03T18:03:46.626497-05:00",
+  "now_local": "2026-07-03T20:08:03.262285-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -553,15 +553,6 @@
         "last_kickoff_iso": "2026-07-11"
       },
       {
-        "id": "Hard Rock Stadium",
-        "name": "Hard Rock Stadium",
-        "city": "Miami Gardens, Florida",
-        "country": "USA",
-        "match_count": 7,
-        "next_kickoff_iso": "2026-07-03",
-        "last_kickoff_iso": "2026-07-18"
-      },
-      {
         "id": "Lincoln Financial Field",
         "name": "Lincoln Financial Field",
         "city": "Philadelphia, Pennsylvania",
@@ -650,6 +641,15 @@
         "match_count": 8,
         "next_kickoff_iso": "2026-07-10",
         "last_kickoff_iso": "2026-07-10"
+      },
+      {
+        "id": "Hard Rock Stadium",
+        "name": "Hard Rock Stadium",
+        "city": "Miami Gardens, Florida",
+        "country": "USA",
+        "match_count": 7,
+        "next_kickoff_iso": "2026-07-11",
+        "last_kickoff_iso": "2026-07-18"
       },
       {
         "id": "Estadio Akron",
@@ -19276,8 +19276,8 @@
           "kickoff_local_date": "2026-07-03",
           "kickoff_time": "5:00 PM",
           "kickoff_weekday": "Fri",
-          "status": "LIVE",
-          "status_short": "HT",
+          "status": "FINAL",
+          "status_short": "AET",
           "stage": "Round of 32",
           "stage_slug": "round-of-32",
           "home": {
@@ -19291,8 +19291,8 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/arg.png",
             "color": "74acdf",
             "home_away": "home",
-            "score": 1,
-            "winner": false
+            "score": 3,
+            "winner": true
           },
           "away": {
             "id": "2597",
@@ -19305,7 +19305,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/cpv.png",
             "color": "000080",
             "home_away": "away",
-            "score": 0,
+            "score": 2,
             "winner": false
           },
           "venue": {
@@ -19318,7 +19318,7 @@
             "Tele",
             "FOX One"
           ],
-          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760500/cape verde-argentina",
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760500/cape-verde-argentina",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Argentina%20vs%20Cape%20Verde",
           "slug": "cape verde-at-argentina",
           "incidents": [
@@ -19331,6 +19331,164 @@
               "player": "Lionel Messi",
               "text": "Goal! Argentina 1, Cabo Verde 0. Lionel Messi (Argentina) left footed shot from the right side of the six yard box to the top right corner. Assisted by Lisandro Martínez with a through ball.",
               "assist": "Lisandro Martínez"
+            },
+            {
+              "kind": "goal",
+              "minute": "59'",
+              "team": "Cape Verde",
+              "team_id": "2597",
+              "team_side": "away",
+              "player": "Deroy Duarte",
+              "text": "Goal! Argentina 1, Cabo Verde 1. Deroy Duarte (Cabo Verde) right footed shot from a difficult angle on the right to the bottom left corner. Assisted by Ryan Mendes.",
+              "assist": "Ryan Mendes"
+            },
+            {
+              "kind": "substitution",
+              "minute": "63'",
+              "team": "Argentina",
+              "team_id": "202",
+              "team_side": "home",
+              "player": "Julián Álvarez",
+              "text": "Substitution, Argentina. Julián Alvarez replaces Lautaro Martínez.",
+              "player_off": "Lautaro Martínez"
+            },
+            {
+              "kind": "substitution",
+              "minute": "64'",
+              "team": "Argentina",
+              "team_id": "202",
+              "team_side": "home",
+              "player": "Nico González",
+              "text": "Substitution, Argentina. Nico González replaces Thiago Almada.",
+              "player_off": "Thiago Almada"
+            },
+            {
+              "kind": "substitution",
+              "minute": "67'",
+              "team": "Cape Verde",
+              "team_id": "2597",
+              "team_side": "away",
+              "player": "Jamiro Monteiro",
+              "text": "Substitution, Cabo Verde. Jamiro Monteiro replaces Laros Duarte.",
+              "player_off": "Laros Duarte"
+            },
+            {
+              "kind": "substitution",
+              "minute": "67'",
+              "team": "Cape Verde",
+              "team_id": "2597",
+              "team_side": "away",
+              "player": "Dailon Livramento",
+              "text": "Substitution, Cabo Verde. Dailon Livramento replaces Nuno da Costa.",
+              "player_off": "Nuno da Costa"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "68'",
+              "team": "Cape Verde",
+              "team_id": "2597",
+              "team_side": "away",
+              "player": "Kevin Pina",
+              "text": "Kevin Pina (Cabo Verde) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "substitution",
+              "minute": "80'",
+              "team": "Cape Verde",
+              "team_id": "2597",
+              "team_side": "away",
+              "player": "Willy Semedo",
+              "text": "Substitution, Cabo Verde. Willy Semedo replaces Ryan Mendes.",
+              "player_off": "Ryan Mendes"
+            },
+            {
+              "kind": "substitution",
+              "minute": "80'",
+              "team": "Cape Verde",
+              "team_id": "2597",
+              "team_side": "away",
+              "player": "Hélio Varela",
+              "text": "Substitution, Cabo Verde. Hélio Varela replaces Jovane Cabral.",
+              "player_off": "Jovane Cabral"
+            },
+            {
+              "kind": "substitution",
+              "minute": "84'",
+              "team": "Argentina",
+              "team_id": "202",
+              "team_side": "home",
+              "player": "Leandro Paredes",
+              "text": "Substitution, Argentina. Leandro Paredes replaces Rodrigo De Paul.",
+              "player_off": "Rodrigo De Paul"
+            },
+            {
+              "kind": "substitution",
+              "minute": "86'",
+              "team": "Argentina",
+              "team_id": "202",
+              "team_side": "home",
+              "player": "Nicolás Tagliafico",
+              "text": "Substitution, Argentina. Nicolás Tagliafico replaces Facundo Medina because of an injury.",
+              "player_off": "Facundo Medina"
+            },
+            {
+              "kind": "goal",
+              "minute": "92'",
+              "team": "Argentina",
+              "team_id": "202",
+              "team_side": "home",
+              "player": "Lisandro Martínez",
+              "text": "Goal! Argentina 2, Cabo Verde 1. Lisandro Martínez (Argentina) left footed shot from the right side of the box to the top right corner. Assisted by Alexis Mac Allister with a headed pass following a corner.",
+              "assist": "Alexis Mac Allister"
+            },
+            {
+              "kind": "substitution",
+              "minute": "100'",
+              "team": "Cape Verde",
+              "team_id": "2597",
+              "team_side": "away",
+              "player": "Yannick Semedo",
+              "text": "Substitution, Cabo Verde. Yannick Semedo replaces Deroy Duarte.",
+              "player_off": "Deroy Duarte"
+            },
+            {
+              "kind": "substitution",
+              "minute": "100'",
+              "team": "Cape Verde",
+              "team_id": "2597",
+              "team_side": "away",
+              "player": "Gilson Benchimol",
+              "text": "Substitution, Cabo Verde. Gilson Benchimol replaces Kevin Pina.",
+              "player_off": "Kevin Pina"
+            },
+            {
+              "kind": "goal",
+              "minute": "103'",
+              "team": "Cape Verde",
+              "team_id": "2597",
+              "team_side": "away",
+              "player": "Sidny Lopes Cabral",
+              "text": "Goal! Argentina 2, Cabo Verde 2. Sidny Cabral (Cabo Verde) right footed shot from the left side of the box to the top right corner. Assisted by Yannick Semedo.",
+              "assist": "Yannick Semedo"
+            },
+            {
+              "kind": "substitution",
+              "minute": "104'",
+              "team": "Argentina",
+              "team_id": "202",
+              "team_side": "home",
+              "player": "Gonzalo Montiel",
+              "text": "Substitution, Argentina. Gonzalo Montiel replaces Nahuel Molina.",
+              "player_off": "Nahuel Molina"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "115'",
+              "team": "Argentina",
+              "team_id": "202",
+              "team_side": "home",
+              "player": "Gonzalo Montiel",
+              "text": "Gonzalo Montiel (Argentina) is shown the yellow card for a bad foul."
             }
           ]
         },
@@ -19745,15 +19903,15 @@
           "stage": "Round of 16",
           "stage_slug": "round-of-16",
           "home": {
-            "id": "131538",
-            "name": "Round of 32 14 Winner",
-            "name_zh": "",
-            "rank": null,
-            "short": "RD32 W14",
-            "abbr": "RD32",
-            "flag": "🏳️",
-            "logo": "",
-            "color": "000000",
+            "id": "202",
+            "name": "Argentina",
+            "name_zh": "阿根廷",
+            "rank": 1,
+            "short": "Argentina",
+            "abbr": "ARG",
+            "flag": "🇦🇷",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/arg.png",
+            "color": "74acdf",
             "home_away": "home",
             "score": 0,
             "winner": false
@@ -19782,9 +19940,9 @@
             "Tele",
             "FOX One"
           ],
-          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760509/egypt-round-of-32-14-winner",
-          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Round%20of%2032%2014%20Winner%20vs%20Egypt",
-          "slug": "egypt-at-round of 32 14 winner"
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760509/egypt-argentina",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Argentina%20vs%20Egypt",
+          "slug": "egypt-at-argentina"
         },
         {
           "id": "760508",
