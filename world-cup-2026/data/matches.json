@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-07-04T18:32:06.427597+00:00",
+  "generated_at": "2026-07-04T20:08:31.064406+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-07-04T13:32:02.012277-05:00",
+  "now_local": "2026-07-04T15:08:29.266845-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -553,15 +553,6 @@
         "last_kickoff_iso": "2026-07-04"
       },
       {
-        "id": "NRG Stadium",
-        "name": "NRG Stadium",
-        "city": "Houston, Texas",
-        "country": "USA",
-        "match_count": 7,
-        "next_kickoff_iso": "2026-07-04",
-        "last_kickoff_iso": "2026-07-04"
-      },
-      {
         "id": "Estadio Banorte",
         "name": "Estadio Banorte",
         "city": "Mexico City",
@@ -686,6 +677,15 @@
         "match_count": 6,
         "next_kickoff_iso": null,
         "last_kickoff_iso": "2026-07-02"
+      },
+      {
+        "id": "NRG Stadium",
+        "name": "NRG Stadium",
+        "city": "Houston, Texas",
+        "country": "USA",
+        "match_count": 7,
+        "next_kickoff_iso": null,
+        "last_kickoff_iso": "2026-07-04"
       }
     ],
     "stages": [
@@ -19706,8 +19706,8 @@
           "kickoff_local_date": "2026-07-04",
           "kickoff_time": "12:00 PM",
           "kickoff_weekday": "Sat",
-          "status": "LIVE",
-          "status_short": "68'",
+          "status": "FINAL",
+          "status_short": "FT",
           "stage": "Round of 16",
           "stage_slug": "round-of-16",
           "home": {
@@ -19735,8 +19735,8 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/mar.png",
             "color": "df2027",
             "home_away": "away",
-            "score": 1,
-            "winner": false
+            "score": 3,
+            "winner": true
           },
           "venue": {
             "name": "NRG Stadium",
@@ -19872,7 +19872,87 @@
               "team_id": "206",
               "team_side": "home",
               "player": "Cyle Larin",
-              "text": "Cyle Larin (Canada) Yellow Card at 67'"
+              "text": "Cyle Larin (Canada) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "substitution",
+              "minute": "78'",
+              "team": "Canada",
+              "team_id": "206",
+              "team_side": "home",
+              "player": "Promise David",
+              "text": "Substitution, Canada. Promise David replaces Ali Ahmed.",
+              "player_off": "Ali Ahmed"
+            },
+            {
+              "kind": "substitution",
+              "minute": "78'",
+              "team": "Canada",
+              "team_id": "206",
+              "team_side": "home",
+              "player": "Jacob Shaffelburg",
+              "text": "Substitution, Canada. Jacob Shaffelburg replaces Richie Laryea.",
+              "player_off": "Richie Laryea"
+            },
+            {
+              "kind": "goal",
+              "minute": "82'",
+              "team": "Morocco",
+              "team_id": "2869",
+              "team_side": "away",
+              "player": "Azzedine Ounahi",
+              "text": "Goal! Canada 0, Morocco 2. Azzedine Ounahi (Morocco) right footed shot from the centre of the box to the top right corner. Assisted by Brahim Díaz following a fast break.",
+              "assist": "Brahim Díaz"
+            },
+            {
+              "kind": "substitution",
+              "minute": "87'",
+              "team": "Morocco",
+              "team_id": "2869",
+              "team_side": "away",
+              "player": "Marwane Saadane",
+              "text": "Substitution, Morocco. Marwane Saadane replaces Issa Diop.",
+              "player_off": "Issa Diop"
+            },
+            {
+              "kind": "substitution",
+              "minute": "87'",
+              "team": "Morocco",
+              "team_id": "2869",
+              "team_side": "away",
+              "player": "Samir El Mourabet",
+              "text": "Substitution, Morocco. Samir El Mourabet replaces Azzedine Ounahi.",
+              "player_off": "Azzedine Ounahi"
+            },
+            {
+              "kind": "substitution",
+              "minute": "87'",
+              "team": "Canada",
+              "team_id": "206",
+              "team_side": "home",
+              "player": "Jonathan Osorio",
+              "text": "Substitution, Canada. Jonathan Osorio replaces Niko Sigur.",
+              "player_off": "Niko Sigur"
+            },
+            {
+              "kind": "substitution",
+              "minute": "87'",
+              "team": "Canada",
+              "team_id": "206",
+              "team_side": "home",
+              "player": "Jayden Nelson",
+              "text": "Substitution, Canada. Jayden Nelson replaces Tajon Buchanan.",
+              "player_off": "Tajon Buchanan"
+            },
+            {
+              "kind": "goal",
+              "minute": "90'+8'",
+              "team": "Morocco",
+              "team_id": "2869",
+              "team_side": "away",
+              "player": "Soufiane Rahimi",
+              "text": "Goal! Canada 0, Morocco 3. Soufiane Rahimi (Morocco) left footed shot from the centre of the box to the bottom right corner. Assisted by Brahim Díaz following a fast break.",
+              "assist": "Brahim Díaz"
             }
           ]
         },
@@ -20301,15 +20381,15 @@
             "winner": false
           },
           "away": {
-            "id": "19283",
-            "name": "Round of 16 2 Winner",
-            "name_zh": "",
-            "rank": null,
-            "short": "RD16 W2",
-            "abbr": "RD16 W2",
-            "flag": "🏳️",
-            "logo": "",
-            "color": "000000",
+            "id": "2869",
+            "name": "Morocco",
+            "name_zh": "摩洛哥",
+            "rank": 7,
+            "short": "Morocco",
+            "abbr": "MAR",
+            "flag": "🇲🇦",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/mar.png",
+            "color": "df2027",
             "home_away": "away",
             "score": 0,
             "winner": false
@@ -20324,9 +20404,9 @@
             "Tele",
             "FOX One"
           ],
-          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760510/round-of-16-2-winner-round-of-16-1-winner",
-          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Round%20of%2016%201%20Winner%20vs%20Round%20of%2016%202%20Winner",
-          "slug": "round of 16 2 winner-at-round of 16 1 winner"
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760510/morocco-round-of-16-1-winner",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Round%20of%2016%201%20Winner%20vs%20Morocco",
+          "slug": "morocco-at-round of 16 1 winner"
         }
       ]
     },
