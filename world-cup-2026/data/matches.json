@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-07-04T17:05:25.845417+00:00",
+  "generated_at": "2026-07-04T18:32:06.427597+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-07-04T12:05:24.146734-05:00",
+  "now_local": "2026-07-04T13:32:02.012277-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -19707,7 +19707,7 @@
           "kickoff_time": "12:00 PM",
           "kickoff_weekday": "Sat",
           "status": "LIVE",
-          "status_short": "4'",
+          "status_short": "68'",
           "stage": "Round of 16",
           "stage_slug": "round-of-16",
           "home": {
@@ -19735,7 +19735,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/mar.png",
             "color": "df2027",
             "home_away": "away",
-            "score": 0,
+            "score": 1,
             "winner": false
           },
           "venue": {
@@ -19751,7 +19751,130 @@
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760502/morocco-canada",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Canada%20vs%20Morocco",
           "slug": "morocco-at-canada",
-          "incidents": []
+          "incidents": [
+            {
+              "kind": "yellow_card",
+              "minute": "20'",
+              "team": "Morocco",
+              "team_id": "2869",
+              "team_side": "away",
+              "player": "Redouane Halhal",
+              "text": "Redouane Halhal (Morocco) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "substitution",
+              "minute": "22'",
+              "team": "Morocco",
+              "team_id": "2869",
+              "team_side": "away",
+              "player": "Soufiane Rahimi",
+              "text": "Substitution, Morocco. Soufiane Rahimi replaces Ismael Saibari because of an injury.",
+              "player_off": "Ismael Saibari"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "40'",
+              "team": "Morocco",
+              "team_id": "2869",
+              "team_side": "away",
+              "player": "Achraf Hakimi",
+              "text": "Achraf Hakimi (Morocco) is shown the yellow card."
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "40'",
+              "team": "Canada",
+              "team_id": "206",
+              "team_side": "home",
+              "player": "Richie Laryea",
+              "text": "Richie Laryea (Canada) is shown the yellow card."
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "43'",
+              "team": "Canada",
+              "team_id": "206",
+              "team_side": "home",
+              "player": "Jonathan David",
+              "text": "Jonathan David (Canada) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "45'",
+              "team": "Morocco",
+              "team_id": "2869",
+              "team_side": "away",
+              "player": "Azzedine Ounahi",
+              "text": "Azzedine Ounahi (Morocco) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "45'+6'",
+              "team": "Morocco",
+              "team_id": "2869",
+              "team_side": "away",
+              "player": "Bilal El Khannouss",
+              "text": "Bilal El Khannouss (Morocco) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "49'",
+              "team": "Canada",
+              "team_id": "206",
+              "team_side": "home",
+              "player": "Luc de Fougerolles",
+              "text": "Luc De Fougerolles (Canada) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "goal",
+              "minute": "50'",
+              "team": "Morocco",
+              "team_id": "2869",
+              "team_side": "away",
+              "player": "Azzedine Ounahi",
+              "text": "Goal! Canada 0, Morocco 1. Azzedine Ounahi (Morocco) right footed shot from outside the box to the bottom right corner. Assisted by Achraf Hakimi following a set piece situation.",
+              "assist": "Achraf Hakimi"
+            },
+            {
+              "kind": "substitution",
+              "minute": "63'",
+              "team": "Morocco",
+              "team_id": "2869",
+              "team_side": "away",
+              "player": "Chemsdine Talbi",
+              "text": "Substitution, Morocco. Chemsdine Talbi replaces Bilal El Khannouss.",
+              "player_off": "Bilal El Khannouss"
+            },
+            {
+              "kind": "substitution",
+              "minute": "63'",
+              "team": "Morocco",
+              "team_id": "2869",
+              "team_side": "away",
+              "player": "Sofyan Amrabat",
+              "text": "Substitution, Morocco. Sofyan Amrabat replaces Ayyoub Bouaddi.",
+              "player_off": "Ayyoub Bouaddi"
+            },
+            {
+              "kind": "substitution",
+              "minute": "63'",
+              "team": "Canada",
+              "team_id": "206",
+              "team_side": "home",
+              "player": "Cyle Larin",
+              "text": "Substitution, Canada. Cyle Larin replaces Tani Oluwaseyi.",
+              "player_off": "Tani Oluwaseyi"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "67'",
+              "team": "Canada",
+              "team_id": "206",
+              "team_side": "home",
+              "player": "Cyle Larin",
+              "text": "Cyle Larin (Canada) Yellow Card at 67'"
+            }
+          ]
         },
         {
           "id": "760503",
