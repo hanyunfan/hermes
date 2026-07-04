@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-07-04T21:27:43.733424+00:00",
+  "generated_at": "2026-07-04T22:30:28.461136+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-07-04T16:27:39.854031-05:00",
+  "now_local": "2026-07-04T17:30:26.477205-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -19964,7 +19964,7 @@
           "kickoff_time": "4:00 PM",
           "kickoff_weekday": "Sat",
           "status": "LIVE",
-          "status_short": "23'",
+          "status_short": "66'",
           "stage": "Round of 16",
           "stage_slug": "round-of-16",
           "home": {
@@ -20017,6 +20017,36 @@
               "team_side": "away",
               "player": "Bradley Barcola",
               "text": "Bradley Barcola (France) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "substitution",
+              "minute": "58'",
+              "team": "Paraguay",
+              "team_id": "210",
+              "team_side": "home",
+              "player": "José Canale",
+              "text": "Substitution, Paraguay. José Canale replaces Omar Alderete because of an injury.",
+              "player_off": "Omar Alderete"
+            },
+            {
+              "kind": "substitution",
+              "minute": "61'",
+              "team": "Paraguay",
+              "team_id": "210",
+              "team_side": "home",
+              "player": "Gustavo Caballero",
+              "text": "Substitution, Paraguay. Gustavo Caballero replaces Julio Enciso because of an injury.",
+              "player_off": "Julio Enciso"
+            },
+            {
+              "kind": "substitution",
+              "minute": "61'",
+              "team": "France",
+              "team_id": "478",
+              "team_side": "away",
+              "player": "Désiré Doué",
+              "text": "Substitution, France. Désiré Doué replaces Bradley Barcola.",
+              "player_off": "Bradley Barcola"
             }
           ]
         }
@@ -20392,15 +20422,15 @@
             "winner": false
           },
           "away": {
-            "id": "19283",
-            "name": "Round of 16 2 Winner",
-            "name_zh": "",
-            "rank": null,
-            "short": "RD16 W2",
-            "abbr": "RD16 W2",
-            "flag": "🏳️",
-            "logo": "",
-            "color": "000000",
+            "id": "2869",
+            "name": "Morocco",
+            "name_zh": "摩洛哥",
+            "rank": 7,
+            "short": "Morocco",
+            "abbr": "MAR",
+            "flag": "🇲🇦",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/mar.png",
+            "color": "df2027",
             "home_away": "away",
             "score": 0,
             "winner": false
@@ -20415,9 +20445,9 @@
             "Tele",
             "FOX One"
           ],
-          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760510/round-of-16-2-winner-round-of-16-1-winner",
-          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Round%20of%2016%201%20Winner%20vs%20Round%20of%2016%202%20Winner",
-          "slug": "round of 16 2 winner-at-round of 16 1 winner"
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760510/morocco-round-of-16-1-winner",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Round%20of%2016%201%20Winner%20vs%20Morocco",
+          "slug": "morocco-at-round of 16 1 winner"
         }
       ]
     },
