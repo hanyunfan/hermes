@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-07-04T01:08:05.174448+00:00",
+  "generated_at": "2026-07-04T02:13:09.478467+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-07-03T20:08:03.262285-05:00",
+  "now_local": "2026-07-03T21:13:07.083279-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -19499,8 +19499,8 @@
           "kickoff_local_date": "2026-07-03",
           "kickoff_time": "8:30 PM",
           "kickoff_weekday": "Fri",
-          "status": "SCHEDULED",
-          "status_short": "Scheduled",
+          "status": "LIVE",
+          "status_short": "42'",
           "stage": "Round of 32",
           "stage_slug": "round-of-32",
           "home": {
@@ -19514,7 +19514,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/col.png",
             "color": "fbd632",
             "home_away": "home",
-            "score": 0,
+            "score": 1,
             "winner": false
           },
           "away": {
@@ -19543,7 +19543,48 @@
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760501/ghana-colombia",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Colombia%20vs%20Ghana",
-          "slug": "ghana-at-colombia"
+          "slug": "ghana-at-colombia",
+          "incidents": [
+            {
+              "kind": "substitution",
+              "minute": "8'",
+              "team": "Colombia",
+              "team_id": "208",
+              "team_side": "home",
+              "player": "Luis Suárez",
+              "text": "Substitution, Colombia. Luis Suárez replaces Jhon Córdoba because of an injury.",
+              "player_off": "Jhon Córdoba"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "12'",
+              "team": "Colombia",
+              "team_id": "208",
+              "team_side": "home",
+              "player": "Jhon Arias",
+              "text": "Jhon Arias (Colombia) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "substitution",
+              "minute": "13'",
+              "team": "Ghana",
+              "team_id": "4469",
+              "team_side": "away",
+              "player": "Alidu Seidu",
+              "text": "Substitution, Ghana. Alidu Seidu replaces Marvin Senaya because of an injury.",
+              "player_off": "Marvin Senaya"
+            },
+            {
+              "kind": "goal",
+              "minute": "14'",
+              "team": "Colombia",
+              "team_id": "208",
+              "team_side": "home",
+              "player": "Jhon Arias",
+              "text": "Goal! Colombia 1, Ghana 0. Jhon Arias (Colombia) right footed shot from the centre of the box to the bottom right corner. Assisted by Luis Suárez with a cross.",
+              "assist": "Luis Suárez"
+            }
+          ]
         }
       ]
     },
