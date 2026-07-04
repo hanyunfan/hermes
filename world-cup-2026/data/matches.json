@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-07-04T05:57:59.483154+00:00",
+  "generated_at": "2026-07-04T17:05:25.845417+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-07-04T00:57:57.781327-05:00",
+  "now_local": "2026-07-04T12:05:24.146734-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -19706,8 +19706,8 @@
           "kickoff_local_date": "2026-07-04",
           "kickoff_time": "12:00 PM",
           "kickoff_weekday": "Sat",
-          "status": "SCHEDULED",
-          "status_short": "Scheduled",
+          "status": "LIVE",
+          "status_short": "4'",
           "stage": "Round of 16",
           "stage_slug": "round-of-16",
           "home": {
@@ -19750,7 +19750,8 @@
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760502/morocco-canada",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Canada%20vs%20Morocco",
-          "slug": "morocco-at-canada"
+          "slug": "morocco-at-canada",
+          "incidents": []
         },
         {
           "id": "760503",
