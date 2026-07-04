@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-07-04T02:13:09.478467+00:00",
+  "generated_at": "2026-07-04T05:57:59.483154+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-07-03T21:13:07.083279-05:00",
+  "now_local": "2026-07-04T00:57:57.781327-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -544,15 +544,6 @@
     ],
     "venues": [
       {
-        "id": "GEHA Field at Arrowhead Stadium",
-        "name": "GEHA Field at Arrowhead Stadium",
-        "city": "Kansas City, Missouri",
-        "country": "USA",
-        "match_count": 6,
-        "next_kickoff_iso": "2026-07-03",
-        "last_kickoff_iso": "2026-07-11"
-      },
-      {
         "id": "Lincoln Financial Field",
         "name": "Lincoln Financial Field",
         "city": "Philadelphia, Pennsylvania",
@@ -641,6 +632,15 @@
         "match_count": 8,
         "next_kickoff_iso": "2026-07-10",
         "last_kickoff_iso": "2026-07-10"
+      },
+      {
+        "id": "GEHA Field at Arrowhead Stadium",
+        "name": "GEHA Field at Arrowhead Stadium",
+        "city": "Kansas City, Missouri",
+        "country": "USA",
+        "match_count": 6,
+        "next_kickoff_iso": "2026-07-11",
+        "last_kickoff_iso": "2026-07-11"
       },
       {
         "id": "Hard Rock Stadium",
@@ -19073,7 +19073,7 @@
     },
     {
       "date": "2026-07-03",
-      "label": "Today",
+      "label": "Fri",
       "match_count": 3,
       "matches": [
         {
@@ -19499,8 +19499,8 @@
           "kickoff_local_date": "2026-07-03",
           "kickoff_time": "8:30 PM",
           "kickoff_weekday": "Fri",
-          "status": "LIVE",
-          "status_short": "42'",
+          "status": "FINAL",
+          "status_short": "FT",
           "stage": "Round of 32",
           "stage_slug": "round-of-32",
           "home": {
@@ -19515,7 +19515,7 @@
             "color": "fbd632",
             "home_away": "home",
             "score": 1,
-            "winner": false
+            "winner": true
           },
           "away": {
             "id": "4469",
@@ -19583,6 +19583,112 @@
               "player": "Jhon Arias",
               "text": "Goal! Colombia 1, Ghana 0. Jhon Arias (Colombia) right footed shot from the centre of the box to the bottom right corner. Assisted by Luis Suárez with a cross.",
               "assist": "Luis Suárez"
+            },
+            {
+              "kind": "substitution",
+              "minute": "45'",
+              "team": "Colombia",
+              "team_id": "208",
+              "team_side": "home",
+              "player": "Richard Ríos",
+              "text": "Substitution, Colombia. Richard Ríos replaces James Rodríguez.",
+              "player_off": "James Rodríguez"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "49'",
+              "team": "Ghana",
+              "team_id": "4469",
+              "team_side": "away",
+              "player": "Caleb Yirenkyi",
+              "text": "Caleb Yirenkyi (Ghana) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "substitution",
+              "minute": "62'",
+              "team": "Ghana",
+              "team_id": "4469",
+              "team_side": "away",
+              "player": "Fatawu Issahaku",
+              "text": "Substitution, Ghana. Abdul Fatawu replaces Iñaki Williams.",
+              "player_off": "Iñaki Williams"
+            },
+            {
+              "kind": "substitution",
+              "minute": "62'",
+              "team": "Ghana",
+              "team_id": "4469",
+              "team_side": "away",
+              "player": "Elisha Owusu",
+              "text": "Substitution, Ghana. Elisha Owusu replaces Kwasi Sibo because of an injury.",
+              "player_off": "Kwasi Sibo"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "66'",
+              "team": "Ghana",
+              "team_id": "4469",
+              "team_side": "away",
+              "player": "Fatawu Issahaku",
+              "text": "Abdul Fatawu (Ghana) is shown the yellow card."
+            },
+            {
+              "kind": "substitution",
+              "minute": "73'",
+              "team": "Colombia",
+              "team_id": "208",
+              "team_side": "home",
+              "player": "Juan Fernando Quintero",
+              "text": "Substitution, Colombia. Juan Fernando Quintero replaces Jhon Arias.",
+              "player_off": "Jhon Arias"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "76'",
+              "team": "Ghana",
+              "team_id": "4469",
+              "team_side": "away",
+              "player": "Alidu Seidu",
+              "text": "Alidu Seidu (Ghana) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "78'",
+              "team": "Colombia",
+              "team_id": "208",
+              "team_side": "home",
+              "player": "Richard Ríos",
+              "text": "Richard Ríos (Colombia) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "substitution",
+              "minute": "79'",
+              "team": "Ghana",
+              "team_id": "4469",
+              "team_side": "away",
+              "player": "Ernest Nuamah",
+              "text": "Substitution, Ghana. Ernest Nuamah replaces Jordan Ayew.",
+              "player_off": "Jordan Ayew"
+            },
+            {
+              "kind": "substitution",
+              "minute": "79'",
+              "team": "Ghana",
+              "team_id": "4469",
+              "team_side": "away",
+              "player": "Prince Adu",
+              "text": "Substitution, Ghana. Prince Adu replaces Caleb Yirenkyi.",
+              "player_off": "Caleb Yirenkyi"
+            },
+            {
+              "kind": "substitution",
+              "minute": "90'",
+              "team": "Colombia",
+              "team_id": "208",
+              "team_side": "home",
+              "player": "Jáminton Campaz",
+              "text": "Substitution, Colombia. Jaminton Campaz replaces Luis Díaz.",
+              "player_off": "Luis Díaz"
             }
           ]
         }
@@ -19590,7 +19696,7 @@
     },
     {
       "date": "2026-07-04",
-      "label": "Tomorrow",
+      "label": "Today",
       "match_count": 2,
       "matches": [
         {
@@ -19703,7 +19809,7 @@
     },
     {
       "date": "2026-07-05",
-      "label": "Sun",
+      "label": "Tomorrow",
       "match_count": 2,
       "matches": [
         {
@@ -20011,15 +20117,15 @@
             "winner": false
           },
           "away": {
-            "id": "131539",
-            "name": "Round of 32 15 Winner",
-            "name_zh": "",
-            "rank": null,
-            "short": "RD32 W15",
-            "abbr": "RD32",
-            "flag": "🏳️",
-            "logo": "",
-            "color": "000000",
+            "id": "208",
+            "name": "Colombia",
+            "name_zh": "哥伦比亚",
+            "rank": 13,
+            "short": "Colombia",
+            "abbr": "COL",
+            "flag": "🇨🇴",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/col.png",
+            "color": "fbd632",
             "home_away": "away",
             "score": 0,
             "winner": false
@@ -20034,9 +20140,9 @@
             "Tele",
             "FOX One"
           ],
-          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760508/round-of-32-15-winner-switzerland",
-          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Switzerland%20vs%20Round%20of%2032%2015%20Winner",
-          "slug": "round of 32 15 winner-at-switzerland"
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760508/colombia-switzerland",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Switzerland%20vs%20Colombia",
+          "slug": "colombia-at-switzerland"
         }
       ]
     },
