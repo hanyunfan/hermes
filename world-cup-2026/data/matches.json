@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-07-05T20:13:56.352277+00:00",
+  "generated_at": "2026-07-05T21:34:03.592715+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-07-05T15:13:54.005892-05:00",
+  "now_local": "2026-07-05T16:34:02.078936-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -20112,8 +20112,8 @@
           "kickoff_local_date": "2026-07-05",
           "kickoff_time": "3:00 PM",
           "kickoff_weekday": "Sun",
-          "status": "SCHEDULED",
-          "status_short": "Scheduled",
+          "status": "LIVE",
+          "status_short": "71'",
           "stage": "Round of 16",
           "stage_slug": "round-of-16",
           "home": {
@@ -20156,7 +20156,69 @@
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760504/norway-brazil",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Brazil%20vs%20Norway",
-          "slug": "norway-at-brazil"
+          "slug": "norway-at-brazil",
+          "incidents": [
+            {
+              "kind": "substitution",
+              "minute": "45'",
+              "team": "Norway",
+              "team_id": "464",
+              "team_side": "away",
+              "player": "Oscar Bobb",
+              "text": "Substitution, Norway. Oscar Bobb replaces Alexander Sørloth.",
+              "player_off": "Alexander Sørloth"
+            },
+            {
+              "kind": "substitution",
+              "minute": "45'",
+              "team": "Norway",
+              "team_id": "464",
+              "team_side": "away",
+              "player": "Andreas Schjelderup",
+              "text": "Substitution, Norway. Andreas Schjelderup replaces Antonio Nusa.",
+              "player_off": "Antonio Nusa"
+            },
+            {
+              "kind": "substitution",
+              "minute": "58'",
+              "team": "Brazil",
+              "team_id": "205",
+              "team_side": "home",
+              "player": "Endrick",
+              "text": "Substitution, Brazil. Endrick replaces Matheus Cunha.",
+              "player_off": "Matheus Cunha"
+            },
+            {
+              "kind": "substitution",
+              "minute": "63'",
+              "team": "Norway",
+              "team_id": "464",
+              "team_side": "away",
+              "player": "Fredrik Aursnes",
+              "text": "Substitution, Norway. Fredrik Aursnes replaces Julian Ryerson.",
+              "player_off": "Julian Ryerson"
+            },
+            {
+              "kind": "substitution",
+              "minute": "67'",
+              "team": "Brazil",
+              "team_id": "205",
+              "team_side": "home",
+              "player": "Neymar",
+              "text": "Substitution, Brazil. Neymar replaces Gabriel Martinelli.",
+              "player_off": "Gabriel Martinelli"
+            },
+            {
+              "kind": "substitution",
+              "minute": "67'",
+              "team": "Brazil",
+              "team_id": "205",
+              "team_side": "home",
+              "player": "Danilo Santos",
+              "text": "Substitution, Brazil. Danilo Santos replaces Rayan.",
+              "player_off": "Rayan"
+            }
+          ]
         },
         {
           "id": "760505",
