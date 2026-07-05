@@ -568,6 +568,23 @@ body {
 @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
 .time-status.is-final { background: rgba(107, 114, 128, 0.25); color: #c0c8d4; }
 
+/* Tournament reverse-position badge ("倒计时 #N 场" / "#N to go").
+   Shown only for SCHEDULED matches. Subtle gold tint to distinguish
+   from the relative-time pill above it (which is the "when" answer);
+   this badge answers "how big is this match in the tournament". */
+.time-countdown {
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  padding: 2px 6px;
+  border-radius: 999px;
+  background: rgba(240, 193, 75, 0.12);
+  color: var(--accent, #f0c14b);
+  border: 1px solid rgba(240, 193, 75, 0.35);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
 .match-body { padding: 14px 16px 14px; min-width: 0; }
 .team-row {
   display: grid;
@@ -1749,6 +1766,12 @@ body {
   animation: pulse 1.4s ease-in-out infinite;
 }
 .butterfly-wing .time-status.is-final { background: rgba(107, 114, 128, 0.25); color: #c0c8d4; }
+
+/* Compact variant for butterfly-wing cards: smaller font + padding. */
+.butterfly-wing .time-countdown {
+  font-size: 0.55rem;
+  padding: 1px 5px;
+}
 
 .butterfly-wing .match-body {
   padding: 8px 10px 10px;

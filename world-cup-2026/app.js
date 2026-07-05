@@ -96,6 +96,7 @@
       "venue.single": "{name}",
       "refresh": "Refresh",
       "updated": "Updated {rel}",
+      "match.countdown": "#{n} to go",
       "loading": "Loading matches…",
       "error.title": "Couldn't load match data.",
       "error.hint": "Try the refresh button.",
@@ -255,6 +256,7 @@
       "venues.all": "全部 {n} 个场馆",
       "venue.single": "{name}",
       "refresh": "刷新",
+      "match.countdown": "倒计时 #{n} 场",
       "updated": "{rel}前更新",
       "loading": "加载比赛中…",
       "error.title": "无法加载比赛数据。",
@@ -632,6 +634,10 @@
   let filters = { ...DEFAULT_FILTERS };
   let allData = null;
   let allMatches = [];
+  // matchId -> reverse position in tournament (1 = Final, 104 = first
+  // match). Used by the per-card "倒计时 #N" badge so each scheduled
+  // match shows its place counting backwards from the Final.
+  let matchCountdown = new Map();
   let currentView = "matches";  // matches | standings | scorers | weekly | odds
 
   function loadFilters() {
@@ -2126,6 +2132,23 @@
       }
     }
 
+    // Countdown badge: "倒计时 #N 场" / "#N to go" — reverse position
+    // in the tournament (Final = 1, first match = 104). Only shown for
+    // SCHEDULED matches where the relative time + countdown pair is
+    // most informative. LIVE/FINAL keep their single status badge so
+    // the time column doesn't get cluttered.
+    const cdEl = node.querySelector(".time-countdown");
+    if (cdEl) {
+      const cd = matchCountdown.get(m.id);
+      if (isScheduled && cd) {
+        cdEl.textContent = i18n("match.countdown", { n: cd });
+        cdEl.hidden = false;
+      } else {
+        cdEl.hidden = true;
+        cdEl.textContent = "";
+      }
+    }
+
     const home = node.querySelector(".team.home");
     const away = node.querySelector(".team.away");
     const homeFlag = home.querySelector(".team-flag");
@@ -2363,7 +2386,10 @@
       const n = ms.length;
       if (n === 0) return;
       if (round === "final") {
-        for (const m of ms) pos[m.id] = { y: 50, side: "C" };
+        // Final sits at 46% (was 50%) so the Final + 3rd-place pair
+        // becomes a tight, vertically-centered unit. Pair spans 46–58%
+        // with center at 52%, the 3rd-place match below at 58%.
+        for (const m of ms) pos[m.id] = { y: 46, side: "C" };
         return;
       }
       // Each wing (L/R) gets half the cards. Distribute them across the
@@ -2377,7 +2403,7 @@
       // separated by a wider gap (17.57%). The R16/QF positions fall
       // out automatically from the pair midpoints, and the sum of all
       // 8 R32 y values is exactly 400 so the SF lands on the center
-      // axis (50%).
+      // axis. The Final sits at 46% (was 50%) — see place("final").
       const half = n / 2;
       if (round === "round-of-32") {
         // Uniform ladder: 16 cards (8 per wing) stack with no gap,
@@ -2385,7 +2411,9 @@
         // touch (no within-pair / between-pair distinction). Card
         // centers run from 3.125% to 46.875%, so the 8 y values
         // average 25% — the SF (mid of QF pair) lands on 25% (left
-        // wing) / 75% (right wing), and the Final sits at 50%.
+        // wing) / 75% (right wing). The Final sits at 46% (slightly
+        // above geometric center so it pairs with the 3rd-place match
+        // at 58% to form a centered unit).
         const STEP = 100 / 16;
         ms.forEach((m, i) => {
           const w = i % half;  // position within the wing (0..half-1)
@@ -2432,7 +2460,7 @@
     place("quarterfinals");
     place("semifinals");
     place("final");
-    if (third) pos[third.id] = { y: 50, side: "C" };
+    if (third) pos[third.id] = { y: 58, side: "C" };
 
     // SVG layer of connecting lines
     const SVG_NS = "http://www.w3.org/2000/svg";
@@ -2576,11 +2604,12 @@
     });
     for (const r of rounds.slice(1)) for (const m of byRound[r] || []) appendCard(m);
     if (third) {
-      // Place the 3rd-place match just below the Final on the vertical
-      // axis. No connecting lines (per Frank: "放到一二名下面就好，不用
+      // Place the 3rd-place match directly below the Final so the
+      // pair reads as a cohesive unit (Final 46%, 3rd 58%, gap 12%).
+      // No connecting lines (per Frank: "放到一二名下面就好，不用
       // 联线").
-      pos[third.id] = { y: 66, side: "C" };
-      appendCard(third, 66);
+      pos[third.id] = { y: 58, side: "C" };
+      appendCard(third, 58);
     }
   }
 
@@ -2972,6 +3001,17 @@
     allMatches = [];
     for (const day of data.days || []) {
       for (const m of day.matches) allMatches.push(m);
+    }
+    // Build the countdown map: sort by kickoff_utc and assign each
+    // match a reverse position (total - index). The Final is the last
+    // chronologically so it gets 1; the first match gets 104.
+    matchCountdown = new Map();
+    {
+      const sorted = [...allMatches].sort((a, b) => a.kickoff_utc.localeCompare(b.kickoff_utc));
+      const total = sorted.length;
+      for (let i = 0; i < sorted.length; i++) {
+        matchCountdown.set(sorted[i].id, total - i);
+      }
     }
     renderHeader(data);
     buildTeamList();
