@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-07-05T21:34:03.592715+00:00",
+  "generated_at": "2026-07-05T23:01:05.527715+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-07-05T16:34:02.078936-05:00",
+  "now_local": "2026-07-05T18:01:04.005664-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -553,15 +553,6 @@
         "last_kickoff_iso": "2026-07-05"
       },
       {
-        "id": "MetLife Stadium",
-        "name": "MetLife Stadium",
-        "city": "East Rutherford, New Jersey",
-        "country": "USA",
-        "match_count": 8,
-        "next_kickoff_iso": "2026-07-05",
-        "last_kickoff_iso": "2026-07-19"
-      },
-      {
         "id": "Lumen Field",
         "name": "Lumen Field",
         "city": "Seattle, Washington",
@@ -632,6 +623,15 @@
         "match_count": 7,
         "next_kickoff_iso": "2026-07-11",
         "last_kickoff_iso": "2026-07-18"
+      },
+      {
+        "id": "MetLife Stadium",
+        "name": "MetLife Stadium",
+        "city": "East Rutherford, New Jersey",
+        "country": "USA",
+        "match_count": 8,
+        "next_kickoff_iso": "2026-07-19",
+        "last_kickoff_iso": "2026-07-19"
       },
       {
         "id": "Estadio Akron",
@@ -20112,8 +20112,8 @@
           "kickoff_local_date": "2026-07-05",
           "kickoff_time": "3:00 PM",
           "kickoff_weekday": "Sun",
-          "status": "LIVE",
-          "status_short": "71'",
+          "status": "FINAL",
+          "status_short": "FT",
           "stage": "Round of 16",
           "stage_slug": "round-of-16",
           "home": {
@@ -20127,7 +20127,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/bra.png",
             "color": "fee000",
             "home_away": "home",
-            "score": 0,
+            "score": 1,
             "winner": false
           },
           "away": {
@@ -20141,8 +20141,8 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/nor.png",
             "color": "C8102E",
             "home_away": "away",
-            "score": 0,
-            "winner": false
+            "score": 2,
+            "winner": true
           },
           "venue": {
             "name": "MetLife Stadium",
@@ -20217,6 +20217,55 @@
               "player": "Danilo Santos",
               "text": "Substitution, Brazil. Danilo Santos replaces Rayan.",
               "player_off": "Rayan"
+            },
+            {
+              "kind": "substitution",
+              "minute": "79'",
+              "team": "Brazil",
+              "team_id": "205",
+              "team_side": "home",
+              "player": "Éderson",
+              "text": "Substitution, Brazil. Éderson Silva replaces Bruno Guimarães.",
+              "player_off": "Bruno Guimarães"
+            },
+            {
+              "kind": "goal",
+              "minute": "79'",
+              "team": "Norway",
+              "team_id": "464",
+              "team_side": "away",
+              "player": "Erling Haaland",
+              "text": "Goal! Brazil 0, Norway 1. Erling Haaland (Norway) header from the centre of the box to the bottom right corner. Assisted by Andreas Schjelderup with a cross.",
+              "assist": "Andreas Schjelderup"
+            },
+            {
+              "kind": "goal",
+              "minute": "90'",
+              "team": "Norway",
+              "team_id": "464",
+              "team_side": "away",
+              "player": "Erling Haaland",
+              "text": "Goal! Brazil 0, Norway 2. Erling Haaland (Norway) left footed shot from outside the box to the bottom right corner. Assisted by Andreas Schjelderup.",
+              "assist": "Andreas Schjelderup"
+            },
+            {
+              "kind": "substitution",
+              "minute": "90'+5'",
+              "team": "Norway",
+              "team_id": "464",
+              "team_side": "away",
+              "player": "Leo Østigard",
+              "text": "Substitution, Norway. Leo Østigård replaces David Møller Wolfe because of an injury.",
+              "player_off": "David Møller Wolfe"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "90'+6'",
+              "team": "Brazil",
+              "team_id": "205",
+              "team_side": "home",
+              "player": "Neymar",
+              "text": "Neymar (Brazil) is shown the yellow card for a bad foul."
             }
           ]
         },

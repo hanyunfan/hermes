@@ -1,10 +1,10 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-07-05T21:39:43+00:00",
+  "generated_at": "2026-07-05T23:01:05+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-07-05T16:36:58-05:00",
-  "match_count": 63,
-  "manual_count": 40,
+  "now_local": "2026-07-05T18:01:05-05:00",
+  "match_count": 64,
+  "manual_count": 56,
   "rounds": [
     {
       "round_id": "group-stage-md2-2026-06-19-2026-06-24",
@@ -3971,7 +3971,7 @@
       "round_intro_en": "The R16 is here — 8 single-elimination matches, 4 days (Sat 7/4 - Tue 7/7). The upper half (M89-M92) wraps 7/4-7/5; the lower half (M93-M96) finishes 7/6-7/7. Two upper-half results are in: France 4-1 over Paraguay and Morocco 2-1 over Canada — those two meet in the QF, the first knockout game with a fully-formed storyline.\n\nOf the 8 R16 matches, four you can't miss: Brazil vs Norway (Sun 3 PM CT, Brazil's first real test), Mexico vs England (Sun 7 PM CT, host Mexico vs European power), Portugal vs Spain (Mon 2 PM CT, Iberian derby), and Argentina vs Egypt (Tue 11 AM CT, the champions' first appearance).",
       "manual_note_zh": "排序按推荐分降序。7/5 下午（CT）发出，已完赛比赛的赛前预测保留供参考。",
       "manual_note_en": "Sorted by recommendation score, descending. Issued Sun 5 Jul PM CT; pre-game analysis kept for finished matches as reference.",
-      "generated_at": "2026-07-05T18:36:29+00:00",
+      "generated_at": "2026-07-05T23:01:05+00:00",
       "matches": [
         {
           "match_id": "760502",
@@ -5174,6 +5174,108 @@
       ]
     },
     {
+      "round_id": "final-weekend-2026-07-18-2026-07-19",
+      "stage_slug": "3rd-place-match",
+      "round_label": {
+        "zh": "决赛周末",
+        "en": "Final Weekend"
+      },
+      "round_date_range": [
+        "2026-07-18",
+        "2026-07-19"
+      ],
+      "match_count": 1,
+      "manual_count": 1,
+      "last_manual_update": "2026-07-05T21:39:43+00:00",
+      "round_intro_zh": null,
+      "round_intro_en": null,
+      "manual_note_zh": null,
+      "manual_note_en": null,
+      "generated_at": "2026-07-05T21:39:43+00:00",
+      "matches": [
+        {
+          "match_id": "760516",
+          "kickoff_utc": "2026-07-18T21:00:00+00:00",
+          "kickoff_local": "2026-07-18T16:00:00-05:00",
+          "kickoff_local_date": "2026-07-18",
+          "kickoff_time": "4:00 PM",
+          "kickoff_weekday": "Sat",
+          "stage": "3Rd Place Match",
+          "stage_slug": "3rd-place-match",
+          "venue": "Hard Rock Stadium",
+          "venue_city": "Miami Gardens, Florida",
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760516/semifinal-2-loser-semifinal-1-loser",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Semifinal%201%20Loser%20vs%20Semifinal%202%20Loser",
+          "home": {
+            "id": "5958",
+            "name": "Semifinal 1 Loser",
+            "name_zh": "",
+            "rank": null,
+            "short": "SF L1",
+            "abbr": "SF L1",
+            "flag": "🏳️",
+            "logo": "",
+            "color": "000000",
+            "home_away": "home",
+            "score": 0,
+            "winner": false
+          },
+          "away": {
+            "id": "5959",
+            "name": "Semifinal 2 Loser",
+            "name_zh": "",
+            "rank": null,
+            "short": "SF L2",
+            "abbr": "SF L2",
+            "flag": "🏳️",
+            "logo": "",
+            "color": "000000",
+            "home_away": "away",
+            "score": 0,
+            "winner": false
+          },
+          "stakes_kind": "knockout",
+          "stakes_score_auto": 3,
+          "stakes_verdict_auto": "lively",
+          "stakes_narrative_zh": "三四名决赛，淘汰赛败者的最后一场。",
+          "stakes_narrative_en": "Third-place match — the loser's last dance.",
+          "verdict": "lively",
+          "score": 3,
+          "headline_zh": "三四名决赛——SF 败者的最后一场",
+          "headline_en": "3rd-place match — the SF losers' last dance",
+          "watch_for_zh": [
+            "SF 败者争夺本届世界杯第三名",
+            "Hard Rock 体育场（迈阿密）容纳 65,000——NFL 海豚队主场",
+            "3rd-place 决赛传统上是 high-scoring（双方放松防守），本届预计开放进攻"
+          ],
+          "watch_for_en": [
+            "SF losers compete for 3rd place",
+            "Hard Rock Stadium (Miami, NFL Dolphins) holds 65,000",
+            "3rd-place matches are traditionally high-scoring (relaxed defenses)"
+          ],
+          "key_players_zh": [
+            "等待 SF 败者后填入"
+          ],
+          "key_players_en": [
+            "Pending SF results"
+          ],
+          "news_focus_zh": "世界杯 3rd-place 决赛传统上是 high-scoring——双方都没有晋级压力",
+          "news_focus_en": "WC 3rd-place matches are traditionally high-scoring — no advancement pressure",
+          "record_potential_zh": [
+            "3rd-place 决赛史上最高比分 1958 法国 6-3 德国"
+          ],
+          "record_potential_en": [
+            "All-time 3rd-place scoring record: 1958 France 6-3 Germany"
+          ],
+          "why_skip_zh": null,
+          "why_skip_en": null,
+          "verdict_override": null,
+          "score_override": null,
+          "manual_author": "claude"
+        }
+      ]
+    },
+    {
       "round_id": "final-2026-07-19-2026-07-19",
       "stage_slug": "final",
       "round_label": {
@@ -5267,108 +5369,6 @@
             "Mbappé with 2+ final goals would be the youngest WC final hat-trick scorer",
             "An ARG repeat would be the first back-to-back title since 1962 (Brazil)",
             "A FRA title would be 2-of-3 (matching Brazil 1958-1962 and 1998-2002)"
-          ],
-          "why_skip_zh": null,
-          "why_skip_en": null,
-          "verdict_override": null,
-          "score_override": null,
-          "manual_author": "claude"
-        }
-      ]
-    },
-    {
-      "round_id": "final-weekend-2026-07-18-2026-07-19",
-      "stage_slug": "3rd-place-match",
-      "round_label": {
-        "zh": "决赛周末",
-        "en": "Final Weekend"
-      },
-      "round_date_range": [
-        "2026-07-18",
-        "2026-07-19"
-      ],
-      "match_count": 1,
-      "manual_count": 1,
-      "last_manual_update": "2026-07-05T21:39:43+00:00",
-      "round_intro_zh": null,
-      "round_intro_en": null,
-      "manual_note_zh": null,
-      "manual_note_en": null,
-      "generated_at": "2026-07-05T21:39:43+00:00",
-      "matches": [
-        {
-          "match_id": "760516",
-          "kickoff_utc": "2026-07-18T21:00:00+00:00",
-          "kickoff_local": "2026-07-18T16:00:00-05:00",
-          "kickoff_local_date": "2026-07-18",
-          "kickoff_time": "4:00 PM",
-          "kickoff_weekday": "Sat",
-          "stage": "3Rd Place Match",
-          "stage_slug": "3rd-place-match",
-          "venue": "Hard Rock Stadium",
-          "venue_city": "Miami Gardens, Florida",
-          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760516/semifinal-2-loser-semifinal-1-loser",
-          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Semifinal%201%20Loser%20vs%20Semifinal%202%20Loser",
-          "home": {
-            "id": "5958",
-            "name": "Semifinal 1 Loser",
-            "name_zh": "",
-            "rank": null,
-            "short": "SF L1",
-            "abbr": "SF L1",
-            "flag": "🏳️",
-            "logo": "",
-            "color": "000000",
-            "home_away": "home",
-            "score": 0,
-            "winner": false
-          },
-          "away": {
-            "id": "5959",
-            "name": "Semifinal 2 Loser",
-            "name_zh": "",
-            "rank": null,
-            "short": "SF L2",
-            "abbr": "SF L2",
-            "flag": "🏳️",
-            "logo": "",
-            "color": "000000",
-            "home_away": "away",
-            "score": 0,
-            "winner": false
-          },
-          "stakes_kind": "knockout",
-          "stakes_score_auto": 3,
-          "stakes_verdict_auto": "lively",
-          "stakes_narrative_zh": "三四名决赛，淘汰赛败者的最后一场。",
-          "stakes_narrative_en": "Third-place match — the loser's last dance.",
-          "verdict": "lively",
-          "score": 3,
-          "headline_zh": "三四名决赛——SF 败者的最后一场",
-          "headline_en": "3rd-place match — the SF losers' last dance",
-          "watch_for_zh": [
-            "SF 败者争夺本届世界杯第三名",
-            "Hard Rock 体育场（迈阿密）容纳 65,000——NFL 海豚队主场",
-            "3rd-place 决赛传统上是 high-scoring（双方放松防守），本届预计开放进攻"
-          ],
-          "watch_for_en": [
-            "SF losers compete for 3rd place",
-            "Hard Rock Stadium (Miami, NFL Dolphins) holds 65,000",
-            "3rd-place matches are traditionally high-scoring (relaxed defenses)"
-          ],
-          "key_players_zh": [
-            "等待 SF 败者后填入"
-          ],
-          "key_players_en": [
-            "Pending SF results"
-          ],
-          "news_focus_zh": "世界杯 3rd-place 决赛传统上是 high-scoring——双方都没有晋级压力",
-          "news_focus_en": "WC 3rd-place matches are traditionally high-scoring — no advancement pressure",
-          "record_potential_zh": [
-            "3rd-place 决赛史上最高比分 1958 法国 6-3 德国"
-          ],
-          "record_potential_en": [
-            "All-time 3rd-place scoring record: 1958 France 6-3 Germany"
           ],
           "why_skip_zh": null,
           "why_skip_en": null,
