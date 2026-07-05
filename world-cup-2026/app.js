@@ -2334,12 +2334,68 @@
       const slot = r16IdToSlot.get(m.id);
       return slot ? R16_TO_R32[slot] : r16ParentSlots(m);
     };
+    // Same fallback pattern as r32SlotForTeam above: if a QF's espn_url
+    // has been rewritten to team names (the QF is decided), the URL
+    // regex returns nothing and the match would be pushed to the end
+    // of the sort, landing in the wrong half of the bracket. Look up
+    // each team's R16 instead so the QF keeps its correct slot.
+    const r16IdByTeam = (() => {
+      const teamToR16 = new Map();
+      for (const r16Match of byRound["round-of-16"]) {
+        if (r16Match.home?.id) teamToR16.set(r16Match.home.id, r16Match.id);
+        if (r16Match.away?.id) teamToR16.set(r16Match.away.id, r16Match.id);
+      }
+      return (team) => (team?.id != null) ? teamToR16.get(team.id) : null;
+    })();
+    const qfParentSlots = (m) => {
+      const fromUrl = parentSlots(m, "round-of-16");
+      if (fromUrl.length >= 2) return fromUrl;
+      const slots = new Set();
+      const homeR16 = r16IdByTeam(m.home);
+      const awayR16 = r16IdByTeam(m.away);
+      if (homeR16 != null) {
+        const slot = r16IdToSlot.get(homeR16);
+        if (slot != null) slots.add(slot);
+      }
+      if (awayR16 != null) {
+        const slot = r16IdToSlot.get(awayR16);
+        if (slot != null) slots.add(slot);
+      }
+      return [...slots].sort((a, b) => a - b);
+    };
     const qfByMinR16Slot = byRound["quarterfinals"]
-      .map(m => ({ match: m, r16Slots: parentSlots(m, "round-of-16") }))
+      .map(m => ({ match: m, r16Slots: qfParentSlots(m) }))
       .sort((a, b) => (a.r16Slots[0] ?? 999) - (b.r16Slots[0] ?? 999));
+    const qfIdToSlot = new Map();
     slotToMatch["quarterfinals"] = new Map(qfByMinR16Slot.map((x, i) => [i + 1, x.match]));
+    qfByMinR16Slot.forEach((x, i) => qfIdToSlot.set(x.match.id, i + 1));
+    // Same fallback for SFs once they start getting decided.
+    const qfIdByTeam = (() => {
+      const teamToQf = new Map();
+      for (const qfMatch of byRound["quarterfinals"]) {
+        if (qfMatch.home?.id) teamToQf.set(qfMatch.home.id, qfMatch.id);
+        if (qfMatch.away?.id) teamToQf.set(qfMatch.away.id, qfMatch.id);
+      }
+      return (team) => (team?.id != null) ? teamToQf.get(team.id) : null;
+    })();
+    const sfParentSlots = (m) => {
+      const fromUrl = parentSlots(m, "quarterfinals");
+      if (fromUrl.length >= 2) return fromUrl;
+      const slots = new Set();
+      const homeQf = qfIdByTeam(m.home);
+      const awayQf = qfIdByTeam(m.away);
+      if (homeQf != null) {
+        const slot = qfIdToSlot.get(homeQf);
+        if (slot != null) slots.add(slot);
+      }
+      if (awayQf != null) {
+        const slot = qfIdToSlot.get(awayQf);
+        if (slot != null) slots.add(slot);
+      }
+      return [...slots].sort((a, b) => a - b);
+    };
     const sfByMinQfSlot = byRound["semifinals"]
-      .map(m => ({ match: m, qfSlots: parentSlots(m, "quarterfinals") }))
+      .map(m => ({ match: m, qfSlots: sfParentSlots(m) }))
       .sort((a, b) => (a.qfSlots[0] ?? 999) - (b.qfSlots[0] ?? 999));
     slotToMatch["semifinals"] = new Map(sfByMinQfSlot.map((x, i) => [i + 1, x.match]));
 
@@ -2530,10 +2586,14 @@
       // not a display bug.
       const parents = (byRound[nextStage] || []).map(m => ({
         match: m,
-        // For R16 parents, use the team-aware slot lookup so that R16
-        // matches whose URL has been rewritten to team names (e.g. R16-1
-        // "morocco-canada") still draw the correct V-shape connectors.
-        slots: nextStage === "round-of-16" ? r16ParentSlotsHardcoded(m) : parentSlots(m, stage),
+        // Use team-aware slot lookup for R16, QF, and SF parents so
+        // decided matches (whose URL has been rewritten to team names
+        // instead of slot refs) still draw the correct V-shape
+        // connectors.
+        slots: nextStage === "round-of-16" ? r16ParentSlotsHardcoded(m)
+             : nextStage === "quarterfinals" ? qfParentSlots(m)
+             : nextStage === "semifinals" ? sfParentSlots(m)
+             : parentSlots(m, stage),
       }));
       for (const p of parents) {
         const parent = p.match;
