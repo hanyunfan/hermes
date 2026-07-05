@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-07-05T00:01:07.023599+00:00",
+  "generated_at": "2026-07-05T02:28:48.671577+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-07-04T19:01:01.346905-05:00",
+  "now_local": "2026-07-04T21:28:46.493332-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -20456,15 +20456,15 @@
           "stage": "Quarterfinals",
           "stage_slug": "quarterfinals",
           "home": {
-            "id": "19282",
-            "name": "Round of 16 1 Winner",
-            "name_zh": "",
-            "rank": null,
-            "short": "RD16 W1",
-            "abbr": "RD16 W1",
-            "flag": "🏳️",
-            "logo": "",
-            "color": "000000",
+            "id": "478",
+            "name": "France",
+            "name_zh": "法国",
+            "rank": 3,
+            "short": "France",
+            "abbr": "FRA",
+            "flag": "🇫🇷",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/fra.png",
+            "color": "000080",
             "home_away": "home",
             "score": 0,
             "winner": false
@@ -20493,9 +20493,9 @@
             "Tele",
             "FOX One"
           ],
-          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760510/morocco-round-of-16-1-winner",
-          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Round%20of%2016%201%20Winner%20vs%20Morocco",
-          "slug": "morocco-at-round of 16 1 winner"
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760510/morocco-france",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20France%20vs%20Morocco",
+          "slug": "morocco-at-france"
         }
       ]
     },
