@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-07-04T22:30:28.461136+00:00",
+  "generated_at": "2026-07-05T00:01:07.023599+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-07-04T17:30:26.477205-05:00",
+  "now_local": "2026-07-04T19:01:01.346905-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -544,15 +544,6 @@
     ],
     "venues": [
       {
-        "id": "Lincoln Financial Field",
-        "name": "Lincoln Financial Field",
-        "city": "Philadelphia, Pennsylvania",
-        "country": "USA",
-        "match_count": 6,
-        "next_kickoff_iso": "2026-07-04",
-        "last_kickoff_iso": "2026-07-04"
-      },
-      {
         "id": "Estadio Banorte",
         "name": "Estadio Banorte",
         "city": "Mexico City",
@@ -677,6 +668,15 @@
         "match_count": 6,
         "next_kickoff_iso": null,
         "last_kickoff_iso": "2026-07-02"
+      },
+      {
+        "id": "Lincoln Financial Field",
+        "name": "Lincoln Financial Field",
+        "city": "Philadelphia, Pennsylvania",
+        "country": "USA",
+        "match_count": 6,
+        "next_kickoff_iso": null,
+        "last_kickoff_iso": "2026-07-04"
       },
       {
         "id": "NRG Stadium",
@@ -19963,8 +19963,8 @@
           "kickoff_local_date": "2026-07-04",
           "kickoff_time": "4:00 PM",
           "kickoff_weekday": "Sat",
-          "status": "LIVE",
-          "status_short": "66'",
+          "status": "FINAL",
+          "status_short": "FT",
           "stage": "Round of 16",
           "stage_slug": "round-of-16",
           "home": {
@@ -19992,8 +19992,8 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/fra.png",
             "color": "000080",
             "home_away": "away",
-            "score": 0,
-            "winner": false
+            "score": 1,
+            "winner": true
           },
           "venue": {
             "name": "Lincoln Financial Field",
@@ -20047,6 +20047,54 @@
               "player": "Désiré Doué",
               "text": "Substitution, France. Désiré Doué replaces Bradley Barcola.",
               "player_off": "Bradley Barcola"
+            },
+            {
+              "kind": "substitution",
+              "minute": "71'",
+              "team": "Paraguay",
+              "team_id": "210",
+              "team_side": "home",
+              "player": "Maurício",
+              "text": "Substitution, Paraguay. Mauricio replaces Diego Gómez.",
+              "player_off": "Diego Gómez"
+            },
+            {
+              "kind": "substitution",
+              "minute": "71'",
+              "team": "Paraguay",
+              "team_id": "210",
+              "team_side": "home",
+              "player": "Gabriel Ávalos",
+              "text": "Substitution, Paraguay. Gabriel Ávalos replaces Miguel Almirón.",
+              "player_off": "Miguel Almirón"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "81'",
+              "team": "France",
+              "team_id": "478",
+              "team_side": "away",
+              "player": "Manu Koné",
+              "text": "Manu Koné (France) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "substitution",
+              "minute": "84'",
+              "team": "France",
+              "team_id": "478",
+              "team_side": "away",
+              "player": "Rayan Cherki",
+              "text": "Substitution, France. Rayan Cherki replaces Ousmane Dembélé.",
+              "player_off": "Ousmane Dembélé"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "90'+7'",
+              "team": "France",
+              "team_id": "478",
+              "team_side": "away",
+              "player": "Michael Olise",
+              "text": "Michael Olise (France) is shown the yellow card."
             }
           ]
         }
