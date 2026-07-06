@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-07-05T23:01:05.527715+00:00",
+  "generated_at": "2026-07-06T01:15:20.085128+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-07-05T18:01:04.005664-05:00",
+  "now_local": "2026-07-05T20:15:18.152203-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -20271,13 +20271,13 @@
         },
         {
           "id": "760505",
-          "kickoff_utc": "2026-07-06T00:00:00+00:00",
-          "kickoff_local": "2026-07-05T19:00:00-05:00",
+          "kickoff_utc": "2026-07-06T01:00:00+00:00",
+          "kickoff_local": "2026-07-05T20:00:00-05:00",
           "kickoff_local_date": "2026-07-05",
-          "kickoff_time": "7:00 PM",
+          "kickoff_time": "8:00 PM",
           "kickoff_weekday": "Sun",
-          "status": "SCHEDULED",
-          "status_short": "Scheduled",
+          "status": "LIVE",
+          "status_short": "15'",
           "stage": "Round of 16",
           "stage_slug": "round-of-16",
           "home": {
@@ -20320,7 +20320,18 @@
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760505/england-mexico",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Mexico%20vs%20England",
-          "slug": "england-at-mexico"
+          "slug": "england-at-mexico",
+          "incidents": [
+            {
+              "kind": "yellow_card",
+              "minute": "1'",
+              "team": "England",
+              "team_id": "448",
+              "team_side": "away",
+              "player": "Declan Rice",
+              "text": "Declan Rice (England) is shown the yellow card for a bad foul."
+            }
+          ]
         }
       ]
     },
@@ -20687,15 +20698,15 @@
           "stage": "Quarterfinals",
           "stage_slug": "quarterfinals",
           "home": {
-            "id": "19284",
-            "name": "Round of 16 3 Winner",
-            "name_zh": "",
-            "rank": null,
-            "short": "RD16 W3",
-            "abbr": "RD16 W3",
-            "flag": "🏳️",
-            "logo": "",
-            "color": "000000",
+            "id": "464",
+            "name": "Norway",
+            "name_zh": "挪威",
+            "rank": 31,
+            "short": "Norway",
+            "abbr": "NOR",
+            "flag": "🇳🇴",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/nor.png",
+            "color": "C8102E",
             "home_away": "home",
             "score": 0,
             "winner": false
@@ -20724,9 +20735,9 @@
             "Tele",
             "FOX One"
           ],
-          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760512/round-of-16-4-winner-round-of-16-3-winner",
-          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Round%20of%2016%203%20Winner%20vs%20Round%20of%2016%204%20Winner",
-          "slug": "round of 16 4 winner-at-round of 16 3 winner"
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760512/round-of-16-4-winner-norway",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Norway%20vs%20Round%20of%2016%204%20Winner",
+          "slug": "round of 16 4 winner-at-norway"
         },
         {
           "id": "760513",
