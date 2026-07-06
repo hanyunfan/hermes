@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-07-06T02:33:17.941789+00:00",
+  "generated_at": "2026-07-06T07:05:34.334231+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-07-05T21:33:15.773097-05:00",
+  "now_local": "2026-07-06T02:05:30.057633-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -544,15 +544,6 @@
     ],
     "venues": [
       {
-        "id": "Estadio Banorte",
-        "name": "Estadio Banorte",
-        "city": "Mexico City",
-        "country": "Mexico",
-        "match_count": 5,
-        "next_kickoff_iso": "2026-07-05",
-        "last_kickoff_iso": "2026-07-05"
-      },
-      {
         "id": "Lumen Field",
         "name": "Lumen Field",
         "city": "Seattle, Washington",
@@ -686,6 +677,15 @@
         "match_count": 7,
         "next_kickoff_iso": null,
         "last_kickoff_iso": "2026-07-04"
+      },
+      {
+        "id": "Estadio Banorte",
+        "name": "Estadio Banorte",
+        "city": "Mexico City",
+        "country": "Mexico",
+        "match_count": 5,
+        "next_kickoff_iso": null,
+        "last_kickoff_iso": "2026-07-05"
       }
     ],
     "stages": [
@@ -20102,7 +20102,7 @@
     },
     {
       "date": "2026-07-05",
-      "label": "Today",
+      "label": "Sun",
       "match_count": 2,
       "matches": [
         {
@@ -20276,8 +20276,8 @@
           "kickoff_local_date": "2026-07-05",
           "kickoff_time": "8:00 PM",
           "kickoff_weekday": "Sun",
-          "status": "LIVE",
-          "status_short": "70'",
+          "status": "FINAL",
+          "status_short": "FT",
           "stage": "Round of 16",
           "stage_slug": "round-of-16",
           "home": {
@@ -20306,7 +20306,7 @@
             "color": "EA1F29",
             "home_away": "away",
             "score": 3,
-            "winner": false
+            "winner": true
           },
           "venue": {
             "name": "Estadio Banorte",
@@ -20348,7 +20348,7 @@
               "team_id": "448",
               "team_side": "away",
               "player": "Jude Bellingham",
-              "text": "Goal! Mexico 0, England 2. Jude Bellingham (England) right footed shot from very close range to the top left corner. Assisted by Harry Kane.",
+              "text": "Goal! Mexico 0, England 2. Jude Bellingham (England) right footed shot from very close range to the bottom left corner. Assisted by Harry Kane.",
               "assist": "Harry Kane"
             },
             {
@@ -20417,6 +20417,92 @@
               "team_side": "away",
               "player": "Marc Guéhi",
               "text": "Marc Guéhi (England) is shown the yellow card."
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "71'",
+              "team": "Mexico",
+              "team_id": "203",
+              "team_side": "home",
+              "player": "Jorge Sánchez",
+              "text": "Jorge Sánchez (Mexico) is shown the yellow card."
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "72'",
+              "team": "England",
+              "team_id": "448",
+              "team_side": "away",
+              "player": "Nico O'Reilly",
+              "text": "Nico O'Reilly (England) is shown the yellow card."
+            },
+            {
+              "kind": "substitution",
+              "minute": "74'",
+              "team": "England",
+              "team_id": "448",
+              "team_side": "away",
+              "player": "Djed Spence",
+              "text": "Substitution, England. Djed Spence replaces Nico O'Reilly.",
+              "player_off": "Nico O'Reilly"
+            },
+            {
+              "kind": "substitution",
+              "minute": "75'",
+              "team": "England",
+              "team_id": "448",
+              "team_side": "away",
+              "player": "Dan Burn",
+              "text": "Substitution, England. Dan Burn replaces Elliot Anderson.",
+              "player_off": "Elliot Anderson"
+            },
+            {
+              "kind": "substitution",
+              "minute": "79'",
+              "team": "Mexico",
+              "team_id": "203",
+              "team_side": "home",
+              "player": "Álvaro Fidalgo",
+              "text": "Substitution, Mexico. Álvaro Fidalgo replaces Jorge Sánchez.",
+              "player_off": "Jorge Sánchez"
+            },
+            {
+              "kind": "substitution",
+              "minute": "81'",
+              "team": "Mexico",
+              "team_id": "203",
+              "team_side": "home",
+              "player": "Guillermo Martínez",
+              "text": "Substitution, Mexico. Guillermo Martínez replaces Julián Quiñones.",
+              "player_off": "Julián Quiñones"
+            },
+            {
+              "kind": "substitution",
+              "minute": "90'",
+              "team": "England",
+              "team_id": "448",
+              "team_side": "away",
+              "player": "Morgan Rogers",
+              "text": "Substitution, England. Morgan Rogers replaces Harry Kane.",
+              "player_off": "Harry Kane"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "90'+8'",
+              "team": "Mexico",
+              "team_id": "203",
+              "team_side": "home",
+              "player": "Johan Vásquez",
+              "text": "Johan Vásquez (Mexico) is shown the yellow card."
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "90'+8'",
+              "team": "England",
+              "team_id": "448",
+              "team_side": "away",
+              "player": "Jordan Henderson",
+              "text": "Jordan Henderson (England) is shown the yellow card."
             }
           ]
         }
@@ -20424,7 +20510,7 @@
     },
     {
       "date": "2026-07-06",
-      "label": "Tomorrow",
+      "label": "Today",
       "match_count": 2,
       "matches": [
         {
@@ -20537,7 +20623,7 @@
     },
     {
       "date": "2026-07-07",
-      "label": "Tue",
+      "label": "Tomorrow",
       "match_count": 2,
       "matches": [
         {
@@ -20799,15 +20885,15 @@
             "winner": false
           },
           "away": {
-            "id": "19285",
-            "name": "Round of 16 4 Winner",
-            "name_zh": "",
-            "rank": null,
-            "short": "RD16 W4",
-            "abbr": "RD16 W4",
-            "flag": "🏳️",
-            "logo": "",
-            "color": "000000",
+            "id": "448",
+            "name": "England",
+            "name_zh": "英格兰",
+            "rank": 4,
+            "short": "England",
+            "abbr": "ENG",
+            "flag": "🏴",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/eng.png",
+            "color": "EA1F29",
             "home_away": "away",
             "score": 0,
             "winner": false
@@ -20822,9 +20908,9 @@
             "Tele",
             "FOX One"
           ],
-          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760512/round-of-16-4-winner-norway",
-          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Norway%20vs%20Round%20of%2016%204%20Winner",
-          "slug": "round of 16 4 winner-at-norway"
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760512/england-norway",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Norway%20vs%20England",
+          "slug": "england-at-norway"
         },
         {
           "id": "760513",
