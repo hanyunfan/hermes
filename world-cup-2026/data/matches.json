@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-07-06T20:24:08.776017+00:00",
+  "generated_at": "2026-07-06T21:54:59.750349+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-07-06T15:24:06.943279-05:00",
+  "now_local": "2026-07-06T16:54:58.158455-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -553,15 +553,6 @@
         "last_kickoff_iso": "2026-07-06"
       },
       {
-        "id": "AT&T Stadium",
-        "name": "AT&T Stadium",
-        "city": "Arlington, Texas",
-        "country": "USA",
-        "match_count": 9,
-        "next_kickoff_iso": "2026-07-06",
-        "last_kickoff_iso": "2026-07-14"
-      },
-      {
         "id": "BC Place",
         "name": "BC Place",
         "city": "Vancouver",
@@ -614,6 +605,15 @@
         "match_count": 7,
         "next_kickoff_iso": "2026-07-11",
         "last_kickoff_iso": "2026-07-18"
+      },
+      {
+        "id": "AT&T Stadium",
+        "name": "AT&T Stadium",
+        "city": "Arlington, Texas",
+        "country": "USA",
+        "match_count": 9,
+        "next_kickoff_iso": "2026-07-14",
+        "last_kickoff_iso": "2026-07-14"
       },
       {
         "id": "MetLife Stadium",
@@ -20520,8 +20520,8 @@
           "kickoff_local_date": "2026-07-06",
           "kickoff_time": "2:00 PM",
           "kickoff_weekday": "Mon",
-          "status": "LIVE",
-          "status_short": "60'",
+          "status": "FINAL",
+          "status_short": "FT",
           "stage": "Round of 16",
           "stage_slug": "round-of-16",
           "home": {
@@ -20549,8 +20549,8 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/esp.png",
             "color": "c60b1e",
             "home_away": "away",
-            "score": 0,
-            "winner": false
+            "score": 1,
+            "winner": true
           },
           "venue": {
             "name": "AT&T Stadium",
@@ -20575,6 +20575,123 @@
               "player": "Nélson Semedo",
               "text": "Substitution, Portugal. Nélson Semedo replaces Nuno Mendes because of an injury.",
               "player_off": "Nuno Mendes"
+            },
+            {
+              "kind": "substitution",
+              "minute": "71'",
+              "team": "Portugal",
+              "team_id": "482",
+              "team_side": "home",
+              "player": "Diogo Dalot",
+              "text": "Substitution, Portugal. Diogo Dalot replaces João Cancelo.",
+              "player_off": "João Cancelo"
+            },
+            {
+              "kind": "substitution",
+              "minute": "71'",
+              "team": "Portugal",
+              "team_id": "482",
+              "team_side": "home",
+              "player": "Rafael Leão",
+              "text": "Substitution, Portugal. Rafael Leão replaces João Félix.",
+              "player_off": "João Félix"
+            },
+            {
+              "kind": "substitution",
+              "minute": "75'",
+              "team": "Spain",
+              "team_id": "164",
+              "team_side": "away",
+              "player": "Ferran Torres",
+              "text": "Substitution, Spain. Ferran Torres replaces Álex Baena.",
+              "player_off": "Álex Baena"
+            },
+            {
+              "kind": "substitution",
+              "minute": "83'",
+              "team": "Portugal",
+              "team_id": "482",
+              "team_side": "home",
+              "player": "Francisco Conceição",
+              "text": "Substitution, Portugal. Francisco Conceição replaces Pedro Neto.",
+              "player_off": "Pedro Neto"
+            },
+            {
+              "kind": "substitution",
+              "minute": "83'",
+              "team": "Portugal",
+              "team_id": "482",
+              "team_side": "home",
+              "player": "Bernardo Silva",
+              "text": "Substitution, Portugal. Bernardo Silva replaces Vitinha.",
+              "player_off": "Vitinha"
+            },
+            {
+              "kind": "substitution",
+              "minute": "85'",
+              "team": "Spain",
+              "team_id": "164",
+              "team_side": "away",
+              "player": "Fabián Ruiz",
+              "text": "Substitution, Spain. Fabián Ruiz replaces Pedri.",
+              "player_off": "Pedri"
+            },
+            {
+              "kind": "substitution",
+              "minute": "85'",
+              "team": "Spain",
+              "team_id": "164",
+              "team_side": "away",
+              "player": "Mikel Merino",
+              "text": "Substitution, Spain. Mikel Merino replaces Dani Olmo.",
+              "player_off": "Dani Olmo"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "89'",
+              "team": "Portugal",
+              "team_id": "482",
+              "team_side": "home",
+              "player": "Bernardo Silva",
+              "text": "Bernardo Silva (Portugal) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "goal",
+              "minute": "90'+1'",
+              "team": "Spain",
+              "team_id": "164",
+              "team_side": "away",
+              "player": "Mikel Merino",
+              "text": "Goal! Portugal 0, Spain 1. Mikel Merino (Spain) left footed shot from the centre of the box to the bottom left corner. Assisted by Ferran Torres with a through ball.",
+              "assist": "Ferran Torres"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "90'+4'",
+              "team": "Portugal",
+              "team_id": "482",
+              "team_side": "home",
+              "player": "Renato Veiga",
+              "text": "Renato Veiga (Portugal) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "substitution",
+              "minute": "90'+7'",
+              "team": "Spain",
+              "team_id": "164",
+              "team_side": "away",
+              "player": "Borja Iglesias",
+              "text": "Substitution, Spain. Borja Iglesias replaces Mikel Oyarzabal.",
+              "player_off": "Mikel Oyarzabal"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "90'+8'",
+              "team": "Spain",
+              "team_id": "164",
+              "team_side": "away",
+              "player": "Ferran Torres",
+              "text": "Ferran Torres (Spain) is shown the yellow card for a bad foul."
             }
           ]
         },
