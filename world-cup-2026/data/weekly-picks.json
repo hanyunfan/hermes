@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-07-06T21:54:59+00:00",
+  "generated_at": "2026-07-06T23:07:28+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-07-06T16:54:59-05:00",
+  "now_local": "2026-07-06T18:07:28-05:00",
   "match_count": 64,
   "manual_count": 56,
   "rounds": [
@@ -3971,7 +3971,7 @@
       "round_intro_en": "The R16 is here — 8 single-elimination matches, 4 days (Sat 7/4 - Tue 7/7). The upper half (M89-M92) wraps 7/4-7/5; the lower half (M93-M96) finishes 7/6-7/7. Two upper-half results are in: France 4-1 over Paraguay and Morocco 2-1 over Canada — those two meet in the QF, the first knockout game with a fully-formed storyline.\n\nOf the 8 R16 matches, four you can't miss: Brazil vs Norway (Sun 3 PM CT, Brazil's first real test), Mexico vs England (Sun 7 PM CT, host Mexico vs European power), Portugal vs Spain (Mon 2 PM CT, Iberian derby), and Argentina vs Egypt (Tue 11 AM CT, the champions' first appearance).",
       "manual_note_zh": "排序按推荐分降序。7/5 下午（CT）发出，已完赛比赛的赛前预测保留供参考。",
       "manual_note_en": "Sorted by recommendation score, descending. Issued Sun 5 Jul PM CT; pre-game analysis kept for finished matches as reference.",
-      "generated_at": "2026-07-06T21:54:59+00:00",
+      "generated_at": "2026-07-06T23:07:28+00:00",
       "matches": [
         {
           "match_id": "760502",
