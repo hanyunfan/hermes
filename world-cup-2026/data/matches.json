@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-07-06T18:11:13.758176+00:00",
+  "generated_at": "2026-07-06T20:24:08.776017+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-07-06T13:11:08.264804-05:00",
+  "now_local": "2026-07-06T15:24:06.943279-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -20520,8 +20520,8 @@
           "kickoff_local_date": "2026-07-06",
           "kickoff_time": "2:00 PM",
           "kickoff_weekday": "Mon",
-          "status": "SCHEDULED",
-          "status_short": "Scheduled",
+          "status": "LIVE",
+          "status_short": "60'",
           "stage": "Round of 16",
           "stage_slug": "round-of-16",
           "home": {
@@ -20564,7 +20564,19 @@
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760506/spain-portugal",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Portugal%20vs%20Spain",
-          "slug": "spain-at-portugal"
+          "slug": "spain-at-portugal",
+          "incidents": [
+            {
+              "kind": "substitution",
+              "minute": "56'",
+              "team": "Portugal",
+              "team_id": "482",
+              "team_side": "home",
+              "player": "Nélson Semedo",
+              "text": "Substitution, Portugal. Nélson Semedo replaces Nuno Mendes because of an injury.",
+              "player_off": "Nuno Mendes"
+            }
+          ]
         },
         {
           "id": "760507",
