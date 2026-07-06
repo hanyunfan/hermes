@@ -28,8 +28,15 @@
   // structure — e.g. ENG vs COD (M80, 11:00 AM ET) is one of the last
   // R32 matches in the upper half but lands in the middle of an
   // ascending gameId list. This array pins each match to its actual
-  // bracket slot so the L wing shows the upper half (M73–M80) and the
-  // R wing shows the lower half (M81–M88) of the knockout tree.
+  // bracket slot so the bracket tree matches FIFA's published layout.
+  //
+  // NOTE: Slots 1–8 vs 9–16 follow FIFA's own M73–M80 / M81–88
+  // labeling for the R32 round, but those labels do NOT correspond to
+  // the two SF halves. The SF halves are interleaved by design (M101 =
+  // M97 + M98 mixes upper R32 slots 1,2,3,5 with lower slots 9,10,11,12)
+  // so e.g. France (slot 2, M97) and Norway (slot 4, M99) end up on
+  // opposite wings even though both are "upper" R32 slots by M-number.
+  // See HALF_BY_R32_SLOT below for the per-slot SF-half assignment.
   //
   // NOTE: This ordering differs from R32_BRACKET below (the odds
   // section, which iterates by kickoff time so users see upcoming
@@ -2394,10 +2401,29 @@
       }
       return [...slots].sort((a, b) => a - b);
     };
-    const sfByMinQfSlot = byRound["semifinals"]
-      .map(m => ({ match: m, qfSlots: sfParentSlots(m) }))
-      .sort((a, b) => (a.qfSlots[0] ?? 999) - (b.qfSlots[0] ?? 999));
-    slotToMatch["semifinals"] = new Map(sfByMinQfSlot.map((x, i) => [i + 1, x.match]));
+    // SF pairing is interleaved, not consecutive: SF slot 1 (M101) takes
+    // QF slot 1 + QF slot 3 (M97 + M98), SF slot 2 (M102) takes QF
+    // slot 2 + QF slot 4 (M99 + M100). This matches FIFA's actual
+    // bracket — the halves are interleaved at the QF level so teams
+    // from the same group (e.g. France 1I in M97 and Norway 2I in M99)
+    // land on opposite SFs and can only meet in the Final.
+    //
+    // SF URLs use M-number order ("quarterfinal-2-winner-quarterfinal-1-winner"
+    // = M98 winner + M97 winner for M101) which doesn't match code's
+    // QF slot ordering (slot 2 = M99, not M98). So we hardcode the
+    // pairing instead of relying on URL parsing.
+    const SF_TO_QF_SLOTS = {
+      1: [1, 3],  // M101 → M97 + M98
+      2: [2, 4],  // M102 → M99 + M100
+    };
+    // Build slotToMatch["semifinals"] by M-number (M101 → 1, M102 → 2).
+    slotToMatch["semifinals"] = new Map(
+      [...byRound["semifinals"]]
+        .sort((a, b) => String(a.id).localeCompare(String(b.id)))
+        .map((m, i) => [i + 1, m])
+    );
+    const sfIdToSlot = new Map();
+    for (const [slot, m] of slotToMatch["semifinals"]) sfIdToSlot.set(m.id, slot);
 
     // Reorder R32 in visual display order so pair members are adjacent
     // and connecting lines form clean V shapes (no crossings). The
@@ -2414,23 +2440,53 @@
     //   R16-7: (R32-13, R32-15)
     //   R16-8: (R32-14, R32-16)
     //
-    // We pick a permutation where each pair becomes (slot N, slot N+1)
-    // in display position. Within each pair the lower slot goes first
-    // for visual consistency.
+    // The bracket halves are defined by the SF tree, not by slot range.
+    // FIFA's actual bracket pairs QFs interleaved: M101 = M97 + M98,
+    // M102 = M99 + M100. So M101's half contains slots {1, 2, 3, 5,
+    // 9, 10, 11, 12} (4 upper + 4 lower) and M102's half contains
+    // slots {4, 6, 7, 8, 13, 14, 15, 16}. Putting slots 1-8 vs 9-16 on
+    // opposite wings would put teams from the same group (e.g. France
+    // 1I in slot 2 and Norway 2I in slot 4) on the same wing — they'd
+    // meet in the SF instead of only in the Final. The half maps below
+    // pin each slot to its correct SF-half parent.
+    const HALF_BY_R32_SLOT = {
+      1: 1, 2: 1, 3: 1,       // upper R32 → M101's half
+      4: 2, 5: 1, 6: 2, 7: 2, 8: 2,
+      9: 1, 10: 1, 11: 1, 12: 1, // M94, M93 → M98 → M101
+      13: 2, 14: 2, 15: 2, 16: 2,
+    };
+    const HALF_BY_R16_SLOT = {
+      1: 1, 2: 1,             // R16-1, R16-2 → M97 → M101
+      3: 2, 4: 2,             // R16-3, R16-4 → M99 → M102
+      5: 1, 6: 1,             // R16-5, R16-6 → M98 → M101
+      7: 2, 8: 2,             // R16-7, R16-8 → M100 → M102
+    };
+    const HALF_BY_QF_SLOT = {
+      1: 1,                   // M97 (min R16 slot 1) → M101
+      2: 2,                   // M99 (min R16 slot 3) → M102
+      3: 1,                   // M98 (min R16 slot 5) → M101
+      4: 2,                   // M100 (min R16 slot 7) → M102
+    };
+
+    // Each pair becomes (slot N, slot N+1) in display position, but the
+    // 8 pairs are split 4-and-4 between the two wings so each wing is
+    // exactly one SF half (M101's half on left, M102's half on right).
     const R32_VISUAL_ORDER = [
-      1, 3,    // → R16-1
-      2, 5,    // → R16-2
-      4, 6,    // → R16-3
-      7, 8,    // → R16-4
-      9, 10,   // → R16-5
-      11, 12,  // → R16-6
-      13, 15,  // → R16-7
-      14, 16,  // → R16-8
+      1, 3,    // → R16-1  ┐
+      2, 5,    // → R16-2  ├ M101's half (left wing)
+      9, 10,   // → R16-5  │
+      11, 12,  // → R16-6  ┘
+      4, 6,    // → R16-3  ┐
+      7, 8,    // → R16-4  ├ M102's half (right wing)
+      13, 15,  // → R16-7  │
+      14, 16,  // → R16-8  ┘
     ];
     byRound["round-of-32"] = R32_VISUAL_ORDER.map(s => slotToMatch["round-of-32"].get(s));
-    // R16 in slot order (so consecutive pairs feed consecutive QFs).
+    // R16 in slot order (y-position comes from parent R32 midpoints,
+    // side comes from HALF_BY_R16_SLOT).
     byRound["round-of-16"] = Array.from(slotToMatch["round-of-16"].values());
-    // QF in slot order (so consecutive pairs feed consecutive SFs).
+    // QF in slot order (y-position comes from parent R16 midpoints,
+    // side comes from HALF_BY_QF_SLOT).
     byRound["quarterfinals"] = Array.from(slotToMatch["quarterfinals"].values());
     const third = allMatches.find((m) => m.stage_slug === "3rd-place-match");
 
@@ -2461,27 +2517,49 @@
       // 8 R32 y values is exactly 400 so the SF lands on the center
       // axis. The Final sits at 46% (was 50%) — see place("final").
       const half = n / 2;
+      // Side (L/R) is determined by which SF half the match belongs
+      // to, not by its index within byRound. The half maps above
+      // encode FIFA's actual bracket tree (M101 = M97+M98 interleaved,
+      // M102 = M99+M100 interleaved) so e.g. France (slot 2 in M97)
+      // and Norway (slot 4 in M99) end up on opposite wings even
+      // though both R32 slots are "upper".
+      const halfOfMatch = (m) => {
+        if (round === "round-of-32") {
+          const slot = [...slotToMatch["round-of-32"].entries()].find(([_, mm]) => mm.id === m.id)?.[0];
+          return HALF_BY_R32_SLOT[slot];
+        }
+        if (round === "round-of-16") return HALF_BY_R16_SLOT[r16IdToSlot.get(m.id)];
+        if (round === "quarterfinals") {
+          const slot = qfIdToSlot.get(m.id);
+          return HALF_BY_QF_SLOT[slot];
+        }
+        if (round === "semifinals") {
+          const slot = [...slotToMatch["semifinals"].entries()].find(([_, mm]) => mm.id === m.id)?.[0];
+          return slot;  // SF slot 1 = M101 (half 1), slot 2 = M102 (half 2)
+        }
+        return 1;
+      };
       if (round === "round-of-32") {
         // Uniform ladder: 16 cards (8 per wing) stack with no gap,
         // each card height = 100/16 = 6.25%, so consecutive cards
-        // touch (no within-pair / between-pair distinction). Card
-        // centers run from 3.125% to 46.875%, so the 8 y values
-        // average 25% — the SF (mid of QF pair) lands on 25% (left
-        // wing) / 75% (right wing). The Final sits at 46% (slightly
-        // above geometric center so it pairs with the 3rd-place match
-        // at 58% to form a centered unit).
+        // touch (no within-pair / between-pair distinction). The
+        // byRound order is structured so each wing's 8 cards form 4
+        // R16 pairs in tree order (M101's half pairs on left, M102's
+        // half pairs on right).
         const STEP = 100 / 16;
         ms.forEach((m, i) => {
           const w = i % half;  // position within the wing (0..half-1)
           const y = (w + 0.5) * STEP;
-          pos[m.id] = { y, side: i < half ? "L" : "R" };
+          pos[m.id] = { y, side: halfOfMatch(m) === 1 ? "L" : "R" };
         });
         return;
       }
       // R16, QF, SF: all derived from their parent matches' y values.
       // Each card sits at the midpoint of its two parent matches.
-      // R16 parents are R32 pair (per R16_TO_R32 lookup). QF parents
-      // are R16 pairs (consecutive: QF-1←R16-1,2; QF-2←R16-3,4; etc).
+      // QF-N takes R16-(2N-1) and R16-2N (consecutive slot order,
+      // which is what R16_TO_R32 + the byRound slot order produce).
+      // SF-N takes QF-N and QF-(N+2) (interleaved, so SF-1 = M97+M98
+      // and SF-2 = M99+M100 — matches FIFA's actual bracket).
       ms.forEach((m, i) => {
         const w = i % half;  // position within the wing (0..half-1)
         let y;
@@ -2492,23 +2570,23 @@
           const yB = pos[slotToMatch["round-of-32"].get(parentSlots[1]).id].y;
           y = (yA + yB) / 2;
         } else if (round === "quarterfinals") {
-          // QF-N takes R16-(2N-1) and R16-2N winners (consecutive in slot order).
-          const slot = i + 1;  // QF slot 1..4 (since byRound is in slot order)
+          const slot = qfIdToSlot.get(m.id);
           const r16SlotA = (slot - 1) * 2 + 1;
           const r16SlotB = slot * 2;
           const yA = pos[slotToMatch["round-of-16"].get(r16SlotA).id].y;
           const yB = pos[slotToMatch["round-of-16"].get(r16SlotB).id].y;
           y = (yA + yB) / 2;
         } else if (round === "semifinals") {
-          // SF-1 takes QF-1, QF-2; SF-2 takes QF-3, QF-4.
-          const slot = i + 1;  // SF slot 1..2
-          const qfSlotA = (slot - 1) * 2 + 1;
-          const qfSlotB = slot * 2;
+          // Interleaved pairing: SF slot N takes QF slots N and N+2.
+          // SF-1 → QF-1 (M97) + QF-3 (M98); SF-2 → QF-2 (M99) + QF-4 (M100).
+          const slot = i + 1;
+          const qfSlotA = slot;
+          const qfSlotB = slot + 2;
           const yA = pos[slotToMatch["quarterfinals"].get(qfSlotA).id].y;
           const yB = pos[slotToMatch["quarterfinals"].get(qfSlotB).id].y;
           y = (yA + yB) / 2;
         }
-        pos[m.id] = { y, side: i < half ? "L" : "R" };
+        pos[m.id] = { y, side: halfOfMatch(m) === 1 ? "L" : "R" };
       });
     }
     place("round-of-32");
@@ -2592,7 +2670,7 @@
         // connectors.
         slots: nextStage === "round-of-16" ? r16ParentSlotsHardcoded(m)
              : nextStage === "quarterfinals" ? qfParentSlots(m)
-             : nextStage === "semifinals" ? sfParentSlots(m)
+             : nextStage === "semifinals" ? (SF_TO_QF_SLOTS[sfIdToSlot.get(m.id)] || parentSlots(m, "quarterfinals"))
              : parentSlots(m, stage),
       }));
       for (const p of parents) {
