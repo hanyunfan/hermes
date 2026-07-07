@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-07-06T23:07:28.596489+00:00",
+  "generated_at": "2026-07-07T01:16:37.277802+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-07-06T18:07:27.292846-05:00",
+  "now_local": "2026-07-06T20:16:33.262153-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -20702,8 +20702,8 @@
           "kickoff_local_date": "2026-07-06",
           "kickoff_time": "7:00 PM",
           "kickoff_weekday": "Mon",
-          "status": "SCHEDULED",
-          "status_short": "Scheduled",
+          "status": "LIVE",
+          "status_short": "52'",
           "stage": "Round of 16",
           "stage_slug": "round-of-16",
           "home": {
@@ -20717,7 +20717,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/usa.png",
             "color": "213065",
             "home_away": "home",
-            "score": 0,
+            "score": 1,
             "winner": false
           },
           "away": {
@@ -20731,7 +20731,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/bel.png",
             "color": "E30613",
             "home_away": "away",
-            "score": 0,
+            "score": 2,
             "winner": false
           },
           "venue": {
@@ -20744,9 +20744,69 @@
             "Tele",
             "FOX One"
           ],
-          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760507/belgium-united-states",
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760507/belgium-united states",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20United%20States%20vs%20Belgium",
-          "slug": "belgium-at-united states"
+          "slug": "belgium-at-united states",
+          "incidents": [
+            {
+              "kind": "goal",
+              "minute": "9'",
+              "team": "Belgium",
+              "team_id": "459",
+              "team_side": "away",
+              "player": "Charles De Ketelaere",
+              "text": "Goal! USA 0, Belgium 1. Charles De Ketelaere (Belgium) right footed shot from very close range to the centre of the goal. Assisted by Nicolas Raskin.",
+              "assist": "Nicolas Raskin"
+            },
+            {
+              "kind": "substitution",
+              "minute": "21'",
+              "team": "Belgium",
+              "team_id": "459",
+              "team_side": "away",
+              "player": "Hans Vanaken",
+              "text": "Substitution, Belgium. Hans Vanaken replaces Amadou Onana because of an injury.",
+              "player_off": "Amadou Onana"
+            },
+            {
+              "kind": "goal",
+              "minute": "31'",
+              "team": "United States",
+              "team_id": "660",
+              "team_side": "home",
+              "player": "Malik Tillman",
+              "text": "Goal! USA 1, Belgium 1. Malik Tillman (USA) from a free kick with a right footed shot to the high centre of the goal."
+            },
+            {
+              "kind": "goal",
+              "minute": "33'",
+              "team": "Belgium",
+              "team_id": "459",
+              "team_side": "away",
+              "player": "Charles De Ketelaere",
+              "text": "Goal! USA 1, Belgium 2. Charles De Ketelaere (Belgium) header from very close range to the top right corner. Assisted by Leandro Trossard with a cross.",
+              "assist": "Leandro Trossard"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "35'",
+              "team": "United States",
+              "team_id": "660",
+              "team_side": "home",
+              "player": "Weston McKennie",
+              "text": "Weston McKennie (USA) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "substitution",
+              "minute": "45'",
+              "team": "United States",
+              "team_id": "660",
+              "team_side": "home",
+              "player": "Giovanni Reyna",
+              "text": "Substitution, USA. Giovanni Reyna replaces Sergiño Dest.",
+              "player_off": "Sergiño Dest"
+            }
+          ]
         }
       ]
     },
