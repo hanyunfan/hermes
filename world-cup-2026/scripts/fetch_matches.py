@@ -293,9 +293,13 @@ def _normalize_standing_entry(entry: dict) -> dict:
 
 # ESPN summary `keyEvents` types we care about. Map of API type string ->
 # normalized kind. Goals come in as `goal`, `goal---header`, `goal---own`,
-# etc. — we treat any type starting with `goal` as a goal.
+# etc. — and `penalty---scored` for converted penalties (ESPN uses a
+# distinct type because penalties have no assist). We treat any of
+# these as a goal; the others (kickoff / halftime / delay / etc.)
+# are dropped.
 _KEEP_TYPES = {"yellow-card", "red-card", "substitution"}
 _GOAL_PREFIX = "goal"
+_PENALTY_SCORED = "penalty---scored"
 
 
 def _truth_from_summary(payload: dict) -> dict | None:
@@ -344,11 +348,18 @@ def fetch_match_events(event_id: str, home_id: str = "", away_id: str = "") -> d
     """Fetch goals / cards / subs for one match via the ESPN summary endpoint.
 
     Returns:
-        {"incidents": [...], "truth": {status, status_short, home_score, away_score} | None}
+        {"incidents": [...], "truth": {status, status_short, home_score, away_score} | None,
+         "rosters": {"home": [player_name, ...], "away": [player_name, ...]}}
 
     The summary endpoint is the source of truth for status + scores (the
     scoreboard can briefly lag during state transitions). On failure we
     return empty incidents + None truth and let the caller carry on.
+
+    Rosters carry every player who appeared in the match (starters +
+    substitutes who came on), which the front-end uses to compute
+    accurate matches-played counts for the scorers tab — counting
+    appearances instead of only counting matches where a player had
+    a goal or an assist.
     """
     url = f"{ESPN_SUMMARY}?event={event_id}"
     req = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
@@ -357,14 +368,14 @@ def fetch_match_events(event_id: str, home_id: str = "", away_id: str = "") -> d
             payload = json.load(r)
     except (urllib.error.URLError, json.JSONDecodeError, TimeoutError) as exc:
         print(f"  warn: events fetch failed for {event_id}: {exc}", file=sys.stderr)
-        return {"incidents": [], "truth": None}
+        return {"incidents": [], "truth": None, "rosters": {"home": [], "away": []}}
 
     out: list[dict] = []
     for e in payload.get("keyEvents") or []:
         raw_kind = (e.get("type") or {}).get("type") or ""
         if raw_kind in _KEEP_TYPES:
             kind = raw_kind.replace("-", "_")
-        elif raw_kind.startswith(_GOAL_PREFIX):
+        elif raw_kind.startswith(_GOAL_PREFIX) or raw_kind == _PENALTY_SCORED:
             kind = "goal"
         else:
             continue  # kickoff / halftime / delay / end-of-half / etc.
@@ -397,7 +408,21 @@ def fetch_match_events(event_id: str, home_id: str = "", away_id: str = "") -> d
         elif kind == "substitution" and secondary:
             incident["player_off"] = secondary
         out.append(incident)
-    return {"incidents": out, "truth": _truth_from_summary(payload)}
+
+    rosters = {"home": [], "away": []}
+    for r in payload.get("rosters") or []:
+        side_id = str((r.get("team") or {}).get("id") or "")
+        names = []
+        for p in r.get("roster") or []:
+            ath = p.get("athlete") or {}
+            dn = ath.get("displayName") or ath.get("fullName") or ath.get("shortName") or ""
+            if dn:
+                names.append(dn)
+        if home_id and side_id == str(home_id):
+            rosters["home"] = names
+        elif away_id and side_id == str(away_id):
+            rosters["away"] = names
+    return {"incidents": out, "truth": _truth_from_summary(payload), "rosters": rosters}
 
 
 def attach_incidents(matches: list[dict], max_workers: int = 6) -> None:
@@ -427,8 +452,9 @@ def attach_incidents(matches: list[dict], max_workers: int = 6) -> None:
                 result = fut.result()
             except Exception as exc:  # noqa: BLE001 — best-effort
                 print(f"  warn: incidents for {m['id']} failed: {exc}", file=sys.stderr)
-                result = {"incidents": [], "truth": None}
+                result = {"incidents": [], "truth": None, "rosters": {"home": [], "away": []}}
             m["incidents"] = result.get("incidents", [])
+            m["rosters"] = result.get("rosters", {"home": [], "away": []})
             truth = result.get("truth")
             if truth:
                 # Summary endpoint is authoritative — overrides any

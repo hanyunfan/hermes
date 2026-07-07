@@ -1140,6 +1140,43 @@
       }
     }
 
+    // Third pass — walk each match's rosters (every player who
+    // appeared, including substitutes) and bump their matches-played
+    // set. This catches players who played a full match without
+    // scoring or assisting, which the incidents-only pass misses.
+    for (const match of matches) {
+      const rosters = match.rosters || {};
+      const sides = [
+        { names: rosters.home || [], team: match.home },
+        { names: rosters.away || [], team: match.away },
+      ];
+      for (const { names, team } of sides) {
+        if (!team || !team.id) continue;
+        for (const name of names) {
+          if (!name) continue;
+          const key = `goal|${name}|${team.id}`;
+          let entry = byPlayer.get(key);
+          if (!entry) {
+            entry = {
+              player: name,
+              player_zh: null,
+              team_id: team.id,
+              team_name: team.name,
+              team_zh: team.name_zh || null,
+              flag: team.flag || "",
+              goals: 0,
+              assists: 0,
+              penalty_kicks: 0,
+              matches: new Set(),
+              minutes: [],
+            };
+            byPlayer.set(key, entry);
+          }
+          if (match.id) entry.matches.add(match.id);
+        }
+      }
+    }
+
     // Materialize — promote Set to count, freeze, sort by:
     //   1. goals desc (primary)
     //   2. assists desc
