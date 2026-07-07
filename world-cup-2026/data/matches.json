@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-07-07T01:16:37.277802+00:00",
+  "generated_at": "2026-07-07T02:28:51.108147+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-07-06T20:16:33.262153-05:00",
+  "now_local": "2026-07-06T21:28:48.612442-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -544,15 +544,6 @@
     ],
     "venues": [
       {
-        "id": "Lumen Field",
-        "name": "Lumen Field",
-        "city": "Seattle, Washington",
-        "country": "USA",
-        "match_count": 6,
-        "next_kickoff_iso": "2026-07-06",
-        "last_kickoff_iso": "2026-07-06"
-      },
-      {
         "id": "BC Place",
         "name": "BC Place",
         "city": "Vancouver",
@@ -686,6 +677,15 @@
         "match_count": 5,
         "next_kickoff_iso": null,
         "last_kickoff_iso": "2026-07-05"
+      },
+      {
+        "id": "Lumen Field",
+        "name": "Lumen Field",
+        "city": "Seattle, Washington",
+        "country": "USA",
+        "match_count": 6,
+        "next_kickoff_iso": null,
+        "last_kickoff_iso": "2026-07-06"
       }
     ],
     "stages": [
@@ -20702,8 +20702,8 @@
           "kickoff_local_date": "2026-07-06",
           "kickoff_time": "7:00 PM",
           "kickoff_weekday": "Mon",
-          "status": "LIVE",
-          "status_short": "52'",
+          "status": "FINAL",
+          "status_short": "FT",
           "stage": "Round of 16",
           "stage_slug": "round-of-16",
           "home": {
@@ -20731,8 +20731,8 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/bel.png",
             "color": "E30613",
             "home_away": "away",
-            "score": 2,
-            "winner": false
+            "score": 4,
+            "winner": true
           },
           "venue": {
             "name": "Lumen Field",
@@ -20744,7 +20744,7 @@
             "Tele",
             "FOX One"
           ],
-          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760507/belgium-united states",
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760507/belgium-united-states",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20United%20States%20vs%20Belgium",
           "slug": "belgium-at-united states",
           "incidents": [
@@ -20805,6 +20805,115 @@
               "player": "Giovanni Reyna",
               "text": "Substitution, USA. Giovanni Reyna replaces Sergiño Dest.",
               "player_off": "Sergiño Dest"
+            },
+            {
+              "kind": "goal",
+              "minute": "57'",
+              "team": "Belgium",
+              "team_id": "459",
+              "team_side": "away",
+              "player": "Hans Vanaken",
+              "text": "Goal! USA 1, Belgium 3. Hans Vanaken (Belgium) right footed shot from outside the box to the bottom right corner. Assisted by Charles De Ketelaere.",
+              "assist": "Charles De Ketelaere"
+            },
+            {
+              "kind": "substitution",
+              "minute": "59'",
+              "team": "United States",
+              "team_id": "660",
+              "team_side": "home",
+              "player": "Sebastian Berhalter",
+              "text": "Substitution, USA. Sebastian Berhalter replaces Christian Pulisic because of an injury.",
+              "player_off": "Christian Pulisic"
+            },
+            {
+              "kind": "substitution",
+              "minute": "67'",
+              "team": "Belgium",
+              "team_id": "459",
+              "team_side": "away",
+              "player": "Jérémy Doku",
+              "text": "Substitution, Belgium. Jérémy Doku replaces Dodi Lukébakio.",
+              "player_off": "Dodi Lukébakio"
+            },
+            {
+              "kind": "substitution",
+              "minute": "67'",
+              "team": "Belgium",
+              "team_id": "459",
+              "team_side": "away",
+              "player": "Romelu Lukaku",
+              "text": "Substitution, Belgium. Romelu Lukaku replaces Charles De Ketelaere.",
+              "player_off": "Charles De Ketelaere"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "69'",
+              "team": "United States",
+              "team_id": "660",
+              "team_side": "home",
+              "player": "Malik Tillman",
+              "text": "Malik Tillman (USA) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "substitution",
+              "minute": "72'",
+              "team": "United States",
+              "team_id": "660",
+              "team_side": "home",
+              "player": "Ricardo Pepi",
+              "text": "Substitution, USA. Ricardo Pepi replaces Tyler Adams.",
+              "player_off": "Tyler Adams"
+            },
+            {
+              "kind": "substitution",
+              "minute": "89'",
+              "team": "Belgium",
+              "team_id": "459",
+              "team_side": "away",
+              "player": "Alexis Saelemaekers",
+              "text": "Substitution, Belgium. Alexis Saelemaekers replaces Leandro Trossard.",
+              "player_off": "Leandro Trossard"
+            },
+            {
+              "kind": "substitution",
+              "minute": "89'",
+              "team": "Belgium",
+              "team_id": "459",
+              "team_side": "away",
+              "player": "Axel Witsel",
+              "text": "Substitution, Belgium. Axel Witsel replaces Nicolas Raskin.",
+              "player_off": "Nicolas Raskin"
+            },
+            {
+              "kind": "substitution",
+              "minute": "90'+2'",
+              "team": "United States",
+              "team_id": "660",
+              "team_side": "home",
+              "player": "Max Arfsten",
+              "text": "Substitution, USA. Max Arfsten replaces Antonee Robinson.",
+              "player_off": "Antonee Robinson"
+            },
+            {
+              "kind": "substitution",
+              "minute": "90'+2'",
+              "team": "United States",
+              "team_id": "660",
+              "team_side": "home",
+              "player": "Haji Wright",
+              "text": "Substitution, USA. Haji Wright replaces Folarin Balogun.",
+              "player_off": "Folarin Balogun"
+            },
+            {
+              "kind": "goal",
+              "minute": "90'+3'",
+              "team": "Belgium",
+              "team_id": "459",
+              "team_side": "away",
+              "player": "Romelu Lukaku",
+              "text": "Goal! USA 1, Belgium 4. Romelu Lukaku (Belgium) right footed shot from the left side of the box to the bottom right corner. Assisted by Hans Vanaken.",
+              "assist": "Hans Vanaken"
             }
           ]
         }
@@ -21014,15 +21123,15 @@
             "winner": false
           },
           "away": {
-            "id": "19279",
-            "name": "Round of 16 6 Winner",
-            "name_zh": "",
-            "rank": null,
-            "short": "RD16 W6",
-            "abbr": "RD16 W6",
-            "flag": "🏳️",
-            "logo": "",
-            "color": "000000",
+            "id": "459",
+            "name": "Belgium",
+            "name_zh": "比利时",
+            "rank": 9,
+            "short": "Belgium",
+            "abbr": "BEL",
+            "flag": "🇧🇪",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/bel.png",
+            "color": "E30613",
             "home_away": "away",
             "score": 0,
             "winner": false
@@ -21037,9 +21146,9 @@
             "Tele",
             "FOX One"
           ],
-          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760511/round-of-16-6-winner-spain",
-          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Spain%20vs%20Round%20of%2016%206%20Winner",
-          "slug": "round of 16 6 winner-at-spain"
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760511/belgium-spain",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Spain%20vs%20Belgium",
+          "slug": "belgium-at-spain"
         }
       ]
     },
