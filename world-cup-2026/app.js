@@ -150,7 +150,7 @@
       "scorers.col.penalties": "PK",
       "scorers.empty.current": "No goals yet — the tournament kicked off June 11. Check back after the first match.",
       "scorers.empty.alltime": "All-time list is unavailable.",
-      "scorers.notes": "MP = matches played · A = assists · PK = penalty kicks · ▲/▼ shows rank change after merging WC 2026 goals · pre-2026 baseline covers the men's final tournament, 1930–2022.",
+      "scorers.notes": "MP = matches played · A = assists · ▲/▼ shows rank change after merging WC 2026 goals · pre-2026 baseline covers the men's final tournament, 1930–2022.",
       "stage": "Stage",
       "venue": "Venue",
       "watch": "Watch",
@@ -311,7 +311,7 @@
       "scorers.col.penalties": "点",
       "scorers.empty.current": "尚未开赛（6 月 11 日揭幕），暂无进球数据。",
       "scorers.empty.alltime": "历史榜单暂不可用。",
-      "scorers.notes": "出场 = 出场场次 · 助 = 助攻 · 点 = 点球；▲/▼ 为合并 2026 进球后的排名变化；2026 之前基线涵盖 1930–2022 年男足世界杯决赛圈。",
+      "scorers.notes": "出场 = 出场场次 · 助 = 助攻；▲/▼ 为合并 2026 进球后的排名变化；2026 之前基线涵盖 1930–2022 年男足世界杯决赛圈。",
       "stage": "阶段",
       "venue": "场馆",
       "watch": "观看",
@@ -1101,18 +1101,19 @@
         // assist-flavored entry. ESPN nests assists inside the goal
         // incident's `text` field, so we read it from `inc.assist`.
         if (inc.assist) {
-          // The assist is attributed to the OTHER side.
-          const otherSide = inc.team_side === "home" ? "away" : "home";
-          const assistKey = `goal|${inc.assist}|${(playerTeam[otherSide] || {}).id || "?"}`;
+          // The assist is attributed to the SAME side as the scorer
+          // (assist plays on the same team as the goal scorer).
+          const sameSide = inc.team_side;
+          const assistKey = `goal|${inc.assist}|${(playerTeam[sameSide] || {}).id || "?"}`;
           // We may not have a separate incident for the assister;
           // ensure an entry exists.
           const a = byPlayer.get(assistKey) || {
             player: inc.assist,
             player_zh: null,
-            team_id: (playerTeam[otherSide] || {}).id,
-            team_name: (playerTeam[otherSide] || {}).name,
-            team_zh: (playerTeam[otherSide] || {}).name_zh,
-            flag: (playerTeam[otherSide] || {}).flag,
+            team_id: (playerTeam[sameSide] || {}).id,
+            team_name: (playerTeam[sameSide] || {}).name,
+            team_zh: (playerTeam[sameSide] || {}).name_zh,
+            flag: (playerTeam[sameSide] || {}).flag,
             goals: 0,
             assists: 0,
             penalty_kicks: 0,
@@ -1353,11 +1354,9 @@
           <th class="col-num">#</th>
           <th class="col-player">${escapeHtml(i18n("scorers.col.player"))}</th>
           ${isCurrent
-            ? `<th class="col-team">${escapeHtml(i18n("scorers.col.team"))}</th>
-               <th class="col-num col-goals" title="${escapeHtml(i18n("scorers.col.goals"))}">${escapeHtml(i18n("scorers.col.goals"))}</th>
-               <th class="col-num col-mp" title="${escapeHtml(i18n("scorers.col.mp"))}">${escapeHtml(i18n("scorers.col.mp"))}</th>
+            ? `<th class="col-num col-goals" title="${escapeHtml(i18n("scorers.col.goals"))}">${escapeHtml(i18n("scorers.col.goals"))}</th>
                <th class="col-num col-a" title="${escapeHtml(i18n("scorers.col.assists"))}">${escapeHtml(i18n("scorers.col.assists"))}</th>
-               <th class="col-num col-pk" title="${escapeHtml(i18n("scorers.col.penalties"))}">${escapeHtml(i18n("scorers.col.penalties"))}</th>`
+               <th class="col-num col-mp" title="${escapeHtml(i18n("scorers.col.mp"))}">${escapeHtml(i18n("scorers.col.mp"))}</th>`
             : `<th class="col-team">${escapeHtml(i18n("scorers.col.country"))}</th>
                <th class="col-num col-goals" title="${escapeHtml(i18n("scorers.col.goals"))}">${escapeHtml(i18n("scorers.col.goals"))}</th>
                <th class="col-num col-tours" title="${escapeHtml(i18n("scorers.col.tournaments"))}">${escapeHtml(i18n("scorers.col.tournaments"))}</th>
@@ -1383,14 +1382,9 @@
         tr.innerHTML = `
           <td class="col-num col-rank"><span class="rank-num">${rank}</span></td>
           <td class="col-player"><span class="player-name">${escapeHtml(playerName || "—")}</span></td>
-          <td class="col-team">
-            <span class="team-flag">${escapeHtml(flag)}</span>
-            <span class="team-short">${escapeHtml(teamName || "—")}</span>
-          </td>
           <td class="col-num col-goals"><strong>${r.goals || 0}</strong></td>
-          <td class="col-num">${r.matches_played || 0}</td>
           <td class="col-num">${r.assists || 0}</td>
-          <td class="col-num ${r.penalty_kicks ? "is-pk" : ""}">${r.penalty_kicks || 0}</td>
+          <td class="col-num">${r.matches_played || 0}</td>
         `;
       } else {
         // Render the tournaments list with the 2026 entry wrapped in

@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-07-07T17:58:55.382656+00:00",
+  "generated_at": "2026-07-07T19:28:53.632079+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-07-07T12:58:53.512691-05:00",
+  "now_local": "2026-07-07T14:28:49.354587-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -553,15 +553,6 @@
         "last_kickoff_iso": "2026-07-07"
       },
       {
-        "id": "Mercedes-Benz Stadium",
-        "name": "Mercedes-Benz Stadium",
-        "city": "Atlanta, Georgia",
-        "country": "USA",
-        "match_count": 8,
-        "next_kickoff_iso": "2026-07-07",
-        "last_kickoff_iso": "2026-07-15"
-      },
-      {
         "id": "Gillette Stadium",
         "name": "Gillette Stadium",
         "city": "Foxborough, Massachusetts",
@@ -605,6 +596,15 @@
         "match_count": 9,
         "next_kickoff_iso": "2026-07-14",
         "last_kickoff_iso": "2026-07-14"
+      },
+      {
+        "id": "Mercedes-Benz Stadium",
+        "name": "Mercedes-Benz Stadium",
+        "city": "Atlanta, Georgia",
+        "country": "USA",
+        "match_count": 8,
+        "next_kickoff_iso": "2026-07-15",
+        "last_kickoff_iso": "2026-07-15"
       },
       {
         "id": "MetLife Stadium",
@@ -20931,8 +20931,8 @@
           "kickoff_local_date": "2026-07-07",
           "kickoff_time": "11:00 AM",
           "kickoff_weekday": "Tue",
-          "status": "LIVE",
-          "status_short": "90'+5'",
+          "status": "FINAL",
+          "status_short": "FT",
           "stage": "Round of 16",
           "stage_slug": "round-of-16",
           "home": {
@@ -20947,7 +20947,7 @@
             "color": "74acdf",
             "home_away": "home",
             "score": 3,
-            "winner": false
+            "winner": true
           },
           "away": {
             "id": "2620",
@@ -21094,7 +21094,64 @@
               "team_id": "2620",
               "team_side": "away",
               "player": "Mostafa Shoubir",
-              "text": "Mostafa Shoubir (Egypt) Yellow Card at 90'+3'"
+              "text": "Mostafa Shobeir (Egypt) is shown the yellow card."
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "90'+4'",
+              "team": "Egypt",
+              "team_id": "2620",
+              "team_side": "away",
+              "player": "Hamdy Fathy",
+              "text": "Hamdi Fathy (Egypt) is shown the yellow card."
+            },
+            {
+              "kind": "substitution",
+              "minute": "90'+5'",
+              "team": "Argentina",
+              "team_id": "202",
+              "team_side": "home",
+              "player": "Facundo Medina",
+              "text": "Substitution, Argentina. Facundo Medina replaces Julián Alvarez.",
+              "player_off": "Julián Álvarez"
+            },
+            {
+              "kind": "substitution",
+              "minute": "90'+5'",
+              "team": "Argentina",
+              "team_id": "202",
+              "team_side": "home",
+              "player": "Nicolás Otamendi",
+              "text": "Substitution, Argentina. Nicolás Otamendi replaces Cristian Romero.",
+              "player_off": "Cristian Romero"
+            },
+            {
+              "kind": "substitution",
+              "minute": "90'+6'",
+              "team": "Egypt",
+              "team_id": "2620",
+              "team_side": "away",
+              "player": "Zizo",
+              "text": "Substitution, Egypt. Zizo replaces Mohanad Lasheen.",
+              "player_off": "Mohanad Lashin"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "90'+8'",
+              "team": "Egypt",
+              "team_id": "2620",
+              "team_side": "away",
+              "player": "Marawan Attia",
+              "text": "Marwan Attia (Egypt) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "90'+12'",
+              "team": "Egypt",
+              "team_id": "2620",
+              "team_side": "away",
+              "player": "Haissem Hassan",
+              "text": "Haissem Hassan (Egypt) is shown the yellow card."
             }
           ]
         },
