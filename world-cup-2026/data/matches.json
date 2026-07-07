@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-07-07T19:28:53.632079+00:00",
+  "generated_at": "2026-07-07T20:07:52.423709+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-07-07T14:28:49.354587-05:00",
+  "now_local": "2026-07-07T15:07:50.520748-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -21400,15 +21400,15 @@
           "stage": "Quarterfinals",
           "stage_slug": "quarterfinals",
           "home": {
-            "id": "19280",
-            "name": "Round of 16 7 Winner",
-            "name_zh": "",
-            "rank": null,
-            "short": "RD16 W7",
-            "abbr": "RD16 W7",
-            "flag": "🏳️",
-            "logo": "",
-            "color": "000000",
+            "id": "202",
+            "name": "Argentina",
+            "name_zh": "阿根廷",
+            "rank": 1,
+            "short": "Argentina",
+            "abbr": "ARG",
+            "flag": "🇦🇷",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/arg.png",
+            "color": "74acdf",
             "home_away": "home",
             "score": 0,
             "winner": false
@@ -21437,9 +21437,9 @@
             "Tele",
             "FOX One"
           ],
-          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760513/round-of-16-8-winner-round-of-16-7-winner",
-          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Round%20of%2016%207%20Winner%20vs%20Round%20of%2016%208%20Winner",
-          "slug": "round of 16 8 winner-at-round of 16 7 winner"
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760513/round-of-16-8-winner-argentina",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Argentina%20vs%20Round%20of%2016%208%20Winner",
+          "slug": "round of 16 8 winner-at-argentina"
         }
       ]
     },
