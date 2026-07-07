@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-07-07T21:43:42.038082+00:00",
+  "generated_at": "2026-07-07T21:45:19.464166+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-07-07T16:43:38.391819-05:00",
+  "now_local": "2026-07-07T16:45:17.463668-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -26724,7 +26724,7 @@
           "kickoff_time": "3:00 PM",
           "kickoff_weekday": "Tue",
           "status": "LIVE",
-          "status_short": "84'",
+          "status_short": "86'",
           "stage": "Round of 16",
           "stage_slug": "round-of-16",
           "home": {
@@ -26761,7 +26761,9 @@
             "country": "Canada"
           },
           "broadcasts": [
-            "FOX"
+            "FOX",
+            "Tele",
+            "FOX One"
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760508/colombia-switzerland",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Switzerland%20vs%20Colombia",
@@ -26841,7 +26843,7 @@
               "team_id": "208",
               "team_side": "away",
               "player": "Richard Ríos",
-              "text": "Richard Ríos (Colombia) Substitution at 82'",
+              "text": "Substitution, Colombia. Richard Ríos replaces Jefferson Lerma.",
               "player_off": "Jefferson Lerma"
             },
             {
