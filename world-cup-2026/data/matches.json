@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-07-07T21:53:03.071838+00:00",
+  "generated_at": "2026-07-07T23:01:13.312076+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-07-07T16:52:59.526242-05:00",
+  "now_local": "2026-07-07T18:01:11.173464-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -544,15 +544,6 @@
     ],
     "venues": [
       {
-        "id": "BC Place",
-        "name": "BC Place",
-        "city": "Vancouver",
-        "country": "Canada",
-        "match_count": 7,
-        "next_kickoff_iso": "2026-07-07",
-        "last_kickoff_iso": "2026-07-07"
-      },
-      {
         "id": "Gillette Stadium",
         "name": "Gillette Stadium",
         "city": "Foxborough, Massachusetts",
@@ -686,6 +677,15 @@
         "match_count": 6,
         "next_kickoff_iso": null,
         "last_kickoff_iso": "2026-07-06"
+      },
+      {
+        "id": "BC Place",
+        "name": "BC Place",
+        "city": "Vancouver",
+        "country": "Canada",
+        "match_count": 7,
+        "next_kickoff_iso": null,
+        "last_kickoff_iso": "2026-07-07"
       }
     ],
     "stages": [
@@ -26723,8 +26723,8 @@
           "kickoff_local_date": "2026-07-07",
           "kickoff_time": "3:00 PM",
           "kickoff_weekday": "Tue",
-          "status": "LIVE",
-          "status_short": "90'+3'",
+          "status": "FINAL",
+          "status_short": "FT-Pens",
           "stage": "Round of 16",
           "stage_slug": "round-of-16",
           "home": {
@@ -26739,7 +26739,7 @@
             "color": "FF0000",
             "home_away": "home",
             "score": 0,
-            "winner": false
+            "winner": true
           },
           "away": {
             "id": "208",
@@ -26885,6 +26885,44 @@
               "player": "Rubén Vargas",
               "text": "Substitution, Switzerland. Rubén Vargas replaces Dan Ndoye.",
               "player_off": "Dan Ndoye"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "95'",
+              "team": "Colombia",
+              "team_id": "208",
+              "team_side": "away",
+              "player": "Davinson Sánchez",
+              "text": "Davinson Sánchez (Colombia) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "substitution",
+              "minute": "103'",
+              "team": "Switzerland",
+              "team_id": "475",
+              "team_side": "home",
+              "player": "Zeki Amdouni",
+              "text": "Substitution, Switzerland. Zeki Amdouni replaces Fabian Rieder.",
+              "player_off": "Fabian Rieder"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "105'",
+              "team": "Switzerland",
+              "team_id": "475",
+              "team_side": "home",
+              "player": "Miro Muheim",
+              "text": "Miro Muheim (Switzerland) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "substitution",
+              "minute": "119'",
+              "team": "Colombia",
+              "team_id": "208",
+              "team_side": "away",
+              "player": "Yerry Mina",
+              "text": "Substitution, Colombia. Yerry Mina replaces Jhon Lucumí because of an injury.",
+              "player_off": "Jhon Lucumí"
             }
           ],
           "rosters": {
