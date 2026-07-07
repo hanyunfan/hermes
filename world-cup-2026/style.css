@@ -907,14 +907,21 @@ body {
 .bracket-col-label {
   font-size: 0.66rem;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.05em;
   color: var(--text-dim);
   text-align: center;
   font-weight: 700;
-  padding: 4px 6px;
+  padding: 4px 4px;
   background: var(--bg-elev);
   border: 1px solid var(--border);
   border-radius: 4px;
+  /* English labels like "QUARTERFINALS" / "ROUND OF 16" can exceed
+     the 96px column width at the original 0.1em letter-spacing —
+     without nowrap they wrap to 2 (or 3) lines, breaking the
+     single-row header. nowrap keeps the text on one line; the
+     text-align center keeps it visually centered on the column
+     even if it slightly overflows the cell on either side. */
+  white-space: nowrap;
 }
 .bracket-col-label.is-center {
   color: var(--accent);
