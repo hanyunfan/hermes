@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-07-07T21:45:19.464166+00:00",
+  "generated_at": "2026-07-07T21:53:03.071838+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-07-07T16:45:17.463668-05:00",
+  "now_local": "2026-07-07T16:52:59.526242-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -26724,7 +26724,7 @@
           "kickoff_time": "3:00 PM",
           "kickoff_weekday": "Tue",
           "status": "LIVE",
-          "status_short": "86'",
+          "status_short": "90'+3'",
           "stage": "Round of 16",
           "stage_slug": "round-of-16",
           "home": {
@@ -26855,6 +26855,36 @@
               "player": "Cucho Hernández",
               "text": "Substitution, Colombia. Cucho Hernández replaces Luis Suárez.",
               "player_off": "Luis Suárez"
+            },
+            {
+              "kind": "substitution",
+              "minute": "87'",
+              "team": "Switzerland",
+              "team_id": "475",
+              "team_side": "home",
+              "player": "Silvan Widmer",
+              "text": "Substitution, Switzerland. Silvan Widmer replaces Denis Zakaria.",
+              "player_off": "Denis Zakaria"
+            },
+            {
+              "kind": "substitution",
+              "minute": "87'",
+              "team": "Switzerland",
+              "team_id": "475",
+              "team_side": "home",
+              "player": "Cedric Itten",
+              "text": "Substitution, Switzerland. Cedric Itten replaces Breel Embolo.",
+              "player_off": "Breel Embolo"
+            },
+            {
+              "kind": "substitution",
+              "minute": "90'+2'",
+              "team": "Switzerland",
+              "team_id": "475",
+              "team_side": "home",
+              "player": "Rubén Vargas",
+              "text": "Substitution, Switzerland. Rubén Vargas replaces Dan Ndoye.",
+              "player_off": "Dan Ndoye"
             }
           ],
           "rosters": {
