@@ -2529,10 +2529,12 @@
       const n = ms.length;
       if (n === 0) return;
       if (round === "final") {
-        // Final sits at 46% (was 50%) so the Final + 3rd-place pair
-        // becomes a tight, vertically-centered unit. Pair spans 46–58%
-        // with center at 52%, the 3rd-place match below at 58%.
-        for (const m of ms) pos[m.id] = { y: 46, side: "C" };
+        // Final sits at the SF's y (25%) so the Final nameplate
+        // middle aligns with the midpoint between the two SF cards'
+        // middles. The 3rd-place match sits directly below at 37%
+        // (12% gap, same as the old 46–58% pair) so the pair reads
+        // as a cohesive unit.
+        for (const m of ms) pos[m.id] = { y: 25, side: "C" };
         return;
       }
       // Each wing (L/R) gets half the cards. Distribute them across the
@@ -2625,7 +2627,7 @@
     place("quarterfinals");
     place("semifinals");
     place("final");
-    if (third) pos[third.id] = { y: 58, side: "C" };
+    if (third) pos[third.id] = { y: 37, side: "C" };
 
     // SVG layer of connecting lines
     const SVG_NS = "http://www.w3.org/2000/svg";
@@ -2774,11 +2776,11 @@
     for (const r of rounds.slice(1)) for (const m of byRound[r] || []) appendCard(m);
     if (third) {
       // Place the 3rd-place match directly below the Final so the
-      // pair reads as a cohesive unit (Final 46%, 3rd 58%, gap 12%).
+      // pair reads as a cohesive unit (Final 25%, 3rd 37%, gap 12%).
       // No connecting lines (per Frank: "放到一二名下面就好，不用
       // 联线").
-      pos[third.id] = { y: 58, side: "C" };
-      appendCard(third, 58);
+      pos[third.id] = { y: 37, side: "C" };
+      appendCard(third, 37);
     }
   }
 
