@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-07-09T21:23:12.108140+00:00",
+  "generated_at": "2026-07-09T22:50:04.890808+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-07-09T16:23:10.074115-05:00",
+  "now_local": "2026-07-09T17:50:03.021551-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -544,15 +544,6 @@
     ],
     "venues": [
       {
-        "id": "Gillette Stadium",
-        "name": "Gillette Stadium",
-        "city": "Foxborough, Massachusetts",
-        "country": "USA",
-        "match_count": 7,
-        "next_kickoff_iso": "2026-07-09",
-        "last_kickoff_iso": "2026-07-09"
-      },
-      {
         "id": "SoFi Stadium",
         "name": "SoFi Stadium",
         "city": "Inglewood, California",
@@ -686,6 +677,15 @@
         "match_count": 7,
         "next_kickoff_iso": null,
         "last_kickoff_iso": "2026-07-07"
+      },
+      {
+        "id": "Gillette Stadium",
+        "name": "Gillette Stadium",
+        "city": "Foxborough, Massachusetts",
+        "country": "USA",
+        "match_count": 7,
+        "next_kickoff_iso": null,
+        "last_kickoff_iso": "2026-07-09"
       }
     ],
     "stages": [
@@ -26995,8 +26995,8 @@
           "kickoff_local_date": "2026-07-09",
           "kickoff_time": "3:00 PM",
           "kickoff_weekday": "Thu",
-          "status": "LIVE",
-          "status_short": "58'",
+          "status": "FINAL",
+          "status_short": "FT",
           "stage": "Quarterfinals",
           "stage_slug": "quarterfinals",
           "home": {
@@ -27010,8 +27010,8 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/fra.png",
             "color": "000080",
             "home_away": "home",
-            "score": 0,
-            "winner": false
+            "score": 2,
+            "winner": true
           },
           "away": {
             "id": "2869",
@@ -27040,7 +27040,127 @@
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760510/morocco-france",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20France%20vs%20Morocco",
           "slug": "morocco-at-france",
-          "incidents": [],
+          "incidents": [
+            {
+              "kind": "goal",
+              "minute": "60'",
+              "team": "France",
+              "team_id": "478",
+              "team_side": "home",
+              "player": "Kylian Mbappé",
+              "text": "Goal! France 1, Morocco 0. Kylian Mbappé (France) right footed shot from the left side of the box to the top right corner. Assisted by Désiré Doué.",
+              "assist": "Désiré Doué"
+            },
+            {
+              "kind": "substitution",
+              "minute": "62'",
+              "team": "Morocco",
+              "team_id": "2869",
+              "team_side": "away",
+              "player": "Soufiane Rahimi",
+              "text": "Substitution, Morocco. Soufiane Rahimi replaces Bilal El Khannouss.",
+              "player_off": "Bilal El Khannouss"
+            },
+            {
+              "kind": "substitution",
+              "minute": "62'",
+              "team": "Morocco",
+              "team_id": "2869",
+              "team_side": "away",
+              "player": "Sofyan Amrabat",
+              "text": "Substitution, Morocco. Sofyan Amrabat replaces Ayyoub Bouaddi.",
+              "player_off": "Ayyoub Bouaddi"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "63'",
+              "team": "Morocco",
+              "team_id": "2869",
+              "team_side": "away",
+              "player": "Issa Diop",
+              "text": "Issa Diop (Morocco) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "goal",
+              "minute": "66'",
+              "team": "France",
+              "team_id": "478",
+              "team_side": "home",
+              "player": "Ousmane Dembélé",
+              "text": "Goal! France 2, Morocco 0. Ousmane Dembélé (France) right footed shot from outside the box to the bottom right corner. Assisted by Kylian Mbappé.",
+              "assist": "Kylian Mbappé"
+            },
+            {
+              "kind": "substitution",
+              "minute": "71'",
+              "team": "France",
+              "team_id": "478",
+              "team_side": "home",
+              "player": "Warren Zaïre-Emery",
+              "text": "Substitution, France. Warren Zaïre-Emery replaces Manu Koné.",
+              "player_off": "Manu Koné"
+            },
+            {
+              "kind": "substitution",
+              "minute": "74'",
+              "team": "Morocco",
+              "team_id": "2869",
+              "team_side": "away",
+              "player": "Zakaria El Ouahdi",
+              "text": "Substitution, Morocco. Zakaria El Ouahdi replaces Anass Salah-Eddine.",
+              "player_off": "Anass Salah-Eddine"
+            },
+            {
+              "kind": "substitution",
+              "minute": "74'",
+              "team": "Morocco",
+              "team_id": "2869",
+              "team_side": "away",
+              "player": "Gessime Yassine",
+              "text": "Substitution, Morocco. Gessime Yassine replaces Brahim Díaz.",
+              "player_off": "Brahim Díaz"
+            },
+            {
+              "kind": "substitution",
+              "minute": "77'",
+              "team": "France",
+              "team_id": "478",
+              "team_side": "home",
+              "player": "Jean-Philippe Mateta",
+              "text": "Substitution, France. Jean-Philippe Mateta replaces Kylian Mbappé because of an injury.",
+              "player_off": "Kylian Mbappé"
+            },
+            {
+              "kind": "substitution",
+              "minute": "77'",
+              "team": "France",
+              "team_id": "478",
+              "team_side": "home",
+              "player": "Bradley Barcola",
+              "text": "Substitution, France. Bradley Barcola replaces Désiré Doué.",
+              "player_off": "Désiré Doué"
+            },
+            {
+              "kind": "substitution",
+              "minute": "85'",
+              "team": "Morocco",
+              "team_id": "2869",
+              "team_side": "away",
+              "player": "Amine Sbaï",
+              "text": "Substitution, Morocco. Amine Sbaï replaces Chemsdine Talbi.",
+              "player_off": "Chemsdine Talbi"
+            },
+            {
+              "kind": "substitution",
+              "minute": "87'",
+              "team": "France",
+              "team_id": "478",
+              "team_side": "home",
+              "player": "Malo Gusto",
+              "text": "Substitution, France. Malo Gusto replaces Jules Koundé.",
+              "player_off": "Jules Koundé"
+            }
+          ],
           "rosters": {
             "home": [
               "Mike Maignan",
@@ -27292,15 +27412,15 @@
           "stage": "Semifinals",
           "stage_slug": "semifinals",
           "home": {
-            "id": "17631",
-            "name": "Quarterfinal 1 Winner",
-            "name_zh": "",
-            "rank": null,
-            "short": "QF W1",
-            "abbr": "QFW1",
-            "flag": "🏳️",
-            "logo": "",
-            "color": "000000",
+            "id": "478",
+            "name": "France",
+            "name_zh": "法国",
+            "rank": 3,
+            "short": "France",
+            "abbr": "FRA",
+            "flag": "🇫🇷",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/fra.png",
+            "color": "000080",
             "home_away": "home",
             "score": 0,
             "winner": false
@@ -27329,9 +27449,9 @@
             "Tele",
             "FOX One"
           ],
-          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760514/quarterfinal-2-winner-quarterfinal-1-winner",
-          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Quarterfinal%201%20Winner%20vs%20Quarterfinal%202%20Winner",
-          "slug": "quarterfinal 2 winner-at-quarterfinal 1 winner"
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760514/quarterfinal-2-winner-france",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20France%20vs%20Quarterfinal%202%20Winner",
+          "slug": "quarterfinal 2 winner-at-france"
         }
       ]
     },
