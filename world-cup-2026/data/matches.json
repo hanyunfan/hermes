@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-07-10T19:26:44.815756+00:00",
+  "generated_at": "2026-07-10T20:50:33.206163+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-07-10T14:26:42.350910-05:00",
+  "now_local": "2026-07-10T15:50:29.472876-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -27234,8 +27234,8 @@
           "kickoff_local_date": "2026-07-10",
           "kickoff_time": "2:00 PM",
           "kickoff_weekday": "Fri",
-          "status": "SCHEDULED",
-          "status_short": "Scheduled",
+          "status": "LIVE",
+          "status_short": "89'",
           "stage": "Quarterfinals",
           "stage_slug": "quarterfinals",
           "home": {
@@ -27249,7 +27249,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/esp.png",
             "color": "c60b1e",
             "home_away": "home",
-            "score": 0,
+            "score": 2,
             "winner": false
           },
           "away": {
@@ -27263,7 +27263,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/bel.png",
             "color": "E30613",
             "home_away": "away",
-            "score": 0,
+            "score": 1,
             "winner": false
           },
           "venue": {
@@ -27278,7 +27278,200 @@
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760511/belgium-spain",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Spain%20vs%20Belgium",
-          "slug": "belgium-at-spain"
+          "slug": "belgium-at-spain",
+          "incidents": [
+            {
+              "kind": "goal",
+              "minute": "30'",
+              "team": "Spain",
+              "team_id": "164",
+              "team_side": "home",
+              "player": "Fabián Ruiz",
+              "text": "Goal! Spain 1, Belgium 0. Fabián Ruiz (Spain) right footed shot from the centre of the box to the high centre of the goal."
+            },
+            {
+              "kind": "goal",
+              "minute": "41'",
+              "team": "Belgium",
+              "team_id": "459",
+              "team_side": "away",
+              "player": "Charles De Ketelaere",
+              "text": "Goal! Spain 1, Belgium 1. Charles De Ketelaere (Belgium) header from the centre of the box to the centre of the goal. Assisted by Timothy Castagne with a cross.",
+              "assist": "Timothy Castagne"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "43'",
+              "team": "Spain",
+              "team_id": "164",
+              "team_side": "home",
+              "player": "Pau Cubarsí",
+              "text": "Pau Cubarsí (Spain) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "substitution",
+              "minute": "55'",
+              "team": "Spain",
+              "team_id": "164",
+              "team_side": "home",
+              "player": "Ferran Torres",
+              "text": "Substitution, Spain. Ferran Torres replaces Álex Baena.",
+              "player_off": "Álex Baena"
+            },
+            {
+              "kind": "substitution",
+              "minute": "55'",
+              "team": "Spain",
+              "team_id": "164",
+              "team_side": "home",
+              "player": "Pedri",
+              "text": "Substitution, Spain. Pedri replaces Fabián Ruiz.",
+              "player_off": "Fabián Ruiz"
+            },
+            {
+              "kind": "substitution",
+              "minute": "60'",
+              "team": "Belgium",
+              "team_id": "459",
+              "team_side": "away",
+              "player": "Romelu Lukaku",
+              "text": "Substitution, Belgium. Romelu Lukaku replaces Hans Vanaken.",
+              "player_off": "Hans Vanaken"
+            },
+            {
+              "kind": "substitution",
+              "minute": "60'",
+              "team": "Belgium",
+              "team_id": "459",
+              "team_side": "away",
+              "player": "Axel Witsel",
+              "text": "Substitution, Belgium. Axel Witsel replaces Leandro Trossard.",
+              "player_off": "Leandro Trossard"
+            },
+            {
+              "kind": "substitution",
+              "minute": "61'",
+              "team": "Belgium",
+              "team_id": "459",
+              "team_side": "away",
+              "player": "Joaquin Seys",
+              "text": "Substitution, Belgium. Joaquin Seys replaces Maxim De Cuyper.",
+              "player_off": "Maxim De Cuyper"
+            },
+            {
+              "kind": "substitution",
+              "minute": "71'",
+              "team": "Belgium",
+              "team_id": "459",
+              "team_side": "away",
+              "player": "Senne Lammens",
+              "text": "Substitution, Belgium. Senne Lammens replaces Thibaut Courtois because of an injury.",
+              "player_off": "Thibaut Courtois"
+            },
+            {
+              "kind": "substitution",
+              "minute": "79'",
+              "team": "Spain",
+              "team_id": "164",
+              "team_side": "home",
+              "player": "Nico Williams",
+              "text": "Substitution, Spain. Nico Williams replaces Mikel Oyarzabal.",
+              "player_off": "Mikel Oyarzabal"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "85'",
+              "team": "Belgium",
+              "team_id": "459",
+              "team_side": "away",
+              "player": "Kevin De Bruyne",
+              "text": "Kevin De Bruyne (Belgium) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "substitution",
+              "minute": "86'",
+              "team": "Belgium",
+              "team_id": "459",
+              "team_side": "away",
+              "player": "Alexis Saelemaekers",
+              "text": "Substitution, Belgium. Alexis Saelemaekers replaces Kevin De Bruyne.",
+              "player_off": "Kevin De Bruyne"
+            },
+            {
+              "kind": "substitution",
+              "minute": "86'",
+              "team": "Spain",
+              "team_id": "164",
+              "team_side": "home",
+              "player": "Mikel Merino",
+              "text": "Substitution, Spain. Mikel Merino replaces Dani Olmo.",
+              "player_off": "Dani Olmo"
+            },
+            {
+              "kind": "goal",
+              "minute": "88'",
+              "team": "Spain",
+              "team_id": "164",
+              "team_side": "home",
+              "player": "Mikel Merino",
+              "text": "Goal! Spain 2, Belgium 1. Mikel Merino (Spain) left footed shot from very close range."
+            }
+          ],
+          "rosters": {
+            "home": [
+              "Unai Simón",
+              "Aymeric Laporte",
+              "Pau Cubarsí",
+              "Marc Cucurella",
+              "Pedro Porro",
+              "Dani Olmo",
+              "Fabián Ruiz",
+              "Rodri",
+              "Mikel Oyarzabal",
+              "Álex Baena",
+              "Lamine Yamal",
+              "Nico Williams",
+              "Yéremy Pino",
+              "Alejandro Grimaldo",
+              "Víctor Muñoz",
+              "Mikel Merino",
+              "Joan García",
+              "Eric García",
+              "Borja Iglesias",
+              "Gavi",
+              "David Raya",
+              "Marc Pubill",
+              "Pedri",
+              "Martín Zubimendi",
+              "Ferran Torres",
+              "Marcos Llorente"
+            ],
+            "away": [
+              "Thibaut Courtois",
+              "Brandon Mechele",
+              "Nathan Ngoy",
+              "Maxim De Cuyper",
+              "Timothy Castagne",
+              "Kevin De Bruyne",
+              "Nicolas Raskin",
+              "Hans Vanaken",
+              "Charles De Ketelaere",
+              "Jérémy Doku",
+              "Leandro Trossard",
+              "Alexis Saelemaekers",
+              "Koni De Winter",
+              "Joaquin Seys",
+              "Diego Moreira",
+              "Senne Lammens",
+              "Dodi Lukébakio",
+              "Arthur Theate",
+              "Matias Fernandez-Pardo",
+              "Thomas Meunier",
+              "Axel Witsel",
+              "Mike Penders",
+              "Romelu Lukaku"
+            ]
+          }
         }
       ]
     },
