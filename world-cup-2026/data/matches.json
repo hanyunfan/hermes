@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-07-10T22:02:23.619165+00:00",
+  "generated_at": "2026-07-10T23:28:34.771927+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-07-10T17:02:21.608319-05:00",
+  "now_local": "2026-07-10T18:28:32.597810-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -27250,7 +27250,7 @@
             "color": "c60b1e",
             "home_away": "home",
             "score": 2,
-            "winner": false
+            "winner": true
           },
           "away": {
             "id": "459",
@@ -27637,15 +27637,15 @@
             "winner": false
           },
           "away": {
-            "id": "17629",
-            "name": "Quarterfinal 2 Winner",
-            "name_zh": "",
-            "rank": null,
-            "short": "QF W2",
-            "abbr": "QFW2",
-            "flag": "🏳️",
-            "logo": "",
-            "color": "000000",
+            "id": "164",
+            "name": "Spain",
+            "name_zh": "西班牙",
+            "rank": 2,
+            "short": "Spain",
+            "abbr": "ESP",
+            "flag": "🇪🇸",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/esp.png",
+            "color": "c60b1e",
             "home_away": "away",
             "score": 0,
             "winner": false
@@ -27660,9 +27660,9 @@
             "Tele",
             "FOX One"
           ],
-          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760514/quarterfinal-2-winner-france",
-          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20France%20vs%20Quarterfinal%202%20Winner",
-          "slug": "quarterfinal 2 winner-at-france"
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760514/spain-france",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20France%20vs%20Spain",
+          "slug": "spain-at-france"
         }
       ]
     },
