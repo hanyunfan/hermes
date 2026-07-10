@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-07-10T20:50:33.206163+00:00",
+  "generated_at": "2026-07-10T22:02:23.619165+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-07-10T15:50:29.472876-05:00",
+  "now_local": "2026-07-10T17:02:21.608319-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -544,15 +544,6 @@
     ],
     "venues": [
       {
-        "id": "SoFi Stadium",
-        "name": "SoFi Stadium",
-        "city": "Inglewood, California",
-        "country": "USA",
-        "match_count": 8,
-        "next_kickoff_iso": "2026-07-10",
-        "last_kickoff_iso": "2026-07-10"
-      },
-      {
         "id": "GEHA Field at Arrowhead Stadium",
         "name": "GEHA Field at Arrowhead Stadium",
         "city": "Kansas City, Missouri",
@@ -686,6 +677,15 @@
         "match_count": 7,
         "next_kickoff_iso": null,
         "last_kickoff_iso": "2026-07-09"
+      },
+      {
+        "id": "SoFi Stadium",
+        "name": "SoFi Stadium",
+        "city": "Inglewood, California",
+        "country": "USA",
+        "match_count": 8,
+        "next_kickoff_iso": null,
+        "last_kickoff_iso": "2026-07-10"
       }
     ],
     "stages": [
@@ -27234,8 +27234,8 @@
           "kickoff_local_date": "2026-07-10",
           "kickoff_time": "2:00 PM",
           "kickoff_weekday": "Fri",
-          "status": "LIVE",
-          "status_short": "89'",
+          "status": "FINAL",
+          "status_short": "FT",
           "stage": "Quarterfinals",
           "stage_slug": "quarterfinals",
           "home": {
@@ -27414,7 +27414,25 @@
               "team_id": "164",
               "team_side": "home",
               "player": "Mikel Merino",
-              "text": "Goal! Spain 2, Belgium 1. Mikel Merino (Spain) left footed shot from very close range."
+              "text": "Goal! Spain 2, Belgium 1. Mikel Merino (Spain) left footed shot from very close range to the top left corner."
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "90'+3'",
+              "team": "Spain",
+              "team_id": "164",
+              "team_side": "home",
+              "player": "Aymeric Laporte",
+              "text": "Aymeric Laporte (Spain) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "90'+5'",
+              "team": "Belgium",
+              "team_id": "459",
+              "team_side": "away",
+              "player": "Axel Witsel",
+              "text": "Axel Witsel (Belgium) is shown the yellow card for a bad foul."
             }
           ],
           "rosters": {
