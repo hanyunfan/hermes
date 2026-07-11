@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-07-11T17:58:59+00:00",
+  "generated_at": "2026-07-11T19:17:44+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-07-11T12:58:59-05:00",
+  "now_local": "2026-07-11T14:17:44-05:00",
   "match_count": 64,
   "manual_count": 56,
   "rounds": [
@@ -4661,7 +4661,7 @@
       "round_intro_en": "Quarterfinals — 4 matches decide the final 4. The QF window is 3 days (Thu 7/9 - Sat 7/11). Both upper-half QFs are 7/9-7/10; both lower-half QFs are 7/11.\n\nUpper-half QF is locked in: France vs Morocco (Thu 7/9 3 PM CT, Foxborough) — France's first knockout test + Morocco's biggest WC run ever. Winner takes SF-1.\n\nOf the 4 QFs, two to plan around: France vs Morocco (now a real game with a storyline), and the Brazil/Norway vs Mexico/England clash (Sat 7/11 4 PM CT, Miami) — winner of this QF is the upper-half SF-1 candidate from that side.",
       "manual_note_zh": "排序按推荐分降序。7/5 下午（CT）发出。",
       "manual_note_en": "Sorted by recommendation score, descending. Issued Sun 5 Jul PM CT.",
-      "generated_at": "2026-07-11T17:58:59+00:00",
+      "generated_at": "2026-07-11T19:17:44+00:00",
       "matches": [
         {
           "match_id": "760510",
