@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-07-10T23:28:34.771927+00:00",
+  "generated_at": "2026-07-11T01:00:07.778466+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-07-10T18:28:32.597810-05:00",
+  "now_local": "2026-07-10T20:00:04.229248-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -27334,9 +27334,9 @@
               "team": "Belgium",
               "team_id": "459",
               "team_side": "away",
-              "player": "Romelu Lukaku",
-              "text": "Substitution, Belgium. Romelu Lukaku replaces Hans Vanaken.",
-              "player_off": "Hans Vanaken"
+              "player": "Axel Witsel",
+              "text": "Substitution, Belgium. Axel Witsel replaces Leandro Trossard.",
+              "player_off": "Leandro Trossard"
             },
             {
               "kind": "substitution",
@@ -27344,9 +27344,9 @@
               "team": "Belgium",
               "team_id": "459",
               "team_side": "away",
-              "player": "Axel Witsel",
-              "text": "Substitution, Belgium. Axel Witsel replaces Leandro Trossard.",
-              "player_off": "Leandro Trossard"
+              "player": "Romelu Lukaku",
+              "text": "Substitution, Belgium. Romelu Lukaku replaces Hans Vanaken.",
+              "player_off": "Hans Vanaken"
             },
             {
               "kind": "substitution",
