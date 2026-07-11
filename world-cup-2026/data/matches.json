@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-07-11T02:00:43.526053+00:00",
+  "generated_at": "2026-07-11T05:24:56.442826+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-07-10T21:00:40.336183-05:00",
+  "now_local": "2026-07-11T00:24:54.569639-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -27224,7 +27224,7 @@
     },
     {
       "date": "2026-07-10",
-      "label": "Today",
+      "label": "Fri",
       "match_count": 1,
       "matches": [
         {
@@ -27495,7 +27495,7 @@
     },
     {
       "date": "2026-07-11",
-      "label": "Tomorrow",
+      "label": "Today",
       "match_count": 2,
       "matches": [
         {
