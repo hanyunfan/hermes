@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-07-12T01:05:59.234377+00:00",
+  "generated_at": "2026-07-12T02:04:32.815162+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-07-11T20:05:56.209254-05:00",
+  "now_local": "2026-07-11T21:04:25.018154-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -27775,8 +27775,8 @@
           "kickoff_local_date": "2026-07-11",
           "kickoff_time": "8:00 PM",
           "kickoff_weekday": "Sat",
-          "status": "SCHEDULED",
-          "status_short": "Scheduled",
+          "status": "LIVE",
+          "status_short": "HT",
           "stage": "Quarterfinals",
           "stage_slug": "quarterfinals",
           "home": {
@@ -27790,7 +27790,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/arg.png",
             "color": "74acdf",
             "home_away": "home",
-            "score": 0,
+            "score": 1,
             "winner": false
           },
           "away": {
@@ -27819,7 +27819,85 @@
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760513/switzerland-argentina",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Argentina%20vs%20Switzerland",
-          "slug": "switzerland-at-argentina"
+          "slug": "switzerland-at-argentina",
+          "incidents": [
+            {
+              "kind": "goal",
+              "minute": "10'",
+              "team": "Argentina",
+              "team_id": "202",
+              "team_side": "home",
+              "player": "Alexis Mac Allister",
+              "text": "Goal! Argentina 1, Switzerland 0. Alexis Mac Allister (Argentina) header from the left side of the six yard box to the bottom right corner. Assisted by Lionel Messi with a cross following a corner.",
+              "assist": "Lionel Messi"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "44'",
+              "team": "Switzerland",
+              "team_id": "475",
+              "team_side": "away",
+              "player": "Breel Embolo",
+              "text": "Breel Embolo (Switzerland) is shown the yellow card for a bad foul."
+            }
+          ],
+          "rosters": {
+            "home": [
+              "Nicolás Otamendi",
+              "Giuliano Simeone",
+              "Exequiel Palacios",
+              "Lautaro Martínez",
+              "Nico Paz",
+              "Facundo Medina",
+              "Nico González",
+              "Gerónimo Rulli",
+              "Thiago Almada",
+              "Juan Musso",
+              "Valentín Barco",
+              "Marcos Senesi",
+              "José Manuel López",
+              "Giovani Lo Celso",
+              "Gonzalo Montiel",
+              "Emiliano Martínez",
+              "Lisandro Martínez",
+              "Cristian Romero",
+              "Leandro Paredes",
+              "Nicolás Tagliafico",
+              "Nahuel Molina",
+              "Enzo Fernández",
+              "Alexis Mac Allister",
+              "Rodrigo De Paul",
+              "Julián Álvarez",
+              "Lionel Messi"
+            ],
+            "away": [
+              "Gregor Kobel",
+              "Manuel Akanji",
+              "Nico Elvedi",
+              "Ricardo Rodríguez",
+              "Denis Zakaria",
+              "Fabian Rieder",
+              "Granit Xhaka",
+              "Remo Freuler",
+              "Breel Embolo",
+              "Dan Ndoye",
+              "Djibril Sow",
+              "Ardon Jashari",
+              "Marvin Keller",
+              "Noah Okafor",
+              "Michel Aebischer",
+              "Yvon Mvogo",
+              "Miro Muheim",
+              "Aurèle Amenda",
+              "Rubén Vargas",
+              "Eray Cömert",
+              "Silvan Widmer",
+              "Luca Jaquez",
+              "Christian Fassnacht",
+              "Cedric Itten",
+              "Zeki Amdouni"
+            ]
+          }
         }
       ]
     },
