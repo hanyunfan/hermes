@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-07-12T22:48:51+00:00",
+  "generated_at": "2026-07-12T23:53:58+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-07-12T17:48:51-05:00",
+  "now_local": "2026-07-12T18:53:58-05:00",
   "match_count": 64,
   "manual_count": 56,
   "rounds": [
@@ -5015,7 +5015,7 @@
       "round_intro_en": "Semifinals — 2 matches decide the Final. Both games in the US: SF-1 at AT&T Stadium (Arlington, TX) Tue 7/14 2 PM CT, SF-2 at Mercedes-Benz Stadium (Atlanta, GA) Wed 7/15 2 PM CT.\n\nSF-1 = upper half (QF-1 + QF-2 winners); SF-2 = lower half (QF-3 + QF-4 winners). Both winners advance to the 7/19 Final at MetLife Stadium.",
       "manual_note_zh": "排序按推荐分降序。7/5 下午（CT）发出，胜者尚未产生。",
       "manual_note_en": "Sorted by recommendation score, descending. Issued Sun 5 Jul PM CT; SF matchups pending QF results.",
-      "generated_at": "2026-07-12T22:48:51+00:00",
+      "generated_at": "2026-07-12T23:53:58+00:00",
       "matches": [
         {
           "match_id": "760514",
