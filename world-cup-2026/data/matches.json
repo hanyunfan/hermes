@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-07-11T23:26:51.786600+00:00",
+  "generated_at": "2026-07-12T01:05:59.234377+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-07-11T18:26:49.850403-05:00",
+  "now_local": "2026-07-11T20:05:56.209254-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -553,15 +553,6 @@
         "last_kickoff_iso": "2026-07-11"
       },
       {
-        "id": "Hard Rock Stadium",
-        "name": "Hard Rock Stadium",
-        "city": "Miami Gardens, Florida",
-        "country": "USA",
-        "match_count": 7,
-        "next_kickoff_iso": "2026-07-11",
-        "last_kickoff_iso": "2026-07-18"
-      },
-      {
         "id": "AT&T Stadium",
         "name": "AT&T Stadium",
         "city": "Arlington, Texas",
@@ -578,6 +569,15 @@
         "match_count": 8,
         "next_kickoff_iso": "2026-07-15",
         "last_kickoff_iso": "2026-07-15"
+      },
+      {
+        "id": "Hard Rock Stadium",
+        "name": "Hard Rock Stadium",
+        "city": "Miami Gardens, Florida",
+        "country": "USA",
+        "match_count": 7,
+        "next_kickoff_iso": "2026-07-18",
+        "last_kickoff_iso": "2026-07-18"
       },
       {
         "id": "MetLife Stadium",
@@ -27505,8 +27505,8 @@
           "kickoff_local_date": "2026-07-11",
           "kickoff_time": "4:00 PM",
           "kickoff_weekday": "Sat",
-          "status": "LIVE",
-          "status_short": "ET-HT",
+          "status": "FINAL",
+          "status_short": "AET",
           "stage": "Quarterfinals",
           "stage_slug": "quarterfinals",
           "home": {
@@ -27535,7 +27535,7 @@
             "color": "EA1F29",
             "home_away": "away",
             "score": 2,
-            "winner": false
+            "winner": true
           },
           "venue": {
             "name": "Hard Rock Stadium",
@@ -27678,7 +27678,36 @@
               "team_id": "448",
               "team_side": "away",
               "player": "Jude Bellingham",
-              "text": "Goal! Norway 1, England 2. Jude Bellingham (England) right footed shot from the centre of the box to the bottom left corner."
+              "text": "Goal! Norway 1, England 2. Jude Bellingham (England) right footed shot from the centre of the box to the bottom left corner following a corner."
+            },
+            {
+              "kind": "substitution",
+              "minute": "105'",
+              "team": "Norway",
+              "team_id": "464",
+              "team_side": "home",
+              "player": "Jørgen Strand Larsen",
+              "text": "Substitution, Norway. Jørgen Strand Larsen replaces Erling Haaland.",
+              "player_off": "Erling Haaland"
+            },
+            {
+              "kind": "substitution",
+              "minute": "111'",
+              "team": "England",
+              "team_id": "448",
+              "team_side": "away",
+              "player": "Dan Burn",
+              "text": "Substitution, England. Dan Burn replaces Jude Bellingham.",
+              "player_off": "Jude Bellingham"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "117'",
+              "team": "Norway",
+              "team_id": "464",
+              "team_side": "home",
+              "player": "Kristoffer Ajer",
+              "text": "Kristoffer Ajer (Norway) is shown the yellow card."
             }
           ],
           "rosters": {
@@ -27871,15 +27900,15 @@
           "stage": "Semifinals",
           "stage_slug": "semifinals",
           "home": {
-            "id": "17630",
-            "name": "Quarterfinal 3 Winner",
-            "name_zh": "",
-            "rank": null,
-            "short": "QF W3",
-            "abbr": "QFW3",
-            "flag": "🏳️",
-            "logo": "",
-            "color": "000000",
+            "id": "448",
+            "name": "England",
+            "name_zh": "英格兰",
+            "rank": 4,
+            "short": "England",
+            "abbr": "ENG",
+            "flag": "🏴",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/eng.png",
+            "color": "EA1F29",
             "home_away": "home",
             "score": 0,
             "winner": false
@@ -27908,9 +27937,9 @@
             "Tele",
             "FOX One"
           ],
-          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760515/quarterfinal-4-winner-quarterfinal-3-winner",
-          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Quarterfinal%203%20Winner%20vs%20Quarterfinal%204%20Winner",
-          "slug": "quarterfinal 4 winner-at-quarterfinal 3 winner"
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760515/quarterfinal-4-winner-england",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20England%20vs%20Quarterfinal%204%20Winner",
+          "slug": "quarterfinal 4 winner-at-england"
         }
       ]
     },
