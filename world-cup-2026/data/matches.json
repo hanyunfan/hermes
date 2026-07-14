@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-07-14T21:30:19.628886+00:00",
+  "generated_at": "2026-07-14T22:56:17.277720+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-07-14T16:30:18.151162-05:00",
+  "now_local": "2026-07-14T17:56:15.501358-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -28128,7 +28128,7 @@
             "color": "c60b1e",
             "home_away": "away",
             "score": 2,
-            "winner": false
+            "winner": true
           },
           "venue": {
             "name": "AT&T Stadium",
