@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-07-14T20:11:25.694672+00:00",
+  "generated_at": "2026-07-14T21:30:19.628886+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-07-14T15:11:23.303063-05:00",
+  "now_local": "2026-07-14T16:30:18.151162-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -544,15 +544,6 @@
     ],
     "venues": [
       {
-        "id": "AT&T Stadium",
-        "name": "AT&T Stadium",
-        "city": "Arlington, Texas",
-        "country": "USA",
-        "match_count": 9,
-        "next_kickoff_iso": "2026-07-14",
-        "last_kickoff_iso": "2026-07-14"
-      },
-      {
         "id": "Mercedes-Benz Stadium",
         "name": "Mercedes-Benz Stadium",
         "city": "Atlanta, Georgia",
@@ -686,6 +677,15 @@
         "match_count": 6,
         "next_kickoff_iso": null,
         "last_kickoff_iso": "2026-07-11"
+      },
+      {
+        "id": "AT&T Stadium",
+        "name": "AT&T Stadium",
+        "city": "Arlington, Texas",
+        "country": "USA",
+        "match_count": 9,
+        "next_kickoff_iso": null,
+        "last_kickoff_iso": "2026-07-14"
       }
     ],
     "stages": [
@@ -27532,7 +27532,7 @@
             "abbr": "ENG",
             "flag": "🏴",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/eng.png",
-            "color": "EA1F29",
+            "color": "FFFFFF",
             "home_away": "away",
             "score": 2,
             "winner": true
@@ -28098,8 +28098,8 @@
           "kickoff_local_date": "2026-07-14",
           "kickoff_time": "2:00 PM",
           "kickoff_weekday": "Tue",
-          "status": "SCHEDULED",
-          "status_short": "Scheduled",
+          "status": "FINAL",
+          "status_short": "FT",
           "stage": "Semifinals",
           "stage_slug": "semifinals",
           "home": {
@@ -28127,7 +28127,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/esp.png",
             "color": "c60b1e",
             "home_away": "away",
-            "score": 0,
+            "score": 2,
             "winner": false
           },
           "venue": {
@@ -28142,7 +28142,213 @@
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760514/spain-france",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20France%20vs%20Spain",
-          "slug": "spain-at-france"
+          "slug": "spain-at-france",
+          "incidents": [
+            {
+              "kind": "yellow_card",
+              "minute": "9'",
+              "team": "France",
+              "team_id": "478",
+              "team_side": "home",
+              "player": "Adrien Rabiot",
+              "text": "Adrien Rabiot (France) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "goal",
+              "minute": "22'",
+              "team": "Spain",
+              "team_id": "164",
+              "team_side": "away",
+              "player": "Mikel Oyarzabal",
+              "text": "Goal! France 0, Spain 1. Mikel Oyarzabal (Spain) converts the penalty with a left footed shot to the top right corner."
+            },
+            {
+              "kind": "substitution",
+              "minute": "30'",
+              "team": "France",
+              "team_id": "478",
+              "team_side": "home",
+              "player": "Maxence Lacroix",
+              "text": "Substitution, France. Maxence Lacroix replaces William Saliba because of an injury.",
+              "player_off": "William Saliba"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "31'",
+              "team": "Spain",
+              "team_id": "164",
+              "team_side": "away",
+              "player": "Marc Cucurella",
+              "text": "Marc Cucurella (Spain) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "substitution",
+              "minute": "45'",
+              "team": "France",
+              "team_id": "478",
+              "team_side": "home",
+              "player": "Manu Koné",
+              "text": "Substitution, France. Manu Koné replaces Adrien Rabiot.",
+              "player_off": "Adrien Rabiot"
+            },
+            {
+              "kind": "substitution",
+              "minute": "57'",
+              "team": "France",
+              "team_id": "478",
+              "team_side": "home",
+              "player": "Désiré Doué",
+              "text": "Substitution, France. Désiré Doué replaces Bradley Barcola.",
+              "player_off": "Bradley Barcola"
+            },
+            {
+              "kind": "goal",
+              "minute": "58'",
+              "team": "Spain",
+              "team_id": "164",
+              "team_side": "away",
+              "player": "Pedro Porro",
+              "text": "Goal! France 0, Spain 2. Pedro Porro (Spain) right footed shot from the centre of the box to the bottom right corner. Assisted by Dani Olmo.",
+              "assist": "Dani Olmo"
+            },
+            {
+              "kind": "substitution",
+              "minute": "72'",
+              "team": "France",
+              "team_id": "478",
+              "team_side": "home",
+              "player": "Theo Hernández",
+              "text": "Substitution, France. Théo Hernández replaces Lucas Digne.",
+              "player_off": "Lucas Digne"
+            },
+            {
+              "kind": "substitution",
+              "minute": "72'",
+              "team": "France",
+              "team_id": "478",
+              "team_side": "home",
+              "player": "Rayan Cherki",
+              "text": "Substitution, France. Rayan Cherki replaces Michael Olise.",
+              "player_off": "Michael Olise"
+            },
+            {
+              "kind": "substitution",
+              "minute": "74'",
+              "team": "Spain",
+              "team_id": "164",
+              "team_side": "away",
+              "player": "Ferran Torres",
+              "text": "Substitution, Spain. Ferran Torres replaces Mikel Oyarzabal.",
+              "player_off": "Mikel Oyarzabal"
+            },
+            {
+              "kind": "substitution",
+              "minute": "78'",
+              "team": "Spain",
+              "team_id": "164",
+              "team_side": "away",
+              "player": "Mikel Merino",
+              "text": "Substitution, Spain. Mikel Merino replaces Dani Olmo.",
+              "player_off": "Dani Olmo"
+            },
+            {
+              "kind": "substitution",
+              "minute": "78'",
+              "team": "Spain",
+              "team_id": "164",
+              "team_side": "away",
+              "player": "Pedri",
+              "text": "Substitution, Spain. Pedri replaces Fabián Ruiz.",
+              "player_off": "Fabián Ruiz"
+            },
+            {
+              "kind": "substitution",
+              "minute": "84'",
+              "team": "Spain",
+              "team_id": "164",
+              "team_side": "away",
+              "player": "Marcos Llorente",
+              "text": "Substitution, Spain. Marcos Llorente replaces Pedro Porro.",
+              "player_off": "Pedro Porro"
+            },
+            {
+              "kind": "substitution",
+              "minute": "84'",
+              "team": "Spain",
+              "team_id": "164",
+              "team_side": "away",
+              "player": "Nico Williams",
+              "text": "Substitution, Spain. Nico Williams replaces Álex Baena.",
+              "player_off": "Álex Baena"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "86'",
+              "team": "France",
+              "team_id": "478",
+              "team_side": "home",
+              "player": "Kylian Mbappé",
+              "text": "Kylian Mbappé (France) is shown the yellow card for a bad foul."
+            }
+          ],
+          "rosters": {
+            "home": [
+              "Mike Maignan",
+              "William Saliba",
+              "Dayot Upamecano",
+              "Lucas Digne",
+              "Jules Koundé",
+              "Michael Olise",
+              "Adrien Rabiot",
+              "Aurélien Tchouaméni",
+              "Kylian Mbappé",
+              "Bradley Barcola",
+              "Ousmane Dembélé",
+              "Brice Samba",
+              "Robin Risser",
+              "Ibrahima Konaté",
+              "Malo Gusto",
+              "Jean-Philippe Mateta",
+              "Marcus Thuram",
+              "Manu Koné",
+              "Lucas Hernández",
+              "Theo Hernández",
+              "Désiré Doué",
+              "Rayan Cherki",
+              "Maghnes Akliouche",
+              "N'Golo Kanté",
+              "Warren Zaïre-Emery",
+              "Maxence Lacroix"
+            ],
+            "away": [
+              "Unai Simón",
+              "Aymeric Laporte",
+              "Pau Cubarsí",
+              "Marc Cucurella",
+              "Pedro Porro",
+              "Dani Olmo",
+              "Fabián Ruiz",
+              "Rodri",
+              "Mikel Oyarzabal",
+              "Álex Baena",
+              "Lamine Yamal",
+              "Alejandro Grimaldo",
+              "Marc Pubill",
+              "Ferran Torres",
+              "Borja Iglesias",
+              "Marcos Llorente",
+              "Víctor Muñoz",
+              "Nico Williams",
+              "Yéremy Pino",
+              "Pedri",
+              "Eric García",
+              "Gavi",
+              "Martín Zubimendi",
+              "Joan García",
+              "David Raya",
+              "Mikel Merino"
+            ]
+          }
         }
       ]
     },
@@ -28171,7 +28377,7 @@
             "abbr": "ENG",
             "flag": "🏴",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/eng.png",
-            "color": "EA1F29",
+            "color": "FFFFFF",
             "home_away": "home",
             "score": 0,
             "winner": false
