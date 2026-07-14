@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-07-14T22:56:17.277720+00:00",
+  "generated_at": "2026-07-14T23:54:43.783346+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-07-14T17:56:15.501358-05:00",
+  "now_local": "2026-07-14T18:54:42.232620-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -28429,15 +28429,15 @@
           "stage": "3Rd Place Match",
           "stage_slug": "3rd-place-match",
           "home": {
-            "id": "5958",
-            "name": "Semifinal 1 Loser",
-            "name_zh": "",
-            "rank": null,
-            "short": "SF L1",
-            "abbr": "SF L1",
-            "flag": "🏳️",
-            "logo": "",
-            "color": "000000",
+            "id": "478",
+            "name": "France",
+            "name_zh": "法国",
+            "rank": 3,
+            "short": "France",
+            "abbr": "FRA",
+            "flag": "🇫🇷",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/fra.png",
+            "color": "000080",
             "home_away": "home",
             "score": 0,
             "winner": false
@@ -28466,9 +28466,9 @@
             "Tele",
             "FOX One"
           ],
-          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760516/semifinal-2-loser-semifinal-1-loser",
-          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Semifinal%201%20Loser%20vs%20Semifinal%202%20Loser",
-          "slug": "semifinal 2 loser-at-semifinal 1 loser"
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760516/semifinal-2-loser-france",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20France%20vs%20Semifinal%202%20Loser",
+          "slug": "semifinal 2 loser-at-france"
         }
       ]
     },
@@ -28489,15 +28489,15 @@
           "stage": "Final",
           "stage_slug": "final",
           "home": {
-            "id": "5960",
-            "name": "Semifinal 1 Winner",
-            "name_zh": "",
-            "rank": null,
-            "short": "SF W1",
-            "abbr": "SFW1",
-            "flag": "🏳️",
-            "logo": "",
-            "color": "000000",
+            "id": "164",
+            "name": "Spain",
+            "name_zh": "西班牙",
+            "rank": 2,
+            "short": "Spain",
+            "abbr": "ESP",
+            "flag": "🇪🇸",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/esp.png",
+            "color": "c60b1e",
             "home_away": "home",
             "score": 0,
             "winner": false
@@ -28526,9 +28526,9 @@
             "Tele",
             "FOX One"
           ],
-          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760517/semifinal-2-winner-semifinal-1-winner",
-          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Semifinal%201%20Winner%20vs%20Semifinal%202%20Winner",
-          "slug": "semifinal 2 winner-at-semifinal 1 winner"
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760517/semifinal-2-winner-spain",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Spain%20vs%20Semifinal%202%20Winner",
+          "slug": "semifinal 2 winner-at-spain"
         }
       ]
     }
