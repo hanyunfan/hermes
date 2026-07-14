@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-07-14T18:38:34.637317+00:00",
+  "generated_at": "2026-07-14T20:11:25.694672+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-07-14T13:38:32.649846-05:00",
+  "now_local": "2026-07-14T15:11:23.303063-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -7358,7 +7358,7 @@
             "abbr": "ENG",
             "flag": "🏴",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/eng.png",
-            "color": "EA1F29",
+            "color": "FFFFFF",
             "home_away": "home",
             "score": 4,
             "winner": true
@@ -13698,7 +13698,7 @@
             "abbr": "ENG",
             "flag": "🏴",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/eng.png",
-            "color": "EA1F29",
+            "color": "FFFFFF",
             "home_away": "home",
             "score": 0,
             "winner": false
@@ -19392,7 +19392,7 @@
             "abbr": "ENG",
             "flag": "🏴",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/eng.png",
-            "color": "EA1F29",
+            "color": "FFFFFF",
             "home_away": "away",
             "score": 2,
             "winner": true
@@ -22506,7 +22506,7 @@
             "abbr": "ENG",
             "flag": "🏴",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/eng.png",
-            "color": "EA1F29",
+            "color": "FFFFFF",
             "home_away": "home",
             "score": 2,
             "winner": true
@@ -25617,7 +25617,7 @@
             "abbr": "ENG",
             "flag": "🏴",
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/eng.png",
-            "color": "EA1F29",
+            "color": "FFFFFF",
             "home_away": "away",
             "score": 3,
             "winner": true
