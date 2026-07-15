@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-07-15T20:08:15.479945+00:00",
+  "generated_at": "2026-07-15T21:29:34.352589+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-07-15T15:08:12.167259-05:00",
+  "now_local": "2026-07-15T16:29:29.819589-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -544,15 +544,6 @@
     ],
     "venues": [
       {
-        "id": "Mercedes-Benz Stadium",
-        "name": "Mercedes-Benz Stadium",
-        "city": "Atlanta, Georgia",
-        "country": "USA",
-        "match_count": 8,
-        "next_kickoff_iso": "2026-07-15",
-        "last_kickoff_iso": "2026-07-15"
-      },
-      {
         "id": "Hard Rock Stadium",
         "name": "Hard Rock Stadium",
         "city": "Miami Gardens, Florida",
@@ -686,6 +677,15 @@
         "match_count": 9,
         "next_kickoff_iso": null,
         "last_kickoff_iso": "2026-07-14"
+      },
+      {
+        "id": "Mercedes-Benz Stadium",
+        "name": "Mercedes-Benz Stadium",
+        "city": "Atlanta, Georgia",
+        "country": "USA",
+        "match_count": 8,
+        "next_kickoff_iso": null,
+        "last_kickoff_iso": "2026-07-15"
       }
     ],
     "stages": [
@@ -28364,8 +28364,8 @@
           "kickoff_local_date": "2026-07-15",
           "kickoff_time": "2:00 PM",
           "kickoff_weekday": "Wed",
-          "status": "SCHEDULED",
-          "status_short": "Scheduled",
+          "status": "FINAL",
+          "status_short": "FT",
           "stage": "Semifinals",
           "stage_slug": "semifinals",
           "home": {
@@ -28379,7 +28379,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/eng.png",
             "color": "FFFFFF",
             "home_away": "home",
-            "score": 0,
+            "score": 1,
             "winner": false
           },
           "away": {
@@ -28393,8 +28393,8 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/arg.png",
             "color": "74acdf",
             "home_away": "away",
-            "score": 0,
-            "winner": false
+            "score": 2,
+            "winner": true
           },
           "venue": {
             "name": "Mercedes-Benz Stadium",
@@ -28408,7 +28408,232 @@
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760515/argentina-england",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20England%20vs%20Argentina",
-          "slug": "argentina-at-england"
+          "slug": "argentina-at-england",
+          "incidents": [
+            {
+              "kind": "yellow_card",
+              "minute": "37'",
+              "team": "England",
+              "team_id": "448",
+              "team_side": "home",
+              "player": "Elliot Anderson",
+              "text": "Elliot Anderson (England) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "42'",
+              "team": "Argentina",
+              "team_id": "202",
+              "team_side": "away",
+              "player": "Lisandro Martínez",
+              "text": "Lisandro Martínez (Argentina) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "51'",
+              "team": "Argentina",
+              "team_id": "202",
+              "team_side": "away",
+              "player": "Cristian Romero",
+              "text": "Cristian Romero (Argentina) is shown the yellow card for a bad foul."
+            },
+            {
+              "kind": "goal",
+              "minute": "55'",
+              "team": "England",
+              "team_id": "448",
+              "team_side": "home",
+              "player": "Anthony Gordon",
+              "text": "Goal! England 1, Argentina 0. Anthony Gordon (England) right footed shot from very close range to the bottom left corner. Assisted by Morgan Rogers with a cross.",
+              "assist": "Morgan Rogers"
+            },
+            {
+              "kind": "substitution",
+              "minute": "64'",
+              "team": "Argentina",
+              "team_id": "202",
+              "team_side": "away",
+              "player": "Nico González",
+              "text": "Substitution, Argentina. Nico González replaces Leandro Paredes.",
+              "player_off": "Leandro Paredes"
+            },
+            {
+              "kind": "substitution",
+              "minute": "72'",
+              "team": "England",
+              "team_id": "448",
+              "team_side": "home",
+              "player": "Ezri Konsa",
+              "text": "Substitution, England. Ezri Konsa replaces Anthony Gordon.",
+              "player_off": "Anthony Gordon"
+            },
+            {
+              "kind": "substitution",
+              "minute": "72'",
+              "team": "Argentina",
+              "team_id": "202",
+              "team_side": "away",
+              "player": "Gonzalo Montiel",
+              "text": "Substitution, Argentina. Gonzalo Montiel replaces Nahuel Molina.",
+              "player_off": "Nahuel Molina"
+            },
+            {
+              "kind": "substitution",
+              "minute": "72'",
+              "team": "Argentina",
+              "team_id": "202",
+              "team_side": "away",
+              "player": "Rodrigo De Paul",
+              "text": "Substitution, Argentina. Rodrigo De Paul replaces Giuliano Simeone.",
+              "player_off": "Giuliano Simeone"
+            },
+            {
+              "kind": "substitution",
+              "minute": "72'",
+              "team": "Argentina",
+              "team_id": "202",
+              "team_side": "away",
+              "player": "Nicolás Otamendi",
+              "text": "Substitution, Argentina. Nicolás Otamendi replaces Lisandro Martínez.",
+              "player_off": "Lisandro Martínez"
+            },
+            {
+              "kind": "substitution",
+              "minute": "81'",
+              "team": "Argentina",
+              "team_id": "202",
+              "team_side": "away",
+              "player": "Lautaro Martínez",
+              "text": "Substitution, Argentina. Lautaro Martínez replaces Nicolás Tagliafico.",
+              "player_off": "Nicolás Tagliafico"
+            },
+            {
+              "kind": "substitution",
+              "minute": "82'",
+              "team": "England",
+              "team_id": "448",
+              "team_side": "home",
+              "player": "Dan Burn",
+              "text": "Substitution, England. Dan Burn replaces Reece James because of an injury.",
+              "player_off": "Reece James"
+            },
+            {
+              "kind": "substitution",
+              "minute": "82'",
+              "team": "England",
+              "team_id": "448",
+              "team_side": "home",
+              "player": "Nico O'Reilly",
+              "text": "Substitution, England. Nico O'Reilly replaces Declan Rice.",
+              "player_off": "Declan Rice"
+            },
+            {
+              "kind": "goal",
+              "minute": "85'",
+              "team": "Argentina",
+              "team_id": "202",
+              "team_side": "away",
+              "player": "Enzo Fernández",
+              "text": "Goal! England 1, Argentina 1. Enzo Fernández (Argentina) right footed shot from outside the box to the bottom left corner. Assisted by Lionel Messi following a corner.",
+              "assist": "Lionel Messi"
+            },
+            {
+              "kind": "goal",
+              "minute": "90'+2'",
+              "team": "Argentina",
+              "team_id": "202",
+              "team_side": "away",
+              "player": "Lautaro Martínez",
+              "text": "Goal! England 1, Argentina 2. Lautaro Martínez (Argentina) header from very close range to the top left corner. Assisted by Lionel Messi with a cross.",
+              "assist": "Lionel Messi"
+            },
+            {
+              "kind": "yellow_card",
+              "minute": "90'+4'",
+              "team": "Argentina",
+              "team_id": "202",
+              "team_side": "away",
+              "player": "Rodrigo De Paul",
+              "text": "Rodrigo De Paul (Argentina) is shown the yellow card."
+            },
+            {
+              "kind": "substitution",
+              "minute": "90'+6'",
+              "team": "England",
+              "team_id": "448",
+              "team_side": "home",
+              "player": "Ivan Toney",
+              "text": "Substitution, England. Ivan Toney replaces John Stones.",
+              "player_off": "John Stones"
+            },
+            {
+              "kind": "substitution",
+              "minute": "90'+6'",
+              "team": "England",
+              "team_id": "448",
+              "team_side": "home",
+              "player": "Marcus Rashford",
+              "text": "Substitution, England. Marcus Rashford replaces Djed Spence.",
+              "player_off": "Djed Spence"
+            }
+          ],
+          "rosters": {
+            "home": [
+              "Jordan Pickford",
+              "Marc Guéhi",
+              "John Stones",
+              "Djed Spence",
+              "Reece James",
+              "Jude Bellingham",
+              "Elliot Anderson",
+              "Declan Rice",
+              "Harry Kane",
+              "Anthony Gordon",
+              "Morgan Rogers",
+              "Jordan Henderson",
+              "Noni Madueke",
+              "Eberechi Eze",
+              "Ollie Watkins",
+              "Bukayo Saka",
+              "Trevoh Chalobah",
+              "James Trafford",
+              "Dan Burn",
+              "Dean Henderson",
+              "Marcus Rashford",
+              "Ivan Toney",
+              "Ezri Konsa",
+              "Kobbie Mainoo",
+              "Nico O'Reilly"
+            ],
+            "away": [
+              "Emiliano Martínez",
+              "Lisandro Martínez",
+              "Cristian Romero",
+              "Leandro Paredes",
+              "Nicolás Tagliafico",
+              "Nahuel Molina",
+              "Alexis Mac Allister",
+              "Enzo Fernández",
+              "Julián Álvarez",
+              "Giuliano Simeone",
+              "Lionel Messi",
+              "Gonzalo Montiel",
+              "Lautaro Martínez",
+              "Marcos Senesi",
+              "Facundo Medina",
+              "Nico González",
+              "Juan Musso",
+              "Valentín Barco",
+              "Gerónimo Rulli",
+              "Giovani Lo Celso",
+              "Nicolás Otamendi",
+              "Nico Paz",
+              "Thiago Almada",
+              "Exequiel Palacios",
+              "Rodrigo De Paul",
+              "José Manuel López"
+            ]
+          }
         }
       ]
     },
@@ -28443,15 +28668,15 @@
             "winner": false
           },
           "away": {
-            "id": "5959",
-            "name": "Semifinal 2 Loser",
-            "name_zh": "",
-            "rank": null,
-            "short": "SF L2",
-            "abbr": "SF L2",
-            "flag": "🏳️",
-            "logo": "",
-            "color": "000000",
+            "id": "448",
+            "name": "England",
+            "name_zh": "英格兰",
+            "rank": 4,
+            "short": "England",
+            "abbr": "ENG",
+            "flag": "🏴",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/eng.png",
+            "color": "FFFFFF",
             "home_away": "away",
             "score": 0,
             "winner": false
@@ -28466,9 +28691,9 @@
             "Tele",
             "FOX One"
           ],
-          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760516/semifinal-2-loser-france",
-          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20France%20vs%20Semifinal%202%20Loser",
-          "slug": "semifinal 2 loser-at-france"
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760516/england-france",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20France%20vs%20England",
+          "slug": "england-at-france"
         }
       ]
     },
@@ -28503,15 +28728,15 @@
             "winner": false
           },
           "away": {
-            "id": "5961",
-            "name": "Semifinal 2 Winner",
-            "name_zh": "",
-            "rank": null,
-            "short": "SF W2",
-            "abbr": "SFW2",
-            "flag": "🏳️",
-            "logo": "",
-            "color": "000000",
+            "id": "202",
+            "name": "Argentina",
+            "name_zh": "阿根廷",
+            "rank": 1,
+            "short": "Argentina",
+            "abbr": "ARG",
+            "flag": "🇦🇷",
+            "logo": "https://a.espncdn.com/i/teamlogos/countries/500/arg.png",
+            "color": "74acdf",
             "home_away": "away",
             "score": 0,
             "winner": false
@@ -28526,9 +28751,9 @@
             "Tele",
             "FOX One"
           ],
-          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760517/semifinal-2-winner-spain",
-          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Spain%20vs%20Semifinal%202%20Winner",
-          "slug": "semifinal 2 winner-at-spain"
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760517/argentina-spain",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20Spain%20vs%20Argentina",
+          "slug": "argentina-at-spain"
         }
       ]
     }
