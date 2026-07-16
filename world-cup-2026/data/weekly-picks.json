@@ -1,9 +1,9 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-07-16T01:58:55+00:00",
+  "generated_at": "2026-07-16T05:13:46+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-07-15T20:58:55-05:00",
-  "match_count": 64,
+  "now_local": "2026-07-16T00:13:46-05:00",
+  "match_count": 65,
   "manual_count": 56,
   "rounds": [
     {
@@ -5170,6 +5170,86 @@
           "verdict_override": null,
           "score_override": null,
           "manual_author": "claude"
+        }
+      ]
+    },
+    {
+      "round_id": "3rd-place-match-2026-07-18-2026-07-18",
+      "stage_slug": "3rd-place-match",
+      "round_label": {
+        "zh": "3rd-place-match",
+        "en": "3rd-place-match"
+      },
+      "round_date_range": [
+        "2026-07-18",
+        "2026-07-18"
+      ],
+      "match_count": 1,
+      "manual_count": 0,
+      "last_manual_update": null,
+      "round_intro_zh": null,
+      "round_intro_en": null,
+      "manual_note_zh": null,
+      "manual_note_en": null,
+      "generated_at": "2026-07-16T05:13:46+00:00",
+      "matches": [
+        {
+          "match_id": "760516",
+          "kickoff_utc": "2026-07-18T21:00:00+00:00",
+          "kickoff_local": "2026-07-18T16:00:00-05:00",
+          "kickoff_local_date": "2026-07-18",
+          "kickoff_time": "4:00 PM",
+          "kickoff_weekday": "Sat",
+          "stage": "3Rd Place Match",
+          "stage_slug": "3rd-place-match",
+          "venue": "Hard Rock Stadium",
+          "venue_city": "Miami Gardens, Florida",
+          "espn_url": "https://www.espn.com/soccer/match/_/gameId/760516/england-france",
+          "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20France%20vs%20England",
+          "home": {
+            "id": "478",
+            "name": "France",
+            "name_zh": "法国",
+            "flag": "🇫🇷",
+            "abbr": "FRA",
+            "rank": 3
+          },
+          "away": {
+            "id": "448",
+            "name": "England",
+            "name_zh": "英格兰",
+            "flag": "🏴",
+            "abbr": "ENG",
+            "rank": 4
+          },
+          "group_name": "Group I",
+          "home_group_rank": 1,
+          "home_pts": 9,
+          "home_mp": 3,
+          "away_group_rank": 1,
+          "away_pts": 7,
+          "away_mp": 3,
+          "stakes_kind": "knockout",
+          "stakes_score_auto": 5,
+          "stakes_verdict_auto": "must",
+          "stakes_narrative_zh": "淘汰赛，一场定胜负。",
+          "stakes_narrative_en": "Knockout — single elimination.",
+          "verdict": "must",
+          "score": 5,
+          "headline_zh": null,
+          "headline_en": null,
+          "watch_for_zh": [],
+          "watch_for_en": [],
+          "key_players_zh": [],
+          "key_players_en": [],
+          "news_focus_zh": null,
+          "news_focus_en": null,
+          "record_potential_zh": [],
+          "record_potential_en": [],
+          "why_skip_zh": null,
+          "why_skip_en": null,
+          "verdict_override": null,
+          "score_override": null
         }
       ]
     },
