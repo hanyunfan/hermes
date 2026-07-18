@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-07-18T20:46:43.192477+00:00",
+  "generated_at": "2026-07-18T21:51:13.384455+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-07-18T15:46:40.916029-05:00",
+  "now_local": "2026-07-18T16:51:10.723722-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -28649,8 +28649,8 @@
           "kickoff_local_date": "2026-07-18",
           "kickoff_time": "4:00 PM",
           "kickoff_weekday": "Sat",
-          "status": "SCHEDULED",
-          "status_short": "Scheduled",
+          "status": "LIVE",
+          "status_short": "HT",
           "stage": "3Rd Place Match",
           "stage_slug": "3rd-place-match",
           "home": {
@@ -28678,7 +28678,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/eng.png",
             "color": "FFFFFF",
             "home_away": "away",
-            "score": 0,
+            "score": 4,
             "winner": false
           },
           "venue": {
@@ -28693,7 +28693,105 @@
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760516/england-france",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20France%20vs%20England",
-          "slug": "england-at-france"
+          "slug": "england-at-france",
+          "incidents": [
+            {
+              "kind": "goal",
+              "minute": "3'",
+              "team": "England",
+              "team_id": "448",
+              "team_side": "away",
+              "player": "Declan Rice",
+              "text": "Goal! France 0, England 1. Declan Rice (England) right footed shot from outside the box to the bottom right corner."
+            },
+            {
+              "kind": "goal",
+              "minute": "18'",
+              "team": "England",
+              "team_id": "448",
+              "team_side": "away",
+              "player": "Ezri Konsa",
+              "text": "Goal! France 0, England 2. Ezri Konsa (England) header from the centre of the box to the bottom right corner. Assisted by Declan Rice with a cross following a corner.",
+              "assist": "Declan Rice"
+            },
+            {
+              "kind": "goal",
+              "minute": "37'",
+              "team": "England",
+              "team_id": "448",
+              "team_side": "away",
+              "player": "Bukayo Saka",
+              "text": "Goal! France 0, England 3. Bukayo Saka (England) left footed shot from the left side of the box to the high centre of the goal. Assisted by Marcus Rashford following a fast break.",
+              "assist": "Marcus Rashford"
+            },
+            {
+              "kind": "goal",
+              "minute": "45'+1'",
+              "team": "England",
+              "team_id": "448",
+              "team_side": "away",
+              "player": "Bukayo Saka",
+              "text": "Goal! France 0, England 4. Bukayo Saka (England) left footed shot from outside the box to the bottom right corner. Assisted by Eberechi Eze with a through ball.",
+              "assist": "Eberechi Eze"
+            }
+          ],
+          "rosters": {
+            "home": [
+              "Mike Maignan",
+              "Maxence Lacroix",
+              "Ibrahima Konaté",
+              "Theo Hernández",
+              "Malo Gusto",
+              "Rayan Cherki",
+              "Adrien Rabiot",
+              "Warren Zaïre-Emery",
+              "Kylian Mbappé",
+              "Désiré Doué",
+              "Michael Olise",
+              "Marcus Thuram",
+              "Robin Risser",
+              "Manu Koné",
+              "Maghnes Akliouche",
+              "Bradley Barcola",
+              "Jean-Philippe Mateta",
+              "Jules Koundé",
+              "Brice Samba",
+              "William Saliba",
+              "Dayot Upamecano",
+              "Ousmane Dembélé",
+              "N'Golo Kanté",
+              "Lucas Digne",
+              "Lucas Hernández",
+              "Aurélien Tchouaméni"
+            ],
+            "away": [
+              "Dean Henderson",
+              "Marc Guéhi",
+              "Ezri Konsa",
+              "Declan Rice",
+              "Djed Spence",
+              "Jarell Quansah",
+              "Eberechi Eze",
+              "Morgan Rogers",
+              "Marcus Rashford",
+              "Bukayo Saka",
+              "Ivan Toney",
+              "Jordan Pickford",
+              "Jude Bellingham",
+              "Harry Kane",
+              "Nico O'Reilly",
+              "Trevoh Chalobah",
+              "Elliot Anderson",
+              "James Trafford",
+              "John Stones",
+              "Dan Burn",
+              "Jordan Henderson",
+              "Noni Madueke",
+              "Anthony Gordon",
+              "Reece James",
+              "Ollie Watkins"
+            ]
+          }
         }
       ]
     },
