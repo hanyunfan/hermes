@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-07-18T22:49:47.539377+00:00",
+  "generated_at": "2026-07-18T23:53:38.574609+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-07-18T17:49:45.101701-05:00",
+  "now_local": "2026-07-18T18:53:36.762128-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -544,15 +544,6 @@
     ],
     "venues": [
       {
-        "id": "Hard Rock Stadium",
-        "name": "Hard Rock Stadium",
-        "city": "Miami Gardens, Florida",
-        "country": "USA",
-        "match_count": 7,
-        "next_kickoff_iso": "2026-07-18",
-        "last_kickoff_iso": "2026-07-18"
-      },
-      {
         "id": "MetLife Stadium",
         "name": "MetLife Stadium",
         "city": "East Rutherford, New Jersey",
@@ -686,6 +677,15 @@
         "match_count": 8,
         "next_kickoff_iso": null,
         "last_kickoff_iso": "2026-07-15"
+      },
+      {
+        "id": "Hard Rock Stadium",
+        "name": "Hard Rock Stadium",
+        "city": "Miami Gardens, Florida",
+        "country": "USA",
+        "match_count": 7,
+        "next_kickoff_iso": null,
+        "last_kickoff_iso": "2026-07-18"
       }
     ],
     "stages": [
@@ -28649,8 +28649,8 @@
           "kickoff_local_date": "2026-07-18",
           "kickoff_time": "4:00 PM",
           "kickoff_weekday": "Sat",
-          "status": "SCHEDULED",
-          "status_short": "Scheduled",
+          "status": "FINAL",
+          "status_short": "FT",
           "stage": "3Rd Place Match",
           "stage_slug": "3rd-place-match",
           "home": {
@@ -28664,7 +28664,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/fra.png",
             "color": "000080",
             "home_away": "home",
-            "score": 0,
+            "score": 4,
             "winner": false
           },
           "away": {
@@ -28678,7 +28678,7 @@
             "logo": "https://a.espncdn.com/i/teamlogos/countries/500/eng.png",
             "color": "FFFFFF",
             "home_away": "away",
-            "score": 0,
+            "score": 6,
             "winner": false
           },
           "venue": {
@@ -28693,7 +28693,263 @@
           ],
           "espn_url": "https://www.espn.com/soccer/match/_/gameId/760516/england-france",
           "fox_url": "https://www.foxsports.com/search?q=FIFA%20World%20Cup%202026%20France%20vs%20England",
-          "slug": "england-at-france"
+          "slug": "england-at-france",
+          "incidents": [
+            {
+              "kind": "goal",
+              "minute": "3'",
+              "team": "England",
+              "team_id": "448",
+              "team_side": "away",
+              "player": "Declan Rice",
+              "text": "Goal! France 0, England 1. Declan Rice (England) right footed shot from outside the box to the bottom right corner."
+            },
+            {
+              "kind": "goal",
+              "minute": "18'",
+              "team": "England",
+              "team_id": "448",
+              "team_side": "away",
+              "player": "Ezri Konsa",
+              "text": "Goal! France 0, England 2. Ezri Konsa (England) header from the centre of the box to the bottom right corner. Assisted by Declan Rice with a cross following a corner.",
+              "assist": "Declan Rice"
+            },
+            {
+              "kind": "goal",
+              "minute": "37'",
+              "team": "England",
+              "team_id": "448",
+              "team_side": "away",
+              "player": "Bukayo Saka",
+              "text": "Goal! France 0, England 3. Bukayo Saka (England) left footed shot from the left side of the box to the high centre of the goal. Assisted by Marcus Rashford following a fast break.",
+              "assist": "Marcus Rashford"
+            },
+            {
+              "kind": "goal",
+              "minute": "45'+1'",
+              "team": "England",
+              "team_id": "448",
+              "team_side": "away",
+              "player": "Bukayo Saka",
+              "text": "Goal! France 0, England 4. Bukayo Saka (England) left footed shot from the centre of the box to the bottom right corner. Assisted by Eberechi Eze with a through ball.",
+              "assist": "Eberechi Eze"
+            },
+            {
+              "kind": "substitution",
+              "minute": "45'",
+              "team": "France",
+              "team_id": "478",
+              "team_side": "home",
+              "player": "Ousmane Dembélé",
+              "text": "Substitution, France. Ousmane Dembélé replaces Rayan Cherki.",
+              "player_off": "Rayan Cherki"
+            },
+            {
+              "kind": "substitution",
+              "minute": "45'",
+              "team": "France",
+              "team_id": "478",
+              "team_side": "home",
+              "player": "Bradley Barcola",
+              "text": "Substitution, France. Bradley Barcola replaces Désiré Doué.",
+              "player_off": "Désiré Doué"
+            },
+            {
+              "kind": "substitution",
+              "minute": "45'",
+              "team": "France",
+              "team_id": "478",
+              "team_side": "home",
+              "player": "Lucas Digne",
+              "text": "Substitution, France. Lucas Digne replaces Théo Hernández.",
+              "player_off": "Theo Hernández"
+            },
+            {
+              "kind": "substitution",
+              "minute": "45'",
+              "team": "France",
+              "team_id": "478",
+              "team_side": "home",
+              "player": "Dayot Upamecano",
+              "text": "Substitution, France. Dayot Upamecano replaces Ibrahima Konaté.",
+              "player_off": "Ibrahima Konaté"
+            },
+            {
+              "kind": "substitution",
+              "minute": "45'",
+              "team": "England",
+              "team_id": "448",
+              "team_side": "away",
+              "player": "Ollie Watkins",
+              "text": "Substitution, England. Ollie Watkins replaces Marcus Rashford.",
+              "player_off": "Marcus Rashford"
+            },
+            {
+              "kind": "goal",
+              "minute": "48'",
+              "team": "France",
+              "team_id": "478",
+              "team_side": "home",
+              "player": "Kylian Mbappé",
+              "text": "Goal! France 1, England 4. Kylian Mbappé (France) left footed shot from the centre of the box to the bottom right corner. Assisted by Michael Olise with a through ball following a fast break.",
+              "assist": "Michael Olise"
+            },
+            {
+              "kind": "goal",
+              "minute": "54'",
+              "team": "France",
+              "team_id": "478",
+              "team_side": "home",
+              "player": "Bradley Barcola",
+              "text": "Goal! France 2, England 4. Bradley Barcola (France) right footed shot from the centre of the box to the bottom left corner. Assisted by Kylian Mbappé with a through ball.",
+              "assist": "Kylian Mbappé"
+            },
+            {
+              "kind": "goal",
+              "minute": "66'",
+              "team": "France",
+              "team_id": "478",
+              "team_side": "home",
+              "player": "Kylian Mbappé",
+              "text": "Goal! France 3, England 4. Kylian Mbappé (France) left footed shot from the centre of the box to the bottom right corner. Assisted by Michael Olise.",
+              "assist": "Michael Olise"
+            },
+            {
+              "kind": "substitution",
+              "minute": "79'",
+              "team": "England",
+              "team_id": "448",
+              "team_side": "away",
+              "player": "Elliot Anderson",
+              "text": "Substitution, England. Elliot Anderson replaces Ivan Toney.",
+              "player_off": "Ivan Toney"
+            },
+            {
+              "kind": "substitution",
+              "minute": "79'",
+              "team": "England",
+              "team_id": "448",
+              "team_side": "away",
+              "player": "Jude Bellingham",
+              "text": "Substitution, England. Jude Bellingham replaces Eberechi Eze.",
+              "player_off": "Eberechi Eze"
+            },
+            {
+              "kind": "substitution",
+              "minute": "83'",
+              "team": "England",
+              "team_id": "448",
+              "team_side": "away",
+              "player": "Reece James",
+              "text": "Substitution, England. Reece James replaces Jarell Quansah because of an injury.",
+              "player_off": "Jarell Quansah"
+            },
+            {
+              "kind": "goal",
+              "minute": "87'",
+              "team": "England",
+              "team_id": "448",
+              "team_side": "away",
+              "player": "Bukayo Saka",
+              "text": "Goal! France 3, England 5. Bukayo Saka (England) converts the penalty with a left footed shot to the bottom right corner."
+            },
+            {
+              "kind": "substitution",
+              "minute": "90'+1'",
+              "team": "France",
+              "team_id": "478",
+              "team_side": "home",
+              "player": "Jules Koundé",
+              "text": "Substitution, France. Jules Koundé replaces Malo Gusto because of an injury.",
+              "player_off": "Malo Gusto"
+            },
+            {
+              "kind": "substitution",
+              "minute": "90'+3'",
+              "team": "England",
+              "team_id": "448",
+              "team_side": "away",
+              "player": "Trevoh Chalobah",
+              "text": "Substitution, England. Trevoh Chalobah replaces Marc Guéhi.",
+              "player_off": "Marc Guéhi"
+            },
+            {
+              "kind": "goal",
+              "minute": "90'+6'",
+              "team": "France",
+              "team_id": "478",
+              "team_side": "home",
+              "player": "Ousmane Dembélé",
+              "text": "Goal! France 4, England 5. Ousmane Dembélé (France) left footed shot from the centre of the box to the bottom left corner. Assisted by Dayot Upamecano following a fast break.",
+              "assist": "Dayot Upamecano"
+            },
+            {
+              "kind": "goal",
+              "minute": "90'+8'",
+              "team": "England",
+              "team_id": "448",
+              "team_side": "away",
+              "player": "Jude Bellingham",
+              "text": "Goal! France 4, England 6. Jude Bellingham (England) right footed shot from the centre of the box to the bottom right corner following a fast break."
+            }
+          ],
+          "rosters": {
+            "home": [
+              "Mike Maignan",
+              "Maxence Lacroix",
+              "Ibrahima Konaté",
+              "Theo Hernández",
+              "Malo Gusto",
+              "Rayan Cherki",
+              "Adrien Rabiot",
+              "Warren Zaïre-Emery",
+              "Kylian Mbappé",
+              "Désiré Doué",
+              "Michael Olise",
+              "Marcus Thuram",
+              "Robin Risser",
+              "Manu Koné",
+              "Maghnes Akliouche",
+              "Bradley Barcola",
+              "Jean-Philippe Mateta",
+              "Jules Koundé",
+              "Brice Samba",
+              "William Saliba",
+              "Dayot Upamecano",
+              "Ousmane Dembélé",
+              "N'Golo Kanté",
+              "Lucas Digne",
+              "Lucas Hernández",
+              "Aurélien Tchouaméni"
+            ],
+            "away": [
+              "Dean Henderson",
+              "Marc Guéhi",
+              "Ezri Konsa",
+              "Declan Rice",
+              "Djed Spence",
+              "Jarell Quansah",
+              "Eberechi Eze",
+              "Morgan Rogers",
+              "Marcus Rashford",
+              "Bukayo Saka",
+              "Ivan Toney",
+              "Jordan Pickford",
+              "Jude Bellingham",
+              "Harry Kane",
+              "Nico O'Reilly",
+              "Trevoh Chalobah",
+              "Elliot Anderson",
+              "James Trafford",
+              "John Stones",
+              "Dan Burn",
+              "Jordan Henderson",
+              "Noni Madueke",
+              "Anthony Gordon",
+              "Reece James",
+              "Ollie Watkins"
+            ]
+          }
         }
       ]
     },
