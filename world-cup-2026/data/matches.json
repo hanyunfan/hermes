@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-07-19T21:52:02.683297+00:00",
+  "generated_at": "2026-07-19T22:51:51.166811+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-07-19T16:52:00.432518-05:00",
+  "now_local": "2026-07-19T17:51:49.432057-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -544,15 +544,6 @@
     ],
     "venues": [
       {
-        "id": "MetLife Stadium",
-        "name": "MetLife Stadium",
-        "city": "East Rutherford, New Jersey",
-        "country": "USA",
-        "match_count": 8,
-        "next_kickoff_iso": "2026-07-19",
-        "last_kickoff_iso": "2026-07-19"
-      },
-      {
         "id": "Estadio Akron",
         "name": "Estadio Akron",
         "city": "Guadalajara",
@@ -686,6 +677,15 @@
         "match_count": 7,
         "next_kickoff_iso": null,
         "last_kickoff_iso": "2026-07-18"
+      },
+      {
+        "id": "MetLife Stadium",
+        "name": "MetLife Stadium",
+        "city": "East Rutherford, New Jersey",
+        "country": "USA",
+        "match_count": 8,
+        "next_kickoff_iso": null,
+        "last_kickoff_iso": "2026-07-19"
       }
     ],
     "stages": [
@@ -28965,8 +28965,8 @@
           "kickoff_local_date": "2026-07-19",
           "kickoff_time": "2:00 PM",
           "kickoff_weekday": "Sun",
-          "status": "LIVE",
-          "status_short": "115'",
+          "status": "FINAL",
+          "status_short": "AET",
           "stage": "Final",
           "stage_slug": "final",
           "home": {
