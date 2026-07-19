@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-07-18T23:53:38.574609+00:00",
+  "generated_at": "2026-07-19T02:02:07.701594+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-07-18T18:53:36.762128-05:00",
+  "now_local": "2026-07-18T21:02:03.102458-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -28679,7 +28679,7 @@
             "color": "FFFFFF",
             "home_away": "away",
             "score": 6,
-            "winner": false
+            "winner": true
           },
           "venue": {
             "name": "Hard Rock Stadium",
