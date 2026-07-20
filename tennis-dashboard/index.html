@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tennis Dashboard — Anderson Mill, UTR & USTA</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎾 Tennis Training Dashboard</h1>
+            <p class="subtitle">Anderson Mill court booking · UTR + USTA tournaments within 80 mi of 78750</p>
+            <div class="status-bar" id="status-bar">
+                <span class="status-chip"><span class="status-dot" id="dot-utr"></span> UTR</span>
+                <span class="status-chip"><span class="status-dot" id="dot-usta"></span> USTA</span>
+                <span class="status-chip"><span class="status-dot" id="dot-anc"></span> Court Booking</span>
+                <span class="status-chip">Last refresh: <span id="last-refresh">—</span></span>
+            </div>
+        </header>
+
+        <!-- tabs -->
+        <nav class="tabs" role="tablist">
+            <button class="tab active" data-tab="tournaments" role="tab">🏆 Tournaments</button>
+            <button class="tab" data-tab="courts" role="tab">🎾 Court Booking</button>
+            <button class="tab" data-tab="setup" role="tab">⚙️ Setup</button>
+        </nav>
+
+        <!-- ===================== TOURNAMENTS TAB ===================== -->
+        <section class="tab-content active" id="tab-tournaments">
+            <div id="banner-tournaments"></div>
+
+            <div class="panel">
+                <div class="panel-title">
+                    <span>Upcoming tournaments within <span id="radius-display">80</span> mi</span>
+                    <span class="panel-meta" id="tournament-count">—</span>
+                </div>
+
+                <div class="filters">
+                    <label>Source:
+                        <select id="filter-source">
+                            <option value="">All</option>
+                            <option value="UTR">UTR</option>
+                            <option value="USTA">USTA</option>
+                        </select>
+                    </label>
+                    <label>When:
+                        <select id="filter-when">
+                            <option value="future">Upcoming only</option>
+                            <option value="all">All</option>
+                        </select>
+                    </label>
+                    <label>Sort:
+                        <select id="filter-sort">
+                            <option value="date">Date (soonest)</option>
+                            <option value="distance">Distance</option>
+                            <option value="name">Name</option>
+                        </select>
+                    </label>
+                </div>
+
+                <div id="tournament-list"></div>
+            </div>
+        </section>
+
+        <!-- ===================== COURTS TAB ===================== -->
+        <section class="tab-content" id="tab-courts">
+            <div id="banner-courts"></div>
+
+            <div class="court-grid">
+                <div class="panel">
+                    <div class="panel-title">
+                        <span>Plan / book a court</span>
+                    </div>
+                    <form class="court-form" id="court-form">
+                        <div class="form-row">
+                            <label for="f-date">Date</label>
+                            <input type="date" id="f-date" required>
+                        </div>
+                        <div class="form-row">
+                            <label for="f-time">Start time</label>
+                            <input type="time" id="f-time" value="17:00" required>
+                        </div>
+                        <div class="form-row">
+                            <label for="f-duration">Duration (min)</label>
+                            <select id="f-duration">
+                                <option value="30">30</option>
+                                <option value="60" selected>60</option>
+                                <option value="90">90</option>
+                                <option value="120">120</option>
+                            </select>
+                        </div>
+                        <div class="form-row">
+                            <label for="f-court">Court preference</label>
+                            <input type="text" id="f-court" placeholder="tennis_court_1 (any)">
+                        </div>
+                        <div style="display: flex; gap: 8px; margin-top: 8px;">
+                            <button type="button" class="btn" id="btn-book">Attempt to book</button>
+                            <button type="button" class="btn secondary" id="btn-plan">Just plan it</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="panel">
+                    <div class="panel-title">
+                        <span>Quick links</span>
+                    </div>
+                    <p style="margin-bottom: 12px; color: var(--text-dim); font-size: 0.9rem;">
+                        Anderson Mill Tennis Center is managed via Active Communities.
+                        The dashboard can pre-fill the booking flow; the final click
+                        is yours (auto-submit is intentionally disabled for safety).
+                    </p>
+                    <a href="https://anc.apm.activecommunities.com/andersonmill/reservation"
+                       target="_blank" rel="noopener noreferrer" class="btn secondary" style="display: inline-block; margin-bottom: 8px;">
+                        Open ANC reservation page ↗
+                    </a>
+                    <a href="https://anc.apm.activecommunities.com/andersonmill/myaccount"
+                       target="_blank" rel="noopener noreferrer" class="btn secondary" style="display: inline-block;">
+                        My ANC account ↗
+                    </a>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-title">
+                    <span>Upcoming reservations</span>
+                    <span class="panel-meta" id="reservation-count">—</span>
+                </div>
+                <div id="reservation-list">
+                    <div class="empty">Loading…</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================== SETUP TAB ===================== -->
+        <section class="tab-content" id="tab-setup">
+            <div class="panel">
+                <div class="panel-title"><span>🔐 One-time login setup</span></div>
+                <p style="margin-bottom: 12px; color: var(--text-dim); font-size: 0.9rem;">
+                    UTR, USTA TennisLink, and Active Communities all gate their data
+                    behind login. We never store your password — instead, you log in
+                    once in a browser, and we save the resulting session cookies.
+                    Sessions typically last 60–90 days before re-auth is required.
+                </p>
+                <ol style="padding-left: 20px; line-height: 1.9;">
+                    <li>Install dependencies locally (only once):
+                        <pre style="background: var(--panel-2); padding: 8px; border-radius: 4px; margin-top: 4px;"><code>pip install -r requirements.txt
+playwright install chromium</code></pre>
+                    </li>
+                    <li>Copy <code>.env.example</code> to <code>.env</code> and fill in your HOME_* values.</li>
+                    <li>For each service, run a one-time login capture:
+                        <pre style="background: var(--panel-2); padding: 8px; border-radius: 4px; margin-top: 4px;"><code>python scripts/capture_session.py utr
+python scripts/capture_session.py usta
+python scripts/capture_session.py anc</code></pre>
+                    </li>
+                    <li>Run the fetcher locally to populate <code>data/tournaments.json</code>:
+                        <pre style="background: var(--panel-2); padding: 8px; border-radius: 4px; margin-top: 4px;"><code>python scripts/fetch_tournaments.py</code></pre>
+                    </li>
+                    <li>Commit the refreshed data file. GitHub Actions will refresh
+                        it daily at 6am Central thereafter.</li>
+                </ol>
+                <div class="banner warn" style="margin-top: 16px;">
+                    ⚠️ <strong>Court booking is intentionally conservative.</strong>
+                    The auto-booking script stages reservations but does NOT
+                    click Submit — that final confirmation stays with you.
+                    See <code>scripts/book_court.py</code> for details.
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-title"><span>🛠️ CLI quick reference</span></div>
+                <pre style="background: var(--panel-2); padding: 12px; border-radius: 6px; overflow-x: auto; font-family: 'SF Mono', Consolas, monospace; font-size: 0.85rem; line-height: 1.7;"><code># Refresh tournament data
+python scripts/fetch_tournaments.py
+
+# Browse available ANC slots in a real browser
+python scripts/book_court.py --browse
+
+# Plan a reservation (no real booking, just records it)
+python scripts/book_court.py --date 2026-07-22 --time 17:00 --duration 60 --plan
+
+# Attempt an actual booking (will pause before submit)
+python scripts/book_court.py --date 2026-07-22 --time 17:00 --duration 60
+
+# Geocode a ZIP (used internally for distance calculation)
+python scripts/geocode_zip.py 78750</code></pre>
+            </div>
+        </section>
+
+        <footer>
+            <p>
+                Built for Anderson Mill · 78750 · 80 mi radius ·
+                <a href="https://github.com/hanyunfan/hermes/tree/main/tennis-dashboard">source on GitHub</a>
+            </p>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,7 @@
+{
+  "_meta": {
+    "purpose": "Planned and confirmed court reservations at Anderson Mill (and any other facility added later). Each entry has a status: planned | needs_confirmation | confirmed | failed.",
+    "audit": "Screenshots of pre-submit ANC pages are saved to data/audit/ when auto-booking is attempted."
+  },
+  "reservations": []
+}

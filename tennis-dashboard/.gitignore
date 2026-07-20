@@ -1,0 +1,24 @@
+# Never commit secrets or local browser sessions
+.env
+.env.*
+!.env.example
+
+# Playwright artifacts
+.playwright/
+storage_state.json
+storage_state/
+sessions/
+*.zip.bak
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+.pytest_cache/
+
+# Editor / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

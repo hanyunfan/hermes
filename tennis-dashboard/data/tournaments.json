@@ -1,0 +1,26 @@
+{
+  "_meta": {
+    "purpose": "Tournament listings within HOME_RADIUS_MILES of HOME_ZIP. Refreshed daily by .github/workflows/daily-fetch.yml or locally via `python scripts/fetch_tournaments.py`.",
+    "schema": "See scripts/fetch_tournaments.py for the canonical field list."
+  },
+  "generated_at": "1970-01-01T00:00:00+00:00",
+  "home": {
+    "zip": "78750",
+    "lat": 30.549,
+    "lng": -97.7805,
+    "radius_miles": 80
+  },
+  "sources": {
+    "utr": {
+      "status": "needs_login",
+      "error": "No saved UTR session. Run: python scripts/capture_session.py utr",
+      "count": 0
+    },
+    "usta": {
+      "status": "needs_login",
+      "error": "No saved USTA session. Run: python scripts/capture_session.py usta",
+      "count": 0
+    }
+  },
+  "tournaments": []
+}
