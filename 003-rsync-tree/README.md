@@ -128,6 +128,37 @@ directly to stdout and the TUI renderer is not started.
 ./rsync-tree.sh --plain --dry-run --nodes 'node[01-18]' 2>&1 | tee run.log
 ```
 
+### Standalone TUI wrapper (`rsync-tree-tui.sh`)
+
+If you want the prettiest ANSI display but **without** modifying the
+scheduler, use the standalone wrapper. It spawns `rsync-tree.sh --plain`
+in the background and renders its log output into a live TUI on your
+terminal — no in-process state sharing required.
+
+```bash
+./rsync-tree-tui.sh --source src --nodes 'src,n1,n2,n3' --dir /mnt/data
+```
+
+What it gives you over plain mode:
+
+- Live header with `iter=N`, `X active / Y done / Z failed / W waiting`, elapsed
+- Per-pair status (RUN / DONE / FAIL) on the topology panel
+- Live-jobs panel on the right
+- Color-coded recent-events tail at the bottom
+
+Key bindings:
+
+- `q` — graceful quit (SIGTERM to scheduler, waits for its cleanup)
+- `Q` — hard quit (SIGKILL — only if scheduler is unresponsive)
+- `+` / `-` — placeholder for runtime concurrency control (TODO)
+- `r` — placeholder for retry-failed control (TODO)
+
+Compared to the in-process TUI (`rsync-tree.sh` default), this wrapper
+has one limitation: the topology tree is a flat list of (src,tgt) pairs
+inferred from log lines, not the authoritative parent→child map that
+`tui.sh` (sourced in-process) has. The flat view still shows every
+pair and its status correctly.
+
 ### Stuck on "starting"? Run `--diagnose`
 
 If the scheduler prints one `… starting` event and then nothing happens —
