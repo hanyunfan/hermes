@@ -29,6 +29,14 @@ NODES_PATTERN='node[01-18]'
 DRY_RUN=""
 DIAGNOSE=""
 
+# How many times to retry a failing src→tgt pair before giving up.
+# Without a cap, a node that is permanently broken (eg. crashed SSH
+# host, full disk on src) sends the scheduler into a tight infinite
+# retry loop — the user sees "all FAIL but still going" forever.
+# Set higher if your network is flaky and you really do want infinite
+# retries; 3 is a reasonable default for a one-shot push.
+RSYNC_FAIL_RETRIES="${RSYNC_FAIL_RETRIES:-3}"
+
 # ---- Pattern expander ----
 expand_nodes() {
     local pattern="$1"
@@ -180,7 +188,6 @@ fail_node() {
 # stdout/stderr to the saved fds 3/4 so the final summary prints to the
 # terminal, not the log file.
 cleanup() {
-    echo ""
     echo "[cleanup] Cleaning up..."
     if [[ ${#jobs[@]} -gt 0 ]]; then
         echo "[cleanup] Killing ${#jobs[@]} remaining rsync jobs..."
@@ -191,14 +198,27 @@ cleanup() {
         done
     fi
     if [[ -n "${SCRIPT_PID:-}" ]]; then
-        pkill -9 -P "$SCRIPT_PID" 2>/dev/null
+        # Kill every direct child (heartbeat subshells, residual rsync
+        # procs) and reap them so bash doesn't print "Killed" messages
+        # at shell exit for SIGKILL'd children.
+        local _child_pids
+        _child_pids=$(pgrep -P "$SCRIPT_PID" 2>/dev/null || true)
+        [[ -n "$_child_pids" ]] && kill -9 $_child_pids 2>/dev/null || true
     fi
+    # Best-effort: explicitly reap any direct children that bash is
+    # still waiting on (heartbeat subshells hung in their read loop).
+    local _p
+    for _p in $(jobs -p 2>/dev/null); do
+        kill -9 "$_p" 2>/dev/null || true
+    done
+    wait 2>/dev/null || true
     echo "[cleanup] Removing marker files..."
     rm -f $STATE_DIR/rsync-tree-pid-* \
           $STATE_DIR/rsync-tree-checked-* \
           $STATE_DIR/rsync-tree-picked-* \
           $STATE_DIR/rsync-tree-done-* \
           $STATE_DIR/rsync-tree-wait.lock \
+          $STATE_DIR/rsync-tree-failcnt-* \
           $STATE_DIR/rsync-tree-abort \
           $STATE_DIR/rsync-tree-diag.txt \
           $STATE_DIR/rsync-diag-check.txt \
@@ -419,10 +439,44 @@ check_complete() {
         echo "  [!!] [$src] → [$tgt] rsync failed (exit=$rsync_exit) — returning $tgt to queue, $src back to ready" >&2
         fail_job "$src→$tgt" "RSYNC_FAIL"
         tui_log_job "$src" "$tgt" "FAIL" 0 0 0
-        unset "jobs[$src→$tgt]" 2>/dev/null
-        rm -f "$pidfile"
-        waiting=("$tgt" "${waiting[@]}")
-        ready["$src"]=1
+        # Tear down BOTH the rsync job key and its heartbeat companion.
+        # Without the .hb unset, the orphaned heartbeat entry stays in
+        # $jobs[] forever, inflating n_active and blocking the main
+        # loop's `n_waiting==0 && n_active==0` exit condition — the
+        # script then keeps running even though every transfer is done
+        # or has failed. This was the source of the "sync finished but
+        # the script never ends" hang.
+        unset "jobs[$src→$tgt]" "jobs[$src→$tgt.hb]" 2>/dev/null
+        rm -f "$pidfile" "$hb_pidfile"
+        # Clear the picked-file lock for this target so it can be
+        # re-selected. Without this, the next pick_waiting SKIPs the
+        # node forever (picked-file never cleared on the FAIL path)
+        # and the script loops pointlessly. The picked-file was a
+        # "currently-being-handled" flag; on failure the slot frees.
+        rm -f "$STATE_DIR/rsync-tree-picked-$SCRIPT_RUN_ID-$tgt"
+        # Track failure count per pair so a permanently broken node
+        # doesn't cause an infinite retry loop. After 3 retries we
+        # drop the target from waiting and keep it in failed_jobs;
+        # the main loop then sees n_waiting drop to 0 once every
+        # node has been given its allotted attempts.
+        local _pf="$STATE_DIR/rsync-tree-failcnt-$src→$tgt"
+        local _n=0
+        [[ -f "$_pf" ]] && _n=$(<"$_pf")
+        _n=$((_n + 1))
+        echo "$_n" > "$_pf"
+        if (( _n >= RSYNC_FAIL_RETRIES )); then
+            fail_job "$src→$tgt" "RSYNC_FAIL_RETRIES_EXHAUSTED"
+            tui_log_event "ERR" "[$src]→[$tgt] failing after $_n attempts — giving up"
+            # Do NOT re-queue the target (it's permanently failed), but
+            # the SOURCE itself is fine — put it back into ready so it
+            # can attempt other targets and so the loop can drain
+            # ready=∅ once every target has been given its allotted
+            # attempts.
+            ready["$src"]=1
+        else
+            waiting=("$tgt" "${waiting[@]}")
+            ready["$src"]=1
+        fi
         return 1
     fi
 
@@ -448,10 +502,27 @@ check_complete() {
         fail_job "$src→$tgt" "SSH_FAIL_SRC"
         tui_log_job "$src" "$tgt" "FAIL" 0 0 0
         tui_log_event "ERR" "[$src] → [$tgt] SSH failed on $src"
-        unset "jobs[$src→$tgt]" 2>/dev/null
-        rm -f "$pidfile"
-        waiting=("$tgt" "${waiting[@]}")
-        ready["$src"]=1
+        # Tear down both the rsync job key and its heartbeat companion
+        # (see comment in the RSYNC_FAIL branch above for the reason).
+        unset "jobs[$src→$tgt]" "jobs[$src→$tgt.hb]" 2>/dev/null
+        rm -f "$pidfile" "$hb_pidfile"
+        rm -f "$STATE_DIR/rsync-tree-picked-$SCRIPT_RUN_ID-$tgt"
+        # Same retry cap as the RSYNC_FAIL branch above
+        local _pf="$STATE_DIR/rsync-tree-failcnt-$src→$tgt"
+        local _n=0
+        [[ -f "$_pf" ]] && _n=$(<"$_pf")
+        _n=$((_n + 1))
+        echo "$_n" > "$_pf"
+        if (( _n >= RSYNC_FAIL_RETRIES )); then
+            fail_job "$src→$tgt" "SSH_FAIL_RETRIES_EXHAUSTED"
+            tui_log_event "ERR" "[$src]→[$tgt] failing after $_n attempts — giving up"
+            # Source is still usable, just return it to ready (same
+            # reasoning as the RSYNC_FAIL_RETRIES_EXHAUSTED branch).
+            ready["$src"]=1
+        else
+            waiting=("$tgt" "${waiting[@]}")
+            ready["$src"]=1
+        fi
         return 1
     fi
 
@@ -544,8 +615,12 @@ trap 'EXIT_REQUESTED=1' USR1
 SCRIPT_RUN_ID="$(date +%s)"
 TUI_START_TS=$(date +%s)
 
-# ---- Clean up stale locks/picked files from previous runs ----
-rm -f $STATE_DIR/rsync-tree-pid-* $STATE_DIR/rsync-tree-checked-* $STATE_DIR/rsync-tree-picked-* $STATE_DIR/rsync-tree-done-* $STATE_DIR/rsync-tree-wait.lock 2>/dev/null; rmdir $STATE_DIR/rsync-tree-wait.lock 2>/dev/null; true
+# ---- Stale lock / marker / retry-counter cleanup ----
+# Wipe picked-files, pid files, fail counters, and the directory lock
+# from any previous run. Without this, a node that failed on a prior
+# run could carry over its "failcnt" into the new run and skip its
+# retry budget before even trying.
+rm -f $STATE_DIR/rsync-tree-pid-* $STATE_DIR/rsync-tree-checked-* $STATE_DIR/rsync-tree-picked-* $STATE_DIR/rsync-tree-done-* $STATE_DIR/rsync-tree-wait.lock $STATE_DIR/rsync-tree-failcnt-* 2>/dev/null; rmdir $STATE_DIR/rsync-tree-wait.lock 2>/dev/null; true
 
 # Helper: format elapsed seconds as HH:MM:SS
 fmt_elapsed() {
@@ -643,7 +718,30 @@ while true; do
 
     collect_ready
 
-    n_active=${#jobs[@]}
+    # Count ONLY real rsync jobs, not the heartbeat-companion entries
+    # (do_rsync registers "src→tgt.hb" in $jobs[] purely as a tracker;
+    # it would otherwise inflate n_active forever). The exit gate at
+    # the top of the next iteration also uses this same filter to
+    # guarantee termination even if .hb entries ever leak.
+    n_active=0
+    n_real_jobs=0
+    for k in "${!jobs[@]}"; do
+        ((n_active++))
+        [[ "$k" != *.hb ]] && ((n_real_jobs++))
+    done
+    # Drop any stale .hb entries whose heartbeat process is gone but
+    # the key still lingered — auto-cleanup so we never again depend
+    # on cleanup() race ordering to terminate.
+    for k in "${!jobs[@]}"; do
+        if [[ "$k" == *.hb ]]; then
+            hb_pid="${jobs[$k]}"
+            if ! kill -0 "$hb_pid" 2>/dev/null; then
+                unset "jobs[$k]"
+                rm -f "$STATE_DIR/rsync-tree-pid-${k%.hb}.hb" 2>/dev/null
+            fi
+        fi
+    done
+
     n_ready=${#ready[@]}
     n_waiting=${#waiting[@]}
 
@@ -657,7 +755,10 @@ while true; do
     echo "  [MAIN]   ready nodes: ${!ready[@]}" >&2
     echo "  [MAIN]   waiting queue: ${waiting[@]}" >&2
 
-    if (( n_waiting == 0 && n_active == 0 )); then
+    # Exit gate: only count real rsync jobs (filter .hb entries so a
+    # leaked heartbeat entry can never indefinitely prevent exit).
+    if (( n_real_jobs == 0 && n_waiting == 0 )); then
+        echo "  → all jobs finished (n_active=$n_active incl $((n_active - n_real_jobs)) stale hb keys)" >&2
         break
     fi
 

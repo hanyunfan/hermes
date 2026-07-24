@@ -415,9 +415,16 @@ tui_start() {
         # buffer until the next iter. Having the renderer also watch
         # stdin (with a short timeout so it doesn't block tui_render)
         # gives faster, more reliable q detection.
+        #
+        # Honor TUI_STOP_FILE: tui_stop writes '1' to it before
+        # sending SIGINT. We check the file every iter so shutdown
+        # is near-instant, and break the loop cleanly so wait in
+        # tui_stop returns instead of hanging.
         while true; do
+            if [[ -f "${TUI_STOP_FILE:-$STATE_DIR/tui.stop}" ]]; then
+                break
+            fi
             tui_render
-            # Non-blocking key check: bash 5.x needs -t 0.1, not -t 0
             local_key=""
             if read -rsn1 -t 0.1 local_key 2>/dev/null; then
                 if [[ "$local_key" == "q" || "$local_key" == "Q" ]]; then
@@ -436,13 +443,44 @@ tui_start() {
 
 tui_stop() {
     if [[ -n "$TUI_PID" ]]; then
-        kill "$TUI_PID" 2>/dev/null
+        # The renderer subprocess runs an infinite `while true; do
+        # tui_render; read -rsn1 -t 0.1; done` loop with NO signal
+        # handler of its own. Sending SIGTERM (the default for `kill`)
+        # interrupts its `read` call with EINTR, but the loop just
+        # falls through and blocks on the next `read` — leaving the
+        # renderer alive. The subsequent `wait $TUI_PID` then blocks
+        # forever, hanging the whole script.
+        #
+        # We solve this with a three-step shutdown:
+        #   1. Set TUI_STOPPING=1 via the global flag file (renderer's
+        #      loop checks it on every iter — sees it, exits cleanly
+        #      via `break` so the read is skipped next time).
+        #   2. SIGINT to wake the renderer's `read` if it's blocking.
+        #   3. SIGKILL with a 1s timeout — backstop in case the
+        #      renderer is wedged in a syscall that ignores SIGINT.
+        printf '1' > "${TUI_STOP_FILE:-$STATE_DIR/tui.stop}" 2>/dev/null
+        kill -INT "$TUI_PID" 2>/dev/null
+        # Brief grace period for the renderer to clean up
+        for _ in 1 2 3 4 5 6 7 8 9 10; do
+            kill -0 "$TUI_PID" 2>/dev/null || break
+            sleep 0.1
+        done
+        # If still alive, force-kill. SIGKILL cannot be ignored, so
+        # this unblocks `wait` regardless of what the renderer was doing.
+        if kill -0 "$TUI_PID" 2>/dev/null; then
+            kill -9 "$TUI_PID" 2>/dev/null
+        fi
         wait "$TUI_PID" 2>/dev/null
+        rm -f "${TUI_STOP_FILE:-$STATE_DIR/tui.stop}" 2>/dev/null
     fi
     printf '%s?25h' "$CSI" > "$TUI_OUT"
     printf '%s?1049l' "$CSI" > "$TUI_OUT"
     printf '%s0m' "$CSI" > "$TUI_OUT"
 }
+
+# Shared stop flag for cooperative shutdown from tui_stop and main script.
+TUI_STOP_FILE="$STATE_DIR/tui.stop"
+rm -f "$TUI_STOP_FILE"
 
 trap 'tui_stop' EXIT INT TERM
 
