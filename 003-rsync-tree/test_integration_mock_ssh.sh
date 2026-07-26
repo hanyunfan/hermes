@@ -26,35 +26,56 @@ touch "$MOCKSRC/data"
 #                   a way out — but it's wrapped in `timeout` to bound)
 cat > "$MOCKBIN/ssh" <<'EOF'
 #!/usr/bin/env bash
-# Strip SSH flags; first non-flag arg is the host, rest is the command.
+# Mock ssh for rsync-tree.sh tests.
+#
+# Real ssh handles host argument + remote command separately, but bash's
+# $@ is just a flat list of args. The remote command is one or more
+# trailing args after the host.
+#
+# Two quoting shapes the parent uses:
+#   ssh $SSH_ARGS "$src" "du --apparent-size -sb /path"
+#     → ARGS = ("du --apparent-size -sb /path")  (single, double-quoted)
+#   ssh $SSH_ARGS "$src" du --apparent-size -sb /path
+#     → ARGS = ("du" "--apparent-size" "-sb" "/path")  (word-split)
+#
+# We also need to correctly handle SSH options like -o KEY=VAL that
+# consume their own argument; otherwise the value leaks into the
+# reconstructed command and our regexes fail.
+
+# Strip SSH options, tracking their argument consumption
 HOST=""
 ARGS=()
 while [[ $# -gt 0 ]]; do
   case "$1" in
-    -*) shift ;;
+    -o|-i|-l|-p|-J)   # these take a separate arg
+      shift 2 ;;
+    -*)
+      # All other flags (no arg): just consume
+      shift ;;
     *)
-      if [[ -z "$HOST" ]]; then HOST="$1"; shift; else ARGS+=("$1"); shift; fi
-      ;;
+      if [[ -z "$HOST" ]]; then HOST="$1"; shift; else ARGS+=("$1"); shift; fi ;;
   esac
 done
 DELAY=${MOCK_DELAY:-0.05}
 sleep "$DELAY"
+cmd="${ARGS[*]}"
 case "${MOCK_MODE:-success}" in
   success)
-    # Parse the command being executed. If it looks like a du call,
-    # emit a fake size. Otherwise emit the standard rsync-success
-    # summary line.
-    cmd="${ARGS[*]}"
-    if [[ "$cmd" == *"du -sb"* ]]; then
+    if [[ "$cmd" =~ ^du[[:space:]].*-sb[[:space:]] ]]; then
       echo "1024"
     elif [[ "$cmd" == *"rsync"* ]]; then
       printf '%s\n' "total size is 1024  speedup is 1.00"
     else
       echo "0"
     fi
+    # Also record every du invocation we see so tests can verify
+    # the --apparent-size (or -A) flag was actually passed.
+    if [[ "$cmd" =~ ^du[[:space:]] ]]; then
+      echo "$cmd" >> "${MOCK_DU_LOG:-/tmp/rsync-tree-mock-du.log}"
+    fi
     ;;
   fail)
-    # Empty output — forces SSH_FAIL_SRC branch on `du -sb` check.
+    # Empty output — forces SSH_FAIL_SRC branch on du check.
     ;;
   hung)
     sleep 600
@@ -138,6 +159,39 @@ if (( rc != 0 )); then
   fail=$((fail + 1))
 else
   echo "  PASS (tui-mode-dry-run)"
+fi
+
+# Sub-test 4: --apparent-size / -A is passed to du. Without it, the
+# scheduler would compare on-disk block counts to rsync-transferred
+# byte counts and could report spurious "size mismatch" failures on
+# sparse files / files with holes / across filesystems with different
+# block sizes.
+echo "----- sub-test: du uses --apparent-size (or -A) flag -----"
+rm -rf "$STATE"/* 2>/dev/null || true
+rm -f "$MOCKSRC"/* 2>/dev/null; touch "$MOCKSRC/data"
+DU_LOG="$STATE/du-invocations.log"
+rm -f "$DU_LOG"
+
+PATH="$MOCKBIN:$PATH" MOCK_MODE=success MOCK_DU_LOG="$DU_LOG" timeout 15 \
+  ./rsync-tree.sh --plain --source src \
+    --nodes 'src,n1,n2' \
+    --dir "$MOCKSRC" > "$STATE/dulog.out" 2>&1
+rc=$?
+
+if (( rc != 0 )); then
+  echo "  FAIL: du-flag check exit code $rc"
+  tail -10 "$STATE/dulog.out" | sed 's/^/    /'
+  fail=$((fail + 1))
+elif [[ ! -s "$DU_LOG" ]]; then
+  echo "  FAIL: no du invocations were recorded"
+  fail=$((fail + 1))
+elif ! grep -qE "du[[:space:]]+(--apparent-size|-A)[[:space:]]+-sb" "$DU_LOG"; then
+  echo "  FAIL: du was invoked WITHOUT --apparent-size/-A. log:"
+  cat "$DU_LOG" | sed 's/^/    /'
+  fail=$((fail + 1))
+else
+  echo "  PASS (du uses apparent-size; $(wc -l < "$DU_LOG") invocations recorded)"
+  grep -E "du[[:space:]]+(--apparent-size|-A)[[:space:]]+-sb" "$DU_LOG" | head -3 | sed 's/^/    /'
 fi
 
 # Cleanup

@@ -29,6 +29,25 @@ NODES_PATTERN='node[01-18]'
 DRY_RUN=""
 DIAGNOSE=""
 
+# `du` flag that returns logical file size (sum of st_size) instead of
+# allocated disk blocks. rsync transfers by logical content, so the
+# number we compare against must be the logical size — otherwise
+# sparse files / files with holes / unwritten extents / different
+# block sizes across filesystems produce spurious "size mismatch"
+# reports even though the actual file content is identical.
+#
+# GNU du (Linux)  : --apparent-size
+# BSD du  (macOS) : -A
+# BusyBox du      : no flag — fall back to plain `du -s` (the best we can)
+DU_APP_FLAG="--apparent-size"
+if ! du $DU_APP_FLAG /dev/null >/dev/null 2>&1; then
+    if du -A /dev/null >/dev/null 2>&1; then
+        DU_APP_FLAG="-A"
+    else
+        DU_APP_FLAG=""
+    fi
+fi
+
 # How many times to retry a failing src→tgt pair before giving up.
 # Without a cap, a node that is permanently broken (eg. crashed SSH
 # host, full disk on src) sends the scheduler into a tight infinite
@@ -111,7 +130,7 @@ if [[ -n "$DIAGNOSE" ]]; then
             continue
         fi
         # 3. rsync availability on the node (only checked for source/target roles)
-        local_sz=$(ssh $SSH_ARGS "$n" "du -sb $SRC_DIR 2>/dev/null | awk '{print \$1}'")
+        local_sz=$(ssh $SSH_ARGS "$n" "du $DU_APP_FLAG -sb $SRC_DIR 2>/dev/null | awk '{print \$1}'")
         if [[ -z "$local_sz" ]]; then
             echo "  ✗ $n  SSH ok, $SRC_DIR/ exists, but du failed (file system error?)"
             ((bad++))
@@ -496,7 +515,7 @@ check_complete() {
     #    and the process exited 0 (we reaped it with `wait`). That's
     #    sufficient evidence of success. Skip the tgt-side du entirely.
     local src_sz
-    src_sz=$(ssh $SSH_ARGS "$src" "du -sb $SRC_DIR" 2>/dev/null | awk '{print $1}')
+    src_sz=$(ssh $SSH_ARGS "$src" "du $DU_APP_FLAG -sb $SRC_DIR" 2>/dev/null | awk '{print $1}')
     if [[ -z "$src_sz" ]]; then
         echo "  [!!] [$src] → [$tgt] cannot get size from $src (SSH failed) — returning $tgt to queue, $src back to ready" >&2
         fail_job "$src→$tgt" "SSH_FAIL_SRC"
@@ -889,6 +908,6 @@ echo "Verification (sample ~25%):"
 for n in "${ALL_NODES[@]}"; do
     [[ $((RANDOM % 4)) -ne 0 ]] && continue
     count=$(ssh $SSH_ARGS "$n" "ls $SRC_DIR 2>/dev/null | wc -l" 2>/dev/null || echo "?")
-    size=$(ssh $SSH_ARGS "$n" "du -sb $SRC_DIR 2>/dev/null | awk '{print \$1}'" 2>/dev/null || echo "?")
+    size=$(ssh $SSH_ARGS "$n" "du $DU_APP_FLAG -sb $SRC_DIR 2>/dev/null | awk '{print \$1}'" 2>/dev/null || echo "?")
     printf "  %-12s : %s files, %s bytes\n" "$n" "$count" "$size"
 done
