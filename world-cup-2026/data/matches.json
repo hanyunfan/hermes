@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-07-31T05:48:12.046825+00:00",
+  "generated_at": "2026-07-31T17:28:33.902238+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-07-31T00:48:09.743771-05:00",
+  "now_local": "2026-07-31T12:28:29.579294-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -2805,7 +2805,7 @@
               "team": "Paraguay",
               "team_id": "210",
               "team_side": "away",
-              "player": "Juan Cáceres",
+              "player": "Juan Jose Cáceres",
               "text": "Juan José Cáceres (Paraguay) is shown the yellow card for a bad foul."
             },
             {
@@ -2933,7 +2933,7 @@
               "team_side": "away",
               "player": "Gustavo Velázquez",
               "text": "Substitution, Paraguay. Gustavo Velázquez replaces Juan José Cáceres.",
-              "player_off": "Juan Cáceres"
+              "player_off": "Juan Jose Cáceres"
             },
             {
               "kind": "substitution",
@@ -3018,7 +3018,7 @@
               "Omar Alderete",
               "Gustavo Gómez",
               "Júnior Alonso",
-              "Juan Cáceres",
+              "Juan Jose Cáceres",
               "Damián Bobadilla",
               "Andrés Cubas",
               "Miguel Almirón",
@@ -10146,7 +10146,7 @@
               "team_side": "away",
               "player": "Alexandro Maidana",
               "text": "Substitution, Paraguay. Alexandro Maidana replaces Juan José Cáceres.",
-              "player_off": "Juan Cáceres"
+              "player_off": "Juan Jose Cáceres"
             },
             {
               "kind": "substitution",
@@ -10213,7 +10213,7 @@
               "Omar Alderete",
               "Gustavo Gómez",
               "Júnior Alonso",
-              "Juan Cáceres",
+              "Juan Jose Cáceres",
               "Diego Gómez",
               "Andrés Cubas",
               "Matías Galarza",
@@ -17123,7 +17123,7 @@
               "Omar Alderete",
               "Gustavo Velázquez",
               "Alexandro Maidana",
-              "Juan Cáceres",
+              "Juan Jose Cáceres",
               "Andrés Cubas",
               "Matías Galarza",
               "Diego Gómez",
@@ -21350,7 +21350,7 @@
               "team_side": "away",
               "player": "Braian Ojeda",
               "text": "Substitution, Paraguay. Braian Ojeda replaces Juan José Cáceres.",
-              "player_off": "Juan Cáceres"
+              "player_off": "Juan Jose Cáceres"
             },
             {
               "kind": "substitution",
@@ -21453,7 +21453,7 @@
               "José Canale",
               "Gustavo Gómez",
               "Júnior Alonso",
-              "Juan Cáceres",
+              "Juan Jose Cáceres",
               "Andrés Cubas",
               "Damián Bobadilla",
               "Matías Galarza",
@@ -25295,7 +25295,7 @@
               "Omar Alderete",
               "Gustavo Velázquez",
               "Júnior Alonso",
-              "Juan Cáceres",
+              "Juan Jose Cáceres",
               "Andrés Cubas",
               "Diego Gómez",
               "Matías Galarza",
