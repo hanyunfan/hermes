@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-07-31T02:07:31+00:00",
+  "generated_at": "2026-07-31T05:48:12+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-07-30T21:07:31-05:00",
+  "now_local": "2026-07-31T00:48:12-05:00",
   "match_count": 65,
   "manual_count": 56,
   "rounds": [
@@ -5459,15 +5459,15 @@
       ]
     },
     {
-      "round_id": "round-2026-07-30-2026-07-30",
+      "round_id": "round-2026-07-31-2026-07-31",
       "stage_slug": null,
       "round_label": {
         "zh": "本轮",
         "en": "This Round"
       },
       "round_date_range": [
-        "2026-07-30",
-        "2026-07-30"
+        "2026-07-31",
+        "2026-07-31"
       ],
       "match_count": 0,
       "manual_count": 0,
@@ -5476,7 +5476,7 @@
       "round_intro_en": null,
       "manual_note_zh": null,
       "manual_note_en": null,
-      "generated_at": "2026-07-31T02:07:31+00:00",
+      "generated_at": "2026-07-31T05:48:12+00:00",
       "matches": []
     }
   ]
