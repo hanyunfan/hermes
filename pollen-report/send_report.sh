@@ -45,15 +45,39 @@ def cat_emoji(cat):
 gps_ok = bool(gps and any(gps.get(k) for k in ["tree", "grass", "weed"]))
 zip_ok = bool(zip_ and zip_.get("top_allergens"))
 
+# Status strings — pinned to scrape.py gps_status values.
+# Lets the message say *why* Google data is missing instead of a generic "GPS down".
+gps_status = d.get("gps_status", "ok" if gps_ok else "empty")
+GPS_STATUS_NOTES = {
+    "ok":          "",  # no extra note when data is present
+    "empty":       "no index data returned (Google omits indexInfo when pollen is out of season)",
+    "no_key":      "API key not configured (set GOOGLE_POLLEN_API_KEY)",
+    "error":       "API call failed (network/HTTP error)",
+    "no_daily":    "API responded but no daily forecast in payload",
+    "parse_error": "API response could not be parsed",
+}
+gps_note = GPS_STATUS_NOTES.get(gps_status, "GPS data unavailable")
+
 lines = []
 lines.append(f"🌿 <b>Austin Pollen Report</b>")
 lines.append(f"📍 {loc}  |  {ts}")
 lines.append("")
 
-if top != "N/A":
+# Top Allergen: prefer GPS, fall back to ZIP when GPS is empty so the line is
+# never blank when *any* source has data. Only show the literal "unavailable"
+# when both sources are down.
+if top and top != "N/A":
     lines.append(f"<b>⚠️ Top Allergen: {top} ({top_val}/5, {top_cat})</b>")
+elif zip_ok:
+    zip_top = zip_["top_allergens"][0]
+    lines.append(
+        f"<b>⚠️ Top Allergen: {zip_top['name']} ({zip_top['plantType']})</b>"
+        f"\n  <i>via pollen.com ZIP — Google Pollen API: {gps_note}</i>"
+    )
 else:
-    lines.append("<b>⚠️ Top Allergen: unavailable (GPS data down)</b>")
+    lines.append(f"<b>⚠️ Top Allergen: unavailable</b>")
+    if gps_note:
+        lines.append(f"  <i>Google Pollen API: {gps_note}</i>")
 
 lines.append("")
 
@@ -70,7 +94,8 @@ if gps_ok:
         lines.append("  (no data available)")
 else:
     lines.append("🌡️ <b>Key Allergens (Google Pollen API)</b>")
-    lines.append("  (GPS data unavailable — try ZIP source below)")
+    # Show the specific reason instead of the generic "GPS data unavailable".
+    lines.append(f"  ({gps_note} — see pollen.com below)")
 
 lines.append("")
 lines.append("🌬️ <b>Air Quality</b>")

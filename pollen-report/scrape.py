@@ -128,10 +128,17 @@ GOOGLE_POLLEN_URL = "https://pollen.googleapis.com/v1/forecast:lookup"
 GOOGLE_POLLEN_KEY = os.environ.get("GOOGLE_POLLEN_API_KEY", "")  # Put your key here
 
 
+# Return-shape contract for fetch_google_pollen:
+#   ("ok", dict)       — HTTP 200 with parseable JSON body
+#   ("no_key", None)   — GOOGLE_POLLEN_API_KEY env var missing or empty
+#   ("error", str)     — HTTP error / network failure / non-JSON body (str = error message)
+# Three states, not two: callers must be able to distinguish "API responded 200 but
+# returned no indexInfo" (upstream data gap, document the cause) from "API failed
+# outright" (network / auth / parse error — actionable on our side).
 def fetch_google_pollen(lat, lng):
     if not GOOGLE_POLLEN_KEY:
         print("Google Pollen API: no API key set (set GOOGLE_POLLEN_API_KEY env var)", file=sys.stderr)
-        return None
+        return ("no_key", None)
     params = {
         "location.latitude": lat,
         "location.longitude": lng,
@@ -151,31 +158,47 @@ def fetch_google_pollen(lat, lng):
     )
     try:
         with urllib.request.urlopen(req, timeout=15) as resp:
-            return json.loads(resp.read().decode())
+            return ("ok", json.loads(resp.read().decode()))
     except Exception as e:
         print(f"Google Pollen API fetch failed: {e}", file=sys.stderr)
-        return None
+        return ("error", str(e))
 
 # ─── Replaced parse_google_pollen function ──────────────────────────────────────
 
 def parse_google_pollen(raw, source_name):
-    """Parse Google Pollen API response into the same dict shape as parse_gps_data()."""
+    """Parse Google Pollen API response into the same dict shape as parse_gps_data().
+
+    Returns a dict with a `"_status"` key so the caller can distinguish:
+      "ok"     — at least one of tree/grass/weed has a numeric index
+      "empty"  — API responded 200 but every pollenTypeInfo entry is missing
+                 indexInfo (per Google docs: "In cases where a pollen type or
+                 plant is out of season and the pollen count is low, the
+                 indexInfo object in the response body is omitted")
+      "no_daily" — API responded but dailyInfo array is empty / missing
+    """
     result = {"source": "Google Pollen API", "source_name": source_name}
+    if not raw:
+        result["_status"] = "no_daily"
+        return result
     try:
         daily_forecasts = raw.get("dailyInfo", [])
         if not daily_forecasts:
+            result["_status"] = "no_daily"
             return result
 
         today = daily_forecasts[0]
         pollen_type_info = today.get("pollenTypeInfo", [])
         # Google uses string codes: "GRASS", "TREE", "WEED", "RAGWEED"
         code_map = {"GRASS": "grass", "TREE": "tree", "WEED": "weed", "RAGWEED": "ragweed"}
+        any_index_seen = False
         for entry in pollen_type_info:
             code = entry.get("code", "")
             key = code_map.get(code, code.lower())
-            index_info = entry.get("indexInfo", {})
+            index_info = entry.get("indexInfo") or {}
             val = index_info.get("value")
             category = index_info.get("category", "")
+            if val is not None:
+                any_index_seen = True
             if key not in result:  # first entry wins
                 result[key] = val
                 result[key + "_category"] = category
@@ -201,7 +224,7 @@ def parse_google_pollen(raw, source_name):
             grass_val = None
             for entry in pollen_info:
                 c = entry.get("code", "")
-                v = entry.get("indexInfo", {}).get("value")
+                v = (entry.get("indexInfo") or {}).get("value")
                 if c == "TREE":
                     tree_val = v
                 elif c == "GRASS":
@@ -213,9 +236,12 @@ def parse_google_pollen(raw, source_name):
                 "grass": grass_val,
             })
 
+        result["_status"] = "ok" if any_index_seen else "empty"
         return result
     except Exception as e:
         print(f"Google Pollen parse error: {e}", file=sys.stderr)
+        result["_status"] = "parse_error"
+        result["_parse_error"] = str(e)
         return result
 # ─── ZIP source: pollen.com via Chrome CDP ──────────────────────────────────────
 
@@ -593,8 +619,19 @@ def main():
     zip_code = location["zip"]
 
     # Fetch data
-    gps_raw = fetch_google_pollen(lat, lng)
-    gps_data = parse_google_pollen(gps_raw, location.get("city", DEFAULT_CITY)) if gps_raw else {}
+    # fetch_google_pollen returns (status, payload) so we can distinguish:
+    #   "ok"      — payload is JSON; parse_google_pollen may still find it empty
+    #   "no_key"  — GOOGLE_POLLEN_API_KEY not configured
+    #   "error"   — HTTP / network / parse failure (payload is error message)
+    gps_status, gps_raw = fetch_google_pollen(lat, lng)
+    if gps_status == "ok":
+        gps_data = parse_google_pollen(gps_raw, location.get("city", DEFAULT_CITY))
+        # parse_google_pollen adds a finer-grained "_status" (ok/empty/no_daily/parse_error)
+        # Promote that to the top-level gps_status only when the fetch itself succeeded.
+        gps_status = gps_data.get("_status", "empty")
+    else:
+        # Fetch failed entirely; produce an empty dict so downstream code keeps working.
+        gps_data = {}
     zip_raw = fetch_zip_data(zip_code)
     zip_data = parse_zip_data(zip_raw, zip_code)
     aqi = fetch_aqi(lat, lng)
@@ -607,7 +644,7 @@ def main():
         "location": location.get("city", DEFAULT_CITY),
         "address": args.address if not args.detect_ip else "IP-detected",
         "lat": lat, "lng": lng, "zip": zip_code,
-        "gps": gps_data, "zip_data": zip_data, "aqi": aqi,
+        "gps": gps_data, "gps_status": gps_status, "zip_data": zip_data, "aqi": aqi,
         "top_allergen": top[0] if top else None,
         "top_allergen_value": top[1] if top else None,
         "top_allergen_category": top[2] if top else None,
