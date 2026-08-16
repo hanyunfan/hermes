@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-08-16T00:53:29.601715+00:00",
+  "generated_at": "2026-08-16T02:17:55.263947+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-08-15T19:53:26.457687-05:00",
+  "now_local": "2026-08-15T21:17:51.799794-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -3740,7 +3740,7 @@
               "Ruben Providence",
               "Louicius Deedson",
               "Wilson Isidor",
-              "Frantz Pierrot",
+              "Frantzdy Pierrot",
               "Josué Duverger",
               "Carl Sainté",
               "Duckens Nazon",
@@ -9818,7 +9818,7 @@
               "team": "Haiti",
               "team_id": "2654",
               "team_side": "away",
-              "player": "Frantz Pierrot",
+              "player": "Frantzdy Pierrot",
               "text": "Frantzdy Pierrot (Haiti) is shown the yellow card for a bad foul."
             },
             {
@@ -9829,7 +9829,7 @@
               "team_side": "away",
               "player": "Wilson Isidor",
               "text": "Substitution, Haiti. Wilson Isidor replaces Frantzdy Pierrot.",
-              "player_off": "Frantz Pierrot"
+              "player_off": "Frantzdy Pierrot"
             },
             {
               "kind": "substitution",
@@ -9969,7 +9969,7 @@
               "Danley Jean Jacques",
               "Ruben Providence",
               "Josué Casimir",
-              "Frantz Pierrot",
+              "Frantzdy Pierrot",
               "Alexandre Pierre",
               "Josué Duverger",
               "Lenny Joseph",
@@ -15098,7 +15098,7 @@
               "team": "Haiti",
               "team_id": "2654",
               "team_side": "away",
-              "player": "Frantz Pierrot",
+              "player": "Frantzdy Pierrot",
               "text": "Substitution, Haiti. Frantzdy Pierrot replaces Lenny Joseph.",
               "player_off": "Lenny Joseph"
             },
@@ -15177,7 +15177,7 @@
               "Markhus Lacroix",
               "Josué Duverger",
               "Carl Sainté",
-              "Frantz Pierrot"
+              "Frantzdy Pierrot"
             ]
           }
         },
