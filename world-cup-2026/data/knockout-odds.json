@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-08-18T05:00:37+00:00",
+  "generated_at": "2026-08-18T16:30:03+00:00",
   "n_simulations": 10000,
   "match_window": [],
   "model": "elo + rank-gap-shrunk draw",
