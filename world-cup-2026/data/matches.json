@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-08-19T05:00:30.903306+00:00",
+  "generated_at": "2026-08-19T16:30:20.474652+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-08-19T00:00:27.728940-05:00",
+  "now_local": "2026-08-19T11:30:18.594012-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -6541,9 +6541,9 @@
               "Rebin Sulaka",
               "Ahmed Qasim",
               "Youssef Amyn",
-              "Hashim Ali",
+              "Ali Yousif",
               "Kevin Yakob",
-              "Ahmed Maknazi",
+              "Ahmed Hasan",
               "Fahad Talib",
               "Marko Farji",
               "Aimar Sher",
@@ -12867,10 +12867,10 @@
               "Ali Al-Hamadi",
               "Marko Farji",
               "Munaf Younus",
-              "Hashim Ali",
+              "Ali Yousif",
               "Jalal Hassan",
               "Rebin Sulaka",
-              "Ahmed Maknazi",
+              "Ahmed Hasan",
               "Youssef Amyn",
               "Aimar Sher",
               "Mustafa Saadoon",
@@ -17876,7 +17876,7 @@
               "team": "Iraq",
               "team_id": "4375",
               "team_side": "away",
-              "player": "Ahmed Maknazi",
+              "player": "Ahmed Hasan",
               "text": "Substitution, Iraq. Ahmed Maknzi replaces Ali Jasim.",
               "player_off": "Ali Jasim"
             },
@@ -17886,7 +17886,7 @@
               "team": "Iraq",
               "team_id": "4375",
               "team_side": "away",
-              "player": "Hashim Ali",
+              "player": "Ali Yousif",
               "text": "Substitution, Iraq. Ali Yousif replaces Ali Al Hamadi.",
               "player_off": "Ali Al-Hamadi"
             },
@@ -18030,9 +18030,9 @@
               "Zaid Tahseen",
               "Munaf Younus",
               "Hussein Ali",
-              "Ahmed Maknazi",
+              "Ahmed Hasan",
               "Marko Farji",
-              "Hashim Ali"
+              "Ali Yousif"
             ]
           }
         },
