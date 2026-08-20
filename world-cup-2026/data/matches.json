@@ -1,8 +1,8 @@
 {
   "schema_version": 2,
-  "generated_at": "2026-08-20T05:02:18.220590+00:00",
+  "generated_at": "2026-08-20T15:04:05.580748+00:00",
   "timezone": "America/Chicago",
-  "now_local": "2026-08-20T00:02:16.508232-05:00",
+  "now_local": "2026-08-20T10:04:03.390011-05:00",
   "tournament": {
     "name": "FIFA World Cup 2026",
     "host": "USA / Canada / Mexico",
@@ -2717,7 +2717,7 @@
               "Mathieu Choinière"
             ],
             "away": [
-              "Nikola Vasilj",
+              "Nikola Vasiljevic",
               "Tarik Muharemovic",
               "Nikola Katic",
               "Sead Kolasinac",
@@ -8627,7 +8627,7 @@
               "Breel Embolo"
             ],
             "away": [
-              "Nikola Vasilj",
+              "Nikola Vasiljevic",
               "Tarik Muharemovic",
               "Nikola Katic",
               "Sead Kolasinac",
@@ -14571,7 +14571,7 @@
           ],
           "rosters": {
             "home": [
-              "Nikola Vasilj",
+              "Nikola Vasiljevic",
               "Stjepan Radeljic",
               "Nikola Katic",
               "Sead Kolasinac",
@@ -23232,7 +23232,7 @@
               "Ricardo Pepi"
             ],
             "away": [
-              "Nikola Vasilj",
+              "Nikola Vasiljevic",
               "Tarik Muharemovic",
               "Stjepan Radeljic",
               "Nikola Katic",
