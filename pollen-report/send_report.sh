@@ -1,5 +1,5 @@
 #!/bin/bash
-TOKEN="8699881677:AAEM_6K6G2JAI5HIlujPY515_o2zPo-a91U"
+TOKEN="__REAL_TOKEN_PLACEHOLDER__"
 CHAT_ID="8670077590"
 SCRIPT_DIR="$(dirname "$(readlink -f "$0")")"
 LOCKFILE="/tmp/pollen_report.lock"
@@ -84,14 +84,20 @@ lines.append("")
 if gps_ok:
     lines.append("🌡️ <b>Key Allergens (Google Pollen API)</b>")
     shown = False
+    reported = []  # (val, cat) for categories actually rendered
     for key, label in [("tree","Tree"), ("grass","Grass"), ("weed","Weed")]:
         val = gps.get(key)
         cat = gps.get(f"{key}_category", "?")
         if val is not None:
             lines.append(f"  {label}: {val}/5 {cat_emoji(cat)}")
             shown = True
+            reported.append((val, cat))
     if not shown:
         lines.append("  (no data available)")
+    elif all(v == 1 and c == "Very Low" for v, c in reported):
+        # All reported categories at the API minimum. Distinguish from
+        # out-of-season (which would omit indexInfo and show N/A, not 1/5).
+        lines.append("  <i>ℹ️ All at minimum (1/5 Very Low). Out-of-season would show as N/A.</i>")
 else:
     lines.append("🌡️ <b>Key Allergens (Google Pollen API)</b>")
     # Show the specific reason instead of the generic "GPS data unavailable".
@@ -135,12 +141,53 @@ print("\n".join(lines))
 PYEOF
 )
 
-# Send via Telegram
-curl -s -X POST "https://api.telegram.org/bot${TOKEN}/sendMessage" \
-  -d chat_id="$CHAT_ID" \
-  -d text="$MSG" \
-  -d parse_mode="HTML" \
-  -d disable_web_page_preview="true"
+# ─── Idempotency guard ──────────────────────────────────────────────────────────
+# Cron retry after LLM timeout can fire this script twice within minutes; Telegram
+# messages aren't idempotent, so dedupe by content hash of MSG. State lives outside
+# the repo to avoid polluting git status.
+#
+# Hash strategy: hash the JSON *data content* (not the raw file) with volatile
+# real-time fields stripped. scrape.py rewrites `timestamp` every run, and AQI
+# from WAQI fluctuates every few minutes — neither change makes the message
+# substantively different from the user's perspective within a few-minute
+# retry window. Two runs seconds apart with unchanged pollen data will share a
+# hash and dedupe correctly.
+STATE_DIR="${XDG_STATE_HOME:-$HOME/.local/state}/pollen-report"
+LAST_SENT="$STATE_DIR/last_sent.json"
+mkdir -p "$STATE_DIR"
+MSG_HASH=$(python3 -c "
+import json, hashlib, sys
+with open('/home/frank/hermes/pollen-report/data/pollen-data.json') as f:
+    d = json.load(f)
+d.pop('timestamp', None)
+d.pop('aqi', None)
+sys.stdout.write(hashlib.sha256(json.dumps(d, sort_keys=True).encode()).hexdigest())
+")
 
-echo ""
-echo "Sent at $(date)"
+if [ -f "$LAST_SENT" ]; then
+    LAST_HASH=$(jq -r '.msg_hash // ""' "$LAST_SENT" 2>/dev/null || true)
+    if [ -n "$LAST_HASH" ] && [ "$LAST_HASH" = "$MSG_HASH" ]; then
+        LAST_TS=$(jq -r '.ts // "?"' "$LAST_SENT" 2>/dev/null || echo "?")
+        echo "Skip: identical message already sent (hash $MSG_HASH, prior ts=$LAST_TS)"
+        exit 0
+    fi
+fi
+
+# Send via Telegram. -f fails on HTTP errors; also parse the JSON body because
+# Telegram returns 200 with ok:false on API errors.
+RESP=$(curl -sf -X POST "https://api.telegram.org/bot${TOKEN}/sendMessage" \
+    -d chat_id="$CHAT_ID" \
+    -d text="$MSG" \
+    -d parse_mode="HTML" \
+    -d disable_web_page_preview="true")
+CURL_EXIT=$?
+
+if [ $CURL_EXIT -ne 0 ] || ! printf '%s' "$RESP" | jq -e '.ok == true' >/dev/null 2>&1; then
+    echo "Telegram send failed (curl exit $CURL_EXIT): $RESP" >&2
+    exit 1
+fi
+
+# Record success only after Telegram confirmed the message.
+jq -n --arg ts "$(date -Iseconds)" --arg h "$MSG_HASH" \
+    '{ts: $ts, msg_hash: $h}' > "$LAST_SENT"
+echo "Sent at $(date) (hash $MSG_HASH)"
