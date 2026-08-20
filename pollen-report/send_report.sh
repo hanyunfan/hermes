@@ -1,22 +1,41 @@
 #!/bin/bash
-TOKEN="__REAL_TOKEN_PLACEHOLDER__"
-CHAT_ID="8670077590"
+# Resolve script directory first so we can find .env.local
 SCRIPT_DIR="$(dirname "$(readlink -f "$0")")"
-LOCKFILE="/tmp/pollen_report.lock"
 
-# Ensure only one instance
-exec 200>"$LOCKFILE"
-flock -n 200 || { echo "Already running"; exit 0; }
-
-# Kill stale scrape.py
-pkill -f "python3.*scrape.py" 2>/dev/null
-sleep 1
-
-# Load local env (API keys) — not tracked by git
+# Load local env (API keys + Telegram token) — not tracked by git
 if [ -f "$SCRIPT_DIR/.env.local" ]; then
     # shellcheck disable=SC1091
     . "$SCRIPT_DIR/.env.local"
 fi
+
+# Validate Telegram token BEFORE doing any work (no point scraping if we can't send)
+if [ -z "${TELEGRAM_BOT_TOKEN:-}" ]; then
+    cat >&2 <<EOF
+ERROR: TELEGRAM_BOT_TOKEN is not set.
+
+The Telegram bot token must be configured before running this script.
+Add it to $SCRIPT_DIR/.env.local:
+
+    export TELEGRAM_BOT_TOKEN="123456:ABC..."
+
+(.env.local is gitignored, so the secret won't leak into git history.)
+EOF
+    exit 2
+fi
+
+# Configuration
+CHAT_ID="8670077590"
+LOCKFILE="/tmp/pollen_report.lock"
+
+# Lockfile guard — only after we've validated config, so a bad-config run doesn't
+# block the next attempt. flock prevents concurrent runs but doesn't dedupe
+# sequential retries (idempotency check below handles that).
+exec 200>"$LOCKFILE"
+flock -n 200 || { echo "Already running"; exit 0; }
+
+# Kill stale scrape.py from a prior interrupted run
+pkill -f "python3.*scrape.py" 2>/dev/null
+sleep 1
 
 # Run scraper
 cd "$SCRIPT_DIR" || exit
@@ -45,16 +64,20 @@ def cat_emoji(cat):
 gps_ok = bool(gps and any(gps.get(k) for k in ["tree", "grass", "weed"]))
 zip_ok = bool(zip_ and zip_.get("top_allergens"))
 
-# Status strings — pinned to scrape.py gps_status values.
-# Lets the message say *why* Google data is missing instead of a generic "GPS down".
+# Status strings — pinned to scrape.py gps_status values. Lets the message
+# say *why* Google data is missing instead of a generic "GPS down".
+# scrape.py: fetch_google_pollen() return values + parse_google_pollen() _status.
 gps_status = d.get("gps_status", "ok" if gps_ok else "empty")
 GPS_STATUS_NOTES = {
-    "ok":          "",  # no extra note when data is present
-    "empty":       "no index data returned (Google omits indexInfo when pollen is out of season)",
-    "no_key":      "API key not configured (set GOOGLE_POLLEN_API_KEY)",
-    "error":       "API call failed (network/HTTP error)",
-    "no_daily":    "API responded but no daily forecast in payload",
-    "parse_error": "API response could not be parsed",
+    "ok":           "",  # no extra note when data is present
+    "empty":        "no index data returned (Google omits indexInfo when pollen is out of season)",
+    "no_key":       "API key not configured (set GOOGLE_POLLEN_API_KEY in .env.local)",
+    "auth_error":   "API key invalid, revoked, or lacks Pollen API permission (check GOOGLE_POLLEN_API_KEY)",
+    "rate_limit":   "rate limited by Google (HTTP 429, will retry tomorrow)",
+    "server_error": "Google server error (5xx)",
+    "error":        "API call failed (network/HTTP error)",
+    "no_daily":     "API responded but no daily forecast in payload",
+    "parse_error":  "API response could not be parsed",
 }
 gps_note = GPS_STATUS_NOTES.get(gps_status, "GPS data unavailable")
 
@@ -143,15 +166,15 @@ PYEOF
 
 # ─── Idempotency guard ──────────────────────────────────────────────────────────
 # Cron retry after LLM timeout can fire this script twice within minutes; Telegram
-# messages aren't idempotent, so dedupe by content hash of MSG. State lives outside
-# the repo to avoid polluting git status.
+# messages aren't idempotent, so dedupe by content hash. State lives outside the
+# repo to avoid polluting git status.
 #
-# Hash strategy: hash the JSON *data content* (not the raw file) with volatile
+# Hash strategy: hash the JSON data content (not the raw file) with volatile
 # real-time fields stripped. scrape.py rewrites `timestamp` every run, and AQI
 # from WAQI fluctuates every few minutes — neither change makes the message
-# substantively different from the user's perspective within a few-minute
-# retry window. Two runs seconds apart with unchanged pollen data will share a
-# hash and dedupe correctly.
+# substantively different from the user's perspective within a few-minute retry
+# window. Two runs seconds apart with unchanged pollen data will share a hash
+# and dedupe correctly.
 STATE_DIR="${XDG_STATE_HOME:-$HOME/.local/state}/pollen-report"
 LAST_SENT="$STATE_DIR/last_sent.json"
 mkdir -p "$STATE_DIR"
@@ -173,18 +196,79 @@ if [ -f "$LAST_SENT" ]; then
     fi
 fi
 
-# Send via Telegram. -f fails on HTTP errors; also parse the JSON body because
-# Telegram returns 200 with ok:false on API errors.
-RESP=$(curl -sf -X POST "https://api.telegram.org/bot${TOKEN}/sendMessage" \
+# ─── Send via Telegram ──────────────────────────────────────────────────────────
+# Use -s (NOT -f) so we get the JSON response body even on HTTP errors — Telegram
+# returns 200 with {"ok":false, "error_code":N, "description":"..."} on errors,
+# so -f would suppress the body and we couldn't distinguish auth/parse/chat errors.
+RESP=$(curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
     -d chat_id="$CHAT_ID" \
     -d text="$MSG" \
     -d parse_mode="HTML" \
     -d disable_web_page_preview="true")
 CURL_EXIT=$?
 
-if [ $CURL_EXIT -ne 0 ] || ! printf '%s' "$RESP" | jq -e '.ok == true' >/dev/null 2>&1; then
-    echo "Telegram send failed (curl exit $CURL_EXIT): $RESP" >&2
-    exit 1
+# Parse Telegram JSON response
+OK=$(printf '%s' "$RESP" | jq -r '.ok // empty' 2>/dev/null || true)
+ERR_CODE=$(printf '%s' "$RESP" | jq -r '.error_code // empty' 2>/dev/null || true)
+ERR_DESC=$(printf '%s' "$RESP" | jq -r '.description // empty' 2>/dev/null || true)
+
+if [ "$OK" = "true" ]; then
+    : # success — fall through to record
+elif [ "$CURL_EXIT" -ne 0 ]; then
+    # curl itself failed (DNS, network, TLS) — no Telegram JSON to parse
+    echo "Telegram send failed: curl exit $CURL_EXIT (network error)" >&2
+    echo "Response (raw): $RESP" >&2
+    exit 10
+elif [ -n "$ERR_CODE" ]; then
+    # Telegram API returned a structured error — categorize for actionable feedback
+    case "$ERR_CODE" in
+        401|404)
+            # Telegram returns 404 for "bot doesn't exist / token invalid format"
+            # and 401 for "token valid but revoked / bot was deleted". Both mean
+            # the bot token in .env.local is bad.
+            echo "Telegram send failed: bot token invalid or revoked (HTTP $ERR_CODE: $ERR_DESC)" >&2
+            echo "Check TELEGRAM_BOT_TOKEN in $SCRIPT_DIR/.env.local" >&2
+            exit 11
+            ;;
+        403)
+            echo "Telegram send failed: forbidden (HTTP 403: $ERR_DESC)" >&2
+            exit 12
+            ;;
+        400)
+            # 400 is the catch-all bad-request category — disambiguate by description
+            case "$ERR_DESC" in
+                *"chat not found"*)
+                    echo "Telegram send failed: chat_id $CHAT_ID not found (HTTP 400)" >&2
+                    echo "Verify CHAT_ID matches the Telegram account that should receive reports" >&2
+                    exit 13
+                    ;;
+                *"can't parse entities"*|*"parse"*)
+                    echo "Telegram send failed: HTML parse error in message (HTTP 400)" >&2
+                    echo "Likely an unescaped & < > in the pollen data; offending excerpt:" >&2
+                    echo "  $MSG" | head -c 400 >&2
+                    echo >&2
+                    exit 14
+                    ;;
+                *)
+                    echo "Telegram send failed: bad request (HTTP 400: $ERR_DESC)" >&2
+                    exit 15
+                    ;;
+            esac
+            ;;
+        429)
+            echo "Telegram send failed: rate limited (HTTP 429: $ERR_DESC)" >&2
+            exit 16
+            ;;
+        *)
+            echo "Telegram send failed: HTTP $ERR_CODE: $ERR_DESC" >&2
+            exit 17
+            ;;
+    esac
+else
+    # Got a response but couldn't parse it as Telegram JSON
+    echo "Telegram send failed: unexpected response (curl exit $CURL_EXIT)" >&2
+    echo "Response (raw): $RESP" >&2
+    exit 18
 fi
 
 # Record success only after Telegram confirmed the message.

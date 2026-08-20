@@ -22,6 +22,7 @@ import subprocess
 import sys
 import urllib.request
 import urllib.parse
+import urllib.error
 from datetime import datetime
 
 # ─── Defaults ─────────────────────────────────────────────────────────────────────
@@ -129,12 +130,15 @@ GOOGLE_POLLEN_KEY = os.environ.get("GOOGLE_POLLEN_API_KEY", "")  # Put your key 
 
 
 # Return-shape contract for fetch_google_pollen:
-#   ("ok", dict)       — HTTP 200 with parseable JSON body
-#   ("no_key", None)   — GOOGLE_POLLEN_API_KEY env var missing or empty
-#   ("error", str)     — HTTP error / network failure / non-JSON body (str = error message)
-# Three states, not two: callers must be able to distinguish "API responded 200 but
-# returned no indexInfo" (upstream data gap, document the cause) from "API failed
-# outright" (network / auth / parse error — actionable on our side).
+#   ("ok", dict)            — HTTP 200 with parseable JSON body
+#   ("no_key", None)        — GOOGLE_POLLEN_API_KEY env var missing or empty
+#   ("auth_error", str)     — HTTP 400/403 (key invalid, revoked, or lacks Pollen API permission)
+#   ("rate_limit", str)     — HTTP 429 (quota exceeded, retry later)
+#   ("server_error", str)   — HTTP 5xx (Google-side outage)
+#   ("error", str)          — Other HTTP error / network failure / non-JSON body
+# Six states so callers can produce a precise error message instead of a generic
+# "GPS down" — most importantly, auth_error is distinct from "API responded but
+# no data" so the user knows whether to fix a key vs. just wait for the next day.
 def fetch_google_pollen(lat, lng):
     if not GOOGLE_POLLEN_KEY:
         print("Google Pollen API: no API key set (set GOOGLE_POLLEN_API_KEY env var)", file=sys.stderr)
@@ -159,9 +163,32 @@ def fetch_google_pollen(lat, lng):
     try:
         with urllib.request.urlopen(req, timeout=15) as resp:
             return ("ok", json.loads(resp.read().decode()))
+    except urllib.error.HTTPError as e:
+        # Body might contain Google's specific reason (e.g. "API key not valid")
+        body_snippet = ""
+        try:
+            body_snippet = e.read().decode(errors="replace")[:200]
+        except Exception:
+            pass
+        detail = f"HTTP {e.code} {e.reason}"
+        if body_snippet:
+            detail += f" — {body_snippet}"
+        if e.code in (400, 403):
+            print(f"Google Pollen API: AUTH error ({detail})", file=sys.stderr)
+            print("  -> check GOOGLE_POLLEN_API_KEY in .env.local (valid? Pollen API enabled?)", file=sys.stderr)
+            return ("auth_error", detail)
+        if e.code == 429:
+            print(f"Google Pollen API: rate limit ({detail})", file=sys.stderr)
+            return ("rate_limit", detail)
+        if 500 <= e.code < 600:
+            print(f"Google Pollen API: server error ({detail})", file=sys.stderr)
+            return ("server_error", detail)
+        print(f"Google Pollen API: HTTP error ({detail})", file=sys.stderr)
+        return ("error", detail)
     except Exception as e:
         print(f"Google Pollen API fetch failed: {e}", file=sys.stderr)
         return ("error", str(e))
+
 
 # ─── Replaced parse_google_pollen function ──────────────────────────────────────
 
