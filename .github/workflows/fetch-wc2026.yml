@@ -11,9 +11,11 @@ on:
   # first match-window run.
   # Times in UTC; CDT = UTC-5 during the tournament. ~26 runs/day,
   # comfortably under the 2000-min free tier.
-  schedule:
-    - cron: "*/30 16-23 * * *"
-    - cron: "*/30 0-4 * * *"
+  # schedule DISABLED 2026-08-20 — WC 2026 tournament ended; no live data to refresh.
+  # Re-enable for the 2030 tournament by uncommenting the next 3 lines.
+  # schedule:
+  #   - cron: "*/30 16-23 * * *"
+  #   - cron: "*/30 0-4 * * *"
   workflow_dispatch:
   push:
     paths:
