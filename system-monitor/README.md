@@ -160,10 +160,15 @@ LOG.
 | `q` | quit |
 | `space` | pause / resume sampling |
 | `r` | sample now, without waiting out the interval |
-| `↑` `↓` / `k` `j` | scroll the log one line |
-| `PgUp` `PgDn` | scroll the log one page |
-| `g` | jump back to the newest log line |
+| `↑` `↓` / `k` `j` | scroll the **HISTORY** series |
+| `Home` | back to the first HISTORY series |
+| `PgUp` `PgDn` | scroll the **LOG** one page |
+| `g` | reset both: newest log line, first series |
 | `?` / `h` | help overlay |
+
+An 8-GPU box has four HISTORY series per GPU plus the system ones, so most of
+them sit off-screen on a normal terminal. The panel title shows the position
+(`HISTORY  3-8 of 33  ↑↓  ▲ ▼`); scroll with the arrow keys to reach the rest.
 
 Sampling runs on its own thread, so keys respond within ~100ms even with
 `--tui 60` or while `nvidia-smi dmon` is spending 7s on a sample. While a

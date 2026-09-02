@@ -144,12 +144,18 @@ when rows still do not fit, the panel prints `+N series hidden`.
 
 ### Repaint correctness
 
+Two things slide rows wholesale, and both broke a differential update.
+
 The first sample always has `network: []` — throughput needs two readings — so
 NETWORK appears on sample two and shifts every panel below it down three rows.
-`_layout_sig()` hashes the frame's *shape* (size, GPU count, interface count,
-cpu-debug presence, help state) and forces `clearok(True)` when it changes,
-rather than trusting a differential update against a frame of a different
-shape.
+Scrolling either pane slides a block by a line. Both are exactly what ncurses
+optimises with insert/delete-line, and diffing across a shifted frame left
+stale rows on screen: window `2-7 of 9` rendered `net tx` twice while omitting
+the GPU0 series.
+
+`_layout_sig()` therefore hashes size, GPU count, interface count, cpu-debug
+presence, help state **and both scroll offsets**, forcing `clearok(True)` when
+it changes. The cost is one full repaint per keypress.
 
 ### Keys
 
@@ -158,10 +164,18 @@ shape.
 | `q` | quit |
 | `space` | pause / resume sampling (the thread stays alive) |
 | `r` | sample now, without waiting out the interval |
-| `↑ ↓` / `k j` | scroll the log one line |
-| `PgUp` `PgDn` | scroll the log one page |
-| `g` / `G` | jump back to the newest log line |
+| `↑ ↓` / `k j` | scroll the HISTORY series |
+| `Home` | back to the first HISTORY series |
+| `PgUp` `PgDn` | scroll the LOG one page |
+| `g` / `G` | reset both: newest log line, first series |
 | `?` / `h` | toggle the help overlay (v2 advertised this as a TODO) |
+
+HISTORY is scrollable because an 8-GPU box produces 4 series per GPU plus the
+system ones — over 30 rows, of which a 24-row terminal shows six. Counting the
+remainder (`+23 series hidden`) was not much use without a way to reach them,
+so the panel title now carries the window (`3-8 of 33  ↑↓  ▲ ▼`) and the
+offset is clamped in `_hist_window()` during the draw, which is the only place
+that knows how many rows survived the terminal height.
 
 `ESC` is deliberately **not** quit. Terminals send SS3 (`\033OA`) in
 application-keypad mode and CSI (`\033[A`) otherwise; `_read_key()` decodes

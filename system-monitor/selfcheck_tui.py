@@ -247,7 +247,15 @@ a = c._layout_sig(st2, 40, 120)
 st2["last"] = dict(st2["last"], network=[{"name": "eth0", "rx_mbs": 0, "tx_mbs": 0}])
 assert c._layout_sig(st2, 40, 120) != a, "network appearing must change the signature"
 assert c._layout_sig(st2, 24, 120) != c._layout_sig(st2, 40, 120), "size matters"
-ok("the layout signature changes when a panel appears or the terminal resizes")
+# Scrolling slides a block of rows, which is the same insert/delete-line
+# hazard: without this, window '2-7 of 9' rendered 'net tx' twice on screen.
+b = c._layout_sig(st2, 40, 120)
+st2["hist_scroll"] = 2
+assert c._layout_sig(st2, 40, 120) != b, "a HISTORY scroll must force a repaint"
+d = c._layout_sig(st2, 40, 120)
+st2["log_scroll"] += 4          # section 7 already left this non-zero
+assert c._layout_sig(st2, 40, 120) != d, "a LOG scroll must force a repaint"
+ok("the repaint key changes on panel appearance, resize and either scroll")
 
 # ── 9. Key decoding table ───────────────────────────────────────────────────
 # Terminals send SS3 (\033OA) in application-keypad mode and CSI (\033[A)
@@ -255,7 +263,29 @@ ok("the layout signature changes when a panel appears or the terminal resizes")
 assert c._ESC_KEYS["[A"] == c._ESC_KEYS["OA"] == "KEY_UP"
 assert c._ESC_KEYS["[B"] == c._ESC_KEYS["OB"] == "KEY_DOWN"
 assert c._ESC_KEYS["[5~"] == "KEY_PPAGE" and c._ESC_KEYS["[6~"] == "KEY_NPAGE"
+assert c._ESC_KEYS["[H"] == c._ESC_KEYS["OH"] == c._ESC_KEYS["[1~"] == "KEY_HOME"
+# Every name must exist in curses, or the key would raise on first press.
+import curses as _curses
+for _name in set(c._ESC_KEYS.values()):
+    assert hasattr(_curses, _name), f"curses has no {_name}"
 ok("both SS3 and CSI arrow encodings decode to the same keys")
+
+# ── 9b. HISTORY scroll window ───────────────────────────────────────────────
+# An 8-GPU box has 4 series per GPU plus the system ones — over 30 rows, so
+# most are off-screen and must be reachable, not merely counted.
+assert c._hist_window(33, 8, 0)  == (0, 8),  "top of a long list"
+assert c._hist_window(33, 8, 5)  == (5, 8),  "scrolled into the middle"
+assert c._hist_window(33, 8, 25) == (25, 8), "last full page"
+assert c._hist_window(33, 8, 99) == (25, 8), "over-scroll clamps to the end"
+assert c._hist_window(33, 8, -3) == (0, 8),  "negative clamps to the start"
+assert c._hist_window(5, 8, 0)   == (0, 5),  "a short list shows everything"
+assert c._hist_window(5, 8, 4)   == (0, 5),  "...and cannot be scrolled"
+assert c._hist_window(0, 8, 2)   == (0, 0),  "no series at all"
+assert c._hist_window(33, 0, 4)  == (0, 0),  "no room to draw"
+# A resize that shrinks the panel must not leave a stale offset past the end.
+_off, _n = c._hist_window(33, 3, 30)
+assert _off + _n <= 33 and _n == 3, (_off, _n)
+ok("the HISTORY scroll window clamps at both ends and survives a resize")
 
 
 # ── 10. pty smoke test of the real curses UI ────────────────────────────────

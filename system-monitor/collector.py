@@ -1133,6 +1133,18 @@ def _sparkline(buf, width, lo=None, hi=None):
     return "".join(out) + " " * (width - len(out))
 
 
+def _hist_window(total, budget, scroll):
+    """Clamp a scroll offset to a list. Returns (offset, visible_count).
+
+    Clamping lives here rather than in the key handler because only the draw
+    knows how many rows survived the terminal's height, and the offset must
+    stay valid when a resize shrinks the window or a series appears."""
+    if budget <= 0 or total <= 0:
+        return (0, 0)
+    off = max(0, min(scroll, max(0, total - budget)))
+    return (off, min(budget, total - off))
+
+
 def _bar(pct, width):
     """Fixed-width bar. Caller picks the colour via _level_attr()."""
     if width <= 0:
@@ -1280,6 +1292,7 @@ def _tui_state(cpu_type, cpu_count, display_name, interval):
         "gpu_hist":   [],          # list of dicts of _RingBuf, one per GPU
         "log":        collections.deque(maxlen=1000),
         "log_scroll": 0,           # 0 = pinned to newest
+        "hist_scroll": 0,          # first visible HISTORY series
         "paused":     False,
         "help":       False,
         "error":      None,
@@ -1644,11 +1657,20 @@ def _draw_cpu_debug(scr, st, C, y, w):
 
 
 def _draw_history(scr, st, C, y, w, budget):
-    """Sparkline rows. `budget` rows available including the title."""
+    """Sparkline rows, scrollable with ↑/↓. `budget` includes the title.
+
+    A box with 8 GPUs has 4 series each plus the system ones — well over 30
+    rows, so on any normal terminal most of them are off-screen and need to be
+    reachable rather than merely counted."""
     if budget < 2:
         return y
-    y = _section(scr, y, w, "HISTORY", C)
+    title_y = y
+    y += 1
     budget -= 1
+    # Keep the time-axis row when there is space for it; it applies to every
+    # series, so it stays pinned at the bottom rather than scrolling away.
+    axis = budget >= 3
+    series_budget = budget - (1 if axis else 0)
     # Value column sits between the label and the sparkline: reading the
     # current number off the far right edge, a hundred columns from its label,
     # is what made the old layout feel unreadable.
@@ -1676,8 +1698,9 @@ def _draw_history(scr, st, C, y, w, budget):
     # Drop series that have never produced a reading, so a laptop without a
     # BMC does not show three permanently blank rows.
     rows = [r for r in rows if r[1].last() is not None]
-    shown = rows[:budget]
-    for label, buf, fmt, attr, scale in shown:
+    off, count = _hist_window(len(rows), series_budget, st["hist_scroll"])
+    st["hist_scroll"] = off              # write the clamped value back
+    for label, buf, fmt, attr, scale in rows[off:off + count]:
         v = buf.last()
         _put(scr, y, 1, f"{label:<{lbl_w - 1}}", C["dim"])
         _put(scr, y, lbl_w, f"{fmt(v) if v is not None else '     —':>{val_w}}",
@@ -1685,17 +1708,29 @@ def _draw_history(scr, st, C, y, w, budget):
         _put(scr, y, lbl_w + val_w + 1,
              _sparkline(buf, spark_w, lo=scale[0], hi=scale[1]), attr)
         y += 1
-    if len(rows) > len(shown):
-        _put(scr, y - 1, w - 20, f" +{len(rows) - len(shown)} series hidden ", C["dim"])
-    elif shown:
-        # Time axis: how much wall-clock the filled part of the row covers.
-        n = min(len(shown[0][1]), spark_w)
+
+    # Title carries the scroll position, so hidden series are discoverable
+    # rather than just tallied.
+    title = "HISTORY"
+    if count < len(rows):
+        title += f"  {off + 1}-{off + count} of {len(rows)}  ↑↓"
+        if off:
+            title += "  ▲"
+        if off + count < len(rows):
+            title += "  ▼"
+    _section(scr, title_y, w, title, C)
+
+    if axis and rows:
+        # Time axis: how much wall-clock the filled part of a row covers. Uses
+        # cpu_pct because it is appended every sample, unlike the series that
+        # happen to be scrolled into view.
+        n = min(len(st["history"]["cpu_pct"]), spark_w)
         span = max(0, n - 1) * st["interval"]
-        axis = (f"{span // 60}m{span % 60:02d}s" if span >= 60 else f"{span}s")
-        _put(scr, y, lbl_w + val_w + 1, "└" + "─" * max(0, min(n, spark_w) - 2) + "┘",
-             C["dim"])
-        _put(scr, y, lbl_w, f"{axis:>{val_w}}", C["dim"])
+        label = (f"{span // 60}m{span % 60:02d}s" if span >= 60 else f"{span}s")
         _put(scr, y, 1, "window", C["dim"])
+        _put(scr, y, lbl_w, f"{label:>{val_w}}", C["dim"])
+        _put(scr, y, lbl_w + val_w + 1,
+             "└" + "─" * max(0, min(n, spark_w) - 2) + "┘", C["dim"])
         y += 1
     return y
 
@@ -1757,9 +1792,10 @@ _HELP = [
     ("q",           "quit"),
     ("space",       "pause / resume sampling"),
     ("r",           "sample now, without waiting out the interval"),
-    ("↑ ↓  k j",    "scroll the log one line"),
-    ("PgUp PgDn",   "scroll the log one page"),
-    ("g",           "jump back to the newest log line"),
+    ("↑ ↓  k j",    "scroll the HISTORY series"),
+    ("Home",        "back to the first HISTORY series"),
+    ("PgUp PgDn",   "scroll the LOG one page"),
+    ("g",           "reset both: newest log, first series"),
     ("?  h",        "toggle this help"),
 ]
 
@@ -1778,8 +1814,8 @@ def _draw_help(scr, C):
 
 
 def _draw_footer(scr, st, C, y, w, sampler):
-    keys = ("q quit   space pause   r refresh   ↑↓/PgUp/PgDn scroll   "
-            "g newest   ? help")
+    keys = ("q quit   space pause   r refresh   ↑↓ history   PgUp/PgDn log   "
+            "g reset   ? help")
     _put(scr, y, 0, " " * w, C["rev"])
     _put(scr, y, 1, keys[:max(0, w - 2)], C["rev"])
     if st["error"]:
@@ -1788,16 +1824,20 @@ def _draw_footer(scr, st, C, y, w, sampler):
 
 
 def _layout_sig(st, h, w):
-    """Shape of the frame, ignoring values.
+    """Repaint key: everything that moves rows wholesale, ignoring values.
 
-    Panels appear and disappear as data arrives — the very first sample has
-    network=[] because throughput needs two readings, so NETWORK pops in on
-    sample two and shifts everything below it down three rows. When that
-    happens we force a full repaint instead of trusting a differential
-    update against a frame of a different shape."""
+    Two things do that. Panels appear and disappear as data arrives — the very
+    first sample has network=[] because throughput needs two readings, so
+    NETWORK pops in on sample two and shifts everything below it down three
+    rows. And scrolling either pane slides a block by a line.
+
+    Both are exactly the case ncurses optimises with insert/delete-line, and a
+    differential update across a shifted frame is what left duplicated HISTORY
+    rows on screen (window '2-7 of 9' rendering 'net tx' twice). A changed key
+    forces a clean repaint, which costs one full frame per keypress."""
     return (h, w, len(st["gpu_hist"]), len(st["last"].get("network") or []),
             bool(st["last"].get("cpu_therm_temp_c") or st["last"].get("cpu_core_freq_mhz")),
-            st["help"])
+            st["help"], st["hist_scroll"], st["log_scroll"])
 
 
 def _tui_draw(scr, st, C, sampler):
@@ -1836,7 +1876,8 @@ def _tui_draw(scr, st, C, sampler):
 # does not translate (see _read_key).
 _ESC_KEYS = {"[A": "KEY_UP",    "OA": "KEY_UP",
              "[B": "KEY_DOWN",  "OB": "KEY_DOWN",
-             "[5~": "KEY_PPAGE", "[6~": "KEY_NPAGE"}
+             "[5~": "KEY_PPAGE", "[6~": "KEY_NPAGE",
+             "[H": "KEY_HOME",  "OH": "KEY_HOME", "[1~": "KEY_HOME"}
 
 
 def _read_key(scr):
@@ -1910,16 +1951,21 @@ def _tui_main(scr, interval, display_name, cpu_debug):
                 sampler.refresh_now()
             elif ch in (ord("?"), ord("h"), ord("H")):
                 st["help"] = True
+            # ↑↓ walk the HISTORY series; PgUp/PgDn walk the LOG. The draw
+            # clamps hist_scroll, since only it knows how many rows fit.
             elif ch in (curses.KEY_UP, ord("k")):
-                st["log_scroll"] = min(st["log_scroll"] + 1, max(0, len(st["log"]) - 1))
+                st["hist_scroll"] = max(0, st["hist_scroll"] - 1)
             elif ch in (curses.KEY_DOWN, ord("j")):
-                st["log_scroll"] = max(0, st["log_scroll"] - 1)
+                st["hist_scroll"] += 1
+            elif ch == curses.KEY_HOME:
+                st["hist_scroll"] = 0
             elif ch == curses.KEY_PPAGE:
                 st["log_scroll"] = min(st["log_scroll"] + page, max(0, len(st["log"]) - 1))
             elif ch == curses.KEY_NPAGE:
                 st["log_scroll"] = max(0, st["log_scroll"] - page)
             elif ch in (ord("g"), ord("G")):
                 st["log_scroll"] = 0
+                st["hist_scroll"] = 0
             elif ch == curses.KEY_RESIZE:
                 scr.erase()
     finally:
