@@ -32,6 +32,23 @@ raw when stdout is not a TTY, and the shipped unit passes `--raw` explicitly
 anyway rather than resting on that fallback. An explicit `--tui` with no TTY
 still errors, since that asked for something impossible.
 
+`--silent` is the third mode: no output at all while running, then the data
+path on stdout and one explanatory line on stderr. The split matters because
+the intended use is `JSON=$(collector.py 10 X --silent --watch job)`, so
+anything other than the path on stdout breaks the caller — `_probe_gpu()`
+chatters on stdout, which is why silent mode runs it under
+`contextlib.redirect_stdout(devnull)`.
+
+`--watch NAME` ends a run when the workload does, via `_Watcher`. Two details
+are load-bearing. Its own argv contains the pattern (`--watch train.py`), and
+so does the shell line that launched it, so `_own_lineage()` excludes this
+process and its ancestors or it would match itself and never stop. And a name
+that never matches has to time out (`appear_s`, 60s) rather than wait forever,
+since the whole point is not to accumulate idle samples. The grace period
+(`linger_s`, 10s) is checked on the same half-second slices as the sleep, so
+at `--interval 60` a finished job still ends the run about ten seconds later
+rather than a minute later.
+
 ## Why v2 was rewritten
 
 v2 looked broken in practice, for four compounding reasons:

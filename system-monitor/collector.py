@@ -8,12 +8,14 @@ Supports NVIDIA (nvidia-smi) and AMD (amd-smi CLI) GPUs.
 No extra Python packages required.
 """
 
+import contextlib
 import json
 import os
 import re
 import shutil
 import collections
 import queue
+import signal
 import socket
 import subprocess
 import sys
@@ -957,6 +959,93 @@ def collect(enable_nvlink=True, cpu_debug=False):
     return stats
 
 
+# ─── Watching a workload process ────────────────────────────────────────────
+
+def _own_lineage():
+    """This process and its ancestors.
+
+    Needed because the monitor's own argv contains the pattern
+    (`--watch train.py`), and so does the shell line that launched it. Without
+    excluding them the watcher matches itself and never stops."""
+    pids = {os.getpid()}
+    try:
+        p = psutil.Process()
+        while True:
+            p = p.parent()
+            if p is None or p.pid in pids:
+                break
+            pids.add(p.pid)
+    except Exception:
+        pass
+    return pids
+
+
+def _find_processes(pattern):
+    """PIDs whose process name or command line contains `pattern`.
+
+    Matches the command line as well as the name because a workload is usually
+    `python train.py` or `./run_mlperf.sh`, whose process name is just
+    'python3' or 'bash'. Case-insensitive; excludes this process and its
+    ancestors."""
+    pat = pattern.lower()
+    skip = _own_lineage()
+    found = []
+    for p in psutil.process_iter(attrs=["pid", "name", "cmdline"], ad_value=None):
+        pid = p.info.get("pid")
+        if pid in skip:
+            continue
+        name = (p.info.get("name") or "").lower()
+        cmd = " ".join(p.info.get("cmdline") or []).lower()
+        if pat in name or pat in cmd:
+            found.append(pid)
+    return found
+
+
+class _Watcher:
+    """Stops collection when a named workload finishes.
+
+    Both start orders work. If the process is not up yet, sampling continues
+    while we wait for it — bounded by `appear_s`, so a typo'd name cannot leave
+    a silent collector accumulating idle samples forever. Once it has been
+    seen, collection continues for `linger_s` after it disappears, which
+    captures the cooldown tail without filling the file with idle rows.
+
+    `finder` and the `now` argument are injectable so this is testable without
+    spawning processes or sleeping."""
+
+    def __init__(self, pattern, linger_s=10.0, appear_s=60.0,
+                 finder=_find_processes, now=None):
+        self.pattern  = pattern
+        self.linger_s = linger_s
+        self.appear_s = appear_s
+        self._finder  = finder
+        self.started  = now if now is not None else time.monotonic()
+        self.seen     = False        # has the process ever been running?
+        self.last_up  = None         # last time it was seen alive
+        self.pids     = []
+
+    def poll(self, now=None):
+        """Returns None to keep collecting, or a reason string to stop."""
+        now = now if now is not None else time.monotonic()
+        try:
+            self.pids = self._finder(self.pattern)
+        except Exception:
+            self.pids = []           # a transient enumeration error is not a stop
+        if self.pids:
+            self.seen = True
+            self.last_up = now
+            return None
+        if not self.seen:
+            if now - self.started >= self.appear_s:
+                return (f"no process matching {self.pattern!r} started within "
+                        f"{self.appear_s:.0f}s")
+            return None
+        if now - self.last_up >= self.linger_s:
+            return (f"{self.pattern!r} exited, and the {self.linger_s:.0f}s "
+                    f"grace period elapsed")
+        return None
+
+
 # ─── Daemon ─────────────────────────────────────────────────────────────────
 
 def _data_path(period, hostname=None):
@@ -973,7 +1062,86 @@ def append_to_file(data, period):
         f.write(json.dumps(data) + "\n")
 
 
-def daemon(interval=10, _display_name=None, cpu_debug=False):
+def _sleep_until(deadline, watcher, stop, slice_s=0.5):
+    """Sleep until `deadline`, polling the watcher and the stop flag.
+
+    Sliced rather than one long sleep so that a finished workload and Ctrl-C
+    are both noticed within half a second instead of up to `interval` late —
+    at `--interval 60` a single sleep would make the 10s grace period
+    meaningless."""
+    while not stop["why"]:
+        if watcher is not None:
+            reason = watcher.poll()
+            if reason:
+                stop["why"] = reason
+                return
+        left = deadline - time.monotonic()
+        if left <= 0:
+            return
+        time.sleep(min(slice_s, left))
+
+
+def _install_stop_handlers(stop):
+    """Turn SIGINT/SIGTERM into a flag, so a run always gets to report where
+    its data went instead of dying mid-write."""
+    def _handler(signum, _frame):
+        stop["why"] = f"received {signal.Signals(signum).name}"
+    for sig in (signal.SIGINT, signal.SIGTERM):
+        try:
+            signal.signal(sig, _handler)
+        except (ValueError, OSError):
+            pass            # not the main thread, or the platform disallows it
+
+
+def silent(interval=10, _display_name=None, cpu_debug=False, watch=None,
+           linger_s=10.0):
+    """Collect with no output at all, then print where the data went.
+
+    Intended for `--silent &` alongside a benchmark: nothing on the terminal
+    while it runs, one line at the end naming the file to upload. Errors still
+    go to stderr — silence is for normal operation, not for data loss."""
+    global display_name
+    display_name = _display_name
+    enable_nvlink = (interval >= 10)
+    stop = {"why": None}
+    _install_stop_handlers(stop)
+    watcher = _Watcher(watch, linger_s=linger_s) if watch else None
+
+    started = time.monotonic()
+    wrote = errors = 0
+    first_err = None
+    while not stop["why"]:
+        tick = time.monotonic()
+        try:
+            stats = collect(enable_nvlink=enable_nvlink, cpu_debug=cpu_debug)
+            append_to_file(stats, "metrics")
+            wrote += 1
+        except Exception as e:
+            errors += 1
+            if first_err is None:
+                first_err = f"{type(e).__name__}: {e}"
+                print(f"collector: {first_err}", file=sys.stderr)
+        _sleep_until(tick + interval, watcher, stop)
+
+    path = _data_path("metrics")
+    mins = (time.monotonic() - started) / 60.0
+    if wrote:
+        # stdout carries the path and nothing else; everything explanatory
+        # goes to stderr so the caller can capture one without the other.
+        print(f"{os.path.abspath(path)}")
+        gpu = f"{GPU_COUNT}x {GPU_TYPE}" if GPU_COUNT else "no GPU"
+        print(f"  {wrote} samples over {mins:.1f} min ({gpu}) — {stop['why']}",
+              file=sys.stderr)
+    else:
+        print("collector: no samples were written — "
+              f"{stop['why']}", file=sys.stderr)
+        sys.exit(1)
+    if errors:
+        print(f"  {errors} sample(s) failed, first: {first_err}", file=sys.stderr)
+
+
+def daemon(interval=10, _display_name=None, cpu_debug=False, watch=None,
+           linger_s=10.0):
     global display_name
     display_name = _display_name
     type_label = f" {GPU_TYPE}" if GPU_TYPE else ""
@@ -990,7 +1158,14 @@ def daemon(interval=10, _display_name=None, cpu_debug=False):
     if cpu_debug:
         print("CPU debug mode ENABLED — per-core temp + freq will be recorded each cycle")
     print(f"Collector starting on [{HOSTNAME}], interval={interval}s, NVLink={'enabled' if enable_nvlink else 'disabled'}, GPU={gpu_label} {vendor_label}")
-    while True:
+    stop = {"why": None}
+    watcher = None
+    if watch:
+        _install_stop_handlers(stop)
+        watcher = _Watcher(watch, linger_s=linger_s)
+        print(f"Watching for a process matching [{watch}] — collection ends "
+              f"{linger_s:.0f}s after it exits")
+    while not stop["why"]:
         try:
             stats = collect(enable_nvlink=enable_nvlink, cpu_debug=cpu_debug)
             append_to_file(stats, "metrics")
@@ -1048,7 +1223,12 @@ def daemon(interval=10, _display_name=None, cpu_debug=False):
                   f"MEM={stats['memory_percent']}%{pwr_str}{gpu_str}{net_str}{debug_str}")
         except Exception as e:
             print(f"Error: {e}")
-        time.sleep(interval)
+        if watcher is None:
+            time.sleep(interval)
+        else:
+            _sleep_until(time.monotonic() + interval, watcher, stop)
+    print(f"Stopping: {stop['why']}")
+    print(os.path.abspath(_data_path("metrics")))
 
 
 # ─── TUI mode (--tui) ───────────────────────────────────────────────────────
@@ -1241,11 +1421,12 @@ class _Sampler(threading.Thread):
     Pausing stops recording but leaves the thread alive; 'r' fires the wake
     Event to collect immediately instead of waiting out the interval."""
 
-    def __init__(self, interval, cpu_debug, enable_nvlink):
+    def __init__(self, interval, cpu_debug, enable_nvlink, watcher=None):
         super().__init__(daemon=True)
         self.interval      = interval
         self.cpu_debug     = cpu_debug
         self.enable_nvlink = enable_nvlink
+        self.watcher       = watcher
         self.q      = queue.Queue()
         self._wake  = threading.Event()
         self._stop  = threading.Event()
@@ -1303,7 +1484,18 @@ class _Sampler(threading.Thread):
                     self.busy = False
                     self.last_s = time.monotonic() - t0
             self.next_at = time.monotonic() + self.interval
-            self._wake.wait(self.interval)
+            # Poll the watched workload on the same slices as the sleep, so a
+            # finished job closes the dashboard promptly even at --interval 60.
+            deadline = self.next_at
+            while not self._stop.is_set():
+                if self.watcher is not None:
+                    reason = self.watcher.poll()
+                    if reason:
+                        self.q.put(("done", reason))
+                        return
+                left = deadline - time.monotonic()
+                if left <= 0 or self._wake.wait(min(0.5, left)):
+                    break
             self._wake.clear()
 
 
@@ -1472,6 +1664,8 @@ def _draw_header(scr, st, C, y, w, sampler):
     left = f" system-monitor  {HOSTNAME}"
     if name != HOSTNAME:
         left += f" [{name}]"
+    if st.get("watch"):
+        left += f"  watching {st['watch']}"
     if st["paused"]:
         status, sattr = "❚❚ PAUSED", C["yellow"]
     elif st["error"]:
@@ -1940,7 +2134,7 @@ def _read_key(scr):
     return -1       # lone ESC or an unknown sequence: ignore it
 
 
-def _tui_main(scr, interval, display_name, cpu_debug):
+def _tui_main(scr, interval, display_name, cpu_debug, watcher=None):
     curses.curs_set(0)
     scr.nodelay(False)
     scr.timeout(_TICK_MS)      # getch() returns -1 after _TICK_MS
@@ -1948,9 +2142,11 @@ def _tui_main(scr, interval, display_name, cpu_debug):
     C = _colors()
 
     st = _tui_state(CPU_TYPE, CPU_COUNT, display_name, interval)
+    st["watch"] = watcher.pattern if watcher else None
     # dmon needs ~4s of sampling to report link counters, so the daemon gates
     # it on interval >= 10s. The TUI is watched live, so honour the same gate.
-    sampler = _Sampler(interval, cpu_debug, enable_nvlink=(interval >= 10))
+    sampler = _Sampler(interval, cpu_debug, enable_nvlink=(interval >= 10),
+                       watcher=watcher)
     sampler.start()
     try:
         while True:
@@ -1966,6 +2162,8 @@ def _tui_main(scr, interval, display_name, cpu_debug):
                     _push_sample(st, payload)
                     st["outfile"] = _display_path(_data_path("metrics"))
                     st["wrote"] = sampler.wrote
+                elif kind == "done":
+                    return payload          # watched workload finished
                 else:
                     st["error"] = payload
             _tui_draw(scr, st, C, sampler)
@@ -2007,7 +2205,8 @@ def _tui_main(scr, interval, display_name, cpu_debug):
         sampler.stop()
 
 
-def tui(interval=2, _display_name=None, cpu_debug=False):
+def tui(interval=2, _display_name=None, cpu_debug=False, watch=None,
+        linger_s=10.0):
     """Interactive nvitop-style dashboard. Appends the same JSON as raw mode."""
     global display_name
     display_name = _display_name
@@ -2024,13 +2223,19 @@ def tui(interval=2, _display_name=None, cpu_debug=False):
         locale.setlocale(locale.LC_ALL, "")
     except Exception:
         pass
-    curses.wrapper(_tui_main, interval, _display_name, cpu_debug)
+    watcher = _Watcher(watch, linger_s=linger_s) if watch else None
+    reason = curses.wrapper(_tui_main, interval, _display_name, cpu_debug,
+                            watcher)
+    # Printed after curses has restored the terminal, so it survives on screen.
+    if reason:
+        print(reason)
+    print(os.path.abspath(_data_path("metrics")))
 
 
 # ─── Entry point ────────────────────────────────────────────────────────────
 
-def _pick_mode(want_tui, want_raw, is_tty):
-    """Choose 'tui' or 'raw'. Raises ValueError if both were asked for.
+def _pick_mode(want_tui, want_raw, want_silent, is_tty):
+    """Choose 'tui', 'raw' or 'silent'. Raises ValueError on a conflict.
 
     The dashboard is the default, but it needs a terminal. A missing TTY falls
     back to raw rather than exiting, because the systemd unit has no TTY and
@@ -2038,42 +2243,79 @@ def _pick_mode(want_tui, want_raw, is_tty):
     that collects nothing. An explicit --tui still errors on no TTY, since
     there the user asked for something impossible rather than just running the
     default in a pipe."""
-    if want_tui and want_raw:
-        raise ValueError("--tui and --raw are mutually exclusive")
-    if want_raw:
-        return "raw"
-    if want_tui:
-        return "tui"
+    chosen = [n for n, want in (("tui", want_tui), ("raw", want_raw),
+                                ("silent", want_silent)) if want]
+    if len(chosen) > 1:
+        raise ValueError("--" + ", --".join(chosen) + " are mutually exclusive")
+    if chosen:
+        return chosen[0]
     return "tui" if is_tty else "raw"
 
 
 _USAGE = """Usage:
-  python3 collector.py <interval> <display_name> [--raw] [--cpu-debug]
+  python3 collector.py <interval> <display_name> [mode] [options]
 
   <interval>      polling interval in seconds (10 for unattended runs, 1-5 live)
   <display_name>  machine identifier, used in the JSON filename and the
                   dashboard (e.g. XE9785L_MI355X)
 
-  (default)       full-screen dashboard, and appends JSON to data/
-  --raw           line-per-sample logging to stdout instead of the dashboard,
-                  same JSON either way. Used by system-monitor.service.
+Modes (mutually exclusive; all write the same JSON to data/):
+  (default)       full-screen dashboard
+  --raw           line-per-sample logging to stdout. Used by the systemd unit.
+  --silent        no output while running; prints the data file path at the end.
+                  Meant to be backgrounded next to a benchmark.
   --tui           force the dashboard; fails if there is no TTY
+
+Options:
+  --watch NAME    stop collecting once no process matches NAME, waiting 10s
+                  first so the cooldown is captured. NAME is matched against
+                  process names and command lines, case-insensitively. Gives up
+                  if nothing matches within 60s of starting.
+  --linger SECS   override that 10s grace period
   --cpu-debug     also record per-core CPU temperature and frequency
 
-Both modes write data/metrics_<display_name>_<UTC date>.json. Without a TTY
-the dashboard is skipped automatically, so cron and systemd still collect."""
+Every mode writes data/metrics_<display_name>_<UTC date>.json. Without a TTY
+the dashboard is skipped automatically, so cron and systemd still collect.
+
+  # collect quietly for as long as the benchmark runs, then print the path
+  python3 collector.py 10 XE7740_H200 --silent --watch run_mlperf.sh"""
 
 if __name__ == "__main__":
     args = sys.argv[1:]
     cpu_debug = "--cpu-debug" in args
-    if cpu_debug:
+    while "--cpu-debug" in args:
         args.remove("--cpu-debug")
-    want_tui = "--tui" in args
-    while "--tui" in args:
-        args.remove("--tui")
-    want_raw = "--raw" in args
-    while "--raw" in args:
-        args.remove("--raw")
+
+    def _take_value(flag):
+        """Pull `--flag VALUE` out of args, returning VALUE or None."""
+        if flag not in args:
+            return None
+        i = args.index(flag)
+        if i + 1 >= len(args):
+            print(f"{flag} needs a value\n", file=sys.stderr)
+            print(_USAGE)
+            sys.exit(1)
+        val = args[i + 1]
+        del args[i:i + 2]
+        return val
+
+    watch = _take_value("--watch")
+    linger_raw = _take_value("--linger")
+    linger_s = 10.0
+    if linger_raw is not None:
+        try:
+            linger_s = float(linger_raw)
+        except ValueError:
+            print(f"--linger needs a number of seconds, got {linger_raw!r}",
+                  file=sys.stderr)
+            sys.exit(1)
+
+    flags = {}
+    for flag in ("--tui", "--raw", "--silent"):
+        flags[flag] = flag in args
+        while flag in args:
+            args.remove(flag)
+
     unknown = [a for a in args if a.startswith("-")]
     if len(args) < 2 or unknown:
         if unknown:
@@ -2089,17 +2331,30 @@ if __name__ == "__main__":
         sys.exit(1)
     _display_name = args[1]
     try:
-        mode = _pick_mode(want_tui, want_raw, sys.stdout.isatty())
+        mode = _pick_mode(flags["--tui"], flags["--raw"], flags["--silent"],
+                          sys.stdout.isatty())
     except ValueError as e:
         print(str(e), file=sys.stderr)
         sys.exit(2)
 
-    _probe_gpu()
-    if mode == "tui":
-        tui(interval, _display_name, cpu_debug=cpu_debug)
+    if mode == "silent":
+        # _probe_gpu() chatters on stdout, and silent mode promises stdout is
+        # nothing but the data path so it can be used as
+        #   f=$(collector.py 10 X --silent --watch job)
+        with open(os.devnull, "w") as _null, contextlib.redirect_stdout(_null):
+            _probe_gpu()
     else:
-        if not (want_raw or sys.stdout.isatty()):
+        _probe_gpu()
+    if mode == "tui":
+        tui(interval, _display_name, cpu_debug=cpu_debug, watch=watch,
+            linger_s=linger_s)
+    elif mode == "silent":
+        silent(interval, _display_name, cpu_debug=cpu_debug, watch=watch,
+               linger_s=linger_s)
+    else:
+        if not (flags["--raw"] or sys.stdout.isatty()):
             print("no TTY — logging to stdout instead of the dashboard "
                   "(pass --raw to make this explicit)", file=sys.stderr)
-        daemon(interval, _display_name, cpu_debug=cpu_debug)
+        daemon(interval, _display_name, cpu_debug=cpu_debug, watch=watch,
+               linger_s=linger_s)
 

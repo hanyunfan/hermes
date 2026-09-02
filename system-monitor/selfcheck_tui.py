@@ -300,24 +300,77 @@ assert not c._display_path("/tmp/elsewhere/data/m.json").startswith("..")
 ok("the displayed data path stays readable from any working directory")
 
 
+# ── 9d. Watching a workload ─────────────────────────────────────────────────
+# Injected finder + clock, so this covers the timing rules without spawning
+# processes or sleeping.
+alive = {"up": True}
+w = c._Watcher("train.py", linger_s=10.0, appear_s=60.0,
+               finder=lambda _p: [4242] if alive["up"] else [], now=0.0)
+assert w.poll(now=0.0) is None and w.seen, "a running process is detected"
+assert w.poll(now=100.0) is None, "still running after a long while"
+alive["up"] = False                       # last seen alive at now=100
+assert w.poll(now=101.0) is None, "must not stop the instant it disappears"
+assert w.poll(now=109.9) is None, "still inside the 10s grace period"
+reason = w.poll(now=110.0)                # exactly 10s after the last sighting
+assert reason and "exited" in reason, reason
+ok("the watcher stops one grace period after the workload exits")
+
+# Starting the monitor first must work: it waits, collecting, until the job
+# appears — but a typo'd name must not leave it collecting idle data forever.
+late = {"up": False}
+w2 = c._Watcher("job", linger_s=5.0, appear_s=60.0,
+                finder=lambda _p: [7] if late["up"] else [], now=0.0)
+assert w2.poll(now=10.0) is None, "waiting for the job to start"
+assert w2.poll(now=59.0) is None, "still inside the appear window"
+late["up"] = True
+assert w2.poll(now=61.0) is None, "it showed up, so the deadline is moot"
+late["up"] = False
+assert w2.poll(now=63.0) is None
+assert w2.poll(now=66.0) is not None, "grace period applies after it exits"
+ok("a workload that starts late is waited for, then still ends the run")
+
+w3 = c._Watcher("never", appear_s=60.0, finder=lambda _p: [], now=0.0)
+assert w3.poll(now=59.9) is None
+give_up = w3.poll(now=60.0)
+assert give_up and "never" in give_up and "60s" in give_up, give_up
+ok("a name that never matches gives up instead of collecting forever")
+
+# An enumeration error must not be read as "the process ended".
+def _boom(_p):
+    raise psutil.AccessDenied(1)
+w4 = c._Watcher("x", linger_s=1.0, finder=_boom, now=0.0)
+assert w4.poll(now=0.0) is None and not w4.seen
+assert w4.poll(now=100.0) is None or not w4.seen, "a failing scan is not an exit"
+ok("a failed process scan does not end the run")
+
+# The monitor's own argv contains the pattern (--watch train.py), so matching
+# itself would mean never stopping.
+assert os.getpid() in c._own_lineage()
+ok("the watcher excludes itself and its ancestors from matching")
+
+
 # ── 9c. Mode selection ──────────────────────────────────────────────────────
 # The dashboard is the default, so the no-TTY fallback is load-bearing: the
 # systemd unit has no TTY and Restart=always would turn an exit into a silent
 # 5s crash loop collecting nothing.
-assert c._pick_mode(False, False, True)  == "tui",  "default on a terminal"
-assert c._pick_mode(False, False, False) == "raw",  "no TTY must not be fatal"
-assert c._pick_mode(False, True,  True)  == "raw",  "--raw overrides a TTY"
-assert c._pick_mode(False, True,  False) == "raw"
-assert c._pick_mode(True,  False, True)  == "tui"
+#                  tui    raw    silent  tty
+assert c._pick_mode(False, False, False, True)  == "tui",  "default on a terminal"
+assert c._pick_mode(False, False, False, False) == "raw",  "no TTY must not be fatal"
+assert c._pick_mode(False, True,  False, True)  == "raw",  "--raw overrides a TTY"
+assert c._pick_mode(False, False, True,  True)  == "silent", "--silent on a tty"
+assert c._pick_mode(False, False, True,  False) == "silent", "--silent needs no tty"
+assert c._pick_mode(True,  False, False, True)  == "tui"
 # Explicit --tui without a TTY stays 'tui' so tui() can report the real
 # problem, rather than silently doing something else than asked.
-assert c._pick_mode(True,  False, False) == "tui"
-try:
-    c._pick_mode(True, True, True)
-except ValueError:
-    pass
-else:
-    raise AssertionError("--tui with --raw must be rejected, not guessed at")
+assert c._pick_mode(True,  False, False, False) == "tui"
+for combo in ((True, True, False), (True, False, True), (False, True, True),
+              (True, True, True)):
+    try:
+        c._pick_mode(*combo, True)
+    except ValueError:
+        pass
+    else:
+        raise AssertionError(f"conflicting modes {combo} must be rejected")
 ok("mode selection defaults to the dashboard but never fails for want of a TTY")
 
 # The shipped unit must not rely on that fallback silently.
@@ -423,5 +476,65 @@ if sys.stdout.isatty() or os.environ.get("SELFCHECK_PTY", "1") == "1":
         smoke(_wd)
 else:
     print("SKIP  pty smoke test (set SELFCHECK_PTY=1 to force)")
+
+
+# ── 11. --silent end to end, against a real watched process ─────────────────
+
+def silent_watch():
+    """Run --silent --watch against a real sleep, and check it self-terminates.
+
+    Uses a copy in a temp dir for the same reason as the smoke test: the
+    collector writes next to its own file."""
+    import subprocess
+    with tempfile.TemporaryDirectory() as wd:
+        collector = os.path.join(wd, "collector.py")
+        shutil.copy(os.path.join(HERE, "collector.py"), collector)
+        # A uniquely-named script so the pattern cannot match anything else.
+        marker = os.path.join(wd, "selfcheck_workload_marker.sh")
+        with open(marker, "w") as f:
+            f.write("#!/bin/sh\nsleep 6\n")
+        os.chmod(marker, 0o755)
+
+        job = subprocess.Popen(["/bin/sh", marker])
+        t0 = time.time()
+        mon = subprocess.run(
+            [sys.executable, collector, "2", "SILENTCHK", "--silent",
+             "--watch", "selfcheck_workload_marker", "--linger", "3"],
+            capture_output=True, text=True, timeout=120)
+        elapsed = time.time() - t0
+        job.wait(timeout=10)
+
+        assert mon.returncode == 0, f"exit {mon.returncode}: {mon.stderr[-400:]}"
+        # It must outlive the job, then stop shortly after the grace period —
+        # not at the first missing sample, and not run on forever.
+        assert 6 <= elapsed <= 25, f"ran {elapsed:.1f}s, expected ~9-11s"
+        ok("--silent --watch outlives the workload, then stops after --linger")
+
+        # stdout is exactly the path, so it can be used directly:
+        #   f=$(collector.py 10 X --silent --watch job) && gh upload "$f"
+        lines = [l for l in mon.stdout.splitlines() if l.strip()]
+        assert len(lines) == 1, f"stdout must be just the path, got {lines}"
+        path = lines[0]
+        assert os.path.isabs(path), path
+        assert os.path.exists(path), f"reported a path that does not exist: {path}"
+        assert "SILENTCHK" in path
+        with open(path) as f:
+            recs = [json.loads(l) for l in f if l.strip()]
+        assert len(recs) >= 2, f"expected several samples, got {len(recs)}"
+        assert all(r["display_name"] == "SILENTCHK" for r in recs)
+        assert not [k for k in recs[0] if k.startswith("_")], "display fields leaked"
+        ok("--silent prints only the data file path, and the file is valid JSONL")
+
+        # "Silent" means silent: no per-sample chatter on either stream.
+        assert "CPU=" not in mon.stdout and "CPU=" not in mon.stderr, \
+            "silent mode must not log samples"
+        assert "exited" in mon.stderr, f"should say why it stopped: {mon.stderr!r}"
+        ok("--silent stays quiet while running but explains why it stopped")
+
+
+if os.environ.get("SELFCHECK_SLOW", "1") == "1":
+    silent_watch()
+else:
+    print("SKIP  --silent watch test (SELFCHECK_SLOW=0)")
 
 print(f"\nall {len(PASS)} checks passed")

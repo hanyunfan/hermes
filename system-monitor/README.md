@@ -41,7 +41,7 @@ A Python daemon that samples metrics every N seconds and **appends** JSON Lines 
 
 - **Platform**: Linux with `psutil` (CPU/memory) and `nvidia-smi` (GPU)
 - **Output**: `data/metrics_<display_name>_<YYYYMMDD>.json` — one JSON object per line. `display_name` is a required argument (e.g. `XE9785L_MI355X`) used to distinguish machines with identical hostnames.
-- **Scheduling**: `systemd` service (`system-monitor.service`) for auto-start on boot
+- **Scheduling**: `systemd` service (`system-monitor.service`) for auto-start on boot, or `--silent --watch <job>` for the duration of a single benchmark
 - **Hostname**: auto-detected via `socket.gethostname()` — each machine gets its own file
 
 ### 2. GitHub Repository — stores and distributes data
@@ -116,31 +116,70 @@ sudo systemctl enable --now system-monitor
 
 > **Important**: `display_name` is required. Without it the collector exits with a usage message. Use a unique name per machine — if two machines share the same `display_name`, their data files will collide.
 
-### 2a. Optional flags: `--cpu-debug` and `--raw`
+### 2a. Modes: dashboard (default), `--raw`, `--silent`
 
 All flags are position-independent and can be combined with the two positional
-arguments in any order.
+arguments in any order. **Every mode writes the same
+`data/metrics_<display_name>_<UTC date>.json`**, so the choice is only about
+what you see while it runs.
 
-**The full-screen dashboard is the default.** It writes the same
-`data/metrics_*.json` as `--raw` does, so there is no data trade-off between
-the two — pick whichever output you want to look at.
+| Mode | Output while running | Use for |
+|---|---|---|
+| *(default)* | full-screen dashboard | watching a machine live |
+| `--raw` | one line per sample on stdout | systemd, cron, log capture |
+| `--silent` | nothing; prints the data path at the end | backgrounding next to a benchmark |
+| `--tui` | forces the dashboard, fails without a TTY | scripts that require it |
 
 ```bash
-python3 collector.py 10 XE9785L_MI355X          # dashboard + JSON
-python3 collector.py 10 XE9785L_MI355X --raw    # line-per-sample log + JSON
+python3 collector.py 10 XE9785L_MI355X            # dashboard + JSON
+python3 collector.py 10 XE9785L_MI355X --raw      # line-per-sample log + JSON
+python3 collector.py 10 XE9785L_MI355X --silent   # quiet; prints the path
 ```
 
 Without a TTY the dashboard is skipped automatically and it logs instead, so
-cron jobs, `nohup` and systemd keep collecting rather than failing. `--tui`
-still works to request the dashboard explicitly; combining it with `--raw` is
-rejected.
+cron jobs, `nohup` and systemd keep collecting rather than failing. Asking for
+two modes at once is rejected rather than guessed at.
+
+### 2b. `--watch`: end the run when the workload does
+
+`--watch NAME` stops collecting once no process matches `NAME`, waiting
+`--linger` seconds first (default 10) so the cooldown is captured without
+filling the file with idle rows.
+
+```bash
+# start the benchmark, then collect alongside it
+./run_mlperf.sh &
+JSON=$(python3 collector.py 10 XE7740_H200 --silent --watch run_mlperf.sh)
+echo "upload $JSON"
+```
+
+In `--silent` mode **stdout is only the file path**, so `$(...)` captures it
+directly; the sample count, GPU model and the reason it stopped go to stderr.
+A run of the above prints, on stderr:
+
+```
+  6 samples over 0.3 min (1x H200_NVL) — 'run_mlperf.sh' exited, and the 10s grace period elapsed
+```
+
+Details worth knowing:
+
+- `NAME` is matched case-insensitively against both process names and full
+  command lines, because a workload is usually `python train.py` or
+  `./run.sh`, whose process *name* is only `python3` or `bash`.
+- The collector's own process and its ancestors are excluded — its own argv
+  contains `--watch NAME`, so it would otherwise match itself and never stop.
+- Either start order works. If the workload is not running yet the collector
+  waits for it (still sampling) and gives up after 60 s, so a mistyped name
+  cannot leave a background job accumulating idle data forever.
+- `--watch` works in all three modes; with the dashboard it closes itself when
+  the workload finishes and prints the data path.
+- Ctrl-C (or `SIGTERM`) also ends a run cleanly and still reports the path.
+
+### 2c. `--cpu-debug`
 
 ```bash
 # Per-core frequency + per-sensor CPU temperatures (for thermal investigations)
 python3 collector.py 30 XE9785L_MI355X --cpu-debug
-
-# Line-per-sample logging instead of the dashboard (what the service uses)
-python3 collector.py 10 XE9785L_MI355X --raw
 ```
 
 **`--cpu-debug`** adds five optional fields to each record — `cpu_debug`,
