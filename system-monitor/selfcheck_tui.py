@@ -12,13 +12,17 @@ collector.py.
   python3 selfcheck_tui.py
 """
 
+import glob
 import importlib.util
+import json
 import os
 import pty
 import re
 import select
+import shutil
 import signal
 import sys
+import tempfile
 import time
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -287,11 +291,56 @@ _off, _n = c._hist_window(33, 3, 30)
 assert _off + _n <= 33 and _n == 3, (_off, _n)
 ok("the HISTORY scroll window clamps at both ends and survives a resize")
 
+# The UI names the output file; a relpath from an unrelated cwd would render
+# as '../../../../../../tmp/...', so those fall back to the absolute path.
+assert c._display_path(os.path.join(os.getcwd(), "data", "m.json")) == "data/m.json"
+assert os.path.isabs(c._display_path("/tmp/elsewhere/data/m.json")) or \
+    os.getcwd() == "/tmp/elsewhere/data", c._display_path("/tmp/elsewhere/data/m.json")
+assert not c._display_path("/tmp/elsewhere/data/m.json").startswith("..")
+ok("the displayed data path stays readable from any working directory")
+
+
+# ── 9c. Mode selection ──────────────────────────────────────────────────────
+# The dashboard is the default, so the no-TTY fallback is load-bearing: the
+# systemd unit has no TTY and Restart=always would turn an exit into a silent
+# 5s crash loop collecting nothing.
+assert c._pick_mode(False, False, True)  == "tui",  "default on a terminal"
+assert c._pick_mode(False, False, False) == "raw",  "no TTY must not be fatal"
+assert c._pick_mode(False, True,  True)  == "raw",  "--raw overrides a TTY"
+assert c._pick_mode(False, True,  False) == "raw"
+assert c._pick_mode(True,  False, True)  == "tui"
+# Explicit --tui without a TTY stays 'tui' so tui() can report the real
+# problem, rather than silently doing something else than asked.
+assert c._pick_mode(True,  False, False) == "tui"
+try:
+    c._pick_mode(True, True, True)
+except ValueError:
+    pass
+else:
+    raise AssertionError("--tui with --raw must be rejected, not guessed at")
+ok("mode selection defaults to the dashboard but never fails for want of a TTY")
+
+# The shipped unit must not rely on that fallback silently.
+_unit = os.path.join(HERE, "system-monitor.service")
+if os.path.exists(_unit):
+    _txt = open(_unit).read()
+    _exec = [l for l in _txt.splitlines() if l.startswith("ExecStart=")]
+    assert _exec, "no ExecStart in system-monitor.service"
+    assert "--raw" in _exec[0], f"the unit should pass --raw explicitly: {_exec[0]}"
+    assert "--tui" not in _exec[0], "the unit must not ask for a dashboard"
+    ok("system-monitor.service pins --raw explicitly")
+
 
 # ── 10. pty smoke test of the real curses UI ────────────────────────────────
 
-def smoke():
-    """Start the TUI in a pty; check the panels paint and 'q' exits."""
+def smoke(workdir):
+    """Start the TUI in a pty; check the panels paint, JSON lands, 'q' exits.
+
+    Runs a copy of collector.py from `workdir` because DATA_DIR is derived from
+    the script's own location, and the TUI now appends samples — pointing it at
+    the checkout would litter the real data/ directory."""
+    collector = os.path.join(workdir, "collector.py")
+    shutil.copy(os.path.join(HERE, "collector.py"), collector)
     pid, fd = pty.fork()
     if pid == 0:
         os.environ["TERM"] = "xterm-256color"
@@ -299,8 +348,7 @@ def smoke():
         os.environ.pop("LINES", None)
         os.environ.pop("COLUMNS", None)
         os.execv(sys.executable,
-                 [sys.executable, os.path.join(HERE, "collector.py"),
-                  "--tui", "2", "SELFCHECK"])
+                 [sys.executable, collector, "--tui", "2", "SELFCHECK"])
     out = bytearray()
     deadline = time.time() + 12
     try:
@@ -315,13 +363,39 @@ def smoke():
                     break
                 out.extend(d)
             txt = out.decode("utf-8", "replace")
-            if "LOG" in txt and "SYSTEM" in txt and "n=1" in txt:
+            # Wait for the LOG title too, not just the header: curses paints
+            # rows top-down, so a read can return the header's n=1 before the
+            # rest of that frame has been written.
+            if ("SYSTEM" in txt and "n=1" in txt
+                    and "metrics_SELFCHECK" in txt):
                 break
         txt = out.decode("utf-8", "replace")
         for panel in ("SYSTEM", "GPU", "LOG", "system-monitor"):
             assert panel in txt, f"{panel!r} never painted; got:\n{txt[-600:]}"
         assert "space pause" in txt, "footer key hints missing"
         ok("the curses UI starts in a pty and paints its panels")
+
+        # The dashboard must persist samples, not just display them — the
+        # files are what gets uploaded, and it wrote nothing at all before.
+        written = glob.glob(os.path.join(workdir, "data", "metrics_SELFCHECK_*.json"))
+        assert written, ("the TUI wrote no data file; found "
+                         f"{os.listdir(os.path.join(workdir, 'data'))}")
+        with open(written[0]) as f:
+            lines = [l for l in f.read().splitlines() if l.strip()]
+        assert lines, "the data file is empty"
+        rec = json.loads(lines[0])
+        for field in ("timestamp", "hostname", "display_name", "cpu_percent",
+                      "memory_percent", "network"):
+            assert field in rec, f"{field} missing from a TUI-written record"
+        assert rec["display_name"] == "SELFCHECK"
+        # Display-only fields must not leak into the file, or TUI-written and
+        # raw-written records would differ in shape.
+        leaked = [k for k in rec if k.startswith("_")]
+        assert not leaked, f"display-only fields leaked into the JSON: {leaked}"
+        ok("the dashboard appends the same JSON records that --raw writes")
+        assert f"→ data/metrics_SELFCHECK" in txt or "metrics_SELFCHECK" in txt, \
+            "the LOG title should name the file being written"
+        ok("the UI names the data file it is appending to")
 
         os.write(fd, b"q")
         for _ in range(40):                     # up to 4s to exit
@@ -345,7 +419,8 @@ def smoke():
 
 
 if sys.stdout.isatty() or os.environ.get("SELFCHECK_PTY", "1") == "1":
-    smoke()
+    with tempfile.TemporaryDirectory() as _wd:
+        smoke(_wd)
 else:
     print("SKIP  pty smoke test (set SELFCHECK_PTY=1 to force)")
 

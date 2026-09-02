@@ -116,17 +116,31 @@ sudo systemctl enable --now system-monitor
 
 > **Important**: `display_name` is required. Without it the collector exits with a usage message. Use a unique name per machine — if two machines share the same `display_name`, their data files will collide.
 
-### 2a. Optional flags: `--cpu-debug` and `--tui`
+### 2a. Optional flags: `--cpu-debug` and `--raw`
 
-Both are position-independent and can be combined with the two positional
+All flags are position-independent and can be combined with the two positional
 arguments in any order.
+
+**The full-screen dashboard is the default.** It writes the same
+`data/metrics_*.json` as `--raw` does, so there is no data trade-off between
+the two — pick whichever output you want to look at.
+
+```bash
+python3 collector.py 10 XE9785L_MI355X          # dashboard + JSON
+python3 collector.py 10 XE9785L_MI355X --raw    # line-per-sample log + JSON
+```
+
+Without a TTY the dashboard is skipped automatically and it logs instead, so
+cron jobs, `nohup` and systemd keep collecting rather than failing. `--tui`
+still works to request the dashboard explicitly; combining it with `--raw` is
+rejected.
 
 ```bash
 # Per-core frequency + per-sensor CPU temperatures (for thermal investigations)
 python3 collector.py 30 XE9785L_MI355X --cpu-debug
 
-# Interactive nvtop-style terminal UI instead of the logging daemon
-python3 collector.py 2 XE9785L_MI355X --tui
+# Line-per-sample logging instead of the dashboard (what the service uses)
+python3 collector.py 10 XE9785L_MI355X --raw
 ```
 
 **`--cpu-debug`** adds five optional fields to each record — `cpu_debug`,
@@ -148,8 +162,8 @@ cards stay hidden.
 > `cpufreq` sysfs. Both fail soft to empty values, so the collector keeps
 > running and the affected chart simply stays hidden.
 
-**`--tui`** replaces the daemon with a full-screen, nvitop-inspired dashboard
-built on stdlib `curses` (no `rich` / `textual` / `blessed`). Areas: SYSTEM
+**The dashboard** is a full-screen, nvitop-inspired view built on stdlib
+`curses` (no `rich` / `textual` / `blessed`). Areas: SYSTEM
 (CPU + MEM bars, clock, package temp, power rails), GPU (a row per GPU with
 util and memory bars, temps, power against limit, PCIe and NVLink rates),
 CPU CORES (`--cpu-debug` only), NETWORK, HISTORY sparklines, and a scrollable
@@ -179,10 +193,10 @@ verify a change.
 > If resizing the window seems to do nothing, check whether `LINES`/`COLUMNS`
 > are exported — ncurses honours those over the real terminal size.
 
-> **`--tui` writes no JSON and requires a TTY** (it exits 1 otherwise). Never
-> put it in a systemd unit or cron job: you would silently lose all metrics,
-> and with `Restart=always` you get a 5-second crash loop. It is a developer
-> convenience for watching a machine live.
+The LOG panel title names the file being appended to and the number of samples
+written (`LOG  → data/metrics_XE9785L_MI355X_20260902.json  (42 written)`), so
+you can see where the upload material is landing. A failed write is reported in
+red in the footer rather than swallowed.
 
 ### 3. (Optional) Run a local HTTP server for development
 

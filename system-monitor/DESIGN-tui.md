@@ -5,9 +5,32 @@
 
 ## Goal
 
-An interactive, nvitop-inspired dashboard on the local TTY instead of writing
-JSON. It must fill the screen with distinct areas, show everything `collect()`
-gathers, and stay responsive to keys regardless of the sample interval.
+An interactive, nvitop-inspired dashboard on the local TTY. It must fill the
+screen with distinct areas, show everything `collect()` gathers, stay
+responsive to keys regardless of the sample interval, **and keep writing the
+data files** — those are what gets uploaded to the dashboard site.
+
+## Default mode, and why the no-TTY fallback matters
+
+The dashboard is what you get with no flags; `--raw` selects the old
+line-per-sample logging. Both write identical `data/metrics_*.json` records —
+verified by comparing key sets between a dashboard-written and a raw-written
+file — so the choice is purely about what you want to look at.
+
+v1 and v2 displayed only, writing nothing. That was documented, but it makes
+the dashboard useless for the actual workflow (collect, then upload the file),
+and "why can't I find the JSON?" is the natural reaction. `_Sampler` now
+appends each snapshot *before* attaching its display-only `_`-prefixed fields,
+so the file shape cannot drift from raw mode. A failed write is surfaced in the
+footer instead of swallowed, because silently losing the file you intend to
+upload is the worst outcome available.
+
+Making the dashboard the default puts a trap in front of the systemd unit: a
+service has no TTY, and exiting 1 there under `Restart=always` is a silent
+five-second crash loop that collects nothing. So `_pick_mode()` falls back to
+raw when stdout is not a TTY, and the shipped unit passes `--raw` explicitly
+anyway rather than resting on that fallback. An explicit `--tui` with no TTY
+still errors, since that asked for something impossible.
 
 ## Why v2 was rewritten
 

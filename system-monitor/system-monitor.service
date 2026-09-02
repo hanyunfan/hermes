@@ -9,15 +9,21 @@ Type=simple
 # display_name interleave lines into the same file and corrupt it).
 User=frank
 WorkingDirectory=/home/frank/system-monitor
-ExecStart=/usr/bin/python3 /home/frank/system-monitor/collector.py 10 CHANGE_ME
+ExecStart=/usr/bin/python3 /home/frank/system-monitor/collector.py 10 CHANGE_ME --raw
 
 # collector.py requires BOTH the interval and the display_name. Omitting the
 # display_name makes it print usage and exit 1, which combined with
 # Restart=always below is a silent 5-second crash loop.
 #
-# Do NOT add --tui here: it needs a TTY (exits 1 without one) and writes no
-# JSON at all. Add --cpu-debug only with an interval of 30-60s; at 10s it costs
-# ~19 MB/day of data plus 1-2 KB/cycle of journal.
+# --raw keeps this unit on line-per-sample journal logging. It is also what you
+# get without it, because the dashboard is the default only when there is a TTY
+# and a service has none — but state it explicitly so the intent is on the page
+# rather than resting on that fallback.
+#
+# Both modes write the same data/metrics_*.json, so --raw is not about data.
+#
+# Add --cpu-debug only with an interval of 30-60s; at 10s it costs ~19 MB/day
+# of data plus 1-2 KB/cycle of journal.
 Restart=always
 RestartSec=5
 StandardOutput=journal

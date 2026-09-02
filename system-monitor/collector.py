@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """
 System metrics collector: CPU, GPU (up to 8), memory, GPU power, network.
-Runs as daemon, writes JSON Lines.
+Writes JSON Lines to data/, and shows a curses dashboard by default (--raw
+for line-per-sample logging; both write the same files).
 
 Supports NVIDIA (nvidia-smi) and AMD (amd-smi CLI) GPUs.
 No extra Python packages required.
@@ -958,12 +959,17 @@ def collect(enable_nvlink=True, cpu_debug=False):
 
 # ─── Daemon ─────────────────────────────────────────────────────────────────
 
-def append_to_file(data, period):
+def _data_path(period, hostname=None):
+    """Path of today's data file. Shared by raw and TUI mode so the two can
+    never disagree about where samples land, and so the TUI can display it."""
     ts = datetime.now(timezone.utc).strftime("%Y%m%d")
     # Use display_name if set (distinguishes machines with same hostname but different GPU types)
-    name = display_name if display_name else data.get("hostname", HOSTNAME)
-    path = os.path.join(DATA_DIR, f"{period}_{name}_{ts}.json")
-    with open(path, "a") as f:
+    name = display_name if display_name else (hostname or HOSTNAME)
+    return os.path.join(DATA_DIR, f"{period}_{name}_{ts}.json")
+
+
+def append_to_file(data, period):
+    with open(_data_path(period, data.get("hostname")), "a") as f:
         f.write(json.dumps(data) + "\n")
 
 
@@ -1133,6 +1139,19 @@ def _sparkline(buf, width, lo=None, hi=None):
     return "".join(out) + " " * (width - len(out))
 
 
+def _display_path(path):
+    """Shortest unambiguous form of a path for the UI.
+
+    Relative when it is genuinely below the cwd, absolute otherwise: a relpath
+    computed from an unrelated directory yields '../../../../../../tmp/...',
+    which is worse than the absolute path at answering "where is my file"."""
+    try:
+        rel = os.path.relpath(path)
+    except ValueError:              # different drive on Windows
+        return path
+    return rel if not rel.startswith("..") else os.path.abspath(path)
+
+
 def _hist_window(total, budget, scroll):
     """Clamp a scroll offset to a list. Returns (offset, visible_count).
 
@@ -1234,6 +1253,7 @@ class _Sampler(threading.Thread):
         self.next_at = time.monotonic()
         self.busy    = False     # a collect() is in flight right now
         self.last_s  = None      # duration of the last collect(), seconds
+        self.wrote   = 0         # samples appended to the data file
 
     def pause(self, on):
         self._pause.set() if on else self._pause.clear()
@@ -1259,6 +1279,15 @@ class _Sampler(threading.Thread):
                 try:
                     stats = collect(enable_nvlink=self.enable_nvlink,
                                     cpu_debug=self.cpu_debug)
+                    # Persist BEFORE the display-only fields are attached, so
+                    # the file is byte-identical in shape to raw mode. The
+                    # dashboard consumes these files, so a failed write is data
+                    # loss and has to reach the user rather than be swallowed.
+                    try:
+                        append_to_file(stats, "metrics")
+                        self.wrote += 1
+                    except Exception as e:
+                        self.q.put(("error", f"WRITE FAILED {type(e).__name__}: {e}"))
                     # Overall CPU clock is not part of collect()'s JSON
                     # contract, so attach it here for the header row only.
                     try:
@@ -1753,6 +1782,10 @@ def _draw_log(scr, st, C, y, w, budget):
         return y
     scroll = st["log_scroll"]
     title = "LOG"
+    # Name the file being appended to. The TUI used to display only, and "where
+    # is my JSON?" is the obvious question when it is the file you upload.
+    if st.get("outfile"):
+        title += f"  → {st['outfile']}  ({st.get('wrote', 0)} written)"
     if scroll:
         title += f"  ↑{scroll} back  (g = newest)"
     y = _section(scr, y, w, title, C)
@@ -1931,6 +1964,8 @@ def _tui_main(scr, interval, display_name, cpu_debug):
                 if kind == "sample":
                     st["error"] = None
                     _push_sample(st, payload)
+                    st["outfile"] = _display_path(_data_path("metrics"))
+                    st["wrote"] = sampler.wrote
                 else:
                     st["error"] = payload
             _tui_draw(scr, st, C, sampler)
@@ -1973,7 +2008,7 @@ def _tui_main(scr, interval, display_name, cpu_debug):
 
 
 def tui(interval=2, _display_name=None, cpu_debug=False):
-    """Interactive nvitop-style dashboard. Displays only — writes no JSON."""
+    """Interactive nvitop-style dashboard. Appends the same JSON as raw mode."""
     global display_name
     display_name = _display_name
     if curses is None:
@@ -1991,31 +2026,80 @@ def tui(interval=2, _display_name=None, cpu_debug=False):
         pass
     curses.wrapper(_tui_main, interval, _display_name, cpu_debug)
 
+
+# ─── Entry point ────────────────────────────────────────────────────────────
+
+def _pick_mode(want_tui, want_raw, is_tty):
+    """Choose 'tui' or 'raw'. Raises ValueError if both were asked for.
+
+    The dashboard is the default, but it needs a terminal. A missing TTY falls
+    back to raw rather than exiting, because the systemd unit has no TTY and
+    Restart=always would turn an exit(1) into a silent five-second crash loop
+    that collects nothing. An explicit --tui still errors on no TTY, since
+    there the user asked for something impossible rather than just running the
+    default in a pipe."""
+    if want_tui and want_raw:
+        raise ValueError("--tui and --raw are mutually exclusive")
+    if want_raw:
+        return "raw"
+    if want_tui:
+        return "tui"
+    return "tui" if is_tty else "raw"
+
+
+_USAGE = """Usage:
+  python3 collector.py <interval> <display_name> [--raw] [--cpu-debug]
+
+  <interval>      polling interval in seconds (10 for unattended runs, 1-5 live)
+  <display_name>  machine identifier, used in the JSON filename and the
+                  dashboard (e.g. XE9785L_MI355X)
+
+  (default)       full-screen dashboard, and appends JSON to data/
+  --raw           line-per-sample logging to stdout instead of the dashboard,
+                  same JSON either way. Used by system-monitor.service.
+  --tui           force the dashboard; fails if there is no TTY
+  --cpu-debug     also record per-core CPU temperature and frequency
+
+Both modes write data/metrics_<display_name>_<UTC date>.json. Without a TTY
+the dashboard is skipped automatically, so cron and systemd still collect."""
+
 if __name__ == "__main__":
-    _probe_gpu()
     args = sys.argv[1:]
     cpu_debug = "--cpu-debug" in args
     if cpu_debug:
         args.remove("--cpu-debug")
-    tui_mode = "--tui" in args
-    if tui_mode:
+    want_tui = "--tui" in args
+    while "--tui" in args:
         args.remove("--tui")
-    if len(args) < 2:
-        print("Usage:")
-        print("  python3 collector.py <interval> <display_name> [--cpu-debug]")
-        print("     — daemon mode: writes per-cycle JSON to data/")
-        print("  python3 collector.py --tui <interval> <display_name> [--cpu-debug]")
-        print("     — interactive nvtop-style TUI on the local terminal")
-        print("  <interval>    : polling interval in seconds (e.g. 10 for daemon, 1–5 for TUI)")
-        print("  <display_name>: machine description, used in JSON filename and frontend (e.g. XE9785L_MI355X)")
-        print("  --cpu-debug   : opt-in flag to record per-core CPU temperature + frequency")
-        print("  --tui         : render an interactive TUI instead of writing JSON files")
+    want_raw = "--raw" in args
+    while "--raw" in args:
+        args.remove("--raw")
+    unknown = [a for a in args if a.startswith("-")]
+    if len(args) < 2 or unknown:
+        if unknown:
+            print(f"unknown option: {unknown[0]}\n", file=sys.stderr)
+        print(_USAGE)
         sys.exit(1)
-
-    interval = int(args[0])
+    try:
+        interval = int(args[0])
+    except ValueError:
+        print(f"interval must be a whole number of seconds, got {args[0]!r}\n",
+              file=sys.stderr)
+        print(_USAGE)
+        sys.exit(1)
     _display_name = args[1]
-    if tui_mode:
+    try:
+        mode = _pick_mode(want_tui, want_raw, sys.stdout.isatty())
+    except ValueError as e:
+        print(str(e), file=sys.stderr)
+        sys.exit(2)
+
+    _probe_gpu()
+    if mode == "tui":
         tui(interval, _display_name, cpu_debug=cpu_debug)
     else:
+        if not (want_raw or sys.stdout.isatty()):
+            print("no TTY — logging to stdout instead of the dashboard "
+                  "(pass --raw to make this explicit)", file=sys.stderr)
         daemon(interval, _display_name, cpu_debug=cpu_debug)
 
