@@ -8,9 +8,7 @@
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { background: #0f1117; color: #e0e0e0; font-family: 'Segoe UI', system-ui, sans-serif; padding: 20px; }
   h1 { font-size: 1.5rem; margin-bottom: 16px; color: #fff; }
-  .controls { margin-bottom: 16px; display: flex; gap: 16px; flex-wrap: wrap; align-items: center; }
-  .controls > .ctrl-group { display: flex; gap: 8px; align-items: center; }
-  .controls > .ctrl-group--right { margin-left: auto; }
+  .controls { margin-bottom: 16px; display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
   .controls label { font-size: 0.85rem; color: #aaa; }
   .controls select, .controls button {
     background: #1e2230; color: #e0e0e0; border: 1px solid #333;
@@ -21,24 +19,30 @@
   .controls button:hover { background: #383f5a; }
   .hw-info { font-size: 0.82rem; color: #888; margin-bottom: 10px; padding: 6px 12px; background: #1a1d27; border: 1px solid #252a3a; border-radius: 8px; display: inline-block; }
   .hw-info span { margin-right: 16px; }
-  #machine-select { min-width: 280px; }
-  /* 2-column desktop grid — keeps XL cards (CPU Thermal Sensors + CPU Core
-     Frequency) side-by-side and matches the look of the rest of the dashboard.
-     Auto-fit would give 3+ columns on wide viewports and break the pairing. */
-  .charts { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  /* Machine picker: the labels carry name + GPU + date, so give the select
+     room rather than truncating the part that distinguishes two runs. */
+  #machine-select { min-width: 380px; max-width: 46vw; }
+  #machine-search {
+    background: #1e2230; color: #e0e0e0; border: 1px solid #333;
+    padding: 6px 10px; border-radius: 6px; font-size: 0.85rem; width: 170px;
+    font-family: inherit;
+  }
+  #machine-search:focus { outline: none; border-color: #2d6cdf; }
+  #machine-search::placeholder { color: #5c6270; }
+  #machine-count { font-size: 0.75rem; color: #666; min-width: 46px; }
+  #machine-count.filtered { color: #4fc3f7; }
+  #machine-count.empty { color: #ff7043; }
+  #machine-sort { font-size: 0.78rem; padding: 6px 8px; }
+  .charts { display: grid; grid-template-columns: repeat(auto-fit, minmax(500px, 1fr)); gap: 16px; }
   .chart-card { background: #1a1d27; border-radius: 12px; padding: 16px; border: 1px solid #252a3a; }
-  /* Wide chart card spans the full grid row — used for the CPU core
-     frequency chart which shows up to 128 logical-core lines and would
-     otherwise be unreadable in a half-width column. */
+  /* Full-row card for the dense CPU-debug charts: core frequency draws up to
+     128 logical-core lines and thermal draws up to 64 sensors, both of which
+     are unreadable in an auto-fit column. Spanning the row also means they
+     need no special handling at narrow widths. */
   .chart-card--wide { grid-column: 1 / -1; }
   .chart-card--wide .chart-wrapper { height: 500px; }
-  /* XL chart: 2-row tall card placed side-by-side with another XL card.
-     Used for the paired CPU Thermal Sensors + CPU Core Frequency charts
-     (each ~900px wide × ~500px tall in the 2-column desktop grid). */
-  .chart-card--xl { grid-row: span 2; }
-  .chart-card--xl .chart-wrapper { min-height: 500px; }
-  /* Preset buttons for the CPU Core Frequency chart — quick way to flip
-     core visibility without clicking 128 individual legend entries. */
+  /* Preset buttons for the CPU Core Frequency chart — flip core visibility
+     without clicking 128 individual legend entries. */
   .freq-presets { display: flex; gap: 6px; margin-bottom: 10px; flex-wrap: wrap; }
   .freq-presets button {
     background: #1a1d27; color: #bbb; border: 1px solid #2c3142;
@@ -46,17 +50,9 @@
     font-family: inherit;
   }
   .freq-presets button:hover { background: #252a3a; color: #fff; }
-  .freq-presets button.active {
-    background: #2d5a8e; color: #fff; border-color: #4a7dba;
-  }
+  .freq-presets button.active { background: #2d5a8e; color: #fff; border-color: #4a7dba; }
   .chart-card h3 { font-size: 0.9rem; color: #aaa; margin-bottom: 12px; font-weight: 500; }
   .chart-wrapper { position: relative; height: 220px; }
-  /* On narrow viewports, force a single-column grid so wide/xl cards
-     stack vertically instead of stretching past the viewport. */
-  @media (max-width: 768px) {
-    .chart-grid { grid-template-columns: 1fr !important; }
-    .chart-card--xl { grid-row: span 1; }
-  }
   .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 16px; }
   .stat-card {
     background: #1a1d27; border: 1px solid #252a3a; border-radius: 10px;
@@ -159,13 +155,18 @@
   <select id="machine-select">
     <option value="">— Loading machines —</option>
   </select>
+  <input id="machine-search" type="search" placeholder="filter…  (press /)" autocomplete="off"
+         title="Filter the machine list. Space-separated terms must all match (e.g. &quot;mi355 overheat&quot;). Matches name, GPU, CPU and date. Esc clears.">
+  <span id="machine-count" title="machines matching the filter / total"></span>
+  <select id="machine-sort" title="Sort order for the machine list">
+    <option value="recent">↓ newest data</option>
+    <option value="name">A–Z by name</option>
+    <option value="gpu">group by GPU</option>
+  </select>
   <button id="upload-btn" title="Upload a metrics_*.json file. Stored in your browser localStorage is a GitHub Personal Access Token (repo:contents write).">⬆ Upload JSON</button>
   <input type="file" id="upload-input" accept=".json,application/json" style="display:none">
   <span id="upload-status" style="font-size:0.78rem;color:#888;margin-left:4px"></span>
-  <span style="font-size:0.78rem;color:#666">Source:</span>
-  <button id="src-github" class="src-btn active" data-src="github" onclick="setSource('github')">GitHub</button>
-  <button id="src-local" class="src-btn"        data-src="local"  onclick="setSource('local')">Local :8765</button>
-  <label>Range:</label>
+  <label style="margin-left:12px">Range:</label>
   <button id="btn-hour"  class="active" data-range="hour"   onclick="setRange('hour')">Hour</button>
   <button id="btn-day"              data-range="day"     onclick="setRange('day')">Day</button>
   <button id="btn-week"             data-range="week"    onclick="setRange('week')">Week</button>
@@ -258,10 +259,11 @@
     <h3>Network RX/TX (MB/s)</h3>
     <div class="chart-wrapper"><canvas id="chart-net"></canvas></div>
   </div>
-  <!-- CPU debug charts (hidden by default; shown when data carries cpu_debug=true).
-       XL cards (Thermal Sensors + Core Frequency) are paired side-by-side in the
-       2-column grid; Package chart stays wide as a single-line strip below them. -->
-  <div class="chart-card chart-card--xl" id="cpu-core-freq-chart-card" style="display:none">
+  <!-- CPU debug charts. Hidden unless a loaded sample carries cpu_debug=true,
+       which only happens when the collector ran with --cpu-debug. The two
+       dense ones span the full grid row (128 core lines / up to 64 sensors);
+       the package chart is a single line so it stays a normal card. -->
+  <div class="chart-card chart-card--wide" id="cpu-core-freq-chart-card" style="display:none">
     <h3>CPU Core Frequency (MHz, per logical core) — click legend to toggle cores</h3>
     <div class="freq-presets" id="freq-presets">
       <button type="button" data-preset="none">Hide all</button>
@@ -271,12 +273,12 @@
     </div>
     <div class="chart-wrapper"><canvas id="chart-cpu-core-freq"></canvas></div>
   </div>
-  <div class="chart-card chart-card--xl" id="cpu-therm-temp-chart-card" style="display:none">
-    <h3>CPU Thermal Sensors (°C, per sensor from /sys/class/thermal)</h3>
+  <div class="chart-card chart-card--wide" id="cpu-therm-temp-chart-card" style="display:none">
+    <h3>CPU Thermal Sensors (°C, per sensor via psutil.sensors_temperatures)</h3>
     <div class="chart-wrapper"><canvas id="chart-cpu-therm-temp"></canvas></div>
   </div>
-  <div class="chart-card chart-card--wide" id="cpu-therm-package-chart-card" style="display:none">
-    <h3>CPU Package Temperature (°C, single line)</h3>
+  <div class="chart-card" id="cpu-therm-package-chart-card" style="display:none">
+    <h3>CPU Package Temperature (°C)</h3>
     <div class="chart-wrapper"><canvas id="chart-cpu-therm-package"></canvas></div>
   </div>
 </div>
@@ -287,32 +289,53 @@
 const RANGES = { hour: 3600, day: 86400, week: 604800 };
 
 // Data source configuration.
-//   'github' → fetch from raw.githubusercontent.com (production / shared view).
-//              This is the default because it shows the union of every machine
-//              that has ever pushed to the repo, regardless of where the
-//              browser is running.
-//   'local'  → fetch from the same-origin server.py (http://localhost:8765).
-//              Use this when you're running collector.py locally and want to
-//              see your data before it's been pushed to GitHub. Note: machines
-//              registered only on the local server will NOT show up in
-//              machines.json on GitHub, and vice versa — there are two views.
 //
-// Switching sources re-runs loadMachines() and refresh(). The choice is
-// remembered in localStorage so it persists across reloads.
-const GITHUB_OWNER = 'hanyunfan';
-const GITHUB_REPO  = 'hermes';
-const GITHUB_BRANCH = 'main';
-const GITHUB_RAW_BASE = `https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/${GITHUB_BRANCH}/system-monitor`;
-// Used for the browser→GitHub upload. Note: Contents API requires a PAT.
-const GITHUB_API_BASE = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/system-monitor`;
-const PAT_STORAGE_KEY = 'systemMonitorGithubPAT';
+//   READS (machines.json, data/*.json) are always same-origin relative paths.
+//   Every deployment serves this directory as-is — Dell Enterprise Pages at
+//   /pages/Frank-Han1/devin/system-monitor/, public Pages at
+//   hanyunfan.github.io/hermes/system-monitor/, and server.py at
+//   localhost:8765 — so a relative path resolves correctly on all of them and
+//   no token is needed. Never hardcode a raw.githubusercontent.com base here:
+//   that host is unreachable from the Dell network and pins the dashboard to
+//   one specific repo.
+//
+//   WRITES (the ⬆ Upload JSON button) need the Contents API, and that URL is
+//   the only thing that genuinely differs between deployments. So detect the
+//   site from the origin instead of hardcoding it. This keeps ONE index.html
+//   valid on both GitHub Enterprise and public GitHub, so the file can be
+//   copied verbatim in either direction without re-adapting it.
+const SITES = [
+  { match: h => h.endsWith('.gtie.dell.com') || h.endsWith('.dell.com'),
+    owner:    'Frank-Han1',
+    repo:     'devin',
+    apiHost:  'github.gtie.dell.com',
+    // GitHub Enterprise Server puts the REST API under /api/v3 on the same host.
+    apiRoot:  'https://github.gtie.dell.com/api/v3',
+    tokenUrl: 'https://github.gtie.dell.com/settings/tokens',
+    // Actions is disabled on this instance (0 workflows / 0 runs), so the
+    // sync-machines.yml hook never fires — see syncMachinesJson() below.
+    actions:  false },
+  { match: _ => true,                       // public GitHub / localhost / fallback
+    owner:    'hanyunfan',
+    repo:     'hermes',
+    apiHost:  'api.github.com',
+    apiRoot:  'https://api.github.com',
+    tokenUrl: 'https://github.com/settings/tokens/new',
+    actions:  true },
+];
+const SITE = SITES.find(s => s.match(location.hostname));
 
-let dataSource = localStorage.getItem('systemMonitorDataSource') || 'github';
+const GITHUB_HOST   = SITE.apiHost;
+const GITHUB_OWNER  = SITE.owner;
+const GITHUB_REPO   = SITE.repo;
+const GITHUB_BRANCH = 'main';
+const GITHUB_API_BASE = `${SITE.apiRoot}/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/system-monitor`;
+const PAT_STORAGE_KEY = 'systemMonitorGithubPAT';
 
 function dataUrl(relPath) {
   // relPath: e.g. 'machines.json' or 'data/metrics_X_20260603.json'
-  if (dataSource === 'local') return relPath;  // same origin (server.py)
-  return `${GITHUB_RAW_BASE}/${relPath}?ts=${Date.now()}`;
+  // Served same-origin by GitHub Pages; cache-bust so the 30s poll sees updates.
+  return `${relPath}?ts=${Date.now()}`;
 }
 
 // Colors for up to 8 GPUs (index 0–7). Single-homedashboard uses GPU[0] color.
@@ -327,9 +350,9 @@ const GPU_COLORS = [
   'ce93d8', // GPU7 — lavender
 ];
 
-// Colors for CPU cores (cycled across physical or logical indices, up to 64).
-// Distinct palette from GPU_COLORS so the per-core lines don't collide with
-// the GPU dataset colours on machines that show both.
+// Colors for CPU cores / thermal sensors, cycled across logical indices.
+// Distinct palette from GPU_COLORS so per-core lines don't collide with the
+// GPU dataset colours on machines that show both.
 const CORE_COLORS = [
   '4fc3f7','ba68c8','81c784','ffb74d','ef9a9a','ffee58','80cbc4','ce93d8',
   '90a4ae','a1887f','bcaaa4','dce775','aed581','fff176','ff8a65','b39ddb',
@@ -340,6 +363,12 @@ const CORE_COLORS = [
   'd4e157','ff6e40','26c6da','9fa8da','f06292','aed581','ba68c8','fff176',
   'ffb74d','a3a3a3','8d8d8d','b0b0b0',
 ];
+
+// Sensor labels that denote a whole socket rather than an individual core.
+// Used to disambiguate duplicates on multi-socket boxes (the 2nd 'Tctl' on
+// the same chip becomes CPU1) — shared by both CPU thermal charts so they
+// label sockets identically.
+const SOCKET_SENSOR_LABELS = new Set(['Tdie', 'Tctl', 'Package id 0']);
 
 // ─── State ────────────────────────────────────────────────────────────────────
 let currentRange = 'custom';
@@ -403,42 +432,40 @@ function initCharts() {
   charts.net = buildNetworkChart('chart-net');
   // GPU Temperature chart (one dataset per GPU + optional Tlimit annotation)
   charts.temp = buildTempChart('chart-temp');
-  // CPU debug charts (hidden by default; only the visibility branch in
-  // loadDayData flips their wrapper <div> to display:'' when cpu_debug
-  // is present in any sample).
+
+  // CPU debug charts — built unconditionally (cheap: empty datasets), their
+  // cards stay display:none until a sample with cpu_debug=true shows up.
   charts['cpu-therm-temp']    = buildCpuThermTempChart('chart-cpu-therm-temp');
   charts['cpu-therm-package'] = buildCpuThermPackageChart('chart-cpu-therm-package');
   charts['cpu-core-freq']     = buildCpuCoreFreqChart('chart-cpu-core-freq');
+  wireFreqPresets(charts['cpu-core-freq']);
+}
 
-  // Preset buttons under the CPU Core Frequency chart — quick way to flip
-  // 128 dataset visibilities in one click. "Show L0–L15" mirrors the previous
-  // default; "Show all" is a stress test for ~100 overlapping lines.
-  const freqChart = charts['cpu-core-freq'];
-  const freqPresets = document.getElementById('freq-presets');
-  if (freqPresets) {
-    const applyPreset = (mode) => {
-      const ds = freqChart.data.datasets;
-      for (let i = 0; i < ds.length; i++) {
-        if (mode === 'none')      ds[i].hidden = true;
-        else if (mode === 'l0')   ds[i].hidden = (i !== 0);
-        else if (mode === '16')   ds[i].hidden = (i >= 16);
-        else if (mode === 'all')  ds[i].hidden = false;
-      }
-      freqChart.update();
-      // Mark the active button — when the user later clicks legend entries
-      // individually the marker is dropped (no preset currently matches).
-      freqPresets.querySelectorAll('button').forEach(b => {
-        b.classList.toggle('active', b.dataset.preset === mode);
-      });
-    };
-    freqPresets.addEventListener('click', (e) => {
-      const btn = e.target.closest('button[data-preset]');
-      if (!btn) return;
-      applyPreset(btn.dataset.preset);
-    });
-    // Reflect the build-time default (L0 only) on the initial paint.
-    freqPresets.querySelector('button[data-preset="l0"]')?.classList.add('active');
-  }
+// Preset buttons under the CPU Core Frequency chart — flip 128 dataset
+// visibilities in one click instead of clicking 128 legend entries.
+function wireFreqPresets(freqChart) {
+  const presets = document.getElementById('freq-presets');
+  if (!presets) return;
+  const VISIBLE = {
+    none: () => false,
+    l0:   i => i === 0,
+    16:   i => i < 16,
+    all:  () => true,
+  };
+  presets.addEventListener('click', e => {
+    const btn = e.target.closest('button[data-preset]');
+    if (!btn) return;
+    const show = VISIBLE[btn.dataset.preset];
+    if (!show) return;
+    freqChart.data.datasets.forEach((ds, i) => { ds.hidden = !show(i); });
+    freqChart.update();
+    // Mark the active preset. Clicking individual legend entries afterwards
+    // leaves the marker stale, which is acceptable — it's a hint, not state.
+    presets.querySelectorAll('button').forEach(b =>
+      b.classList.toggle('active', b === btn));
+  });
+  // Reflect the build-time default (L0 only) on the initial paint.
+  presets.querySelector('button[data-preset="l0"]')?.classList.add('active');
 }
 
 const IO_COLORS = {
@@ -533,6 +560,119 @@ function buildIoChart(canvasId) {
   return chart;
 }
 
+// ─── CPU debug charts ────────────────────────────────────────────────────────
+// Driven by the collector's --cpu-debug fields: cpu_core_freq_mhz (per logical
+// core, MHz), cpu_therm_temp_c / cpu_therm_raw (per sensor, °C) and
+// cpu_package_temp_c (socket, °C). All three are optional — without the flag
+// the records are shape-identical to every other machine's, so these cards
+// simply never unhide. See DESIGN-cpu-debug.md.
+//
+// Datasets are pre-allocated at max width (64 sensors / 128 cores) because
+// Chart.js can't cheaply grow a dataset list; the updaters reveal only the
+// indices actually present in the data.
+//
+// These two charts are the only ones dense enough to need it, so they opt into
+// Chart.js's built-in decimation: a --cpu-debug day at 2s sampling is ~9k
+// samples, and "Show all" x 128 cores is ~1.1M points, which stalls the canvas
+// for seconds per redraw. min-max is used rather than lttb because it preserves
+// spikes, and a thermal/frequency spike is the entire reason to open this chart.
+// Decimation is display-only — the JSON on disk keeps full resolution.
+//
+// The plugin requires parsing:false (docs "Requirements" #4), which in turn
+// requires x to already be a number, so cpuChartPoint() below emits epoch ms
+// instead of a Date. chartOptions()'s shared onClick does new Date(ts) on that
+// value, which accepts epoch ms unchanged.
+function denseChartOptions() {
+  const base = chartOptions();
+  return {
+    ...base,
+    // Full-row card is ~500px tall; without this the canvas crops to 2:1.
+    maintainAspectRatio: false,
+    parsing: false,
+    normalized: true,          // data is already sorted and de-duplicated by x
+    animation: false,          // animating 128 series costs more than it conveys
+    plugins: {
+      ...base.plugins,
+      decimation: { enabled: true, algorithm: 'min-max' },
+    },
+  };
+}
+
+// One {x, y} point in the format the decimation plugin needs: numeric x, and
+// null (not undefined/absent) for a gap so Chart.js breaks the line.
+function cpuChartPoint(timestamp, value) {
+  return { x: Date.parse(timestamp), y: value ?? null };
+}
+
+function buildCpuThermTempChart(canvasId) {
+  // 64 slots: enough for the widest current CPUs (Zen 4 EPYC exposes up to
+  // 12 Tccd sensors per socket, plus Tctl/Tdie per socket).
+  const datasets = Array.from({ length: 64 }, (_, i) => ({
+    label: 'S' + i, data: [], borderColor: '#' + CORE_COLORS[i % CORE_COLORS.length],
+    backgroundColor: 'transparent', borderWidth: 1, hidden: true, pointRadius: 0
+  }));
+  return new Chart(document.getElementById(canvasId), {
+    type: 'line',
+    data: { datasets },
+    options: {
+      ...denseChartOptions(),
+      scales: {
+        ...chartOptions().scales,
+        y: { min: 0, max: 100, grid: { color: '#252a3a' }, ticks: { color: '#666' } }
+      }
+    }
+  });
+}
+
+function buildCpuThermPackageChart(canvasId) {
+  return new Chart(document.getElementById(canvasId), {
+    type: 'line',
+    data: { datasets: [{
+      label: 'Package', data: [],
+      borderColor: '#' + CORE_COLORS[0],
+      backgroundColor: 'transparent', borderWidth: 1.5, pointRadius: 2, fill: false
+    }] },
+    options: {
+      ...chartOptions(),
+      // Single series, so no decimation — but it shares cpuChartPoint()'s
+      // numeric x, hence parsing:false here too.
+      parsing: false,
+      normalized: true,
+      scales: {
+        ...chartOptions().scales,
+        y: { min: 0, max: 100, grid: { color: '#252a3a' }, ticks: { color: '#666' } }
+      }
+    }
+  });
+}
+
+function buildCpuCoreFreqChart(canvasId) {
+  // 128 slots covers any current SMT server CPU. Default visibility is core 0
+  // only: even 16 of these lines is an unreadable blob, so start with one
+  // representative core and let the preset buttons / legend add more.
+  const datasets = Array.from({ length: 128 }, (_, i) => ({
+    label: 'L' + i, data: [], borderColor: '#' + CORE_COLORS[i % CORE_COLORS.length],
+    backgroundColor: 'transparent', borderWidth: 1.2, hidden: i >= 1, pointRadius: 0
+  }));
+  return new Chart(document.getElementById(canvasId), {
+    type: 'line',
+    data: { datasets },
+    options: {
+      ...denseChartOptions(),
+      elements: {
+        // 0.5px lines and no resting dots, or 128 series merge into a smear.
+        point: { radius: 0, hoverRadius: 4, hitRadius: 12 },
+        line:  { tension: 0, borderWidth: 0.5 }
+      },
+      // y-max is raised past the observed max by updateCpuCoreFreqChart.
+      scales: {
+        ...chartOptions().scales,
+        y: { min: 0, grid: { color: '#252a3a' }, ticks: { color: '#666' } }
+      }
+    }
+  });
+}
+
 function buildTempChart(canvasId) {
   // One dataset per GPU (solid lines) + one Tlimit annotation dataset (dashed)
   const datasets = Array.from({ length: 8 }, (_, i) => {
@@ -586,100 +726,6 @@ function initOne(key, dataKey, color) {
       if (ts) showPointInfo(new Date(ts));
     }
   });
-}
-
-// ─── CPU debug chart builders (mirror buildTempChart, no fill, tighter lines) ─
-//
-// Each machine exposes a different set of thermal sensors (Intel coretemp
-// → "Core N", AMD Zen 4+ k10temp → "TccdN", Dell laptops → "dell_smm",
-// etc.). Rather than hard-code label parsing, the collector dumps every
-// sensor into cpu_therm_raw, and the updater below picks a stable sensor
-// order from the first sample and uses it for the whole time range.
-
-function buildCpuThermTempChart(canvasId) {
-  // Pre-allocate 64 dataset slots — enough for the largest current CPUs
-  // (Zen 4 EPYC has up to 12 CCDs = 12 Tccd sensors). All hidden by
-  // default; updateCpuThermTempChart reveals only the indices present.
-  const datasets = Array.from({ length: 64 }, (_, i) => ({
-    label: 'S' + i, data: [], borderColor: '#' + CORE_COLORS[i % CORE_COLORS.length],
-    backgroundColor: 'transparent', borderWidth: 1, hidden: true, pointRadius: 0
-  }));
-  const chart = new Chart(document.getElementById(canvasId), {
-    type: 'line',
-    data: { datasets },
-    options: {
-      ...chartOptions(),
-      // XL chart (~500px tall) — disable aspect-ratio so the canvas fills
-      // the parent .chart-card--xl wrapper instead of cropping to 2:1.
-      maintainAspectRatio: false,
-      scales: {
-        ...chartOptions().scales,
-        y: { min: 0, max: 100, grid: { color: '#252a3a' }, ticks: { color: '#666' } }
-      }
-    }
-  });
-  return chart;
-}
-
-function buildCpuThermPackageChart(canvasId) {
-  // Single-line chart showing the package temperature (Tdie / Tctl / etc.)
-  const chart = new Chart(document.getElementById(canvasId), {
-    type: 'line',
-    data: { datasets: [{
-      label: 'Package', data: [],
-      borderColor: '#' + CORE_COLORS[0],
-      backgroundColor: 'transparent', borderWidth: 1.5, pointRadius: 2, fill: false
-    }] },
-    options: {
-      ...chartOptions(),
-      // Single-line wide chart — disable aspect-ratio so the canvas
-      // fills the wide wrapper instead of staying at width/2 height.
-      maintainAspectRatio: false,
-      scales: {
-        ...chartOptions().scales,
-        y: { min: 0, max: 100, grid: { color: '#252a3a' }, ticks: { color: '#666' } }
-      }
-    }
-  });
-  return chart;
-}
-
-function buildCpuCoreFreqChart(canvasId) {
-  // Up to 128 logical cores — covers any current HT/SMT machine.
-  // Line width is reduced to 0.5px so all 128 cores don't visually merge
-  // into a single blob. Default visibility: ONLY core 0 is shown — with
-  // 128 logical cores on a server CPU, even 16 lines on one chart becomes
-  // an unreadable blob, so we start with a single representative core and
-  // let the user click legend entries to add more (or use the Select All
-  // / Show L0–L15 / Hide All controls below the chart).
-  const datasets = Array.from({ length: 128 }, (_, i) => {
-    const color = CORE_COLORS[i % CORE_COLORS.length];
-    return { label: 'L' + i, data: [], borderColor: '#' + color,
-             backgroundColor: 'transparent', borderWidth: 1.2,
-             hidden: i >= 1, pointRadius: 0 };
-  });
-  const chart = new Chart(document.getElementById(canvasId), {
-    type: 'line',
-    data: { datasets },
-    options: {
-      ...chartOptions(),
-      // XL chart (~500px tall) — disable aspect-ratio so the canvas fills
-      // the parent .chart-card--xl wrapper instead of cropping to 2:1.
-      maintainAspectRatio: false,
-      elements: {
-        // Tighter lines and no hover dots for the dense multi-line layout
-        point: { radius: 0, hoverRadius: 4, hitRadius: 12 },
-        line:  { tension: 0, borderWidth: 0.5 }
-      },
-      scales: {
-        ...chartOptions().scales,
-        // Frequency floor 0 — the y-max auto-scaler in the updater raises
-        // it above the observed max (min 2000 MHz) for a tighter view.
-        y: { min: 0, grid: { color: '#252a3a' }, ticks: { color: '#666' } }
-      }
-    }
-  });
-  return chart;
 }
 
 function buildGpuChart(canvasId, colors, valueKey, unit) {
@@ -999,46 +1045,7 @@ async function loadDayData(dateStr) {
   if (latest.gpu_power) updatePowerChart(allData, gpuCount);
   if (hasGpu) updateTempChart(allData, gpuCount);
   updateNetworkChart(allData);
-
-  // ── CPU debug charts (only visible when any sample carries cpu_debug=true).
-  // Old JSON samples (before the cpu_therm_temp_c / cpu_package_temp_c fields
-  // were added) only have cpu_therm_raw — accept either path so historical
-  // data isn't hidden after a schema extension.
-  const hasCpuDebug = allData.some(d => d.cpu_debug === true);
-  // Therm-temp chart: needs per-sensor data — either the new flat array
-  // or the older raw dump with at least one extractable sensor.
-  const hasCpuThermTemp = allData.some(d => {
-    if (d.cpu_debug !== true) return false;
-    if (Array.isArray(d.cpu_therm_temp_c) && d.cpu_therm_temp_c.length > 0) return true;
-    if (d.cpu_therm_raw) {
-      for (const chip of Object.keys(d.cpu_therm_raw)) {
-        if ((d.cpu_therm_raw[chip] || []).length > 0) return true;
-      }
-    }
-    return false;
-  });
-  // Package chart: needs cpu_package_temp_c (single float, Tdie/Tctl/Package),
-  // OR the older raw dump from which we can extract one socket-level sensor.
-  const hasCpuPackageTemp = allData.some(d => {
-    if (d.cpu_debug !== true) return false;
-    if (d.cpu_package_temp_c != null) return true;
-    if (d.cpu_therm_raw) {
-      for (const chip of Object.keys(d.cpu_therm_raw)) {
-        for (const t of (d.cpu_therm_raw[chip] || [])) {
-          if (t && (t.label === 'Tdie' || t.label === 'Tctl' || (t.label || '').startsWith('Package'))) {
-            return t.current != null;
-          }
-        }
-      }
-    }
-    return false;
-  });
-  document.getElementById('cpu-therm-temp-chart-card').style.display    = hasCpuThermTemp ? '' : 'none';
-  document.getElementById('cpu-therm-package-chart-card').style.display = hasCpuPackageTemp ? '' : 'none';
-  document.getElementById('cpu-core-freq-chart-card').style.display     = hasCpuDebug ? '' : 'none';
-  if (hasCpuThermTemp)  updateCpuThermTempChart(allData);
-  if (hasCpuPackageTemp) updateCpuThermPackageChart(allData);
-  if (hasCpuDebug)       updateCpuCoreFreqChart(allData);
+  updateCpuDebugCharts(allData);
 
   const first = allData[0].timestamp;
   const last  = allData[allData.length - 1].timestamp;
@@ -1061,6 +1068,9 @@ function clearDisplay() {
     charts.mem.data.datasets[0].data = [];
     charts.mem.update();
   }
+  // Hide the CPU debug cards: switching to a machine that wasn't collected
+  // with --cpu-debug would otherwise leave the previous machine's charts up.
+  applyCpuDebugVisibility({ freq: false, therm: false, package: false });
 }
 
 function fmtLocal(d) {
@@ -1096,34 +1106,160 @@ async function setMachine(key) {
 // ─── Load machines ────────────────────────────────────────────────────────────
 let lastMachineKeys = new Set();
 
+// The value used in the <option> and by setMachine(). Must stay stable across
+// re-renders or the current selection is lost on every 30s poll.
+function machineKeyOf(m) { return m.display_name || m.hostname; }
+
+// 'YYYYMMDD' -> 'YYYY-MM-DD'. Returns '' for a missing/short latest_date so
+// machines.json files written before that field existed still render.
+function fmtLatestDate(d) {
+  return /^\d{8}$/.test(d || '') ? `${d.slice(0,4)}-${d.slice(4,6)}-${d.slice(6)}` : '';
+}
+
+// What the user reads. Some machines were collected with a display_name that
+// already includes the "metrics_" filename prefix (e.g.
+// "metrics_XE7740_RTXPro6000_llama2_inference"), which is redundant noise in a
+// list and — worse — sorts those entries under "m" instead of next to their
+// siblings. Strip it for display and ordering only: machineKeyOf() stays the
+// untouched value that setMachine() matches against.
+function machineTitle(m) { return machineKeyOf(m).replace(/^metrics_/, ''); }
+
+function machineLabel(m) {
+  const gpu = m.gpu_count > 0 ? `${m.gpu_type || 'GPU'} x${m.gpu_count}` : 'no GPU';
+  const date = fmtLatestDate(m.latest_date);
+  return [machineTitle(m), gpu, date].filter(Boolean).join('  ·  ');
+}
+
+// Everything a filter term is allowed to match. Includes cpu_type so "epyc" or
+// "xeon" work, and the date so "2026-08" narrows to a month.
+function machineHaystack(m) {
+  return [m.hostname, m.display_name, m.gpu_type, m.cpu_type, fmtLatestDate(m.latest_date)]
+    .filter(Boolean).join(' ').toLowerCase();
+}
+
+// Space-separated terms are ANDed, so "mi355 overheat" finds the one run
+// without needing to remember the full 36-character name.
+function machineMatches(m, terms) {
+  const hay = machineHaystack(m);
+  return terms.every(t => hay.includes(t));
+}
+
+const MACHINE_SORTS = {
+  // Newest data first — what you want when checking on a run that just finished.
+  recent: (a, b) => (b.latest_date || '').localeCompare(a.latest_date || '')
+                    || cmpName(a, b),
+  name:   cmpName,
+  gpu:    (a, b) => (a.gpu_type || '\uffff').localeCompare(b.gpu_type || '\uffff')
+                    || cmpName(a, b),
+};
+
+// Sorts on the displayed title so a stray "metrics_" prefix doesn't exile an
+// entry to the far end of the list. numeric:true so XE7740 sorts before XE9785
+// and node9 before node16.
+function cmpName(a, b) {
+  return machineTitle(a).localeCompare(machineTitle(b), undefined,
+                                       { numeric: true, sensitivity: 'base' });
+}
+
 function renderMachines() {
   const sel = document.getElementById('machine-select');
+  const search = document.getElementById('machine-search');
+  const count = document.getElementById('machine-count');
+  const sortSel = document.getElementById('machine-sort');
   const previousValue = sel.value;
+  const filterText = search.value.trim();
+  const terms = filterText.toLowerCase().split(/\s+/).filter(Boolean);
+  const filtered = terms.length ? machines.filter(m => machineMatches(m, terms)) : machines;
+  const sortKey = sortSel.value || 'recent';
+  const cmp = MACHINE_SORTS[sortKey] || MACHINE_SORTS.name;
+  const sorted = filtered.slice().sort(cmp);
+
   sel.innerHTML = '';
-  if (machines.length === 0) {
-    sel.innerHTML = '<option value="">— No machines found —</option>';
+  if (sorted.length === 0) {
+    sel.innerHTML = '<option value="">— No matches —</option>';
+    count.textContent = `0/${machines.length}`;
+    count.className = 'empty';
     return;
   }
-  machines.forEach(m => {
-    const opt = document.createElement('option');
-    opt.value = m.display_name || m.hostname;
-    const gpuDesc = m.gpu_count > 0
-      ? ` (${m.gpu_type || 'GPU'} x${m.gpu_count})`
-      : ' (no GPU)';
-    const shownName = m.display_name || m.hostname;
-    opt.textContent = shownName + gpuDesc;
-    sel.appendChild(opt);
-  });
-  // Keep the user's current selection if it still exists; otherwise default to the first.
-  if (machines.some(m => (m.display_name || m.hostname) === previousValue)) {
-    sel.value = previousValue;
+
+  // Group by GPU type when sort == 'gpu'
+  if (sortKey === 'gpu') {
+    const groups = {};
+    sorted.forEach(m => {
+      const g = m.gpu_type || '(no GPU)';
+      (groups[g] = groups[g] || []).push(m);
+    });
+    for (const [gpuType, group] of Object.entries(groups).sort((a, b) => a[0].localeCompare(b[0]))) {
+      const grp = document.createElement('optgroup');
+      grp.label = `${gpuType} (${group.length})`;
+      group.forEach(m => {
+        const opt = document.createElement('option');
+        opt.value = machineKeyOf(m);
+        opt.textContent = machineLabel(m);
+        grp.appendChild(opt);
+      });
+      sel.appendChild(grp);
+    }
   } else {
-    sel.value = machines[0].display_name || machines[0].hostname;
-    currentMachine = machines[0];
+    sorted.forEach(m => {
+      const opt = document.createElement('option');
+      opt.value = machineKeyOf(m);
+      opt.textContent = machineLabel(m);
+      sel.appendChild(opt);
+    });
+  }
+
+  count.textContent = `${sorted.length}/${machines.length}`;
+  count.className = terms.length ? 'filtered' : '';
+
+  // Keep the user's current selection if it still exists; otherwise default to the first.
+  if (sorted.some(m => machineKeyOf(m) === previousValue)) {
+    sel.value = previousValue;
+  } else if (sorted.length > 0) {
+    sel.value = machineKeyOf(sorted[0]);
+    currentMachine = sorted[0];
     updateHwInfo();
-    // A new machine appeared or the old one was removed → re-render charts.
     refresh();
   }
+}
+
+function wireMachineFilter() {
+  const search = document.getElementById('machine-search');
+  const sortSel = document.getElementById('machine-sort');
+  const count = document.getElementById('machine-count');
+
+  // Restore persisted sort order
+  const savedSort = localStorage.getItem('systemMonitorMachineSort');
+  if (savedSort && MACHINE_SORTS[savedSort]) {
+    sortSel.value = savedSort;
+  }
+
+  const update = () => {
+    renderMachines();
+    localStorage.setItem('systemMonitorMachineSort', sortSel.value);
+  };
+
+  search.addEventListener('input', update);
+  sortSel.addEventListener('change', update);
+
+  // Keyboard shortcuts
+  document.addEventListener('keydown', e => {
+    if (e.key === '/' && document.activeElement !== search) {
+      e.preventDefault();
+      search.focus();
+    } else if (e.key === 'Escape' && document.activeElement === search) {
+      search.value = '';
+      update();
+      search.blur();
+    } else if (e.key === 'Enter' && document.activeElement === search) {
+      const sel = document.getElementById('machine-select');
+      if (sel.options.length === 1) {
+        sel.value = sel.options[0].value;
+        setMachine(sel.value);
+        search.blur();
+      }
+    }
+  });
 }
 
 async function loadMachines() {
@@ -1157,35 +1293,30 @@ function flashStatus(text, color) {
   setTimeout(() => { el.textContent = ''; }, 6000);
 }
 
-// ─── Source switcher ──────────────────────────────────────────────────────────
-function setSource(src) {
-  if (src !== 'github' && src !== 'local') return;
-  dataSource = src;
-  localStorage.setItem('systemMonitorDataSource', src);
-  applyDataSource();
-  loadMachines().then(refresh);
-  flashStatus(`source → ${src === 'github' ? 'GitHub (raw)' : 'localhost:8765'}`, '#aaa');
-}
-
-function applyDataSource() {
-  document.querySelectorAll('.src-btn').forEach(b => {
-    b.classList.toggle('active', b.dataset.src === dataSource);
-  });
-}
+// ─── Source switcher (removed) ────────────────────────────────────────────────
+// Reads are always same-origin (GitHub Pages / local server.py), so there is no
+// GitHub-vs-Local toggle. These remain as harmless no-ops in case anything still
+// references them.
+function applyDataSource() {}
 
 // ─── Upload (via GitHub Contents API) ────────────────────────────────────────
 // Uses a Personal Access Token (PAT) stored in localStorage. The PAT needs
 // `repo:contents:write` scope. This is the only way to make a static+JS page
 // write into a GitHub repo.
 //
-// The workflow after upload is:
-//   1. PUT to Contents API → file lands in repo, fires a `push` event
-//   2. .github/workflows/sync-machines.yml runs sync_machines.py and
-//      commits an updated machines.json
-//   3. Frontend's 30s poll of machines.json (from raw.githubusercontent.com)
-//      picks up the new machine
-// So you can sit on the dashboard, click Upload, and ~10–30s later see the
-// new machine in the dropdown.
+// The flow after upload is:
+//   1. PUT the data file to the Contents API → file lands in system-monitor/data/
+//   2. Client-side, replicate sync_machines.py: rebuild the affected machine's
+//      entry from the file's first record and PUT an updated machines.json.
+//   3. Frontend's 30s poll (or the immediate loadMachines() below) of
+//      machines.json picks up the new machine.
+//
+// NOTE: step 2 exists because the Dell GitHub Enterprise instance has Actions
+// disabled (0 workflows / 0 runs), so .github/workflows/sync-machines.yml never
+// fires there and machines.json would never be regenerated. We always do it
+// from the browser rather than branching on SITE.actions — on a site where the
+// workflow *does* run this is simply idempotent (it writes the same entry the
+// workflow would) and it removes the 10–30s wait for the Actions run.
 
 function getPat() { return localStorage.getItem(PAT_STORAGE_KEY) || ''; }
 function setPat(v) {
@@ -1196,9 +1327,9 @@ function setPat(v) {
 function promptForPat() {
   const current = getPat();
   const v = window.prompt(
-    'GitHub Personal Access Token (needs repo:contents:write).\n' +
-    'Create one at: https://github.com/settings/tokens/new (select "Contents: Read and write" under the repo scope).\n' +
-    'Stored in localStorage only — never sent anywhere except api.github.com.',
+    'GitHub Personal Access Token (needs repo / Contents: Read and write).\n' +
+    'Create one at: ' + SITE.tokenUrl + ' (select the "repo" scope, or fine-grained "Contents: Read and write" for ' + GITHUB_OWNER + '/' + GITHUB_REPO + ').\n' +
+    'Stored in localStorage only — never sent anywhere except ' + GITHUB_HOST + '.',
     current ? '•••••••• (leave blank to keep)' : '');
   if (v === null) return null;        // user cancelled
   if (v === '') return current || ''; // empty input → keep existing (or nothing)
@@ -1302,12 +1433,10 @@ function machineEntryFromRecord(hostname, r) {
   };
 }
 
-// Upsert the uploaded machine into machines.json via the Contents API.
-// Replaces what .github/workflows/sync-machines.yml would do — useful when
-// Actions is slow or disabled. The frontend's 30s poll of machines.json
-// will then pick up the new/updated machine.
+// Upsert the uploaded machine into machines.json via the Contents API. This is
+// what sync-machines.yml would do if Actions were enabled on this instance.
 async function syncMachinesJson(fname, fileText) {
-  const m = /^metrics_(.+)_(\d{8})\.json$/.exec(fname);
+  const m = /^metrics_(.+)_\d{8}\.json$/.exec(fname);
   if (!m) return;
   const hostname = m[1];
   const rec = firstJsonRecord(fileText);
@@ -1360,17 +1489,12 @@ async function uploadFile(file) {
     flashStatus(`✗ bad filename: ${file.name} (need metrics_<host>_<YYYYMMDD>.json)`, '#ff7043');
     return;
   }
-  if (dataSource !== 'github') {
-    flashStatus('switch to GitHub source to upload (the local server is read-only)', '#ff7043');
-    return;
-  }
   flashStatus(`uploading ${file.name} (${(file.size/1024).toFixed(1)} KB)…`, '#4fc3f7');
   try {
     const res = await uploadToGithub(file, file.name);
     console.log('upload ok:', res.commit && res.commit.sha);
-    // Actions may or may not run sync-machines.yml in time. Replicate it
-    // client-side so the new machine appears in the dropdown within a few
-    // seconds even if the workflow is slow or disabled.
+    // Actions is disabled on this instance, so update machines.json ourselves
+    // (this is what sync-machines.yml would have done) and refresh the list.
     try {
       const text = await file.text();
       await syncMachinesJson(file.name, text);
@@ -1646,20 +1770,8 @@ async function refresh() {
   // ── Update Network chart (all ifaces, RX + TX)
   updateNetworkChart(allData);
 
-  // ── CPU debug charts (only visible when any sample carries cpu_debug=true)
-  const hasCpuDebug = allData.some(d => d.cpu_debug === true);
-  const hasCpuThermTemp = allData.some(d =>
-    d.cpu_debug === true && Array.isArray(d.cpu_therm_temp_c) && d.cpu_therm_temp_c.length > 0
-  );
-  const hasCpuPackageTemp = allData.some(d =>
-    d.cpu_debug === true && d.cpu_package_temp_c != null
-  );
-  document.getElementById('cpu-therm-temp-chart-card').style.display    = hasCpuThermTemp ? '' : 'none';
-  document.getElementById('cpu-therm-package-chart-card').style.display = hasCpuPackageTemp ? '' : 'none';
-  document.getElementById('cpu-core-freq-chart-card').style.display     = hasCpuDebug ? '' : 'none';
-  if (hasCpuThermTemp)   updateCpuThermTempChart(allData);
-  if (hasCpuPackageTemp) updateCpuThermPackageChart(allData);
-  if (hasCpuDebug)       updateCpuCoreFreqChart(allData);
+  // ── Update CPU debug charts (no-ops unless the data has cpu_debug=true)
+  updateCpuDebugCharts(allData);
 
   document.getElementById('updated').textContent =
     'Updated: ' + new Date().toLocaleTimeString() +
@@ -1899,176 +2011,155 @@ function updateTempChart(allData, gpuCount) {
   charts.temp.update();
 }
 
-function updateCpuThermTempChart(allData) {
-  // Sensor order comes from cpu_therm_raw of the first sample. All
-  // subsequent samples are expected to expose the same labels (the
-  // collector's psutil call is stable). cpu_therm_temp_c is the same
-  // data in array form, indexed in dump order.
-  if (allData.length === 0) return;
+// ─── CPU debug chart updaters ────────────────────────────────────────────────
 
-  // Discover sensor labels from the first sample that has cpu_therm_raw
-  let sensorLabels = null;
-  for (const d of allData) {
-    if (d.cpu_therm_raw) {
-      const labels = [];
-      for (const chip of Object.keys(d.cpu_therm_raw)) {
-        for (const t of d.cpu_therm_raw[chip]) {
-          // Filter to CPU-thermal sensors only (matches collector filter).
-          const l = t.label || '';
-          if (!(l.startsWith('Core ') || l.startsWith('Tccd') ||
-                l === 'Tdie' || l === 'Tctl' || l.startsWith('Package'))) continue;
-          labels.push(chip + '.' + (l || '?'));
-        }
-      }
-      if (labels.length) { sensorLabels = labels; break; }
+// Keep in lockstep with collector.py get_cpu_therm_temp_c(): it filters
+// cpu_therm_raw down to CPU-thermal sensors before flattening into
+// cpu_therm_temp_c. Any sample that predates cpu_therm_temp_c has to be
+// flattened here instead, and if the two filters disagree the fallback
+// path silently shifts every sensor label by however many NVMe / ACPI
+// sensors the machine exposes.
+function isCpuThermLabel(label) {
+  const l = label || '';
+  return l.startsWith('Core ') || l.startsWith('Tccd') ||
+         l === 'Tdie' || l === 'Tctl' || l.startsWith('Package');
+}
+
+// Walk cpu_therm_raw in dump order (chip, then sensor), applying the collector's
+// filter, and hand each surviving entry to fn(chip, label, current).
+function eachCpuThermSensor(raw, fn) {
+  for (const chip of Object.keys(raw || {})) {
+    for (const t of (raw[chip] || [])) {
+      if (!t || !isCpuThermLabel(t.label)) continue;
+      fn(chip, t.label || '?', t.current);
     }
   }
-  if (!sensorLabels || sensorLabels.length === 0) return;
+}
 
-  // Disambiguate duplicate labels. When a chip exposes multiple
-  // Tdie / Tctl / Package-id entries (multi-socket systems), rename
-  // ALL occurrences to 'chip.CPU0', 'chip.CPU1', 'chip.CPU2', ... in
-  // dump order so each socket has a clearly named line. Single-socket
-  // systems also get renamed — the first Tctl becomes 'k10temp.CPU0'.
-  // All other sensors (Core N, TccdN, etc.) keep their original labels.
-  const socketLabels = new Set(['Tdie', 'Tctl', 'Package id 0']);
-  const socketCounts = {};   // keyed by chip name
-  const disambiguated = sensorLabels.map(raw => {
-    const dot = raw.lastIndexOf('.');
-    const chip = raw.slice(0, dot);
-    const label = raw.slice(dot + 1);
-    if (!socketLabels.has(label)) return raw;
-    socketCounts[chip] = (socketCounts[chip] || 0) + 1;
-    const n = socketCounts[chip];
-    return chip + '.CPU' + (n - 1);   // 1st → CPU0, 2nd → CPU1, 3rd → CPU2
+// Per-sample sensor values, indexed consistently with the labels discovered
+// below. Prefers the flat cpu_therm_temp_c array; falls back to flattening
+// cpu_therm_raw for samples written before that field existed.
+function cpuThermValues(d) {
+  if (Array.isArray(d.cpu_therm_temp_c) && d.cpu_therm_temp_c.length) return d.cpu_therm_temp_c;
+  const flat = [];
+  eachCpuThermSensor(d.cpu_therm_raw, (_c, _l, cur) => flat.push(cur));
+  return flat;
+}
+
+// Socket temperature for one sample: the collector's cpu_package_temp_c, or
+// the first socket-level sensor from raw using the collector's Tdie > Tctl >
+// Package priority.
+function cpuPackageValue(d) {
+  if (d.cpu_package_temp_c != null) return d.cpu_package_temp_c;
+  let found = null;
+  eachCpuThermSensor(d.cpu_therm_raw, (_c, label, cur) => {
+    if (found === null && SOCKET_SENSOR_LABELS.has(label)) found = cur ?? null;
   });
+  return found;
+}
 
+// Which of the three CPU-debug cards this dataset can actually populate.
+// loadDayData() and refresh() MUST share this — deriving the gate separately
+// in each is how you end up with a chart that appears in Calendar view and
+// vanishes in Day view.
+function cpuDebugAvailability(allData) {
+  const debug = allData.filter(d => d.cpu_debug === true);
+  return {
+    freq:    debug.some(d => (d.cpu_core_freq_mhz || []).length > 0),
+    therm:   debug.some(d => cpuThermValues(d).length > 0),
+    package: debug.some(d => cpuPackageValue(d) != null),
+  };
+}
+
+function applyCpuDebugVisibility(avail) {
+  const cards = {
+    'cpu-core-freq-chart-card':    avail.freq,
+    'cpu-therm-temp-chart-card':   avail.therm,
+    'cpu-therm-package-chart-card': avail.package,
+  };
+  for (const [id, show] of Object.entries(cards)) {
+    const el = document.getElementById(id);
+    if (el) el.style.display = show ? '' : 'none';
+  }
+}
+
+function updateCpuDebugCharts(allData) {
+  const avail = cpuDebugAvailability(allData);
+  applyCpuDebugVisibility(avail);
+  if (avail.therm)   updateCpuThermTempChart(allData);
+  if (avail.package) updateCpuThermPackageChart(allData);
+  if (avail.freq)    updateCpuCoreFreqChart(allData);
+}
+
+// Label each sensor slot. Duplicate socket labels (a dual-socket box reports
+// Tctl twice under the same chip) become chip.CPU0 / chip.CPU1 so each socket
+// gets a distinguishable line; per-core sensors keep their kernel labels.
+function cpuThermLabels(allData) {
+  for (const d of allData) {
+    if (!d.cpu_therm_raw) continue;
+    const labels = [];
+    const socketSeen = {};
+    eachCpuThermSensor(d.cpu_therm_raw, (chip, label) => {
+      if (!SOCKET_SENSOR_LABELS.has(label)) return labels.push(chip + '.' + label);
+      socketSeen[chip] = (socketSeen[chip] || 0) + 1;
+      labels.push(chip + '.CPU' + (socketSeen[chip] - 1));
+    });
+    if (labels.length) return labels;
+  }
+  return [];
+}
+
+function updateCpuThermTempChart(allData) {
+  const labels = cpuThermLabels(allData);
+  if (!labels.length) return;
   const chart = charts['cpu-therm-temp'];
   const datasets = chart.data.datasets;
-  // Build a fast lookup: for each sample, pre-extract the (chip,label)-indexed
-  // value from cpu_therm_raw. Older samples (before cpu_therm_temp_c existed)
-  // only have cpu_therm_raw, so this lookup is the fallback path. Newer
-  // samples also populate cpu_therm_temp_c, which is used when available.
-  // Index order matches sensorLabels (chip + '.' + label, dump order).
-  const sampleValues = allData.map(d => {
-    if (Array.isArray(d.cpu_therm_temp_c) && d.cpu_therm_temp_c.length) {
-      return d.cpu_therm_temp_c;
-    }
-    // Fallback: pull the matching sensor reading from cpu_therm_raw in
-    // dump order so the indices line up with sensorLabels above.
-    if (d.cpu_therm_raw) {
-      const flat = [];
-      for (const chip of Object.keys(d.cpu_therm_raw)) {
-        for (const t of (d.cpu_therm_raw[chip] || [])) flat.push(t.current);
-      }
-      return flat;
-    }
-    return [];
-  });
-  for (let i = 0; i < disambiguated.length; i++) {
-    datasets[i].label = disambiguated[i];
-    datasets[i].hidden = false;
-    datasets[i].data = allData.map((d, idx) => {
-      const v = sampleValues[idx][i];
-      return v != null ? { x: new Date(d.timestamp), y: v } : { x: new Date(d.timestamp), y: null };
-    });
-  }
-  // Hide the rest of the 64-slot pre-allocation
-  for (let i = disambiguated.length; i < datasets.length; i++) datasets[i].hidden = true;
+  const perSample = allData.map(cpuThermValues);
 
-  // Auto-scale y to 1.1x observed max, floor 80°C
-  const allT = sampleValues.flat().filter(v => v != null);
-  const max = allT.length ? Math.max(...allT) : 0;
+  for (let i = 0; i < labels.length && i < datasets.length; i++) {
+    datasets[i].label = labels[i];
+    datasets[i].hidden = false;
+    datasets[i].data = allData.map((d, s) => cpuChartPoint(d.timestamp, perSample[s][i]));
+  }
+  // Re-hide the unused tail of the 64-slot pre-allocation.
+  for (let i = labels.length; i < datasets.length; i++) datasets[i].hidden = true;
+
+  const observed = perSample.flat().filter(v => v != null);
+  const max = observed.length ? Math.max(...observed) : 0;
   chart.options.scales.y.max = Math.max(80, Math.ceil(max * 1.1 / 10) * 10);
   chart.update();
 }
 
 function updateCpuThermPackageChart(allData) {
-  // Single-line chart driven by cpu_package_temp_c. Skip if no sample
-  // has the field, or all values are null. Older samples (before the
-  // cpu_package_temp_c field existed) only have cpu_therm_raw, so we
-  // pick the first socket-level sensor (Tdie/Tctl/Package id 0) from
-  // raw in the same priority order as the collector.
-  const socketLabels = new Set(['Tdie', 'Tctl', 'Package id 0']);
-
-  // Pick the value for each sample — prefer the new cpu_package_temp_c
-  // field, otherwise fall back to the first matching cpu_therm_raw sensor.
-  const sampleValues = allData.map(d => {
-    if (d.cpu_package_temp_c != null) return d.cpu_package_temp_c;
-    if (d.cpu_therm_raw) {
-      // Same priority as the collector: Tdie > Tctl > Package id 0.
-      for (const chip of Object.keys(d.cpu_therm_raw)) {
-        for (const t of (d.cpu_therm_raw[chip] || [])) {
-          if (t && (t.label === 'Tdie' || t.label === 'Tctl' || (t.label || '').startsWith('Package'))) {
-            return t.current != null ? t.current : null;
-          }
-        }
-      }
-    }
-    return null;
-  });
-  if (!sampleValues.some(v => v != null)) return;
-
+  const perSample = allData.map(cpuPackageValue);
+  if (!perSample.some(v => v != null)) return;
   const chart = charts['cpu-therm-package'];
-  chart.data.datasets[0].data = allData.map((d, idx) => {
-    const v = sampleValues[idx];
-    return v != null ? { x: new Date(d.timestamp), y: v } : { x: new Date(d.timestamp), y: null };
-  });
-  // Discover the source label (Tdie / Tctl / Package id N) once for the legend.
-  // Uses the same disambiguation as updateCpuThermTempChart (Tdie/Tctl/Package
-  // → chip.CPU0) so the two charts label sockets consistently.
-  let labelled = false;
-  for (const d of allData) {
-    if (d.cpu_therm_raw) {
-      const seenChips = {};
-      for (const chip of Object.keys(d.cpu_therm_raw)) {
-        for (const t of d.cpu_therm_raw[chip]) {
-          if (socketLabels.has(t.label)) {
-            const n = (seenChips[chip] = (seenChips[chip] || 0) + 1);
-            chart.data.datasets[0].label = chip + '.CPU' + (n - 1);
-            labelled = true; break;
-          }
-        }
-        if (labelled) break;
-      }
-      break;
-    }
-  }
-  // Auto-scale y to 1.1x observed max, floor 60°C (packages idle warmer than cores)
-  const allT = sampleValues.filter(v => v != null);
-  const max = allT.length ? Math.max(...allT) : 0;
+  chart.data.datasets[0].data = allData.map((d, s) => cpuChartPoint(d.timestamp, perSample[s]));
+  // Name the line after the socket it came from, using the same
+  // disambiguation as the per-sensor chart so the two agree.
+  chart.data.datasets[0].label =
+    cpuThermLabels(allData).find(l => /\.CPU\d+$/.test(l)) || 'Package';
+
+  const observed = perSample.filter(v => v != null);
+  const max = observed.length ? Math.max(...observed) : 0;
   chart.options.scales.y.max = Math.max(60, Math.ceil(max * 1.1 / 10) * 10);
   chart.update();
 }
 
 function updateCpuCoreFreqChart(allData) {
-  // Discover the highest logical core index that has any sample.
-  let maxIdx = -1;
-  for (const d of allData) {
-    const arr = d.cpu_core_freq_mhz || [];
-    if (arr.length) maxIdx = Math.max(maxIdx, arr.length - 1);
+  const chart = charts['cpu-core-freq'];
+  const cores = Math.max(...allData.map(d => (d.cpu_core_freq_mhz || []).length), 0);
+  if (!cores) return;
+  for (let i = 0; i < cores && i < chart.data.datasets.length; i++) {
+    chart.data.datasets[i].data = allData.map(d =>
+      cpuChartPoint(d.timestamp, (d.cpu_core_freq_mhz || [])[i]));
   }
-  if (maxIdx < 0) return;
-
-  const datasets = charts['cpu-core-freq'].data.datasets;
-  // Always populate all 128 dataset slots with data — visibility is set
-  // by the build function (first 16 visible, rest hidden). Users click
-  // legend entries to reveal/hide additional cores.
-  for (let i = 0; i <= maxIdx; i++) {
-    datasets[i].data = allData.map(d => {
-      const f = (d.cpu_core_freq_mhz || [])[i];
-      return f != null
-        ? { x: new Date(d.timestamp), y: f }
-        : { x: new Date(d.timestamp), y: null };
-    });
-  }
-
-  // Auto-scale y to 1.1x observed max, floor 2000 MHz (so idle dips to 800
-  // still leave the active range visible without zooming forever).
-  const allF = allData.flatMap(d => d.cpu_core_freq_mhz || []);
-  const max = allF.length ? Math.max(...allF) : 0;
-  charts['cpu-core-freq'].options.scales.y.max = Math.max(2000, Math.ceil(max * 1.1 / 100) * 100);
-  charts['cpu-core-freq'].update();
+  // Floor the y-max at 2000 MHz so an idle box dipping to 800 doesn't zoom in
+  // so far that the boost range is off-screen.
+  const observed = allData.flatMap(d => d.cpu_core_freq_mhz || []).filter(v => v != null);
+  const max = observed.length ? Math.max(...observed) : 0;
+  chart.options.scales.y.max = Math.max(2000, Math.ceil(max * 1.1 / 100) * 100);
+  chart.update();
 }
 
 function updateNetworkChart(allData) {
@@ -2124,6 +2215,9 @@ function mean(arr) {
 
 // ─── Bootstrap ───────────────────────────────────────────────────────────────
 document.getElementById('machine-select').addEventListener('change', e => setMachine(e.target.value));
+// Before loadMachines(): this restores the persisted sort order, and the first
+// renderMachines() reads that <select> directly.
+wireMachineFilter();
 initCharts();
 let refreshInterval = null;
 

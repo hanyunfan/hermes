@@ -1,22 +1,15 @@
-import json, os, re
+"""Regenerate machines.json from data files.
+
+Delegates to sync_machines.build() to ensure the entry shape is defined in
+exactly one place. This script is kept as an entry point for convenience.
+"""
+
+from sync_machines import build
+import json
 from pathlib import Path
 
-DATA_DIR = Path('/home/frank/hermes/system-monitor/data')
-pattern = re.compile(r'^metrics_(.+)_(\d{8})\.json$')
-seen = {}
-for fname in os.listdir(DATA_DIR):
-    m = pattern.match(fname)
-    if m:
-        hostname = m.group(1)
-        if hostname not in seen:
-            with open(DATA_DIR / fname) as f:
-                r = json.loads(f.readline())
-                gpu = r.get('gpu')
-                has_gpu = gpu and not (isinstance(gpu, dict) and gpu.get('error'))
-                seen[hostname] = {
-                    'hostname': hostname,
-                    'gpu_type': r.get('gpu_type') or ('NVIDIA GPU' if has_gpu else None),
-                    'gpu_count': r.get('gpu_count', 0) or (1 if has_gpu else 0)
-                }
-with open('/home/frank/hermes/system-monitor/machines.json', 'w') as f:
-    json.dump(list(seen.values()), f, indent=2)
+if __name__ == '__main__':
+    entries = build()
+    with open(Path(__file__).parent / 'machines.json', 'w') as f:
+        json.dump(entries, f, indent=2)
+    print(f'Regenerated machines.json with {len(entries)} machines')

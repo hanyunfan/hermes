@@ -1,12 +1,23 @@
 [Unit]
-Description=Hermes System Monitor Collector
+Description=System Monitor metrics collector
 After=network.target
 
 [Service]
 Type=simple
+# EDIT THESE THREE before enabling: the user to run as, the checkout path, and
+# the display_name (which must be unique per machine — two collectors sharing a
+# display_name interleave lines into the same file and corrupt it).
 User=frank
-WorkingDirectory=/home/frank/hermes/system-monitor
-ExecStart=/home/frank/.hermes/hermes-agent/venv/bin/python3 /home/frank/hermes/system-monitor/collector.py 10
+WorkingDirectory=/home/frank/system-monitor
+ExecStart=/usr/bin/python3 /home/frank/system-monitor/collector.py 10 CHANGE_ME
+
+# collector.py requires BOTH the interval and the display_name. Omitting the
+# display_name makes it print usage and exit 1, which combined with
+# Restart=always below is a silent 5-second crash loop.
+#
+# Do NOT add --tui here: it needs a TTY (exits 1 without one) and writes no
+# JSON at all. Add --cpu-debug only with an interval of 30-60s; at 10s it costs
+# ~19 MB/day of data plus 1-2 KB/cycle of journal.
 Restart=always
 RestartSec=5
 StandardOutput=journal

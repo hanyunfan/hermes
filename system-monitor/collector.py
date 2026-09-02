@@ -955,6 +955,15 @@ def _hide_cursor():    _term_write("\033[?25l")
 def _show_cursor():    _term_write("\033[?25h")
 def _clear_screen():   _term_write("\033[2J\033[H")
 
+def _gpu_temp(g, pw_entry):
+    """GPU temperature in °C, or None.
+
+    The two vendor backends put it in different places: amd-smi merges temp_c
+    into the gpu[] entry, while the nvidia-smi path only reports it in the
+    matching gpu_power[] entry. Check both rather than guessing by vendor."""
+    t = g.get("temp_c")
+    return t if t is not None else pw_entry.get("temp_c")
+
 def _bar(pct, width=20):
     """Return a coloured bar string of fixed character width.
 
@@ -1082,11 +1091,12 @@ def _render_top_strip(state, max_rows, cols):
                 idx = i + j
                 if idx >= len(gpus): break
                 g = gpus[idx]; pw_entry = gpwr[idx] if idx < len(gpwr) else {}
-                name = (g.get("name") or f"GPU{idx}").replace("NVIDIA ", "").replace("AMD ", "")
+                gpu_type = state.get("last", {}).get("gpu_type") or ""
+                name = (gpu_type or f"GPU{idx}").replace("NVIDIA ", "").replace("AMD ", "")
                 util = g.get("utilization")
                 if util is None and pw_entry.get("power_limit_w"):
                     util = (pw_entry.get("power_w") or 0) / pw_entry["power_limit_w"] * 100
-                temp = g.get("temperature_c")
+                temp = _gpu_temp(g, pw_entry)
                 temp_s = f"{temp:.0f}°C" if temp is not None else "?"
                 pw = pw_entry.get("power_w")
                 row_parts.append(
@@ -1250,7 +1260,12 @@ def _fmt_spark_row(history, label, key, fmt, spark_w, label_w, value_w, interval
     if buf is None:
         return f"  {label:<{label_w-2}}─┤{' ' * spark_w}┤─  {'—':>{value_w}}"
     vals = buf.values()
-    if not vals:
+    # vals[-1] can legitimately be None (a GPU query errored, PCIe counters
+    # vanished, or --cpu-debug is on with no hwmon sensors), and the fmt
+    # lambdas all use numeric specs like f"{v:5.1f}". Without this guard the
+    # TypeError propagates past _tui_render into _cleanup(), which exits 0 —
+    # i.e. the TUI would vanish with no traceback.
+    if not vals or vals[-1] is None:
         current = "  —  "
     else:
         current = fmt(vals[-1])
@@ -1387,8 +1402,9 @@ def _push_sample(state, stats):
         hist["gpu_mem"][i].append((mem or 0) / 1024.0)   # to GB
         if i < len(gpwr):
             hist["gpu_pwr"][i].append(gpwr[i].get("power_w"))
-        if g.get("temperature_c") is not None:
-            hist["gpu_temp"][i].append(g.get("temperature_c"))
+        t = _gpu_temp(g, gpwr[i] if i < len(gpwr) else {})
+        if t is not None:
+            hist["gpu_temp"][i].append(t)
 
     # Network aggregate (rx+tx sum) for the NET sparkline; split series for RX/TX.
     netifs = stats.get("network") or []
@@ -1468,7 +1484,7 @@ def _push_sample(state, stats):
         "cpu":  stats.get("cpu_percent") or 0,
         "mem":  stats.get("memory_percent") or 0,
         "gpu":  (gpus[0].get("utilization") if gpus else None),
-        "temp": (gpus[0].get("temperature_c") if gpus else None),
+        "temp": (_gpu_temp(gpus[0], gpwr[0] if gpwr else {}) if gpus else None),
         "pwr":  (gpwr[0].get("power_w") if gpwr else None),
         "net":  rx_total + tx_total,
     })

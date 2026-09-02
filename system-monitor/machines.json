@@ -5,7 +5,8 @@
     "cpu_count": null,
     "cpu_type": null,
     "gpu_type": "H200_NVL",
-    "gpu_count": 8
+    "gpu_count": 8,
+    "latest_date": "20260520"
   },
   {
     "hostname": "node012",
@@ -13,7 +14,8 @@
     "cpu_count": null,
     "cpu_type": null,
     "gpu_type": "GB300",
-    "gpu_count": 4
+    "gpu_count": 4,
+    "latest_date": "20260511"
   },
   {
     "hostname": "node009",
@@ -21,7 +23,8 @@
     "cpu_count": null,
     "cpu_type": null,
     "gpu_type": "GB300",
-    "gpu_count": 4
+    "gpu_count": 4,
+    "latest_date": "20260510"
   },
   {
     "hostname": "node004",
@@ -29,7 +32,8 @@
     "cpu_count": null,
     "cpu_type": null,
     "gpu_type": "GB300",
-    "gpu_count": 4
+    "gpu_count": 4,
+    "latest_date": "20260514"
   },
   {
     "hostname": "mlperf1",
@@ -37,7 +41,8 @@
     "cpu_count": null,
     "cpu_type": null,
     "gpu_type": "B300_SXM6_AC",
-    "gpu_count": 8
+    "gpu_count": 8,
+    "latest_date": "20260508"
   },
   {
     "hostname": "frank-XPS-8960",
@@ -45,7 +50,8 @@
     "cpu_count": null,
     "cpu_type": null,
     "gpu_type": null,
-    "gpu_count": 0
+    "gpu_count": 0,
+    "latest_date": "20260602"
   },
   {
     "hostname": "XE9785_overheating",
@@ -53,7 +59,8 @@
     "cpu_count": 128,
     "cpu_type": "AMD EPYC 9575F 64-Core Processor",
     "gpu_type": "Instinct_MI355_OAM",
-    "gpu_count": 8
+    "gpu_count": 8,
+    "latest_date": "20260611"
   },
   {
     "hostname": "XE9785L_MI355X_overheating_cpu_debug",
@@ -61,7 +68,8 @@
     "cpu_count": 128,
     "cpu_type": "AMD EPYC 9575F 64-Core Processor",
     "gpu_type": "Instinct_MI355_OAM",
-    "gpu_count": 8
+    "gpu_count": 8,
+    "latest_date": "20260615"
   },
   {
     "hostname": "XE9785L_MI355X_Flux",
@@ -69,7 +77,8 @@
     "cpu_count": null,
     "cpu_type": null,
     "gpu_type": "Instinct_MI355_OAM",
-    "gpu_count": 8
+    "gpu_count": 8,
+    "latest_date": "20260527"
   },
   {
     "hostname": "XE9785L_MI355X",
@@ -77,7 +86,8 @@
     "cpu_count": null,
     "cpu_type": null,
     "gpu_type": "Instinct_MI355_OAM",
-    "gpu_count": 8
+    "gpu_count": 8,
+    "latest_date": "20260520"
   },
   {
     "hostname": "XE9785L_MI300_lora_training",
@@ -85,7 +95,71 @@
     "cpu_count": 128,
     "cpu_type": "AMD EPYC 9575F 64-Core Processor",
     "gpu_type": "Instinct_MI355_OAM",
-    "gpu_count": 8
+    "gpu_count": 8,
+    "latest_date": "20260612"
+  },
+  {
+    "hostname": "XE7745_H200NVL_llama31_8b",
+    "display_name": "XE7745_H200NVL_llama3_8b",
+    "cpu_count": null,
+    "cpu_type": null,
+    "gpu_type": "H200_NVL",
+    "gpu_count": 8,
+    "latest_date": "20260616"
+  },
+  {
+    "hostname": "XE7745_H200NVL_llama2_70b",
+    "display_name": "XE7745_H200_NVL_llama2-70b",
+    "cpu_count": 192,
+    "cpu_type": "AMD EPYC 9655 96-Core Processor",
+    "gpu_type": "H200_NVL",
+    "gpu_count": 8,
+    "latest_date": "20260611"
+  },
+  {
+    "hostname": "XE7740_RTXPro6000_llama2_server_inference",
+    "display_name": "metrics_XE7740_RTXPro6000_llama2_server_inference",
+    "cpu_count": 128,
+    "cpu_type": "Intel(R) Xeon(R) 6767P",
+    "gpu_type": "RTX_PRO_6000_Blackwell_Server_Edition",
+    "gpu_count": 8,
+    "latest_date": "20260810"
+  },
+  {
+    "hostname": "XE7740_RTXPro6000_llama2_inference",
+    "display_name": "metrics_XE7740_RTXPro6000_llama2_inference",
+    "cpu_count": 128,
+    "cpu_type": "Intel(R) Xeon(R) 6767P",
+    "gpu_type": "RTX_PRO_6000_Blackwell_Server_Edition",
+    "gpu_count": 8,
+    "latest_date": "20260810"
+  },
+  {
+    "hostname": "XE7740_H200NVL_llama31_8b",
+    "display_name": "XE7740_H200NVL_llama31_8b",
+    "cpu_count": 128,
+    "cpu_type": "Intel(R) Xeon(R) 6767P",
+    "gpu_type": "H200_NVL",
+    "gpu_count": 8,
+    "latest_date": "20260616"
+  },
+  {
+    "hostname": "XE7740_H200NVL_llama2_70b_4tp",
+    "display_name": "XE7740_H200NVL_llama2_70b_4tp",
+    "cpu_count": 128,
+    "cpu_type": "Intel(R) Xeon(R) 6767P",
+    "gpu_type": "H200_NVL",
+    "gpu_count": 8,
+    "latest_date": "20260611"
+  },
+  {
+    "hostname": "XE7740_H200NVL_llama2_70b",
+    "display_name": "XE7740_H200NVL_llama2_70b",
+    "cpu_count": 128,
+    "cpu_type": "Intel(R) Xeon(R) 6767P",
+    "gpu_type": "H200_NVL",
+    "gpu_count": 8,
+    "latest_date": "20260609"
   },
   {
     "hostname": "XE7740_H200NVL_gpt_oss_20b",
@@ -93,7 +167,8 @@
     "cpu_count": 128,
     "cpu_type": "Intel(R) Xeon(R) 6767P",
     "gpu_type": "H200_NVL",
-    "gpu_count": 8
+    "gpu_count": 8,
+    "latest_date": "20260608"
   },
   {
     "hostname": "XE7740_H200NVL_gpt_oss",
@@ -101,7 +176,8 @@
     "cpu_count": 128,
     "cpu_type": "Intel(R) Xeon(R) 6767P",
     "gpu_type": "H200_NVL",
-    "gpu_count": 8
+    "gpu_count": 8,
+    "latest_date": "20260605"
   },
   {
     "hostname": "XE7740_H200NVL",
@@ -109,7 +185,8 @@
     "cpu_count": null,
     "cpu_type": null,
     "gpu_type": "H200_NVL",
-    "gpu_count": 8
+    "gpu_count": 8,
+    "latest_date": "20260603"
   },
   {
     "hostname": "GB300_lora_FP8_FP4",
@@ -117,6 +194,7 @@
     "cpu_count": null,
     "cpu_type": null,
     "gpu_type": "GB300",
-    "gpu_count": 4
+    "gpu_count": 4,
+    "latest_date": "20260527"
   }
 ]

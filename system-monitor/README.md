@@ -1,11 +1,11 @@
 # System Monitor
 
-**Multi-machine GPU server monitoring dashboard.** Collects CPU, memory, GPU, power, and network metrics from one or more servers and displays them in a browser via [GitHub Pages](https://hanyunfan.github.io/hermes/system-monitor/).
+**Multi-machine GPU server monitoring dashboard.** Collects CPU, memory, GPU, power, and network metrics from one or more servers and displays them in a browser via [GitHub Pages](https://github.gtie.dell.com/pages/Frank-Han1/devin/system-monitor/).
 
 ```
 ┌─────────────┐         ┌─────────────────────────┐         ┌──────────────────┐
 │  Machines   │  cron   │   GitHub Repository    │  Pages  │   Browser        │
-│  running    │────────▶│   (hermes repo)         │───────▶│   Dashboard      │
+│  running    │────────▶│   (devin repo)          │───────▶│   Dashboard      │
 │  collector  │  hourly │   data/                 │ static  │   Chart.js SPA   │
 │  (daemon)   │         │   machines.json         │  host   │                  │
 └─────────────┘         └─────────────────────────┘         └──────────────────┘
@@ -18,15 +18,16 @@
 | CPU % | `psutil` | Per-core aggregate |
 | Memory used/total | `psutil` | System RAM |
 | GPU utilization, memory | `nvidia-smi` | Up to 8 GPUs per machine |
-| GPU temperature | `nvidia-smi` / `amd-smi` | Per-GPU temperature (°C) |\n| GPU power draw | `nvidia-smi` | Per-GPU watts + TDP limit |
+| GPU temperature | `nvidia-smi` / `amd-smi` | Per-GPU temperature (°C) |
+| GPU power draw | `nvidia-smi` | Per-GPU watts + TDP limit |
 | PCIe RX/TX throughput | `nvidia-smi dmon` | GPU0 only; requires `interval >= 10s` |
 | NVLink RX/TX throughput | `nvidia-smi dmon` | GPU0 only; requires `interval >= 10s` |
 | Network throughput | `psutil` | Per interface (e.g. eth0, ib0) |
 | System power (whole-machine) | `ipmitool dcmi` | BMC-based; requires `ipmitool` + BMC access |
 | CPU power (package) | `intel_rapl` | RAPL CPU package power |
-| **CPU thermal sensors** (opt-in) | `psutil.sensors_temperatures` | Per-sensor dump: Intel `Core 0..N` (per physical core), AMD Zen 4+ `Tccd0..N` (per CCD, the closest thing to per-core on Zen). Includes label + value + high + critical for every chip the kernel exposes. Requires `--cpu-debug`. |
-| **CPU package temperature** (opt-in) | `psutil.sensors_temperatures` | Single number — picks Tdie (AMD Zen 3+) > Tctl (AMD) > Package id 0 (Intel). Requires `--cpu-debug`. |
-| **CPU core frequency** (opt-in) | `psutil.cpu_freq(percpu=True)` | Per logical core (MHz). Requires `--cpu-debug`. |
+| CPU per-core frequency | `psutil.cpu_freq` | Opt-in via `--cpu-debug`; per logical core (MHz) |
+| CPU per-sensor temperature | `psutil.sensors_temperatures` | Opt-in via `--cpu-debug`; `Core *` / `Tccd*` / `Tdie` / `Tctl` / `Package*` |
+| CPU package temperature | `psutil.sensors_temperatures` | Opt-in via `--cpu-debug`; `Tdie` > `Tctl` > `Package*` |
 
 > **PCIe/NVLink**: These metrics use `nvidia-smi dmon` which needs ~3–4 seconds of sampling to produce valid numbers. The collector therefore only enables them when `interval >= 10s`. If you start with a smaller interval, a red WARNING is printed and these fields will be absent from the JSON.
 
@@ -45,7 +46,7 @@ A Python daemon that samples metrics every N seconds and **appends** JSON Lines 
 ### 2. GitHub Repository — stores and distributes data
 A GitHub repo holds all data files and the static web dashboard.
 
-- **`machines.json`** — regenerated from data files by `sync_machines.py`; lists all discovered machines, GPU types, and GPU counts
+- **`machines.json`** — regenerated from data files by `sync_machines.py`; one entry per machine with `hostname`, `display_name`, `cpu_type`, `cpu_count`, `gpu_type`, `gpu_count` and `latest_date` (the `YYYYMMDD` of that machine's newest data file, used to sort and label the dropdown)
 - **GitHub Actions** (`.github/workflows/sync-machines.yml` at repo root) — automatically runs `sync_machines.py` and pushes updated `machines.json` whenever a new data file is pushed to `system-monitor/data/`
 - **GitHub Pages** — serves the `index.html` and `data/` directory as a static site
 
@@ -53,10 +54,11 @@ A GitHub repo holds all data files and the static web dashboard.
 Chart.js-powered SPA served directly from GitHub Pages.
 
 - **Range selector**: Hour / Day / Week — controls the time window
-- **Machine selector**: switch between machines
+- **Machine selector**: filterable and sortable — see [Finding a machine](#finding-a-machine)
 - **Per-GPU charts**: each GPU gets its own colored line
 - **PCIe/NVLink chart**: GPU0 PCIe RX/TX + NVLink RX/TX (hidden if no data)
 - **Power chart**: per-GPU watts + system power (BMC) + CPU power (RAPL) + GPU temperature
+- **CPU debug charts** (hidden unless the data has `cpu_debug: true`): per-logical-core frequency with Hide-all / L0 / L0–L15 / Show-all presets, per-sensor CPU temperature with dual-socket disambiguation, and package temperature. The two dense ones span the full grid row and use Chart.js decimation, so a 9k-sample day stays responsive with all 128 core lines visible.
 - **Aggregate stats**: mean CPU %, mean GPU utilization, total GPU memory
 - **Auto-refresh**: polls every 10 seconds
 
@@ -71,11 +73,9 @@ pip install psutil
 ### 2. Start the collector
 
 ```bash
-# Usage: python3 collector.py <interval> <display_name> [--cpu-debug] [--tui]
+# Usage: python3 collector.py <interval> <display_name>
 #   <interval>    : polling interval in seconds (e.g. 10)
 #   <display_name>: machine identifier used in JSON filename and frontend (e.g. XE9785L_MI355X)
-#   --cpu-debug   : opt-in flag to record per-core CPU temperature + frequency
-#   --tui         : render an interactive nvtop-style TUI instead of writing JSON files
 
 # Run once to test:
 python3 collector.py 10 XE9785L_MI355X            # AMD MI355X machine
@@ -86,22 +86,57 @@ python3 collector.py 10 XE9680_A100
 # Smaller intervals work but PCIe/NVLink metrics are skipped:
 python3 collector.py 5 XE9680_A100                 # red WARNING printed
 
-# CPU debug mode (opt-in) — adds per-core temperature and frequency charts:
-python3 collector.py 10 XE9785L_MI355X --cpu-debug
-
-# Interactive TUI (nvtop-style) — runs in your terminal, no JSON output.
-# Useful for ad-hoc inspection without setting up the full dashboard.
-# q: quit   space: pause   r: force-refresh   ?: help
-python3 collector.py --tui 2 XE9785L_MI355X
-python3 collector.py --tui 2 XE9785L_MI355X --cpu-debug   # with per-core data
-
-# Or install as a systemd service (auto-starts on boot):
+# Or install as a systemd service (auto-starts on boot). Edit User=,
+# WorkingDirectory= and the display_name in ExecStart= first:
 sudo cp system-monitor.service /etc/systemd/system/
+sudoedit /etc/systemd/system/system-monitor.service
 sudo systemctl daemon-reload
 sudo systemctl enable --now system-monitor
 ```
 
 > **Important**: `display_name` is required. Without it the collector exits with a usage message. Use a unique name per machine — if two machines share the same `display_name`, their data files will collide.
+
+### 2a. Optional flags: `--cpu-debug` and `--tui`
+
+Both are position-independent and can be combined with the two positional
+arguments in any order.
+
+```bash
+# Per-core frequency + per-sensor CPU temperatures (for thermal investigations)
+python3 collector.py 30 XE9785L_MI355X --cpu-debug
+
+# Interactive nvtop-style terminal UI instead of the logging daemon
+python3 collector.py 2 XE9785L_MI355X --tui
+```
+
+**`--cpu-debug`** adds five optional fields to each record — `cpu_debug`,
+`cpu_core_freq_mhz`, `cpu_therm_raw`, `cpu_package_temp_c` and
+`cpu_therm_temp_c` (see [Data Format](#data-format) and `DESIGN-cpu-debug.md`).
+The dashboard reveals three extra charts when it sees `cpu_debug: true`; without
+the flag the records are shape-identical to every other machine's and those
+cards stay hidden.
+
+> **Cost**: roughly **+2.2 KB per sample** on a 128-core box (measured 5072 vs
+> ~2900 chars). At a 10s interval that is ~19 MB/day/machine in a repo you
+> commit, and the per-cycle stdout line grows to 1–2 KB (every sensor plus 128
+> core frequencies) which lands in the journal under systemd. **Use a 30–60s
+> interval for `--cpu-debug` runs** unless you specifically need fine detail.
+>
+> It also depends on kernel-side facilities that are often missing on
+> virtualized or locked-down hosts: `psutil.sensors_temperatures()` needs an
+> hwmon driver loaded (`coretemp` / `k10temp`) and `psutil.cpu_freq()` needs
+> `cpufreq` sysfs. Both fail soft to empty values, so the collector keeps
+> running and the affected chart simply stays hidden.
+
+**`--tui`** replaces the daemon with a full-screen ANSI dashboard (stat bars,
+sparkline grid, scrollable event log; keys `q` / space / `r` / ↑ / ↓ / `G`).
+Implemented with escape sequences only — no `curses`, `rich` or `textual`.
+See `DESIGN-tui.md`.
+
+> **`--tui` writes no JSON and requires a TTY** (it exits 1 otherwise). Never
+> put it in a systemd unit or cron job: you would silently lose all metrics,
+> and with `Restart=always` you get a 5-second crash loop. It is a developer
+> convenience for watching a machine live.
 
 ### 3. (Optional) Run a local HTTP server for development
 
@@ -127,27 +162,90 @@ If the command fails or times out, `system_power_w` will be `null` in the JSON (
 ## GitHub Pages URL
 
 ```
-https://hanyunfan.github.io/hermes/system-monitor/
+https://github.gtie.dell.com/pages/Frank-Han1/devin/system-monitor/
 ```
 
 The dashboard is a pure static SPA — no server-side logic, no authentication. Anyone with the link can view it.
 
-## Data sources
+## Data source
 
-The dashboard has two view sources, switchable with the **Source:** buttons in the top bar:
+Reads (`machines.json` and the `data/` files) are fetched via **same-origin relative paths**. This works both ways with no token required:
 
-| Source | What you see | When to use |
-|--------|--------------|-------------|
-| **GitHub** (default) | The full repo's `data/` directory via `raw.githubusercontent.com` | Production / shared view. Every machine that has ever pushed is here. |
-| **Local :8765** | Whatever `server.py` is serving on `localhost:8765` | Local development. Use while running `collector.py` on this machine so you see data *before* it gets pushed. |
+| Where the page is served | What it reads |
+|--------------------------|---------------|
+| **GitHub Pages** (production) | The repo's `data/` directory served statically by Dell Enterprise Pages. Every machine that has ever been pushed is here. |
+| **Local `server.py`** (dev) | Whatever is on disk in this folder on `localhost:8765`. Use while running `collector.py` locally so you see data *before* it gets pushed. |
 
-The choice is remembered in `localStorage` and re-applied on next page load.
+Because reads are same-origin, there is no GitHub-vs-Local toggle — you simply open the URL that serves the data you want. Only **writes** (the Upload button) talk to the GitHub Enterprise API and need a token.
 
-> Note: the two views are *not* synchronized. A machine uploaded to the local server does **not** appear in the GitHub view, and vice versa. To move a file from local to GitHub, use the **Upload JSON** button (see below) — the file is pushed to the repo and the GitHub view will pick it up automatically.
+> ⚠️ **Never point reads at `raw.githubusercontent.com`.** That host is
+> unreachable from the Dell network, and because `loadMachines()` runs during
+> bootstrap a failure there leaves the dropdown stuck on "— Error loading
+> machines —" and every chart empty. It also pins the dashboard to one specific
+> repo. Relative paths resolve correctly on Dell Enterprise Pages
+> (`/pages/Frank-Han1/devin/system-monitor/`), on public Pages
+> (`hanyunfan.github.io/hermes/system-monitor/`) and on `localhost:8765` alike,
+> so there is never a reason to hardcode a host for reads.
+
+### One file, two sites
+
+`index.html` is deployed **unmodified** to both this repo and the public
+[`hanyunfan/hermes`](https://github.com/hanyunfan/hermes) repo. The only thing
+that genuinely differs between them is the write API, so the file detects it
+from `location.hostname` via the `SITES` table instead of being re-adapted per
+site:
+
+| Origin | Upload target | Token page |
+|--------|---------------|------------|
+| `*.gtie.dell.com` | `https://github.gtie.dell.com/api/v3` → `Frank-Han1/devin` | `github.gtie.dell.com/settings/tokens` |
+| anything else (incl. `localhost`) | `https://api.github.com` → `hanyunfan/hermes` | `github.com/settings/tokens/new` |
+
+This means the file can be copied verbatim in **either** direction whenever one
+side gets a fix — which is the whole point. To add a third deployment, add a row
+to `SITES`; don't fork the file.
+
+Note that GitHub Actions is disabled on the Dell Enterprise instance (0
+workflows, 0 runs), so `sync-machines.yml` never fires there and the dashboard
+always rewrites `machines.json` from the browser after an upload. On a site
+where the workflow *does* run this is simply idempotent and saves the 10–30s
+wait, so it is not conditional on the detected site.
+
+## Finding a machine
+
+The list grows one entry per `display_name` per machine, so it gets long fast.
+Three controls sit next to the dropdown:
+
+| Control | Behaviour |
+|---------|-----------|
+| **filter box** | Substring match, case-insensitive. Space-separated terms are **ANDed**, so `mi355 overheat` narrows to the runs matching both. Matches the name, `gpu_type`, `cpu_type` and the displayed date — `epyc`, `rtx_pro` and `2026-08` all work. |
+| **count** | `matched/total`, so you can see at a glance whether the filter is too tight. Turns red at zero. |
+| **sort** | `↓ newest data` (default), `A–Z by name`, or `group by GPU` (uses `<optgroup>` with per-group counts). Persisted in `localStorage`. |
+
+Keyboard: **`/`** focuses the filter from anywhere, **Esc** clears it, and
+**Enter** selects the machine when the filter has narrowed to exactly one.
+
+Each entry reads `name · GPU xN · latest date`, e.g.
+`XE9785L_MI355X_overheating_cpu_debug · Instinct_MI355_OAM x8 · 2026-06-15`.
+
+Two details worth knowing:
+
+- **Filtering never changes which machine is displayed.** The selected machine
+  stays in the list even when it fails the filter, so typing can't silently
+  swap the charts out from under you.
+- **A leading `metrics_` in a `display_name` is stripped for display and
+  sorting.** A few machines were collected with the filename prefix baked into
+  the name (`metrics_XE7740_RTXPro6000_llama2_inference`); left alone, those
+  sort under *m*, nowhere near their siblings. The underlying value is
+  untouched, since that is what `setMachine()` matches against.
+
+The date comes from `latest_date` in `machines.json`, which
+`sync_machines.py` records from the newest data filename per machine — no
+extra requests. Entries written before that field existed simply show no date
+and sort last.
 
 ## Uploading a JSON file from the dashboard
 
-The **⬆ Upload JSON** button on the top bar pushes a `metrics_*.json` file to the GitHub repo via the [Contents API](https://docs.github.com/en/rest/repos/contents). The flow is:
+The **⬆ Upload JSON** button on the top bar pushes a `metrics_*.json` file to the `Frank-Han1/devin` repo via the Dell Enterprise [Contents API](https://docs.github.com/en/rest/repos/contents) (`https://github.gtie.dell.com/api/v3`). The flow is:
 
 ```
 [Browser] ──PUT Contents API──▶ [GitHub repo]
@@ -166,13 +264,13 @@ The **⬆ Upload JSON** button on the top bar pushes a `metrics_*.json` file to 
 
 The Contents API needs a Personal Access Token (classic, with `repo` scope, or fine-grained with **Contents: Read and write** for this repo).
 
-1. Visit <https://github.com/settings/tokens/new> (or **Settings → Developer settings → Personal access tokens**)
+1. Visit <https://github.gtie.dell.com/settings/tokens> (or **Settings → Developer settings → Personal access tokens**)
 2. Pick **Fine-grained token** (recommended) or **Tokens (classic)**
-3. Resource owner: your account. Repository access: **Only select repositories → hanyunfan/hermes**
-4. Permissions → **Contents: Read and write**
+3. Resource owner: your account. Repository access: **Only select repositories → Frank-Han1/devin**
+4. Permissions → **Contents: Read and write** (classic: the `repo` scope)
 5. Generate, copy the token (you'll only see it once)
 6. In the dashboard, click **⬆ Upload JSON** → a prompt asks for the token. Paste it.
-7. The token is stored in your browser's `localStorage` under `systemMonitorGithubPAT`. It is **never** sent anywhere except `api.github.com`.
+7. The token is stored in your browser's `localStorage` under `systemMonitorGithubPAT`. It is **never** sent anywhere except `github.gtie.dell.com`.
 
 To clear the token: open DevTools → Application → Local Storage → delete the `systemMonitorGithubPAT` key, or just call `localStorage.removeItem('systemMonitorGithubPAT')` in the console.
 
@@ -182,7 +280,7 @@ The dashboard clears it from localStorage and asks for a new one. Old token isn'
 
 ### Why no PAT-prompt UI outside the upload button
 
-The read paths (viewing machines, charts) go through `raw.githubusercontent.com`, which is **public read** for this repo. Only writes need a token. So you can hand the dashboard URL to anyone without giving them a token.
+The read paths (viewing machines, charts) are same-origin fetches served by GitHub Pages, so no token is required to view the dashboard. Only writes (uploads) need a token. So you can hand the dashboard URL to anyone without giving them a token.
 
 ## Data Format
 
@@ -204,11 +302,6 @@ Each line in `data/metrics_<display_name>_<YYYYMMDD>.json`:
 | `cpu_power_w` | float or null | CPU package power (W) via RAPL; null if unavailable |
 | `gpu_power` | array or null | Per-GPU power draw (see below); null if no GPU |
 | `gpu` | array or null | Per-GPU stats (see below); null if no GPU |
-| `cpu_debug` | bool | **Only present when collector is run with `--cpu-debug` flag.** Signals that the per-core + thermal fields below are populated. |
-| `cpu_therm_raw` | object | **Only present with `--cpu-debug`.** Full thermal sensor dump from `psutil.sensors_temperatures()`, keyed by chip name (e.g. `coretemp`, `k10temp`, `dell_smm`, `acpitz`). Each value is an array of `{label, current, high, critical}` objects. Use this to inspect exactly what the kernel exposes on this machine. |
-| `cpu_therm_temp_c` | array of float or null | **Only present with `--cpu-debug`.** Per-CPU-sensor temperature series in dump order, INCLUDING `Tdie`/`Tctl`/`Package` entries. For Intel this is per physical core (`Core 0..N`); for AMD Zen 4+ this is per CCD (`Tccd0..N`); multi-socket systems expose multiple `Tctl` entries that map 1:1 to `CPU0`/`CPU1`/... in the dashboard. |
-| `cpu_package_temp_c` | float or null | **Only present with `--cpu-debug`.** Best single-number package temperature. Picks Tdie (AMD Zen 3+) > Tctl (AMD) > Package id 0 (Intel). |
-| `cpu_core_freq_mhz` | array of float | **Only present with `--cpu-debug`.** Per **logical** core current frequency (MHz). Length equals `psutil.cpu_count(logical=True)`. |
 
 `network[]` elements:
 
@@ -241,18 +334,65 @@ Each line in `data/metrics_<display_name>_<YYYYMMDD>.json`:
 | `nvltx_mbs` | float or null | NVLink TX throughput (MB/s); null if no NVLink or interval < 10s |
 | `error` | string | Present if nvidia-smi query failed |
 
+### `--cpu-debug` fields (optional)
+
+Only present when the collector ran with `--cpu-debug`. Every field above keeps
+its name, order, type and units, so **the schema is a strict superset** — a
+dashboard or script written against the base format reads these files unchanged,
+and these five keys are simply absent otherwise.
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `cpu_debug` | `true` | Gate flag. The dashboard reveals the CPU charts only when a loaded sample has this. |
+| `cpu_core_freq_mhz` | float[] | Per **logical** core frequency (MHz), indexed by `psutil.cpu_freq(percpu=True)` order. `[]` if `cpufreq` sysfs is unavailable. |
+| `cpu_therm_temp_c` | (float\|null)[] | Per-sensor temperature (°C), indexed by `cpu_therm_raw` **dump order after filtering** to `Core *` / `Tccd*` / `Tdie` / `Tctl` / `Package*`. |
+| `cpu_package_temp_c` | float or null | Socket temperature (°C), picked `Tdie` > `Tctl` > `Package*`. |
+| `cpu_therm_raw` | object | Unfiltered `psutil.sensors_temperatures()` dump: `{chip: [{label, current, high, critical}]}`. Includes non-CPU chips (`nvme`, `acpitz`, …). |
+
+> **Index contract**: `cpu_therm_temp_c` is indexed by *filtered* sensor order
+> while `cpu_therm_raw` is *unfiltered*. Anything reconstructing the array from
+> raw must apply the same filter — see `isCpuThermLabel()` in `index.html`,
+> which mirrors `get_cpu_therm_temp_c()` in `collector.py`. Skipping the filter
+> shifts every label by however many NVMe/ACPI sensors the machine exposes.
+> `selfcheck.js` asserts the two stay in agreement.
+>
+> Note `cpu_core_freq_mhz` is per **logical** core and `cpu_therm_temp_c` is per
+> **sensor** — the two arrays have different lengths by design.
+>
+> `DESIGN-cpu-debug.md` also specifies a `cpu_core_temp_c` field. It was never
+> implemented (it would have been Intel-only); the three fields above replaced
+> it.
+
 ## Project Files
 
 | File | Purpose |
 |------|---------|
-| `collector.py` | Daemon — samples and writes metrics to `data/` |
-| `index.html` | Dashboard — Chart.js SPA served via GitHub Pages |
+| `collector.py` | Daemon — samples and writes metrics to `data/`. Also `--cpu-debug` and `--tui`. |
+| `index.html` | Dashboard — Chart.js SPA served via GitHub Pages. Deployed unmodified to both sites. |
+| `selfcheck.js` | `node selfcheck.js` — asserts the dashboard's site detection, CPU-sensor filter parity with `collector.py`, and chart gating against the real `data/` files |
 | `server.py` | Optional local HTTP server (dev only, port 8765) |
-| `sync_machines.py` | Syncs `machines.json` from data files (used by GitHub Actions) |
-| `machines.json` | Auto-generated list of machines and GPU counts |
-| `system-monitor.service` | systemd unit for auto-start |
-| `.github/workflows/sync-machines.yml` | GitHub Actions: auto-syncs machines.json on data changes |
+| `sync_machines.py` | Rebuilds `machines.json` from data files (tolerates corrupt/placeholder files). `build()` is the single definition of an entry's shape. |
+| `gen_machines.py`, `regen_machines.py` | Thin aliases for `sync_machines.build()` — kept as entry points, no longer copies |
+| `machines.json` | Auto-generated machine list incl. `latest_date` |
+| `DESIGN-cpu-debug.md` | Design notes for the `--cpu-debug` fields |
+| `DESIGN-tui.md` | Design notes for the `--tui` terminal UI |
+| `.github/workflows/sync-machines.yml` | GitHub Actions: auto-syncs machines.json on data changes (**never runs on the Dell instance — Actions is disabled**) |
 | `data/` | JSON Lines data files (one per machine per UTC date) |
+
+## Verifying a change
+
+```bash
+node selfcheck.js        # dashboard logic (no browser, no network needed)
+python3 server.py        # then open http://localhost:8765 for a visual check
+```
+
+`selfcheck.js` extracts the inline `<script>` from `index.html`, stubs the
+handful of browser APIs it touches, and runs the CPU-debug chart logic against
+the real files in `data/`. It catches the failures that are otherwise invisible
+until someone opens the page: the sensor filter drifting out of sync with the
+collector, dual-socket sensors collapsing into one line, the chart visibility
+gate disagreeing between the Calendar and Day views, and the Chart.js
+decimation requirements being broken by a stray `new Date()`.
 
 ## Troubleshooting
 
@@ -262,10 +402,12 @@ Each line in `data/metrics_<display_name>_<YYYYMMDD>.json`:
 
 **Old data in browser**: GitHub Pages can cache aggressively. Hard-refresh with `Ctrl+Shift+R` (or `Cmd+Shift+R` on Mac), or open DevTools → Network → disable cache.
 
-**PCIe/NVLink chart shows no data**: This is expected if the collector was started with `interval < 10s`. Restart with `python3 collector.py --interval 10`. The red WARNING message confirms this.
+**PCIe/NVLink chart shows no data**: This is expected if the collector was started with `interval < 10s`. Restart with `python3 collector.py 10 <display_name>`. The red WARNING message confirms this. (Note there is no `--interval` flag — the interval is the first positional argument, and `--interval 10` would fail with a `ValueError`.)
+
+**CPU frequency / thermal charts don't appear**: They only unhide when a loaded sample has `cpu_debug: true`, i.e. the collector ran with `--cpu-debug`. If it did and they're still hidden, the machine has no readable sensors — check `python3 -c "import psutil; print(psutil.sensors_temperatures())"` and `psutil.cpu_freq(percpu=True)`. Both need kernel support (`coretemp`/`k10temp` hwmon, `cpufreq` sysfs) that is often absent in VMs and containers.
+
+**Dropdown stuck on "— Error loading machines —"**: `machines.json` failed to fetch. On the Dell network this is almost always because a read was pointed at an external host — reads must stay same-origin relative. See [Data source](#data-source).
 
 **system_power_w is null**: Confirm `ipmitool dcmi power reading` works on that machine and that the BMC has DCMI permissions.
-
-**CPU thermal / package temperature / core frequency charts don't appear**: The collector was not started with `--cpu-debug`, **or** it was started before commit `1bfbea3` (Intel-only) — restart with `python3 collector.py 10 <name> --cpu-debug` and start a new data file. The new collector emits `cpu_therm_raw`, `cpu_therm_temp_c`, and `cpu_package_temp_c` which work on both Intel `coretemp` and AMD `k10temp`; the legacy `cpu_core_temp_c` field is dropped because it was Intel-only.
 
 **Multiple collectors on same display_name**: Only one collector per `display_name` should run, otherwise data files will interleave and corrupt each other.
