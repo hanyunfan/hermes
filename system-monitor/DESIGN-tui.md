@@ -1,201 +1,176 @@
-# TUI Mode for collector.py — Design Doc (v2)
+# TUI Mode for collector.py — Design Doc (v3)
 
-> Status: v2 implemented, supersedes the v1 single-frame design.
-> Date: 2026-06-19 (v1) → 2026-06-19 (v2)
-> Author: Frank (direction) + Claude (drafted + implemented)
+> Status: v3 implemented, replaces the v2 hand-rolled ANSI renderer.
+> Date: 2026-06-19 (v1, v2) → 2026-09-02 (v3)
 
 ## Goal
 
-Render an interactive nvtop-style terminal UI on the local TTY instead
-of writing JSON. The UI must:
+An interactive, nvitop-inspired dashboard on the local TTY instead of writing
+JSON. It must fill the screen with distinct areas, show everything `collect()`
+gathers, and stay responsive to keys regardless of the sample interval.
 
-1. **Fill the screen** (no big white gaps at the bottom)
-2. **Show real-time log strip** like nvtop's bottom event pane
-3. **Mirror the dashboard** — every chart card in `index.html`
-   should have a TUI counterpart (sparkline + current value)
+## Why v2 was rewritten
 
-## v1 → v2 changes
+v2 looked broken in practice, for four compounding reasons:
 
-| v1 issue | v2 fix |
-|---|---|
-| 8 lines of content + blank rows below | 3-layer layout fills the terminal |
-| Only current snapshot, no history | Sparklines over a 60-sample ring buffer per series |
-| No event log | Bottom strip: last N samples as one-line summaries, scrollable with ↑↓ |
-| 5 metrics shown | 11+ metrics — one sparkline per webpage chart (CPU util / MEM / GPU util / GPU mem / GPU power / GPU temp / Net RX / Net TX / PCIe+NVLink / CPU temp / CPU core freq) |
+1. **It sampled exactly once.** Its sleep loop was
 
-## Layout (3-layer, fits 80×24+ terminals)
+   ```python
+   while slept < interval:
+       key = _read_key_nonblocking(slice_s)
+       if not key: continue     # skips the slept += below
+       ...
+       slept += slice_s
+   ```
+
+   `slept` only advanced when a key arrived, so with no input the loop spun
+   forever and `collect()` never ran again. Every sparkline held one sample,
+   which is what "most places are empty" was.
+
+2. **Keys never worked.** Nothing ever put the terminal into cbreak/raw mode —
+   there was no `termios` or `tty.setcbreak` call in the file — so stdin stayed
+   line-buffered and `select()` reported nothing until Enter. Pause, refresh and
+   scroll were all unreachable.
+
+3. **Sampling blocked the UI.** `collect()` runs on the caller's thread and
+   takes 0.5s (`cpu_percent`) to ~10s (`nvidia-smi dmon`). Even with 1 and 2
+   fixed, input could not be serviced while a sample was in flight.
+
+4. **The GPU row was malformed.** A ternary wrapped an entire f-string, so the
+   row rendered as `GPU0 RTX_PRO_2000_B ░░░ 0% ? ?W`.
+
+A separate collector bug made the GPU columns useless on consumer boards:
+`nvidia-smi` returns `[N/A]` for `temperature.gpu.tlimit`, and `float()` on
+that raised, so the whole `gpu_power` record was replaced by `{"error": ...}`.
+Fixed by `_smi_float()`, which is a data-quality fix for daemon mode too, not
+just the TUI.
+
+## v3: curses
+
+`curses` is stdlib and owns exactly the machinery v2 got wrong — cbreak,
+noecho, timed `getch`, resize, colour — so the hand-rolled ANSI writer, the
+escape parser and the sleep loop are all deleted (689 lines replaced by ~750,
+most of the growth being panels and comments).
+
+### Threading
 
 ```
-╭─ frank-XPS-8960 ───── 14:24:42 ──── 2s ── 28c/56t ────────╮
-│  ← L1: Top stat strip (3-4 rows, current snapshot + bars) │
-│  CPU  i7-14700K   ░░░░░░░░░░░░░░░░░░░░   0.1%  1.8GHz    │
-│  MEM  DDR5 31G    ██░░░░░░░░░░░░░░░░░░   8.5%  2.6G/31G  │
-│  SYS  62W (CPU=9W)                                         │
-│  GPU0 L4 AD104    ░░░░░░░░░░░░░░░░░░░░   0%  32°C  0W     │
-│  ... GPU1 ...                                              │
-│  NET  enp3s0 RX=0.0 TX=0.0 MB/s                            │
-├────────────────────────────────────────────────────────────┤
-│  ← L2: Sparkline grid (one row per metric, scrolls history)│
-│  CPU  %        ▆▆▅▄▃▂▁▁▂▃▅▆▇▆▅   0.1% / 100%             │
-│  MEM  %        ██▆▅▃▂▂▃▄▅▆▇▆▅▆   8.5%                    │
-│  GPU0 util     ░▁▂▃▅▆▇▆▅▃▂▁▂▃▅▆   0% / 100%              │
-│  GPU0 mem      ████████████████  4500M/24G                 │
-│  GPU0 power    ▆▇▆▅▃▂▁▁▂▃▄▅▆▇▆   280W/350W               │
-│  GPU0 temp     ▆▆▆▇▇▇▆▆▅▅▅▆▇▇▇   72°C / 95°C             │
-│  NET  RX       ▃▄▅▆▇▆▅▄▃▂▁▂▃▄▅▆▆   124 MB/s              │
-│  NET  TX       ▁▂▃▂▁▁▂▃▄▅▆▇▆▅▄▃   89 MB/s               │
-│  PCIe+NVLink   ▂▃▄▃▂▁▁▂▃▄▅▆▇▆▅   1.2GB/s                 │
-│  CPU temp °C   ▅▆▇▇▆▅▄▃▃▄▅▆▇▇▆   48°C k10temp.Tctl       │  ← only with --cpu-debug
-│  CPU freq MHz  ▆▇▆▅▄▃▂▂▃▄▅▆▇▆▅   L0=4200MHz              │  ← only with --cpu-debug
-├────────────────────────────────────────────────────────────┤
-│  ← L3: Log strip (nvtop-style event pane, scrollable)     │
-│  14:24:42  CPU=0.1% MEM=8.5% GPU0=0% T=32°C P=0W ...    │
-│  14:24:40  CPU=2.3% MEM=8.5% GPU0=12% T=33°C P=15W ...   │
-│  14:24:38  CPU=5.1% MEM=8.6% GPU0=24% T=34°C P=42W ...   │
-│  ↑↓: scroll log     PgUp/PgDn: page     G: jump to latest │
-├────────────────────────────────────────────────────────────┤
-│  q quit  space pause  r refresh  ?: help                 │
-╰────────────────────────────────────────────────────────────╯
+_Sampler (daemon thread)          curses loop (main thread)
+  collect()  ── Queue ──────────►  drain queue, fold into ring buffers
+  wait(interval) or wake Event     getch(timeout=100ms), redraw at ~10fps
 ```
 
-## Code shape
+Keys are serviced within `_TICK_MS` (100ms) no matter how long a sample takes
+or how large the interval is. `r` fires the sampler's wake Event; it cannot
+interrupt a collect already running, so the header shows `◌ sampling` with the
+elapsed cost (`took 1.5s`) rather than appearing to ignore the keypress.
 
-### New module-level components
+### Screen areas
 
-```python
-import shutil     # terminal_size
-
-# Unicode block-element sparkline characters, low → high.
-_SPARK = "▁▂▃▄▅▆▇█"
-
-class _RingBuf:
-    """Fixed-size ring buffer of floats. .append(v) adds, .values() reads
-    in insertion order. Used to feed sparklines with N most-recent samples."""
-    def __init__(self, cap): self.cap = cap; self._d = collections.deque(maxlen=cap)
-    def append(self, v):    self._d.append(v)
-    def values(self):        return list(self._d)
-
-def _sparkline(buf, width, vmin=None, vmax=None):
-    """Render a sparkline of `width` chars from a _RingBuf.
-    Auto-scales to [vmin, vmax] if not given (NaN-safe)."""
-    vals = buf.values()
-    if not vals: return " " * width
-    if vmin is None: vmin = min(vals)
-    if vmax is None: vmax = max(vals)
-    span = max(1e-9, vmax - vmin)
-    # Take the most recent `width` samples
-    vals = vals[-width:]
-    out = []
-    for v in vals:
-        idx = int((v - vmin) / span * (len(_SPARK) - 1))
-        idx = max(0, min(len(_SPARK) - 1, idx))
-        out.append(_SPARK[idx])
-    # Pad left if we don't have enough history yet
-    return (" " * (width - len(out))) + "".join(out)
+```
+ system-monitor  HOST [display_name]        ● live  16:45:13Z  every 3s  next 0.4s  n=6
+── SYSTEM ──────────────────────────────────────────────────────────────────────
+ CPU Ultra 7 265H     ░░░░░░░░░░░░░░░   0.3%  16C/16T  3.69GHz  47°C
+ MEM                  ██░░░░░░░░░░░░░   9.8%  1.5G / 15.3G
+ PWR system 210W  cpu 30W  gpu 170W                  ← names what is missing and why
+── GPU  2x MI355X  (AMD) ───────────────────────────────────────────────────────
+ ID UTIL          MEMORY            TEMP    POWER      PCIE R+T   NVLINK
+ 0  ████░░░  42%  ███░░░  3.1/8.0G   58°C   45/ 90W    1.2GB/s    0.9GB/s
+── CPU CORES  (--cpu-debug) ────────────────────────────────────────────────────
+ temp   24 sensors   min  41.0   avg  52.4   max  61.0°C
+ clock  32 cores     min  1200   avg  3400   max  4800 MHz
+── NETWORK ─────────────────────────────────────────────────────────────────────
+ ib0          rx  124.0MB/s     tx   89.0MB/s
+── HISTORY ─────────────────────────────────────────────────────────────────────
+ CPU %        0.3% ▁▂▃▅▆▇█▆▅▃▂▁
+ GPU0 pwr      45W ▂▃▄▅▆▇█▇▆▅▄▃
+ window        25s └──────────┘
+── LOG ─────────────────────────────────────────────────────────────────────────
+ 16:45:05 cpu   0.0%  mem   9.8%  gpu0    0%   43°C   11.6W  (1.5s)
+ q quit   space pause   r refresh   ↑↓/PgUp/PgDn scroll   g newest   ? help
 ```
 
-### TUI state (lives in `tui()` local scope, passed to `_tui_render`)
+Fixed-height panels are drawn first; the remainder splits between HISTORY and
+LOG, with LOG guaranteed 3 rows. Series that have never produced a reading are
+dropped, so a laptop with no BMC does not show permanently blank power rows;
+when rows still do not fit, the panel prints `+N series hidden`.
 
-```python
-@dataclass-like dict
-state = {
-    "history": {           # _RingBuf per series, cap=120 (= 4 min @ 2s)
-        "cpu_pct": _RingBuf(120),
-        "mem_pct": _RingBuf(120),
-        "gpu_util": [_RingBuf(120) for _ in range(8)],
-        "gpu_mem":  [_RingBuf(120) for _ in range(8)],
-        "gpu_pwr":  [_RingBuf(120) for _ in range(8)],
-        "gpu_temp": [_RingBuf(120) for _ in range(8)],
-        "net_rx":   _RingBuf(120),
-        "net_tx":   _RingBuf(120),
-        "pcie":     _RingBuf(120),
-        "cpu_temp": _RingBuf(120),
-        "cpu_freq": _RingBuf(120),
-    },
-    "log":       collections.deque(maxlen=200),  # scrollable event log
-    "log_scroll": 0,                              # 0 = newest at bottom; +N = scrolled up N
-    "paused":    False,
-}
-```
+### Layout decisions that were not obvious
 
-### Render function
+- **Sparklines pad on the right**, growing left-to-right. Padding on the left is
+  the conventional "newest at the right edge", but at a 10s interval a 110-wide
+  row then takes 18 minutes to look like anything but a blank line.
+- **Percentages pin to 0-100**, rates and power pin their floor to 0. Autoscaling
+  both ends amplifies a series' own noise: idle memory drifting 9.8% → 9.9%
+  rendered as a full-height mountain range.
+- **The current value sits between the label and the sparkline**, not at the far
+  right edge a hundred columns from its label.
+- **The GPU table derives its header and cells from one dict of x-offsets**, so
+  the two cannot drift apart.
+- **The header degrades**: the right-hand block has five variants from richest to
+  poorest. A fixed layout drew the status pill on top of the hostname at 80 cols.
+- **A flat series renders as the lowest block, never blank**, so "idle" and "no
+  data" stay distinguishable; `None` samples stay visible as gaps.
 
-```python
-def _tui_render(state, interval):
-    cols, rows = shutil.get_terminal_size((80, 24))
-    # Allocate vertical space: top strip ≤ 6 rows, sparklines dynamic, log ≤ 8 rows
-    LOG_ROWS = min(8, max(3, rows // 5))
-    TOP_ROWS = min(8, max(4, (rows - LOG_ROWS) // 4))
-    SPARK_ROWS = rows - TOP_ROWS - LOG_ROWS - 4   # 4 for separators + footer
-    spark_w = cols - 32   # leave room for label + current value + units
+### Repaint correctness
 
-    out = []
-    out += _render_top(state, TOP_ROWS)            # current snapshot
-    out += [_tui_separator(cols)]
-    out += _render_sparks(state, SPARK_ROWS, spark_w)
-    out += [_tui_separator(cols)]
-    out += _render_log(state, LOG_ROWS, cols, log_scroll)
-    out += [_tui_footer(state, cols)]
-    sys.stdout.write("\033[H" + "\n".join(out) + "\033[J")
-```
+The first sample always has `network: []` — throughput needs two readings — so
+NETWORK appears on sample two and shifts every panel below it down three rows.
+`_layout_sig()` hashes the frame's *shape* (size, GPU count, interface count,
+cpu-debug presence, help state) and forces `clearok(True)` when it changes,
+rather than trusting a differential update against a frame of a different
+shape.
 
-### Key bindings (extended)
+### Keys
 
 | Key | Action |
 |---|---|
-| q / Q / Ctrl-C | quit (terminal restored) |
-| space | pause/resume data collection |
-| r | force-refresh (skip sleep, re-collect now) |
-| ↑ / ↓ | scroll log strip up/down |
-| PgUp / PgDn | page through log |
-| G / g | jump log to newest |
-| ? | toggle a help overlay (TODO if needed) |
+| `q` | quit |
+| `space` | pause / resume sampling (the thread stays alive) |
+| `r` | sample now, without waiting out the interval |
+| `↑ ↓` / `k j` | scroll the log one line |
+| `PgUp` `PgDn` | scroll the log one page |
+| `g` / `G` | jump back to the newest log line |
+| `?` / `h` | toggle the help overlay (v2 advertised this as a TODO) |
 
-### Terminal-size adaptivity
-
-- ≥80×24: full layout (3 layers)
-- <24 rows: collapse sparkline grid to 1 row per metric (or auto-truncate)
-- <80 cols: shrink sparkline width, abbreviate labels ("CPUu" instead of "CPU util")
+`ESC` is deliberately **not** quit. Terminals send SS3 (`\033OA`) in
+application-keypad mode and CSI (`\033[A`) otherwise; `_read_key()` decodes
+both, and mapping a bare ESC to quit would mean an untranslated arrow key kills
+the dashboard. A lone ESC is ignored.
 
 ## Edge cases
 
-1. **No GPU**: skip all GPU sparklines + GPU top rows
-2. **No network**: skip NET sparkline, top NET row shows "—"
-3. **No system_power_w**: skip SYS top row, no power sparkline
-4. **No per-core data** (no `--cpu-debug`): skip CPU temp + CPU freq sparklines
-5. **Terminal too small**: truncate rows from the bottom (log first, then sparklines)
-6. **TTY shrinks during runtime**: `SIGWINCH` re-renders with new dims on next cycle
-7. **History not yet full** (< width samples): sparkline left-pads with spaces
+| Case | Behaviour |
+|---|---|
+| No GPU | GPU panel prints why (`nvidia-smi and amd-smi both unavailable`) |
+| A GPU query errors | that row shows the error; its series keep a gap, aggregates skip it |
+| No BMC / no sudo | PWR names the missing rail and the reason; no blank sparkline rows |
+| No `--cpu-debug` | CPU CORES panel absent; present-but-sensorless shows only the clock line |
+| Terminal < 50x8 | single "terminal too small" line instead of a corrupt frame |
+| Resize | `KEY_RESIZE` + signature change force a clean re-layout |
+| Not a TTY | clean error, exit 1 |
+| No curses (non-POSIX) | clean error, exit 1; daemon mode still imports |
 
-## Testing plan
+Note `$LINES`/`$COLUMNS`, if exported, override the real terminal size — that is
+ncurses' documented behaviour, and it pins the layout so resizing appears to do
+nothing. Unset them if you hit that.
 
-```bash
-# 1. Local smoke (Intel i7-14700K + L4 GPU no nvidia-smi, no --cpu-debug)
-python3 collector.py --tui 2 test
-# Expected: 3-layer TUI fills 80×24, ~5-7 sparklines visible, log strip scrolls
+## Verification
 
-# 2. With --cpu-debug
-python3 collector.py --tui 2 test --cpu-debug
-# Expected: extra CPU temp + freq sparklines appear
+`selfcheck_tui.py` — offline, stdlib only, ~6s:
 
-# 3. Resize terminal mid-run
-# resize the window narrower → sparkline width adjusts
+- `_smi_float` tolerating `[N/A]`
+- ring buffer capacity and gap-skipping `last()`
+- sparkline direction, gaps, flat series, pinned vs autoscaled range
+- bar clamping, byte/frequency/rate formatters
+- GPU temperature found in either backend's field
+- sample folding: per-GPU history, link and power aggregation, errored GPUs
+- log scroll pinning
+- layout signature changing when a panel appears or the terminal resizes
+- SS3 and CSI arrow decoding
+- a pty smoke test: the curses UI paints its panels, and `q` exits 0
 
-# 4. Scroll log
-# press ↓ a few times → log scrolls up, showing older samples
-
-# 5. Non-TTY
-python3 collector.py --tui 2 test | head
-# Expected: clean error, exit 1
-
-# 6. Pause + resume
-# press space → log strip shows ⏸ PAUSED, no new data
-# press space again → resumes
-```
-
-## Diff estimate (v1 → v2)
-
-- ~200 lines removed (the old _tui_render + its hand-built layout)
-- ~350 lines added (history buffers, sparkline helper, 3-layer layout, scroll)
-- ~30 lines changed in tui() main loop (key handling for ↑↓ etc.)
-- ~10 lines changed in __main__ (no behaviour change, just usage text)
+Interactive behaviour (pause actually halting sampling, `r` sampling early,
+both arrow encodings, resize) was verified separately by driving the UI in a
+pty through a terminal emulator and asserting on the rendered screen; that
+harness needs a third-party emulator, so it is not committed.

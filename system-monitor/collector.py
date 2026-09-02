@@ -12,6 +12,7 @@ import os
 import re
 import shutil
 import collections
+import queue
 import socket
 import subprocess
 import sys
@@ -657,6 +658,23 @@ def _query_gpu_power(gpu_id):
 
 # ─── NVIDIA helpers ───────────────────────────────────────────────────────────
 
+def _smi_float(s):
+    """Parse one nvidia-smi CSV cell to float, or None.
+
+    nvidia-smi prints '[N/A]' (and sometimes '[Not Supported]') for fields the
+    board does not expose — temperature.gpu.tlimit is absent on most laptop and
+    consumer parts. Letting float() raise on that discarded the whole record,
+    so a GPU that reports power and temperature perfectly well showed up as
+    {'error': ...} with no readings at all."""
+    s = (s or "").strip()
+    if not s or s.startswith("[") or s.lower() in ("n/a", "na", "unknown"):
+        return None
+    try:
+        return float(s)
+    except ValueError:
+        return None
+
+
 def _nvidia_query_gpu_util_mem(gpu_id):
     try:
         result = subprocess.run(
@@ -668,9 +686,9 @@ def _nvidia_query_gpu_util_mem(gpu_id):
         util, mem_used, mem_total = result.stdout.strip().split(", ")
         return (gpu_id, {
             "id": gpu_id,
-            "utilization": float(util),
-            "memory_used_mb": float(mem_used),
-            "memory_total_mb": float(mem_total)
+            "utilization": _smi_float(util),
+            "memory_used_mb": _smi_float(mem_used),
+            "memory_total_mb": _smi_float(mem_total)
         })
     except Exception as e:
         return (gpu_id, {"id": gpu_id, "error": str(e)})
@@ -687,10 +705,10 @@ def _nvidia_query_gpu_power(gpu_id):
         power_draw, power_limit, temp_c, temp_limit = result.stdout.strip().split(", ")
         return (gpu_id, {
             "id": gpu_id,
-            "power_w": float(power_draw),
-            "power_limit_w": float(power_limit),
-            "temp_c": float(temp_c),
-            "temp_limit": float(temp_limit)
+            "power_w": _smi_float(power_draw),
+            "power_limit_w": _smi_float(power_limit),
+            "temp_c": _smi_float(temp_c),
+            "temp_limit": _smi_float(temp_limit)
         })
     except Exception as e:
         return (gpu_id, {"id": gpu_id, "error": str(e)})
@@ -959,693 +977,889 @@ def daemon(interval=10, _display_name=None, cpu_debug=False):
 
 
 # ─── TUI mode (--tui) ───────────────────────────────────────────────────────
-# Mirrors the Syllo/nvtop look-and-feel: bars + per-GPU rows + footer.
-# Pure ANSI escape sequences — no curses/blessed dependency. Activated by
-# `--tui <interval> <display_name>` instead of the daemon's positional args.
+# An nvitop-inspired curses dashboard. Screen areas, top to bottom:
 #
-# Layout (≈80×24 terminal):
-#   ╭─ <hostname> ───────────── <utc-time> ───── <interval>s ─╮
-#   │  CPU  <type> <Nc/Nt>  <bar> <pct>% <freq>             │
-#   │  MEM  <type> <total>   <bar> <pct>% <used>/<total>    │
-#   │  SYS  <total>W  CPU=…W  GPU0=…W  …                    │
-#   │  GPU<i> <name>  <bar> <pct>% <temp>°C <freq> <pwr>/<lim>│
-#   │  NET  <iface> RX=… TX=…                                │
-#   │  q: quit  space: pause  r: refresh  ?: help             │
-#   ╰──────────────────────────────────────────────────────────╯
+#   header     host / display name / clock / sampler state / next-sample countdown
+#   SYSTEM     CPU + MEM bars, frequency, package temp, and the power rails
+#   GPU        one row per GPU: util + memory bars, temps, power, links
+#   CPU CORES  only with --cpu-debug: per-sensor temps + per-core frequency
+#   HISTORY    sparklines over the ring buffers, one row per series
+#   NETWORK    per-interface RX/TX
+#   LOG        one line per sample, scrollable
+#   footer     key bindings, or a help overlay on '?'
 #
-# See DESIGN-tui.md for the design rationale and edge-case handling.
+# Threading: _Sampler owns collect(), which blocks between 0.5s (cpu_percent)
+# and ~10s (nvidia-smi dmon), and hands snapshots over a Queue. The curses
+# loop only polls getch() every _TICK_MS and redraws. That split is what
+# makes keys respond mid-interval rather than once per sample.
+#
+# curses rather than hand-rolled ANSI because it owns cbreak/noecho, timed
+# getch, resize and colour — exactly the machinery the previous version got
+# wrong: it never left canonical mode, so every key needed a newline, and its
+# sleep loop only advanced when a key arrived, so it sampled exactly once.
 
-# Low-level ANSI helpers. Each writes directly to stdout and flushes so
-# the render feels "live" even on slower shells.
-def _ansi(code): return f"\033[{code}m"
+try:
+    import curses
+except ImportError:      # non-POSIX: daemon mode still imports fine
+    curses = None
 
-def _term_write(s):
-    sys.stdout.write(s); sys.stdout.flush()
+_TICK_MS  = 100          # getch() timeout — upper bound on key latency
+_HIST_CAP = 240          # ring buffer depth (40min at 10s, 8min at 2s)
+_SPARK    = "▁▂▃▄▅▆▇█"
 
-def _alt_screen_on():  _term_write("\033[?1049h")   # switch to alt buffer
-def _alt_screen_off(): _term_write("\033[?1049l")   # back to main buffer
-def _hide_cursor():    _term_write("\033[?25l")
-def _show_cursor():    _term_write("\033[?25h")
-def _clear_screen():   _term_write("\033[2J\033[H")
+
+class _RingBuf:
+    """Fixed-capacity series of floats. None is kept as a real gap."""
+    __slots__ = ("cap", "_d")
+
+    def __init__(self, cap=_HIST_CAP):
+        self.cap = cap
+        self._d = collections.deque(maxlen=cap)
+
+    def append(self, v): self._d.append(v)
+    def values(self):    return list(self._d)
+    def __len__(self):   return len(self._d)
+
+    def last(self):
+        """Newest non-None value, or None. Skipping gaps keeps the readout
+        stable when one query errors on an otherwise healthy machine."""
+        for v in reversed(self._d):
+            if v is not None:
+                return v
+        return None
+
+
+def _sparkline(buf, width, lo=None, hi=None):
+    """Sparkline of the last `width` samples, oldest → newest.
+
+    `lo`/`hi` pin the scale; either may be None to autoscale that end. Pinning
+    matters: autoscaling both ends of a percentage series magnifies its own
+    noise, so an idle box drifting between 9.8% and 9.9% memory renders as a
+    full-height mountain range. Percentages therefore get a fixed 0-100 and
+    rates get a fixed floor of 0.
+
+    A flat series renders as the lowest block rather than blank, so "idle" and
+    "no data" stay distinguishable. Gaps (None) render as spaces.
+
+    Padding goes on the right, so a short history grows left-to-right instead
+    of clinging to the right edge — at a 10s interval a 110-wide row otherwise
+    takes 18 minutes to look like anything but a blank line."""
+    if not isinstance(buf, _RingBuf) or width <= 0:
+        return " " * max(0, width)
+    vals = buf.values()[-width:]
+    finite = [v for v in vals if v is not None]
+    if not finite:
+        return " " * width
+    lo = min(finite) if lo is None else lo
+    hi = max(finite) if hi is None else hi
+    if hi - lo < 1e-9:
+        hi = lo + 1.0
+    out = []
+    for v in vals:
+        if v is None:
+            out.append(" ")
+            continue
+        idx = int((v - lo) / (hi - lo) * (len(_SPARK) - 1) + 0.5)
+        out.append(_SPARK[max(0, min(len(_SPARK) - 1, idx))])
+    return "".join(out) + " " * (width - len(out))
+
+
+def _bar(pct, width):
+    """Fixed-width bar. Caller picks the colour via _level_attr()."""
+    if width <= 0:
+        return ""
+    pct = 0.0 if pct is None else max(0.0, min(100.0, pct))
+    filled = int(pct * width / 100.0 + 0.5)
+    return "█" * filled + "░" * (width - filled)
+
 
 def _gpu_temp(g, pw_entry):
     """GPU temperature in °C, or None.
 
-    The two vendor backends put it in different places: amd-smi merges temp_c
-    into the gpu[] entry, while the nvidia-smi path only reports it in the
-    matching gpu_power[] entry. Check both rather than guessing by vendor."""
+    The backends disagree on placement: amd-smi merges temp_c into the gpu[]
+    entry while nvidia-smi only reports it in the matching gpu_power[] entry,
+    so check both rather than branching on vendor."""
     t = g.get("temp_c")
+    if t is None:
+        t = g.get("temperature")
     return t if t is not None else pw_entry.get("temp_c")
 
-def _bar(pct, width=20):
-    """Return a coloured bar string of fixed character width.
-
-    Green <60%, yellow 60–85%, red ≥85% — same thresholds as htop."""
-    pct = max(0.0, min(100.0, pct or 0.0))
-    filled = int(round(pct * width / 100.0))
-    color = "31" if pct >= 85 else "33" if pct >= 60 else "32"
-    fill_ch  = "█"
-    empty_ch = "░"
-    return (f"\033[{color}m{fill_ch * filled}"
-            f"\033[37m{empty_ch * (width - filled)}\033[0m")
 
 def _fmt_bytes_mb(mb):
-    if mb is None: return "?"
-    if mb >= 1024:  return f"{mb/1024:.1f}G"
+    if mb is None: return "  ? "
+    if mb >= 1024: return f"{mb / 1024:.1f}G"
     return f"{mb:.0f}M"
+
 
 def _fmt_freq(mhz):
     if mhz is None: return "?"
-    if mhz >= 1000: return f"{mhz/1000:.1f}GHz"
+    if mhz >= 1000: return f"{mhz / 1000:.2f}GHz"
     return f"{mhz:.0f}MHz"
 
-def _read_key_nonblocking(timeout=0.0):
-    """Best-effort single keypress read. Returns '' on no-input / unavailable.
 
-    Uses select() on stdin (POSIX) — falls back to '' on non-POSIX so the
-    TUI still works on Windows for development, just without key handling."""
-    if not sys.stdin or not sys.stdin.isatty(): return ''
-    try:
-        import select
-        r, _, _ = select.select([sys.stdin], [], [], timeout)
-        if not r: return ''
-        ch = sys.stdin.read(1)
-        # Consume any trailing bytes for escape sequences (arrow keys etc.)
-        if ch == '\x1b':
-            r2, _, _ = select.select([sys.stdin], [], [], 0.05)
-            if r2: sys.stdin.read(2)
-        return ch
-    except Exception:
-        return ''
+def _gpu_temp_level(temp, tlimit):
+    """Severity of a GPU temperature: 'none', 'ok', 'warn' or 'hot'.
 
-def _tui_render(state, interval, error=None):
-    """Build one frame of the 3-layer TUI and write it to stdout.
-
-    Layout adapts to terminal size:
-      L1 (top stat strip)  : 4-8 rows, current snapshot with bars
-      L2 (sparkline grid)  : 1 row per metric, scrolls history
-      L3 (log strip)       : 3-8 rows, scrollable event log
-
-    Cursor-home (\\033[H) at start, clear-to-end (\\033[J) at end so a
-    shorter frame than the previous one cleans up neatly."""
-    # Resolve terminal size — honour COLUMNS/LINES env vars as fallback so
-    # `script -T xterm COLUMNS=120` works in CI / captured-output scenarios.
-    cols, rows = shutil.get_terminal_size((120, 32))
-    try:
-        env_cols = int(os.environ.get("COLUMNS", "")) if os.environ.get("COLUMNS") else None
-        env_rows = int(os.environ.get("LINES",   "")) if os.environ.get("LINES")   else None
-        if env_cols: cols = env_cols
-        if env_rows: rows = env_rows
-    except (ValueError, TypeError):
-        pass
-
-    # Allocate rows to each layer. Footer is 1 row, 2 separators = 2 rows.
-    log_rows = min(8, max(3, rows // 5))
-    top_rows = min(8, max(4, (rows - log_rows) // 4))
-    spark_rows = max(2, rows - top_rows - log_rows - 3)   # 3 = 2 separators + footer
-    # Sparkline width is whatever's left after the label and value column.
-    # Layout: "  LABEL<10>  SPARK_W  CURRENT>20"
-    label_w = 12
-    value_w = 22
-    spark_w = max(8, cols - 2 - label_w - 2 - value_w)
-
-    out = []
-    out += _render_top_strip(state, top_rows, cols)
-    out.append(_tui_separator(cols, "─"))
-    out += _render_sparkline_grid(state, spark_rows, spark_w, cols,
-                                  label_w=label_w, value_w=value_w, interval=interval)
-    out.append(_tui_separator(cols, "─"))
-    out += _render_log_strip(state, log_rows, cols)
-    out.append(_render_footer(state, cols, error))
-    sys.stdout.write("\033[H" + "\n".join(out) + "\n\033[J")
-    sys.stdout.flush()
+    `tlimit` is nvidia-smi's temperature.gpu.tlimit, which is the thermal
+    *margin* — degrees remaining before the board throttles — not an absolute
+    ceiling. Reading it as a ceiling marks an idle GPU as critical: this laptop
+    reports 48°C with a 39°C margin, i.e. a throttle point around 87°C.
+    Smaller margin means hotter, so the comparisons run the opposite way from
+    the absolute fallback used when the margin is unavailable (AMD, and most
+    data-center NVIDIA parts, report [N/A])."""
+    if temp is None:
+        return "none"
+    if tlimit is not None:
+        if tlimit <= 5:  return "hot"
+        if tlimit <= 15: return "warn"
+        return "ok"
+    if temp >= 85: return "hot"
+    if temp >= 70: return "warn"
+    return "ok"
 
 
-def _render_top_strip(state, max_rows, cols):
-    """L1: current snapshot per metric, like webpage stat cards.
-
-    Returns a list of row strings. Adapts to max_rows: skips lower-priority
-    rows when the terminal is short."""
-    accent = "\033[36m"   # cyan
-    dim    = "\033[90m"
-    bold   = "\033[1m"
-    rst    = "\033[0m"
-    rows = []
-
-    cpu_name = state.get("cpu_type") or "?"
-    cpu_name = cpu_name.replace("Intel(R) Core(TM) ", "").replace("CPU ", "")
-    cpu_name = cpu_name.replace("AMD ", "").replace("Ryzen ", "R")
-    cpu_pct = state.get("last", {}).get("cpu_percent") or 0
-    cpu_freq = state.get("last", {}).get("cpu_freq_str", "?")
-    rows.append(f"{accent}│{rst}  CPU  {cpu_name:<22} {_bar(cpu_pct)} {cpu_pct:5.1f}%  {cpu_freq}")
-
-    mem_pct = state.get("last", {}).get("memory_percent") or 0
-    mem_used = _fmt_bytes_mb(state.get("last", {}).get("memory_used_mb"))
-    mem_tot = _fmt_bytes_mb(state.get("last", {}).get("memory_total_mb"))
-    rows.append(f"{accent}│{rst}  MEM  {'':22} {_bar(mem_pct)} {mem_pct:5.1f}%  {mem_used}/{mem_tot}")
-
-    sys_w   = state.get("last", {}).get("system_power_w")
-    cpu_w   = state.get("last", {}).get("cpu_power_w")
-    if sys_w is not None or cpu_w is not None:
-        parts = []
-        if sys_w is not None: parts.append(f"{sys_w:.0f}W")
-        if cpu_w is not None: parts.append(f"CPU={cpu_w:.0f}W")
-        rows.append(f"{accent}│{rst}  SYS  {' '.join(parts)}")
-
-    # One row per GPU — pack into 2 columns if there are many and rows allow.
-    gpus = state.get("last", {}).get("gpu") or []
-    gpwr = state.get("last", {}).get("gpu_power") or []
-    if gpus:
-        col_width = (cols - 4) // 2
-        per_row = 2
-        for i in range(0, len(gpus), per_row):
-            row_parts = [f"{accent}│{rst}  "]
-            for j in range(per_row):
-                idx = i + j
-                if idx >= len(gpus): break
-                g = gpus[idx]; pw_entry = gpwr[idx] if idx < len(gpwr) else {}
-                gpu_type = state.get("last", {}).get("gpu_type") or ""
-                name = (gpu_type or f"GPU{idx}").replace("NVIDIA ", "").replace("AMD ", "")
-                util = g.get("utilization")
-                if util is None and pw_entry.get("power_limit_w"):
-                    util = (pw_entry.get("power_w") or 0) / pw_entry["power_limit_w"] * 100
-                temp = _gpu_temp(g, pw_entry)
-                temp_s = f"{temp:.0f}°C" if temp is not None else "?"
-                pw = pw_entry.get("power_w")
-                row_parts.append(
-                    f"GPU{idx} {name[:14]:<14} {_bar(util)} {util or 0:4.0f}%  {temp_s}  "
-                    f"{pw:.0f}W" if pw is not None else f"GPU{idx} {name[:14]:<14} {_bar(util)} {util or 0:4.0f}%  {temp_s}  ?W"
-                )
-            rows.append((" " * 4).join(row_parts[:per_row+1] + [""] * (per_row + 1 - len(row_parts))))
-
-    # Network row (aggregate)
-    netifs = state.get("last", {}).get("network") or []
-    if netifs:
-        rx_total = sum(n.get("rx_mbs", 0) or 0 for n in netifs)
-        tx_total = sum(n.get("tx_mbs", 0) or 0 for n in netifs)
-        ifaces = " ".join(n["name"] for n in netifs)[:24]
-        rows.append(f"{accent}│{rst}  NET  {ifaces:<24} RX={rx_total:6.1f}MB/s  TX={tx_total:6.1f}MB/s")
-
-    # Truncate to fit max_rows (drop lowest-priority rows from the bottom).
-    return rows[:max_rows]
+def _fmt_rate(mbs):
+    """MB/s with a GB/s rollover, padded to a stable width."""
+    if mbs is None: return "   —   "
+    if abs(mbs) >= 1024: return f"{mbs / 1024:6.2f}G"
+    return f"{mbs:6.1f}M"
 
 
-def _render_sparkline_grid(state, max_rows, spark_w, cols, label_w=12, value_w=22, interval=2):
-    """L2: grouped sparkline grid.
+# ── Sampler thread ──────────────────────────────────────────────────────────
 
-    Returns rows of the form:
-        ── GROUP HEADER ─────────────────
-          label    ┤▆▅▄▃▂┤   35.0%
+class _Sampler(threading.Thread):
+    """Runs collect() off the UI thread and publishes snapshots on a Queue.
 
-    Groups are emitted in priority order; a group is skipped entirely if
-    none of its series have data. Each row is framed by `─┤` on the left
-    and `┤─` on the right so the time axis is visually obvious (newest
-    at the right bracket, oldest at the left). Every sparkline row is
-    followed by a thin X-axis tick row (`─Xs ago ─── now`) so the user
-    can read the time window the sparkline covers.
+    Pausing stops recording but leaves the thread alive; 'r' fires the wake
+    Event to collect immediately instead of waiting out the interval."""
 
-    A single-sample sparkline (just one point in the buffer) is rendered
-    centred in its column rather than flush-right, so the row reads as
-    "a measurement in progress" instead of "a single bar at the end".
-    """
-    dim = "\033[90m"; rst = "\033[0m"; accent = "\033[36m"
-    rows = []
+    def __init__(self, interval, cpu_debug, enable_nvlink):
+        super().__init__(daemon=True)
+        self.interval      = interval
+        self.cpu_debug     = cpu_debug
+        self.enable_nvlink = enable_nvlink
+        self.q      = queue.Queue()
+        self._wake  = threading.Event()
+        self._stop  = threading.Event()
+        self._pause = threading.Event()
+        self.next_at = time.monotonic()
+        self.busy    = False     # a collect() is in flight right now
+        self.last_s  = None      # duration of the last collect(), seconds
 
-    history = state["history"]
-    gpus = state.get("last", {}).get("gpu") or []
-    cpu_debug_on = bool(state.get("have_cpu_debug"))
+    def pause(self, on):
+        self._pause.set() if on else self._pause.clear()
+        if not on:
+            self._wake.set()          # resume samples immediately
 
-    # The X-axis tick row only makes sense if there's actually a time
-    # history to read. Show it just below the first sparkline group.
-    age_str = _spark_age_label(history.get("cpu_pct"), interval)
+    @property
+    def paused(self):
+        return self._pause.is_set()
 
-    # ── Group 1: CPU + MEMORY (always present) ────────────────────────
-    rows.append(f"{accent}{'─' * 2} SYSTEM {'─' * max(0, cols - 11)}{rst}")
-    for label, key, fmt, fixed_max in [
-        ("CPU %",   "cpu_pct", lambda v: f"{v:5.1f}%",  100.0),
-        ("MEM %",   "mem_pct", lambda v: f"{v:5.1f}%",  100.0),
-    ]:
-        if len(rows) >= max_rows: return rows
-        rows.append(_fmt_spark_row(history, label, key, fmt, spark_w, label_w, value_w))
-    if age_str and len(rows) < max_rows:
-        rows.append(f"  {dim}{' ' * (label_w - 2)}{age_str}{rst}")
+    def refresh_now(self):
+        self._wake.set()
 
-    # ── Group 2: NETWORK ─────────────────────────────────────────────
-    rows.append(f"{accent}{'─' * 2} NETWORK {'─' * max(0, cols - 12)}{rst}")
-    for label, key, fmt, fixed_max in [
-        ("NET RX", "net_rx", lambda v: f"{v:6.1f} MB/s", None),
-        ("NET TX", "net_tx", lambda v: f"{v:6.1f} MB/s", None),
-    ]:
-        if len(rows) >= max_rows: return rows
-        rows.append(_fmt_spark_row(history, label, key, fmt, spark_w, label_w, value_w))
-    if state.get("have_pcie"):
-        if len(rows) >= max_rows: return rows
-        rows.append(f"{dim}  (PCIe+NVLink aggregated across all GPUs){rst}")
-        rows.append(_fmt_spark_row(history, "PCIe/NVL", "pcie",
-                                   lambda v: f"{v:6.2f} GB/s",
-                                   spark_w, label_w, value_w))
+    def stop(self):
+        self._stop.set()
+        self._wake.set()
 
-    # ── Group 3: per-GPU rows (one block per GPU) ─────────────────────
-    for i in range(len(gpus)):
-        rows.append(f"{accent}{'─' * 2} GPU{i} {'─' * max(0, cols - 9)}{rst}")
-        for label, key, fmt, fixed_max in [
-            (f"GPU{i} util",   ("gpu_util", i), lambda v: f"{v:5.0f}%",   100.0),
-            (f"GPU{i} mem",    ("gpu_mem",  i), lambda v: _fmt_bytes_mb(v * 1024), None),
-            (f"GPU{i} power",  ("gpu_pwr",  i), lambda v: f"{v:5.0f}W",   None),
-            (f"GPU{i} temp",   ("gpu_temp", i), lambda v: f"{v:5.0f}°C",  None),
-        ]:
-            if len(rows) >= max_rows: return rows
-            rows.append(_fmt_spark_row(history, label, key, fmt, spark_w, label_w, value_w))
-
-    # ── Group 4: DEBUG — per-core / per-sensor CPU breakdown ──────────
-    if cpu_debug_on:
-        rows.append(f"{accent}{'─' * 2} DEBUG (CPU per-core) {'─' * max(0, cols - 22)}{rst}")
-        # Package / mean: existing "cpu_temp" and "cpu_freq" buffers.
-        if len(rows) < max_rows:
-            rows.append(_fmt_spark_row(history, "Pkg temp °C", "cpu_temp",
-                                       lambda v: f"{v:5.1f}°C", spark_w, label_w, value_w))
-        if len(rows) < max_rows:
-            rows.append(_fmt_spark_row(history, "Mean freq", "cpu_freq",
-                                       lambda v: f"{v:5.0f}MHz", spark_w, label_w, value_w))
-        # Min / max / per-CCD temperature: derived from cpu_therm_temp_c[]
-        # on the latest sample. We compute these ad-hoc every frame rather
-        # than maintaining separate ring buffers (saves memory + simplifies
-        # state, since the underlying per-sensor values are mostly stable).
-        therms = state.get("last", {}).get("cpu_therm_temp_c") or []
-        valid = [t for t in therms if t is not None]
-        if valid and len(rows) < max_rows:
-            rows.append(f"{dim}  CPU therm sensors ({len(valid)}):  "
-                        f"min={min(valid):.0f}°C  max={max(valid):.0f}°C  "
-                        f"avg={sum(valid)/len(valid):.1f}°C{rst}")
-            # Sparkline of the max temperature across sensors over time.
-            # Note: cpu_temp_max history buffer is appended in _push_sample(),
-            # not here — appending during render would conflate multiple
-            # frames per cycle into the ring buffer and break the time axis.
-            if len(rows) < max_rows:
-                rows.append(_fmt_spark_row(history, "Max T °C", "cpu_temp_max",
-                                           lambda v: f"{v:5.0f}°C",
-                                           spark_w, label_w, value_w))
-        # Per-core freq min/max: derived from cpu_core_freq_mhz[].
-        freqs = state.get("last", {}).get("cpu_core_freq_mhz") or []
-        f_valid = [f for f in freqs if f]
-        if f_valid and len(rows) < max_rows:
-            rows.append(f"{dim}  CPU core freq ({len(f_valid)} cores):  "
-                        f"min={min(f_valid):.0f}MHz  max={max(f_valid):.0f}MHz  "
-                        f"avg={sum(f_valid)/len(f_valid):.0f}MHz{rst}")
-            # Same as above — min/max buffers are appended in _push_sample().
-            if len(rows) < max_rows:
-                rows.append(_fmt_spark_row(history, "F min", "cpu_freq_min",
-                                           lambda v: f"{v:5.0f}MHz",
-                                           spark_w, label_w, value_w))
-            if len(rows) < max_rows:
-                rows.append(_fmt_spark_row(history, "F max", "cpu_freq_max",
-                                           lambda v: f"{v:5.0f}MHz",
-                                           spark_w, label_w, value_w))
-
-    return rows if rows else [f"{dim}(no metrics to chart){rst}"]
+    def run(self):
+        while not self._stop.is_set():
+            if not self._pause.is_set():
+                t0 = time.monotonic()
+                self.busy = True
+                try:
+                    stats = collect(enable_nvlink=self.enable_nvlink,
+                                    cpu_debug=self.cpu_debug)
+                    # Overall CPU clock is not part of collect()'s JSON
+                    # contract, so attach it here for the header row only.
+                    try:
+                        cf = psutil.cpu_freq()
+                        stats["_cpu_freq_mhz"] = cf.current if cf else None
+                    except Exception:
+                        stats["_cpu_freq_mhz"] = None
+                    stats["_collect_s"] = time.monotonic() - t0
+                    self.q.put(("sample", stats))
+                except Exception as e:
+                    self.q.put(("error", f"{type(e).__name__}: {e}"))
+                finally:
+                    self.busy = False
+                    self.last_s = time.monotonic() - t0
+            self.next_at = time.monotonic() + self.interval
+            self._wake.wait(self.interval)
+            self._wake.clear()
 
 
-def _spark_age_label(buf, interval):
-    """Return a small X-axis label like '─4m ago ──────── now' that
-    sits below a sparkline group and tells the user how far back the
-    leftmost sample is. Returns '' if the buffer is empty or the
-    sparkline is too narrow to label usefully."""
-    if buf is None or len(buf.values()) == 0:
-        return ""
-    secs = (len(buf.values()) - 1) * interval
-    if secs >= 60:
-        return f"─{secs // 60}m ago ──────────────── now"
-    if secs >= 10:
-        return f"─{secs}s ago ────────────────── now"
-    return f"─{secs}s ago ───────── now"
+# ── State ───────────────────────────────────────────────────────────────────
 
-
-def _fmt_spark_row(history, label, key, fmt, spark_w, label_w, value_w, interval=2):
-    """Format one sparkline row: `  LABEL<10> ─┤SPARK_W┤─  CURRENT>20`.
-
-    The left `─┤` and right `┤─` brackets frame the sparkline so the
-    time axis is visually obvious (newest sample at the right bracket,
-    oldest at the left). A 1-sample buffer is rendered centred in the
-    column instead of flush-right, which otherwise looks like a static
-    bar instead of a time series in progress."""
-    dim = "\033[90m"; rst = "\033[0m"
-    buf = _resolve_buf(history, key)
-    if buf is None:
-        return f"  {label:<{label_w-2}}─┤{' ' * spark_w}┤─  {'—':>{value_w}}"
-    vals = buf.values()
-    # vals[-1] can legitimately be None (a GPU query errored, PCIe counters
-    # vanished, or --cpu-debug is on with no hwmon sensors), and the fmt
-    # lambdas all use numeric specs like f"{v:5.1f}". Without this guard the
-    # TypeError propagates past _tui_render into _cleanup(), which exits 0 —
-    # i.e. the TUI would vanish with no traceback.
-    if not vals or vals[-1] is None:
-        current = "  —  "
-    else:
-        current = fmt(vals[-1])
-    if len(vals) == 1:
-        sl = " " * (spark_w // 2 - 1) + _SPARK[0] + " " * (spark_w - spark_w // 2)
-    else:
-        sl = _sparkline(buf, spark_w, vmin=0.0, vmax=None)
-    cur_disp = current[:value_w]
-    return f"  {label:<{label_w-2}}─┤{sl}┤─  {cur_disp:>{value_w}}"
-
-
-def _render_log_strip(state, max_rows, cols):
-    """L3: nvtop-style event pane. Shows the last N samples as one-line
-    summaries; supports scrollback via state['log_scroll'] (0 = newest
-    at the bottom of the strip, positive N = scrolled up N rows)."""
-    accent = "\033[36m"; dim = "\033[90m"; rst = "\033[0m"; yel = "\033[33m"
-    log = list(state["log"])
-    if not log:
-        return [f"{dim}  (waiting for first sample…){rst}"]
-    scroll = state.get("log_scroll", 0)
-    # Window: log[-max_rows - scroll : -scroll or None]
-    end = len(log) - scroll if scroll > 0 else len(log)
-    start = max(0, end - max_rows)
-    window = log[start:end]
-    rows = []
-    if scroll > 0:
-        rows.append(f"{yel}  ⤴ scrolled up {scroll} lines  (G: jump to newest){rst}")
-    for entry in window:
-        ts = entry.get("ts", "")[:19]
-        bits = [f"CPU={entry.get('cpu', 0):.0f}%", f"MEM={entry.get('mem', 0):.0f}%"]
-        if entry.get("gpu") is not None:
-            bits.append(f"GPU={entry['gpu']:.0f}%")
-        if entry.get("temp") is not None:
-            bits.append(f"T={entry['temp']:.0f}°C")
-        if entry.get("pwr") is not None:
-            bits.append(f"P={entry['pwr']:.0f}W")
-        if entry.get("net") is not None:
-            bits.append(f"NET={entry['net']:.1f}MB/s")
-        line = f"  {ts}  " + "  ".join(bits)
-        rows.append(f"{dim}{line[:cols-4]}{rst}")
-    return rows
-
-
-def _render_footer(state, cols, error):
-    """One-line footer: status (PAUSED / ERR / live) + key bindings."""
-    accent = "\033[36m"; dim = "\033[90m"; rst = "\033[0m"; red = "\033[31m"; yel = "\033[33m"
-    bind = f"{dim}q: quit  space: pause  r: refresh  ↑↓: scroll log  G: latest  ?: help{rst}"
-    if error:
-        status = f"{red}ERR: {error}{rst}"
-    elif state.get("paused"):
-        status = f"{yel}⏸ PAUSED{rst}"
-    else:
-        status = f"{dim}⟳ live{rst}"
-    return f"{accent}╰─{rst}  {status}  {bind}  {accent}─╯{rst}"
-
-
-def _tui_separator(cols, ch="─"):
-    """A horizontal rule using a Unicode box-drawing character."""
-    return "\033[36m├" + ch * (cols - 2) + "┤\033[0m"
-
-
-def _resolve_buf(history, key):
-    """Look up a ring buffer from the history dict, supporting tuple keys
-    for per-GPU series like ('gpu_util', 0)."""
-    if isinstance(key, tuple):
-        parent_key, idx = key
-        lst = history.get(parent_key) or []
-        if idx < len(lst):
-            return lst[idx]
-        return None
-    return history.get(key)
-
-
-# ── History buffer + sparkline rendering ────────────────────────────────
-
-class _RingBuf:
-    """Fixed-capacity ring buffer of floats (NaN-safe)."""
-    __slots__ = ("cap", "_d")
-    def __init__(self, cap): self.cap = cap; self._d = collections.deque(maxlen=cap)
-    def append(self, v): self._d.append(v)
-    def values(self):   return list(self._d)
-    def __len__(self):  return len(self._d)
-
-
-# Unicode block elements, low → high (8 levels).
-_SPARK = "▁▂▃▄▅▆▇█"
-
-def _sparkline(buf, width, vmin=0.0, vmax=None):
-    """Render a sparkline of `width` chars from a _RingBuf.
-
-    Auto-scales to [vmin, vmax] if vmax is None (uses observed range).
-    NaN / None are rendered as spaces. Left-pads with spaces when the
-    history is shorter than `width`."""
-    if not isinstance(buf, _RingBuf): return " " * width
-    vals = buf.values()
-    if not vals: return " " * width
-    if vmax is None:
-        finite = [v for v in vals if v is not None]
-        vmin = vmin if vmin is not None else (min(finite) if finite else 0.0)
-        vmax = max(finite) if finite else 1.0
-        if vmax == vmin: vmax = vmin + 1.0
-    span = max(1e-9, vmax - vmin)
-    vals = vals[-width:]
-    out = []
-    for v in vals:
-        if v is None:
-            out.append(" "); continue
-        idx = int(round((v - vmin) / span * (len(_SPARK) - 1)))
-        idx = max(0, min(len(_SPARK) - 1, idx))
-        out.append(_SPARK[idx])
-    pad = " " * (width - len(out))
-    return pad + "".join(out)
-
-
-# ── Per-cycle sample collection + state update ────────────────────────────
-
-def _push_sample(state, stats):
-    """Update the per-series ring buffers and append one entry to the log."""
-    hist = state["history"]
-    hist["cpu_pct"].append(stats.get("cpu_percent"))
-    hist["mem_pct"].append(stats.get("memory_percent"))
-
-    gpus   = stats.get("gpu") or []
-    gpwr   = stats.get("gpu_power") or []
-    # Resize per-GPU buffer lists if GPU count changed.
-    for key in ("gpu_util", "gpu_mem", "gpu_pwr", "gpu_temp"):
-        while len(hist[key]) < len(gpus):
-            hist[key].append(_RingBuf(hist["cpu_pct"].cap))
-    for i, g in enumerate(gpus):
-        hist["gpu_util"][i].append(g.get("utilization"))
-        mem = g.get("memory_used_mb")
-        if mem is None and i < len(gpwr):
-            mem = gpwr[i].get("memory_used_mb")
-        hist["gpu_mem"][i].append((mem or 0) / 1024.0)   # to GB
-        if i < len(gpwr):
-            hist["gpu_pwr"][i].append(gpwr[i].get("power_w"))
-        t = _gpu_temp(g, gpwr[i] if i < len(gpwr) else {})
-        if t is not None:
-            hist["gpu_temp"][i].append(t)
-
-    # Network aggregate (rx+tx sum) for the NET sparkline; split series for RX/TX.
-    netifs = stats.get("network") or []
-    rx_total = sum(n.get("rx_mbs", 0) or 0 for n in netifs)
-    tx_total = sum(n.get("tx_mbs", 0) or 0 for n in netifs)
-    hist["net_rx"].append(rx_total)
-    hist["net_tx"].append(tx_total)
-
-    # PCIe / NVLink: aggregate across ALL GPUs (sum NVL + PCIe rx/tx).
-    # Without this, a 0-GPU box shows nothing and a multi-GPU box only
-    # shows GPU0's link — both wrong for "what's on the bus overall".
-    pcie_val = 0.0
-    have_pcie = False
-    if gpus or gpwr:
-        nvl_total = 0.0
-        for p in gpwr:
-            nvl_total += (p.get("nvlrx_mbs") or 0) + (p.get("nvltx_mbs") or 0)
-        pci_total = 0.0
-        for g in gpus:
-            pci_total += (g.get("rxpci_mbs") or 0) + (g.get("txpci_mbs") or 0)
-        # Also fall back to pcie_bandwidth_mbs on gpu_power entries (older collector)
-        if nvl_total == 0 and pci_total == 0:
-            for p in gpwr:
-                nvl_total += (p.get("pcie_bandwidth_mbs") or 0)
-        if nvl_total or pci_total:
-            pcie_val = (nvl_total + pci_total) / 1024.0   # MB/s → GB/s
-            have_pcie = True
-    hist["pcie"].append(pcie_val if have_pcie else None)
-    state["have_pcie"] = state.get("have_pcie", False) or have_pcie
-
-    # CPU debug series (only when --cpu-debug is on and the data is present).
-    if stats.get("cpu_debug"):
-        therm = stats.get("cpu_therm_temp_c") or []
-        pkg = stats.get("cpu_package_temp_c")
-        # Pick the most informative thermal reading: package temp if present,
-        # else first non-null sensor.
-        therm_val = pkg
-        if therm_val is None:
-            for t in therm:
-                if t is not None:
-                    therm_val = t; break
-        hist["cpu_temp"].append(therm_val)
-        # CPU freq = mean of logical cores (or first available).
-        freqs = stats.get("cpu_core_freq_mhz") or []
-        if freqs:
-            finite = [f for f in freqs if f]
-            hist["cpu_freq"].append(sum(finite) / len(finite) if finite else None)
-        else:
-            hist["cpu_freq"].append(None)
-        state["have_cpu_debug"] = True
-
-    # Cached frequency string for the top CPU row.
-    try:
-        cf = psutil.cpu_freq()
-        state["last"]["cpu_freq_str"] = _fmt_freq(cf.current if cf else None)
-    except Exception:
-        state["last"]["cpu_freq_str"] = "?"
-
-    # Per-sensor / per-core min/max series for the DEBUG group. These need
-    # to be appended once per cycle, not on every render frame — pushing
-    # here keeps the ring buffer's sample timing aligned with the other
-    # sparklines (so a 30-sample history actually covers 30 cycles).
-    if stats.get("cpu_debug"):
-        therms = stats.get("cpu_therm_temp_c") or []
-        valid = [t for t in therms if t is not None]
-        if valid:
-            state["history"].setdefault("cpu_temp_max", _RingBuf(120)).append(max(valid))
-        freqs = stats.get("cpu_core_freq_mhz") or []
-        f_valid = [f for f in freqs if f]
-        if f_valid:
-            state["history"].setdefault("cpu_freq_min", _RingBuf(120)).append(min(f_valid))
-            state["history"].setdefault("cpu_freq_max", _RingBuf(120)).append(max(f_valid))
-
-    # Append to log (one entry per sample).
-    state["log"].append({
-        "ts":   stats.get("timestamp", ""),
-        "cpu":  stats.get("cpu_percent") or 0,
-        "mem":  stats.get("memory_percent") or 0,
-        "gpu":  (gpus[0].get("utilization") if gpus else None),
-        "temp": (_gpu_temp(gpus[0], gpwr[0] if gpwr else {}) if gpus else None),
-        "pwr":  (gpwr[0].get("power_w") if gpwr else None),
-        "net":  rx_total + tx_total,
-    })
-    # Auto-scroll reset: if the user is at the newest, keep them there; if
-    # they scrolled up, leave them scrolled (preserves context on refresh).
-    if state.get("log_scroll", 0) > 0 and not state.get("paused"):
-        # While not paused and scrolled, advance scroll by 1 each refresh so
-        # new lines appear at the bottom of the visible window.
-        state["log_scroll"] += 1
-
-
-def _tui_state(cpu_type, cpu_count):
-    """Initial state for a TUI session."""
+def _tui_state(cpu_type, cpu_count, display_name, interval):
+    hist_keys = ("cpu_pct", "mem_pct", "cpu_temp", "cpu_freq", "cpu_pwr",
+                 "sys_pwr", "gpu_pwr_total", "net_rx", "net_tx", "pcie")
     return {
-        "cpu_type": cpu_type,
-        "cpu_count": cpu_count,
-        "history": {
-            "cpu_pct":  _RingBuf(120),
-            "mem_pct":  _RingBuf(120),
-            "gpu_util": [],
-            "gpu_mem":  [],
-            "gpu_pwr":  [],
-            "gpu_temp": [],
-            "net_rx":   _RingBuf(120),
-            "net_tx":   _RingBuf(120),
-            "pcie":     _RingBuf(120),
-            "cpu_temp": _RingBuf(120),
-            "cpu_freq": _RingBuf(120),
-        },
-        "log":          collections.deque(maxlen=500),
-        "log_scroll":   0,
-        "paused":       False,
+        "cpu_type":   cpu_type,
+        "cpu_count":  cpu_count,
+        "display_name": display_name,
+        "interval":   interval,
+        "history":    {k: _RingBuf() for k in hist_keys},
+        "gpu_hist":   [],          # list of dicts of _RingBuf, one per GPU
+        "log":        collections.deque(maxlen=1000),
+        "log_scroll": 0,           # 0 = pinned to newest
+        "paused":     False,
+        "help":       False,
+        "error":      None,
+        "samples":    0,
         "have_cpu_debug": False,
-        "have_pcie":    False,
-        "last": {},
+        "last":       {},
     }
 
 
+def _push_sample(st, stats):
+    """Fold one snapshot into the ring buffers and the log."""
+    st["last"] = stats
+    st["samples"] += 1
+    h = st["history"]
+    h["cpu_pct"].append(stats.get("cpu_percent"))
+    h["mem_pct"].append(stats.get("memory_percent"))
+    h["cpu_pwr"].append(stats.get("cpu_power_w"))
+    h["sys_pwr"].append(stats.get("system_power_w"))
+    h["cpu_freq"].append(stats.get("_cpu_freq_mhz"))
+    h["cpu_temp"].append(stats.get("cpu_package_temp_c"))
+
+    gpus = stats.get("gpu") or []
+    gpwr = stats.get("gpu_power") or []
+    while len(st["gpu_hist"]) < max(len(gpus), len(gpwr)):
+        st["gpu_hist"].append({k: _RingBuf() for k in
+                               ("util", "mem", "pwr", "temp", "pcie", "nvl")})
+
+    pwr_total = 0.0
+    have_pwr = False
+    link_total = 0.0
+    have_link = False
+    for i in range(len(st["gpu_hist"])):
+        g  = gpus[i] if i < len(gpus) else {}
+        pw = gpwr[i] if i < len(gpwr) else {}
+        gh = st["gpu_hist"][i]
+        gh["util"].append(g.get("utilization"))
+        used = g.get("memory_used_mb")
+        if used is None:
+            used = pw.get("memory_used_mb")
+        gh["mem"].append(used)
+        p = pw.get("power_w")
+        gh["pwr"].append(p)
+        if p is not None:
+            pwr_total += p
+            have_pwr = True
+        gh["temp"].append(_gpu_temp(g, pw))
+        pcie = None
+        if g.get("rxpci_mbs") is not None or g.get("txpci_mbs") is not None:
+            pcie = (g.get("rxpci_mbs") or 0) + (g.get("txpci_mbs") or 0)
+        elif pw.get("pcie_bandwidth_mbs") is not None:
+            pcie = pw["pcie_bandwidth_mbs"]
+        gh["pcie"].append(pcie)
+        nvl = None
+        if g.get("nvlrx_mbs") is not None or g.get("nvltx_mbs") is not None:
+            nvl = (g.get("nvlrx_mbs") or 0) + (g.get("nvltx_mbs") or 0)
+        gh["nvl"].append(nvl)
+        for v in (pcie, nvl):
+            if v is not None:
+                link_total += v
+                have_link = True
+
+    h["gpu_pwr_total"].append(pwr_total if have_pwr else None)
+    h["pcie"].append(link_total / 1024.0 if have_link else None)   # GB/s
+
+    nets = stats.get("network") or []
+    h["net_rx"].append(sum(n.get("rx_mbs", 0) or 0 for n in nets) if nets else None)
+    h["net_tx"].append(sum(n.get("tx_mbs", 0) or 0 for n in nets) if nets else None)
+
+    if stats.get("cpu_debug"):
+        st["have_cpu_debug"] = True
+
+    st["log"].append(stats)
+    # Pinned to newest (scroll 0) stays pinned; a scrolled-back view holds
+    # its position as new lines arrive.
+    if st["log_scroll"] > 0:
+        st["log_scroll"] = min(st["log_scroll"] + 1, len(st["log"]))
+
+
+# ── Drawing helpers ─────────────────────────────────────────────────────────
+
+def _colors():
+    """Colour attributes, degrading to plain attributes on mono terminals."""
+    C = {k: 0 for k in ("dim", "bold", "cyan", "green", "yellow", "red",
+                        "magenta", "blue", "rev", "title")}
+    C["bold"] = curses.A_BOLD
+    C["rev"]  = curses.A_REVERSE
+    if not curses.has_colors():
+        C["dim"] = curses.A_DIM
+        C["title"] = curses.A_BOLD
+        return C
+    curses.start_color()
+    try:
+        curses.use_default_colors()
+        bg = -1
+    except curses.error:
+        bg = curses.COLOR_BLACK
+    for i, fg in enumerate((curses.COLOR_CYAN, curses.COLOR_GREEN,
+                            curses.COLOR_YELLOW, curses.COLOR_RED,
+                            curses.COLOR_MAGENTA, curses.COLOR_BLUE,
+                            curses.COLOR_WHITE), start=1):
+        curses.init_pair(i, fg, bg)
+    C["cyan"]    = curses.color_pair(1)
+    C["green"]   = curses.color_pair(2)
+    C["yellow"]  = curses.color_pair(3)
+    C["red"]     = curses.color_pair(4)
+    C["magenta"] = curses.color_pair(5)
+    C["blue"]    = curses.color_pair(6)
+    C["dim"]     = curses.color_pair(7) | curses.A_DIM
+    C["title"]   = curses.color_pair(1) | curses.A_BOLD
+    return C
+
+
+def _level_attr(pct, C):
+    """htop thresholds: green < 60 <= yellow < 85 <= red."""
+    if pct is None: return C["dim"]
+    if pct >= 85:   return C["red"]
+    if pct >= 60:   return C["yellow"]
+    return C["green"]
+
+
+def _put(scr, y, x, text, attr=0):
+    """Clipped write. Swallows the unavoidable error on the last cell."""
+    h, w = scr.getmaxyx()
+    if y < 0 or y >= h or x < 0 or x >= w or not text:
+        return
+    text = text[:w - x]
+    try:
+        scr.addstr(y, x, text, attr)
+    except curses.error:
+        pass
+
+
+def _section(scr, y, w, title, C):
+    """A titled rule: `── TITLE ─────────`. Returns the next free row."""
+    label = f"─ {title} "
+    _put(scr, y, 0, "─" + label + "─" * max(0, w - len(label) - 2), C["title"])
+    return y + 1
+
+
+def _kv(parts, sep="   "):
+    return sep.join(p for p in parts if p)
+
+
+# ── Panels ──────────────────────────────────────────────────────────────────
+
+def _draw_header(scr, st, C, y, w, sampler):
+    name = st.get("display_name") or HOSTNAME
+    left = f" system-monitor  {HOSTNAME}"
+    if name != HOSTNAME:
+        left += f" [{name}]"
+    if st["paused"]:
+        status, sattr = "❚❚ PAUSED", C["yellow"]
+    elif st["error"]:
+        status, sattr = "! ERROR", C["red"]
+    elif sampler and sampler.busy:
+        # collect() can take 7s+ when nvidia-smi dmon is sampling links, and
+        # 'r' cannot interrupt one already in flight. Saying so beats looking
+        # frozen or ignoring the keypress.
+        status, sattr = "◌ sampling", C["cyan"]
+    else:
+        status, sattr = "● live", C["green"]
+    if sampler and sampler.busy:
+        countdown = "  now"
+    else:
+        wait = max(0, sampler.next_at - time.monotonic()) if sampler else 0
+        countdown = f"{wait:4.1f}s"
+    clock = datetime.now(timezone.utc).strftime("%H:%M:%S") + "Z"
+    took  = f"  took {sampler.last_s:.1f}s" if (sampler and sampler.last_s) else ""
+    iv, n = st["interval"], st["samples"]
+    # Richest-to-poorest right-hand side. At 80 columns the full version does
+    # not fit, and a fixed layout drew the status on top of the hostname.
+    for right in (f"{clock}  every {iv}s  next {countdown}{took}  n={n} ",
+                  f"{clock}  every {iv}s  next {countdown}  n={n} ",
+                  f"{clock}  next {countdown}  n={n} ",
+                  f"{clock}  n={n} ",
+                  f"{clock} "):
+        if len(right) + len(status) + 22 <= w:
+            break
+    _put(scr, y, 0, " " * w, C["rev"])
+    sx = w - len(right) - len(status) - 2
+    if sx < 2:                       # no room for the status pill at all
+        sx, status = w, ""
+    _put(scr, y, 0, left[:max(0, sx - 1)], C["rev"] | C["bold"])
+    if status:
+        _put(scr, y, sx, status, C["rev"] | sattr)
+    _put(scr, y, max(0, w - len(right)), right, C["rev"])
+    return y + 1
+
+
+def _draw_system(scr, st, C, y, w):
+    last = st["last"]
+    y = _section(scr, y, w, "SYSTEM", C)
+    bar_w = max(10, min(30, w - 58))
+    lbl_w = 22
+
+    cpu_name = (st.get("cpu_type") or "?")
+    for junk in ("Intel(R) ", "Core(TM) ", "(R)", "(TM)", " CPU", " Processor"):
+        cpu_name = cpu_name.replace(junk, "")
+    cores = f"{st.get('cpu_count') or '?'}C"
+    lcores = psutil.cpu_count(logical=True)
+    if lcores:
+        cores += f"/{lcores}T"
+
+    pct = last.get("cpu_percent")
+    _put(scr, y, 1, "CPU", C["cyan"] | C["bold"])
+    _put(scr, y, 5, f"{cpu_name[:lbl_w]:<{lbl_w}}", C["dim"])
+    x = 5 + lbl_w + 1
+    _put(scr, y, x, _bar(pct, bar_w), _level_attr(pct, C))
+    x += bar_w + 1
+    _put(scr, y, x, f"{(pct or 0):5.1f}%", _level_attr(pct, C))
+    x += 7
+    extra = [cores, _fmt_freq(last.get("_cpu_freq_mhz"))]
+    if last.get("cpu_package_temp_c") is not None:
+        extra.append(f"{last['cpu_package_temp_c']:.0f}°C")
+    _put(scr, y, x, _kv(extra), C["dim"])
+    y += 1
+
+    mpct = last.get("memory_percent")
+    used, tot = last.get("memory_used_mb"), last.get("memory_total_mb")
+    _put(scr, y, 1, "MEM", C["cyan"] | C["bold"])
+    _put(scr, y, 5, " " * lbl_w)
+    x = 5 + lbl_w + 1
+    _put(scr, y, x, _bar(mpct, bar_w), _level_attr(mpct, C))
+    x += bar_w + 1
+    _put(scr, y, x, f"{(mpct or 0):5.1f}%", _level_attr(mpct, C))
+    x += 7
+    _put(scr, y, x, f"{_fmt_bytes_mb(used)} / {_fmt_bytes_mb(tot)}", C["dim"])
+    y += 1
+
+    # Power rails. Each is independently unavailable (BMC absent, no sudo for
+    # RAPL, no GPU), so label what is missing instead of dropping the row --
+    # a blank row here is what made the old TUI look broken on laptops.
+    sysw, cpuw = last.get("system_power_w"), last.get("cpu_power_w")
+    gpuw = st["history"]["gpu_pwr_total"].last()
+    _put(scr, y, 1, "PWR", C["cyan"] | C["bold"])
+    x = 5
+    for label, val, unit, hint in (
+            ("system", sysw, "W", "no ipmitool/BMC"),
+            ("cpu",    cpuw, "W", "needs sudo RAPL"),
+            ("gpu",    gpuw, "W", "no GPU")):
+        if val is None:
+            _put(scr, y, x, f"{label} —  ({hint})", C["dim"])
+            x += len(label) + len(hint) + 8
+        else:
+            _put(scr, y, x, f"{label} ", C["dim"])
+            _put(scr, y, x + len(label) + 1, f"{val:.0f}{unit}", C["magenta"] | C["bold"])
+            x += len(label) + 9
+    return y + 1
+
+
+def _draw_gpu(scr, st, C, y, w):
+    last = st["last"]
+    gpus = last.get("gpu") or []
+    gpwr = last.get("gpu_power") or []
+    n = max(len(gpus), len(gpwr))
+    vendor = (last.get("gpu_vendor") or "").upper()
+    y = _section(scr, y, w, f"GPU  {n}x {last.get('gpu_type') or '—'}"
+                            f"{'  (' + vendor + ')' if vendor else ''}", C)
+    if not n:
+        _put(scr, y, 2, "no GPU detected — nvidia-smi and amd-smi both unavailable",
+             C["dim"])
+        return y + 1
+
+    # One source of truth for column x-offsets, so the header cannot drift
+    # out of alignment with the rows beneath it.
+    ubar = max(6, min(14, (w - 78) // 2))
+    mbar = ubar
+    col = {"id": 1, "util": 4}
+    col["utilpct"] = col["util"] + ubar + 1
+    col["mem"]     = col["utilpct"] + 6
+    col["memtxt"]  = col["mem"] + mbar + 1
+    col["temp"]    = col["memtxt"] + 14
+    col["power"]   = col["temp"] + 8
+    col["pcie"]    = col["power"] + 13
+    col["nvl"]     = col["pcie"] + 11
+    col["extra"]   = col["nvl"] + 11
+    for label, key in (("ID", "id"), ("UTIL", "util"), ("MEMORY", "mem"),
+                       ("TEMP", "temp"), ("POWER", "power"),
+                       ("PCIE R+T", "pcie"), ("NVLINK", "nvl")):
+        _put(scr, y, col[key], label, C["dim"] | C["bold"])
+    y += 1
+
+    for i in range(n):
+        g  = gpus[i] if i < len(gpus) else {}
+        pw = gpwr[i] if i < len(gpwr) else {}
+        gh = st["gpu_hist"][i] if i < len(st["gpu_hist"]) else None
+        err = g.get("error") or pw.get("error")
+        _put(scr, y, 1, f"{i}", C["cyan"] | C["bold"])
+        if err:
+            _put(scr, y, 4, f"query failed: {err}"[:w - 5], C["red"])
+            y += 1
+            continue
+        util = g.get("utilization")
+        _put(scr, y, col["util"], _bar(util, ubar), _level_attr(util, C))
+        _put(scr, y, col["utilpct"], f"{util:4.0f}%" if util is not None else "   — ",
+             _level_attr(util, C))
+
+        used, tot = g.get("memory_used_mb"), g.get("memory_total_mb")
+        if used is None: used = pw.get("memory_used_mb")
+        if tot is None:  tot  = pw.get("memory_total_mb")
+        mpct = (used / tot * 100.0) if (used is not None and tot) else g.get("memory_percent")
+        _put(scr, y, col["mem"], _bar(mpct, mbar), _level_attr(mpct, C))
+        _put(scr, y, col["memtxt"], f"{_fmt_bytes_mb(used):>5}/{_fmt_bytes_mb(tot):<5}",
+             C["dim"])
+
+        temp = _gpu_temp(g, pw)
+        tattr = {"none": C["dim"], "ok": C["green"],
+                 "warn": C["yellow"], "hot": C["red"]}[
+            _gpu_temp_level(temp, pw.get("temp_limit"))]
+        _put(scr, y, col["temp"], f"{temp:4.0f}°C" if temp is not None else "   —  ", tattr)
+
+        p, lim = pw.get("power_w"), pw.get("power_limit_w")
+        if p is None:
+            _put(scr, y, col["power"], "    —   ", C["dim"])
+        else:
+            ppct = (p / lim * 100.0) if lim else None
+            _put(scr, y, col["power"], f"{p:4.0f}", _level_attr(ppct, C))
+            _put(scr, y, col["power"] + 4, f"/{lim:.0f}W" if lim else "W", C["dim"])
+
+        for key in ("pcie", "nvl"):
+            v = gh[key].last() if gh else None
+            _put(scr, y, col[key if key == "pcie" else "nvl"],
+                 f"{_fmt_rate(v)}B/s" if v is not None else "    —  ",
+                 C["blue"] if v else C["dim"])
+        # Memory-junction temp is AMD-only; append it rather than giving it a
+        # column that would sit empty on every NVIDIA box.
+        if pw.get("mem_temp_c") is not None:
+            _put(scr, y, col["extra"], f"mem {pw['mem_temp_c']:.0f}°C", C["dim"])
+        y += 1
+    return y
+
+
+def _draw_cpu_debug(scr, st, C, y, w):
+    last = st["last"]
+    therms = [t for t in (last.get("cpu_therm_temp_c") or []) if t is not None]
+    freqs  = [f for f in (last.get("cpu_core_freq_mhz") or []) if f]
+    if not therms and not freqs:
+        return y
+    y = _section(scr, y, w, "CPU CORES  (--cpu-debug)", C)
+    if therms:
+        hot = max(therms)
+        _put(scr, y, 1, f"temp   {len(therms)} sensors", C["dim"])
+        _put(scr, y, 24, f"min {min(therms):5.1f}   avg "
+                         f"{sum(therms) / len(therms):5.1f}   max ", C["dim"])
+        _put(scr, y, 24 + 36, f"{hot:5.1f}°C",
+             C["red"] if hot >= 85 else C["yellow"] if hot >= 70 else C["green"])
+        y += 1
+    if freqs:
+        _put(scr, y, 1, f"clock  {len(freqs)} cores", C["dim"])
+        _put(scr, y, 24, f"min {min(freqs):5.0f}   avg "
+                         f"{sum(freqs) / len(freqs):5.0f}   max "
+                         f"{max(freqs):5.0f} MHz", C["dim"])
+        y += 1
+    return y
+
+
+def _draw_history(scr, st, C, y, w, budget):
+    """Sparkline rows. `budget` rows available including the title."""
+    if budget < 2:
+        return y
+    y = _section(scr, y, w, "HISTORY", C)
+    budget -= 1
+    # Value column sits between the label and the sparkline: reading the
+    # current number off the far right edge, a hundred columns from its label,
+    # is what made the old layout feel unreadable.
+    lbl_w, val_w = 11, 8
+    spark_w = max(8, w - lbl_w - val_w - 4)
+
+    # (label, buffer, formatter, colour, scale) where scale is (lo, hi) and
+    # None means autoscale that end.
+    PCT, FROM_0 = (0.0, 100.0), (0.0, None)
+    rows = [("CPU %",   st["history"]["cpu_pct"],  lambda v: f"{v:6.1f}%", C["green"], PCT),
+            ("MEM %",   st["history"]["mem_pct"],  lambda v: f"{v:6.1f}%", C["green"], PCT)]
+    for i, gh in enumerate(st["gpu_hist"]):
+        rows.append((f"GPU{i} util", gh["util"], lambda v: f"{v:6.0f}%", C["cyan"], PCT))
+        rows.append((f"GPU{i} mem",  gh["mem"],  lambda v: f"{_fmt_bytes_mb(v):>7}", C["cyan"], FROM_0))
+        rows.append((f"GPU{i} temp", gh["temp"], lambda v: f"{v:5.0f}°C", C["yellow"], (20.0, 100.0)))
+        rows.append((f"GPU{i} pwr",  gh["pwr"],  lambda v: f"{v:6.0f}W", C["magenta"], FROM_0))
+    rows += [("net rx",  st["history"]["net_rx"], lambda v: f"{v:6.1f}M", C["blue"], FROM_0),
+             ("net tx",  st["history"]["net_tx"], lambda v: f"{v:6.1f}M", C["blue"], FROM_0),
+             ("pcie+nvl", st["history"]["pcie"],  lambda v: f"{v:5.2f}G", C["blue"], FROM_0),
+             ("cpu temp", st["history"]["cpu_temp"], lambda v: f"{v:5.0f}°C", C["yellow"], (20.0, 100.0)),
+             ("cpu clk", st["history"]["cpu_freq"], lambda v: f"{v:5.0f}M", C["green"], FROM_0),
+             ("cpu pwr", st["history"]["cpu_pwr"], lambda v: f"{v:6.0f}W", C["magenta"], FROM_0),
+             ("sys pwr", st["history"]["sys_pwr"], lambda v: f"{v:6.0f}W", C["magenta"], FROM_0)]
+
+    # Drop series that have never produced a reading, so a laptop without a
+    # BMC does not show three permanently blank rows.
+    rows = [r for r in rows if r[1].last() is not None]
+    shown = rows[:budget]
+    for label, buf, fmt, attr, scale in shown:
+        v = buf.last()
+        _put(scr, y, 1, f"{label:<{lbl_w - 1}}", C["dim"])
+        _put(scr, y, lbl_w, f"{fmt(v) if v is not None else '     —':>{val_w}}",
+             attr | C["bold"])
+        _put(scr, y, lbl_w + val_w + 1,
+             _sparkline(buf, spark_w, lo=scale[0], hi=scale[1]), attr)
+        y += 1
+    if len(rows) > len(shown):
+        _put(scr, y - 1, w - 20, f" +{len(rows) - len(shown)} series hidden ", C["dim"])
+    elif shown:
+        # Time axis: how much wall-clock the filled part of the row covers.
+        n = min(len(shown[0][1]), spark_w)
+        span = max(0, n - 1) * st["interval"]
+        axis = (f"{span // 60}m{span % 60:02d}s" if span >= 60 else f"{span}s")
+        _put(scr, y, lbl_w + val_w + 1, "└" + "─" * max(0, min(n, spark_w) - 2) + "┘",
+             C["dim"])
+        _put(scr, y, lbl_w, f"{axis:>{val_w}}", C["dim"])
+        _put(scr, y, 1, "window", C["dim"])
+        y += 1
+    return y
+
+
+def _draw_network(scr, st, C, y, w, budget):
+    nets = st["last"].get("network") or []
+    if not nets or budget < 2:
+        return y
+    y = _section(scr, y, w, "NETWORK", C)
+    for n in nets[:budget - 1]:
+        _put(scr, y, 1, f"{n.get('name', '?')[:12]:<12}", C["cyan"])
+        _put(scr, y, 14, f"rx {_fmt_rate(n.get('rx_mbs'))}B/s", C["blue"])
+        _put(scr, y, 14 + 20, f"tx {_fmt_rate(n.get('tx_mbs'))}B/s", C["blue"])
+        y += 1
+    return y
+
+
+def _draw_log(scr, st, C, y, w, budget):
+    if budget < 2:
+        return y
+    scroll = st["log_scroll"]
+    title = "LOG"
+    if scroll:
+        title += f"  ↑{scroll} back  (g = newest)"
+    y = _section(scr, y, w, title, C)
+    budget -= 1
+    log = list(st["log"])
+    if not log:
+        _put(scr, y, 2, "waiting for the first sample…", C["dim"])
+        return y + 1
+    end = len(log) - scroll
+    start = max(0, end - budget)
+    for s in log[start:max(start, end)]:
+        ts = (s.get("timestamp") or "")[11:19]
+        bits = [f"cpu {(s.get('cpu_percent') or 0):5.1f}%",
+                f"mem {(s.get('memory_percent') or 0):5.1f}%"]
+        gpus = s.get("gpu") or []
+        gpwr = s.get("gpu_power") or []
+        if gpus:
+            u = gpus[0].get("utilization")
+            bits.append(f"gpu0 {u:4.0f}%" if u is not None else "gpu0    —")
+            t = _gpu_temp(gpus[0], gpwr[0] if gpwr else {})
+            if t is not None:
+                bits.append(f"{t:3.0f}°C")
+        if gpwr and gpwr[0].get("power_w") is not None:
+            bits.append(f"{gpwr[0]['power_w']:5.1f}W")
+        if s.get("system_power_w") is not None:
+            bits.append(f"sys {s['system_power_w']:.0f}W")
+        d = s.get("_collect_s")
+        if d is not None:
+            bits.append(f"({d:.1f}s)")
+        _put(scr, y, 1, ts, C["dim"])
+        _put(scr, y, 10, "  ".join(bits)[:max(0, w - 11)], C["dim"])
+        y += 1
+    return y
+
+
+_HELP = [
+    ("q",           "quit"),
+    ("space",       "pause / resume sampling"),
+    ("r",           "sample now, without waiting out the interval"),
+    ("↑ ↓  k j",    "scroll the log one line"),
+    ("PgUp PgDn",   "scroll the log one page"),
+    ("g",           "jump back to the newest log line"),
+    ("?  h",        "toggle this help"),
+]
+
+
+def _draw_help(scr, C):
+    h, w = scr.getmaxyx()
+    bh, bw = len(_HELP) + 4, 52
+    top, left = max(0, (h - bh) // 2), max(0, (w - bw) // 2)
+    for i in range(bh):
+        _put(scr, top + i, left, " " * bw, C["rev"])
+    _put(scr, top + 1, left + 2, "keys", C["rev"] | C["bold"])
+    for i, (k, desc) in enumerate(_HELP):
+        _put(scr, top + 2 + i, left + 2, f"{k:<12}", C["rev"] | C["bold"])
+        _put(scr, top + 2 + i, left + 15, desc, C["rev"])
+    _put(scr, top + bh - 1, left + 2, "any key closes", C["rev"] | C["dim"])
+
+
+def _draw_footer(scr, st, C, y, w, sampler):
+    keys = ("q quit   space pause   r refresh   ↑↓/PgUp/PgDn scroll   "
+            "g newest   ? help")
+    _put(scr, y, 0, " " * w, C["rev"])
+    _put(scr, y, 1, keys[:max(0, w - 2)], C["rev"])
+    if st["error"]:
+        msg = f" {st['error']} "[:max(0, w - 2)]
+        _put(scr, y, max(1, w - len(msg) - 1), msg, C["rev"] | C["red"])
+
+
+def _layout_sig(st, h, w):
+    """Shape of the frame, ignoring values.
+
+    Panels appear and disappear as data arrives — the very first sample has
+    network=[] because throughput needs two readings, so NETWORK pops in on
+    sample two and shifts everything below it down three rows. When that
+    happens we force a full repaint instead of trusting a differential
+    update against a frame of a different shape."""
+    return (h, w, len(st["gpu_hist"]), len(st["last"].get("network") or []),
+            bool(st["last"].get("cpu_therm_temp_c") or st["last"].get("cpu_core_freq_mhz")),
+            st["help"])
+
+
+def _tui_draw(scr, st, C, sampler):
+    h, w = scr.getmaxyx()
+    sig = _layout_sig(st, h, w)
+    if sig != st.get("_sig"):
+        st["_sig"] = sig
+        scr.clearok(True)
+    scr.erase()
+    if h < 8 or w < 50:
+        _put(scr, 0, 0, f"terminal too small ({w}x{h}); need 50x8", C["yellow"])
+        scr.noutrefresh()
+        curses.doupdate()
+        return
+    y = _draw_header(scr, st, C, 0, w, sampler)
+    y = _draw_system(scr, st, C, y, w)
+    y = _draw_gpu(scr, st, C, y, w)
+    y = _draw_cpu_debug(scr, st, C, y, w)
+    y = _draw_network(scr, st, C, y, w, budget=h - 1 - y - 4)
+    # Whatever is left splits between HISTORY and LOG, history first but
+    # never starving the log of its 3 rows.
+    free = max(0, h - 1 - y)
+    log_rows = min(max(3, free // 3), free)
+    y = _draw_history(scr, st, C, y, w, budget=free - log_rows)
+    _draw_log(scr, st, C, y, w, budget=h - 1 - y)
+    _draw_footer(scr, st, C, h - 1, w, sampler)
+    if st["help"]:
+        _draw_help(scr, C)
+    scr.noutrefresh()
+    curses.doupdate()
+
+
+# ── Main loop ───────────────────────────────────────────────────────────────
+
+# CSI/SS3 tails for the keys we care about, for terminals whose arrows curses
+# does not translate (see _read_key).
+_ESC_KEYS = {"[A": "KEY_UP",    "OA": "KEY_UP",
+             "[B": "KEY_DOWN",  "OB": "KEY_DOWN",
+             "[5~": "KEY_PPAGE", "[6~": "KEY_NPAGE"}
+
+
+def _read_key(scr):
+    """getch() with escape-sequence fallback. Returns a key code or -1.
+
+    keypad(True) makes curses translate the terminfo arrow sequences, but a
+    terminal that sends CSI arrows (\\033[A) while curses expects SS3 (\\033OA)
+    delivers a bare ESC followed by the tail. Draining it here matters because
+    the obvious reading of a lone ESC — quit — would make a stray arrow key
+    kill the dashboard."""
+    ch = scr.getch()
+    if ch != 27:
+        return ch
+    scr.nodelay(True)
+    try:
+        seq = ""
+        for _ in range(4):
+            c = scr.getch()
+            if c == -1:
+                break
+            seq += chr(c)
+            if seq in _ESC_KEYS:
+                return getattr(curses, _ESC_KEYS[seq])
+    finally:
+        scr.nodelay(False)
+        scr.timeout(_TICK_MS)
+    return -1       # lone ESC or an unknown sequence: ignore it
+
+
+def _tui_main(scr, interval, display_name, cpu_debug):
+    curses.curs_set(0)
+    scr.nodelay(False)
+    scr.timeout(_TICK_MS)      # getch() returns -1 after _TICK_MS
+    scr.keypad(True)
+    C = _colors()
+
+    st = _tui_state(CPU_TYPE, CPU_COUNT, display_name, interval)
+    # dmon needs ~4s of sampling to report link counters, so the daemon gates
+    # it on interval >= 10s. The TUI is watched live, so honour the same gate.
+    sampler = _Sampler(interval, cpu_debug, enable_nvlink=(interval >= 10))
+    sampler.start()
+    try:
+        while True:
+            drained = False
+            while True:
+                try:
+                    kind, payload = sampler.q.get_nowait()
+                except queue.Empty:
+                    break
+                drained = True
+                if kind == "sample":
+                    st["error"] = None
+                    _push_sample(st, payload)
+                else:
+                    st["error"] = payload
+            _tui_draw(scr, st, C, sampler)
+
+            ch = _read_key(scr)
+            if ch == -1:
+                continue
+            if st["help"]:
+                st["help"] = False
+                continue
+            page = max(1, (scr.getmaxyx()[0] - 12))
+            if ch in (ord("q"), ord("Q")):
+                return
+            if ch == ord(" "):
+                st["paused"] = not st["paused"]
+                sampler.pause(st["paused"])
+            elif ch in (ord("r"), ord("R")):
+                sampler.refresh_now()
+            elif ch in (ord("?"), ord("h"), ord("H")):
+                st["help"] = True
+            elif ch in (curses.KEY_UP, ord("k")):
+                st["log_scroll"] = min(st["log_scroll"] + 1, max(0, len(st["log"]) - 1))
+            elif ch in (curses.KEY_DOWN, ord("j")):
+                st["log_scroll"] = max(0, st["log_scroll"] - 1)
+            elif ch == curses.KEY_PPAGE:
+                st["log_scroll"] = min(st["log_scroll"] + page, max(0, len(st["log"]) - 1))
+            elif ch == curses.KEY_NPAGE:
+                st["log_scroll"] = max(0, st["log_scroll"] - page)
+            elif ch in (ord("g"), ord("G")):
+                st["log_scroll"] = 0
+            elif ch == curses.KEY_RESIZE:
+                scr.erase()
+    finally:
+        sampler.stop()
+
+
 def tui(interval=2, _display_name=None, cpu_debug=False):
-    """Run the collector as an interactive nvtop-style TUI.
-
-    3-layer layout fills the terminal:
-      L1 top stat strip     : current snapshot with bars
-      L2 sparkline grid     : one row per metric, scrolls history
-      L3 log strip          : nvtop-style event pane, scrollable
-
-    Key bindings (read every 100ms between collects):
-      q / Ctrl-C            : quit (terminal restored)
-      space                 : pause/resume
-      r                     : force-refresh (skip sleep, re-collect)
-      ↑                     : scroll log up
-      ↓                     : scroll log down
-      G / g                 : jump log to newest
-      ?                     : help (TODO)"""
+    """Interactive nvitop-style dashboard. Displays only — writes no JSON."""
     global display_name
     display_name = _display_name
+    if curses is None:
+        print("TUI mode needs the curses module (POSIX only).", file=sys.stderr)
+        sys.exit(1)
     if not sys.stdout.isatty():
         print("TUI mode requires a TTY. Re-run from a real terminal.", file=sys.stderr)
         sys.exit(1)
-
-    import signal
-    _alt_screen_on(); _hide_cursor(); _clear_screen()
-
-    def _cleanup(*_):
-        _show_cursor(); _alt_screen_off()
-        sys.stdout.write("\n"); sys.stdout.flush()
-        sys.exit(0)
-    signal.signal(signal.SIGINT,  _cleanup)
-    signal.signal(signal.SIGTERM, _cleanup)
-    # SIGWINCH handler: redraw on resize. Fall back to SIGUSR1 on systems
-    # without it (rare on Linux); never use SIGUSR1's default behavior
-    # (which is to terminate the process) by ensuring we override it.
-    winch = getattr(signal, "SIGWINCH", None)
-    if winch is not None:
-        try:
-            signal.signal(winch, lambda *_: None)
-        except (AttributeError, ValueError):
-            pass
-
-    state = _tui_state(CPU_TYPE, CPU_COUNT)
-    # Always enable NVLink/PCIe monitoring in TUI mode — the user is
-    # sitting at the TTY precisely because they want to see link metrics,
-    # and we want them to appear without having to wait 10s between samples.
-    enable_nvlink = True
-    print(f"Collecting TUI on [{HOSTNAME}], interval={interval}s, NVLink={'on' if enable_nvlink else 'off'}{', cpu-debug=on' if cpu_debug else ''}",
-          file=sys.stderr)
-    last_err = None
+    # Box-drawing and block glyphs need the terminal's real encoding; without
+    # this curses renders them as '?' under the default C locale.
     try:
-        while True:
-            try:
-                stats = collect(enable_nvlink=enable_nvlink, cpu_debug=cpu_debug)
-                # Cache last full snapshot for L1 top strip.
-                state["last"] = dict(stats)
-                state["last"]["cpu_freq_str"] = state["last"].get("cpu_freq_str", "?")
-                if not state.get("paused"):
-                    _push_sample(state, stats)
-                last_err = None
-            except Exception as e:
-                last_err = str(e)
-            _tui_render(state, interval, error=last_err)
-
-            # Sleep in 100ms slices, polling keys.
-            slept = 0.0
-            slice_s = 0.1
-            while slept < interval:
-                key = _read_key_nonblocking(slice_s)
-                if not key: continue
-                if key in ('q', 'Q'): return
-                if key == ' ':        state["paused"] = not state["paused"]
-                if key in ('r', 'R'): break     # out of sleep loop → re-collect
-                if key == '\x1b':
-                    # Read the next 2 bytes to figure out the escape sequence.
-                    try:
-                        import select as _sel
-                        r2, _, _ = _sel.select([sys.stdin], [], [], 0.05)
-                        seq = sys.stdin.read(2) if r2 else ''
-                    except Exception:
-                        seq = ''
-                    if seq == '[A' or seq == 'OA':   # ↑
-                        state["log_scroll"] = state.get("log_scroll", 0) + 1
-                    elif seq == '[B' or seq == 'OB': # ↓
-                        state["log_scroll"] = max(0, state.get("log_scroll", 0) - 1)
-                elif key in ('g', 'G'):
-                    state["log_scroll"] = 0
-                slept += slice_s
-    finally:
-        _cleanup()
-
+        import locale
+        locale.setlocale(locale.LC_ALL, "")
+    except Exception:
+        pass
+    curses.wrapper(_tui_main, interval, _display_name, cpu_debug)
 
 if __name__ == "__main__":
     _probe_gpu()

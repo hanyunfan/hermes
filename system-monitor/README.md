@@ -147,10 +147,31 @@ cards stay hidden.
 > `cpufreq` sysfs. Both fail soft to empty values, so the collector keeps
 > running and the affected chart simply stays hidden.
 
-**`--tui`** replaces the daemon with a full-screen ANSI dashboard (stat bars,
-sparkline grid, scrollable event log; keys `q` / space / `r` / ↑ / ↓ / `G`).
-Implemented with escape sequences only — no `curses`, `rich` or `textual`.
-See `DESIGN-tui.md`.
+**`--tui`** replaces the daemon with a full-screen, nvitop-inspired dashboard
+built on stdlib `curses` (no `rich` / `textual` / `blessed`). Areas: SYSTEM
+(CPU + MEM bars, clock, package temp, power rails), GPU (a row per GPU with
+util and memory bars, temps, power against limit, PCIe and NVLink rates),
+CPU CORES (`--cpu-debug` only), NETWORK, HISTORY sparklines, and a scrollable
+LOG.
+
+| Key | Action |
+|---|---|
+| `q` | quit |
+| `space` | pause / resume sampling |
+| `r` | sample now, without waiting out the interval |
+| `↑` `↓` / `k` `j` | scroll the log one line |
+| `PgUp` `PgDn` | scroll the log one page |
+| `g` | jump back to the newest log line |
+| `?` / `h` | help overlay |
+
+Sampling runs on its own thread, so keys respond within ~100ms even with
+`--tui 60` or while `nvidia-smi dmon` is spending 7s on a sample. While a
+sample is in flight the header shows `◌ sampling  took 1.5s`; `r` cannot
+interrupt one already running. See `DESIGN-tui.md`, and `selfcheck_tui.py` to
+verify a change.
+
+> If resizing the window seems to do nothing, check whether `LINES`/`COLUMNS`
+> are exported — ncurses honours those over the real terminal size.
 
 > **`--tui` writes no JSON and requires a TTY** (it exits 1 otherwise). Never
 > put it in a systemd unit or cron job: you would silently lose all metrics,
@@ -389,6 +410,8 @@ and these five keys are simply absent otherwise.
 | `collector.py` | Daemon — samples and writes metrics to `data/`. Also `--cpu-debug` and `--tui`. |
 | `index.html` | Dashboard — Chart.js SPA served via GitHub Pages. Deployed unmodified to both sites. |
 | `selfcheck.js` | `node selfcheck.js` — asserts the dashboard's site detection, CPU-sensor filter parity with `collector.py`, and chart gating against the real `data/` files |
+| `selfcheck_tui.py` | `python3 selfcheck_tui.py` — asserts the `--tui` rendering helpers, sample folding and key decoding, plus a pty smoke test of the curses UI |
+| `selfcheck_bootstrap.py` | `python3 selfcheck_bootstrap.py` — asserts the psutil venv bootstrap's error paths (offline, builds no venv) |
 | `server.py` | Optional local HTTP server (dev only, port 8765) |
 | `sync_machines.py` | Rebuilds `machines.json` from data files (tolerates corrupt/placeholder files). `build()` is the single definition of an entry's shape. |
 | `gen_machines.py`, `regen_machines.py` | Thin aliases for `sync_machines.build()` — kept as entry points, no longer copies |
