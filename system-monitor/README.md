@@ -66,8 +66,27 @@ Chart.js-powered SPA served directly from GitHub Pages.
 
 ### 1. Install dependencies
 
+Nothing to do in the normal case: `collector.py` needs `psutil`, and if the
+import fails it creates a venv at `./.venv`, installs `psutil` into it, and
+re-executes itself under that interpreter. First start therefore takes a few
+extra seconds; later starts just re-exec.
+
+To do it by hand instead (or on a host with no network / a read-only
+checkout):
+
 ```bash
-pip install psutil
+pip install psutil                  # blocked by PEP 668 on Ubuntu 24.04+/Debian 12+
+sudo apt install python3-psutil     # or the distro package
+```
+
+The bootstrap needs `python3 -m venv` to work — on Debian/Ubuntu that means
+`sudo apt install python3-venv`, otherwise it exits with that hint rather than
+crash-looping. Set `SYSMON_VENV=/path/to/venv` to put the venv somewhere other
+than the checkout (useful when the checkout is read-only or `noexec`, or to
+share one venv across hosts). Verify the bootstrap's error handling with:
+
+```bash
+python3 selfcheck_bootstrap.py      # offline, ~0.2s, creates no venv
 ```
 
 ### 2. Start the collector

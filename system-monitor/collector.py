@@ -20,7 +20,40 @@ import threading
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime, timezone
 
-import psutil
+try:
+    import psutil
+except ModuleNotFoundError:
+    # ponytail: bootstrap psutil into a venv beside this script, then re-exec
+    # into it. Goes straight to a venv instead of trying `pip install --user`
+    # first, because PEP 668 distros (Ubuntu 24.04+, Debian 12+) refuse that
+    # outright and a second code path isn't worth the few seconds it'd save.
+    # Ceiling: assumes the script dir (or $SYSMON_VENV) is writable and pip can
+    # reach an index. Upgrade path: pre-build the venv, or point SYSMON_VENV at
+    # a shared prefix to skip per-host installs.
+    if os.environ.get("_SYSMON_BOOTSTRAPPED"):
+        sys.exit(f"psutil still missing after bootstrap. Remove "
+                 f"{os.environ.get('SYSMON_VENV')} and retry, or install it by hand.")
+    _venv = os.environ.get("SYSMON_VENV") or os.path.join(
+        os.path.dirname(os.path.abspath(__file__)), ".venv")
+    _py = os.path.join(_venv, "bin", "python3")
+    if not os.path.exists(_py):
+        print(f"psutil not found — creating venv at {_venv}", file=sys.stderr)
+        try:
+            subprocess.run([sys.executable, "-m", "venv", "--system-site-packages", _venv],
+                           check=True)
+        except (subprocess.CalledProcessError, OSError) as e:
+            sys.exit(f"could not create venv at {_venv} ({e}). "
+                     f"On Debian/Ubuntu: sudo apt install python3-venv")
+    # pip is a no-op once satisfied, so this doubles as self-healing for a
+    # venv that exists but is missing psutil (interrupted first run).
+    try:
+        subprocess.run([_py, "-m", "pip", "install", "-q", "psutil"], check=True)
+    except (subprocess.CalledProcessError, OSError) as e:
+        sys.exit(f"pip install psutil failed ({e}). No network? "
+                 f"Install it by hand: {_py} -m pip install psutil")
+    print(f"psutil installed — re-running under {_py}", file=sys.stderr)
+    os.execve(_py, [_py, os.path.abspath(__file__)] + sys.argv[1:],
+              {**os.environ, "_SYSMON_BOOTSTRAPPED": "1", "SYSMON_VENV": _venv})
 
 DATA_DIR = os.path.join(os.path.dirname(__file__), "data")
 os.makedirs(DATA_DIR, exist_ok=True)
