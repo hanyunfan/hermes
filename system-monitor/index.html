@@ -430,7 +430,7 @@ function initCharts() {
   });
   // Network chart (up to 8 interfaces × 2 = 16 datasets: RX/TX per iface)
   charts.net = buildNetworkChart('chart-net');
-  // GPU Temperature chart (one dataset per GPU + optional Tlimit annotation)
+  // GPU Temperature chart (one dataset per GPU + a throttle reference line)
   charts.temp = buildTempChart('chart-temp');
 
   // CPU debug charts — built unconditionally (cheap: empty datasets), their
@@ -674,7 +674,7 @@ function buildCpuCoreFreqChart(canvasId) {
 }
 
 function buildTempChart(canvasId) {
-  // One dataset per GPU (solid lines) + one Tlimit annotation dataset (dashed)
+  // One dataset per GPU (solid lines) + one throttle reference line (dashed)
   const datasets = Array.from({ length: 8 }, (_, i) => {
     const color = GPU_COLORS[i % GPU_COLORS.length];
     const grad = document.getElementById(canvasId).getContext('2d').createLinearGradient(0, 0, 0, 220);
@@ -682,8 +682,9 @@ function buildTempChart(canvasId) {
     grad.addColorStop(1, '#' + color + '00');
     return { label: 'GPU' + i, data: [], borderColor: '#' + color, backgroundColor: grad, fill: true, borderWidth: 1.5, hidden: i > 0 };
   });
-  // Tlimit reference line (dashed red, hidden until data exists)
-  datasets.push({ label: 'Tlimit', data: [], borderColor: '#ff6b6b', backgroundColor: 'transparent', borderWidth: 1.5, borderDash: [6, 4], hidden: true, pointRadius: 0 });
+  // Throttle reference line (dashed red). Label and value are set in
+  // updateTempChart from gpu_temp_max_c, defaulting to 100°C.
+  datasets.push({ label: 'throttle', data: [], borderColor: '#ff6b6b', backgroundColor: 'transparent', borderWidth: 1.5, borderDash: [6, 4], hidden: true, pointRadius: 0 });
   const chart = new Chart(document.getElementById(canvasId), {
     type: 'line',
     data: { datasets },
@@ -1994,14 +1995,25 @@ function updateTempChart(allData, gpuCount) {
     });
   }
 
-  // Tlimit annotation (dashed): show only when temp_limit data exists
+  // Throttle reference line (dashed, flat).
+  //
+  // This used to plot gpu_power[].temp_limit directly, which was wrong:
+  // temp_limit is nvidia-smi's temperature.gpu.tlimit, the thermal *margin*
+  // (degrees still available before throttling), not a ceiling. A GPU at 48°C
+  // reporting a 39°C margin drew the "limit" line below its own temperature
+  // curve, implying permanent throttling.
+  //
+  // The collector now probes the absolute throttle point once per GPU into
+  // gpu_temp_max_c (nvidia-smi -q). Older files, and AMD boards that report no
+  // threshold, fall back to a flat 100°C so the line always means the same
+  // thing. It is drawn across the full window because it is a board constant.
+  const throttles = allData.flatMap(d => d.gpu_temp_max_c || []).filter(t => t);
+  const throttleC = throttles.length ? Math.min(...throttles) : 100;
   const tlimitDs = charts.temp.data.datasets[TLIMIT_DSIDX];
-  const tlimitHasData = allData.some(d => (d.gpu_power || []).some(gp => gp.temp_limit != null));
-  tlimitDs.hidden = !tlimitHasData;
-  tlimitDs.data = allData.map(d => {
-    const y = (d.gpu_power || [])[0]?.temp_limit ?? null;
-    return y != null ? { x: new Date(d.timestamp), y } : { x: new Date(d.timestamp), y: null };
-  });
+  tlimitDs.label = `throttle ${throttleC.toFixed(0)}°C` +
+                   (throttles.length ? '' : ' (assumed)');
+  tlimitDs.hidden = false;
+  tlimitDs.data = allData.map(d => ({ x: new Date(d.timestamp), y: throttleC }));
 
   // Dynamic y-axis max
   const allTemps = allData.flatMap(d => (d.gpu_power || []).map(gp => gp.temp_c).filter(t => t != null));

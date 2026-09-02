@@ -40,10 +40,40 @@ v2 looked broken in practice, for four compounding reasons:
    row rendered as `GPU0 RTX_PRO_2000_B ░░░ 0% ? ?W`.
 
 A separate collector bug made the GPU columns useless on consumer boards:
-`nvidia-smi` returns `[N/A]` for `temperature.gpu.tlimit`, and `float()` on
-that raised, so the whole `gpu_power` record was replaced by `{"error": ...}`.
+`nvidia-smi` returns `[N/A]` for unsupported fields, and `float()` on that
+raised, so the whole `gpu_power` record was replaced by `{"error": ...}`.
 Fixed by `_smi_float()`, which is a data-quality fix for daemon mode too, not
 just the TUI.
+
+## GPU thermal limits
+
+`temperature.gpu.tlimit` (`temp_limit` in the JSON) is the thermal **margin** —
+degrees still available before throttling — not a ceiling. Both the TUI
+colouring and the dashboard's reference line treated it as absolute, so a GPU
+at 48°C reporting a 39°C margin was flagged critical and had its "limit" line
+drawn below its own curve.
+
+The absolute limit is now probed once at startup into `gpu_temp_max_c`, because
+`nvidia-smi -q` spells it two different ways:
+
+```
+older / data-center       GPU Shutdown Temp             : 92 C   ← absolute
+newer (Blackwell, ...)    GPU Shutdown T.Limit Temp     : -5 C   ← an OFFSET
+                          GPU T.Limit Temp              : 44 C   ← margin
+                          GPU Target Temperature        : 87 C   ← absolute
+```
+
+`_parse_nvidia_temp_max()` therefore ignores any label containing `T.Limit`,
+prefers the absolute fields in throttle-relevance order (Slowdown → Shutdown →
+Max Operating → Target), and otherwise reconstructs the limit as
+`current + T.Limit`. On this laptop that derivation gives 43 + 44 = 87°C and
+matches its reported `GPU Target Temperature` exactly, which is the cross-check
+that the margin reading is right.
+
+`_gpu_temp_level()` prefers this absolute limit (hot within 3°C, warn within
+12°C), falls back to the margin, then to fixed 85/70°C thresholds for AMD. The
+dashboard draws a flat line at the probed value, or a `(assumed)`-labelled
+100°C when a file predates the field.
 
 ## v3: curses
 

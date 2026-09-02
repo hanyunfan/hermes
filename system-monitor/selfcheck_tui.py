@@ -144,7 +144,51 @@ assert c._gpu_temp_level(None, None) == "none"
 assert c._gpu_temp_level(90.0, None) == "hot"
 assert c._gpu_temp_level(75.0, None) == "warn"
 assert c._gpu_temp_level(40.0, None) == "ok"
-ok("GPU tlimit is treated as a thermal margin, with an absolute fallback")
+# A probed absolute throttle point wins over both: 84°C is fine on a 92°C
+# data-center part but throttling on an 87°C laptop.
+assert c._gpu_temp_level(84.0, None, 92.0) == "warn"
+assert c._gpu_temp_level(84.0, None, 87.0) == "hot"
+assert c._gpu_temp_level(60.0, None, 92.0) == "ok"
+assert c._gpu_temp_level(84.0, 39.0, 87.0) == "hot", "tmax outranks the margin"
+ok("GPU tlimit is a margin; a probed absolute throttle point outranks it")
+
+# ── 5b. nvidia-smi -q throttle-temperature parsing ──────────────────────────
+# Newer drivers report the whole T.Limit family as offsets, so a label
+# containing 'T.Limit' must never be used as a ceiling. Real output from an
+# RTX PRO 2000 Blackwell laptop GPU:
+BLACKWELL = """
+    Temperature
+        GPU Current Temp                               : 43 C
+        GPU T.Limit Temp                               : 44 C
+        GPU Shutdown T.Limit Temp                      : -5 C
+        GPU Slowdown T.Limit Temp                      : -2 C
+        GPU Max Operating T.Limit Temp                 : 0 C
+        GPU Target Temperature                         : 87 C
+        Memory Current Temp                            : N/A
+"""
+assert c._parse_nvidia_temp_max(BLACKWELL) == 87.0, \
+    c._parse_nvidia_temp_max(BLACKWELL)
+# ...and the derived path agrees with the reported absolute: 43 + 44 = 87.
+NO_ABSOLUTE = "\n".join(l for l in BLACKWELL.splitlines()
+                        if "Target Temperature" not in l)
+assert c._parse_nvidia_temp_max(NO_ABSOLUTE) == 87.0, "current + margin"
+
+# Older / data-center drivers use absolute labels; slowdown is preferred.
+AMPERE = """
+    Temperature
+        GPU Current Temp                               : 34 C
+        GPU Shutdown Temp                              : 92 C
+        GPU Slowdown Temp                              : 89 C
+        GPU Max Operating Temp                         : 85 C
+        GPU Target Temperature                         : 83 C
+"""
+assert c._parse_nvidia_temp_max(AMPERE) == 89.0, c._parse_nvidia_temp_max(AMPERE)
+# A 0 C reading is a nonsense ceiling and must not be accepted.
+assert c._parse_nvidia_temp_max(
+    "        GPU Max Operating Temp   : 0 C\n") is None
+assert c._parse_nvidia_temp_max("") is None
+assert c._parse_nvidia_temp_max("Memory Current Temp : N/A") is None
+ok("nvidia-smi -q throttle temps parse on both driver generations")
 
 # ── 6. Sample folding ───────────────────────────────────────────────────────
 st = c._tui_state("TestCPU", 8, "BOX", 10)

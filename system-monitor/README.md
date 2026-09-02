@@ -19,6 +19,7 @@
 | Memory used/total | `psutil` | System RAM |
 | GPU utilization, memory | `nvidia-smi` | Up to 8 GPUs per machine |
 | GPU temperature | `nvidia-smi` / `amd-smi` | Per-GPU temperature (°C) |
+| GPU throttle temperature | `nvidia-smi -q` | `gpu_temp_max_c` — absolute limit (°C), probed once at startup |
 | GPU power draw | `nvidia-smi` | Per-GPU watts + TDP limit |
 | PCIe RX/TX throughput | `nvidia-smi dmon` | GPU0 only; requires `interval >= 10s` |
 | NVLink RX/TX throughput | `nvidia-smi dmon` | GPU0 only; requires `interval >= 10s` |
@@ -341,6 +342,7 @@ Each line in `data/metrics_<display_name>_<YYYYMMDD>.json`:
 | `system_power_w` | float or null | Whole-machine power (W) via BMC/ipmitool; null if unavailable |
 | `cpu_power_w` | float or null | CPU package power (W) via RAPL; null if unavailable |
 | `gpu_power` | array or null | Per-GPU power draw (see below); null if no GPU |
+| `gpu_temp_max_c` | float[] or null | Absolute throttle temperature per GPU (°C), probed once from `nvidia-smi -q`. Null on AMD and where the driver reports only `T.Limit` offsets. The dashboard's throttle line falls back to 100 °C when absent. |
 | `gpu` | array or null | Per-GPU stats (see below); null if no GPU |
 
 `network[]` elements:

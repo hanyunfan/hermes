@@ -300,8 +300,71 @@ def _probe_gpu():
 
 # ─── NVIDIA backend ───────────────────────────────────────────────────────────
 
+# Absolute throttle temperature per GPU (°C), probed once — these are board
+# constants, so re-reading them every cycle would cost a subprocess for nothing.
+GPU_TEMP_MAX = []
+
+_TEMP_MAX_FIELDS = ("GPU Slowdown Temp", "GPU Shutdown Temp",
+                    "GPU Max Operating Temp", "GPU Target Temperature")
+
+
+def _parse_nvidia_temp_max(qout):
+    """Absolute throttle temperature (°C) from `nvidia-smi -q` text, or None.
+
+    Two driver generations spell this differently and the difference is not
+    cosmetic:
+
+      older / data-center     GPU Shutdown Temp     : 92 C     ← absolute
+      newer (Blackwell, ...)  GPU Shutdown T.Limit Temp : -5 C ← an OFFSET
+
+    The T.Limit family reports margins, not temperatures, so a label
+    containing 'T.Limit' can never be used as a ceiling — that mistake is what
+    put a 39 °C reference line under a 48 °C reading. Absolute fields are
+    preferred in throttle-relevance order; failing that, the absolute maximum
+    is reconstructed as current + T.Limit margin, which on this laptop gives
+    43 + 44 = 87 °C and matches its reported GPU Target Temperature exactly.
+
+    Returns None when nothing usable is present (the caller substitutes a
+    conservative default)."""
+    vals, cur, tlimit = {}, None, None
+    for line in qout.splitlines():
+        if ":" not in line:
+            continue
+        label, _, raw = line.partition(":")
+        label, raw = label.strip(), raw.strip()
+        if not raw.endswith(" C"):
+            continue
+        try:
+            deg = float(raw[:-2].strip())
+        except ValueError:
+            continue
+        if "T.Limit" in label:
+            if label == "GPU T.Limit Temp":
+                tlimit = deg
+            continue                       # offsets are unusable as ceilings
+        if label == "GPU Current Temp":
+            cur = deg
+        elif label in _TEMP_MAX_FIELDS:
+            vals[label] = deg
+    for field in _TEMP_MAX_FIELDS:
+        if vals.get(field):                # 0 C would be a nonsense ceiling
+            return vals[field]
+    if cur is not None and tlimit is not None:
+        return cur + tlimit
+    return None
+
+
+def _nvidia_probe_temp_max(gpu_id):
+    try:
+        r = subprocess.run(["nvidia-smi", "-q", "-i", str(gpu_id)],
+                           capture_output=True, text=True, timeout=10)
+        return _parse_nvidia_temp_max(r.stdout) if r.returncode == 0 else None
+    except Exception:
+        return None
+
+
 def _probe_nvidia():
-    global GPU_COUNT, GPU_TYPE
+    global GPU_COUNT, GPU_TYPE, GPU_TEMP_MAX
     try:
         result = subprocess.run(
             ["nvidia-smi", "--query-gpu=name", "--format=csv,noheader"],
@@ -310,6 +373,8 @@ def _probe_nvidia():
         raw = result.stdout.strip().split("\n")[0].strip()
         GPU_TYPE = raw[7:].strip().replace(" ", "_") if raw.startswith("NVIDIA ") else raw.replace(" ", "_")
         GPU_COUNT = min(8, len([n for n in result.stdout.strip().split("\n") if n.strip()]))
+        GPU_TEMP_MAX = [_nvidia_probe_temp_max(i) for i in range(GPU_COUNT)]
+        print(f"[probe] GPU throttle temps: {GPU_TEMP_MAX}")
     except Exception:
         global GPU_AVAILABLE
         GPU_AVAILABLE = False
@@ -869,6 +934,10 @@ def collect(enable_nvlink=True, cpu_debug=False):
         "system_power_w": sys_power,
         "cpu_power_w": cpu_power,
         "gpu_power": gpu_power,
+        # Absolute throttle temperature per GPU (°C), or null where the vendor
+        # does not report one (AMD, and NVIDIA boards exposing only T.Limit
+        # offsets with no current reading). Static, probed at startup.
+        "gpu_temp_max_c": GPU_TEMP_MAX or None,
         "gpu": gpu_stats
     }
     # CPU debug fields are written ONLY when the flag is on, so the JSON
@@ -1097,18 +1166,26 @@ def _fmt_freq(mhz):
     return f"{mhz:.0f}MHz"
 
 
-def _gpu_temp_level(temp, tlimit):
+def _gpu_temp_level(temp, tlimit, tmax=None):
     """Severity of a GPU temperature: 'none', 'ok', 'warn' or 'hot'.
 
-    `tlimit` is nvidia-smi's temperature.gpu.tlimit, which is the thermal
-    *margin* — degrees remaining before the board throttles — not an absolute
-    ceiling. Reading it as a ceiling marks an idle GPU as critical: this laptop
-    reports 48°C with a 39°C margin, i.e. a throttle point around 87°C.
-    Smaller margin means hotter, so the comparisons run the opposite way from
-    the absolute fallback used when the margin is unavailable (AMD, and most
-    data-center NVIDIA parts, report [N/A])."""
+    Three sources, best first:
+
+    1. `tmax` — the absolute throttle point probed from `nvidia-smi -q`
+       (gpu_temp_max_c). Judged as headroom against the board's real limit,
+       which is the only source that is meaningful across a 92°C data-center
+       part and an 87°C laptop alike.
+    2. `tlimit` — temperature.gpu.tlimit, which is the *margin* to the limit,
+       not a ceiling. Smaller means hotter, so these comparisons run the
+       opposite way round. Reading it as a ceiling is what marked an idle GPU
+       critical at 48°C against a 39°C margin.
+    3. Fixed absolutes, for AMD and anything else reporting neither."""
     if temp is None:
         return "none"
+    if tmax:
+        if temp >= tmax - 3:  return "hot"
+        if temp >= tmax - 12: return "warn"
+        return "ok"
     if tlimit is not None:
         if tlimit <= 5:  return "hot"
         if tlimit <= 15: return "warn"
@@ -1459,8 +1536,13 @@ def _draw_gpu(scr, st, C, y, w):
     gpwr = last.get("gpu_power") or []
     n = max(len(gpus), len(gpwr))
     vendor = (last.get("gpu_vendor") or "").upper()
+    # Throttle point goes in the title rather than a per-row column: it is a
+    # board constant, identical across the GPUs in a box, and a per-row suffix
+    # would push the NVLINK column off an 80-column terminal.
+    tmaxs = [t for t in (last.get("gpu_temp_max_c") or []) if t]
+    thr = f"  throttle {min(tmaxs):.0f}°C" if tmaxs else ""
     y = _section(scr, y, w, f"GPU  {n}x {last.get('gpu_type') or '—'}"
-                            f"{'  (' + vendor + ')' if vendor else ''}", C)
+                            f"{'  (' + vendor + ')' if vendor else ''}{thr}", C)
     if not n:
         _put(scr, y, 2, "no GPU detected — nvidia-smi and amd-smi both unavailable",
              C["dim"])
@@ -1509,9 +1591,11 @@ def _draw_gpu(scr, st, C, y, w):
              C["dim"])
 
         temp = _gpu_temp(g, pw)
+        tmaxs = st["last"].get("gpu_temp_max_c") or []
+        tmax = tmaxs[i] if i < len(tmaxs) else None
         tattr = {"none": C["dim"], "ok": C["green"],
                  "warn": C["yellow"], "hot": C["red"]}[
-            _gpu_temp_level(temp, pw.get("temp_limit"))]
+            _gpu_temp_level(temp, pw.get("temp_limit"), tmax)]
         _put(scr, y, col["temp"], f"{temp:4.0f}°C" if temp is not None else "   —  ", tattr)
 
         p, lim = pw.get("power_w"), pw.get("power_limit_w")

@@ -442,6 +442,53 @@ check('every sort option in the HTML has a matching comparator', () => {
   eq(Object.keys(MACHINE_SORTS).sort(), values.slice().sort(), 'comparator/option mismatch');
 });
 
+// ── 5b. GPU temperature chart: the throttle reference line ──────────────────
+// This line used to plot gpu_power[].temp_limit as if it were a ceiling. It is
+// nvidia-smi's temperature.gpu.tlimit — the thermal *margin* — so a GPU at
+// 48°C reporting a 39°C margin drew its "limit" below its own curve. The
+// collector now probes the absolute throttle point into gpu_temp_max_c.
+console.log('\nGPU throttle reference line');
+const TLIMIT_DSIDX = 8;
+const tempStamp = (i) => `2026-09-02T10:0${i}:00+00:00`;
+
+check('plots the probed absolute throttle temperature, not the margin', () => {
+  const data = [0, 1].map(i => ({
+    timestamp: tempStamp(i),
+    gpu_temp_max_c: [87],
+    gpu_power: [{ id: 0, temp_c: 48, temp_limit: 39 }],
+  }));
+  app.updateTempChart(data, 1);
+  const ds = charts.temp.data.datasets[TLIMIT_DSIDX];
+  eq(ds.data.map(p => p.y), [87, 87], 'the line must sit at the throttle point');
+  ok(!ds.hidden, 'the reference line should be visible');
+  ok(/87/.test(ds.label), `label should name the value, got ${ds.label}`);
+  // The regression in one assertion: never at or below the reading it bounds.
+  ok(ds.data[0].y > 48, 'the throttle line must not fall below the GPU temp');
+});
+
+check('older files without gpu_temp_max_c fall back to a flagged 100°C', () => {
+  const data = [{ timestamp: tempStamp(0),
+                  gpu_power: [{ id: 0, temp_c: 48, temp_limit: 39 }] }];
+  app.updateTempChart(data, 1);
+  const ds = charts.temp.data.datasets[TLIMIT_DSIDX];
+  eq(ds.data.map(p => p.y), [100]);
+  ok(/assumed/.test(ds.label), `fallback must be flagged, got ${ds.label}`);
+});
+
+check('a mixed-throttle box uses the lowest limit', () => {
+  const data = [{ timestamp: tempStamp(0), gpu_temp_max_c: [92, 87],
+                  gpu_power: [{ id: 0, temp_c: 50 }, { id: 1, temp_c: 50 }] }];
+  app.updateTempChart(data, 2);
+  eq(charts.temp.data.datasets[TLIMIT_DSIDX].data[0].y, 87);
+});
+
+check('per-GPU temperature series are still plotted', () => {
+  const data = [{ timestamp: tempStamp(0), gpu_temp_max_c: [87],
+                  gpu_power: [{ id: 0, temp_c: 61 }] }];
+  app.updateTempChart(data, 1);
+  eq(charts.temp.data.datasets[0].data.map(p => p.y), [61]);
+});
+
 // ── 6. Every data file still parses and keeps the base schema ───────────────
 console.log('\nbase schema across all data/ files');
 const BASE = ['timestamp', 'cpu_percent', 'memory_percent'];
