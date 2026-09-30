@@ -56,9 +56,9 @@ conversation — re-running `video-director status <project>` shows the truth.
 | Command                          | When Hermes runs it                                          |
 |----------------------------------|--------------------------------------------------------------|
 | `video-director init <project>`  | First time a story is mentioned.                             |
-| `video-director analyze <p>`     | After the user provides `story.yaml`.                        |
-| `video-director storyboard <p>`  | After analyze; builds scenes + shots.                        |
-| `video-director validate <p>`    | Before each generation run; catches missing refs/workflow.   |
+| `video-director analyze <p>`     | Optional: regenerate `state/story_bible.json` from `story.yaml`. Use LLM pass for quality (see below). |
+| `video-director storyboard <p>`  | Optional: regenerate scenes + shots via the rule-based planner. **Usually skipped in favor of the LLM-driven flow.** |
+| `video-director validate  <p>`   | Before each generation run; catches missing refs/workflow.   |
 | `video-director generate <p>`    | To actually produce clips. Resumable — re-run safely.       |
 | `video-director status <p>`      | Whenever the user asks "where are we?" or after a crash.     |
 | `video-director retry <p>`       | After fixing a config / workflow / reference image.          |
@@ -76,12 +76,49 @@ When the user says "make a 10-minute video from this script":
    - `private/video_workflow.json` — their real ComfyUI workflow
    - `workflow.yaml` — the mapping from shot fields to node titles
 3. After they confirm the assets exist, run `validate`. Fix anything it warns about.
-4. Run `storyboard` (only if they want the default scene/shot breakdown; they can also hand-write scenes/shots).
+4. **Run the LLM breakdown pass** (see below) — Hermes reads `story.yaml`
+   and writes `state/story_bible.json` + `scenes/*.yaml` + `shots/*.yaml`.
+   The user can hand-tune shots afterwards; that's expected.
 5. Run `generate --backend comfyui`. Tell the user this can take a long time; suggest running in the background.
 6. If the user comes back later saying "where are we?" → `status`.
 7. If something failed and the user fixed the underlying cause (added a ref, fixed the workflow) → `retry --shot <id>` (or `--reset-all` for a full restart).
 8. When all shots are COMPLETED → `assemble`.
 9. Send the user the path to `output/final/final.mp4`.
+
+## Story breakdown — LLM-driven vs rule-based
+
+The CLI's `analyze` and `storyboard` commands are **rule-based and
+generic**. They produce shallow output and are mainly there for CI
+smoke tests and deterministic regeneration after `story.yaml` edits.
+
+For a real story, **Hermes should drive the breakdown itself** rather
+than calling those commands. The full protocol is in
+`docs/llm_breakdown.md`. Short version:
+
+- **StoryBible phase** — Hermes reads `projects/<p>/story.yaml`,
+  writes `projects/<p>/state/story_bible.json` (title, logline,
+  acts, beats, characters, locations).
+- **Storyboard phase** — Hermes reads both files and writes
+  `scenes/<scene_id>.yaml` and `shots/<shot_id>.yaml`, one per
+  scene and one per shot. Total shot count ≈ `target_duration_sec / 5`.
+- **Hand-tune phase** — the user can edit any shot's `prompt`,
+  `action`, `emotion`, `lighting`, etc. directly. The shot YAML files
+  are the source of truth for `generate`.
+
+When to use the rule-based commands instead:
+
+- CI / smoke tests
+- The user wants a starting skeleton they'll rewrite anyway
+- The user explicitly asks for "the default breakdown"
+
+When to use the LLM-driven flow:
+
+- Any production story
+- Anything longer than 1 minute
+- Anything with character continuity requirements
+
+The `validate` command works against either path's output — same
+schemas, same checks.
 
 ## Conversation discipline
 

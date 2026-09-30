@@ -87,14 +87,23 @@ $EDITOR projects/my_story/characters/*.yaml
 # Then map its nodes in projects/my_story/workflow.yaml
 # (see docs/comfyui.md)
 
-# 4. Run the full pipeline
-video-director analyze  my_story     # build story bible
-video-director storyboard my_story   # scenes + shots
-video-director validate  my_story    # check everything is wired up
+# 4. Turn your script into scenes + shots
+#
+# Recommended (LLM-driven via Hermes — see docs/llm_breakdown.md):
+#   Ask Hermes: "Break down projects/my_story/story.yaml into a
+#   StoryBible and scene/shot YAML files. Follow docs/llm_breakdown.md."
+#
+# Alternative (rule-based, generic — useful as a starting skeleton):
+video-director analyze   my_story
+video-director storyboard my_story
+# then hand-tune every shot's prompt/action/emotion/lighting
+
+# 5. Run the rest of the pipeline
+video-director validate  my_story
 video-director generate  my_story --backend mock    # CI-friendly mock
 video-director generate  my_story --backend comfyui # production
-video-director status    my_story     # see what happened
-video-director assemble  my_story     # concat to final.mp4
+video-director status    my_story
+video-director assemble  my_story
 ```
 
 Or one-shot:
@@ -139,6 +148,7 @@ python scripts/check_git_safety.py --strict   # refuse if any private file is tr
 - `docs/getting_started.md` — detailed walkthrough
 - `docs/comfyui.md` — wiring your real ComfyUI workflow
 - `docs/project_structure.md` — what each file is for
+- `docs/llm_breakdown.md` — how Hermes turns a screenplay into scenes + shots (recommended flow)
 - `docs/troubleshooting.md` — common failure modes
 
 ## Status

@@ -7,6 +7,7 @@ quickstart is in `../README.md`.
 |-------------------------------|------------------------------------------------------|
 | `architecture.md`             | Mental model + key design decisions.                 |
 | `getting_started.md`          | 10-minute walkthrough from install to final video.   |
+| `llm_breakdown.md`            | How to turn a screenplay into scenes + shots (recommended flow). |
 | `comfyui.md`                  | Step-by-step guide to wiring your real workflow.     |
 | `project_structure.md`        | Reference for every file under a project.            |
 | `troubleshooting.md`          | Symptom → fix for common failure modes.              |

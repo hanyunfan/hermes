@@ -100,27 +100,43 @@ version:
 
 If you don't have ComfyUI yet, use `--backend mock` for now.
 
-## 6. Run the pipeline
+## 6. Break down the story
+
+The framework offers two paths:
+
+### Recommended: LLM-driven via Hermes
+
+Ask Hermes (with the `video-director` skill loaded) to do this for you:
+
+> Break down `projects/my_first_story/story.yaml` into a StoryBible and
+> scene/shot YAML files. Follow `docs/llm_breakdown.md` for the exact
+> protocol.
+
+Hermes will:
+
+1. Read `story.yaml`.
+2. Write `state/story_bible.json` (logline, acts, beats, characters, locations).
+3. Write `scenes/<scene_id>.yaml` for each scene.
+4. Write `shots/<shot_id>.yaml` for each shot, with hand-quality prompts.
+
+You can then hand-edit any shot's prompt / action / emotion / lighting.
+
+### Alternative: rule-based
 
 ```bash
-# Build the story bible (logline, characters, beats, acts).
-video-director analyze my_first_story
-
-# Generate scene + shot plans from the story.
+video-director analyze   my_first_story
 video-director storyboard my_first_story
-
-# Sanity-check everything.
-video-director validate my_first_story
-
-# Generate clips. Use --backend mock for offline / CI runs.
-video-director generate my_first_story --backend mock --max-retries 1
-
-# Status check.
-video-director status my_first_story
-
-# Assemble final video.
-video-director assemble my_first_story --skip-qa
 ```
+
+This produces a shallow first draft using deterministic heuristics
+(proper-noun extraction, one-scene-per-section, 8 default shots per
+scene). Useful for CI smoke tests or as a starting skeleton, but
+**you will need to hand-tune every shot's prompt before generating**.
+
+See `docs/llm_breakdown.md` for the full prompt templates and good/bad
+prompt examples.
+
+## 7. Run the pipeline
 
 Your final video is at:
 
