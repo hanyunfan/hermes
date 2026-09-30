@@ -1,0 +1,44 @@
+# ai-video-director: top-level framework configuration (PLACEHOLDER)
+#
+# Copy this file to config/config.yaml (or pass --config to the CLI) and
+# edit. The CLI reads VIDEO_DIRECTOR_CONFIG to override.
+
+framework:
+  # Default backend for `video-director generate` when --backend is omitted.
+  # Use 'mock' for CI / dev, 'comfyui' for production.
+  default_backend: mock
+
+  # Concurrency. The current build runs serially; values > 1 log a warning.
+  max_concurrent_jobs: 1
+
+  # Default retry budget per shot. ComfyUI users may want 2; mock users 0.
+  max_retries: 3
+
+  # On retry, rotate the seed by default (helps when a single seed produced
+  # a corrupted frame). Set false to keep the original seed across retries.
+  retry_with_new_seed: true
+
+  # QA thresholds.
+  qa:
+    min_resolution_long_edge: 144
+    min_fps: 8
+    min_file_size_bytes: 256
+
+  # Assembly.
+  assembly:
+    video_codec: libx264
+    audio_codec: aac
+    crf: 20
+    preset: medium
+    target_width: null
+    target_height: null
+
+  # ComfyUI connection (only used when backend = comfyui).
+  comfyui:
+    base_url: http://127.0.0.1:8188
+    timeout_sec: 30
+    poll_interval_sec: 2.0
+    client_id: video-director
+
+# Per-project paths live under projects/<project_id>/ — see projects/template/
+# for the layout. Do NOT put private secrets here.

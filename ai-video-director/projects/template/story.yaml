@@ -1,0 +1,44 @@
+story_id: example_story
+title: Example Story Title
+story_summary: |
+  A two-character demo story used purely as scaffolding. No real characters
+  are referenced; replace every field before generating.
+genre: drama
+style: cinematic
+tone: contemplative
+target_duration_sec: 60
+language: en
+script:
+  - section_id: intro
+    title: Opening
+    summary: The narrator arrives at a quiet place.
+    body: |
+      The narrator walks into the example location and looks around.
+      The room is calm and empty. They sit down and begin to speak.
+    characters:
+      - example_character_a
+    location: example_location_intro
+    notes: ""
+
+  - section_id: middle
+    title: Middle
+    summary: A second character joins.
+    body: |
+      The second character enters. They greet each other briefly.
+      They discuss the situation and decide what to do next.
+    characters:
+      - example_character_a
+      - example_character_b
+    location: example_location_intro
+    notes: ""
+
+  - section_id: end
+    title: Closing
+    summary: They leave.
+    body: |
+      Together they stand and walk out of the room into the evening air.
+    characters:
+      - example_character_a
+      - example_character_b
+    location: example_location_outro
+    notes: ""

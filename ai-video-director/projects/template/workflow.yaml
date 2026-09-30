@@ -1,0 +1,38 @@
+# Workflow mapping (PLACEHOLDER)
+#
+# This file is shipped with the template so `validate` can find a real mapping
+# file. **The names below are placeholders** — replace them with the node
+# titles from your own ComfyUI workflow before generating.
+#
+# Workflow mapping format
+# -----------------------
+#
+# workflow_name      : free-form label; informational only.
+# workflow_path      : path to the workflow JSON, relative to this project's private/.
+# prompt_node        : title of the positive-prompt node (e.g. CLIPTextEncode).
+# negative_prompt_node: title of the negative-prompt node.
+# seed_node          : title of the node that takes a `seed` input.
+# output_node        : title of the node that produces the final video file.
+# image_input_nodes  : map of role -> node_title for each reference image input.
+# extra_param_nodes  : map of param_name -> node_title for workflow overrides.
+#
+# To wire up your real workflow
+# -----------------------------
+# 1. Export your workflow from ComfyUI (File -> Export -> API format recommended).
+# 2. Save the JSON to private/video_workflow.json.
+# 3. Open the JSON, find each node you want to control, and read its
+#    `title` from the `_meta.title` field (or the `title` field for UI exports).
+# 4. Edit the file below to match.
+
+workflow_name: USER_PROVIDED_VIDEO_WORKFLOW
+workflow_path: video_workflow.json
+prompt_node: PositivePrompt
+negative_prompt_node: NegativePrompt
+seed_node: KSampler
+output_node: VHS_VideoCombine
+image_input_nodes:
+  hero: LoadImageHero
+extra_param_nodes: {}
+notes: |
+  Replace the titles above with the actual node titles from your exported
+  ComfyUI workflow. Do not commit your real workflow JSON to git.

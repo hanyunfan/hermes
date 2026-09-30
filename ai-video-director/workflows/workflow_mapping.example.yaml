@@ -1,0 +1,23 @@
+# Workflow mapping (PLACEHOLDER)
+#
+# Copy this file to projects/<your_project>/workflow.yaml and edit the
+# node titles to match your exported ComfyUI workflow.
+#
+# See docs/comfyui.md for step-by-step instructions.
+
+workflow_name: my_video_workflow
+workflow_path: video_workflow.json
+prompt_node: PositivePrompt
+negative_prompt_node: NegativePrompt
+seed_node: KSampler
+output_node: VHS_VideoCombine
+image_input_nodes:
+  hero: LoadImageHero
+  face: LoadImageFace
+extra_param_nodes:
+  steps: KSamplerSteps
+  cfg: KSamplerCFG
+notes: |
+  Edit the titles above to match the actual node titles in your exported
+  ComfyUI workflow. Find titles via the node's _meta.title (API export)
+  or its title field (UI export).

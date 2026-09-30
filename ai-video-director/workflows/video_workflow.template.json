@@ -1,0 +1,12 @@
+{
+  "workflow_name": "USER_PROVIDED_VIDEO_WORKFLOW",
+  "_comment": [
+    "PLACEHOLDER. This file is intentionally NOT a real ComfyUI workflow.",
+    "Do NOT export your workflow here. Real workflow JSON belongs in",
+    "each project's private/ directory (gitignored).",
+    "See docs/comfyui.md for how to wire up your own workflow."
+  ],
+  "schema_version": "0.1.0",
+  "description": "Template placeholder. Replace per project under private/video_workflow.json.",
+  "nodes": {}
+}

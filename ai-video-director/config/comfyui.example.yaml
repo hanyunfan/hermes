@@ -1,0 +1,11 @@
+# ComfyUI connection settings (PLACEHOLDER)
+#
+# Copy to config/comfyui.yaml and edit.
+
+base_url: http://127.0.0.1:8188
+timeout_sec: 30
+poll_interval_sec: 2.0
+client_id: video-director
+
+# Override these only if you understand what they do — wrong values can stall
+# the runner waiting for a ComfyUI that never answers.

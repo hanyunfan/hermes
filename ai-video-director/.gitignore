@@ -1,0 +1,108 @@
+# ai-video-director .gitignore
+#
+# Critical: any path that could contain real, private, or sensitive content
+# must be listed here. The framework's data-safety guarantee depends on it.
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+venv/
+env/
+build/
+dist/
+*.egg-info/
+.pytest_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+
+# --- Editor / OS ---
+.vscode/
+.idea/
+.DS_Store
+*.swp
+*.bak
+*~
+*.tmp
+
+# --- Real story content (NEVER commit) ---
+# Real projects other than the public template
+projects/*
+!projects/template/
+!projects/template/**
+# The template ships as a usable scaffold; everything below "projects/"
+# that isn't the template is presumed private.
+
+# --- Per-project private assets ---
+# Anything inside a project's references/, private/, output/, state/
+projects/*/references/
+projects/*/references/**
+projects/*/private/
+projects/*/private/**
+projects/*/output/
+projects/*/output/**
+projects/*/state/
+projects/*/state/**
+
+# Catch-all for ad-hoc private dirs at the framework root
+local/
+private/
+runtime/
+real_workflow.json
+*.secret.*
+*.local.*
+
+# --- Generated media ---
+*.mp4
+*.mov
+*.mkv
+*.webm
+*.mp3
+*.wav
+*.flac
+*.ogg
+*.srt
+*.vtt
+*.ass
+*.gif
+*.png
+*.jpg
+*.jpeg
+*.webp
+# Allow placeholder/template PNGs inside projects/template/
+!projects/template/**/*.png
+!projects/template/**/*.jpg
+!projects/template/**/*.jpeg
+!projects/template/**/*.webp
+
+# --- ComfyUI workflow JSON ---
+# Real ComfyUI workflows must NEVER enter git. The template file is allowed
+# because it's a sanitised placeholder.
+real_workflow.json
+*_workflow.json
+*workflow*.json
+!workflows/video_workflow.template.json
+
+# --- Credentials / secrets ---
+.env
+.env.*
+*.pem
+*.key
+api_key*
+apikey*
+*_token*
+*token*.txt
+secrets.yaml
+secrets.yml
+# Be conservative: anything that smells like a credential gets ignored
+*.password
+*password*
+
+# --- Runtime logs ---
+*.log
+logs/
+*.pid
