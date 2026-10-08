@@ -58,6 +58,21 @@ class GenerationRequest:
     character_references: dict[str, str] = field(default_factory=dict)
     continuity_references: dict[str, str] = field(default_factory=dict)
     seed_override: int | None = None
+    # NEW: carry the mapping so the adapter knows input-slot names without
+    # having to thread the mapping object through every call.
+    prompt_input_key: str = "text"
+    negative_prompt_input_key: str = "text"
+    seed_input_key: str = "seed"
+    image_input_keys: dict[str, str] = field(default_factory=dict)
+    extra_param_input_keys: dict[str, str] = field(default_factory=dict)
+    duration_param: str = ""
+    start_frame_role: str = "start_frame"
+
+    def image_input_key(self, role: str) -> str:
+        return self.image_input_keys.get(role, "image")
+
+    def extra_param_input_key(self, key: str) -> str:
+        return self.extra_param_input_keys.get(key, key)
 
 
 @dataclass
@@ -84,9 +99,10 @@ class ComfyUIWorkflowAdapter:
         resolved: ResolvedWorkflow,
         references: Mapping[str, str] | None = None,
         seed_override: int | None = None,
+        mapping: WorkflowMapping | None = None,
     ) -> GenerationRequest:
         ref_map = dict(references or {})
-        return GenerationRequest(
+        req = GenerationRequest(
             shot=shot,
             workflow=copy.deepcopy(resolved.workflow),
             prompt_node_id=resolved.prompt_node_id,
@@ -98,42 +114,98 @@ class ComfyUIWorkflowAdapter:
             character_references=ref_map,
             seed_override=seed_override,
         )
+        # Carry mapping-side configuration onto the request so patch_workflow
+        # stays self-contained.
+        if mapping is not None:
+            req.prompt_input_key = mapping.prompt_input_key
+            req.negative_prompt_input_key = mapping.negative_prompt_input_key
+            req.seed_input_key = mapping.seed_input_key
+            req.image_input_keys = dict(mapping.image_input_keys)
+            req.extra_param_input_keys = dict(mapping.extra_param_input_keys)
+            req.duration_param = mapping.duration_param
+            req.start_frame_role = mapping.start_frame_role
+        return req
 
     def patch_workflow(self, request: GenerationRequest) -> GenerationRequest:
         wf = request.workflow
-        self._set_input(wf, request.prompt_node_id, "text", request.shot.prompt)
+        req = request
+
+        # ---- prompt (slot name is configurable) -----------------------
         self._set_input(
-            wf,
-            request.negative_prompt_node_id,
-            "text",
-            request.shot.negative_prompt,
+            wf, req.prompt_node_id, req.prompt_input_key, req.shot.prompt
         )
-        seed = request.seed_override if request.seed_override is not None else request.shot.seed
-        if seed is None:
-            seed = random.randint(0, 2**31 - 1)
-        if request.seed_node_id:
-            self._set_input(wf, request.seed_node_id, "seed", int(seed))
-        # Image inputs: each role's image path goes into the configured node.
-        for role, node_id in request.image_input_node_ids.items():
-            path = request.character_references.get(role)
-            if path:
-                self._set_input(wf, node_id, "image", path)
-        # Continuity start frame as a fallback role
-        start_frame = request.character_references.get("start_frame")
-        if start_frame and "start_frame" in request.image_input_node_ids:
+        # ---- negative prompt: skip unless the target is actually
+        # different from the positive prompt. Many nodes (e.g.
+        # MiniMaxH3ImageToVideo) don't have a separate negative prompt
+        # port — if the mapping points neg_prompt at the same node /
+        # slot as the positive prompt, writing shot.negative_prompt
+        # would clobber the positive prompt we just wrote.
+        # Shot authors can still embed negation in shot.prompt itself.
+        if (
+            req.negative_prompt_node_id != req.prompt_node_id
+            or req.negative_prompt_input_key != req.prompt_input_key
+        ):
             self._set_input(
                 wf,
-                request.image_input_node_ids["start_frame"],
-                "image",
-                start_frame,
+                req.negative_prompt_node_id,
+                req.negative_prompt_input_key,
+                req.shot.negative_prompt,
             )
-        # Extra params (size, steps, cfg, ...) come from shot.workflow_overrides.
-        for k, node_id in request.extra_param_node_ids.items():
-            if k in request.shot.workflow_overrides:
-                self._set_input(wf, node_id, k, request.shot.workflow_overrides[k])
-        request.seed_used = int(seed)
-        request.prompt_used = request.shot.prompt
-        return request
+
+        # ---- seed (slot name is configurable) --------------------------
+        seed = (
+            req.seed_override
+            if req.seed_override is not None
+            else req.shot.seed
+        )
+        if seed is None:
+            seed = random.randint(0, 2**31 - 1)
+        if req.seed_node_id:
+            self._set_input(wf, req.seed_node_id, req.seed_input_key, int(seed))
+
+        # ---- image inputs ---------------------------------------------
+        # Roles from character_references; slot name is configurable.
+        for role, node_id in req.image_input_node_ids.items():
+            path = req.character_references.get(role)
+            if path:
+                self._set_input(wf, node_id, req.image_input_key(role), path)
+
+        # ---- start_frame: auto-wire shot.start_frame → start_frame_role
+        # References win (explicit override); fall back to shot.start_frame.
+        sf_ref = req.character_references.get(req.start_frame_role)
+        if not sf_ref and req.shot.start_frame:
+            sf_ref = req.shot.start_frame
+        if sf_ref and req.start_frame_role in req.image_input_node_ids:
+            self._set_input(
+                wf,
+                req.image_input_node_ids[req.start_frame_role],
+                req.image_input_key(req.start_frame_role),
+                sf_ref,
+            )
+
+        # ---- duration: auto-wire shot.duration_sec → duration_param node
+        if req.duration_param and req.duration_param in req.extra_param_node_ids:
+            dur_node_id = req.extra_param_node_ids[req.duration_param]
+            dur_key = req.extra_param_input_key(req.duration_param)
+            self._set_input(wf, dur_node_id, dur_key, float(req.shot.duration_sec))
+
+        # ---- extra params from shot.workflow_overrides -----------------
+        for k, node_id in req.extra_param_node_ids.items():
+            # Skip the duration slot — handled above so it's not shadowed
+            # by a stale workflow_overrides entry.
+            if k == req.duration_param:
+                continue
+            if k in req.shot.workflow_overrides:
+                self._set_input(
+                    wf,
+                    node_id,
+                    req.extra_param_input_key(k),
+                    req.shot.workflow_overrides[k],
+                )
+
+        req.seed_used = int(seed)
+        req.prompt_used = req.shot.prompt
+        return req
 
     # ---- submit + poll ----------------------------------------------
 
@@ -260,7 +332,7 @@ class ComfyUIWorkflowAdapter:
         """
         resolver = WorkflowResolver(paths, mapping)
         resolved = resolver.resolve()
-        req = self.prepare_request(shot, resolved, references, seed_override)
+        req = self.prepare_request(shot, resolved, references, seed_override, mapping)
         self.patch_workflow(req)
         prompt_id = self.submit(req)
         entry = self.poll(prompt_id)

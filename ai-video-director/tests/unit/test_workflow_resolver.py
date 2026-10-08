@@ -34,6 +34,23 @@ def _write_mapping(paths: ProjectPaths, mapping: WorkflowMapping) -> None:
     write_yaml(paths.workflow_mapping_file, mapping.to_dict())
 
 
+def test_resolver_handles_api_format(project_paths):
+    _write_workflow(project_paths, _API)
+    mapping = WorkflowMapping(
+        workflow_path="wf.json",
+        prompt_node="PositivePrompt",
+        negative_prompt_node="NegativePrompt",
+        seed_node="KSampler",
+        output_node="VHS_VideoCombine",
+        image_input_nodes={"hero": "LoadImageHero"},
+    )
+    _write_mapping(project_paths, mapping)
+    resolved = WorkflowResolver(project_paths, mapping).resolve()
+    assert resolved.prompt_node_id == "1"
+    assert resolved.image_input_node_ids["hero"] == "4"
+    assert resolved.output_node_id == "5"
+
+
 def test_resolver_handles_ui_format(project_paths):
     _write_workflow(project_paths, _UI)
     mapping = WorkflowMapping(
@@ -51,20 +68,25 @@ def test_resolver_handles_ui_format(project_paths):
     assert resolved.output_node_id == "5"
 
 
-def test_resolver_handles_api_format(project_paths):
-    _write_workflow(project_paths, _API)
+def test_resolver_handles_subgraph_qualified_api_format(project_paths):
+    """API-format node IDs with a colon (e.g. "105:11") must resolve too."""
+    _write_workflow(project_paths, _API_SUBGRAPH)
     mapping = WorkflowMapping(
         workflow_path="wf.json",
-        prompt_node="PositivePrompt",
-        negative_prompt_node="NegativePrompt",
-        seed_node="KSampler",
-        output_node="VHS_VideoCombine",
-        image_input_nodes={"hero": "LoadImageHero"},
+        prompt_node="MiniMaxH3I2V",
+        negative_prompt_node="MiniMaxH3I2V",
+        seed_node="RandomNoise",
+        output_node="SaveVideo",
+        image_input_nodes={"start_frame": "LoadImage"},
+        extra_param_nodes={"duration_sec": "FloatDuration"},
     )
     _write_mapping(project_paths, mapping)
     resolved = WorkflowResolver(project_paths, mapping).resolve()
-    assert resolved.prompt_node_id == "1"
-    assert resolved.image_input_node_ids["hero"] == "4"
+    assert resolved.prompt_node_id == "105:104"
+    assert resolved.image_input_node_ids["start_frame"] == "114"
+    assert resolved.output_node_id == "92"
+    assert resolved.extra_param_node_ids["duration_sec"] == "105:111"
+    assert resolved.seed_node_id == "105:15"
 
 
 def test_resolver_raises_when_workflow_missing(project_paths):
@@ -128,5 +150,18 @@ _API = """\
   "3": {"class_type": "KSampler", "_meta": {"title": "KSampler"}, "inputs": {"seed": 0}},
   "4": {"class_type": "LoadImage", "_meta": {"title": "LoadImageHero"}, "inputs": {"image": ""}},
   "5": {"class_type": "VHS_VideoCombine", "_meta": {"title": "VHS_VideoCombine"}, "inputs": {}}
+}
+"""
+
+# Subgraph-qualified IDs (e.g. "105:11") used by MiniMax-H3 and other
+# workflows that export nodes inside a subgraph. The resolver must
+# accept these even though they aren't pure digits.
+_API_SUBGRAPH = """\
+{
+  "92": {"class_type": "SaveVideo", "_meta": {"title": "SaveVideo"}, "inputs": {}},
+  "114": {"class_type": "LoadImage", "_meta": {"title": "LoadImage"}, "inputs": {"image": ""}},
+  "105:15": {"class_type": "RandomNoise", "_meta": {"title": "RandomNoise"}, "inputs": {"noise_seed": 0}},
+  "105:104": {"class_type": "MiniMaxH3ImageToVideo", "_meta": {"title": "MiniMaxH3I2V"}, "inputs": {"prompt": ""}},
+  "105:111": {"class_type": "PrimitiveFloat", "_meta": {"title": "FloatDuration"}, "inputs": {"value": 5}}
 }
 """

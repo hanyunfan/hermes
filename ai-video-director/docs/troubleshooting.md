@@ -58,6 +58,64 @@ node that failed. Common causes:
 - The KSampler's `seed` is the wrong type — it must be an integer.
 - An IPAdapter node needs both the model and the image uploaded.
 
+### ComfyUI loads the wrong model / fails to load a model at all
+
+Three failure modes look similar but have different causes:
+
+**(a) ComfyUI 404: `Node 'X' not found. The custom node may not be installed.`**
+
+Two common sub-causes:
+
+1. The workflow JSON's `class_type` is a **stale subgraph UUID** like
+   `"4c314f31-ecda-4b08-ae98-faaba1bf613f"`. ComfyUI exports subgraphs
+   as display-titles ("VideoGenerator") in the UI format and as the
+   subgraph's UUID in the API format. When you convert UI → API format
+   *manually* (e.g. by stripping helper nodes), the UUID stays, but
+   ComfyUI does not register it as a top-level node type — only the
+   expanded subgraph's internal nodes (MiniMaxH3ImageToVideo,
+   UNETLoader, etc.) are known. Re-export from ComfyUI directly with
+   "Save (API format)" to get the expanded form.
+
+2. The workflow references a **custom node pack that's not installed**
+   (e.g. `ComfyCloudMiniMaxH3ImageToVideoNode` lives in the cloud
+   distribution, not the local install). Use a local-only workflow.
+
+**(b) ComfyUI 500 / `Unauthorized: Please login first to use this node.`**
+
+The workflow uses a `ComfyCloud*` node that requires an active
+ComfyUI cloud login. The session lives in the server's runtime config
+and expires. Re-login in the ComfyUI web UI, or switch to the local
+node equivalent (e.g. `MiniMaxH3ImageToVideo`).
+
+**(c) ComfyUI 400: `Invalid image file: 2504ab7a-….png`**
+
+The workflow references a ComfyUI-uploaded image by its UUID-named
+filename. That filename only exists on the machine that uploaded it
+and only until the input directory is cleared. Re-upload your image
+to the target machine, then **either** rename the `LoadImage` node's
+`image` widget to a stable filename (`hero.png`) **or** upload through
+the dashboard's "Upload JSON" button which also pushes the image.
+
+### Workflow node IDs and input-key names (MiniMax-H3 / subgraph APIs)
+
+After resolving node titles via the resolver, the adapter still needs
+to know which **input slot** on each node carries the prompt / image /
+seed. Different ComfyUI nodes name the same conceptual field
+differently:
+
+| Field | SD1.5/SDXL node | MiniMax-H3 node |
+|---|---|---|
+| prompt | `CLIPTextEncode.inputs.text` | `MiniMaxH3ImageToVideo.inputs.prompt` |
+| negative prompt | (separate node) | (same node, same slot — embed in prompt) |
+| seed | `KSampler.inputs.seed` | `RandomNoise.inputs.noise_seed` |
+| image | `LoadImage.inputs.image` | `LoadImage.inputs.image` |
+| duration | n/a | `PrimitiveFloat.inputs.value` |
+
+The `WorkflowMapping` YAML exposes these as `prompt_input_key`,
+`negative_prompt_input_key`, `seed_input_key`, `image_input_keys`,
+`extra_param_input_keys`. See `projects/template/workflow.yaml` for
+the MiniMax-H3 example.
+
 ### Generation times out
 
 ComfyUI didn't finish in the configured budget. Increase the timeout:

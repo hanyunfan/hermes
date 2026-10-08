@@ -20,6 +20,21 @@ class WorkflowMapping:
     is the *title* of the node (e.g. ``"PositivePrompt"``) rather than the
     ``"42"`` numeric ID — this survives node renumbering in the ComfyUI
     editor and keeps the mapping file readable.
+
+    ``input_keys`` decouple the *node identity* (which ComfyUI node to
+    target) from the *input slot name* (which input port on that node to
+    write into). Different nodes name the same conceptual field
+    differently:
+
+      * ``CLIPTextEncode`` calls it ``text``
+      * ``MiniMaxH3ImageToVideo`` calls it ``prompt``
+      * ``PrimitiveFloat`` calls it ``value``
+      * ``KSampler`` calls it ``seed``
+      * ``LoadImage`` calls it ``image``
+      * ``RandomNoise`` calls it ``noise_seed``
+
+    Defaults match the legacy ``CLIPTextEncode`` / ``KSampler`` / ``LoadImage``
+    pair so old mappings keep working without edits.
     """
 
     workflow_name: str = ""
@@ -32,6 +47,20 @@ class WorkflowMapping:
     # role -> node_title for each character/scene reference image
     extra_param_nodes: dict[str, str] = field(default_factory=dict)
     # arbitrary extra param -> node_title pairs (size, steps, cfg, ...)
+
+    # ---- input-slot names (NEW) --------------------------------------
+    prompt_input_key: str = "text"
+    negative_prompt_input_key: str = "text"
+    seed_input_key: str = "seed"
+    image_input_keys: dict[str, str] = field(default_factory=dict)
+    # role -> input slot name on the image node (default: "image")
+    extra_param_input_keys: dict[str, str] = field(default_factory=dict)
+    # param key -> input slot name on the param node (default: same key)
+    # Special: when ``duration_param`` is set, ``shot.duration_sec`` is
+    # auto-written into that node's slot, no per-shot override needed.
+    duration_param: str = ""
+    start_frame_role: str = "start_frame"
+    # which role the adapter should pull ``shot.start_frame`` from
     notes: str = ""
 
     def required_node_titles(self) -> list[str]:
@@ -45,6 +74,12 @@ class WorkflowMapping:
         nodes.extend(self.extra_param_nodes.values())
         return [n for n in nodes if n]
 
+    def image_input_key(self, role: str) -> str:
+        return self.image_input_keys.get(role, "image")
+
+    def extra_param_input_key(self, key: str) -> str:
+        return self.extra_param_input_keys.get(key, key)
+
     def to_dict(self) -> dict[str, Any]:
         return {
             "workflow_name": self.workflow_name,
@@ -55,6 +90,13 @@ class WorkflowMapping:
             "output_node": self.output_node,
             "image_input_nodes": dict(self.image_input_nodes),
             "extra_param_nodes": dict(self.extra_param_nodes),
+            "prompt_input_key": self.prompt_input_key,
+            "negative_prompt_input_key": self.negative_prompt_input_key,
+            "seed_input_key": self.seed_input_key,
+            "image_input_keys": dict(self.image_input_keys),
+            "extra_param_input_keys": dict(self.extra_param_input_keys),
+            "duration_param": self.duration_param,
+            "start_frame_role": self.start_frame_role,
             "notes": self.notes,
         }
 
@@ -69,6 +111,17 @@ class WorkflowMapping:
             output_node=str(data.get("output_node", "")),
             image_input_nodes=dict(data.get("image_input_nodes", {}) or {}),
             extra_param_nodes=dict(data.get("extra_param_nodes", {}) or {}),
+            prompt_input_key=str(data.get("prompt_input_key", "text")),
+            negative_prompt_input_key=str(
+                data.get("negative_prompt_input_key", "text")
+            ),
+            seed_input_key=str(data.get("seed_input_key", "seed")),
+            image_input_keys=dict(data.get("image_input_keys", {}) or {}),
+            extra_param_input_keys=dict(
+                data.get("extra_param_input_keys", {}) or {}
+            ),
+            duration_param=str(data.get("duration_param", "")),
+            start_frame_role=str(data.get("start_frame_role", "start_frame")),
             notes=str(data.get("notes", "")),
         )
 

@@ -115,16 +115,32 @@ class WorkflowResolver:
         ComfyUI stores the workflow under one of:
           * API format: ``{"node_id": {"class_type": ..., "inputs": ...}}``
           * UI export: ``{"nodes": [{"id": ..., "title": "...", ...}], ...}``
+
+        API-format node IDs can be either pure digits (``"42"``) or contain
+        a colon (``"105:11"`` for a node inside a subgraph). We treat any
+        top-level value that looks like a node payload — dict with
+        ``class_type`` or ``_meta`` — as API format.
+
         We normalise both into the title index.
         """
         title_to_id: dict[str, str] = {}
-        # API format detection: top-level keys look like "1", "2", ...
-        if all(k.isdigit() for k in workflow.keys()) and workflow:
+        # API format detection: top-level keys are node IDs (digit-only or
+        # subgraph-qualified like "105:11"), and values are node payloads.
+        if workflow and all(
+            isinstance(v, dict) and ("class_type" in v or "_meta" in v)
+            for v in workflow.values()
+        ):
             for node_id, payload in workflow.items():
-                if isinstance(payload, dict) and "_meta" in payload:
-                    title = payload["_meta"].get("title") if isinstance(payload["_meta"], dict) else None
-                    if title:
-                        title_to_id[str(title)] = str(node_id)
+                if not isinstance(payload, dict):
+                    continue
+                meta = payload.get("_meta")
+                title = (
+                    meta.get("title")
+                    if isinstance(meta, dict)
+                    else None
+                )
+                if title:
+                    title_to_id[str(title)] = str(node_id)
             return title_to_id
         # UI format
         nodes = workflow.get("nodes", []) if isinstance(workflow, dict) else []

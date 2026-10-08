@@ -1,38 +1,71 @@
-# Workflow mapping (PLACEHOLDER)
+# Workflow mapping for MiniMax-H3 image-to-video (MiniMax_H3 workflow).
 #
-# This file is shipped with the template so `validate` can find a real mapping
-# file. **The names below are placeholders** — replace them with the node
-# titles from your own ComfyUI workflow before generating.
+# This is shipped with the template so `video-director generate` works out of
+# the box on this machine. Replace `workflow_path` with your own exported
+# workflow if you have a different one — and update the node titles /
+# input_keys below to match the node titles + input port names in your JSON.
 #
-# Workflow mapping format
-# -----------------------
+# IMPORTANT — input_keys:
+# ComfyUI nodes name input ports differently. The defaults in
+# WorkflowMapping ("text" for prompts, "image" for LoadImage, "seed" for
+# KSampler) work for the old SD1.5/SDXL pipeline, but for MiniMax-H3 you
+# must override:
+#   * MiniMaxH3ImageToVideo uses `prompt` (not `text`)
+#   * PrimitiveFloat (the duration widget) uses `value` (not `value` as a
+#     literal key — we use it as the param key too, but the input port is
+#     also `value`)
+#   * RandomNoise uses `noise_seed` (not `seed`)
 #
-# workflow_name      : free-form label; informational only.
-# workflow_path      : path to the workflow JSON, relative to this project's private/.
-# prompt_node        : title of the positive-prompt node (e.g. CLIPTextEncode).
-# negative_prompt_node: title of the negative-prompt node.
-# seed_node          : title of the node that takes a `seed` input.
-# output_node        : title of the node that produces the final video file.
-# image_input_nodes  : map of role -> node_title for each reference image input.
-# extra_param_nodes  : map of param_name -> node_title for workflow overrides.
-#
-# To wire up your real workflow
-# -----------------------------
-# 1. Export your workflow from ComfyUI (File -> Export -> API format recommended).
-# 2. Save the JSON to private/video_workflow.json.
-# 3. Open the JSON, find each node you want to control, and read its
-#    `title` from the `_meta.title` field (or the `title` field for UI exports).
-# 4. Edit the file below to match.
+# `duration_param: duration_sec` tells the adapter to auto-wire
+# `shot.duration_sec` into that node's slot — no per-shot override needed.
 
-workflow_name: USER_PROVIDED_VIDEO_WORKFLOW
-workflow_path: video_workflow.json
-prompt_node: PositivePrompt
-negative_prompt_node: NegativePrompt
-seed_node: KSampler
-output_node: VHS_VideoCombine
+workflow_name: MiniMax_H3_image_to_video
+workflow_path: video_workflow_api.json
+
+# Node titles — see private/video_workflow_api.json
+prompt_node: "MiniMax H3 Image to Video"
+negative_prompt_node: "MiniMax H3 Image to Video"   # single node, no neg prompt port
+seed_node: "RandomNoise"                             # noise seed widget
+output_node: "Save Video"
+
+# Input port names (NEW — overrides the legacy "text" / "image" / "seed" defaults)
+prompt_input_key: prompt
+negative_prompt_input_key: prompt
+seed_input_key: noise_seed
+
+# Image roles — shot.start_frame auto-wires into this slot
 image_input_nodes:
-  hero: LoadImageHero
-extra_param_nodes: {}
+  start_frame: "Load Image"
+
+# Extra params — the only one we wire is duration. Add more here
+# (e.g. steps, cfg) if you want per-shot overrides via shot.workflow_overrides.
+extra_param_nodes:
+  duration_sec: "Float (duration)"
+
+# PrimitiveFloat's input port is "value"; map the param key to that port name.
+extra_param_input_keys:
+  duration_sec: value
+
+# Auto-wire from shot.duration_sec into the duration_param node.
+duration_param: duration_sec
+start_frame_role: start_frame
+
 notes: |
-  Replace the titles above with the actual node titles from your exported
-  ComfyUI workflow. Do not commit your real workflow JSON to git.
+  Uses video_workflow_api.json (exported API format from ComfyUI 0.37.0).
+  Contains 26 local-only nodes — LoadImage, ResolutionSelector, ImageScale,
+  GetImageSize, MiniMaxH3ImageToVideo, all the H3 helper nodes
+  (UNETLoader / VAELoader / CLIPLoader / LoraLoader / SigmaShift /
+  RandomNoise / BasicGuider / BasicScheduler / SamplerCustomAdvanced /
+  KSamplerSelect / VAEDecode / VAEDecodeAudio / CreateVideo), and SaveVideo.
+  No ComfyCloud / cloud-API nodes — runs entirely locally.
+
+  Default model files (must exist under ComfyUI/models/):
+    diffusion_models/minimax_h3_fl2va_pruned_int8_convrot.safetensors
+    text_encoders/qwen3vl_32b_heretic_minimax_h3_nvfp4.safetensors
+    vae/minimax_h3_video_vae_fp16.safetensors
+    vae/minimax_h3_audio_vae_fp32.safetensors
+    loras/minimax_h3_fl2v_turbo_8step_v1.0_comfyui_bf16.safetensors
+
+  These names are baked into video_workflow_api.json's UNETLoader /
+  CLIPLoader / VAELoader / LoraLoader nodes. If you move the workflow to
+  a machine with different paths, edit the JSON directly.
