@@ -71,6 +71,22 @@ def run(args, pm: ProjectManager) -> int:
         # so the assembled final.mp4 follows the story order, not the
         # filesystem glob order.
         expected_shot_ids = [s.shot_id for s in pm.iter_shots(paths)]
+
+        # Default filter: drop template/example shots unless --include-examples.
+        # Additive: --exclude-ids lets the user exclude additional shots.
+        explicit_excludes = set()
+        if getattr(args, "exclude_ids", None):
+            explicit_excludes = {s.strip() for s in args.exclude_ids.split(",") if s.strip()}
+        if not getattr(args, "include_examples", False):
+            explicit_excludes.update(s for s in expected_shot_ids if s.startswith("example_"))
+
+        if explicit_excludes:
+            print(
+                f"[info] filtering {len(explicit_excludes)} shot(s) from final video: "
+                f"{sorted(explicit_excludes)[:5]}{'...' if len(explicit_excludes) > 5 else ''}"
+            )
+            expected_shot_ids = [s for s in expected_shot_ids if s not in explicit_excludes]
+
         clips = _collect_clips(paths, sm, expected_order=expected_shot_ids)
 
         # Orphan check: ensure output/clips/ matches the project's declared

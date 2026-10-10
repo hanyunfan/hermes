@@ -1,7 +1,10 @@
 shot_id: example_shot_001
 scene_id: example_scene_001
 shot_index: 1
-duration_sec: 5
+duration_sec: 2
+# NOTE: example_shot_001 is a 2-second quick-check used to verify the
+# pipeline end-to-end. By default `video-director assemble` filters it out
+# of the final video. Pass --include-examples to keep it in.
 shot_type: medium
 camera: 50mm eye-level
 camera_motion: static

@@ -52,9 +52,25 @@ projects/<project_id>/
 | `[FILE: dialogues.json]` | `projects/<project_id>/imports/dialogues.json` |
 
 参考图:
-- `imports/references/<character_id>/hero.png` — 每个角色一张 hero 参考图
+- `imports/references/<character_id>/hero.jpg` — 每个角色一张 hero 参考图
 - `imports/references/<character_id>/face.png` — 可选,仅脸部特写
 - `imports/references/<character_id>/costume_*.png` — 可选,特定服装
+
+**两种目录约定**(都支持,Grok 看用户实际放哪里就输出对应路径):
+
+A. 目录名 = character_id(推荐):
+```
+imports/references/lin_xi/hero.jpg    ← character_id: "lin_xi"
+imports/references/lao_seng/hero.jpg ← character_id: "lao_seng"
+```
+
+B. 数字/通用目录(用户已用 `1/`, `2/` 等):
+```
+imports/references/1/hero.jpg  ← character_id: "young_woman"
+imports/references/2/hero.jpg  ← character_id: "young_man"
+```
+
+**关键**:`validate-imports` 会检查 `reference_image` 指向的文件**真实存在**。如果指向不存在路径,会报 `MISSING_REFERENCE_IMAGE` ERROR,build 直接拒绝。所以**先 `ls imports/references/` 看实际布局**,再让 Grok 输出。
 
 ## `<project_id>` 怎么定
 

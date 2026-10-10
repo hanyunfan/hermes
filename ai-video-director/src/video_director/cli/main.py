@@ -104,6 +104,11 @@ def build_parser() -> argparse.ArgumentParser:
                     help="Audio track path; pass multiple times for multiple tracks.")
     sp.add_argument("--audio-kind", action="append", default=None,
                     help="One of: voice, bgm, sfx. Pairs with --audio.")
+    sp.add_argument("--include-examples", action="store_true",
+                    help="Include template/example shots (anything starting with 'example_'). "
+                         "Default: filter them out.")
+    sp.add_argument("--exclude-ids", default=None,
+                    help="Comma-separated shot ids to exclude (additive to default filtering).")
 
     sp = sub.add_parser("retry", help="Re-run generation for selected shots.")
     add_project_arg(sp)

@@ -208,12 +208,7 @@ Each `[FILE: foo.json]` block Grok emits is saved to:
 | `[FILE: shots.json]`      | `projects/<id>/imports/shots.json`               |
 | `[FILE: dialogues.json]`  | `projects/<id>/imports/dialogues.json` (optional)|
 
-Reference images (per character):
-
-```
-projects/<id>/imports/references/<character_id>/hero.png
-projects/<id>/imports/references/<character_id>/face.png   (optional)
-```
+Reference images (per character) — see "Reference picture layout" below.
 
 ### Step 3 — validate
 
@@ -311,3 +306,97 @@ video-director list
 video-director run <project>            (analyze + storyboard + generate + assemble)
 ```
 
+
+
+## Reference picture layout
+
+The user supplies character reference images that the video model uses as a
+visual anchor for each character (face, clothing, etc.). There are two layouts
+the framework accepts:
+
+### Layout A — directory name = `character_id` (recommended)
+
+```
+projects/<id>/imports/references/
+├── lin_xi/
+│   ├── hero.jpg
+│   └── face.png        (optional, only-for close-ups)
+└── lao_seng/
+    └── hero.jpg
+```
+
+`characters.json` references match the directory:
+
+```json
+[
+  {"character_id": "lin_xi",   "reference_image": "imports/references/lin_xi/hero.jpg"},
+  {"character_id": "lao_seng", "reference_image": "imports/references/lao_seng/hero.jpg"}
+]
+```
+
+### Layout B — numeric or generic directories
+
+If the user already placed files under `1/`, `2/`, `main_guy/`, etc.:
+
+```
+projects/<id>/imports/references/
+├── 1/
+│   └── hero.jpg
+└── 2/
+    └── hero.jpg
+```
+
+`characters.json` must point at the same path — Grok outputs whatever the
+real layout is, and `validate-imports` only requires the file to exist:
+
+```json
+[
+  {"character_id": "young_woman", "reference_image": "imports/references/1/hero.jpg"},
+  {"character_id": "young_man",   "reference_image": "imports/references/2/hero.jpg"}
+]
+```
+
+### Validation
+
+`video-director validate-imports` enforces two reference-image rules:
+
+| Code | Severity | Meaning |
+|---|---|---|
+| `MISSING_REFERENCE_IMAGE` | ERROR | `characters[i].reference_image` points to a path that doesn't exist on disk. The runner would silently generate the video WITHOUT a visual anchor — the resulting character's face is random. **This must fail the build.** |
+| `REFERENCE_DIR_MISMATCH` | WARNING | The directory part of the path doesn't match `character_id`. Allowed but suspicious — it's usually a mistake. |
+
+The user's responsibility:
+1. Place reference images under `projects/<id>/imports/references/<something>/`
+2. Run `ls imports/references/` and tell the LLM what the actual layout is
+
+The framework's responsibility:
+1. The reference image is uploaded to ComfyUI input dir and used as
+   `LoadImage.image` on the i2v workflow
+2. The `hero` role is the default; `face` is used when a close-up shot
+   references `face` role specifically (not yet wired into runner v0.1)
+
+## Character name ↔ ID convention (Chinese)
+
+Every character needs a stable `character_id` slug referenced by `scene`,
+`shot`, and `dialogue` records. For Chinese stories, the convention is:
+
+| 中文名 | 拼音 | character_id |
+|---|---|---|
+| 林夕 | linxi | `lin_xi` |
+| 苏清 | suqing | `su_qing` |
+| 长安 | changan | `changan` |
+| 王二狗 | wangergou | `wang_er_gou` |
+| 主角(无名) | — | `hero` / `protagonist` |
+
+Rules:
+1. Take the **full pinyin** of each Chinese character (no tones): 林夕 → `linxi`
+2. Join by underscores, one syllable per character: 林夕 → `lin_xi`
+3. Lowercase ASCII, only `[a-z0-9_]` (no spaces, no hyphens, no caps)
+4. Two characters with the same pinyin → add disambiguating suffix:
+   `zhang_san` vs `zhang_shan`
+5. For unnamed roles ("老人", "路人甲") → use role-based slug: `old_man`, `passerby_a`
+6. If the same character has multiple names ("李公子" / "李郎中"), use the
+   most formal one as `character_id` and mention aliases in `appearance`/`personality`
+
+`video-director validate-imports` enforces slug format (`INVALID_SLUG` if
+the id contains uppercase, hyphens, spaces, or non-ASCII).

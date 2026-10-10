@@ -141,6 +141,7 @@ def _check_story(bundle: Imports, report: CheckReport) -> None:
 
 def _check_characters(bundle: Imports, report: CheckReport) -> None:
     seen: set[str] = set()
+    project_root = bundle.project_dir
     for i, ch in enumerate(bundle.characters):
         loc = f"characters[{i}]"
         _check_slug(report, ch.character_id, "character_id", f"{loc}.character_id")
@@ -158,6 +159,48 @@ def _check_characters(bundle: Imports, report: CheckReport) -> None:
                 location=f"{loc}.appearance",
                 fix_hint="add a 100-200 char Chinese appearance paragraph",
             ))
+        # Verify reference_image points to a real file under the project.
+        # If the path is wrong (e.g. character_id doesn't match the dir, or
+        # file extension mismatch), the runner silently generates the video
+        # WITHOUT a visual anchor — pure-prompt output looks nothing like
+        # the intended character. Catch this at validate time.
+        if ch.reference_image:
+            ref_path = project_root / ch.reference_image
+            if not ref_path.exists():
+                report.add(CheckResult(
+                    CheckSeverity.ERROR, "MISSING_REFERENCE_IMAGE",
+                    f"character {ch.character_id!r}.reference_image={ch.reference_image!r} does not exist",
+                    location=f"{loc}.reference_image",
+                    fix_hint=(
+                        f"either place the image at this path, or change "
+                        f"reference_image to point to your actual file "
+                        f"(likely under imports/references/<dir>/hero.jpg)"
+                    ),
+                ))
+            else:
+                # Cross-check: is the dir name == character_id?
+                # Common error: Grok names the dir differently than the character.
+                # E.g. character_id='young_woman' but file at references/1/hero.jpg
+                parts = ch.reference_image.split("/")
+                # look for .../references/<dir>/<filename>
+                try:
+                    ref_idx = parts.index("references")
+                    ref_dir = parts[ref_idx + 1]
+                except (ValueError, IndexError):
+                    ref_dir = None
+                if ref_dir and ref_dir != ch.character_id:
+                    report.add(CheckResult(
+                        CheckSeverity.WARNING,
+                        "REFERENCE_DIR_MISMATCH",
+                        f"character_id={ch.character_id!r} but reference_image lives in "
+                        f"references/{ref_dir!r}/ — the directory name should match "
+                        f"character_id (or the path should be imports/references/<character_id>/hero.ext)",
+                        location=f"{loc}.reference_image",
+                        fix_hint=(
+                            f"either rename the dir to references/{ch.character_id}/ "
+                            f"or update reference_image to match"
+                        ),
+                    ))
 
 
 def _check_scenes(bundle: Imports, report: CheckReport) -> None:

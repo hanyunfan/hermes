@@ -32,17 +32,49 @@
 
 ### 2. `characters.json` — 所有角色(数组)
 
+**人物名 ↔ ID 对应规则**(Grok 必须遵守,所有角色统一):
+
+从中文名生成 `character_id` slug 的固定规则:
+
+| 中文名(部分)| 拼音(全拼,无音调)| character_id |
+|---|---|---|
+| 林夕      | linxi        | `lin_xi`     |
+| 苏清      | suqing       | `su_qing`    |
+| 长安      | changan      | `changan`    |
+| 老僧      | laoseng      | `lao_seng`   |
+| 王二狗    | wangergou    | `wang_er_gou`|
+| 主角(无名) | —           | `hero` 或 `protagonist` |
+
+**生成规则**:
+1. 取中文名的**全拼**(不带声调):林夕 → `linxi`,长安 → `changan`
+2. 把拼音按**汉字边界**用下划线连接(每个汉字一个音节):
+   - 林夕(2 字)→ `lin_xi`
+   - 苏清(2 字)→ `su_qing`
+   - 王二狗(3 字)→ `wang_er_gou`
+3. 全部**小写**,只允许 `[a-z0-9_]`,**禁止**大写、空格、连字符
+4. **多人同音不同字** → 加序号:张三 / 张山 都拼 `zhangshan`,改成 `zhang_san` / `zhang_shan`
+5. **无明确名字的角色**(只叫"主角"/"老人"/"路人甲")→ 用英文 slug `hero` / `old_man` / `passerby_a`
+6. **人物简称**(故事里多次出现"将军"/"公主")→ 用角色定位而不是姓氏:`general` / `princess` / `master`
+7. **同一角色在不同幕换称呼**(例:"李公子" vs "李郎中")→ 用**最正式/全的那个**作 character_id,其他称呼放在 `appearance` 或 `personality` 字段里描述
+
+**绝对不要**:
+- ❌ 用中文名直接当 id(违反 slug 规则)
+- ❌ 加数字后缀除非真有重复(`hero_1`, `hero_2` 不行 — 这是同名 alias)
+- ❌ 加版本号或日期后缀
+
+**Story 里的引用一致性**:同一角色的 `name` 在 `characters.json` / `scenes.json` / `shots.json` / `dialogues.json` 全部用同一个值。
+
 ```json
 [
   {
-    "character_id": "<slug, e.g. 'lin_xi' >",
-    "name": "<中文角色名>",
-    "age": <整数>,
+    "character_id": "lin_xi",
+    "name": "林夕",
+    "age": 23,
     "gender": "male" | "female" | "other",
     "appearance": "<一段中文外貌描述, 100-200 字>",
     "clothing_default": "<默认服装中文描述>",
     "personality": "<中文性格描述, 50 字以内>",
-    "reference_image": "<参考图相对路径, 在 imports/references/<character_id>/hero.png>"
+    "reference_image": "<相对路径: imports/references/<character_id>/hero.<ext> 或 .jpg>"
   },
   ...
 ]
@@ -53,6 +85,55 @@
 - 每个角色**必须有 reference_image 路径**(若没有图片,ai-video-director 会用 prompt-only 模式)
 - `character_id` slug 必须匹配 `[a-z0-9_]+`
 - **不要重复**:同一角色在多幕出现,只列一次
+
+### Reference picture 路径约定(必读)
+
+ai-video-director 接受两种放参考图的方式 — Grok 必须根据用户**实际**的目录结构输出对应路径。
+
+**方式 A:目录名 = character_id**(推荐,清晰对应)
+
+```
+imports/references/lin_xi/hero.jpg
+```
+
+对应的 characters.json:
+
+```json
+{
+  "character_id": "lin_xi",
+  "reference_image": "imports/references/lin_xi/hero.jpg"
+}
+```
+
+**方式 B:数字/通用目录**(用户已经把图放在 `1/` `2/` 等)
+
+```
+imports/references/1/hero.jpg
+imports/references/2/hero.jpg
+```
+
+对应的 characters.json:
+
+```json
+[
+  {"character_id": "young_woman", "reference_image": "imports/references/1/hero.jpg"},
+  {"character_id": "young_man",   "reference_image": "imports/references/2/hero.jpg"}
+]
+```
+
+**Grok 必须遵守**:
+1. **看用户的参考图实际放在哪个目录** — 如果用户的图片在 `references/1/`,Grok 就输出 `references/1/`(不要瞎编一个 `references/young_woman/` 路径,validate-imports 会报 MISSING_REFERENCE_IMAGE)
+2. **看文件扩展名** — 如果用户的图片是 `.jpg`,输出 `.jpg`(不要输出 `.png`)
+3. **绝不允许**编一个看似合理但用户根本没放图的路径(会导致人物生成时无参考图,产生与设计图完全不符的脸)
+
+### 验证-checker (会检查这些)
+
+| 规则 | 错误信息 |
+|---|---|
+| `reference_image` 指向的文件存在 | `MISSING_REFERENCE_IMAGE: <path> does not exist` |
+| `reference_image` 路径里的目录名 = `character_id` | `REFERENCE_DIR_MISMATCH: character_id='lin_xi' but reference_image lives in references/1/` |
+
+如果 `MISSING_REFERENCE_IMAGE` 报错,**Grok 不要重试同一份输出** — 它必须修改 reference_image 路径(如果用户实际放的目录是 `1/` 就改成 `1/`)。
 
 ### 3. `scenes.json` — 所有场景(数组)
 

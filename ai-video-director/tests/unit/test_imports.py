@@ -314,6 +314,48 @@ def test_checker_dialogue_bad_reference(tmp_path):
     ]))
     bundle = load_imports(p)
     report = check_imports(bundle)
+    assert any(r.code == "MISSING_REFERENCE_IMAGE" for r in report.errors)
+
+
+def test_checker_reference_dir_mismatch_warns(tmp_path):
+    """character_id='hero' but file in references/1/ should WARN (the
+    common Grok mistake: dir name != character_id)."""
+    p = tmp_path / "p"
+    (p / "imports" / "references" / "1").mkdir(parents=True)
+    (p / "imports" / "references" / "1" / "hero.jpg").write_bytes(b"fake")
+    (p / "imports" / "story.json").write_text('{"story_id": "OK", "title": "t", "language": "zh"}')
+    (p / "imports" / "characters.json").write_text(json.dumps([{
+        "character_id": "hero",
+        "name": "n",
+        "appearance": "a",
+        "reference_image": "imports/references/1/hero.jpg",
+    }], ensure_ascii=False))
+    (p / "imports" / "scenes.json").write_text('[{"scene_id": "s"}]')
+    (p / "imports" / "shots.json").write_text(json.dumps([
+        {"shot_id": "s_shot_001", "scene_id": "s", "shot_index": 1, "duration_sec": 5,
+         "prompt": "x", "negative_prompt": "y", "previous_shot": "", "next_shot": ""},
+    ]))
+    bundle = load_imports(p)
+    report = check_imports(bundle)
+    assert any(r.code == "REFERENCE_DIR_MISMATCH" for r in report.warnings)
+
+
+def test_checker_dialogue_bad_reference(tmp_path):
+    p = tmp_path / "p"
+    (p / "imports").mkdir(parents=True)
+    (p / "imports" / "story.json").write_text('{"story_id": "OK", "title": "t", "language": "zh"}')
+    (p / "imports" / "characters.json").write_text('[{"character_id": "hero", "name": "n", "appearance": "a"}]')
+    (p / "imports" / "scenes.json").write_text('[{"scene_id": "s"}]')
+    (p / "imports" / "shots.json").write_text(json.dumps([
+        {"shot_id": "s_shot_001", "scene_id": "s", "shot_index": 1, "duration_sec": 5,
+         "prompt": "x", "negative_prompt": "y", "previous_shot": "", "next_shot": ""},
+    ]))
+    (p / "imports" / "dialogues.json").write_text(json.dumps([
+        {"dialogue_id": "dl_001", "shot_id": "MISSING", "character_id": "hero",
+         "line": "x", "timing_sec": 0, "emotion": "", "volume": "normal"},
+    ]))
+    bundle = load_imports(p)
+    report = check_imports(bundle)
     assert any(r.code == "DIALOGUE_BAD_REFERENCE" for r in report.errors)
 
 
