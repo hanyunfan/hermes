@@ -8,7 +8,8 @@ from datetime import datetime, timezone
 from typing import Any, Mapping
 
 
-_SLUG_RE = re.compile(r"^[a-z0-9][a-z0-9_\-]{0,63}$")
+# Accept double-underscore separators used by make_job_id ("<project>__<shot>__aNNN__<uuid>")
+_SLUG_RE = re.compile(r"^[a-z0-9][a-z0-9_\-]{0,63}(__[a-z0-9_\-]{1,64})*$")
 
 
 def now_iso() -> str:

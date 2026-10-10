@@ -16,6 +16,7 @@ def _build_runner_config(args: argparse.Namespace) -> RunnerConfig:
         max_concurrent_jobs=int(getattr(args, "max_concurrent_jobs", 1) or 1),
         max_retries=int(getattr(args, "max_retries", 3) or 3),
         retry_with_new_seed=not getattr(args, "no_new_seed", False),
+        force_regenerate=bool(getattr(args, "force", False)),
     )
 
 

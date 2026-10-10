@@ -44,6 +44,11 @@ class RunnerConfig:
     max_retries: int = 3
     retry_with_new_seed: bool = True
     skip_qa_on_resume: bool = False
+    # When True, a shot whose mp4 already exists in output/clips/ is treated
+    # as completed and skipped (default). When False, the shot is regenerated
+    # and overwrites the existing mp4 atomically (only writes once a new file
+    # is fully downloaded, so a crash mid-run never leaves a corrupt file).
+    force_regenerate: bool = False
 
 
 @dataclass
@@ -201,6 +206,23 @@ class GenerationRunner:
     def _run_one(self, shot: Shot, bible: CharacterBible) -> ShotResult:
         _LOG.info("running shot %s (scene=%s)", shot.shot_id, shot.scene_id)
         references = self._build_references(shot, bible)
+
+        # Idempotency: if the output mp4 already exists and force_regenerate is
+        # not set, treat this shot as already-done and skip. Without this,
+        # reruns would create a new mp4 every time and accumulate cruft.
+        clip_path = self.paths.output_clips_dir / f"{shot.shot_id}.mp4"
+        if clip_path.exists() and not self.config.force_regenerate:
+            _LOG.info(
+                "shot %s mp4 already exists at %s; skipping (force_regenerate=False)",
+                shot.shot_id, clip_path,
+            )
+            return ShotResult(
+                shot_id=shot.shot_id,
+                status=JobStatus.SKIPPED,
+                output_path=str(clip_path),
+                attempts=0,
+            )
+
         attempt = self.state.next_attempt_for_shot(shot.shot_id)
         last_error_class = ""
         last_error_message = ""
@@ -234,6 +256,7 @@ class GenerationRunner:
                     "shot %s attempt %d failed: %s: %s",
                     shot.shot_id, attempt, last_error_class, last_error_message,
                 )
+                _LOG.exception("shot %s attempt %d full traceback:", shot.shot_id, attempt)
                 attempt += 1
                 if attempt > self.config.max_retries + 1:
                     break
@@ -312,9 +335,64 @@ class GenerationRunner:
                 # The backend receives path strings (the adapter + backend decide
                 # whether to read them as bytes or upload).
                 refs[ref.role] = ref.path
-        if shot.start_frame and not shot.start_frame.startswith("prev:"):
+        # Resolve start_frame based on start_frame_source. The two values are:
+        #   "manual"          — use shot.start_frame path as-is
+        #   "previous_shot"   — extract last frame from previous shot's mp4
+        #                        into ComfyUI's input dir and use the new path
+        if shot.start_frame_source == "previous_shot":
+            extracted = self._extract_previous_shot_frame(shot)
+            if extracted:
+                refs["start_frame"] = extracted
+            else:
+                _LOG.warning(
+                    "shot %s start_frame_source=previous_shot but no previous shot mp4 found; "
+                    "falling back to manual start_frame",
+                    shot.shot_id,
+                )
+                if shot.start_frame:
+                    refs["start_frame"] = shot.start_frame
+        elif shot.start_frame and not shot.start_frame.startswith("prev:"):
             refs.setdefault("start_frame", shot.start_frame)
         return refs
+
+    def _extract_previous_shot_frame(self, shot: Shot) -> str | None:
+        """Extract the last frame of shot.previous_shot's mp4 into ComfyUI's
+        input directory so it can be referenced as LoadImage.
+
+        Returns the absolute path to the new PNG, or None if extraction failed
+        or there's no previous-shot mp4 available.
+        """
+        if not shot.previous_shot:
+            return None
+        prev_clip = self.paths.output_clips_dir / f"{shot.previous_shot}.mp4"
+        if not prev_clip.exists():
+            _LOG.warning("previous shot mp4 missing: %s", prev_clip)
+            return None
+        comfyui_input = Path("/home/frank/ComfyUI/input")
+        if not comfyui_input.is_dir():
+            _LOG.warning("ComfyUI input dir not found at %s", comfyui_input)
+            return None
+        out_png = comfyui_input / f"{shot.previous_shot}_end.png"
+        # ffmpeg: take last frame (select the highest timestamp <= duration).
+        # Using `-vf "select=eq(n\,0)"` would pick the first frame; we want last.
+        # `-sseof -0.05` seeks to ~50ms before end so we land on a real frame.
+        cmd = [
+            "ffmpeg", "-y", "-loglevel", "error",
+            "-sseof", "-0.1",
+            "-i", str(prev_clip),
+            "-frames:v", "1",
+            "-update", "1",
+            str(out_png),
+        ]
+        try:
+            import subprocess
+            subprocess.run(cmd, check=True, timeout=30)
+        except Exception as e:
+            _LOG.warning("ffmpeg extract failed for %s: %s", prev_clip, e)
+            return None
+        if not out_png.exists():
+            return None
+        return str(out_png)
 
     def _mark_shot_status(self, shot: Shot, status: ShotStatus, output_clip: str = "") -> None:
         shot.status = status

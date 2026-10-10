@@ -39,7 +39,7 @@ from ..utils.logging import get_logger
 _LOG = get_logger("video_director.jobs.manager")
 
 
-_SLUG_RE = re.compile(r"^[a-z0-9][a-z0-9_\-]{0,63}$")
+_SLUG_RE = re.compile(r"^[a-z0-9][a-z0-9_\-]{0,63}(__[a-z0-9_\-]{1,64})*$")
 
 
 @dataclass
@@ -238,31 +238,41 @@ class StateManager:
     def recompute_counters(self, total_shots: int | None = None) -> GenerationRunState:
         """Recompute ``completed/failed/skipped`` counters from the on-disk
         jobs + clips. Idempotent — safe to call at the start of any run.
+
+        A shot is COMPLETED iff it has at least one COMPLETED job (regardless
+        of whether a clip record exists). The old logic also required a clip
+        record, but if the runner crashed before writing the clip the count
+        silently read as zero (observed 2026-10-09: 4 shots succeeded but
+        ``completed_shots=0`` because the mp4 download step succeeded but the
+        runner died before save_clip).
         """
         state = self.load_run_state()
         completed = 0
         failed = 0
         skipped = 0
-        # A shot is COMPLETED iff it has at least one COMPLETED job AND a clip
-        # record that points to an existing file.
-        shots_with_success: set[str] = set()
+        # Collect every unique shot_id seen in jobs
+        all_shot_ids: set[str] = set()
         for job in self.iter_jobs():
-            if job.status == JobStatus.COMPLETED:
-                shots_with_success.add(job.shot_id)
-            elif job.status == JobStatus.FAILED:
-                # Only count as failed if no success exists for the same shot
-                pass
-            elif job.status == JobStatus.SKIPPED:
-                skipped += 1
-        for clip in self.iter_clips():
-            if clip.shot_id in shots_with_success:
-                completed += 1
-        # Failed = shots with no success and at least one FAILED job
-        shots_with_failure: set[str] = set()
+            all_shot_ids.add(job.shot_id)
+        shots_with_success: set[str] = {
+            sid for sid in all_shot_ids if self.has_successful_job(sid)
+        }
+        shots_with_skip: set[str] = set()
         for job in self.iter_jobs():
-            if job.status == JobStatus.FAILED and job.shot_id not in shots_with_success:
-                shots_with_failure.add(job.shot_id)
-        failed = len(shots_with_failure - shots_with_success)
+            if job.status == JobStatus.SKIPPED:
+                shots_with_skip.add(job.shot_id)
+        # completed = shots with at least one COMPLETED job
+        completed = len(shots_with_success)
+        # skipped = shots with at least one SKIPPED job and no success
+        skipped = len(shots_with_skip - shots_with_success)
+        # failed = shots with at least one FAILED job and no success and not skipped
+        failed = sum(
+            1
+            for sid in all_shot_ids
+            if sid not in shots_with_success
+            and sid not in shots_with_skip
+            and any(j.status == JobStatus.FAILED for j in self.jobs_for_shot(sid))
+        )
         state.completed_shots = completed
         state.failed_shots = failed
         state.skipped_shots = skipped

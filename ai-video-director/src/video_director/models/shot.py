@@ -29,6 +29,7 @@ class Shot(TimestampedMixin):
     negative_prompt: str = ""
     seed: int | None = None
     start_frame: str = ""  # path inside references/
+    start_frame_source: str = "manual"  # manual | previous_shot
     end_frame: str = ""
     previous_shot: str = ""
     next_shot: str = ""
@@ -64,6 +65,7 @@ class Shot(TimestampedMixin):
             "negative_prompt": self.negative_prompt,
             "seed": self.seed,
             "start_frame": self.start_frame,
+            "start_frame_source": self.start_frame_source,
             "end_frame": self.end_frame,
             "previous_shot": self.previous_shot,
             "next_shot": self.next_shot,

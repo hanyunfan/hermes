@@ -25,6 +25,7 @@ from pathlib import Path
 
 from . import cmd_init, cmd_analyze, cmd_storyboard, cmd_validate
 from . import cmd_generate, cmd_status, cmd_assemble, cmd_retry, cmd_run, cmd_list
+from . import cmd_validate_imports, cmd_build
 from .common import make_project_manager, print_error
 
 
@@ -65,6 +66,14 @@ def build_parser() -> argparse.ArgumentParser:
     sp = sub.add_parser("validate", help="Validate a project's assets + continuity.")
     add_project_arg(sp)
 
+    sp = sub.add_parser("validate-imports",
+                        help="Validate projects/<id>/imports/*.json before building yaml.")
+    add_project_arg(sp)
+
+    sp = sub.add_parser("build",
+                        help="Convert imports/*.json into framework yaml.")
+    add_project_arg(sp)
+
     sp = sub.add_parser("generate", help="Generate clips for every shot.")
     add_project_arg(sp)
     sp.add_argument("--backend", default="mock", choices=["mock", "comfyui"])
@@ -76,6 +85,8 @@ def build_parser() -> argparse.ArgumentParser:
                     help="Comma-separated shot ids to (re)generate.")
     sp.add_argument("--reset", action="store_true",
                     help="Wipe all prior jobs/clips before running.")
+    sp.add_argument("--force", action="store_true",
+                    help="Regenerate even if mp4 already exists in output/clips/.")
 
     sp = sub.add_parser("status", help="Print run state.")
     add_project_arg(sp)
@@ -127,6 +138,10 @@ def _dispatch(args, pm) -> int:
         return cmd_storyboard.run(args, pm)
     if cmd == "validate":
         return cmd_validate.run(args, pm)
+    if cmd == "validate-imports":
+        return cmd_validate_imports.run(args, pm)
+    if cmd == "build":
+        return cmd_build.run(args, pm)
     if cmd == "generate":
         return cmd_generate.run(args, pm)
     if cmd == "status":

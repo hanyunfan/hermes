@@ -292,7 +292,7 @@ class ComfyUIWorkflowAdapter:
                 f"ComfyUI node {output_node_id} returned no media: {node_output}"
             )
         first = media[0]
-        fname = filename or first.get("filename")
+        fname = first.get("filename")
         subfolder = first.get("subfolder", "")
         kind = first.get("type", "output")
         if not fname:
@@ -309,8 +309,23 @@ class ComfyUIWorkflowAdapter:
                 f"ComfyUI view returned HTTP {resp.status_code}: {resp.text[:200]}"
             )
         dest_dir.mkdir(parents=True, exist_ok=True)
-        dest_path = dest_dir / fname
-        dest_path.write_bytes(resp.content)
+        # Use caller-supplied filename for on-disk path; default to the ComfyUI-returned name.
+        on_disk_name = filename or fname
+        dest_path = dest_dir / on_disk_name
+        # Atomic write: download to a temp file first, then rename. This way a
+        # crash mid-download never leaves a corrupt half-written mp4 that the
+        # runner would mistake for a successful clip on the next run.
+        tmp_path = dest_path.with_suffix(dest_path.suffix + ".part")
+        tmp_path.write_bytes(resp.content)
+        # Sanity check the temp file before swap — refuse to overwrite if the
+        # download is empty or suspiciously tiny.
+        if tmp_path.stat().st_size < 10_000:
+            tmp_path.unlink(missing_ok=True)
+            raise GenerationError(
+                f"ComfyUI download for {dest_path.name} is suspiciously small "
+                f"({tmp_path.stat().st_size if tmp_path.exists() else 0} bytes); refusing to overwrite"
+            )
+        tmp_path.replace(dest_path)
         return dest_path
 
     # ---- top-level helper -------------------------------------------
@@ -337,7 +352,7 @@ class ComfyUIWorkflowAdapter:
         prompt_id = self.submit(req)
         entry = self.poll(prompt_id)
         downloader = download_fn or self.fetch_output
-        output_path = downloader(prompt_id, dict(entry), resolved.output_node_id, output_dir)
+        output_path = downloader(entry, resolved.output_node_id, output_dir, filename=f"{shot.shot_id}.mp4")
         return GenerationResult(
             output_path=output_path,
             seed_used=req.seed_used or 0,
