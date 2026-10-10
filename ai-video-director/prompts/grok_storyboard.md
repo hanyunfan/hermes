@@ -201,28 +201,61 @@ imports/references/2/hero.jpg
 - 10 分钟 = 600 秒, 假设每 shot 7 秒 → **85 个 shot 左右**
 - 不要超过 150 个 shot(超出 framework 的并发限制)
 
-### 5. `dialogues.json` — 所有对话(数组, 可选但强烈推荐)
+**dialogue(对白)合并到 shots.json**:见下面 `shots.json` 章节里的"重要:对白处理方式"小节。
+
+
+---
+
+## 重要:对白处理方式(必须遵守)
+
+**每个 shot 的对白信息必须直接写进 shot 字段里**(action / emotion / prompt / camera),**不允许再生成 dialogues.json 文件**。
+
+具体规则:
+
+1. **如果一个 shot 里有对白**(角色说话),在 `action` 字段里明确写出角色说了什么台词,以及说话时的神态/动作:
+   ```json
+   "action": "林夕蹲在角落,轻声对苏清说: '你听, 外面好像有人。' 说完紧张地看向门口。"
+   ```
+
+2. **在 `emotion` 字段里包含情绪关键词**(这会成为 prompt 的 emotion 引导):
+   ```json
+   "emotion": "紧张, 低声, 警觉"
+   ```
+
+3. **在 `prompt` (英文)里包含一段嘴部动作 + 说话状态**:
+   ```
+   "...Lin Xi crouches in the corner, lips slightly parted as she whispers 'Did you hear that? Someone is outside.', eyes darting toward the door, voice barely audible, breath trembling..."
+   ```
+
+4. **不要**输出 dialogues.json 文件。**不要**给 action 字段留空,把所有台词 + 说话动作都写进 shot 自带字段。
+
+**为什么这样?** 视频生成模型 (MiniMaxH3 I2V) 会读取 prompt 里关于嘴部动作 / 说话的描述来生成嘴型动画;同时台词对白作为 metadata 由用户后续添加音频轨道(框架在 assemble 阶段会保留 ComfyUI 生成的 aac 音轨)。
+
+**示例**:用户故事原文 = "林夕说:'你听, 外面好像有人。'" → 对应 shot:
 
 ```json
-[
-  {
-    "dialogue_id": "<slug>",
-    "shot_id": "<此台词所在的 shot_id>",
-    "character_id": "<说话角色 id>",
-    "line": "<中文台词, 用户原话, 不要修改>",
-    "timing_sec": <此台词在 shot 内的时刻, 0.0 到 shot duration_sec 之间>,
-    "emotion": "<说话情绪, e.g. '愤怒' '平静' '颤抖'>",
-    "volume": "whisper" | "normal" | "shout"
-  },
-  ...
-]
+{
+  "shot_id": "wooden_room_dawn_shot_003",
+  "scene_id": "wooden_room_dawn",
+  "shot_index": 3,
+  "duration_sec": 8,
+  "shot_type": "medium_close",
+  "camera": "50mm 中近景",
+  "camera_motion": "static",
+  "character_ids": ["lin_xi"],
+  "action": "林夕蹲在木屋角落, 紧张地看向门口, 同时低声对身后的苏清说:'你听, 外面好像有人。' 她的呼吸变急促, 手指攥紧衣角。",
+  "emotion": "紧张, 低声, 警觉, 呼吸急促",
+  "environment": "狭小的木屋内部, 晨光从破窗缝隙斜射进来, 照出空气中浮动的尘埃",
+  "lighting": "微弱晨光, 暖黄色侧光, 阴影对比强",
+  "prompt": "Cinematic medium close-up of Lin Xi, a young East Asian woman in traditional hanfu, crouching in the corner of a small wooden room. Her lips part slightly as she whispers 'Did you hear that? Someone is outside.' in Chinese. Her eyes dart nervously toward the door, breath trembling visibly. Mouth opens subtly for the whispered dialogue, jaw tension visible. Morning light from a broken window cuts across her face. Tight shallow depth of field, dust particles floating in the light beam. Atmospheric, tense, low-volume speaking.",
+  "negative_prompt": "blurry, distorted, low quality, watermark, text, modern clothing, anime style, multiple faces, open mouth shouting, exaggerated lip sync",
+  "start_frame_source": "previous_shot",
+  "previous_shot": "wooden_room_dawn_shot_002",
+  "next_shot": "wooden_room_dawn_shot_004"
+}
 ```
 
-**约束**:
-- **每条台词必须对应用户故事 text 里的实际台词**
-- **不要补写台词**(用户没写的不要加)
-- `shot_id` / `character_id` 必须引用真实存在的
-- 每个 shot 可以有 0-N 条 dialogue
+**注意**:上面例子里,**中文台词 '你听, 外面好像有人。' 出现在 `action` 字段里**,**英文翻译出现在 `prompt` 字段里**。这种做法让 video model 知道要生成嘴部动作,也让用户后续 review 时知道这段对白属于哪个 shot。
 
 ---
 
@@ -234,9 +267,10 @@ imports/references/2/hero.jpg
 - ❌ 把多个 JSON 文件塞进一个 markdown 代码块
 - ❌ 在 JSON 周围加任何解释性文本(如果必须解释,放在文件外、单独 message)
 - ❌ 用 ```json 包装(你的输出就是纯 JSON)
-- ❌ 输出超过 5 个 JSON 文件
+- ❌ 输出超过 5 个 JSON 文件(实际上现在只需要 4 个,见下)
+- ❌ 输出 dialogues.json 文件(台词已合并到 shots.json 字段里)
 
-**正确的输出格式**:
+**正确的输出格式**(4 个文件):
 ```
 [FILE: story.json]
 <纯 JSON>
@@ -248,9 +282,6 @@ imports/references/2/hero.jpg
 <纯 JSON 数组>
 
 [FILE: shots.json]
-<纯 JSON 数组>
-
-[FILE: dialogues.json]
 <纯 JSON 数组>
 ```
 
@@ -271,7 +302,7 @@ imports/references/2/hero.jpg
 | duration_sec 在 [2, 15] | `BAD_DURATION: <shot_id> duration=X` |
 | 同一 scene 的 shot_index 单调递增 | `OUT_OF_ORDER_INDEX: <shot_id>` |
 | shot_id 在 shots 数组内唯一 | `DUPLICATE_SHOT_ID: <shot_id>` |
-| dialogue 的 shot_id/character_id 引用真实 | `DIALOGUE_BAD_REFERENCE: <id>` |
+| 包含对白的 shot,`action` 字段里有角色说的中文台词 | `MISSING_DIALOGUE_TEXT: <shot_id>` |
 
 ---
 
@@ -284,9 +315,10 @@ imports/references/2/hero.jpg
 ## 输出前最后检查
 
 在输出 JSON 前,请快速核对:
-- [ ] 我输出了 5 个文件(或者 dialogues 空数组可省)
+- [ ] 我输出了 4 个文件(没有 dialogues.json)
 - [ ] 每个文件是纯 JSON(没有 ```json 标记, 没有 surrounding text)
 - [ ] 所有 ID 都是 slug 格式
 - [ ] 所有 reference(character_id, scene_id, previous_shot, next_shot)都指向真实存在的
 - [ ] shot 总数不超过 150
+- [ ] 包含对白的 shot,`action` 字段里有完整中文台词
 - [ ] 每个 shot 的 prompt 是英文且详细

@@ -206,7 +206,11 @@ Each `[FILE: foo.json]` block Grok emits is saved to:
 | `[FILE: characters.json]` | `projects/<id>/imports/characters.json`          |
 | `[FILE: scenes.json]`     | `projects/<id>/imports/scenes.json`              |
 | `[FILE: shots.json]`      | `projects/<id>/imports/shots.json`               |
-| `[FILE: dialogues.json]`  | `projects/<id>/imports/dialogues.json` (optional)|
+
+Note: dialogue / spoken lines are **embedded inside shots.json** (in the
+`action` and `emotion` fields, plus the spoken line in `prompt`). There
+is no longer a separate `dialogues.json` file — the framework merges
+dialogue info into each shot's own description.
 
 Reference images (per character) — see "Reference picture layout" below.
 
@@ -377,8 +381,8 @@ The framework's responsibility:
 
 ## Character name ↔ ID convention (Chinese)
 
-Every character needs a stable `character_id` slug referenced by `scene`,
-`shot`, and `dialogue` records. For Chinese stories, the convention is:
+Every character needs a stable `character_id` slug referenced by `scene`
+and `shot` records. For Chinese stories, the convention is:
 
 | 中文名 | 拼音 | character_id |
 |---|---|---|

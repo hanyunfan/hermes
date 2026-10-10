@@ -24,8 +24,7 @@ projects/<project_id>/
 │   ├── story.json
 │   ├── characters.json
 │   ├── scenes.json
-│   ├── shots.json
-│   ├── dialogues.json         (可选)
+│   ├── shots.json             ← 对白/台词已合并进 shot 的 action/emotion/prompt 字段
 │   └── references/            ← 参考图(可选,但强烈推荐)
 │       ├── lin_xi/
 │       │   └── hero.png
@@ -49,7 +48,8 @@ projects/<project_id>/
 | `[FILE: characters.json]` | `projects/<project_id>/imports/characters.json` |
 | `[FILE: scenes.json]` | `projects/<project_id>/imports/scenes.json` |
 | `[FILE: shots.json]` | `projects/<project_id>/imports/shots.json` |
-| `[FILE: dialogues.json]` | `projects/<project_id>/imports/dialogues.json` |
+
+(对白/台词已合并进 shots.json 字段里 — 没有单独的 dialogues.json)
 
 参考图:
 - `imports/references/<character_id>/hero.jpg` — 每个角色一张 hero 参考图
@@ -104,7 +104,6 @@ video-director validate-imports chang_an_xiyang_gu
 # [ok] characters.json: 7 characters, all IDs valid
 # [ok] scenes.json: 6 scenes, all character references resolved
 # [ok] shots.json: 87 shots, all scene/character refs resolved
-# [ok] dialogues.json: 24 dialogues, all shot/character refs resolved
 # [ok] chain integrity: shot links form valid DAG
 # [ok] ALL CHECKS PASSED
 
@@ -139,10 +138,11 @@ video-director generate chang_an_xiyang_gu --backend comfyui # 真跑
 
 | 情况 | 处理 |
 |---|---|
-| Grok 输出漏掉 dialogues.json | OK,没台词的项目继续跑 |
+| Grok 输出还是带了 dialogues.json | framework 仍会加载(向后兼容),但下次新项目应去掉它 |
 | Grok 输出漏掉 shots.json | **不能继续**,这是核心,重跑 Grok |
 | shots.json 有语法错误(逗号、引号) | `validate-imports` 会报 `INVALID_JSON: <line> <col>`, 修 Grok 输出 |
 | 某个 shot 缺 prompt | `validate-imports` 会报 `EMPTY_PROMPT: <shot_id>`, 加 prompt |
+| shot 包含对白但 action 里没有中文台词 | 报 `MISSING_DIALOGUE_TEXT: <shot_id>`, 修 Grok 输出 |
 
 ## 跑完视频后清理
 
