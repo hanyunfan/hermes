@@ -406,6 +406,29 @@ class GenerationRunner:
                 refs.setdefault("start_frame", uploaded)
             else:
                 refs.setdefault("start_frame", self._resolve_to_filename(shot.start_frame))
+        else:
+            # No explicit start_frame. Fall back to the first character
+            # hero reference so the workflow has at least one image to
+            # anchor the first frame. Required when the workflow JSON's
+            # LoadImage node title is wired to start_frame_role (e.g.
+            # ``start_frame: "Load Image"``) — without this fallback the
+            # adapter leaves the original ``image: 'science2.jpeg'`` (or
+            # whatever the workflow shipped with) and ComfyUI fails with
+            # ``Invalid image file: <name>`` because no upload happens
+            # for that default name.
+            for char_id in shot.characters:
+                ch = bible.get(char_id)
+                if ch and ch.reference_images:
+                    # Use the first hero reference; it's already uploaded
+                    # in the loop above, so refs already has it under its
+                    # role key. Copy it under "start_frame" too.
+                    hero_ref = next(
+                        (refs[r] for r in refs if r in {ref.role for ref in ch.reference_images}),
+                        None,
+                    )
+                    if hero_ref:
+                        refs.setdefault("start_frame", hero_ref)
+                        break
         return refs
 
     def _upload_reference_file(self, path: str) -> str | None:
