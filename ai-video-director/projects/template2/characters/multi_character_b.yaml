@@ -1,0 +1,21 @@
+character_id: multi_character_b
+name: "Character B (placeholder)"
+description: PLACEHOLDER — replace with real character description.
+age: early 30s
+gender: unspecified
+appearance: |
+  PLACEHOLDER. Replace this paragraph with the actual character's visual
+  description. The Continuity Manager reads this for every shot.
+hair: medium length, lighter colour
+face: angular features
+body: slightly taller than Character A
+clothing_default: casual jacket
+clothing_variants:
+  - formal attire
+personality: warm, energetic
+reference_images:
+  - role: character_b
+    path: multi_character_b/hero.png
+    notes: PLACEHOLDER — replace with an actual reference image
+continuity_rules:
+  - Visual appearance must remain stable unless the script overrides it.

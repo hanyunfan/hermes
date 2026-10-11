@@ -84,9 +84,23 @@ class Finding:
 
 
 def _is_template_path(path: str) -> bool:
-    """True if the path is under projects/template/."""
+    """True if the path is under projects/template/ or projects/template2/.
+
+    Both directories ship scaffolding (README placeholders, sample
+    workflow JSON). Operators copy the directory to projects/<id>/ before
+    populating it with real data, so these template dirs are explicitly
+    allowed to contain files under the normally-forbidden paths
+    (output/, state/, private/, references/).
+    """
     parts = Path(path).parts
-    return "projects" in parts and "template" in parts and parts.index("template") > parts.index("projects")
+    if "projects" not in parts:
+        return False
+    try:
+        proj_idx = parts.index("projects")
+    except ValueError:
+        return False
+    template_idxes = [i for i, p in enumerate(parts) if p in ("template", "template2")]
+    return any(t > proj_idx for t in template_idxes)
 
 
 def _is_under(path: str, root: str) -> bool:

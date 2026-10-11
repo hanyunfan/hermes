@@ -1,0 +1,78 @@
+# Workflow mapping for multi-character (multi-image input) ComfyUI workflows.
+#
+# Unlike `template/workflow.yaml` (one `start_frame` LoadImage node),
+# template2 expects a ComfyUI workflow JSON that has:
+#   * one LoadImage node per character role (named after the role, e.g.
+#     "Load Image Character A", "Load Image Character B"), OR
+#   * one stack of nodes per character (LoadImage -> IPAdapter -> ...) and
+#     `image_input_keys` per role pointing at the right input port.
+#
+# Until the operator supplies `private/multi_image_workflow_api.json`, this
+# template falls back to the same single-image mapping as `template/`
+# (one `start_frame: "Load Image"` node). Once you have the multi-image
+# workflow, edit the `image_input_nodes` block below to declare one role
+# per character.
+#
+# Expected image_input_nodes block (example, 2 characters):
+#
+#   image_input_nodes:
+#     start_frame:    "Load Image Start Frame"
+#     character_a:    "Load Image Character A"
+#     character_b:    "Load Image Character B"
+#
+#   image_input_keys:
+#     character_a:    image
+#     character_b:    image
+#
+# Then declare each character card under `characters/` with
+# `reference_images[].role` matching the role name (e.g. `character_a`).
+# The shot yaml's `reference_images` field can list the same character
+# image paths to pin faces.
+
+# NOTE: This template ships WITHOUT a ComfyUI workflow JSON. Operators
+# must drop one at `private/video_workflow_api.json` (path must match
+# `workflow_path` below). Until that is in place, the framework cannot
+# run generate / assemble for projects created from this template — it
+# will raise a clear `FileNotFoundError` at the first generate attempt.
+# The README in `private/` documents the expected JSON structure for
+# multi-character (multi-image input) ComfyUI graphs.
+
+workflow_name: multi_character_image_to_video
+workflow_path: video_workflow_api.json
+
+# When you supply the workflow JSON, these node titles must match
+# the corresponding nodes in your JSON. The default below assumes
+# a single `Load Image` (one-character fallback) — override per project.
+prompt_node: "MiniMax H3 Image to Video"
+negative_prompt_node: "MiniMax H3 Image to Video"
+seed_node: "RandomNoise"
+output_node: "Save Video"
+
+prompt_input_key: prompt
+negative_prompt_input_key: prompt
+seed_input_key: noise_seed
+
+# Default mapping — single image input. Override after supplying the
+# real multi-image workflow JSON.
+image_input_nodes:
+  start_frame: "Load Image"
+
+extra_param_nodes:
+  duration_sec: "Float (duration)"
+
+extra_param_input_keys:
+  duration_sec: value
+
+duration_param: duration_sec
+start_frame_role: start_frame
+
+# Uncomment + extend when the multi-image workflow is in place:
+#
+# image_input_nodes:
+#   start_frame: "Load Image Start Frame"
+#   character_a: "Load Image Character A"
+#   character_b: "Load Image Character B"
+#
+# image_input_keys:
+#   character_a: image
+#   character_b: image

@@ -52,7 +52,10 @@ def build_parser() -> argparse.ArgumentParser:
     sp.add_argument("--duration", type=float, default=0.0,
                     help="Target duration in seconds (advisory only).")
     sp.add_argument("--no-template", action="store_true",
-                    help="Skip copying projects/template/ into the new project.")
+                    help="Skip copying projects/<template>/ into the new project.")
+    sp.add_argument("--template", default="template",
+                    help="Template directory to copy (e.g. 'template', 'template2'). "
+                         "Must exist under projects/. Default: 'template'.")
 
     sp = sub.add_parser("list", help="List registered projects.")
     sp.add_argument("--include-template", action="store_true")
@@ -104,11 +107,10 @@ def build_parser() -> argparse.ArgumentParser:
                     help="Audio track path; pass multiple times for multiple tracks.")
     sp.add_argument("--audio-kind", action="append", default=None,
                     help="One of: voice, bgm, sfx. Pairs with --audio.")
-    sp.add_argument("--include-examples", action="store_true",
-                    help="Include template/example shots (anything starting with 'example_'). "
-                         "Default: filter them out.")
     sp.add_argument("--exclude-ids", default=None,
-                    help="Comma-separated shot ids to exclude (additive to default filtering).")
+                    help="Comma-separated shot ids to exclude from final assembly. "
+                         "Template/example shots (anything starting with 'example_') "
+                         "are always filtered out and cannot be re-included.")
 
     sp = sub.add_parser("retry", help="Re-run generation for selected shots.")
     add_project_arg(sp)

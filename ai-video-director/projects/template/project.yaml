@@ -1,10 +1,15 @@
 project_id: template
-title: Example Project (do not use directly)
+title: Default Project Template
 description: |
-  PLACEHOLDER scaffold. Copy this directory to projects/<your_project_id>/,
+  Scaffold for new projects. Copy this directory to projects/<your_project_id>/,
   edit story.yaml, drop character reference images under references/, drop
   the real ComfyUI workflow under private/, then run
   `video-director analyze` + `storyboard` + `generate`.
+
+  The characters/ directory ships with two placeholder character cards
+  (example_character_a, example_character_b) for reference — replace them
+  with your real characters before generating. There are no example scene
+  or example shot files; start from your own story.
 language: en
 target_duration_sec: 0.0
 status: draft

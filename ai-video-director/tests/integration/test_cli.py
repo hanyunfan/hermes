@@ -83,8 +83,12 @@ def test_cli_full_lifecycle(project_root):
     # assemble (skip QA because mock clips pass duration min)
     r = _run("assemble", "story", "--skip-qa", workdir=project_root)
     assert r.returncode == 0, r.stdout + r.stderr
-    final = project_root / "projects" / "story" / "output" / "final" / "final.mp4"
-    assert final.exists()
+    # The assemble CLI stamps the final filename with a timestamp
+    # (final_<YYYYMMDDHHMMSS>.mp4) so two runs never overwrite each other.
+    final_dir = project_root / "projects" / "story" / "output" / "final"
+    finals = list(final_dir.glob("final_*.mp4"))
+    assert finals, f"no timestamped final_*.mp4 in {final_dir}; stdout={r.stdout!r}"
+    final = finals[-1]
     assert final.stat().st_size > 0
 
 

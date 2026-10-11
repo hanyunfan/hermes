@@ -30,12 +30,14 @@ htmlcov/
 *.tmp
 
 # --- Real story content (NEVER commit) ---
-# Real projects other than the public template
+# Real projects other than the public template(s)
 projects/*
 !projects/template/
 !projects/template/**
-# The template ships as a usable scaffold; everything below "projects/"
-# that isn't the template is presumed private.
+!projects/template2/
+!projects/template2/**
+# The templates ship as usable scaffolds; everything below "projects/"
+# that isn't a template is presumed private.
 
 # --- Per-project private assets ---
 # Anything inside a project's references/, private/, output/, state/

@@ -7,6 +7,7 @@ from ..core.project_manager import ProjectManager
 from ..jobs import GenerationRunner, RunnerConfig
 from ..quality import QAChecker
 from ..story import ScenePlanner, ShotPlanner, StoryAnalyzer
+from .cmd_assemble import _stamp_final_filename
 from .cmd_generate import _build_runner_config
 from .common import print_error
 
@@ -32,6 +33,9 @@ def run(args, pm: ProjectManager) -> int:
         from ..assembly import AssemblyConfig, FFmpegBuilder, build_assembly_manifest, write_assembly_manifest
         from ..jobs import StateManager
         sm = StateManager(paths)
+        # Stamp the final filename once at run entry so the manifest, the
+        # FFmpeg call and the report all target the same timestamped file.
+        _stamp_final_filename(paths)
         clips = []
         for c in sm.iter_clips():
             from pathlib import Path

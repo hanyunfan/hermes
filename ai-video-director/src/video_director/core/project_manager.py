@@ -144,23 +144,28 @@ class ProjectManager:
         language: str = "en",
         target_duration_sec: float = 0.0,
         from_template: bool = True,
+        template_name: str = TEMPLATE_DIR_NAME,
     ) -> Project:
         """Create a new project skeleton.
 
         If ``from_template`` is true, copies everything from
-        ``projects/template/`` (excluding ``output/`` and ``state/`` which are
-        regenerated fresh). Otherwise creates an empty skeleton.
+        ``projects/<template_name>/`` (default ``template/``, can be set
+        to ``template2/`` or any other template variant). Excludes
+        ``output/`` and ``state/`` which are regenerated fresh.
         """
-        if project_id == TEMPLATE_DIR_NAME:
+        if project_id == template_name:
             raise ValidationError(f"{project_id!r} is a reserved project name")
         project_dir = self.projects_dir / project_id
         if project_dir.exists():
             raise ProjectExistsError(f"project already exists: {project_id}")
         ensure_dir(project_dir)
         if from_template:
-            if not self.template_dir.exists():
-                raise ValidationError(f"template directory not found: {self.template_dir}")
-            shutil.copytree(self.template_dir, project_dir, dirs_exist_ok=True)
+            template_dir = self.projects_dir / template_name
+            if not template_dir.exists():
+                raise ValidationError(
+                    f"template directory not found: {template_dir}"
+                )
+            shutil.copytree(template_dir, project_dir, dirs_exist_ok=True)
             # Wipe runtime artefacts the template only ships as placeholders
             for sub in ("output", "state"):
                 target = project_dir / sub

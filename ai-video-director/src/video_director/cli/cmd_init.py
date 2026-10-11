@@ -19,6 +19,7 @@ def run(args, pm: ProjectManager) -> int:
             language=args.language or "en",
             target_duration_sec=float(args.duration or 0.0),
             from_template=not args.no_template,
+            template_name=args.template,
         )
     except Exception as e:
         return print_error(e)

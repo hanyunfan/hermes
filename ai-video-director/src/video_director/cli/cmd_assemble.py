@@ -1,6 +1,20 @@
-"""``assemble`` command: QA all clips then concat to final.mp4."""
+"""``assemble`` command: QA all clips then concat to final.mp4.
+
+Audio handling:
+  * Each clip from the runner already carries its own aac audio track
+    (ComfyUI's MiniMaxH3 I2V output produces a quiet ambient aac for
+    every clip). We pass those audio streams through the concat filter
+    so the final video has the natural ambient sound.
+  * We do NOT synthesise voice from a dialogues field. We do NOT
+    auto-add background music. The user can opt-in to music by passing
+    ``--audio <wav>`` explicitly.
+"""
 
 from __future__ import annotations
+
+import logging
+from datetime import datetime
+from pathlib import Path
 
 from ..assembly import FFmpegBuilder, AssemblyConfig, build_assembly_manifest, write_assembly_manifest
 from ..core.project_manager import ProjectManager
@@ -9,6 +23,24 @@ from ..models import Audio, VideoClip
 from ..quality import QAChecker
 from ..utils.io import read_yaml, write_json
 from .common import print_error
+
+_LOG = logging.getLogger(__name__)
+
+
+def _stamp_final_filename(paths, now: datetime | None = None) -> Path:
+    """Rewrite ``paths.final_video_file`` to ``final_<YYYYMMDDHHMMSS>.mp4``.
+
+    Each assemble run produces its own timestamped file so multiple runs of
+    the same project never silently overwrite each other's output. The
+    filename is decided once at assemble entry and stays stable for the
+    rest of the run (manifest writer, FFmpegBuilder, end-of-run report).
+
+    Returns the new final_video_file Path (already mutated on ``paths``).
+    """
+    ts = (now or datetime.now()).strftime("%Y%m%d%H%M%S")
+    new_path = paths.output_final_dir / f"final_{ts}.mp4"
+    paths.final_video_file = new_path
+    return new_path
 
 
 def _collect_clips(paths, sm: StateManager, expected_order: list[str] | None = None) -> list[VideoClip]:
@@ -67,18 +99,22 @@ def run(args, pm: ProjectManager) -> int:
         paths = pm.paths_for_id(args.project)
         pm.load_project(paths.root)
         sm = StateManager(paths)
+        # Stamp the final filename once at entry so the manifest writer,
+        # FFmpegBuilder and end-of-run report all agree on the same path.
+        final_path = _stamp_final_filename(paths)
         # Build the canonical shot order from yaml BEFORE collecting clips,
         # so the assembled final.mp4 follows the story order, not the
         # filesystem glob order.
         expected_shot_ids = [s.shot_id for s in pm.iter_shots(paths)]
 
-        # Default filter: drop template/example shots unless --include-examples.
-        # Additive: --exclude-ids lets the user exclude additional shots.
+        # Default behaviour: hard-filter shots whose id starts with
+        # ``example_`` (template scaffolding, quick-checks). Use
+        # ``--exclude-ids`` for ad-hoc exclusions; there is no flag to
+        # re-include example_ shots.
         explicit_excludes = set()
         if getattr(args, "exclude_ids", None):
             explicit_excludes = {s.strip() for s in args.exclude_ids.split(",") if s.strip()}
-        if not getattr(args, "include_examples", False):
-            explicit_excludes.update(s for s in expected_shot_ids if s.startswith("example_"))
+        explicit_excludes.update(s for s in expected_shot_ids if s.startswith("example_"))
 
         if explicit_excludes:
             print(
@@ -127,7 +163,8 @@ def run(args, pm: ProjectManager) -> int:
                 raise AssemblyError(
                     f"QA failed for {len(failed)} clip(s); use --allow-qa-fail to ignore"
                 )
-        # Optional audio
+        # Optional user-supplied audio tracks (bgm / extra voice). NOT
+        # auto-added — user must explicitly pass --audio for any music.
         audios: list[Audio] = []
         if args.audio:
             for i, p in enumerate(args.audio):

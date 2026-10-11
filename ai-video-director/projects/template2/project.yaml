@@ -1,0 +1,31 @@
+project_id: template2
+title: Multi-Character Project Template
+description: |
+  Scaffold for projects that have 2 or more characters per shot. Structurally
+  identical to the default `template/`, but the workflow mapping is configured
+  for a ComfyUI workflow that accepts multiple reference images (one per
+  character) instead of a single start_frame.
+
+  Workflow status:
+    * workflow.yaml points to `private/video_workflow_api.json`.
+    * That file does NOT ship with this template — it must be supplied by
+      the operator (export from ComfyUI). The expected structure is
+      documented in `private/README.md`. Without it, generate / assemble
+      will fail with FileNotFoundError on the first attempt.
+    * Until a multi-image workflow JSON is in place, the framework's default
+      image input mapping (`start_frame: "Load Image"`) is used, which
+      matches the single-image MiniMax-H3 template. Override
+      `workflow.yaml:image_input_nodes` once your multi-image workflow is
+      in place.
+
+  Choosing between template and template2:
+    * `template/` — single start_frame reference, default for projects with
+      one main character per shot.
+    * `template2/` — multiple reference images (one per character) for
+      scenes with 2+ characters on screen together. Requires you to
+      provide a multi-image ComfyUI workflow JSON in `private/`.
+    * Switch by copying the desired directory to projects/<your_project_id>/.
+
+language: en
+target_duration_sec: 0.0
+status: draft
