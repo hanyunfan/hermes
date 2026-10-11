@@ -70,11 +70,19 @@ class MockVideoGenerator(VideoGenerator):
             "-y",
             "-f", "lavfi",
             "-i", f"color=c=0x{hue:02x}{sat:02x}{val:02x}:s={self.width}x{self.height}:r=12:d={duration}",
+            # Mock generator now emits a sine-wave audio track so the
+            # assembly filter-graph's audio branch has something to work
+            # with (matches the real ComfyUI MiniMaxH3 I2V output which
+            # produces a quiet ambient aac).
+            "-f", "lavfi",
+            "-i", f"sine=frequency=220:duration={duration}:sample_rate=32000",
             "-vf", vf,
             "-c:v", "libx264",
+            "-c:a", "aac",
             "-pix_fmt", "yuv420p",
             "-preset", "ultrafast",
             "-movflags", "+faststart",
+            "-shortest",
             str(out_path),
         ]
         try:

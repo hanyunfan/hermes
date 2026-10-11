@@ -326,19 +326,45 @@ class GenerationRunner:
         return (abs(base) + attempt * 1009 + int(time.time()) // 60) & 0x7FFFFFFF
 
     def _build_references(self, shot: Shot, bible: CharacterBible) -> dict[str, str]:
+        """Build the references dict that the adapter passes to the workflow.
+
+        Returns a ``role -> filename`` map suitable for ComfyUI's LoadImage
+        node. Two important rules:
+
+        * Reference paths are project-relative (``imports/references/...``)
+          and must be resolved against ``paths.root`` (NOT against ``cwd``),
+          so a project in ``projects/foo/`` finds ``imports/references/...``
+          under ``projects/foo/`` rather than at the framework root.
+        * The shot's ``start_frame`` and ``start_frame_source: previous_shot``
+          are also normalized to a single filename here, in priority order:
+          previous_shot (uploaded) > manual shot.start_frame > character
+          hero reference.
+        """
         refs: dict[str, str] = {}
+        project_root = self.paths.root
         for char_id in shot.characters:
             ch = bible.get(char_id)
             if not ch:
                 continue
             for ref in ch.reference_images:
-                # The backend receives path strings (the adapter + backend decide
-                # whether to read them as bytes or upload).
-                refs[ref.role] = ref.path
+                # The path stored in bible is project-relative (e.g.
+                # "imports/references/1/hero.jpg"). The workflow wants a
+                # ComfyUI-input filename (just the basename, possibly after
+                # upload). We pass the basename — ComfyUI's LoadImage reads
+                # from its own input directory; as long as the file lives
+                # there it works.
+                p = Path(ref.path)
+                if p.is_absolute() or p.exists():
+                    name = p.name
+                else:
+                    # Try resolving against the project root
+                    resolved = project_root / ref.path
+                    name = resolved.name if resolved.exists() else ref.path
+                refs[ref.role] = name
         # Resolve start_frame based on start_frame_source. The two values are:
-        #   "manual"          — use shot.start_frame path as-is
+        #   "manual"          — use shot.start_frame path (resolve to filename)
         #   "previous_shot"   — extract last frame from previous shot's mp4
-        #                        into ComfyUI's input dir and use the new path
+        #                        into ComfyUI's input dir and use the new name
         if shot.start_frame_source == "previous_shot":
             extracted = self._extract_previous_shot_frame(shot)
             if extracted:
@@ -350,10 +376,23 @@ class GenerationRunner:
                     shot.shot_id,
                 )
                 if shot.start_frame:
-                    refs["start_frame"] = shot.start_frame
+                    refs["start_frame"] = self._resolve_to_filename(shot.start_frame)
         elif shot.start_frame and not shot.start_frame.startswith("prev:"):
-            refs.setdefault("start_frame", shot.start_frame)
+            refs.setdefault("start_frame", self._resolve_to_filename(shot.start_frame))
         return refs
+
+    def _resolve_to_filename(self, path: str) -> str:
+        """Turn a project-relative path like ``imports/references/1/hero.jpg``
+        into a ComfyUI-input filename. If the file exists at the project
+        root (which is the typical case), returns the basename. Otherwise
+        returns the path unchanged (the caller will warn)."""
+        p = Path(path)
+        if p.is_absolute():
+            return p.name
+        resolved = self.paths.root / path
+        if resolved.exists():
+            return resolved.name
+        return path
 
     def _extract_previous_shot_frame(self, shot: Shot) -> str | None:
         """Extract the last frame of shot.previous_shot's mp4 into ComfyUI's
@@ -392,7 +431,32 @@ class GenerationRunner:
             return None
         if not out_png.exists():
             return None
-        return str(out_png)
+        # The extracted PNG is now on disk in ComfyUI's input dir, but
+        # LoadImage only sees files ComfyUI knows about via its image DB.
+        # Upload via /upload/image so the workflow can reference it by filename.
+        try:
+            import requests
+            with open(out_png, "rb") as f:
+                resp = requests.post(
+                    "http://127.0.0.1:8188/upload/image",
+                    files={"image": (out_png.name, f, "image/png")},
+                    data={"type": "input", "overwrite": "true"},
+                    timeout=30,
+                )
+            resp.raise_for_status()
+            uploaded_name = out_png.name
+            try:
+                body = resp.json()
+                uploaded_name = body.get("name", out_png.name)
+            except Exception:
+                pass
+            _LOG.info("uploaded start_frame %s -> ComfyUI input", uploaded_name)
+            return uploaded_name
+        except Exception as e:
+            _LOG.warning("ComfyUI upload failed for %s: %s — returning local path", out_png, e)
+            # Fallback: return just the filename; ComfyUI may already see it
+            # from the filesystem if its input dir is the same path.
+            return out_png.name
 
     def _mark_shot_status(self, shot: Shot, status: ShotStatus, output_clip: str = "") -> None:
         shot.status = status

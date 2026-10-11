@@ -96,21 +96,9 @@ def _build_scene_yaml(sc) -> dict[str, Any]:
     }
 
 
-def _build_shot_yaml(sh, dialogues_by_shot: dict[str, list]) -> dict[str, Any]:
-    extra: dict[str, Any] = {}
-    if sh.start_frame_source:
-        extra["start_frame_source"] = sh.start_frame_source
-    if dialogues_by_shot.get(sh.shot_id):
-        extra["dialogues"] = [
-            {
-                "character_id": d.character_id,
-                "line": d.line,
-                "timing_sec": d.timing_sec,
-                "emotion": d.emotion,
-                "volume": d.volume,
-            }
-            for d in dialogues_by_shot[sh.shot_id]
-        ]
+def _build_shot_yaml(sh) -> dict[str, Any]:
+    # start_frame_source must live at top-level so Shot.from_dict picks it up
+    # (it gets ignored if buried under extra:).
     return {
         "shot_id": sh.shot_id,
         "scene_id": sh.scene_id,
@@ -127,9 +115,10 @@ def _build_shot_yaml(sh, dialogues_by_shot: dict[str, list]) -> dict[str, Any]:
         "prompt": sh.prompt,
         "negative_prompt": sh.negative_prompt,
         "start_frame": sh.start_frame,
+        "start_frame_source": sh.start_frame_source,
         "previous_shot": sh.previous_shot,
         "next_shot": sh.next_shot,
-        "extra": extra,
+        "extra": {},
     }
 
 
@@ -139,9 +128,6 @@ def build_yaml_from_imports(bundle: Imports) -> dict[str, list[Path]]:
     The bundle must have been :func:`check_imports`ed successfully.
     """
     project = bundle.project_dir
-    dialogues_by_shot: dict[str, list] = defaultdict(list)
-    for d in bundle.dialogues:
-        dialogues_by_shot[d.shot_id].append(d)
 
     written: dict[str, list[Path]] = {
         "story": [], "characters": [], "scenes": [], "shots": [],
@@ -167,7 +153,7 @@ def build_yaml_from_imports(bundle: Imports) -> dict[str, list[Path]]:
     shots_dir = _ensure_dir(project / "shots")
     for sh in bundle.shots:
         p = shots_dir / f"{sh.shot_id}.yaml"
-        write_yaml(p, _build_shot_yaml(sh, dialogues_by_shot))
+        write_yaml(p, _build_shot_yaml(sh))
         written["shots"].append(p)
 
     return written

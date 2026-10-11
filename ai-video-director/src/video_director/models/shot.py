@@ -75,6 +75,7 @@ class Shot(TimestampedMixin):
             "output_clip": self.output_clip,
             "created_at": self.created_at,
             "updated_at": self.updated_at,
+            "extra": dict(self.extra),
         }
         if self.extra:
             d["extra"] = dict(self.extra)
@@ -90,6 +91,13 @@ class Shot(TimestampedMixin):
         known.discard("status")
         kwargs = {k: v for k, v in d.items() if k in known}
         shot = cls(**kwargs)
+        # Backward-compat: older yaml (or builder bug) buried start_frame_source
+        # under extra:. Promote it to the top-level field if not set already.
+        # This is the fix for "all shot start_frame_source came back as manual".
+        if shot.start_frame_source == "manual" and "start_frame_source" in extra:
+            candidate = extra["start_frame_source"]
+            if candidate in ("manual", "previous_shot"):
+                shot.start_frame_source = candidate
         try:
             shot.status = ShotStatus(status_raw)
         except ValueError:

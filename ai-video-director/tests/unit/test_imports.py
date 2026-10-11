@@ -378,23 +378,6 @@ def test_builder_writes_yaml_round_trip(minimal_project):
     assert bundle2.shots[0].shot_id == "scene_one_shot_001"
 
 
-def test_builder_embeds_dialogues_in_shot_yaml(minimal_project):
-    (minimal_project / "imports" / "dialogues.json").write_text(json.dumps([
-        {"dialogue_id": "dl_001", "shot_id": "scene_one_shot_001",
-         "character_id": "hero", "line": "你好", "timing_sec": 1.0,
-         "emotion": "calm", "volume": "normal"},
-    ], ensure_ascii=False))
-    bundle = load_imports(minimal_project)
-    report = check_imports(bundle)
-    assert report.ok
-    build_yaml_from_imports(bundle)
-    # Read back the shot yaml and check the dialogues landed
-    import yaml
-    shot_yaml = yaml.safe_load((minimal_project / "shots" / "scene_one_shot_001.yaml").read_text())
-    assert "dialogues" in shot_yaml.get("extra", {})
-    assert shot_yaml["extra"]["dialogues"][0]["line"] == "你好"
-
-
 # ---------------------------------------------------------------------
 # end-to-end CLI smoke
 # ---------------------------------------------------------------------

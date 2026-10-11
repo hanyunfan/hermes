@@ -69,12 +69,17 @@ class FFmpegBuilder:
         )
         if not clips:
             raise AssemblyError("no clips to assemble")
-        # Filter graph: scale + fps + concat + amix
-        v_filters, v_labels = self._video_filters(clips)
+        # Filter graph: per-clip video + audio + concat + amix (user audio).
+        v_filters, v_labels, clip_a_labels = self._video_filters(clips)
         audio_offset = len(clips)
         a_filters, a_inputs = self._audio_filters(manifest.audios, input_offset=audio_offset)
         cmd: list[str] = [self.config.ffmpeg, "-y"]
-        # inputs
+        # inputs — ``-map 0:a?`` would map audio only if it exists, but
+        # we're using a filter graph so we need the input itself to have
+        # an audio stream available. ``-guess_layout_max 0`` quiets layout
+        # warnings. The concat filter requires audio on every input; if
+        # a clip has no audio, the user gets a loud failure rather than
+        # silent — that's the right trade-off.
         for clip in clips:
             cmd.extend(["-i", str(clip.path)])
         for audio in manifest.audios:
@@ -85,10 +90,19 @@ class FFmpegBuilder:
         else:
             fc = v_filters
         cmd.extend(["-filter_complex", fc])
-        # map the final concatenated video + amixed audio
-        cmd.extend(["-map", f"[{v_labels}]"])
+        # Map outputs:
+        # - video from [v_labels] (always)
+        # - audio: if user audio present, mix it with the per-clip aac and
+        #   map the mixed result. Otherwise map the per-clip audio directly.
         if a_filters:
-            cmd.extend(["-map", f"[{a_inputs}]"])
+            # Mix [outa] (per-clip concat) with [userouta] (user-supplied).
+            # Append the amix to the filter graph so we get [finalaudio].
+            mix_extend = f";[{clip_a_labels}][{a_inputs}]amix=inputs=2:normalize=0[finalaudio]"
+            cmd[-1] = cmd[-1] + mix_extend  # patch the -filter_complex value
+            cmd.extend(["-map", f"[{v_labels}]", "-map", "[finalaudio]"])
+        else:
+            # No user audio — keep the audio that came from each clip.
+            cmd.extend(["-map", f"[{v_labels}]", "-map", f"[{clip_a_labels}]"])
         cmd.extend(["-c:v", self.config.video_codec])
         cmd.extend(["-c:a", self.config.audio_codec])
         cmd.extend(["-pix_fmt", self.config.pix_fmt])
@@ -101,17 +115,28 @@ class FFmpegBuilder:
         cmd.append(str(manifest.output_path))
         return cmd
 
-    def _video_filters(self, clips: Sequence[VideoClip]) -> tuple[str, str]:
-        # Build: [0:v]scale=W:H:fps=FPS[v0]; [1:v]scale=...[v1]; ... [v0][v1]...[vN]concat=n=N+1:v=1:a=0[outv]
+    def _video_filters(self, clips: Sequence[VideoClip]) -> tuple[str, str, str]:
+        """Build the video + per-clip audio filter graph.
+
+        Two separate concat filters — ffmpeg's concat node can only emit
+        ONE output stream, so we have one for video (``v=1:a=0``) and
+        one for audio (``v=0:a=1``). ComfyUI MiniMaxH3 outputs a quiet
+        ambient aac per clip — dropping them produced silent videos
+        before this fix.
+
+        Returns ``(full_filter_graph, video_label, audio_label)``.
+        """
         per_clip: list[str] = []
         labels: list[str] = []
+        audio_labels: list[str] = []
         target_w = self.config.target_width
         target_h = self.config.target_height
         target_fps = self.config.target_fps
         for idx, clip in enumerate(clips):
-            label = f"v{idx}"
-            labels.append(f"[{label}]")
-            filt = f"[{idx}:v]"
+            # Video branch
+            vlabel = f"v{idx}"
+            labels.append(f"[{vlabel}]")
+            v_filt = f"[{idx}:v]"
             scale_parts: list[str] = []
             if target_w and target_h:
                 scale_parts.append(f"scale={target_w}:{target_h}:force_original_aspect_ratio=decrease")
@@ -121,19 +146,39 @@ class FFmpegBuilder:
             if target_fps:
                 scale_parts.append(f"fps={target_fps}")
             if scale_parts:
-                filt += ",".join(scale_parts) + ","
-            filt += f"setpts=PTS-STARTPTS[{label}]"
-            per_clip.append(filt)
-        # Force a uniform duration per clip so concat doesn't drop frames
-        # when source durations vary; 30 seconds is generous for shots.
-        # concat handles differing durations if all input streams have
-        # setpts applied.
-        concat_inputs = "".join(labels)
+                v_filt += ",".join(scale_parts) + ","
+            v_filt += f"setpts=PTS-STARTPTS[{vlabel}]"
+            per_clip.append(v_filt)
+            # Audio branch. Some clips (mock-generated test clips, or
+            # future video-only workflows) may not have an audio stream.
+            # Detect at filter-graph build time? We don't know — so use
+            # ffmpeg's `anullsrc` fallback by chaining: try the real
+            # audio stream; if absent, generate silence matching the
+            # video duration. ffmpeg's amerge + amix won't help here, so
+            # we use the ``aevalsrc`` trick: concat the audio directly,
+            # and pad with silence if a clip has no audio by using the
+            # ``-map 0:a?`` syntax at the input level (handled in build).
+            # For now: assume audio exists in every clip — the runner only
+            # produces clips with audio, and any clip without audio will
+            # fail this step (which is loud, not silent).
+            alabel = f"a{idx}"
+            audio_labels.append(f"[{alabel}]")
+            a_filt = (
+                f"[{idx}:a]aformat=sample_rates=32000:channel_layouts=stereo,"
+                f"asetpts=PTS-STARTPTS[{alabel}]"
+            )
+            per_clip.append(a_filt)
         n = len(clips)
+        # Two concat nodes — one for video, one for audio.
+        # ffmpeg concat can only emit ONE output stream, so splitting them
+        # is required to keep both video and the per-clip ambient audio.
         per_clip.append(
-            f"{concat_inputs}concat=n={n}:v=1:a=0[outv]"
+            f"{''.join(labels)}concat=n={n}:v=1:a=0[outv]"
         )
-        return ";".join(per_clip), "outv"
+        per_clip.append(
+            f"{''.join(audio_labels)}concat=n={n}:v=0:a=1[outa]"
+        )
+        return ";".join(per_clip), "outv", "outa"
 
     def _audio_filters(
         self,
@@ -146,13 +191,18 @@ class FFmpegBuilder:
         if there are no audio tracks. ``input_offset`` is the index of the
         first audio input in the full ffmpeg command line (right after the
         clip inputs).
+
+        The output label is ``[userouta]`` — DIFFERENT from the per-clip
+        audio concat label ``[outa]``. ``build()`` then mixes them
+        together so a user audio track overlays (not replaces) the per-clip
+        ambient sound.
         """
         if not audios:
             return "", ""
         parts: list[str] = []
         mix_inputs: list[str] = []
         for i, audio in enumerate(audios):
-            label = f"a{i}"
+            label = f"ua{i}"
             mix_inputs.append(f"[{label}]")
             delay_ms = int(round(audio.start_sec * 1000))
             gain = audio.gain_db
@@ -164,9 +214,9 @@ class FFmpegBuilder:
                 f"asetpts=PTS-STARTPTS[{label}]"
             )
         parts.append(
-            f"{''.join(mix_inputs)}amix=inputs={len(audios)}:normalize=0[outa]"
+            f"{''.join(mix_inputs)}amix=inputs={len(audios)}:normalize=0[userouta]"
         )
-        return ";".join(parts), "outa"
+        return ";".join(parts), "userouta"
 
     # ---- run --------------------------------------------------------
 
