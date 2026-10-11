@@ -391,15 +391,32 @@ class GenerationRunner:
             else:
                 _LOG.warning(
                     "shot %s start_frame_source=previous_shot but no previous shot mp4 found; "
-                    "falling back to manual start_frame",
+                    "falling back to character hero reference",
                     shot.shot_id,
                 )
+                # Fall back to the first character hero reference. The
+                # character refs have already been uploaded above under
+                # their role keys; copy one of them into refs["start_frame"]
+                # so the workflow has something to anchor the first frame.
+                # Prefer shot.start_frame path if it's set, otherwise the
+                # first character hero.
                 if shot.start_frame:
                     uploaded = self._upload_reference_file(shot.start_frame)
                     if uploaded:
                         refs["start_frame"] = uploaded
                     else:
                         refs["start_frame"] = self._resolve_to_filename(shot.start_frame)
+                else:
+                    for char_id in shot.characters:
+                        ch = bible.get(char_id)
+                        if ch and ch.reference_images:
+                            hero_ref = next(
+                                (refs[r] for r in refs if r in {ref.role for ref in ch.reference_images}),
+                                None,
+                            )
+                            if hero_ref:
+                                refs.setdefault("start_frame", hero_ref)
+                                break
         elif shot.start_frame and not shot.start_frame.startswith("prev:"):
             uploaded = self._upload_reference_file(shot.start_frame)
             if uploaded:
