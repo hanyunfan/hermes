@@ -55,7 +55,12 @@ class CharacterBibleService:
             if paths is None:
                 continue
             for ref in c.reference_images:
-                p = Path(paths.references_dir) / ref.path
+                # Reference paths stored in bible are project-relative
+                # (``imports/references/<id>/hero.jpg``). Resolve against
+                # the project root, NOT the per-project references/ subdir —
+                # the imports/ tree is the single source of truth for image
+                # paths in this build.
+                p = Path(paths.root) / ref.path
                 if not p.exists():
                     warnings.append(
                         f"reference file missing: {p} (referenced by {c.character_id})"

@@ -146,6 +146,10 @@ class GenerationRunner:
             removed = self.state.clear_all()
             _LOG.info("reset state: removed %d prior state files", removed)
         all_shots = list(shots or self.pm.iter_shots(self.paths))
+        # Skip template/example shots — they are scaffolding, not real content.
+        # Keeping the rule in the runner (not just assemble) means generate
+        # never wastes GPU cycles on quick-check shots either.
+        all_shots = [s for s in all_shots if not s.shot_id.startswith("example_")]
         if only_shots:
             wanted = set(only_shots)
             all_shots = [s for s in all_shots if s.shot_id in wanted]
@@ -335,10 +339,16 @@ class GenerationRunner:
           and must be resolved against ``paths.root`` (NOT against ``cwd``),
           so a project in ``projects/foo/`` finds ``imports/references/...``
           under ``projects/foo/`` rather than at the framework root.
+        * All reference files are uploaded to ComfyUI's input dir via
+          ``/upload/image`` before being referenced. ComfyUI's LoadImage
+          resolves filenames against its input DB, not the filesystem —
+          without an upload, the file on disk is invisible to the
+          workflow and the prompt fails with
+          ``Invalid image file: <name>``.
         * The shot's ``start_frame`` and ``start_frame_source: previous_shot``
           are also normalized to a single filename here, in priority order:
-          previous_shot (uploaded) > manual shot.start_frame > character
-          hero reference.
+          previous_shot (uploaded) > manual shot.start_frame (uploaded) >
+          character hero reference (uploaded).
         """
         refs: dict[str, str] = {}
         project_root = self.paths.root
@@ -347,22 +357,31 @@ class GenerationRunner:
             if not ch:
                 continue
             for ref in ch.reference_images:
-                # The path stored in bible is project-relative (e.g.
-                # "imports/references/1/hero.jpg"). The workflow wants a
-                # ComfyUI-input filename (just the basename, possibly after
-                # upload). We pass the basename — ComfyUI's LoadImage reads
-                # from its own input directory; as long as the file lives
-                # there it works.
+                # Resolve the source file (project-relative path).
                 p = Path(ref.path)
                 if p.is_absolute() or p.exists():
-                    name = p.name
+                    src = p
                 else:
-                    # Try resolving against the project root
-                    resolved = project_root / ref.path
-                    name = resolved.name if resolved.exists() else ref.path
-                refs[ref.role] = name
+                    src = project_root / ref.path
+                if not src.exists():
+                    _LOG.warning(
+                        "character %s reference %s not found at %s; skipping",
+                        char_id, ref.path, src,
+                    )
+                    continue
+                # Upload to ComfyUI's input dir so LoadImage can resolve it
+                # by basename. Use allow_rename=True so multiple heroes that
+                # share the same basename (e.g. hero.jpg) don't overwrite
+                # each other in the input dir.
+                uploaded = self._upload_to_comfyui(src, allow_rename=True)
+                if uploaded:
+                    refs[ref.role] = uploaded
+                else:
+                    # Last-ditch: return basename; ComfyUI may see the file
+                    # via shared filesystem mount.
+                    refs[ref.role] = src.name
         # Resolve start_frame based on start_frame_source. The two values are:
-        #   "manual"          — use shot.start_frame path (resolve to filename)
+        #   "manual"          — use shot.start_frame path (resolve + upload)
         #   "previous_shot"   — extract last frame from previous shot's mp4
         #                        into ComfyUI's input dir and use the new name
         if shot.start_frame_source == "previous_shot":
@@ -376,10 +395,77 @@ class GenerationRunner:
                     shot.shot_id,
                 )
                 if shot.start_frame:
-                    refs["start_frame"] = self._resolve_to_filename(shot.start_frame)
+                    uploaded = self._upload_reference_file(shot.start_frame)
+                    if uploaded:
+                        refs["start_frame"] = uploaded
+                    else:
+                        refs["start_frame"] = self._resolve_to_filename(shot.start_frame)
         elif shot.start_frame and not shot.start_frame.startswith("prev:"):
-            refs.setdefault("start_frame", self._resolve_to_filename(shot.start_frame))
+            uploaded = self._upload_reference_file(shot.start_frame)
+            if uploaded:
+                refs.setdefault("start_frame", uploaded)
+            else:
+                refs.setdefault("start_frame", self._resolve_to_filename(shot.start_frame))
         return refs
+
+    def _upload_reference_file(self, path: str) -> str | None:
+        """Resolve a project-relative path to a real file and upload it.
+
+        Returns the basename ComfyUI should use, or None if the file is
+        missing or upload failed. Used for character references and
+        manual start_frame paths so they all reach ComfyUI's input dir.
+        """
+        p = Path(path)
+        if p.is_absolute() or p.exists():
+            src = p
+        else:
+            src = self.paths.root / path
+        if not src.exists():
+            _LOG.warning("reference file %s does not exist; cannot upload", src)
+            return None
+        return self._upload_to_comfyui(src)
+
+    def _upload_to_comfyui(self, src: Path, *, allow_rename: bool = False) -> str | None:
+        """Upload a file to ComfyUI's input directory via /upload/image.
+
+        Returns the basename ComfyUI should reference, or None on failure.
+        overwrite=true so re-runs replace stale copies.
+
+        ``allow_rename``: when True (default for character refs to avoid
+        filename collisions on ComfyUI's input dir when multiple heroes
+        share the same basename, e.g. hero.jpg/hero.png), the upload
+        name is suffixed with an 8-char hex hash of the source path so
+        each upload is unique. When False (start_frame paths that the
+        workflow JSON hard-codes by name), the source basename is used
+        verbatim and may overwrite prior uploads.
+        """
+        import hashlib
+        if allow_rename:
+            stem = src.stem
+            suffix = src.suffix or ".png"
+            digest = hashlib.sha1(str(src.resolve()).encode()).hexdigest()[:8]
+            target_name = f"{stem}__{digest}{suffix}"
+        else:
+            target_name = src.name
+        try:
+            import requests
+            content_type = "image/jpeg" if src.suffix.lower() in (".jpg", ".jpeg") else "image/png"
+            with open(src, "rb") as f:
+                resp = requests.post(
+                    "http://127.0.0.1:8188/upload/image",
+                    files={"image": (target_name, f, content_type)},
+                    data={"type": "input", "overwrite": "true"},
+                    timeout=30,
+                )
+            resp.raise_for_status()
+            try:
+                body = resp.json()
+                return body.get("name", target_name)
+            except Exception:
+                return target_name
+        except Exception as e:  # noqa: BLE001
+            _LOG.warning("ComfyUI upload failed for %s: %s", src, e)
+            return None
 
     def _resolve_to_filename(self, path: str) -> str:
         """Turn a project-relative path like ``imports/references/1/hero.jpg``
