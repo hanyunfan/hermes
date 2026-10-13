@@ -1,70 +1,111 @@
-# `private/` — operator-supplied ComfyUI workflow JSON
+# `private/` — ComfyUI workflow JSON for the ref2v template
 
-This template (`template2/`) expects a ComfyUI workflow JSON file that
-accepts **multiple** reference images (one per character).
+This template (`template2/`) ships with a real, ready-to-run ComfyUI
+workflow that uses the native `MiniMaxH3ReferenceToVideo` node for
+character-consistent video generation.
 
-The template ships a **fallback** workflow JSON (`video_workflow_api.json`)
-that was copied from `projects/template/private/` — it is a **single**-
-image MiniMax-H3 workflow and only supports one `start_frame` reference
-per shot. Use it for prototyping.
+## Files in this directory
 
-## Replace the fallback with a multi-image workflow
+| File | Format | Purpose |
+|---|---|---|
+| `video_workflow_api_r2v.json` | API | Used by the framework at generation time. WorkflowResolver reads this; the adapter patches the prompt, seed, ref images, and duration per shot. |
+| `video_workflow_r2v_ui.json`  | UI  | **For humans.** Drag this file into the ComfyUI frontend (or use the "Load" button in the workflow menu) to see the node graph and inspect the wiring. |
 
-To enable multi-character reference images per shot, replace
-`video_workflow_api.json` with one that has:
+Both files describe the same logical graph; only the on-disk format differs.
+API format is what `comfy-cli` and our adapter use; UI format is what the
+browser frontend uses.
 
-* One `LoadImage` node per character role, OR one stack of nodes per
-  character (`LoadImage -> IPAdapter -> ...`) wired into the I2V model.
-  Node titles must match `workflow.yaml:image_input_nodes`.
+## How the ref2v workflow works
 
-The replacement file must keep the **same filename** (`video_workflow_api.json`)
-unless you also update `workflow.yaml:workflow_path`.
+```
+[LoadImage Ref 0] ─┐
+[LoadImage Ref 1] ─┼─→ [MiniMax H3 Reference to Video] ─┬─→ [BasicGuider] ─→ [Sampler] ─→ [VAEDecode] ─→ [CreateVideo] ─→ [SaveVideo]
+[LoadImage Ref 2] ─┘                                    │
+[UNET/CLIP/VAE/Audio-VAE/LoRA] ─────────────────────────┘
+```
 
-## Required structure (for the multi-image workflow)
+The `MiniMaxH3ReferenceToVideo` node is the heart of the workflow. It:
 
-1. **One `LoadImage` node per character**, with titles referenced from
-   `workflow.yaml:image_input_nodes`:
+1. Encodes each reference image through the video VAE to produce a latent.
+2. Encodes the prompt through the CLIP text encoder.
+3. Packs the ref latents + text tokens into a single conditioning tensor.
+4. Emits the conditioning + an empty target latent that goes into the
+   standard sampler chain.
 
-   ```
-   image_input_nodes:
-     character_a: "Load Image Character A"
-     character_b: "Load Image Character B"
-   ```
+After that, the workflow uses the regular `BasicGuider` +
+`SamplerCustomAdvanced` + `VAEDecode` chain to produce the video frames,
+and `CreateVideo` + `SaveVideo` to write them out.
 
-   Titles must **exactly** match the node titles in the JSON (the
-   `title` field, not `class_type`).
+## Required models
 
-2. **An I2V model node** (e.g. `MiniMaxH3ImageToVideo`) wired downstream
-   from each LoadImage node, so all character references feed into the
-   video generation. Model-specific — see the model node's docs.
+All paths resolve to `/home/frank/ComfyUI/models/`:
 
-3. **A `SaveVideo` (or equivalent) output node** — referenced from
-   `workflow.yaml:output_node`.
+| Node | Model file |
+|---|---|
+| `Load Diffusion Model` (UNETLoader) | `diffusion_models/minimax_h3_ref2va_pruned_int8_convrot.safetensors` |
+| `Load CLIP` (CLIPLoader) | `text_encoders/qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors` |
+| `Load VAE (Video)` | `vae/minimax_h3_video_vae_int8_convrot.safetensors` |
+| `Load VAE (Audio)` | `vae/minimax_h3_audio_vae_fp32.safetensors` |
+| `Load LoRA (Ref2V Turbo, optional)` | `loras/minimax_h3_ref2v_turbo_4step_v0.1_comfyui_bf16.safetensors` |
 
-## When you only have the fallback
+The LoRA is loaded but its `strength_model` is set to `0.0` by default,
+so it's effectively bypassed. To enable 4-step turbo sampling, edit the
+workflow JSON and:
 
-Generation works in single-image mode (one `start_frame` per shot).
-That's fine for prototyping; swap in the real multi-image workflow
-when you have one.
+1. Set `14.inputs.strength_model` to `1.0`
+2. Set `43.inputs.steps` to `4`
 
-## Naming convention for character roles
+Without the LoRA, leave the workflow as-is and the model runs in 20-step
+default mode (slower but more flexible).
 
-Once your multi-image workflow is in place:
+## Reference image slots
 
-* Each character card under `characters/` should declare
-  `reference_images[].role` matching the role key in
-  `workflow.yaml:image_input_nodes` (e.g. `character_a`).
-* Each shot's `reference_images` field is a list of paths to reference
-  images. The framework resolves them via
-  `ProjectPaths.references_dir / path` (project-relative paths work).
-* The `image_input_keys` map in `workflow.yaml` lets you override the
-  input port name per role if your model node uses non-standard port
-  names (e.g. `image_1` instead of `image`).
+| Slot | ComfyUI node | Adapter writes |
+|---|---|---|
+| `ref_image_0` | `Load Image Ref 0` | First reference (face preferred) |
+| `ref_image_1` | `Load Image Ref 1` | Second reference (full / side) |
+| `ref_image_2` | `Load Image Ref 2` | Third reference (any other type) |
 
-## Testing the wiring
+The runner sorts the character card's `reference_images` list by
+`image_type` priority and assigns them in order. You don't need to
+manage slot indices in your character cards.
 
-Run `video-director analyze <project>` after editing `workflow.yaml`.
-The command prints the resolved `image_input_nodes` mapping. If a node
-title is misspelled or the JSON has no matching node, the framework
-raises a clear `GenerationError` at the first generate attempt —
-not silently.
+To support more than 3 reference images:
+
+1. Add `ref_image_3: "Load Image Ref 3"` (and beyond) to
+   `workflow.yaml:reference_image_nodes`.
+2. Add the matching `LoadImage` node to the workflow JSON and wire it
+   into the ref2v node's `ref_images.ref_image_<i>` input.
+
+## Prompt format
+
+The `Prompt` node is a `PrimitiveStringMultiline` whose value is patched
+per shot. The framework writes the shot's `prompt` field directly.
+
+For best face-lock results, reference your characters explicitly in the
+prompt. For example:
+
+> A cinematic medium shot of <Picture 1> in profile, looking over her
+> shoulder. The face from <Picture 1> is preserved exactly.
+
+You can also use the MiniMax-H3 ref tags directly. The native ref2v node
+accepts `<Picture 1>`, `<Picture 2>`, `<Video 1>`, `<Audio 1>` style
+references. The framework's adapter doesn't auto-rewrite the prompt —
+add these tags to your shot's `prompt` field if you want them.
+
+## Editing the workflow
+
+To customise the workflow (e.g. add a 4th reference image, change the
+sampler, add upscaling):
+
+1. Open `video_workflow_r2v_ui.json` in the ComfyUI frontend
+   (drag-and-drop, or Load from the menu).
+2. Make your changes.
+3. Export the workflow back to API format:
+   - In the menu: "Save (API Format)" → save as
+     `video_workflow_api_r2v.json`, overwriting the existing file.
+   - Or: "Save" → save as `video_workflow_r2v_ui.json` if you want to
+     keep the human-readable copy too.
+
+If you only edit the API file by hand, run the workflow through ComfyUI
+once and re-export to UI format to keep the human copy in sync.

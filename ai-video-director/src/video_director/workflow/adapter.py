@@ -67,6 +67,20 @@ class GenerationRequest:
     extra_param_input_keys: dict[str, str] = field(default_factory=dict)
     duration_param: str = ""
     start_frame_role: str = "start_frame"
+    # NEW (2026-10-12, ref2v): ordered list of reference image dicts that
+    # patch_workflow routes into ``ref_image_node_ids`` slots.
+    # Each entry: {"basename": str, "image_type": str, "weight": float,
+    #              "character_id": str, "role": str}
+    # NEW (2026-10-12, ref2v): when set, the adapter writes a derived
+    # INT frame count (= 24 * duration_sec, snapped to a 17-multiple)
+    # into this node's slot. Used by MiniMaxH3ReferenceToVideo where
+    # `length` is INT and we can't pass seconds directly.
+    frame_count_param: str = ""
+    reference_images_ordered: list[dict[str, Any]] = field(default_factory=list)
+    # NEW (2026-10-12, ref2v): slot_key -> node_id, e.g.
+    # {"ref_image_0": "10", "ref_image_1": "11", ...}. The mapping object
+    # is parsed from workflow.yaml:reference_image_nodes.
+    reference_image_node_ids: dict[str, str] = field(default_factory=dict)
 
     def image_input_key(self, role: str) -> str:
         return self.image_input_keys.get(role, "image")
@@ -100,6 +114,7 @@ class ComfyUIWorkflowAdapter:
         references: Mapping[str, str] | None = None,
         seed_override: int | None = None,
         mapping: WorkflowMapping | None = None,
+        reference_images_ordered: list[dict[str, Any]] | None = None,
     ) -> GenerationRequest:
         ref_map = dict(references or {})
         req = GenerationRequest(
@@ -123,7 +138,18 @@ class ComfyUIWorkflowAdapter:
             req.image_input_keys = dict(mapping.image_input_keys)
             req.extra_param_input_keys = dict(mapping.extra_param_input_keys)
             req.duration_param = mapping.duration_param
+            req.frame_count_param = mapping.frame_count_param
             req.start_frame_role = mapping.start_frame_role
+        # Carry multi-reference image routing (ref2v).
+        if reference_images_ordered is not None:
+            req.reference_images_ordered = list(reference_images_ordered)
+        if mapping is not None and getattr(mapping, "reference_image_nodes", None):
+            req.reference_image_node_ids = dict(mapping.reference_image_nodes)
+        # If the resolver already mapped slot_key → node_id, prefer those
+        # (they have the *numeric* node IDs, which the adapter needs to
+        # patch the right node; the mapping object only carries titles).
+        if getattr(resolved, "reference_image_node_ids", None):
+            req.reference_image_node_ids = dict(resolved.reference_image_node_ids)
         return req
 
     def patch_workflow(self, request: GenerationRequest) -> GenerationRequest:
@@ -170,6 +196,24 @@ class ComfyUIWorkflowAdapter:
             if path:
                 self._set_input(wf, node_id, req.image_input_key(role), path)
 
+        # ---- multi-reference image routing (ref2v / MultiIPAdapter) ---
+        # When the workflow exposes a `reference_image_nodes` map (e.g.
+        # ``ref_image_0: "Load Image (Ref 0)"`` for the MiniMax-H3
+        # MiniMaxH3ReferenceToVideo workflow), the adapter patches each
+        # list entry in `req.reference_images_ordered` into the matching
+        # node's image slot. This is the new multi-character / multi-type
+        # (face/full/side/back/costume) ref2v path that supersedes the
+        # single-image `start_frame` path.
+        ordered_refs = getattr(req, "reference_images_ordered", None) or []
+        ref_node_map = getattr(req, "reference_image_node_ids", {}) or {}
+        for idx, ref in enumerate(ordered_refs):
+            slot_key = f"ref_image_{idx}"
+            node_id = ref_node_map.get(slot_key)
+            if not node_id:
+                # workflow doesn't accept this many refs — stop silently.
+                break
+            self._set_input(wf, node_id, "image", ref["basename"])
+
         # ---- start_frame: auto-wire shot.start_frame → start_frame_role
         # References win (explicit override); fall back to shot.start_frame.
         sf_ref = req.character_references.get(req.start_frame_role)
@@ -188,6 +232,34 @@ class ComfyUIWorkflowAdapter:
             dur_node_id = req.extra_param_node_ids[req.duration_param]
             dur_key = req.extra_param_input_key(req.duration_param)
             self._set_input(wf, dur_node_id, dur_key, float(req.shot.duration_sec))
+
+        # ---- frame_count: auto-wire derived int frame count → ref2v node
+        # The ref2v node's `length` slot takes INT (frame count at 24 fps),
+        # not seconds. The runner passes a string param key (e.g. "frame_count")
+        # via mapping.frame_count_param; we compute the int here and patch
+        # the matching PrimitiveInt node's `value` input.
+        frame_count_param = getattr(req, "frame_count_param", "") or ""
+        if frame_count_param and frame_count_param in req.extra_param_node_ids:
+            fc_node_id = req.extra_param_node_ids[frame_count_param]
+            fc_key = req.extra_param_input_key(frame_count_param)
+            # 24 fps × duration, rounded to the nearest 17-multiple (H3
+            # training constraint, per the node's `step: 17` widget).
+            n = int(round(float(req.shot.duration_sec) * 24))
+            n = max(5, n)  # node's `min: 5`
+            # snap up to next 17-multiple
+            if n % 17 != 5:
+                n += (17 - (n % 17)) % 17
+            self._set_input(wf, fc_node_id, fc_key, int(n))
+        elif "frame_count" in (req.extra_param_node_ids or {}):
+            # Always allow mapping with bare "frame_count" key without
+            # needing frame_count_param; works the same way.
+            fc_node_id = req.extra_param_node_ids["frame_count"]
+            fc_key = req.extra_param_input_key("frame_count")
+            n = int(round(float(req.shot.duration_sec) * 24))
+            n = max(5, n)
+            if n % 17 != 5:
+                n += (17 - (n % 17)) % 17
+            self._set_input(wf, fc_node_id, fc_key, int(n))
 
         # ---- extra params from shot.workflow_overrides -----------------
         for k, node_id in req.extra_param_node_ids.items():
@@ -339,15 +411,29 @@ class ComfyUIWorkflowAdapter:
         references: Mapping[str, str] | None = None,
         seed_override: int | None = None,
         download_fn: Callable[[str, dict, str, Path], Path] | None = None,
+        reference_images_ordered: list[dict[str, Any]] | None = None,
     ) -> GenerationResult:
         """End-to-end: resolve workflow → patch → submit → poll → download.
 
         ``download_fn`` is optional; if provided, it overrides the default
         :meth:`fetch_output` for testing.
+
+        ``reference_images_ordered`` is the new (2026-10-12) ref2v path:
+        when the workflow exposes ``reference_image_nodes`` (slot_key →
+        node title), the adapter routes each list entry into the matching
+        node's image slot. For backwards compatibility, when this is None
+        the legacy single-LoadImage path is used.
         """
         resolver = WorkflowResolver(paths, mapping)
         resolved = resolver.resolve()
-        req = self.prepare_request(shot, resolved, references, seed_override, mapping)
+        req = self.prepare_request(
+            shot,
+            resolved,
+            references,
+            seed_override,
+            mapping,
+            reference_images_ordered=reference_images_ordered,
+        )
         self.patch_workflow(req)
         prompt_id = self.submit(req)
         entry = self.poll(prompt_id)

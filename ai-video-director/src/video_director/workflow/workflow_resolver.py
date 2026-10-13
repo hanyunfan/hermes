@@ -8,13 +8,17 @@ because that would pull real data into the public framework.
 from __future__ import annotations
 
 import json
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Mapping
 
 from ..core.errors import WorkflowNotFoundError, ValidationError
 from ..core.paths import ProjectPaths
 from ..models.workflow import WorkflowMapping
+from ..utils.logging import get_logger
+
+
+_LOG = get_logger("video_director.workflow.resolver")
 
 
 @dataclass
@@ -28,6 +32,8 @@ class ResolvedWorkflow:
     output_node_id: str
     image_input_node_ids: dict[str, str]
     extra_param_node_ids: dict[str, str]
+    # NEW (2026-10-12, ref2v): ordered slot_key ("ref_image_0"...) → node_id.
+    reference_image_node_ids: dict[str, str] = field(default_factory=dict)
 
 
 class WorkflowResolver:
@@ -81,6 +87,18 @@ class WorkflowResolver:
             k: self._lookup(title_to_id, v, f"extra_param_nodes[{k!r}]")
             for k, v in self.mapping.extra_param_nodes.items()
         }
+        # NEW (2026-10-12, ref2v): each ref_image_N slot maps to a LoadImage
+        # node in the workflow. The runner feeds an ordered list of ref
+        # images (face, full, side, ...); the adapter routes entry i into
+        # the node whose title is mapping.reference_image_nodes[f"ref_image_{i}"].
+        ref_ids: dict[str, str] = {}
+        for slot_key, title_ in (self.mapping.reference_image_nodes or {}).items():
+            try:
+                ref_ids[slot_key] = self._lookup(title_to_id, title_, f"reference_image_nodes[{slot_key!r}]")
+            except ValidationError as e:
+                # Workflow doesn't have this slot's node — that's fine, the
+                # adapter stops routing at the first missing slot. Log and skip.
+                _LOG.warning("skipping ref slot %s: %s", slot_key, e)
         return ResolvedWorkflow(
             workflow=workflow,
             prompt_node_id=prompt_id,
@@ -89,6 +107,7 @@ class WorkflowResolver:
             output_node_id=output_id,
             image_input_node_ids=img_ids,
             extra_param_node_ids=extra_ids,
+            reference_image_node_ids=ref_ids,
         )
 
     # ---- helpers -----------------------------------------------------

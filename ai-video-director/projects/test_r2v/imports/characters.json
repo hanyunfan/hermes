@@ -1,0 +1,16 @@
+[
+  {
+    "character_id": "young_woman",
+    "name": "Young Woman (ref2v test)",
+    "description": "Test character for ref2v face-lock verification.",
+    "age": 22,
+    "gender": "female",
+    "appearance": "A young woman with a calm, observant expression.",
+    "hair": "long, dark",
+    "face": "oval face, soft features",
+    "body": "average height, slim build",
+    "clothing_default": "simple white blouse",
+    "personality": "quiet, attentive",
+    "reference_image": "imports/references/young_woman/hero.jpg"
+  }
+]

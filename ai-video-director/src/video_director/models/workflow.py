@@ -47,6 +47,14 @@ class WorkflowMapping:
     # role -> node_title for each character/scene reference image
     extra_param_nodes: dict[str, str] = field(default_factory=dict)
     # arbitrary extra param -> node_title pairs (size, steps, cfg, ...)
+    # NEW (2026-10-12, ref2v): ordered slot_key -> node_title, where
+    # slot_key is "ref_image_0", "ref_image_1", ... The adapter routes
+    # each entry of ``reference_images_ordered`` (provided by the runner)
+    # into the matching node's image slot. Used by MiniMax-H3
+    # MiniMaxH3ReferenceToVideo workflow where each ref image is a
+    # separate LoadImage node wired into the ref2v node's
+    # ``ref_images.ref_image_<i>`` input.
+    reference_image_nodes: dict[str, str] = field(default_factory=dict)
 
     # ---- input-slot names (NEW) --------------------------------------
     prompt_input_key: str = "text"
@@ -59,6 +67,11 @@ class WorkflowMapping:
     # Special: when ``duration_param`` is set, ``shot.duration_sec`` is
     # auto-written into that node's slot, no per-shot override needed.
     duration_param: str = ""
+    # NEW (2026-10-12, ref2v): when set, the adapter writes a derived
+    # INT frame count (= 24 * duration_sec, snapped to a 17-multiple)
+    # into this node's slot. Used by MiniMaxH3ReferenceToVideo where
+    # `length` is INT and we can't pass seconds directly.
+    frame_count_param: str = ""
     start_frame_role: str = "start_frame"
     # which role the adapter should pull ``shot.start_frame`` from
     notes: str = ""
@@ -72,6 +85,7 @@ class WorkflowMapping:
         ]
         nodes.extend(self.image_input_nodes.values())
         nodes.extend(self.extra_param_nodes.values())
+        nodes.extend(self.reference_image_nodes.values())
         return [n for n in nodes if n]
 
     def image_input_key(self, role: str) -> str:
@@ -90,12 +104,14 @@ class WorkflowMapping:
             "output_node": self.output_node,
             "image_input_nodes": dict(self.image_input_nodes),
             "extra_param_nodes": dict(self.extra_param_nodes),
+            "reference_image_nodes": dict(self.reference_image_nodes),
             "prompt_input_key": self.prompt_input_key,
             "negative_prompt_input_key": self.negative_prompt_input_key,
             "seed_input_key": self.seed_input_key,
             "image_input_keys": dict(self.image_input_keys),
             "extra_param_input_keys": dict(self.extra_param_input_keys),
             "duration_param": self.duration_param,
+            "frame_count_param": self.frame_count_param,
             "start_frame_role": self.start_frame_role,
             "notes": self.notes,
         }
@@ -111,6 +127,7 @@ class WorkflowMapping:
             output_node=str(data.get("output_node", "")),
             image_input_nodes=dict(data.get("image_input_nodes", {}) or {}),
             extra_param_nodes=dict(data.get("extra_param_nodes", {}) or {}),
+            reference_image_nodes=dict(data.get("reference_image_nodes", {}) or {}),
             prompt_input_key=str(data.get("prompt_input_key", "text")),
             negative_prompt_input_key=str(
                 data.get("negative_prompt_input_key", "text")
@@ -121,6 +138,7 @@ class WorkflowMapping:
                 data.get("extra_param_input_keys", {}) or {}
             ),
             duration_param=str(data.get("duration_param", "")),
+            frame_count_param=str(data.get("frame_count_param", "")),
             start_frame_role=str(data.get("start_frame_role", "start_frame")),
             notes=str(data.get("notes", "")),
         )

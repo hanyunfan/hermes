@@ -1,78 +1,89 @@
-# Workflow mapping for multi-character (multi-image input) ComfyUI workflows.
+# Workflow mapping for MiniMax-H3 reference-to-video (ref2v) workflow.
 #
-# Unlike `template/workflow.yaml` (one `start_frame` LoadImage node),
-# template2 expects a ComfyUI workflow JSON that has:
-#   * one LoadImage node per character role (named after the role, e.g.
-#     "Load Image Character A", "Load Image Character B"), OR
-#   * one stack of nodes per character (LoadImage -> IPAdapter -> ...) and
-#     `image_input_keys` per role pointing at the right input port.
+# This template uses the ComfyUI native `MiniMaxH3ReferenceToVideo` node
+# (`comfy_extras/nodes_minimax_h3.py`) which accepts up to 9 reference
+# images as conditioning. Each image is a separate LoadImage node wired
+# into the ref2v node's `ref_images.ref_image_<i>` slot.
 #
-# Until the operator supplies `private/multi_image_workflow_api.json`, this
-# template falls back to the same single-image mapping as `template/`
-# (one `start_frame: "Load Image"` node). Once you have the multi-image
-# workflow, edit the `image_input_nodes` block below to declare one role
-# per character.
+# Reference images are uploaded by the runner, sorted by image_type
+# (face gets slot 0, then expression, front/hero/full, side/back/costume),
+# and routed into the matching LoadImage node via the adapter.
 #
-# Expected image_input_nodes block (example, 2 characters):
+# Models (all must exist under /home/frank/ComfyUI/models/):
+#   diffusion_models/minimax_h3_ref2va_pruned_int8_convrot.safetensors
+#   text_encoders/qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors
+#   vae/minimax_h3_video_vae_int8_convrot.safetensors
+#   vae/minimax_h3_audio_vae_fp32.safetensors
+#   loras/minimax_h3_ref2v_turbo_4step_v0.1_comfyui_bf16.safetensors  (optional)
 #
-#   image_input_nodes:
-#     start_frame:    "Load Image Start Frame"
-#     character_a:    "Load Image Character A"
-#     character_b:    "Load Image Character B"
-#
-#   image_input_keys:
-#     character_a:    image
-#     character_b:    image
-#
-# Then declare each character card under `characters/` with
-# `reference_images[].role` matching the role name (e.g. `character_a`).
-# The shot yaml's `reference_images` field can list the same character
-# image paths to pin faces.
+# Workflow JSON files in this template:
+#   - private/video_workflow_api_r2v.json   API format (used by framework)
+#   - private/video_workflow_r2v_ui.json    UI format (open in ComfyUI frontend)
 
-# NOTE: This template ships WITHOUT a ComfyUI workflow JSON. Operators
-# must drop one at `private/video_workflow_api.json` (path must match
-# `workflow_path` below). Until that is in place, the framework cannot
-# run generate / assemble for projects created from this template — it
-# will raise a clear `FileNotFoundError` at the first generate attempt.
-# The README in `private/` documents the expected JSON structure for
-# multi-character (multi-image input) ComfyUI graphs.
+workflow_name: MiniMax_H3_reference_to_video
+workflow_path: video_workflow_api_r2v.json
 
-workflow_name: multi_character_image_to_video
-workflow_path: video_workflow_api.json
-
-# When you supply the workflow JSON, these node titles must match
-# the corresponding nodes in your JSON. The default below assumes
-# a single `Load Image` (one-character fallback) — override per project.
-prompt_node: "MiniMax H3 Image to Video"
-negative_prompt_node: "MiniMax H3 Image to Video"
-seed_node: "RandomNoise"
+# Node titles — see private/video_workflow_api_r2v.json
+# The "Prompt" node is a PrimitiveStringMultiline that the adapter
+# patches with the shot's English prompt each generation.
+prompt_node: "Prompt"
+negative_prompt_node: "Prompt"   # ref2v node has no separate neg port
+seed_node: "RandomNoise"          # noise seed widget
 output_node: "Save Video"
 
-prompt_input_key: prompt
-negative_prompt_input_key: prompt
+# Input port names — overrides legacy "text" / "image" / "seed" defaults.
+# PrimitiveStringMultiline uses `value` for the prompt string.
+prompt_input_key: value
+negative_prompt_input_key: value
 seed_input_key: noise_seed
 
-# Default mapping — single image input. Override after supplying the
-# real multi-image workflow JSON.
-image_input_nodes:
-  start_frame: "Load Image"
+# Reference image routing (the new ref2v path).
+# Each entry maps a slot_key (ref_image_0, ref_image_1, ...) to a LoadImage
+# node title. The runner builds an ordered list of references (face gets
+# ref_image_0, etc.) and the adapter routes each entry into the
+# corresponding node's `image` input.
+#
+# As of 2026-10-12, the workflow ships with ONE ref slot (ref_image_0).
+# To add more, copy node 20 in video_workflow_api_r2v.json, give it
+# a new ID, and add it to both `reference_image_nodes` below AND the
+# ref2v node's `ref_images.ref_image_<i>` inputs.
+reference_image_nodes:
+  ref_image_0: "Load Image Ref"
 
+# Legacy single-image path is NOT used for ref2v; leave empty so the
+# adapter doesn't try to wire `shot.start_frame` into a single LoadImage.
+image_input_nodes: {}
+
+# Extra params: duration auto-wires into the PrimitiveFloat node,
+# frame_count auto-wires the int frame count into the PrimitiveInt
+# node (ref2v's `length` slot is INT, not seconds).
 extra_param_nodes:
   duration_sec: "Float (duration)"
+  frame_count: "Int (frame count)"
 
+# PrimitiveFloat's input port is "value".
+# PrimitiveInt's input port is also "value".
 extra_param_input_keys:
   duration_sec: value
+  frame_count: value
 
+# Auto-wire shot.duration_sec into the duration_param node.
 duration_param: duration_sec
-start_frame_role: start_frame
+# Auto-wire derived frame count (= 24 * duration_sec, snapped to a
+# 17-multiple) into the ref2v node via the PrimitiveInt above.
+frame_count_param: frame_count
+start_frame_role: start_frame   # unused (no legacy single-image fallback)
 
-# Uncomment + extend when the multi-image workflow is in place:
-#
-# image_input_nodes:
-#   start_frame: "Load Image Start Frame"
-#   character_a: "Load Image Character A"
-#   character_b: "Load Image Character B"
-#
-# image_input_keys:
-#   character_a: image
-#   character_b: image
+notes: |
+  Uses video_workflow_api_r2v.json (exported API format from ComfyUI 0.37.0).
+  22 nodes total: 4 loaders (UNET/CLIP/VAE/LoRA) + 3 LoadImage ref slots +
+  MiniMaxH3ReferenceToVideo + standard sampler chain (RandomNoise,
+  BasicGuider, SamplerCustomAdvanced) + VAE decode (video + audio) +
+  CreateVideo + SaveVideo.
+
+  Character consistency strategy:
+    Each character card's `reference_images` list can carry multiple
+    images with different `image_type` values. The runner auto-sorts:
+    face / expression refs get the lowest slot indices (0, 1) where the
+    ref2v node reserves the strongest signal, then front/hero/full get
+    the middle slots, then side/back/costume fill the rest.

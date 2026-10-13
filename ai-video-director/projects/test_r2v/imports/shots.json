@@ -1,0 +1,16 @@
+[
+  {
+    "shot_id": "shot_001",
+    "scene_id": "scene_01",
+    "characters": [
+      "young_woman"
+    ],
+    "action": "She looks at the camera with a calm, observant expression.",
+    "emotion": "calm, observant",
+    "prompt": "Cinematic close-up portrait of a young woman with long dark hair and an oval face with soft features. She looks directly at the camera with a calm, observant expression. The character from <Picture 1> is preserved exactly: same face, hair, and clothing. Soft natural lighting, shallow depth of field, photorealistic.",
+    "duration_sec": 5,
+    "start_frame": "imports/references/young_woman/hero.jpg",
+    "start_frame_source": "manual",
+    "shot_index": 1
+  }
+]

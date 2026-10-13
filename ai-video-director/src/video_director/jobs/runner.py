@@ -210,6 +210,11 @@ class GenerationRunner:
     def _run_one(self, shot: Shot, bible: CharacterBible) -> ShotResult:
         _LOG.info("running shot %s (scene=%s)", shot.shot_id, shot.scene_id)
         references = self._build_references(shot, bible)
+        # NEW (2026-10-12, ref2v): ordered list of reference images fed to
+        # the workflow's reference_image_nodes slots. Returns [] when the
+        # workflow has no reference_image_nodes declared (legacy single-
+        # image mode) — the adapter treats an empty list as a no-op.
+        ordered_refs = self._build_ordered_reference_images(shot, bible, references)
 
         # Idempotency: if the output mp4 already exists and force_regenerate is
         # not set, treat this shot as already-done and skip. Without this,
@@ -243,6 +248,7 @@ class GenerationRunner:
                     output_dir=self.paths.output_clips_dir,
                     references=references,
                     seed_override=self._seed_for_attempt(shot, attempt),
+                    reference_images_ordered=ordered_refs,
                     context={
                         "paths": self.paths,
                         "workflow_mapping": self.workflow_mapping,
@@ -380,10 +386,6 @@ class GenerationRunner:
                     # Last-ditch: return basename; ComfyUI may see the file
                     # via shared filesystem mount.
                     refs[ref.role] = src.name
-        # Resolve start_frame based on start_frame_source. The two values are:
-        #   "manual"          — use shot.start_frame path (resolve + upload)
-        #   "previous_shot"   — extract last frame from previous shot's mp4
-        #                        into ComfyUI's input dir and use the new name
         if shot.start_frame_source == "previous_shot":
             extracted = self._extract_previous_shot_frame(shot)
             if extracted:
@@ -447,6 +449,92 @@ class GenerationRunner:
                         refs.setdefault("start_frame", hero_ref)
                         break
         return refs
+
+    def _build_ordered_reference_images(
+        self,
+        shot: Shot,
+        bible: CharacterBible,
+        references: dict[str, str],
+    ) -> list[dict[str, Any]]:
+        """Build an ordered list of reference images for the ref2v workflow.
+
+        Returns a list of dicts, one per reference image, in the order the
+        adapter should route them into the workflow's ``ref_image_N`` slots
+        (face gets slot 0, then full / front / hero, then the rest).
+
+        Each entry: ``{"basename": str, "image_type": str, "weight": float,
+        "character_id": str, "role": str}``.
+
+        Slot ordering rationale (so the most identity-anchoring refs get
+        the lowest ordinals that the workflow reserves for the strongest
+        signals):
+
+          1. FACE / EXPRESSION (closest-up face cues) — slots 0, 1
+          2. FRONT / HERO / FULL (full-body / default) — slot 2
+          3. SIDE / BACK / COSTUME / OTHER — slots 3..8
+
+        The list is empty when the workflow has no
+        ``reference_image_nodes`` declared (legacy single-image mode).
+        That's not a bug — the adapter treats [] as a no-op and falls back
+        to the ``start_frame`` path.
+
+        Returns ``[]`` if the workflow has no reference_image_nodes. This
+        is determined by checking the workflow_mapping. We look at the
+        adapter request from the resolver later; for now we always build
+        the list (cheap) and let the adapter skip if no slots are mapped.
+        """
+        # Only build the list if the workflow mapping asks for it.
+        # The check is on the mapping object held on the runner. We avoid
+        # circular imports by reading the attribute defensively.
+        mapping = getattr(self, "workflow_mapping", None)
+        if mapping is None or not getattr(mapping, "reference_image_nodes", None):
+            return []
+
+        # Priority queue: lower = earlier slot.
+        type_priority = {
+            "face": 0,
+            "expression": 1,
+            "front": 2,
+            "hero": 2,
+            "full": 3,
+            "side": 4,
+            "back": 5,
+            "costume": 6,
+            "other": 7,
+        }
+        # Collect (priority, role, basename, image_type, weight, char_id)
+        # for every reference the shot's characters declare.
+        items: list[tuple[int, str, str, str, float, str]] = []
+        for char_id in shot.characters:
+            ch = bible.get(char_id)
+            if not ch:
+                continue
+            for ref in ch.reference_images:
+                basename = references.get(ref.role)
+                if not basename:
+                    # Not uploaded (file missing) — skip silently. _build_references
+                    # already logged a warning.
+                    continue
+                rtype = ref.resolved_type()
+                items.append((
+                    type_priority.get(rtype, 99),
+                    ref.role,  # tie-breaker: stable order
+                    basename,
+                    rtype,
+                    ref.resolved_weight(),
+                    char_id,
+                ))
+        items.sort(key=lambda x: (x[0], x[1]))
+        return [
+            {
+                "basename": basename,
+                "image_type": rtype,
+                "weight": weight,
+                "character_id": char_id,
+                "role": role,
+            }
+            for _, role, basename, rtype, weight, char_id in items
+        ]
 
     def _upload_reference_file(self, path: str) -> str | None:
         """Resolve a project-relative path to a real file and upload it.

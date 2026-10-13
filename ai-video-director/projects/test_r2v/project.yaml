@@ -1,0 +1,47 @@
+project_id: test_r2v
+title: MiniMax-H3 Reference-to-Video Project Template
+description: |
+  Scaffold for projects that need 2+ characters per shot AND want
+  character consistency across the whole video. Uses the ComfyUI native
+  `MiniMaxH3ReferenceToVideo` node (`comfy_extras/nodes_minimax_h3.py`)
+  which accepts up to 9 reference images as conditioning, so each
+  character can have multiple reference angles (face / full / side /
+  back / costume) auto-routed to the right ComfyUI input slot.
+
+  Workflow status (as of 2026-10-12):
+    * `workflow.yaml` points to `private/video_workflow_api_r2v.json`.
+    * That JSON is shipped with this template — it is a real, ready-to-run
+      ref2v workflow built around `MiniMaxH3ReferenceToVideo`. No
+      operator-supplied JSON needed.
+    * Also shipped: `private/video_workflow_r2v_ui.json` — the same
+      workflow in ComfyUI's UI format. Drag it into the ComfyUI frontend
+      to see the node graph, or click "Load" in the workflow menu.
+
+  Why this template:
+    * The default `template/` only supports a single `start_frame` per
+      shot, so character faces drift across shots. Use `template2/` when
+      consistency matters.
+    * Each character's reference set is sorted by `image_type` priority:
+      face refs get the strongest slot, then expression, then front/hero,
+      then side/back/costume. You don't have to think about slot order.
+    * The runner auto-uploads every reference image to ComfyUI's input
+      dir via `/upload/image` before submitting the workflow.
+
+  Choosing between template and template2:
+    * `template/` — single start_frame reference, default for projects
+      with one main character per shot. Simpler, faster.
+    * `template2/` (this one) — multi-image reference (face / full /
+      side / back / costume) for character-consistent videos. Requires
+      the ComfyUI native ref2v node (built into ComfyUI 0.37.0+).
+    * Switch by copying the desired directory to projects/<your_project_id>/.
+
+  Models required (all must exist under /home/frank/ComfyUI/models/):
+    * diffusion_models/minimax_h3_ref2va_pruned_int8_convrot.safetensors
+    * text_encoders/qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors
+    * vae/minimax_h3_video_vae_int8_convrot.safetensors
+    * vae/minimax_h3_audio_vae_fp32.safetensors
+    * loras/minimax_h3_ref2v_turbo_4step_v0.1_comfyui_bf16.safetensors  (optional, for 4-step fast sampling)
+
+language: en
+target_duration_sec: 0.0
+status: draft

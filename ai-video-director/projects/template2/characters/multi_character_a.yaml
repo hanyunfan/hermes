@@ -1,3 +1,18 @@
+# Demo character card showing multi-type reference images.
+#
+# Place the actual reference image files under
+# projects/<your_project>/imports/references/multi_character_a/ and
+# update the path fields below to match. The framework's runner will:
+#   1. resolve each path against the project root
+#   2. upload every found image to ComfyUI's input dir via /upload/image
+#   3. sort the references by image_type priority
+#      (face > expression > front/hero/full > side/back/costume)
+#   4. route them into the workflow's `ref_image_0`, `ref_image_1`, ...
+#      slots in priority order
+#
+# As of 2026-10-12, the workflow supports up to 3 reference slots. Add
+# more by extending reference_image_nodes in workflow.yaml AND adding
+# more LoadImage nodes to the workflow JSON.
 character_id: multi_character_a
 name: "Character A (placeholder)"
 description: |
@@ -16,14 +31,38 @@ clothing_default: plain shirt and trousers
 clothing_variants:
   - jacket
 personality: calm, observant
+
+# Multi-type reference images. The `image_type` field is the new
+# (2026-10-12) semantic bucket. The legacy `role` field stays as a free-
+# form sub-label so old character cards keep working.
 reference_images:
-  - role: character_a
-    path: multi_character_a/hero.png
-    notes: PLACEHOLDER — replace with an actual reference image
+  # PRIMARY face lock — gets the strongest weight (0.85)
   - role: face
+    image_type: face
     path: multi_character_a/face.png
-    notes: PLACEHOLDER — replace with an actual face close-up
+    notes: Front-facing portrait; used as the primary identity anchor.
+
+  # Full body / hero shot — default weight (0.7 for hero)
+  - role: hero
+    image_type: hero
+    path: multi_character_a/hero.png
+    notes: Full body, front view. Used when no other type is available.
+
+  # Side profile — useful for shots where the character is in profile
+  - role: side
+    image_type: side
+    path: multi_character_a/side.png
+    notes: Side view. Optional; add only if you have a real side photo.
+
 continuity_rules:
   - Unless the script explicitly changes their outfit, hair, or accessories,
     the character's appearance must remain identical across all shots.
   - Voice and posture should remain consistent.
+
+# Workflow usage notes:
+#   - image_type defaults to OTHER if the field is empty. The adapter
+#     also tries to infer from the `role` field via substring match
+#     (e.g. "expression_happy" → EXPRESSION, "face_closeup" → FACE).
+#   - weight overrides the default (see models/character.py:
+#     ReferenceImageType.DEFAULT_WEIGHTS). Leave unset to use defaults.
+#   - You can list any number of refs in any order; the runner sorts them.

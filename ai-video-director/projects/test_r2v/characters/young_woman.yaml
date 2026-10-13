@@ -1,0 +1,11 @@
+character_id: young_woman
+name: Young Woman (ref2v test)
+description: 22岁 female 服装:simple white blouse 性格:quiet, attentive
+age: '22'
+gender: female
+appearance: A young woman with a calm, observant expression.
+clothing_default: simple white blouse
+personality: quiet, attentive
+reference_images:
+- role: hero
+  path: imports/references/young_woman/hero.jpg

@@ -1,0 +1,31 @@
+shot_id: shot_001
+scene_id: scene_01
+shot_index: 1
+duration_sec: 5.0
+shot_type: medium
+camera: ''
+camera_motion: static
+characters:
+- young_woman
+action: She looks at the camera with a calm, observant expression.
+emotion: calm, observant
+environment: ''
+lighting: ''
+prompt: 'Cinematic close-up portrait of a young woman with long dark hair and an oval
+  face with soft features. She looks directly at the camera with a calm, observant
+  expression. The character from <Picture 1> is preserved exactly: same face, hair,
+  and clothing. Soft natural lighting, shallow depth of field, photorealistic.'
+negative_prompt: ''
+seed: null
+start_frame: imports/references/young_woman/hero.jpg
+start_frame_source: manual
+end_frame: ''
+previous_shot: ''
+next_shot: ''
+reference_images: []
+workflow_overrides: {}
+status: completed
+output_clip: /home/frank/hermes/ai-video-director/projects/test_r2v/output/clips/shot_001.mp4
+created_at: '2026-10-12T20:47:11Z'
+updated_at: '2026-10-12T21:10:42Z'
+extra: {}

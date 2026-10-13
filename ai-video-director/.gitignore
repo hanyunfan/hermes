@@ -36,19 +36,35 @@ projects/*
 !projects/template/**
 !projects/template2/
 !projects/template2/**
+# test_r2v is a public smoke-test project (added 2026-10-12 to verify
+# the ref2v pipeline). The single character uses a synthetic
+# placeholder image, not a real person.
+!projects/test_r2v/
+!projects/test_r2v/**
 # The templates ship as usable scaffolds; everything below "projects/"
 # that isn't a template is presumed private.
 
 # --- Per-project private assets ---
 # Anything inside a project's references/, private/, output/, state/
+# EXCEPT the public template scaffolds (template, template2, template3)
+# which are explicitly re-allowed below.
 projects/*/references/
 projects/*/references/**
-projects/*/private/
-projects/*/private/**
 projects/*/output/
 projects/*/output/**
 projects/*/state/
 projects/*/state/**
+# Per-project private/ — narrowed so template2's allowed workflow files
+# (added below) aren't excluded. We use a per-file exclude + a generic
+# `*` exclude, with template2's specific files re-allowed at the bottom.
+projects/*/private/*
+projects/*/private/*[!.]
+projects/*/private/.[!.]*
+# Re-allow the public template scaffolds wholesale.
+!projects/template/
+!projects/template/**
+!projects/template2/
+!projects/template2/**
 
 # Catch-all for ad-hoc private dirs at the framework root
 local/
@@ -57,6 +73,12 @@ runtime/
 real_workflow.json
 *.secret.*
 *.local.*
+# Re-allow template2's specific workflow JSON files (they MUST be after
+# the catch-all `private/` above — otherwise the catch-all re-ignores them).
+!projects/template2/private/video_workflow_api_r2v.json
+!projects/template2/private/video_workflow_r2v_ui.json
+!projects/test_r2v/private/video_workflow_api_r2v.json
+!projects/test_r2v/private/video_workflow_r2v_ui.json
 
 # --- Generated media ---
 *.mp4
@@ -75,19 +97,35 @@ real_workflow.json
 *.jpg
 *.jpeg
 *.webp
-# Allow placeholder/template PNGs inside projects/template/
+# Allow placeholder/template images inside projects/template/ and
+# projects/template2/ (the public scaffolds), plus projects/test_r2v/
+# (the public smoke-test project whose hero.jpg is a synthetic
+# placeholder, not a real person).
 !projects/template/**/*.png
 !projects/template/**/*.jpg
 !projects/template/**/*.jpeg
 !projects/template/**/*.webp
+!projects/template2/**/*.png
+!projects/template2/**/*.jpg
+!projects/template2/**/*.jpeg
+!projects/template2/**/*.webp
+!projects/test_r2v/**/*.png
+!projects/test_r2v/**/*.jpg
+!projects/test_r2v/**/*.jpeg
+!projects/test_r2v/**/*.webp
 
 # --- ComfyUI workflow JSON ---
 # Real ComfyUI workflows must NEVER enter git. The template file is allowed
-# because it's a sanitised placeholder.
+# because it's a sanitised placeholder. The ref2v workflow JSON files in
+# projects/template2/ are also allowed (2026-10-12: template ships with a
+# real, ready-to-run MiniMaxH3ReferenceToVideo workflow; without it the
+# template wouldn't work out of the box).
 real_workflow.json
 *_workflow.json
 *workflow*.json
 !workflows/video_workflow.template.json
+!projects/template2/private/video_workflow_api_r2v.json
+!projects/template2/private/video_workflow_r2v_ui.json
 
 # --- Credentials / secrets ---
 .env
