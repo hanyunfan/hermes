@@ -49,6 +49,16 @@ class ComfyUIConfig:
     # clock patience. Set explicitly via ComfyUIConfig to override.
     poll_timeout_sec: float = 90.0 * 60.0
     poll_interval_sec: float = 2.0
+    # NEW (2026-10-13): how long to tolerate a ComfyUI outage
+    # before concluding the prompt was lost to a restart. When
+    # ComfyUI restarts (e.g. systemd Restart=always after a hang),
+    # its in-memory /history is wiped. If our prompt_id is gone
+    # after the server comes back, the job is unrecoverable and
+    # the runner's retry path is the right place to recover.
+    # 30s is long enough to absorb systemd's automatic restart
+    # delay (typically 5-15s) without spinning uselessly for the
+    # full poll_timeout_sec (90 min) on a truly dead server.
+    unreachable_window_sec: float = 30.0
     client_id: str = "video-director"
 
 
@@ -386,14 +396,77 @@ class ComfyUIWorkflowAdapter:
         fragmented across successive shots on a single GPU. 90 min
         leaves headroom for the worst case while still failing fast
         on a hung job.
+
+        ComfyUI-restart handling: if the prompt_id is missing from
+        /history after a ComfyUI restart has been observed (the
+        server is reachable again but our old prompt_id is gone),
+        we raise immediately rather than spinning for the full
+        90 minutes. ComfyUI history is in-memory only and a
+        restart wipes it, so a missing prompt_id post-restart
+        means the job was lost forever — the runner's retry
+        path is the right place to recover.
+
+        ``unreachable_window_sec`` (default 30) bounds how long we
+        tolerate a ComfyUI outage before declaring the prompt
+        lost. We can't distinguish "ComfyUI is restarting" from
+        "ComfyUI is gone forever" without waiting, so we wait
+        this long and then check if the prompt is back in
+        history once the server is reachable.
         """
         url = f"{self.config.base_url.rstrip('/')}/history/{prompt_id}"
+        base_url = f"{self.config.base_url.rstrip('/')}"
         deadline = time.monotonic() + self.config.poll_timeout_sec
+        first_unreachable_at: float | None = None
         while time.monotonic() < deadline:
             try:
                 resp = requests.get(url, timeout=self.config.timeout_sec)
+                # Successful HTTP response — server is up. Reset the
+                # unreachable window if it had been set.
+                first_unreachable_at = None
             except requests.RequestException as e:
                 _LOG.warning("poll failed: %s", e)
+                if first_unreachable_at is None:
+                    first_unreachable_at = time.monotonic()
+                elif time.monotonic() - first_unreachable_at > self.config.unreachable_window_sec:
+                    # ComfyUI has been unreachable longer than the
+                    # window. Probe /system_stats to learn whether
+                    # the server is back, and if so, check whether
+                    # the prompt_id exists in the new history.
+                    try:
+                        stats = requests.get(
+                            f"{base_url}/system_stats",
+                            timeout=self.config.timeout_sec,
+                        )
+                    except requests.RequestException:
+                        # Still down. Reset the timer and keep
+                        # waiting (the runner has its own deadline
+                        # too via poll_timeout_sec).
+                        _LOG.warning(
+                            "ComfyUI still unreachable after %ds",
+                            int(self.config.unreachable_window_sec),
+                        )
+                        first_unreachable_at = time.monotonic()
+                        time.sleep(self.config.poll_interval_sec)
+                        continue
+                    if stats.status_code == 200:
+                        # Server is back. Check whether our prompt
+                        # is in the (now reset) history.
+                        hist = stats  # placeholder, replaced below
+                        try:
+                            hist_resp = requests.get(
+                                f"{base_url}/history",
+                                timeout=self.config.timeout_sec,
+                            )
+                            if hist_resp.status_code == 200:
+                                keys = set(hist_resp.json().keys())
+                                if prompt_id not in keys:
+                                    raise GenerationError(
+                                        f"ComfyUI was restarted; prompt_id "
+                                        f"{prompt_id} no longer exists in history. "
+                                        f"Server is back online; caller should retry."
+                                    )
+                        except requests.RequestException as e:
+                            _LOG.warning("post-restart history probe failed: %s", e)
                 time.sleep(self.config.poll_interval_sec)
                 continue
             if resp.status_code == 200:

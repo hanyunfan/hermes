@@ -369,3 +369,55 @@ def test_submit_calls_free_before_prompt(monkeypatch):
     monkeypatch.setattr(req_mod, "post", fail_then_succeed)
     pid2 = adapter.submit(request)
     assert pid2 == "xyz-789"
+
+
+def test_poll_detects_comfyui_restart_and_aborts(monkeypatch):
+    """When ComfyUI is unreachable for >unreachable_window_sec and
+    then comes back without our prompt_id in /history, poll() must
+    raise immediately rather than spin for the full poll_timeout_sec.
+    """
+    import time
+    from video_director.workflow.adapter import ComfyUIConfig, ComfyUIWorkflowAdapter
+    from video_director.core.errors import GenerationError
+    cfg = ComfyUIConfig(
+        base_url="http://test:9999",
+        poll_timeout_sec=300.0,        # 5 min
+        poll_interval_sec=0.001,        # fast
+        unreachable_window_sec=0.1,     # 100ms — short for the test
+    )
+    adapter = ComfyUIWorkflowAdapter(cfg)
+    prompt_id = "lost-1234"
+    calls = []
+    class _Resp:
+        def __init__(self, status=200, body=None):
+            self.status_code = status
+            self._body = body or {}
+        def json(self):
+            return self._body
+    def fake_get(url, timeout=None, **kwargs):
+        calls.append(url)
+        # /history/<id> always returns ConnectionError
+        if url.endswith(f"/history/{prompt_id}"):
+            import requests as r
+            raise r.ConnectionError("refused")
+        # /system_stats comes back 200
+        if url.endswith("/system_stats"):
+            return _Resp(200, {"ok": True})
+        # /history comes back 200 with NO matching prompt_id
+        if url.endswith("/history"):
+            return _Resp(200, {"some-other-prompt": {}})
+        return _Resp(404, {})
+    import requests as req_mod
+    monkeypatch.setattr(req_mod, "get", fake_get)
+    t0 = time.monotonic()
+    try:
+        adapter.poll(prompt_id)
+    except GenerationError as e:
+        elapsed = time.monotonic() - t0
+        msg = str(e)
+        assert "ComfyUI was restarted" in msg
+        assert prompt_id in msg
+        # Crucially: must finish in well under poll_timeout_sec
+        assert elapsed < 5.0, f"poll() took {elapsed:.1f}s, expected <5s"
+    else:
+        raise AssertionError("expected GenerationError")
