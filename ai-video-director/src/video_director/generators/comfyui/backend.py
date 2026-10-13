@@ -66,15 +66,6 @@ class ComfyUIGenerator(VideoGenerator):
             metadata=result.metadata,
         )
 
-    def free_vram(self) -> bool:
-        """Reset ComfyUI's in-GPU model state. Forwards to the
-        adapter's /free call. Used by the runner on the retry path
-        (see GenerationRunner._run_one): the first retry after a
-        failure pays a 30-90s reload cost in exchange for a clean
-        baseline. Healthy shots never need this.
-        """
-        return self.adapter.free_vram()
-
     def cancel(self, shot_id: str) -> bool:
         # ComfyUI HTTP /queue endpoint supports delete; left as TODO so we
         # don't half-implement and silently fail. Returning False signals

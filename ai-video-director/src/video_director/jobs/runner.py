@@ -278,21 +278,6 @@ class GenerationRunner:
                 attempt += 1
                 if attempt > self.config.max_retries + 1:
                     break
-                # VRAM hygiene: on the retry path (attempt > 1 has
-                # now become attempt > 1 effective after the +=1
-                # above), free ComfyUI's GPU model state so the
-                # next try starts from a clean baseline. The cost
-                # is 30-90s of model reload + warm-up, which is
-                # cheap relative to a hung render and worth paying
-                # only when we know something went wrong. Mock
-                # backends don't expose free_vram — skip silently.
-                free = getattr(self.backend, "free_vram", None)
-                if callable(free):
-                    ok = free()
-                    _LOG.info(
-                        "shot %s attempt %d → %d: freed ComfyUI VRAM (ok=%s)",
-                        shot.shot_id, attempt - 1, attempt, ok,
-                    )
                 continue
 
             # Success: record job + clip
