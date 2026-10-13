@@ -8,7 +8,7 @@ description: |
   character can have multiple reference angles (face / full / side /
   back / costume) auto-routed to the right ComfyUI input slot.
 
-  Workflow status (as of 2026-10-12):
+  Workflow status (as of 2026-10-13):
     * `workflow.yaml` points to `private/video_workflow_api_r2v.json`.
     * That JSON is shipped with this template — it is a real, ready-to-run
       ref2v workflow built around `MiniMaxH3ReferenceToVideo`. No
@@ -16,6 +16,9 @@ description: |
     * Also shipped: `private/video_workflow_r2v_ui.json` — the same
       workflow in ComfyUI's UI format. Drag it into the ComfyUI frontend
       to see the node graph, or click "Load" in the workflow menu.
+    * Includes `reference_video_nodes: { ref_video_0: ... }` — the
+      previous-shot mp4 chain. See README.md "Operational rules" for
+      the hard-learned lessons about VRAM fragmentation and poll timeouts.
 
   Why this template:
     * The default `template/` only supports a single `start_frame` per

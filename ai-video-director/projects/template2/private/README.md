@@ -77,6 +77,30 @@ To support more than 3 reference images:
 2. Add the matching `LoadImage` node to the workflow JSON and wire it
    into the ref2v node's `ref_images.ref_image_<i>` input.
 
+## Reference video slot (previous-shot chain)
+
+| Slot | ComfyUI node | Adapter writes |
+|---|---|---|
+| `ref_videos_0` | `Load Video Ref (previous shot)` | Previous shot's mp4 (or placeholder) |
+
+This is the **continuity slot**. The runner uploads the previous
+shot's mp4 to `/home/frank/ComfyUI/input/` and writes the resulting
+filename into the matching `LoadImage` node. ComfyUI's `LoadImage`
+decodes the mp4 to a 24-fps IMAGE batch via pyav; the H3 node
+encodes the full sequence through the VAE and hands the latent to
+the unet as a motion anchor. The result: shot N+1 opens matching
+the position/expression of shot N's last frame.
+
+For shot 1 (no previous shot), the workflow's default image slot
+points at `placeholder_prev_shot.mp4` (a 1-second 320x240 black
+video). Run `python3 scripts/setup_placeholder.py` from the project
+root to ensure it exists.
+
+The H3 node also accepts `ref_videos.ref_video_1`, `ref_video_2`
+(up to 3 total) and `ref_audios.ref_audio_0..2`. The runner only
+populates slot 0 today; future versions could carry shot-2/shot-3
+mp4s for longer-range continuity.
+
 ## Prompt format
 
 The `Prompt` node is a `PrimitiveStringMultiline` whose value is patched
