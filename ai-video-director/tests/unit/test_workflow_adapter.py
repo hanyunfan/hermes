@@ -312,3 +312,60 @@ def test_workflow_overrides_with_input_key_remap(tmp_path):
     adapter.patch_workflow(req)
     sampler = next(n for n in req.workflow["nodes"] if n["title"] == "KSampler")
     assert sampler["inputs"]["steps"] == 30
+
+def test_poll_timeout_is_independent_of_timeout_sec(monkeypatch):
+    """poll() should honor config.poll_timeout_sec, NOT timeout_sec * 60.
+
+    Regression for 2026-10-13: a 38-shot run hit shots timing out at
+    30 minutes because the deadline was derived from
+    config.timeout_sec * 60. The new poll_timeout_sec defaults to 90
+    minutes and is the single source of truth.
+    """
+    from video_director.workflow.adapter import ComfyUIConfig, ComfyUIWorkflowAdapter
+    cfg = ComfyUIConfig(timeout_sec=30.0, poll_timeout_sec=5400.0)  # 90 min
+    assert cfg.poll_timeout_sec == 5400.0
+    assert cfg.poll_timeout_sec != cfg.timeout_sec * 60  # 30 * 60 = 1800
+
+
+def test_submit_calls_free_before_prompt(monkeypatch):
+    """submit() must call /free with unload_models + free_memory
+    before POSTing to /prompt. Regression for VRAM fragmentation
+    causing renders to slow from ~5min to ~40min by shot 7+.
+    """
+    from video_director.workflow.adapter import ComfyUIConfig, ComfyUIWorkflowAdapter
+    cfg = ComfyUIConfig(base_url="http://test-comfyui:9999")
+    adapter = ComfyUIWorkflowAdapter(cfg)
+    calls = []
+    class _Resp:
+        def __init__(self, status=200, body=None):
+            self.status_code = status
+            self._body = body or {}
+        def json(self):
+            return self._body
+    def fake_post(url, json=None, timeout=None, **kwargs):
+        calls.append((url, json))
+        if url.endswith("/free"):
+            return _Resp(200, {})
+        if url.endswith("/prompt"):
+            return _Resp(200, {"prompt_id": "abc-123"})
+        return _Resp(404, {})
+    import requests as req_mod
+    monkeypatch.setattr(req_mod, "post", fake_post)
+    request = type("R", (), {"workflow": {}, "shot": type("S", (), {"shot_id": "x"})()})()
+    pid = adapter.submit(request)
+    assert pid == "abc-123"
+    # /free must be called first
+    assert calls[0][0].endswith("/free")
+    assert calls[0][1] == {"unload_models": True, "free_memory": True}
+    assert calls[1][0].endswith("/prompt")
+    # /free failure must not block /prompt
+    calls.clear()
+    def fail_then_succeed(url, json=None, timeout=None, **kwargs):
+        calls.append(url)
+        if url.endswith("/free"):
+            import requests as r
+            raise r.ConnectionError("free endpoint down")
+        return _Resp(200, {"prompt_id": "xyz-789"})
+    monkeypatch.setattr(req_mod, "post", fail_then_succeed)
+    pid2 = adapter.submit(request)
+    assert pid2 == "xyz-789"

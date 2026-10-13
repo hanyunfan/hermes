@@ -39,6 +39,15 @@ class ComfyUIConfig:
 
     base_url: str = "http://127.0.0.1:8188"
     timeout_sec: float = 30.0
+    # NEW (2026-10-13): independent poll budget. Previously poll()
+    # multiplied timeout_sec by 60, which only gave 30 minutes of
+    # total polling per shot — enough for cold start, but
+    # insufficient for shots running after VRAM has fragmented over
+    # many prior shots (we observed 30-40 min renders by shot 7+
+    # because unet/CLIP caches accumulate). The new default of 90
+    # minutes is generous; the actual cap is the user's GPU / wall
+    # clock patience. Set explicitly via ComfyUIConfig to override.
+    poll_timeout_sec: float = 90.0 * 60.0
     poll_interval_sec: float = 2.0
     client_id: str = "video-director"
 
@@ -320,7 +329,27 @@ class ComfyUIWorkflowAdapter:
     # ---- submit + poll ----------------------------------------------
 
     def submit(self, request: GenerationRequest) -> str:
-        """POST the workflow and return the ComfyUI prompt_id."""
+        """POST the workflow and return the ComfyUI prompt_id.
+
+        Before submitting, calls ComfyUI's ``/free`` endpoint to unload
+        any in-memory models and free caches. Without this, unet/CLIP
+        state fragments across successive shots and renders slow from
+        ~5 min (cold) to ~40 min (after 10+ shots on a single GPU).
+        The /free call is best-effort: a failure here is logged and
+        ignored because the new prompt itself will trigger ComfyUI's
+        internal model_management.
+        """
+        # Free VRAM before submitting the new prompt.
+        free_url = f"{self.config.base_url.rstrip('/')}/free"
+        try:
+            requests.post(
+                free_url,
+                json={"unload_models": True, "free_memory": True},
+                timeout=self.config.timeout_sec,
+            )
+        except requests.RequestException as e:
+            _LOG.warning("ComfyUI /free pre-submit failed: %s", e)
+
         url = f"{self.config.base_url.rstrip('/')}/prompt"
         body = {
             "prompt": request.workflow,
@@ -349,9 +378,17 @@ class ComfyUIWorkflowAdapter:
         Returns the history entry on success. Raises :class:`GenerationError`
         on failure. ComfyUI exposes execution errors in the ``outputs`` dict
         or via WebSocket ``execution_error`` messages; we read the history.
+
+        Polling budget is governed by ``config.poll_timeout_sec`` (default
+        90 minutes, was previously derived from ``config.timeout_sec * 60``).
+        The 30-minute default was too tight: we measured render times
+        climbing from ~5 min to ~40 min as the unet/CLIP caches
+        fragmented across successive shots on a single GPU. 90 min
+        leaves headroom for the worst case while still failing fast
+        on a hung job.
         """
         url = f"{self.config.base_url.rstrip('/')}/history/{prompt_id}"
-        deadline = time.monotonic() + self.config.timeout_sec * 60  # reuse timeout as poll budget * 60
+        deadline = time.monotonic() + self.config.poll_timeout_sec
         while time.monotonic() < deadline:
             try:
                 resp = requests.get(url, timeout=self.config.timeout_sec)
