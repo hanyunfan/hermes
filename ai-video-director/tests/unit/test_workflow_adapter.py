@@ -327,10 +327,48 @@ def test_poll_timeout_is_independent_of_timeout_sec(monkeypatch):
     assert cfg.poll_timeout_sec != cfg.timeout_sec * 60  # 30 * 60 = 1800
 
 
-def test_submit_calls_free_before_prompt(monkeypatch):
-    """submit() must call /free with unload_models + free_memory
-    before POSTing to /prompt. Regression for VRAM fragmentation
-    causing renders to slow from ~5min to ~40min by shot 7+.
+def test_submit_does_not_call_free(monkeypatch):
+    """submit() must NOT call /free before POSTing to /prompt.
+
+    Regression for 2026-10-13 second pass: calling /free on every
+    submit pays 30-90s of unet reload cost per shot. The free call
+    now lives in free_vram() and is invoked by the runner ONLY on
+    the retry path (attempt > 1). The pre-submit /free behaviour
+    was removed because the cost outweighs the benefit for healthy
+    shots — only retry attempts need a clean GPU baseline.
+    """
+    from video_director.workflow.adapter import ComfyUIConfig, ComfyUIWorkflowAdapter
+    cfg = ComfyUIConfig(base_url="http://test-comfyui:9999")
+    adapter = ComfyUIWorkflowAdapter(cfg)
+    calls = []
+    class _Resp:
+        def __init__(self, status=200, body=None):
+            self.status_code = status
+            self._body = body or {}
+        def json(self):
+            return self._body
+    def fake_post(url, json=None, timeout=None, **kwargs):
+        calls.append(url)
+        if url.endswith("/prompt"):
+            return _Resp(200, {"prompt_id": "abc-123"})
+        return _Resp(404, {})
+    import requests as req_mod
+    monkeypatch.setattr(req_mod, "post", fake_post)
+    request = type("R", (), {"workflow": {}, "shot": type("S", (), {"shot_id": "x"})()})()
+    pid = adapter.submit(request)
+    assert pid == "abc-123"
+    # /free must NOT be called
+    assert not any(c.endswith("/free") for c in calls)
+    # /prompt was called exactly once
+    assert sum(1 for c in calls if c.endswith("/prompt")) == 1
+
+
+def test_free_vram_calls_free_endpoint(monkeypatch):
+    """free_vram() must POST /free with unload_models + free_memory.
+
+    This is the new public method that the runner uses on the retry
+    path. We verify it actually reaches ComfyUI and surfaces HTTP
+    failures as a False return value (not an exception).
     """
     from video_director.workflow.adapter import ComfyUIConfig, ComfyUIWorkflowAdapter
     cfg = ComfyUIConfig(base_url="http://test-comfyui:9999")
@@ -346,26 +384,22 @@ def test_submit_calls_free_before_prompt(monkeypatch):
         calls.append((url, json))
         if url.endswith("/free"):
             return _Resp(200, {})
-        if url.endswith("/prompt"):
-            return _Resp(200, {"prompt_id": "abc-123"})
         return _Resp(404, {})
     import requests as req_mod
     monkeypatch.setattr(req_mod, "post", fake_post)
-    request = type("R", (), {"workflow": {}, "shot": type("S", (), {"shot_id": "x"})()})()
-    pid = adapter.submit(request)
-    assert pid == "abc-123"
-    # /free must be called first
+    assert adapter.free_vram() is True
     assert calls[0][0].endswith("/free")
     assert calls[0][1] == {"unload_models": True, "free_memory": True}
-    assert calls[1][0].endswith("/prompt")
-    # /free failure must not block /prompt
-    calls.clear()
-    def fail_then_succeed(url, json=None, timeout=None, **kwargs):
-        calls.append(url)
+    # /free failure must return False, not raise
+    def fail_post(url, json=None, timeout=None, **kwargs):
         if url.endswith("/free"):
             import requests as r
             raise r.ConnectionError("free endpoint down")
-        return _Resp(200, {"prompt_id": "xyz-789"})
-    monkeypatch.setattr(req_mod, "post", fail_then_succeed)
-    pid2 = adapter.submit(request)
-    assert pid2 == "xyz-789"
+        return _Resp(200, {})
+    monkeypatch.setattr(req_mod, "post", fail_post)
+    assert adapter.free_vram() is False
+    # non-200 must also return False
+    def non200(url, json=None, timeout=None, **kwargs):
+        return _Resp(503, {})
+    monkeypatch.setattr(req_mod, "post", non200)
+    assert adapter.free_vram() is False

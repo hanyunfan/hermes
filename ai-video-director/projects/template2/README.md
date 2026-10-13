@@ -112,12 +112,19 @@ measured:
 | 7-10    | 30-39 min     |
 | 11+     | often hangs or OOMs |
 
-The framework already calls `/free` (`unload_models: true,
-free_memory: true`) before every `submit`, which keeps the slope
-sane. If you're running outside the framework (e.g. via the
-ComfyUI frontend), hit the **"Unload Models"** button between
-shots. For long runs you may also want to **restart ComfyUI every
-20 shots** to fully clear its Python-side caches.
+The framework now calls `/free` (`unload_models: true,
+free_memory: true`) **only on the retry path** — when a shot fails
+and the runner is about to re-submit. Healthy shots do NOT pay
+the reload cost, because `/free` forces ComfyUI to unload the
+unet/CLIP/VAE from VRAM and the next prompt re-loads + re-warms
+them (30-90 s of fixed overhead per shot). For a healthy 30-shot
+run, that's 15-45 minutes of unnecessary reload cost.
+
+If you run the workflow through the ComfyUI frontend instead of
+through the framework, hit the **"Unload Models"** button between
+shots OR after any failure. For long runs you may also want to
+**restart ComfyUI every 20 shots** to fully clear its Python-side
+caches.
 
 ### Rule 3: poll timeout ≥ 90 minutes per shot
 

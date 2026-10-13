@@ -331,25 +331,19 @@ class ComfyUIWorkflowAdapter:
     def submit(self, request: GenerationRequest) -> str:
         """POST the workflow and return the ComfyUI prompt_id.
 
-        Before submitting, calls ComfyUI's ``/free`` endpoint to unload
-        any in-memory models and free caches. Without this, unet/CLIP
-        state fragments across successive shots and renders slow from
-        ~5 min (cold) to ~40 min (after 10+ shots on a single GPU).
-        The /free call is best-effort: a failure here is logged and
-        ignored because the new prompt itself will trigger ComfyUI's
-        internal model_management.
+        NOTE: this method does NOT call /free before submitting. /free
+        unloads unet/CLIP/VAE from VRAM, which forces ComfyUI to
+        re-load + re-warm them on the next prompt (30-90s of fixed
+        overhead per shot). For a steady stream of healthy shots that
+        overhead is wasted; the unet/CLIP caches that cause the
+        "render time climbs from 5min to 40min" problem also need a
+        few successful shots to accumulate, and ComfyUI's internal
+        model_management reclaims memory between prompts on its own.
+        We only call /free on the retry path (see
+        ``free_vram`` + ``GenerationRunner._run_one``), where the
+        extra reload cost is justified by the need to reset GPU
+        state after a failure.
         """
-        # Free VRAM before submitting the new prompt.
-        free_url = f"{self.config.base_url.rstrip('/')}/free"
-        try:
-            requests.post(
-                free_url,
-                json={"unload_models": True, "free_memory": True},
-                timeout=self.config.timeout_sec,
-            )
-        except requests.RequestException as e:
-            _LOG.warning("ComfyUI /free pre-submit failed: %s", e)
-
         url = f"{self.config.base_url.rstrip('/')}/prompt"
         body = {
             "prompt": request.workflow,
@@ -371,6 +365,31 @@ class ComfyUIWorkflowAdapter:
         if not prompt_id:
             raise GenerationError(f"ComfyUI submit response missing prompt_id: {data}")
         return str(prompt_id)
+
+    def free_vram(self) -> bool:
+        """Call ComfyUI's ``/free`` endpoint to unload models and free
+        GPU memory. Returns True on success, False on failure (errors
+        are logged, never raised — this is a best-effort reset, not a
+        critical operation).
+
+        Used by the runner on the retry path: after a shot fails, the
+        retry's first action is to free VRAM so the unet/CLIP/VAE
+        re-load from a clean baseline. This is more expensive than
+        letting ComfyUI manage memory on its own (each free + reload
+        cycle costs 30-90s of fixed overhead) so we don't do it on
+        every submit.
+        """
+        free_url = f"{self.config.base_url.rstrip('/')}/free"
+        try:
+            resp = requests.post(
+                free_url,
+                json={"unload_models": True, "free_memory": True},
+                timeout=self.config.timeout_sec,
+            )
+            return resp.status_code == 200
+        except requests.RequestException as e:
+            _LOG.warning("ComfyUI /free failed: %s", e)
+            return False
 
     def poll(self, prompt_id: str) -> dict[str, Any]:
         """Poll the history endpoint until the job completes or fails.
