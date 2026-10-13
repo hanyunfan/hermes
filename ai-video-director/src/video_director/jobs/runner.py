@@ -215,6 +215,13 @@ class GenerationRunner:
         # workflow has no reference_image_nodes declared (legacy single-
         # image mode) — the adapter treats an empty list as a no-op.
         ordered_refs = self._build_ordered_reference_images(shot, bible, references)
+        # NEW (2026-10-12, prev-shot chain): ordered list of reference
+        # videos (today: just the previous shot's mp4) routed to the
+        # workflow's reference_video_nodes slots. When the workflow
+        # exposes ref_video_0 and shot.start_frame_source==previous_shot
+        # + a previous mp4 exists, this gives the unet a motion-primed
+        # anchor for visual continuity.
+        ordered_videos = self._build_ordered_reference_videos(shot)
 
         # Idempotency: if the output mp4 already exists and force_regenerate is
         # not set, treat this shot as already-done and skip. Without this,
@@ -249,6 +256,7 @@ class GenerationRunner:
                     references=references,
                     seed_override=self._seed_for_attempt(shot, attempt),
                     reference_images_ordered=ordered_refs,
+                    reference_videos_ordered=ordered_videos,
                     context={
                         "paths": self.paths,
                         "workflow_mapping": self.workflow_mapping,
@@ -535,6 +543,93 @@ class GenerationRunner:
             }
             for _, role, basename, rtype, weight, char_id in items
         ]
+
+    def _build_ordered_reference_videos(self, shot: Shot) -> list[dict[str, Any]]:
+        """Build the ordered list of reference VIDEOS for the ref2v workflow.
+
+        NEW (2026-10-12, prev-shot chain): for each ``ref_video_<i>`` slot
+        the workflow declares, the runner can attach a video file. Today
+        the only supported source is the *previous shot's mp4*, which
+        gives the unet a motion-primed anchor at the start of the new
+        shot and produces visually continuous video. Returns [] when the
+        workflow has no reference_video_nodes declared, or when this
+        shot has no usable previous-shot mp4.
+
+        Slot 0 is reserved for the previous shot when applicable. Future
+        slots could carry earlier shots (shot-2, shot-3, ...) but the
+        H3 node caps ref_videos at 3 and the relevant continuity window
+        is just one step.
+        """
+        # Only build the list if the workflow mapping asks for it.
+        mapping = getattr(self, "workflow_mapping", None)
+        if mapping is None or not getattr(mapping, "reference_video_nodes", None):
+            return []
+
+        out: list[dict[str, Any]] = []
+        # slot 0: previous shot's mp4 (when available and requested)
+        if shot.start_frame_source == "previous_shot" and shot.previous_shot:
+            prev_clip = self.paths.output_clips_dir / f"{shot.previous_shot}.mp4"
+            if not prev_clip.exists():
+                _LOG.warning(
+                    "shot %s wants previous_shot=%s but mp4 missing at %s; "
+                    "ref_video_0 will be left empty",
+                    shot.shot_id, shot.previous_shot, prev_clip,
+                )
+            else:
+                # Re-use the extracted end-frame PNG (already in ComfyUI
+                # input dir if _extract_previous_shot_frame ran) when
+                # the previous shot is short; for full video continuity
+                # we instead upload the *whole* mp4 and let ComfyUI
+                # LoadImage decode all frames. The mp4 is cheaper to keep
+                # than a per-frame PNG sequence.
+                basename = self._upload_video_to_comfyui(prev_clip)
+                if basename:
+                    out.append({
+                        "basename": basename,
+                        "role": "previous_shot",
+                        "shot_id": shot.previous_shot,
+                        "video_type": "mp4",
+                    })
+        return out
+
+    def _upload_video_to_comfyui(self, src: Path) -> str | None:
+        """Upload a video file (mp4) to ComfyUI's input directory.
+
+        ComfyUI's ``/upload/image`` endpoint accepts any bytes; the file
+        lands in the input dir and ``LoadImage`` will load it via
+        ``InputImpl.VideoFromFile`` (pyav), returning an IMAGE batch
+        representing the full 24 fps sequence. ``allow_rename`` keeps
+        prev-shot uploads from clobbering each other when two adjacent
+        shots share the same name (which is impossible by construction
+        here, but defensive).
+        """
+        import hashlib
+        import requests
+        if not src.exists():
+            return None
+        stem = src.stem
+        suffix = src.suffix or ".mp4"
+        digest = hashlib.sha1(str(src.resolve()).encode()).hexdigest()[:8]
+        target_name = f"{stem}__{digest}{suffix}"
+        try:
+            # video/mp4 is the closest MIME type; ComfyUI doesn't care
+            # about the exact value, only the bytes.
+            with open(src, "rb") as f:
+                resp = requests.post(
+                    "http://127.0.0.1:8188/upload/image",
+                    files={"image": (target_name, f, "video/mp4")},
+                    data={"type": "input", "overwrite": "true"},
+                    timeout=120,
+                )
+            resp.raise_for_status()
+            try:
+                body = resp.json()
+                return body.get("name", target_name)
+            except Exception:
+                return target_name
+        except Exception as e:  # noqa: BLE001
+            _LOG.warning("ComfyUI video upload failed for %s: %s", src, e)
+            return None
 
     def _upload_reference_file(self, path: str) -> str | None:
         """Resolve a project-relative path to a real file and upload it.

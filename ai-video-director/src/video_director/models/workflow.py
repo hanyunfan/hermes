@@ -55,6 +55,15 @@ class WorkflowMapping:
     # separate LoadImage node wired into the ref2v node's
     # ``ref_images.ref_image_<i>`` input.
     reference_image_nodes: dict[str, str] = field(default_factory=dict)
+    # NEW (2026-10-12, prev-shot chain): ordered slot_key -> node_title
+    # for each reference VIDEO (the previous shot's mp4). The adapter
+    # uploads the previous shot's mp4 to ComfyUI's input dir and writes
+    # the resulting filename into the matching LoadImage node's
+    # ``image`` slot. The node is wired into the ref2v node's
+    # ``ref_videos.ref_video_<i>`` input, which is natively supported
+    # by MiniMaxH3ReferenceToVideo (0-3 video refs, each a 24fps
+    # 2-15s sequence loaded via pyav through LoadImage).
+    reference_video_nodes: dict[str, str] = field(default_factory=dict)
 
     # ---- input-slot names (NEW) --------------------------------------
     prompt_input_key: str = "text"
@@ -86,6 +95,7 @@ class WorkflowMapping:
         nodes.extend(self.image_input_nodes.values())
         nodes.extend(self.extra_param_nodes.values())
         nodes.extend(self.reference_image_nodes.values())
+        nodes.extend(self.reference_video_nodes.values())
         return [n for n in nodes if n]
 
     def image_input_key(self, role: str) -> str:
@@ -105,6 +115,7 @@ class WorkflowMapping:
             "image_input_nodes": dict(self.image_input_nodes),
             "extra_param_nodes": dict(self.extra_param_nodes),
             "reference_image_nodes": dict(self.reference_image_nodes),
+            "reference_video_nodes": dict(self.reference_video_nodes),
             "prompt_input_key": self.prompt_input_key,
             "negative_prompt_input_key": self.negative_prompt_input_key,
             "seed_input_key": self.seed_input_key,
@@ -128,6 +139,7 @@ class WorkflowMapping:
             image_input_nodes=dict(data.get("image_input_nodes", {}) or {}),
             extra_param_nodes=dict(data.get("extra_param_nodes", {}) or {}),
             reference_image_nodes=dict(data.get("reference_image_nodes", {}) or {}),
+            reference_video_nodes=dict(data.get("reference_video_nodes", {}) or {}),
             prompt_input_key=str(data.get("prompt_input_key", "text")),
             negative_prompt_input_key=str(
                 data.get("negative_prompt_input_key", "text")

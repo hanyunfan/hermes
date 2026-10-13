@@ -34,6 +34,10 @@ class ResolvedWorkflow:
     extra_param_node_ids: dict[str, str]
     # NEW (2026-10-12, ref2v): ordered slot_key ("ref_image_0"...) → node_id.
     reference_image_node_ids: dict[str, str] = field(default_factory=dict)
+    # NEW (2026-10-12, prev-shot chain): ordered slot_key ("ref_video_0"...)
+    # → node_id, mirroring reference_image_node_ids but for the previous
+    # shot's mp4 wired into MiniMaxH3ReferenceToVideo's ref_videos slot.
+    reference_video_node_ids: dict[str, str] = field(default_factory=dict)
 
 
 class WorkflowResolver:
@@ -99,6 +103,15 @@ class WorkflowResolver:
                 # Workflow doesn't have this slot's node — that's fine, the
                 # adapter stops routing at the first missing slot. Log and skip.
                 _LOG.warning("skipping ref slot %s: %s", slot_key, e)
+        # NEW (2026-10-12, prev-shot chain): same shape, but for video refs.
+        ref_vid_ids: dict[str, str] = {}
+        for slot_key, title_ in (self.mapping.reference_video_nodes or {}).items():
+            try:
+                ref_vid_ids[slot_key] = self._lookup(
+                    title_to_id, title_, f"reference_video_nodes[{slot_key!r}]"
+                )
+            except ValidationError as e:
+                _LOG.warning("skipping ref_video slot %s: %s", slot_key, e)
         return ResolvedWorkflow(
             workflow=workflow,
             prompt_node_id=prompt_id,
@@ -108,6 +121,7 @@ class WorkflowResolver:
             image_input_node_ids=img_ids,
             extra_param_node_ids=extra_ids,
             reference_image_node_ids=ref_ids,
+            reference_video_node_ids=ref_vid_ids,
         )
 
     # ---- helpers -----------------------------------------------------

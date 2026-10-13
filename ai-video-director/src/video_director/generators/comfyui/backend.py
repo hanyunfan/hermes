@@ -38,6 +38,7 @@ class ComfyUIGenerator(VideoGenerator):
         seed_override: int | None = None,
         context: Mapping[str, Any] | None = None,
         reference_images_ordered: list[dict[str, Any]] | None = None,
+        reference_videos_ordered: list[dict[str, Any]] | None = None,
     ) -> GenerationOutcome:
         context = context or {}
         paths = context.get("paths")
@@ -54,6 +55,7 @@ class ComfyUIGenerator(VideoGenerator):
             references=references,
             seed_override=seed_override,
             reference_images_ordered=reference_images_ordered,
+            reference_videos_ordered=reference_videos_ordered,
         )
         return GenerationOutcome(
             output_path=result.output_path,

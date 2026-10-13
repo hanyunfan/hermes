@@ -81,6 +81,16 @@ class GenerationRequest:
     # {"ref_image_0": "10", "ref_image_1": "11", ...}. The mapping object
     # is parsed from workflow.yaml:reference_image_nodes.
     reference_image_node_ids: dict[str, str] = field(default_factory=dict)
+    # NEW (2026-10-12, prev-shot chain): same shape for video refs. The
+    # runner fills ``reference_videos_ordered`` with one entry per
+    # ``ref_video_<i>`` slot, e.g.
+    # [{"basename": "shot_001.mp4", "role": "previous_shot"}]. The
+    # adapter routes each into the matching node's image slot. The node
+    # is wired into MiniMaxH3ReferenceToVideo's ref_videos.ref_video_<i>
+    # input, which ComfyUI's LoadImage handles via pyav
+    # (InputImpl.VideoFromFile).
+    reference_videos_ordered: list[dict[str, Any]] = field(default_factory=list)
+    reference_video_node_ids: dict[str, str] = field(default_factory=dict)
 
     def image_input_key(self, role: str) -> str:
         return self.image_input_keys.get(role, "image")
@@ -115,6 +125,7 @@ class ComfyUIWorkflowAdapter:
         seed_override: int | None = None,
         mapping: WorkflowMapping | None = None,
         reference_images_ordered: list[dict[str, Any]] | None = None,
+        reference_videos_ordered: list[dict[str, Any]] | None = None,
     ) -> GenerationRequest:
         ref_map = dict(references or {})
         req = GenerationRequest(
@@ -150,6 +161,13 @@ class ComfyUIWorkflowAdapter:
         # patch the right node; the mapping object only carries titles).
         if getattr(resolved, "reference_image_node_ids", None):
             req.reference_image_node_ids = dict(resolved.reference_image_node_ids)
+        # NEW (2026-10-12, prev-shot chain): same propagation for video refs.
+        if reference_videos_ordered is not None:
+            req.reference_videos_ordered = list(reference_videos_ordered)
+        if mapping is not None and getattr(mapping, "reference_video_nodes", None):
+            req.reference_video_node_ids = dict(mapping.reference_video_nodes)
+        if getattr(resolved, "reference_video_node_ids", None):
+            req.reference_video_node_ids = dict(resolved.reference_video_node_ids)
         return req
 
     def patch_workflow(self, request: GenerationRequest) -> GenerationRequest:
@@ -213,6 +231,26 @@ class ComfyUIWorkflowAdapter:
                 # workflow doesn't accept this many refs — stop silently.
                 break
             self._set_input(wf, node_id, "image", ref["basename"])
+
+        # ---- multi-reference VIDEO routing (prev-shot chain) ---------
+        # When the workflow exposes a `reference_video_nodes` map
+        # (e.g. ``ref_video_0: "Load Video Ref (previous shot)"``), the
+        # adapter uploads each previous-shot mp4 to ComfyUI's input
+        # dir and patches the resulting basename into the matching
+        # node's image slot. The node is wired into
+        # MiniMaxH3ReferenceToVideo's ref_videos.ref_video_<i>, which
+        # ComfyUI's LoadImage loads via pyav
+        # (InputImpl.VideoFromFile -> IMAGE batch of all frames).
+        ordered_videos = getattr(req, "reference_videos_ordered", None) or []
+        ref_video_node_map = getattr(req, "reference_video_node_ids", {}) or {}
+        for idx, vref in enumerate(ordered_videos):
+            slot_key = f"ref_video_{idx}"
+            node_id = ref_video_node_map.get(slot_key)
+            if not node_id:
+                break
+            basename = vref.get("basename")
+            if basename:
+                self._set_input(wf, node_id, "image", basename)
 
         # ---- start_frame: auto-wire shot.start_frame → start_frame_role
         # References win (explicit override); fall back to shot.start_frame.
@@ -412,6 +450,7 @@ class ComfyUIWorkflowAdapter:
         seed_override: int | None = None,
         download_fn: Callable[[str, dict, str, Path], Path] | None = None,
         reference_images_ordered: list[dict[str, Any]] | None = None,
+        reference_videos_ordered: list[dict[str, Any]] | None = None,
     ) -> GenerationResult:
         """End-to-end: resolve workflow → patch → submit → poll → download.
 
@@ -423,6 +462,13 @@ class ComfyUIWorkflowAdapter:
         node title), the adapter routes each list entry into the matching
         node's image slot. For backwards compatibility, when this is None
         the legacy single-LoadImage path is used.
+
+        ``reference_videos_ordered`` is the 2026-10-12 prev-shot chain:
+        the runner fills it with the previous shot's uploaded mp4
+        basename(s), and the adapter routes each into the matching
+        ``ref_video_<i>`` node wired to MiniMaxH3ReferenceToVideo's
+        ref_videos slot. ComfyUI's LoadImage decodes the mp4 to an
+        IMAGE batch via pyav.
         """
         resolver = WorkflowResolver(paths, mapping)
         resolved = resolver.resolve()
@@ -433,6 +479,7 @@ class ComfyUIWorkflowAdapter:
             seed_override,
             mapping,
             reference_images_ordered=reference_images_ordered,
+            reference_videos_ordered=reference_videos_ordered,
         )
         self.patch_workflow(req)
         prompt_id = self.submit(req)
