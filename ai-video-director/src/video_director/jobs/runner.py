@@ -209,6 +209,18 @@ class GenerationRunner:
 
     def _run_one(self, shot: Shot, bible: CharacterBible) -> ShotResult:
         _LOG.info("running shot %s (scene=%s)", shot.shot_id, shot.scene_id)
+
+        # NEW (2026-10-13): dependency-skip. If a shot's start_frame_source
+        # is "previous_shot" and the predecessor has no usable output
+        # (clip missing AND no completed job), there's nothing to
+        # chain from — submitting to ComfyUI would just burn GPU time
+        # producing a disconnected clip. Mark this shot as SKIPPED
+        # with a clear reason, record a job so it's visible in
+        # state/jobs, and let the rest of the run proceed.
+        skip_result = self._check_previous_shot_dependency(shot)
+        if skip_result is not None:
+            return skip_result
+
         references = self._build_references(shot, bible)
         # NEW (2026-10-12, ref2v): ordered list of reference images fed to
         # the workflow's reference_image_nodes slots. Returns [] when the
@@ -702,6 +714,96 @@ class GenerationRunner:
         if resolved.exists():
             return resolved.name
         return path
+
+    def _check_previous_shot_dependency(
+        self, shot: Shot
+    ) -> ShotResult | None:
+        """Decide whether this shot should be skipped because its
+        predecessor has no usable output. Returns a ShotResult
+        (already recorded as a SKIPPED job) if so, else None to
+        let normal generation proceed.
+
+        Rule:
+          * If shot has no ``previous_shot`` and no
+            ``start_frame_source == previous_shot``, return None.
+          * Else, if the predecessor's clip mp4 exists on disk,
+            return None (we'll use it as the chain anchor).
+          * Else, if the predecessor has any job with
+            status == COMPLETED, return None (a completed job
+            means the previous attempt's clip is/was usable).
+          * Else, the predecessor is missing or never succeeded.
+            Skip this shot, record the reason, do NOT submit to
+            ComfyUI. The run continues with later shots that
+            might not depend on this chain.
+        """
+        # Only act on shots that depend on a previous shot's output.
+        if not shot.previous_shot and shot.start_frame_source != "previous_shot":
+            return None
+        prev_id = shot.previous_shot
+        if not prev_id:
+            # start_frame_source says previous_shot but the field is
+            # empty — treat as a data error and skip with a clear reason
+            # rather than submitting a clip that won't have a chain.
+            return self._record_dependency_skip(
+                shot,
+                reason=(
+                    "start_frame_source=previous_shot but previous_shot is empty; "
+                    "data error in shot yaml"
+                ),
+            )
+
+        prev_clip = self.paths.output_clips_dir / f"{prev_id}.mp4"
+        if prev_clip.exists():
+            return None  # We have the actual clip on disk; proceed.
+
+        # No clip on disk. Check job history.
+        prev_jobs = self.state.jobs_for_shot(prev_id)
+        if any(j.status == JobStatus.COMPLETED for j in prev_jobs):
+            return None  # Previous attempt succeeded; carry on.
+
+        # No clip AND no completed job: predecessor never produced
+        # an output. Skip this shot.
+        prev_status = (
+            "completed" if any(j.status == JobStatus.COMPLETED for j in prev_jobs)
+            else "skipped" if any(j.status == JobStatus.SKIPPED for j in prev_jobs)
+            else "failed" if any(j.status == JobStatus.FAILED for j in prev_jobs)
+            else "never-run"
+        )
+        return self._record_dependency_skip(
+            shot,
+            reason=(
+                f"previous_shot={prev_id!r} has no output (status={prev_status}, "
+                f"clip={prev_clip}); skipping chained shot to avoid disconnected output"
+            ),
+        )
+
+    def _record_dependency_skip(
+        self, shot: Shot, reason: str
+    ) -> ShotResult:
+        """Persist a SKIPPED job for the shot and return the
+        matching ShotResult. Centralized so the skip is visible
+        in state/jobs and counted in run summaries.
+        """
+        _LOG.warning(
+            "shot %s SKIPPED: %s",
+            shot.shot_id, reason,
+        )
+        attempt = self.state.next_attempt_for_shot(shot.shot_id)
+        job = self._make_job(shot, attempt)
+        job.status = JobStatus.SKIPPED
+        job.error_class = "DependencySkip"
+        job.error_message = reason
+        job.started_at = _now_iso()
+        job.finished_at = _now_iso()
+        self.state.save_job(job)
+        return ShotResult(
+            shot_id=shot.shot_id,
+            status=JobStatus.SKIPPED,
+            output_path="",
+            attempts=attempt,
+            error_class="DependencySkip",
+            error_message=reason,
+        )
 
     def _extract_previous_shot_frame(self, shot: Shot) -> str | None:
         """Extract the last frame of shot.previous_shot's mp4 into ComfyUI's

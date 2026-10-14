@@ -163,3 +163,202 @@ def test_adapter_atomic_write_via_tmp(tmp_path):
         assert not (dest_dir / "atomictest.mp4.part").exists()
     finally:
         requests.get = original_get
+
+
+"""Tests for the new dependency-skip behavior (2026-10-13).
+
+When a shot's start_frame_source is "previous_shot" but the
+predecessor has no usable output (no clip on disk AND no
+completed job), the runner must skip the shot instead of
+submitting it to ComfyUI.
+"""
+
+import sys
+from pathlib import Path
+from types import SimpleNamespace
+from unittest.mock import MagicMock
+
+import pytest
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "src"))
+
+from video_director.jobs.runner import GenerationRunner, RunnerConfig  # noqa: E402
+from video_director.jobs.manager import JobStatus  # noqa: E402
+from video_director.models import Shot  # noqa: E402
+
+
+def _paths(tmp_path: Path):
+    paths = SimpleNamespace(
+        root=tmp_path,
+        shots_dir=tmp_path / "shots",
+        scenes_dir=tmp_path / "scenes",
+        characters_dir=tmp_path / "characters",
+        references_dir=tmp_path / "references",
+        output_dir=tmp_path / "output",
+        output_clips_dir=tmp_path / "output" / "clips",
+        output_final_dir=tmp_path / "output" / "final",
+        output_logs_dir=tmp_path / "output" / "logs",
+        output_intermediate_dir=tmp_path / "output" / "intermediate",
+        state_dir=tmp_path / "state",
+        state_jobs_dir=tmp_path / "state" / "jobs",
+        state_clips_dir=tmp_path / "state" / "clips",
+        state_qa_dir=tmp_path / "state" / "qa",
+    )
+    for d in (
+        paths.output_clips_dir,
+        paths.state_jobs_dir,
+        paths.state_clips_dir,
+        paths.state_dir,
+    ):
+        d.mkdir(parents=True, exist_ok=True)
+    paths.ensure_all = lambda: None
+    return paths
+
+
+def _shot(sid, *, prev="", src="manual"):
+    return Shot(
+        shot_id=sid,
+        scene_id="scn",
+        shot_index=int(sid.split("_")[-1]),
+        duration_sec=5.0,
+        shot_type="medium",
+        camera="",
+        camera_motion="static",
+        characters=[],
+        action="x",
+        emotion="",
+        environment="",
+        lighting="",
+        prompt="x",
+        negative_prompt="",
+        seed=None,
+        start_frame="",
+        start_frame_source=src,
+        end_frame="",
+        previous_shot=prev,
+        next_shot="",
+        reference_images=[],
+        workflow_overrides={},
+        status="pending",
+        output_clip="",
+        created_at="2026-10-13T00:00:00Z",
+        updated_at="2026-10-13T00:00:00Z",
+        extra={},
+    )
+
+
+def _runner(tmp_path: Path) -> GenerationRunner:
+    paths = _paths(tmp_path)
+    cfg = RunnerConfig(backend="mock", max_retries=2)
+    # Use a custom state manager mock that doesn't try to write
+    # real files. The real StateManager reads paths.state_jobs_dir
+    # which is empty in tmp_path so it works fine, but we override
+    # jobs_for_shot / next_attempt_for_shot / save_job with MagicMock.
+    runner = GenerationRunner(
+        paths=paths,
+        config=cfg,
+        project_manager=MagicMock(iter_shots=MagicMock(return_value=[])),
+        workflow_mapping=MagicMock(),
+    )
+    # The real StateManager is created in __init__. Patch it.
+    runner.state.jobs_for_shot = MagicMock(return_value=[])
+    runner.state.next_attempt_for_shot = MagicMock(return_value=1)
+    runner.state.save_job = MagicMock()
+    return runner
+
+
+def test_dependency_skip_when_previous_clip_missing_and_no_completed_job(tmp_path):
+    """shot_002 has previous_shot=shot_001 and start_frame_source=previous_shot,
+    but shot_001 has no clip on disk and no completed job. shot_002 must
+    be skipped without calling the backend.
+    """
+    runner = _runner(tmp_path)
+    runner.state.jobs_for_shot = MagicMock(return_value=[])
+
+    shot_002 = _shot("shot_002", prev="shot_001", src="previous_shot")
+    result = runner._run_one(shot_002, bible=None)
+    assert result.status == JobStatus.SKIPPED
+    assert "shot_001" in result.error_message
+    assert result.error_class == "DependencySkip"
+    assert runner.state.save_job.called
+    saved_job = runner.state.save_job.call_args[0][0]
+    assert saved_job.status == JobStatus.SKIPPED
+    assert saved_job.error_class == "DependencySkip"
+
+
+def test_dependency_skip_when_previous_only_failed(tmp_path):
+    """shot_002 should also be skipped when its predecessor only has
+    FAILED jobs (no completed clip ever produced)."""
+    runner = _runner(tmp_path)
+    failed_job = MagicMock(status=JobStatus.FAILED)
+    runner.state.jobs_for_shot = MagicMock(return_value=[failed_job])
+
+    shot_002 = _shot("shot_002", prev="shot_001", src="previous_shot")
+    result = runner._run_one(shot_002, bible=None)
+    assert result.status == JobStatus.SKIPPED
+    assert "failed" in result.error_message
+
+
+def test_dependency_skip_when_data_error_empty_previous_shot(tmp_path):
+    """If start_frame_source is previous_shot but previous_shot is empty,
+    the shot has no valid chain anchor — skip with a data-error reason
+    rather than submitting a clip that will be disconnected."""
+    runner = _runner(tmp_path)
+    shot_002 = _shot("shot_002", prev="", src="previous_shot")
+    result = runner._run_one(shot_002, bible=None)
+    assert result.status == JobStatus.SKIPPED
+    assert "data error" in result.error_message
+
+
+def test_proceed_when_previous_clip_exists(tmp_path):
+    """shot_002 with previous_shot=shot_001 and a real shot_001.mp4 on
+    disk must NOT be skipped — the dependency check returns None and
+    the normal path runs."""
+    runner = _runner(tmp_path)
+    (tmp_path / "output" / "clips").mkdir(parents=True, exist_ok=True)
+    (tmp_path / "output" / "clips" / "shot_001.mp4").write_bytes(b"x" * 50_000)
+    shot_002 = _shot("shot_002", prev="shot_001", src="previous_shot")
+
+    runner._build_references = MagicMock(return_value={})
+    runner._build_ordered_reference_images = MagicMock(return_value=[])
+    runner._build_ordered_reference_videos = MagicMock(return_value=[])
+    runner._make_job = MagicMock(return_value=MagicMock(
+        shot_id="shot_002", status=JobStatus.RUNNING, attempt=1,
+    ))
+    runner.backend = MagicMock()
+    runner.backend.generate = MagicMock(side_effect=Exception("boom"))
+    runner._seed_for_attempt = MagicMock(return_value=None)
+
+    result = runner._run_one(shot_002, bible=None)
+    assert result.status == JobStatus.FAILED
+    assert result.error_class == "Exception"
+
+
+def test_proceed_when_previous_completed_in_state_even_if_clip_missing(tmp_path):
+    """If shot_001's job is COMPLETED but the clip file is gone (operator
+    deleted it), we still proceed — the previous attempt succeeded."""
+    runner = _runner(tmp_path)
+    completed_job = MagicMock(status=JobStatus.COMPLETED)
+    runner.state.jobs_for_shot = MagicMock(return_value=[completed_job])
+    runner._build_references = MagicMock(return_value={})
+    runner._build_ordered_reference_images = MagicMock(return_value=[])
+    runner._build_ordered_reference_videos = MagicMock(return_value=[])
+    runner._make_job = MagicMock(return_value=MagicMock(
+        shot_id="shot_002", status=JobStatus.RUNNING, attempt=1,
+    ))
+    runner.backend = MagicMock()
+    runner.backend.generate = MagicMock(side_effect=Exception("boom"))
+    runner._seed_for_attempt = MagicMock(return_value=None)
+
+    shot_002 = _shot("shot_002", prev="shot_001", src="previous_shot")
+    result = runner._run_one(shot_002, bible=None)
+    assert result.status != JobStatus.SKIPPED
+
+
+def test_proceed_when_no_previous_dependency(tmp_path):
+    """shot with no previous_shot and start_frame_source=manual is
+    never subject to dependency-skip — returns None from the check."""
+    runner = _runner(tmp_path)
+    shot_001 = _shot("shot_001", prev="", src="manual")
+    result = runner._check_previous_shot_dependency(shot_001)
+    assert result is None
