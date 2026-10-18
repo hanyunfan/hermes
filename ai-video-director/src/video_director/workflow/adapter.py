@@ -96,6 +96,11 @@ class GenerationRequest:
     # `length` is INT and we can't pass seconds directly.
     frame_count_param: str = ""
     reference_images_ordered: list[dict[str, Any]] = field(default_factory=list)
+    # NEW (2026-10-17, negative-prompt merge): opt-in flag propagated from
+    # WorkflowMapping so the adapter can decide to concatenate
+    # shot.negative_prompt into the prompt node with a separator.
+    merge_negative_into_prompt: bool = False
+    merge_negative_separator: str = "Do not: "
     # NEW (2026-10-12, ref2v): slot_key -> node_id, e.g.
     # {"ref_image_0": "10", "ref_image_1": "11", ...}. The mapping object
     # is parsed from workflow.yaml:reference_image_nodes.
@@ -170,6 +175,10 @@ class ComfyUIWorkflowAdapter:
             req.duration_param = mapping.duration_param
             req.frame_count_param = mapping.frame_count_param
             req.start_frame_role = mapping.start_frame_role
+            # NEW (2026-10-17, negative-prompt merge): propagate the opt-in
+            # flag + separator from the mapping onto the request.
+            req.merge_negative_into_prompt = mapping.merge_negative_into_prompt
+            req.merge_negative_separator = mapping.merge_negative_separator
         # Carry multi-reference image routing (ref2v).
         if reference_images_ordered is not None:
             req.reference_images_ordered = list(reference_images_ordered)
@@ -194,9 +203,26 @@ class ComfyUIWorkflowAdapter:
         req = request
 
         # ---- prompt (slot name is configurable) -----------------------
-        self._set_input(
-            wf, req.prompt_node_id, req.prompt_input_key, req.shot.prompt
-        )
+        # When the workflow mapping opts in to negative-prompt merging
+        # (`merge_negative_into_prompt: true`), we concatenate
+        # `shot.prompt + separator + shot.negative_prompt` into one
+        # string and write it to the prompt node. This is the right thing
+        # for nodes like MiniMaxH3ReferenceToVideo that expose only a
+        # single `prompt` input and no separate negative port.
+        merge_negative = bool(getattr(req, "merge_negative_into_prompt", False))
+        merge_separator = str(getattr(req, "merge_negative_separator", "Do not: ") or "Do not: ")
+        base_prompt = req.shot.prompt or ""
+        neg_prompt = req.shot.negative_prompt or ""
+        if merge_negative and neg_prompt:
+            merged_prompt = f"{base_prompt}\n\n{merge_separator}{neg_prompt}"
+            _LOG.info(
+                "merging negative_prompt into prompt (workflow merge_negative_into_prompt=true, separator=%r) for shot %s",
+                merge_separator,
+                req.shot.shot_id,
+            )
+            self._set_input(wf, req.prompt_node_id, req.prompt_input_key, merged_prompt)
+        else:
+            self._set_input(wf, req.prompt_node_id, req.prompt_input_key, base_prompt)
         # ---- negative prompt: skip unless the target is actually
         # different from the positive prompt. Many nodes (e.g.
         # MiniMaxH3ImageToVideo) don't have a separate negative prompt
@@ -204,16 +230,20 @@ class ComfyUIWorkflowAdapter:
         # slot as the positive prompt, writing shot.negative_prompt
         # would clobber the positive prompt we just wrote.
         # Shot authors can still embed negation in shot.prompt itself.
-        if (
+        # When merge_negative_into_prompt is true, also skip the separate
+        # negative-prompt write — the content is already in the prompt
+        # node via the merge above.
+        if (merge_negative and neg_prompt) or (
             req.negative_prompt_node_id != req.prompt_node_id
             or req.negative_prompt_input_key != req.prompt_input_key
         ):
-            self._set_input(
-                wf,
-                req.negative_prompt_node_id,
-                req.negative_prompt_input_key,
-                req.shot.negative_prompt,
-            )
+            if not (merge_negative and neg_prompt):
+                self._set_input(
+                    wf,
+                    req.negative_prompt_node_id,
+                    req.negative_prompt_input_key,
+                    req.shot.negative_prompt,
+                )
 
         # ---- seed (slot name is configurable) --------------------------
         seed = (

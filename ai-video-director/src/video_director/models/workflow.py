@@ -84,6 +84,19 @@ class WorkflowMapping:
     start_frame_role: str = "start_frame"
     # which role the adapter should pull ``shot.start_frame`` from
     notes: str = ""
+    # NEW (2026-10-17, negative-prompt merge): when True, the adapter
+    # concatenates shot.negative_prompt onto shot.prompt with a
+    # ``Do not: `` separator and writes the result to the prompt node,
+    # instead of writing negative_prompt to its own (often absent) port.
+    # Use this when the workflow / target node has no separate negative
+    # prompt input (e.g. MiniMaxH3ReferenceToVideo only takes a single
+    # `prompt` string). Default False preserves legacy behavior where
+    # negative_prompt goes to its own node.
+    merge_negative_into_prompt: bool = False
+    # optional separator text between prompt and the merged negative
+    # prompt. Defaults to "Do not: ". Only used when
+    # merge_negative_into_prompt is True.
+    merge_negative_separator: str = "Do not: "
 
     def required_node_titles(self) -> list[str]:
         nodes = [
@@ -125,6 +138,8 @@ class WorkflowMapping:
             "frame_count_param": self.frame_count_param,
             "start_frame_role": self.start_frame_role,
             "notes": self.notes,
+            "merge_negative_into_prompt": self.merge_negative_into_prompt,
+            "merge_negative_separator": self.merge_negative_separator,
         }
 
     @classmethod
@@ -153,6 +168,12 @@ class WorkflowMapping:
             frame_count_param=str(data.get("frame_count_param", "")),
             start_frame_role=str(data.get("start_frame_role", "start_frame")),
             notes=str(data.get("notes", "")),
+            merge_negative_into_prompt=bool(
+                data.get("merge_negative_into_prompt", False)
+            ),
+            merge_negative_separator=str(
+                data.get("merge_negative_separator", "Do not: ")
+            ),
         )
 
 
