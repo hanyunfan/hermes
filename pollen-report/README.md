@@ -73,3 +73,18 @@ python3 scrape.py
 ## Cron — Daily at 7 AM
 
 Managed by OpenClaw cron job (`e6bfdbad-1b6f-45eb-abbf-8c47239866ff`) — no crontab entry needed.
+
+## Alternative: Google Pollen point report (`google_pollen_report.py`)
+
+A lightweight variant that skips the browser scraping entirely:
+
+- **Google Pollen API** for point-accurate (lat/lng) pollen — no ZIP-level averaging
+- **Open-Meteo** for AQI — no key required
+- Standard library only, prints a compact graded report (every value as `X/5（等级）`,
+  one aligned line per pollen type with its active species in Chinese + English)
+
+```bash
+export GOOGLE_POLLEN_API_KEY=...   # key with the Pollen API enabled
+python3 google_pollen_report.py
+python3 google_pollen_report.py --lat 30.44 --lng -97.80 --label "Austin, TX"
+```
