@@ -39,6 +39,15 @@ class VideoGenerator(ABC):
         references: Mapping[str, str] | None = None,
         seed_override: int | None = None,
         context: Mapping[str, Any] | None = None,
+        # NEW (2026-10-17, ref2v contract): the runner passes ordered
+        # reference images (face/full/side/...) and reference videos
+        # (previous shot's mp4). Backends that don't use multi-image
+        # ref conditioning (e.g. the mock generator) just ignore these;
+        # ComfyUI feeds them into the workflow's ref_image_* /
+        # ref_video_* slots. Default None keeps backends that don't
+        # implement multi-image refs working without TypeError.
+        reference_images_ordered: list[dict[str, Any]] | None = None,
+        reference_videos_ordered: list[dict[str, Any]] | None = None,
     ) -> "GenerationOutcome":
         """Produce one video clip and return where it landed."""
 

@@ -50,6 +50,11 @@ class MockVideoGenerator(VideoGenerator):
         references: Mapping[str, str] | None = None,
         seed_override: int | None = None,
         context: Mapping[str, Any] | None = None,
+        # Accepted for protocol compatibility with the runner's call site.
+        # The mock backend produces an offline colored-gradient clip and
+        # does not use ref2v / chain conditioning, so these are ignored.
+        reference_images_ordered: list[dict[str, Any]] | None = None,
+        reference_videos_ordered: list[dict[str, Any]] | None = None,
     ) -> GenerationOutcome:
         output_dir.mkdir(parents=True, exist_ok=True)
         out_path = output_dir / f"{shot.shot_id}.mp4"
