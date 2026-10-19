@@ -1,0 +1,21 @@
+story_id: example_story
+title: Example Multi-Character Story
+story_summary: |
+  PLACEHOLDER scaffolding for a 2-character story. Replace every field
+  before generating — no real characters or events are referenced here.
+genre: drama
+style: cinematic
+tone: contemplative
+target_duration_sec: 60
+language: en
+script:
+  - section_id: intro
+    title: Opening
+    summary: Two characters meet.
+    body: |
+      PLACEHOLDER — describe the opening scene. Multi-character shots should
+      list every character present in the scene's `characters:` field below.
+    characters:
+      - multi_character_a
+      - multi_character_b
+    location: example_location_intro

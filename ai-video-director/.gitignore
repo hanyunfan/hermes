@@ -36,6 +36,8 @@ projects/*
 !projects/template/**
 !projects/template2/
 !projects/template2/**
+!projects/template3/   # NEW 2026-10-19: Motion Context multi-ref scaffold (plugin).
+!projects/template3/** # See projects/template3/README.md for plugin + workflow setup.
 # test_r2v is a public smoke-test project (added 2026-10-12 to verify
 # the ref2v pipeline). The single character uses a synthetic
 # placeholder image, not a real person.
@@ -65,6 +67,8 @@ projects/*/private/.[!.]*
 !projects/template/**
 !projects/template2/
 !projects/template2/**
+!projects/template3/
+!projects/template3/**
 
 # Catch-all for ad-hoc private dirs at the framework root
 local/
@@ -79,6 +83,10 @@ real_workflow.json
 !projects/template2/private/video_workflow_r2v_ui.json
 !projects/test_r2v/private/video_workflow_api_r2v.json
 !projects/test_r2v/private/video_workflow_r2v_ui.json
+# template3 ships its README but NOT a workflow JSON; user exports one after
+# installing the seitanism plugin. Once exported we expect it to land at:
+!projects/template3/private/video_workflow_api_motion_context.json
+!projects/template3/private/video_workflow_api_motion_context.json
 
 # --- Generated media ---
 *.mp4

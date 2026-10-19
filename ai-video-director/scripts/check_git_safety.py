@@ -99,7 +99,7 @@ def _is_template_path(path: str) -> bool:
         proj_idx = parts.index("projects")
     except ValueError:
         return False
-    template_idxes = [i for i, p in enumerate(parts) if p in ("template", "template2")]
+    template_idxes = [i for i, p in enumerate(parts) if p in ("template", "template2", "template3")]
     return any(t > proj_idx for t in template_idxes)
 
 

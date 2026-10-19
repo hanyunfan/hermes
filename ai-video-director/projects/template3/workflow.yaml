@@ -1,0 +1,34 @@
+workflow_name: MiniMax_H3_Motion_Context_MultiRef
+workflow_path: video_workflow_api_motion_context.json
+prompt_node: Prompt
+negative_prompt_node: Prompt
+seed_node: RandomNoise
+output_node: Save Video
+prompt_input_key: value
+negative_prompt_input_key: value
+seed_input_key: noise_seed
+reference_image_nodes:
+  ref_image_0: Load Image Ref
+  ref_image_1: Load Image Ref 1
+  ref_image_2: Load Image Ref 2
+image_input_nodes: {}
+extra_param_nodes:
+  duration_sec: Float (duration)
+  frame_count: Int (frame count)
+extra_param_input_keys:
+  duration_sec: value
+  frame_count: value
+duration_param: duration_sec
+frame_count_param: frame_count
+start_frame_role: start_frame
+notes: 'template3 — uses seitanism/ComfyUI-H3-Motion-Context-MultiRef plugin.
+
+  Reference: https://github.com/seitanism/ComfyUI-H3-Motion-Context-MultiRef
+
+  DO NOT hand-craft this workflow JSON. Export from ComfyUI frontend
+
+  after loading one of the 5 NEW example workflows (README below).'
+reference_video_nodes:
+  ref_video_0: Load Video Ref (previous shot)
+merge_negative_into_prompt: true
+merge_negative_separator: 'Do not: '

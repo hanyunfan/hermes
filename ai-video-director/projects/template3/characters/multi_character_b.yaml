@@ -1,0 +1,32 @@
+character_id: multi_character_b
+name: "Character B (placeholder)"
+description: |
+  PLACEHOLDER character. Replace appearance/face/hair/body/clothing with a
+  real description before generating. No real-world likeness is implied.
+age: late 20s
+gender: unspecified
+appearance: |
+  Tall, average build, neutral features. Replace this paragraph with the
+  actual character's visual description — it is the single source of truth
+  the Continuity Manager uses across all shots.
+hair: short, dark
+face: neutral expression, round face
+body: average height, medium build
+clothing_default: plain shirt and trousers
+clothing_variants:
+  - jacket
+personality: calm, observant
+
+# Minimal ref set — just one hero image. The ref2v workflow still works
+# with a single ref; it just won't lock as strongly. Add face/side/costume
+# images over time as your character sheet grows.
+reference_images:
+  - role: hero
+    image_type: hero
+    path: multi_character_b/hero.png
+    notes: PLACEHOLDER — replace with an actual reference image
+
+continuity_rules:
+  - Unless the script explicitly changes their outfit, hair, or accessories,
+    the character's appearance must remain identical across all shots.
+  - Voice and posture should remain consistent.

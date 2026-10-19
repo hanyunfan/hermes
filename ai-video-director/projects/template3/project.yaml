@@ -1,0 +1,56 @@
+project_id: template3
+title: MiniMax-H3 Motion Context MultiRef Project Template
+description: |
+  Scaffold for projects that want the
+  `seitanism/ComfyUI-H3-Motion-Context-MultiRef` plugin capabilities on
+  top of the base MiniMax-H3 reference-to-video node. Adds:
+    * Multi-ref motion contexts (`MiniMaxH3SongMaskedAVContext`)
+    * Masked keyframes (`MiniMaxH3MaskedKeyframes*`)
+    * AV Bridge (transition between two known videos)
+    * Music Video controller (one master song driving many clips)
+    * V2V fractional motion transfer (`MiniMaxH3V2VFractionalStrength`)
+    * 2MP De-Rope continuation (two-pass continuation with seam placement)
+
+  Under the hood, all of these still call the upstream
+  `MiniMaxH3ReferenceToVideo` node (ComfyUI's native
+  `comfy_extras/nodes_minimax_h3.py`). The plugin adds orchestration
+  and masking, NOT a new model node.
+
+  Workflow JSON is NOT shipped with this template — see README.md step 3
+  for how to install the plugin + export a workflow from the ComfyUI frontend
+  + drop it into `private/video_workflow_api_motion_context.json`.
+
+  Why this template (vs template2):
+    * template2/  — minimal ref2v (multi-image refs, no plugin). Use when
+      you only need face/character consistency across shots.
+    * template3/ (this one) — when you want plugin capabilities: AV Bridge,
+      Music Video, V2V motion transfer, masked keyframes, etc. Requires
+      installing the plugin AND its dependency packs. See
+      `WORKFLOW_PREREQUISITES.md` in the plugin repo.
+
+  Choosing between templates:
+    * template/    — single start_frame reference, simplest
+    * template2/   — multi-image reference, R2V chain across shots
+    * template3/   — multi-image reference + plugin motion/orchestration
+
+  Models required (must exist under /home/frank/ComfyUI/models/):
+    * diffusion_models/minimax_h3_fl2va_pruned_int8_convrot.safetensors
+    * text_encoders/qwen3vl_32b_heretic_minimax_h3_nvfp4.safetensors
+      (WORKFLOW_PREREQUISITES prefers qwen3vl_32b_minimax_h3_int8_convrot
+       — either variant is H3-native, the framework will hit whichever
+       filename you put in the workflow's CLIPLoader)
+    * vae/minimax_h3_video_vae_fp16.safetensors
+    * vae/minimax_h3_audio_vae_fp32.safetensors
+    * loras/minimax_h3_fl2v_turbo_8step_v1.0_comfyui_bf16.safetensors
+
+  Optional (per-workflow):
+    * minterpolated codecs. For Music Video / AV Bridge flows you also
+      want `minimax_h3_ref2va_pruned_int8_convrot.safetensors` available.
+
+  Plugin install (NOT done by ai-video-director; ComfyUI host's job):
+    cd /home/frank/ComfyUI/custom_nodes
+    git clone https://github.com/seitanism/ComfyUI-H3-Motion-Context-MultiRef.git
+
+language: en
+target_duration_sec: 0.0
+status: draft
