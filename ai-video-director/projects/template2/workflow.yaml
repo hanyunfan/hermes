@@ -1,3 +1,9 @@
+# Negative-prompt merge (2026-10-17): the H3 node has only
+# a single `prompt` port, no negative_prompt port.
+# marker below tells the adapter to concatenate
+# shot.prompt + shot.negative_prompt with the separator
+# specified in merge_negative_separator, then write the
+# merged string into the prompt node.
 workflow_name: MiniMax_H3_reference_to_video
 workflow_path: video_workflow_api_r2v.json
 prompt_node: Prompt
@@ -32,3 +38,5 @@ notes: "Uses video_workflow_api_r2v.json (exported API format from ComfyUI 0.37.
   \ the rest.\n"
 reference_video_nodes:
   ref_video_0: Load Video Ref (previous shot)
+merge_negative_into_prompt: true
+merge_negative_separator: 'Do not: '
